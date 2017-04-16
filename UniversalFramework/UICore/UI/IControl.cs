@@ -1,0 +1,61 @@
+﻿using System;
+using UICore.Driver;
+using UICore.UIProperties;
+
+namespace UICore.UI
+{
+    public interface IControl// : ISearchContext
+    {
+
+        #region "Methods"
+
+        void Click();
+
+        #endregion
+
+
+        #region "Assertions"
+
+        void CheckAttributeContains(string attribute, string expectedValue);
+
+        void CheckAttributeDoeNotContain(string attribute, string expectedValue);
+
+        void CheckAttributeEquals(string attribute, string expectedValue);
+
+        #endregion
+
+
+        #region "Waiters"
+
+        void WaitForEnabled();
+
+        void WaitForAttributeValue(string attribute, string value, bool contains = true);
+
+        #endregion
+
+
+        #region "Props"
+
+        bool Visible {
+            get;
+        }
+
+        bool Enabled {
+            get;
+        }
+
+        string Name {
+            get;
+        }
+
+        UIPoint Location {
+            get;
+        }
+
+        UISize Size {
+            get;
+        }
+
+        #endregion
+    }
+}
