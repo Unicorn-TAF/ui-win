@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIWeb", "UIWeb\UIWeb.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIDesktop", "UIDesktop\UIDesktop.csproj", "{D0CA51A3-65BC-4530-85D1-507CC042F3A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectSpecific", "ProjectSpecific\ProjectSpecific.csproj", "{086860BD-94BD-455C-9954-38F827ED219B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D0CA51A3-65BC-4530-85D1-507CC042F3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0CA51A3-65BC-4530-85D1-507CC042F3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0CA51A3-65BC-4530-85D1-507CC042F3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{086860BD-94BD-455C-9954-38F827ED219B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086860BD-94BD-455C-9954-38F827ED219B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086860BD-94BD-455C-9954-38F827ED219B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086860BD-94BD-455C-9954-38F827ED219B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -134,7 +134,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BaseTest.cs" />
     <Compile Include="BridgeExtension.cs" />
     <Compile Include="UnitTests\CoreTests.cs" />
     <Compile Include="UnitTests\PlatformsMixTests.cs" />
@@ -145,17 +144,9 @@
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UICore\UICore.csproj">
-      <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
-      <Name>UICore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UIDesktop\UIDesktop.csproj">
-      <Project>{D0CA51A3-65BC-4530-85D1-507CC042F3A5}</Project>
-      <Name>UIDesktop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UIWeb\UIWeb.csproj">
-      <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
-      <Name>UIWeb</Name>
+    <ProjectReference Include="..\ProjectSpecific\ProjectSpecific.csproj">
+      <Project>{086860bd-94bd-455c-9954-38f827ed219b}</Project>
+      <Name>ProjectSpecific</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
