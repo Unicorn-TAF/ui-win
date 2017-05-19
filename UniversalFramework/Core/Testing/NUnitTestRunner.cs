@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Core.Logging;
+using NUnit.Framework;
+using System;
 
 namespace Core.Testing
 {
@@ -11,6 +13,7 @@ namespace Core.Testing
         [OneTimeSetUp]
         public static void ClassInit()
         {
+
         }
 
 
@@ -21,6 +24,15 @@ namespace Core.Testing
         public static void ClassTearDown()
         {
 
+        }
+
+
+        protected void Execute(Action step)
+        {
+            Logger.Info("start step");
+            //Invoke
+            step();
+            Logger.Info("step finished");
         }
     }
 }

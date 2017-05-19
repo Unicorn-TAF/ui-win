@@ -7,22 +7,27 @@ namespace Core.Testing
 {
     public class TestSteps
     {
-        protected void ReportMethod(MethodBase mb, params object[] parameters)
-        {
-            TestStep attr = (TestStep)mb.GetCustomAttributes(typeof(TestStep), true)[0];
-            string template = attr.Description;
-            Logger.Info(string.Format(template, parameters));
-        }
 
-        protected void ReportMethod(params object[] parameters)
+        protected void ReportStep(params object[] parameters)
         {
-            StackTrace stackTrace = new StackTrace(0);
+            MethodBase mb = new StackFrame(1).GetMethod();
+            string descriptionTemplate = string.Empty;
 
-            MethodBase mb = stackTrace.GetFrame(0). GetMethod();
-            Logger.Info(mb.Name);
-            TestStep attr = (TestStep)mb.GetCustomAttributes(typeof(TestStep), true)[0];
-            string template = attr.Description;
-            Logger.Info(string.Format(template, parameters));
+            object[] attributes = mb.GetCustomAttributes(typeof(TestStep), true);
+
+            if (attributes.Length == 0)
+            {
+                descriptionTemplate = mb.Name + ":";
+                for (int i = 0; i < parameters.Length; i++)
+                    descriptionTemplate += $" '{i}'";
+            }
+            else
+            {
+                TestStep attribute = (TestStep)attributes[0];
+                descriptionTemplate = attribute.Description;
+            }
+                
+            Logger.Info(string.Format(descriptionTemplate, parameters));
         }
 
 

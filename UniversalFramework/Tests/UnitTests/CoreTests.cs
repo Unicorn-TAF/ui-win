@@ -1,11 +1,11 @@
-﻿using Core.Logging;
+﻿using Core.Testing;
 using NUnit.Framework;
 using ProjectSpecific.BO;
 using ProjectSpecific.Steps;
 
 namespace Tests.UnitTests
 {
-    class CoreTests
+    class CoreTests : NUnitTestRunner
     {
         SampleSteps steps = new SampleSteps();
 
@@ -13,15 +13,14 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For check logging")]
         public void DebugTest()
         {
-            Logger.Info("simple text");
-            Logger.Debug("simple text debug");
-            Logger.Info("text with parameters: first parameter '{0}', second - '{1}'", "qwerty", 23.ToString());
-            Logger.Debug("debug of text with parameters: first parameter '{0}', second - '{1}'", "qwerty", 23.ToString());
-
-            steps.FirstTestStep();
-            steps.SecondTestStep("value");
-            steps.ThirdTestStep(3);
-            steps.FourthTestStep(new SampleObject());
+            //Execute(() => steps.FirstTestStep());
+            //steps.Execute(() => steps.SecondTestStep("value"));
+            Execute(() => steps.ThirdTestStep(3));
+            Execute(() => steps.FourthTestStep(new SampleObject()));
+            //steps.FirstTestStep();
+            //steps.SecondTestStep("value");
+            //steps.ThirdTestStep(3);
+            //steps.FourthTestStep(new SampleObject());
         }
 
 

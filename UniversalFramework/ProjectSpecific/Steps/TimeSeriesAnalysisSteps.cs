@@ -1,7 +1,5 @@
 ﻿using Core.Testing;
 using Core.Testing.Attributes;
-using ProjectSpecific.BO;
-using System.Reflection;
 using System.Threading;
 using UICore.Driver;
 using UIDesktop.Driver;
@@ -17,8 +15,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Start Time Series Analysis '{0}'")]
         public void StartApplication(string value)
         {
-            ReportMethod(MethodBase.GetCurrentMethod(), value);
-            //ReportMethod(value);
+            ReportStep(value);
 
             driver = GuiDriver.Instance;
             driver.Get(value);
@@ -27,8 +24,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Open File '{0}' For Analysis")]
         public void OpenFile(string fileName)
         {
-            ReportMethod(MethodBase.GetCurrentMethod(), fileName);
-            //ReportMethod(fileName);
+            ReportStep(fileName);
 
             Window mainWindow = driver.WaitForElement<Window>("mainForm");
             mainWindow.ClickButton("openFileBtn");
@@ -44,8 +40,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Draw charts")]
         public void DrawCharts()
         {
-            ReportMethod(MethodBase.GetCurrentMethod());
-            //ReportMethod();
+            ReportStep();
 
             Window mainWindow = driver.WaitForElement<Window>("mainForm");
             mainWindow.ClickButton("plotBtn");
@@ -55,8 +50,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Close Time Series Analysis")]
         public void CloseApplication()
         {
-            ReportMethod(MethodBase.GetCurrentMethod());
-            //ReportMethod();
+            ReportStep();
 
             driver.Close();
         }
