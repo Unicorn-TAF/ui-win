@@ -1,6 +1,6 @@
-﻿using UICore.UI;
+﻿using Unicorn.UICore.UI;
 
-namespace UICore.Driver
+namespace Unicorn.UICore.Driver
 {
     public interface ISearchContext
     {

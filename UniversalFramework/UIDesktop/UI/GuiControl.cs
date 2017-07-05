@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Automation;
-using UICore.UI;
-using UICore.UIProperties;
-using UIDesktop.Driver;
+using Unicorn.UICore.UI;
+using Unicorn.UICore.UIProperties;
+using Unicorn.UIDesktop.Driver;
 
-namespace UIDesktop.UI
+namespace Unicorn.UIDesktop.UI
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {

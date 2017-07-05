@@ -1,8 +1,8 @@
 ﻿using System;
-using UICore.Driver;
-using UICore.UIProperties;
+using Unicorn.UICore.Driver;
+using Unicorn.UICore.UIProperties;
 
-namespace UICore.UI
+namespace Unicorn.UICore.UI
 {
     public interface IControl// : ISearchContext
     {

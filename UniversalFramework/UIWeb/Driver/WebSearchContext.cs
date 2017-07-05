@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using System;
-using UICore.UI;
-using UIWeb.UI;
+using Unicorn.UICore.UI;
+using Unicorn.UIWeb.UI;
 
-namespace UIWeb.Driver
+namespace Unicorn.UIWeb.Driver
 {
     public abstract class WebSearchContext : UICore.Driver.ISearchContext
     {

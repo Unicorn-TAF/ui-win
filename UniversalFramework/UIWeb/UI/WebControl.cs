@@ -1,10 +1,10 @@
 ﻿using System;
 using OpenQA.Selenium;
-using UICore.UI;
-using UICore.UIProperties;
-using UIWeb.Driver;
+using Unicorn.UICore.UI;
+using Unicorn.UICore.UIProperties;
+using Unicorn.UIWeb.Driver;
 
-namespace UIWeb.UI
+namespace Unicorn.UIWeb.UI
 {
     public class WebControl : WebSearchContext, IControl {
 

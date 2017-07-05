@@ -1,4 +1,4 @@
-﻿namespace UICore.UI.Controls
+﻿namespace Unicorn.UICore.UI.Controls
 {
     public interface ITreeView
     {

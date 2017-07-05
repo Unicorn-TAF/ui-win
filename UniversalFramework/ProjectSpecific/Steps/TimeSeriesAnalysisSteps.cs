@@ -1,9 +1,9 @@
 ﻿using Unicorn.Core.Testing;
 using Unicorn.Core.Testing.Attributes;
 using System.Threading;
-using UICore.Driver;
-using UIDesktop.Driver;
-using UIDesktop.UI.Controls;
+using Unicorn.UICore.Driver;
+using Unicorn.UIDesktop.Driver;
+using Unicorn.UIDesktop.UI.Controls;
 
 namespace ProjectSpecific.Steps
 {

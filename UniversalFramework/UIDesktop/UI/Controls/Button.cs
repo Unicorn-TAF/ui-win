@@ -1,6 +1,6 @@
 ﻿using System.Windows.Automation;
 
-namespace UIDesktop.UI.Controls
+namespace Unicorn.UIDesktop.UI.Controls
 {
     public class Button : GuiControl
     {

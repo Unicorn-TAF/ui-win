@@ -1,7 +1,7 @@
 ﻿using System;
-using UICore.UI;
+using Unicorn.UICore.UI;
 
-namespace UIWeb.UI
+namespace Unicorn.UIWeb.UI
 {
     class WebContainer : WebControl, IContainer
     {

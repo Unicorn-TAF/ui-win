@@ -2,9 +2,9 @@
 using OpenQA.Selenium.Firefox;
 using System;
 using System.Text.RegularExpressions;
-using UICore.Driver;
+using Unicorn.UICore.Driver;
 
-namespace UIWeb.Driver
+namespace Unicorn.UIWeb.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {

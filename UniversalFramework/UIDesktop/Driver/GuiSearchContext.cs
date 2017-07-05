@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Automation;
-using UICore.Driver;
-using UICore.UI;
-using UIDesktop.UI;
+using Unicorn.UICore.Driver;
+using Unicorn.UICore.UI;
+using Unicorn.UIDesktop.UI;
 
-namespace UIDesktop.Driver
+namespace Unicorn.UIDesktop.Driver
 {
     public abstract class GuiSearchContext : ISearchContext
     {

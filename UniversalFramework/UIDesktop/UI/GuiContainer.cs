@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Automation;
-using UICore.UI;
-using UIDesktop.UI.Controls;
+using Unicorn.UICore.UI;
+using Unicorn.UIDesktop.UI.Controls;
 
-namespace UIDesktop.UI
+namespace Unicorn.UIDesktop.UI
 {
     public abstract class GuiContainer : GuiControl, IContainer
     {

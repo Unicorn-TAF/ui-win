@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Automation;
-using UICore.Driver;
-using UIDesktop.UI.Controls;
+using Unicorn.UICore.Driver;
+using Unicorn.UIDesktop.UI.Controls;
 
-namespace UIDesktop.Driver
+namespace Unicorn.UIDesktop.Driver
 {
     public class GuiDriver : GuiSearchContext, IDriver
     {

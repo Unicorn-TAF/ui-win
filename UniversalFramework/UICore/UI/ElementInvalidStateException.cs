@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UICore.UI
+namespace Unicorn.UICore.UI
 {
     public class ElementInvalidStateException : Exception
     {

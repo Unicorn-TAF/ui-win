@@ -1,4 +1,4 @@
-﻿namespace UICore.UI
+﻿namespace Unicorn.UICore.UI
 {
     public interface IContainer
     {

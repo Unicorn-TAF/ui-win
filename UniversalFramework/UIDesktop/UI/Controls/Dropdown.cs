@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Automation;
-using UICore.UI.Controls;
+using Unicorn.UICore.UI.Controls;
 
-namespace UIDesktop.UI.Controls
+namespace Unicorn.UIDesktop.UI.Controls
 {
     class Dropdown : GuiControl, IDropdown
     {

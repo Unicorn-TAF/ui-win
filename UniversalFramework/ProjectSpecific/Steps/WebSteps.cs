@@ -1,8 +1,8 @@
 ﻿using Unicorn.Core.Testing;
 using Unicorn.Core.Testing.Attributes;
-using UICore.Driver;
-using UIWeb.Driver;
-using UIWeb.UI;
+using Unicorn.UICore.Driver;
+using Unicorn.UIWeb.Driver;
+using Unicorn.UIWeb.UI;
 
 namespace ProjectSpecific.Steps
 {

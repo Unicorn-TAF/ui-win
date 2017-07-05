@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Automation;
-using UICore.UI;
+using Unicorn.UICore.UI;
 
-namespace UIDesktop.UI.Controls
+namespace Unicorn.UIDesktop.UI.Controls
 {
     class Radio : GuiControl, ISelectable
     {
