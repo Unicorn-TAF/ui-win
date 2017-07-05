@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Reporting
 {
-    class Reporter
+    public class Reporter
     {
 
         private static IReporter _instance;

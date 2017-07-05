@@ -1,4 +1,7 @@
 ﻿using NUnit.Framework;
+using ProjectSpecific.Util;
+using Unicorn.Core.Logging;
+using Unicorn.Core.Reporting;
 
 namespace ProjectSpecific
 {
@@ -11,7 +14,8 @@ namespace ProjectSpecific
         [OneTimeSetUp]
         public static void ClassInit()
         {
-
+            Logger.Instance = new ConsoleLogger();
+            Reporter.Instance = new ExcelReporter();
         }
 
 
