@@ -1,9 +1,9 @@
-﻿using Core.Logging;
+﻿using Unicorn.Core.Logging;
 using System;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Core.Reporting
+namespace Unicorn.Core.Reporting
 {
     public class Screenshot
     {

@@ -1,4 +1,4 @@
-﻿namespace Core.Logging
+﻿namespace Unicorn.Core.Logging
 {
     public interface ILogger
     {

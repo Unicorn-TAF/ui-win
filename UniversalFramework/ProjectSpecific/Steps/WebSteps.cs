@@ -1,5 +1,5 @@
-﻿using Core.Testing;
-using Core.Testing.Attributes;
+﻿using Unicorn.Core.Testing;
+using Unicorn.Core.Testing.Attributes;
 using UICore.Driver;
 using UIWeb.Driver;
 using UIWeb.UI;

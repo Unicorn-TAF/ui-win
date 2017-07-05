@@ -1,6 +1,6 @@
-﻿using Core.Logging;
-using Core.Testing;
-using Core.Testing.Attributes;
+﻿using Unicorn.Core.Logging;
+using Unicorn.Core.Testing;
+using Unicorn.Core.Testing.Attributes;
 using ProjectSpecific.BO;
 
 namespace ProjectSpecific.Steps

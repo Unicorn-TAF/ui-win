@@ -1,5 +1,5 @@
 ﻿using System;
-using Core.Reporting;
+using Unicorn.Core.Reporting;
 
 namespace ProjectSpecific.Util
 {

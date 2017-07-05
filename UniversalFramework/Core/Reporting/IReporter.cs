@@ -1,4 +1,4 @@
-﻿namespace Core.Reporting
+﻿namespace Unicorn.Core.Reporting
 {
     public interface IReporter
     {

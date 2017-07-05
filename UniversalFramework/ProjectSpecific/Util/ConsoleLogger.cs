@@ -1,4 +1,4 @@
-﻿using Core.Logging;
+﻿using Unicorn.Core.Logging;
 using NUnit.Framework;
 
 namespace ProjectSpecific.Util

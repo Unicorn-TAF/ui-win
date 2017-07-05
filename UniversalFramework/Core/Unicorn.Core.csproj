@@ -7,8 +7,8 @@
     <ProjectGuid>{DDE87224-BFF6-4ABD-879E-1C5316124536}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Core</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <RootNamespace>Unicorn.Core</RootNamespace>
+    <AssemblyName>Unicorn.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

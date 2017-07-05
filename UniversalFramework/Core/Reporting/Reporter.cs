@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Reporting
+namespace Unicorn.Core.Reporting
 {
     class Reporter
     {

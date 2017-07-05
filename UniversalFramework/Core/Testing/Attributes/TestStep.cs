@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Testing.Attributes
+namespace Unicorn.Core.Testing.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class TestStep : Attribute

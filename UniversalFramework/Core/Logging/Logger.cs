@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Logging
+namespace Unicorn.Core.Logging
 {
     public class Logger
     {

@@ -140,9 +140,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
-      <Name>Core</Name>
+      <Name>Unicorn.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectSpecific\ProjectSpecific.csproj">
       <Project>{086860bd-94bd-455c-9954-38f827ed219b}</Project>

@@ -54,21 +54,21 @@
     <Compile Include="Util\ExcelReporter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
-      <Name>Core</Name>
+      <Name>Unicorn.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UICore\UICore.csproj">
+    <ProjectReference Include="..\UICore\Unicorn.UICore.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
-      <Name>UICore</Name>
+      <Name>Unicorn.UICore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIDesktop\UIDesktop.csproj">
+    <ProjectReference Include="..\UIDesktop\Unicorn.UIDesktop.csproj">
       <Project>{d0ca51a3-65bc-4530-85d1-507cc042f3a5}</Project>
-      <Name>UIDesktop</Name>
+      <Name>Unicorn.UIDesktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIWeb\UIWeb.csproj">
+    <ProjectReference Include="..\UIWeb\Unicorn.UIWeb.csproj">
       <Project>{a6e1ed9c-2b52-4b46-bc24-ccaf20bae7fb}</Project>
-      <Name>UIWeb</Name>
+      <Name>Unicorn.UIWeb</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
