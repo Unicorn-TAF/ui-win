@@ -12,14 +12,14 @@ namespace ProjectSpecific.Steps
         public void FirstTestStep()
         {
             ReportStep();
-            Logger.Info("");
+            Logger.Instance.Info("");
         }
 
         [TestStep("Second Test Step '{0}'")]
         public void SecondTestStep(string value)
         {
             ReportStep(value);
-            Logger.Info("");
+            Logger.Instance.Info("");
 
         }
 
@@ -27,7 +27,7 @@ namespace ProjectSpecific.Steps
         public int ThirdTestStep(int a)
         {
             ReportStep(a);
-            Logger.Info("");
+            Logger.Instance.Info("");
             return a;
         }
 
@@ -35,7 +35,7 @@ namespace ProjectSpecific.Steps
         public void FourthTestStep(SampleObject a)
         {
             ReportStep(a);
-            Logger.Info("");
+            Logger.Instance.Info("");
         }
     }
 }

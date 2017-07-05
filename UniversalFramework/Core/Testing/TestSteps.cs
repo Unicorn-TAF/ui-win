@@ -1,4 +1,5 @@
 ﻿using Core.Logging;
+using Core.Reporting;
 using Core.Testing.Attributes;
 using System.Diagnostics;
 using System.Reflection;
@@ -7,7 +8,6 @@ namespace Core.Testing
 {
     public class TestSteps
     {
-
         protected void ReportStep(params object[] parameters)
         {
             MethodBase mb = new StackFrame(1).GetMethod();
@@ -26,8 +26,9 @@ namespace Core.Testing
                 TestStep attribute = (TestStep)attributes[0];
                 descriptionTemplate = attribute.Description;
             }
-                
-            Logger.Info(string.Format(descriptionTemplate, parameters));
+
+            Logger.Instance.Info(string.Format(descriptionTemplate, parameters));
+            Reporter.Instance.Report(string.Format(descriptionTemplate, parameters));
         }
 
 

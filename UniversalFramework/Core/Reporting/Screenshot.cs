@@ -11,7 +11,7 @@ namespace Core.Reporting
         {
             try
             {
-                Logger.Info("Creating print screen...");
+                Logger.Instance.Info("Creating print screen...");
                 int screenWidth = Screen.PrimaryScreen.Bounds.Width;
                 int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
                 Bitmap printscreen = new Bitmap(screenWidth, screenHeight);
@@ -22,8 +22,8 @@ namespace Core.Reporting
             }
             catch (Exception e)
             {
-                Logger.Info("Failed to get/save print screen...");
-                Logger.Info("Exception: " + e.ToString());
+                Logger.Instance.Info("Failed to get/save print screen...");
+                Logger.Instance.Info("Exception: " + e.ToString());
                 return null;
             }
         }

@@ -1,16 +1,17 @@
 ﻿using System;
 
-namespace Core.Logging
+namespace Core.Reporting
 {
-    public class Logger
+    class Reporter
     {
-        private static ILogger _instance;
-        public static ILogger Instance
+
+        private static IReporter _instance;
+        public static IReporter Instance
         {
             get
             {
                 if (_instance == null)
-                    throw new NullReferenceException("Logger instance is not created.");
+                    throw new NullReferenceException("Reporter instance is not created.");
 
                 return _instance;
             }
@@ -19,6 +20,7 @@ namespace Core.Logging
                 _instance = value;
             }
         }
+
 
     }
 }
