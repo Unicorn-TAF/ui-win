@@ -7,17 +7,17 @@ namespace ProjectSpecific.Util
     {
         public void Complete()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Init()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Report(string info)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

@@ -8,7 +8,13 @@ namespace Unicorn.UIWeb.UI
 {
     public class WebControl : WebSearchContext, IControl {
 
-        public IWebElement Instance;
+        protected IWebElement Instance
+        {
+            get
+            {
+                return (IWebElement)SearchContext;
+            }
+        }
 
 
         public bool Enabled

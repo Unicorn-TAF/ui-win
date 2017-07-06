@@ -55,7 +55,7 @@ namespace Unicorn.UIDesktop.Driver
             if (element == null)
                 throw new ElementNotFoundException("Element not found");
 
-            ((GuiControl)(object)wrapper).Instance = element;
+            ((GuiControl)(object)wrapper).SearchContext = element;
             return wrapper;
         }
 

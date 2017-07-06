@@ -12,15 +12,9 @@ namespace Unicorn.UIDesktop.UI
         public virtual string ClassName { get { return null; } }
         public abstract ControlType Type { get; }
 
-        private AutomationElement _instance = null;
         public virtual AutomationElement Instance
         {
-            get { return _instance; }
-            set
-            {
-                _instance = value;
-                SearchContext = value;
-            }
+            get { return SearchContext; }
         }
 
 
@@ -29,7 +23,7 @@ namespace Unicorn.UIDesktop.UI
         public GuiControl(AutomationElement instance)
             : base()
         {
-            Instance = instance;
+            SearchContext = instance;
         }
 
 

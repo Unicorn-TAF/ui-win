@@ -26,7 +26,6 @@ namespace Unicorn.UIWeb.Driver
             {
                 IWebElement elementToWrap = SearchContext.FindElement(By.XPath(WebDriver.TransformXpath(locator)));
                 var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).Instance = elementToWrap;
                 ((WebControl)(object)wrapper).SearchContext = elementToWrap;
                 return wrapper;
             }
