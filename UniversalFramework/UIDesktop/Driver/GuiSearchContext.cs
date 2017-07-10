@@ -37,6 +37,10 @@ namespace Unicorn.UIDesktop.Driver
         }
 
 
+        public IList<T> FindControls<T>(string locator) where T : IControl
+        {
+            throw new NotImplementedException();
+        }
 
 
 
@@ -114,8 +118,6 @@ namespace Unicorn.UIDesktop.Driver
         {
             return WaitFor<T>(name, null);
         }
-
-
 
 
         // Childs

@@ -2,6 +2,7 @@
 using System;
 using Unicorn.UICore.UI;
 using Unicorn.UIWeb.UI;
+using System.Collections.Generic;
 
 namespace Unicorn.UIWeb.Driver
 {
@@ -22,15 +23,33 @@ namespace Unicorn.UIWeb.Driver
 
         public T WaitForElement<T>(string locator) where T : IControl
         {
-            if (typeof(WebControl).IsAssignableFrom(typeof(T)))
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+            IWebElement elementToWrap = SearchContext.FindElement(By.XPath(WebDriver.TransformXpath(locator)));
+            var wrapper = Activator.CreateInstance<T>();
+            ((WebControl)(object)wrapper).SearchContext = elementToWrap;
+            return wrapper;
+                
+        }
+
+        public IList<T> FindControls<T>(string locator) where T : IControl
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+            List<T> listElements = new List<T>();
+            
+            IList<IWebElement> elementsToWrap = SearchContext.FindElements(By.XPath(WebDriver.TransformXpath(locator)));
+
+            foreach (IWebElement elementToWrap in elementsToWrap)
             {
-                IWebElement elementToWrap = SearchContext.FindElement(By.XPath(WebDriver.TransformXpath(locator)));
                 var wrapper = Activator.CreateInstance<T>();
                 ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-                return wrapper;
+                listElements.Add(wrapper);
             }
-            else
-                throw new ArgumentException("Illegal type of control");
+
+            return listElements;
         }
     }
 }

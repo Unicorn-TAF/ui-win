@@ -27,6 +27,10 @@ namespace Unicorn.UIDesktop.UI
         }
 
 
+        public string GetAttribute(string attribute)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool Enabled
         {
@@ -125,6 +129,5 @@ namespace Unicorn.UIDesktop.UI
             Instance.TryGetCurrentPattern(pattern, out patternObject);
             return (T)patternObject;
         }
-
     }
 }

@@ -36,6 +36,8 @@ namespace Unicorn.UICore.UI
 
         #region "Props"
 
+        string GetAttribute(string attribute);
+
         bool Visible {
             get;
         }

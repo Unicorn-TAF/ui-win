@@ -27,6 +27,14 @@ namespace Unicorn.UIWeb.Driver
             }
         }
 
+        public string Url
+        {
+            get
+            {
+                return _driver.Url;
+            }
+        }
+
         public void SetImplicitlyWait(TimeSpan time)
         {
             _driver.Manage().Timeouts().ImplicitlyWait(time);

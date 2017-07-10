@@ -17,6 +17,11 @@ namespace Unicorn.UIWeb.UI
         }
 
 
+        public string GetAttribute(string attribute)
+        {
+            return Instance.GetAttribute(attribute);
+        }
+
         public bool Enabled
         {
             get
@@ -37,7 +42,7 @@ namespace Unicorn.UIWeb.UI
         {
             get
             {
-                throw new NotImplementedException();
+                return Instance.Text;
             }
         }
 
