@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UICore.UI;
-using Unicorn.UICore.UIProperties;
 using Unicorn.UIDesktop.Driver;
 
 namespace Unicorn.UIDesktop.UI
@@ -40,11 +41,14 @@ namespace Unicorn.UIDesktop.UI
             }
         }
 
-        public UIPoint Location
+        public System.Drawing.Point Location
         {
             get
             {
-                throw new NotImplementedException();
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                int x = Convert.ToInt16(rect.Location.X);
+                int y = Convert.ToInt16(rect.Location.Y);
+                return new System.Drawing.Point(x, y);
             }
         }
 
@@ -57,11 +61,14 @@ namespace Unicorn.UIDesktop.UI
             }
         }
 
-        public UISize Size
+        public System.Drawing.Size Size
         {
             get
             {
-                throw new NotImplementedException();
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                int x = Convert.ToInt16(rect.Size.Width);
+                int y = Convert.ToInt16(rect.Size.Height);
+                return new System.Drawing.Size(x, y);
             }
         }
 

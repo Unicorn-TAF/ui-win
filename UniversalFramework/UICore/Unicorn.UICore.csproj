@@ -75,6 +75,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,8 +87,6 @@
     <Compile Include="Driver\IDriver.cs" />
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIProperties\UIPoint.cs" />
-    <Compile Include="UIProperties\UISize.cs" />
     <Compile Include="UI\Controls\ICheckbox.cs" />
     <Compile Include="UI\Controls\IDropdown.cs" />
     <Compile Include="UI\Controls\ISelectable.cs" />

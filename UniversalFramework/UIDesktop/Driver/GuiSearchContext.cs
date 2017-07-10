@@ -13,27 +13,88 @@ namespace Unicorn.UIDesktop.Driver
     {
         protected AutomationElement SearchContext;
 
-        protected TimeSpan ImplicitlyWait = TimeSpan.FromSeconds(20);
+        private static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
+        protected static TimeSpan ImplicitlyWait = _timeoutDefault;
 
         private Condition GetClassNameCondition(string className) { return !string.IsNullOrEmpty(className) ? new PropertyCondition(AutomationElement.ClassNameProperty, className) : Condition.TrueCondition; }
+
         private Condition GetControlTypeCondition(ControlType type) { return new PropertyCondition(AutomationElement.ControlTypeProperty, type);  }
 
 
         public T FindControl<T>(By by, string locator) where T : IControl
         {
-            if (typeof(GuiControl).IsAssignableFrom(typeof(T)))
-                return WaitFor<T>(locator);
-            else
+            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control");
+
+            return WaitFor<T>(GetCondition(by, locator));
         }
 
 
         public IList<T> FindControls<T>(By by, string locator) where T : IControl
         {
-            throw new NotImplementedException();
+            List<T> list = new List<T>();
+            var wrapper = Activator.CreateInstance<T>();
+
+            var elementsList = SearchContext.FindAll(TreeScope.Descendants, new AndCondition(
+                GetClassNameCondition(((GuiControl)(object)wrapper).ClassName),
+                GetControlTypeCondition(((GuiControl)(object)wrapper).Type),
+                GetCondition(by, locator)));
+
+            foreach (AutomationElement aElement in elementsList)
+            {
+                var wrp = Activator.CreateInstance<T>();
+                ((GuiControl)(object)wrapper).SearchContext = aElement;
+                list.Add(wrp);
+            }
+
+            return list;
         }
 
 
+        private Condition GetCondition(By by, string locator)
+        {
+            switch(by)
+            {
+                case By.Id:
+                    return new PropertyCondition(AutomationElement.AutomationIdProperty, locator);
+                case By.Class:
+                    return new PropertyCondition(AutomationElement.ClassNameProperty, locator);
+                case By.Name:
+                    return new PropertyCondition(AutomationElement.NameProperty, locator);
+            }
+            return null;
+        }
+
+
+        public T FindControl<T>(string name, string alternativeName = null) where T : IControl
+        {
+            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+            return WaitFor<T>(name, alternativeName);
+        }
+
+        public bool IsControlPresent<T>(By by, string locator) where T : IControl
+        {
+            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+            bool isPresented = true;
+
+            ImplicitlyWait = TimeSpan.FromSeconds(0);
+
+            try
+            {
+                WaitFor<T>(GetCondition(by, locator));
+            }
+            catch
+            {
+                isPresented = false;
+            }
+
+            ImplicitlyWait = _timeoutDefault;
+            return isPresented;
+        }
 
         // Getters
 
@@ -48,17 +109,19 @@ namespace Unicorn.UIDesktop.Driver
                 condition));
 
             if (element == null)
-                throw new ElementNotFoundException("Element not found");
+                throw new ControlNotFoundException($"Unable to find control by {condition}");
 
             ((GuiControl)(object)wrapper).SearchContext = element;
             return wrapper;
         }
+
 
         private T Get<T>(AutomationProperty property, object value)
             where T : GuiControl
         {
             return Get<T>(new PropertyCondition(property, value));
         }
+
 
         private T Get<T>(string name, string alternativaName = null)
             where T : IControl
@@ -100,16 +163,35 @@ namespace Unicorn.UIDesktop.Driver
             timer.Stop();
 
             if (timer.Elapsed > ImplicitlyWait)
-                throw new ElementNotFoundException("Element not found");
+                throw new ControlNotFoundException($"Unable to find control with name '{name}' or id '{alternativeName}'");
 
             return result;
         }
 
-        private T WaitFor<T>(string name) where T : IControl
+        private T WaitFor<T>(Condition condition) where T : IControl
         {
-            return WaitFor<T>(name, null);
-        }
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            T result = default(T);
+            do
+            {
+                try
+                {
+                    result = Get<T>(condition);
+                    break;
+                }
+                catch
+                {
+                    Thread.Sleep(100);
+                }
+            } while (timer.Elapsed < ImplicitlyWait);
+            timer.Stop();
 
+            if (timer.Elapsed > ImplicitlyWait)
+                throw new ControlNotFoundException($"Unable to find control by {condition}");
+
+            return result;
+        }
 
         // Childs
 

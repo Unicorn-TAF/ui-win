@@ -29,5 +29,14 @@ namespace Unicorn.UIDesktop.UI.Controls
             var pattern = GetPattern<WindowPattern>();
             pattern.Close();
         }
+
+        public virtual void Focus()
+        {
+            try
+            {
+                Instance.SetFocus();
+            }
+            catch { }
+        }
     }
 }

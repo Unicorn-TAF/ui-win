@@ -10,7 +10,9 @@ namespace Unicorn.UIWeb.Driver
     {
         protected ISearchContext SearchContext;
 
-        protected TimeSpan ImplicitlyWait = TimeSpan.FromSeconds(20);
+
+        protected static TimeSpan ImplicitlyWait = _timeoutDefault;
+        private static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
 
 
         public T FindControl<T>(UICore.Driver.By by, string locator) where T : IControl
@@ -18,11 +20,17 @@ namespace Unicorn.UIWeb.Driver
             if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control");
 
-
-            IWebElement elementToWrap = SearchContext.FindElement(GetLocator(by, locator));
-            var wrapper = Activator.CreateInstance<T>();
-            ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-            return wrapper;
+            try
+            {
+                IWebElement elementToWrap = SearchContext.FindElement(GetLocator(by, locator));
+                var wrapper = Activator.CreateInstance<T>();
+                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
+                return wrapper;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ControlNotFoundException($"Unable to find control by {by} = {locator}");
+            }
                 
         }
 
@@ -45,6 +53,28 @@ namespace Unicorn.UIWeb.Driver
             return listElements;
         }
 
+
+        public bool IsControlPresent<T>(UICore.Driver.By by, string locator) where T : IControl
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+            bool isPresented = true;
+
+            ImplicitlyWait = TimeSpan.FromSeconds(0);
+
+            try
+            {
+                FindControl<T>(by, locator);
+            }
+            catch (ControlNotFoundException)
+            {
+                isPresented = false;
+            }
+
+            ImplicitlyWait = _timeoutDefault;
+            return isPresented;
+        }
 
         private By GetLocator(UICore.Driver.By by, string locator)
         {

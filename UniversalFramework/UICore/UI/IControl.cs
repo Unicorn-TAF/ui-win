@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Drawing;
 using Unicorn.UICore.Driver;
-using Unicorn.UICore.UIProperties;
 
 namespace Unicorn.UICore.UI
 {
@@ -50,11 +50,11 @@ namespace Unicorn.UICore.UI
             get;
         }
 
-        UIPoint Location {
+        Point Location {
             get;
         }
 
-        UISize Size {
+        Size Size {
             get;
         }
 

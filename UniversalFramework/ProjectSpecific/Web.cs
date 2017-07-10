@@ -7,7 +7,7 @@ namespace ProjectSpecific
     {
 
         private static WebDriver _instance = null;
-        private static Browser browser = Browser.CHROME;
+        private static Browser browser = Browser.FIREFOX;
 
         public static WebDriver Instance
         {

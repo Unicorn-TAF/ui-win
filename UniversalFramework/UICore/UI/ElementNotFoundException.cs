@@ -2,13 +2,13 @@
 
 namespace Unicorn.UICore.UI
 {
-    public class ElementNotFoundException : Exception
+    public class ControlNotFoundException : Exception
     {
-        public ElementNotFoundException()
+        public ControlNotFoundException()
             : base()
         { }
 
-        public ElementNotFoundException(string exception)
+        public ControlNotFoundException(string exception)
             : base(exception)
         { }
     }

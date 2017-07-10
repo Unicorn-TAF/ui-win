@@ -1,8 +1,8 @@
 ﻿using System;
 using OpenQA.Selenium;
 using Unicorn.UICore.UI;
-using Unicorn.UICore.UIProperties;
 using Unicorn.UIWeb.Driver;
+using System.Drawing;
 
 namespace Unicorn.UIWeb.UI
 {
@@ -26,15 +26,15 @@ namespace Unicorn.UIWeb.UI
         {
             get
             {
-                throw new NotImplementedException();
+                return Instance.Enabled;
             }
         }
 
-        public UIPoint Location
+        public Point Location
         {
             get
             {
-                throw new NotImplementedException();
+                return Instance.Location;
             }
         }
 
@@ -46,11 +46,11 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-        public UISize Size
+        public Size Size
         {
             get
             {
-                throw new NotImplementedException();
+                return Instance.Size;
             }
         }
 
