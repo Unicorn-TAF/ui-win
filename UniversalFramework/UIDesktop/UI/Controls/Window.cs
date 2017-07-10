@@ -19,7 +19,7 @@ namespace Unicorn.UIDesktop.UI.Controls
         {
             get
             {
-                return Name;
+                return Text;
             }
         }
         

@@ -1,7 +1,6 @@
 ﻿using Unicorn.Core.Testing;
 using Unicorn.Core.Testing.Attributes;
 using Unicorn.UICore.Driver;
-using Unicorn.UIWeb.Driver;
 using Unicorn.UIWeb.UI;
 
 namespace ProjectSpecific.Steps
@@ -15,7 +14,7 @@ namespace ProjectSpecific.Steps
         {
             ReportStep(value);
 
-            driver = WebDriver.Instance;
+            driver = Web.Instance;
             driver.Get(value);
         }
 
@@ -24,8 +23,8 @@ namespace ProjectSpecific.Steps
         {
             ReportStep();
 
-            driver.WaitForElement<WebControl>(".//input[@id='ctrlLogin_LoginButton']").Click();
-            WebControl checkbox = driver.WaitForElement<WebControl>(".//input[@id='ctrlLogin_iLevelRememberMe']");
+            driver.FindControl<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_LoginButton']").Click();
+            WebControl checkbox = driver.FindControl<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_iLevelRememberMe']");
             checkbox.Click();
         }
 

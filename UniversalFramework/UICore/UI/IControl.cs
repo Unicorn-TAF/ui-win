@@ -46,7 +46,7 @@ namespace Unicorn.UICore.UI
             get;
         }
 
-        string Name {
+        string Text {
             get;
         }
 

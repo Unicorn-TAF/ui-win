@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Driver\By.cs" />
     <Compile Include="Driver\IDriver.cs" />
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

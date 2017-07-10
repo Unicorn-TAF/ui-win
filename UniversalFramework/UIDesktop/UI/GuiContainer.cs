@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Automation;
+using Unicorn.UICore.Driver;
 using Unicorn.UICore.UI;
 using Unicorn.UIDesktop.UI.Controls;
 
@@ -13,14 +14,14 @@ namespace Unicorn.UIDesktop.UI
 
         public void ClickButton(string buttonName)
         {
-            Button button = GetElement<Button>(buttonName);
+            Button button = FindControl<Button>(By.Name, buttonName);
             button.WaitForEnabled();
             button.Click();
         }
 
         public bool InputText(string inputName, string text)
         {
-            TextInput edit = GetElement<TextInput>(inputName);
+            TextInput edit = FindControl<TextInput>(By.Name, inputName);
 
             if (edit.Value.Equals(text))
                 return false;

@@ -19,16 +19,7 @@ namespace Unicorn.UIDesktop.Driver
         private Condition GetControlTypeCondition(ControlType type) { return new PropertyCondition(AutomationElement.ControlTypeProperty, type);  }
 
 
-
-        public T GetElement<T>(string locator) where T : IControl
-        {
-            if (typeof(GuiControl).IsAssignableFrom(typeof(T)))
-                return Get<T>(locator);
-            else
-                throw new ArgumentException("Illegal type of control");
-        }
-
-        public T WaitForElement<T>(string locator) where T : IControl
+        public T FindControl<T>(By by, string locator) where T : IControl
         {
             if (typeof(GuiControl).IsAssignableFrom(typeof(T)))
                 return WaitFor<T>(locator);
@@ -37,7 +28,7 @@ namespace Unicorn.UIDesktop.Driver
         }
 
 
-        public IList<T> FindControls<T>(string locator) where T : IControl
+        public IList<T> FindControls<T>(By by, string locator) where T : IControl
         {
             throw new NotImplementedException();
         }

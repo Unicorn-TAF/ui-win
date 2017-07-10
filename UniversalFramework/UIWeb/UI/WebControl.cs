@@ -8,7 +8,7 @@ namespace Unicorn.UIWeb.UI
 {
     public class WebControl : WebSearchContext, IControl {
 
-        protected IWebElement Instance
+        public IWebElement Instance
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-        public string Name
+        public string Text
         {
             get
             {

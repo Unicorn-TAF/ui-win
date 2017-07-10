@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="Web.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Util\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

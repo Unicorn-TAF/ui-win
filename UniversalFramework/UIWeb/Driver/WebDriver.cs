@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using System;
 using System.Text.RegularExpressions;
 using Unicorn.UICore.Driver;
@@ -8,51 +10,93 @@ namespace Unicorn.UIWeb.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        private static IWebDriver _driver = null;
+        public Browser Browser;
+        private IWebDriver Driver;
 
-        private static WebDriver _instance;
-        public static WebDriver Instance
+        public WebDriver(Browser browser, bool maximize = true)
         {
-            get
-            {
-                if (_driver == null)
-                {
-                    _instance = new WebDriver();
-                    _driver = new FirefoxDriver();
-                    _driver.Manage().Window.Maximize();
-                    _instance.SearchContext = _driver;
-                }
+            Driver = GetInstance(browser);
+            SearchContext = Driver;
 
-                return _instance;
-            }
+            if (maximize)
+                Driver.Manage().Window.Maximize();
         }
+
+        public WebDriver(Browser browser, DriverOptions options, bool maximize = true)
+        {
+            Driver = GetInstance(browser, options);
+            SearchContext = Driver;
+
+            if (maximize)
+                Driver.Manage().Window.Maximize();
+        }
+
 
         public string Url
         {
             get
             {
-                return _driver.Url;
+                return Driver.Url;
             }
         }
 
         public void SetImplicitlyWait(TimeSpan time)
         {
-            _driver.Manage().Timeouts().ImplicitlyWait(time);
+            Driver.Manage().Timeouts().ImplicitlyWait(time);
         }
 
         public void Get(string path)
         {
-            _driver.Navigate().GoToUrl(path);
+            Driver.Navigate().GoToUrl(path);
+        }
+
+
+        public object ExecuteJS(string script, params object[] parameters)
+        {
+            IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
+            return js.ExecuteScript(script, parameters);
         }
 
         public void Close()
         {
-            if (_driver != null)
+            Driver.Quit();
+        }
+
+
+        private IWebDriver GetInstance(Browser browser)
+        {
+            Browser = browser;
+
+            switch (browser)
             {
-                _driver.Quit();
-                _driver = null;
+                case Browser.CHROME:
+                    return new ChromeDriver();
+                case Browser.IE:
+                    return new InternetExplorerDriver();
+                case Browser.FIREFOX:
+                    return new FirefoxDriver();
+                default:
+                    return null;
             }
         }
+
+        private IWebDriver GetInstance(Browser browser, DriverOptions options)
+        {
+            Browser = browser;
+
+            switch (browser)
+            {
+                case Browser.CHROME:
+                    return new ChromeDriver((ChromeOptions)options);
+                case Browser.IE:
+                    return new InternetExplorerDriver((InternetExplorerOptions)options);
+                case Browser.FIREFOX:
+                    return new FirefoxDriver((FirefoxOptions)options);
+                default:
+                    return null;
+            }
+        }
+
 
 
         public static string TransformXpath(string xpath)

@@ -48,7 +48,7 @@ namespace Unicorn.UIDesktop.UI
             }
         }
 
-        public string Name
+        public string Text
         {
             get
             {
@@ -119,7 +119,7 @@ namespace Unicorn.UIDesktop.UI
             timer.Start();
             while ((!Enabled || !Visible) && timer.ElapsedMilliseconds < timeout) ;
             if (timer.ElapsedMilliseconds >= timeout)
-                throw new ElementInvalidStateException(string.Format("Control '{0}' is in illegal state. Visible: {1}, Enabled: {2}", Name, Visible, Enabled));
+                throw new ElementInvalidStateException(string.Format("Control '{0}' is in illegal state. Visible: {1}, Enabled: {2}", Text, Visible, Enabled));
         }
 
         protected T GetPattern<T>() where T : BasePattern

@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -26,10 +26,10 @@ namespace ProjectSpecific.Steps
         {
             ReportStep(fileName);
 
-            Window mainWindow = driver.WaitForElement<Window>("mainForm");
+            Window mainWindow = driver.FindControl<Window>(By.Name, "mainForm");
             mainWindow.ClickButton("openFileBtn");
 
-            Window openDialog = mainWindow.WaitForElement<Window>("Open");
+            Window openDialog = mainWindow.FindControl<Window>(By.Name, "Open");
             openDialog.InputText("File name:", fileName);
             openDialog.ClickButton("Open");
             Thread.Sleep(2000);
@@ -42,7 +42,7 @@ namespace ProjectSpecific.Steps
         {
             ReportStep();
 
-            Window mainWindow = driver.WaitForElement<Window>("mainForm");
+            Window mainWindow = driver.FindControl<Window>(By.Name, "mainForm");
             mainWindow.ClickButton("plotBtn");
         }
 
