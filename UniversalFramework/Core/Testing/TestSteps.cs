@@ -11,24 +11,25 @@ namespace Unicorn.Core.Testing
         protected void ReportStep(params object[] parameters)
         {
             MethodBase mb = new StackFrame(1).GetMethod();
-            string descriptionTemplate = string.Empty;
+            string stepDescription = string.Empty;
 
             object[] attributes = mb.GetCustomAttributes(typeof(TestStep), true);
 
             if (attributes.Length == 0)
             {
-                descriptionTemplate = mb.Name + ":";
+                stepDescription = mb.Name + ":";
                 for (int i = 0; i < parameters.Length; i++)
-                    descriptionTemplate += $" '{i}'";
+                    stepDescription += $" '{parameters[i]}'";
             }
             else
             {
                 TestStep attribute = (TestStep)attributes[0];
-                descriptionTemplate = attribute.Description;
+                stepDescription = attribute.Description;
+                stepDescription = string.Format(stepDescription, parameters);
             }
 
-            Logger.Instance.Info(string.Format(descriptionTemplate, parameters));
-            Reporter.Instance.Report(string.Format(descriptionTemplate, parameters));
+            Logger.Instance.Info(stepDescription);
+            Reporter.Instance.Report(stepDescription);
         }
 
 
