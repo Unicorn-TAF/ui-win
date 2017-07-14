@@ -4,7 +4,7 @@ using Unicorn.UICore.Driver;
 
 namespace Unicorn.UICore.UI
 {
-    public interface IControl// : ISearchContext
+    public interface IControl
     {
 
         #region "Methods"
@@ -27,7 +27,7 @@ namespace Unicorn.UICore.UI
 
         #region "Waiters"
 
-        void WaitForEnabled();
+        void WaitForEnabled(int timeout);
 
         void WaitForAttributeValue(string attribute, string value, bool contains = true);
 

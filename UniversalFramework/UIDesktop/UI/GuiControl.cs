@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UICore.UI;
@@ -106,6 +105,8 @@ namespace Unicorn.UIDesktop.UI
 
         public void Click()
         {
+            WaitForEnabled();
+
             object pattern = null;
 
             if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
@@ -119,9 +120,8 @@ namespace Unicorn.UIDesktop.UI
             throw new NotImplementedException();
         }
 
-        public void WaitForEnabled()
+        public void WaitForEnabled(int timeout = 10000)
         {
-            int timeout = 10000;
             Stopwatch timer = new Stopwatch();
             timer.Start();
             while ((!Enabled || !Visible) && timer.ElapsedMilliseconds < timeout) ;

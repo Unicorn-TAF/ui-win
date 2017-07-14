@@ -12,7 +12,10 @@ namespace Unicorn.UIDesktop.UI.Controls
         {
             get
             {
-                return GetPattern<ValuePattern>().Current.Value;
+                if (Instance.Current.ClassName.Equals("PasswordBox"))
+                    return "The field is of PasswordBox type. Unable to get value";
+                else
+                    return GetPattern<ValuePattern>().Current.Value;
             }
         }
 
@@ -26,11 +29,14 @@ namespace Unicorn.UIDesktop.UI.Controls
 
         public void SendKeys(string text)
         {
+            WaitForEnabled();
+
             var pattern = GetPattern<ValuePattern>();
                 if (pattern.Current.IsReadOnly)
                     throw new Exception("Input is disabled");
 
-            GetPattern<ValuePattern>().SetValue(text);
+            if(!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+                GetPattern<ValuePattern>().SetValue(text);
         }
     }
 }

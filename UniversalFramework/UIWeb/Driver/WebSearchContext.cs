@@ -15,7 +15,7 @@ namespace Unicorn.UIWeb.Driver
         private static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
 
 
-        public T FindControl<T>(UICore.Driver.By by, string locator) where T : IControl
+        public T Find<T>(UICore.Driver.By by, string locator) where T : IControl
         {
             if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control");
@@ -31,10 +31,10 @@ namespace Unicorn.UIWeb.Driver
             {
                 throw new ControlNotFoundException($"Unable to find control by {by} = {locator}");
             }
-                
         }
 
-        public IList<T> FindControls<T>(UICore.Driver.By by, string locator) where T : IControl
+
+        public IList<T> FindList<T>(UICore.Driver.By by, string locator) where T : IControl
         {
             if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control");
@@ -54,31 +54,59 @@ namespace Unicorn.UIWeb.Driver
         }
 
 
-        public bool IsControlPresent<T>(UICore.Driver.By by, string locator) where T : IControl
+        public bool WaitFor<T>(UICore.Driver.By by, string locator, int millisecondsTimeout) where T : IControl
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control");
+            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
             bool isPresented = true;
-
-            ImplicitlyWait = TimeSpan.FromSeconds(0);
-
             try
             {
-                FindControl<T>(by, locator);
+                Find<T>(by, locator);
             }
             catch (ControlNotFoundException)
             {
                 isPresented = false;
             }
 
-            ImplicitlyWait = _timeoutDefault;
+            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(_timeoutDefault);
+
             return isPresented;
         }
 
+
+        public bool WaitFor<T>(UICore.Driver.By by, string locator, int millisecondsTimeout, out T controlInstance) where T : IControl
+        {
+            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
+
+            bool isPresented = true;
+            try
+            {
+                controlInstance = Find<T>(by, locator);
+            }
+            catch (ControlNotFoundException)
+            {
+                controlInstance = default(T);
+                isPresented = false;
+            }
+
+            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(_timeoutDefault);
+
+            return isPresented;
+        }
+
+
+        public T FirstChild<T>() where T : IControl
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        #region "Helpers"
+
         private By GetLocator(UICore.Driver.By by, string locator)
         {
-            switch(by)
+            switch (by)
             {
                 case UICore.Driver.By.Web_Xpath:
                     return By.XPath(WebDriver.TransformXpath(locator));
@@ -96,5 +124,8 @@ namespace Unicorn.UIWeb.Driver
                     throw new ArgumentException($"Incorrect locator type specified:  {by}");
             }
         }
+
+        #endregion
+
     }
 }

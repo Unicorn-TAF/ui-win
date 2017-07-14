@@ -87,7 +87,7 @@ namespace Unicorn.UIWeb.UI
             throw new NotImplementedException();
         }
 
-        public void WaitForEnabled()
+        public void WaitForEnabled(int timeout)
         {
             throw new NotImplementedException();
         }

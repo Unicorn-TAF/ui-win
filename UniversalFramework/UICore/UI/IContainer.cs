@@ -2,12 +2,12 @@
 {
     public interface IContainer
     {
-        void ClickButton(string buttonName);
+        void ClickButton(string locator);
 
-        bool SelectRadio(string radioLabel);
+        bool SelectRadio(string locator);
 
-        bool SetheckboxState(string checkboxLabel, bool state);
+        bool SetheckboxState(string locator, bool state);
 
-        bool InputText(string inputName, string text);
+        void InputText(string locator, string text);
     }
 }

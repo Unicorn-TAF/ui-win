@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Automation;
-using Unicorn.UICore.Driver;
 using Unicorn.UICore.UI;
 using Unicorn.UIDesktop.UI.Controls;
 
@@ -12,33 +11,24 @@ namespace Unicorn.UIDesktop.UI
 
         public GuiContainer(AutomationElement instance) : base(instance) { }
 
-        public void ClickButton(string buttonName)
+        public void ClickButton(string locator)
         {
-            Button button = FindControl<Button>(By.Name, buttonName);
-            button.WaitForEnabled();
+            Button button = Find<Button>(locator);
             button.Click();
         }
 
-        public bool InputText(string inputName, string text)
+        public void InputText(string locator, string text)
         {
-            TextInput edit = FindControl<TextInput>(By.Name, inputName);
-
-            if (edit.Value.Equals(text))
-                return false;
-            else
-            {
-                edit.WaitForEnabled();
-                edit.SendKeys(text);
-                return true;
-            }
+            TextInput edit = Find<TextInput>(locator);
+            edit.SendKeys(text);
         }
 
-        public bool SelectRadio(string radioLabel)
+        public bool SelectRadio(string locator)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetheckboxState(string checkboxLabel, bool state)
+        public bool SetheckboxState(string locator, bool state)
         {
             throw new NotImplementedException();
         }

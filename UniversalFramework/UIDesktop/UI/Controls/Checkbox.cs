@@ -3,7 +3,7 @@ using Unicorn.UICore.UI.Controls;
 
 namespace Unicorn.UIDesktop.UI.Controls
 {
-    class Checkbox : GuiControl, ICheckbox
+    public class Checkbox : GuiControl, ICheckbox
     {
         public Checkbox() { }
 

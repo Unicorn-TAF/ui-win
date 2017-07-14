@@ -23,8 +23,8 @@ namespace ProjectSpecific.Steps
         {
             ReportStep();
 
-            driver.FindControl<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_LoginButton']").Click();
-            WebControl checkbox = driver.FindControl<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_iLevelRememberMe']");
+            driver.Find<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_LoginButton']").Click();
+            WebControl checkbox = driver.Find<WebControl>(By.Web_Xpath, ".//input[@id='ctrlLogin_iLevelRememberMe']");
             checkbox.Click();
         }
 
