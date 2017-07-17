@@ -8,5 +8,7 @@
         }
 
         void Close();
+
+        void WaitForClosed(int timeout);
     }
 }

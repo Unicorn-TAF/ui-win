@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Threading;
 using System.Windows.Automation;
+using Unicorn.UICore.UI;
 using Unicorn.UICore.UI.Controls;
 
 namespace Unicorn.UIDesktop.UI.Controls
@@ -37,6 +38,17 @@ namespace Unicorn.UIDesktop.UI.Controls
                 Instance.SetFocus();
             }
             catch { }
+        }
+
+        public void WaitForClosed(int timeout = 5000)
+        {
+            do
+            {
+                Thread.Sleep(100);
+                timeout -= 100;
+            } while (Visible && timeout > 0);
+            if (timeout <= 0)
+                throw new ControlInvalidStateException("Failed to wait for window is closed!");
         }
     }
 }

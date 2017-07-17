@@ -11,9 +11,9 @@ namespace Unicorn.Core.Reporting
         {
             try
             {
-                Logger.Instance.Info("Creating print screen...");
+                Logger.Instance.Debug("Creating print screen...");
                 int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-                int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+                int screenHeight = Screen.PrimaryScreen.Bounds.Height;
                 Bitmap printscreen = new Bitmap(screenWidth, screenHeight);
                 Graphics graphics = Graphics.FromImage(printscreen as Image);
                 graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
@@ -22,8 +22,8 @@ namespace Unicorn.Core.Reporting
             }
             catch (Exception e)
             {
-                Logger.Instance.Info("Failed to get/save print screen...");
-                Logger.Instance.Info("Exception: " + e.ToString());
+                Logger.Instance.Debug("Failed to get/save print screen...");
+                Logger.Instance.Debug("Exception: " + e.ToString());
                 return null;
             }
         }

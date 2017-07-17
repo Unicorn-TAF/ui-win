@@ -73,6 +73,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -94,8 +95,8 @@
     <Compile Include="UI\Controls\ITextInput.cs" />
     <Compile Include="UI\Controls\ITreeView.cs" />
     <Compile Include="UI\Controls\IWindow.cs" />
-    <Compile Include="UI\ElementInvalidStateException.cs" />
-    <Compile Include="UI\ElementNotFoundException.cs" />
+    <Compile Include="UI\ControlInvalidStateException.cs" />
+    <Compile Include="UI\ControlNotFoundException.cs" />
     <Compile Include="UI\IControl.cs" />
     <Compile Include="UI\IContainer.cs" />
   </ItemGroup>

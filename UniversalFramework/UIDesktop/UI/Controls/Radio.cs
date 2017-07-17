@@ -4,7 +4,7 @@ using Unicorn.UICore.UI;
 
 namespace Unicorn.UIDesktop.UI.Controls
 {
-    class Radio : GuiControl, ISelectable
+    public class Radio : GuiControl, ISelectable
     {
         public override ControlType Type { get { return ControlType.RadioButton; } }
 

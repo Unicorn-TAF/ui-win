@@ -12,7 +12,9 @@
             get;
         }
 
+
         bool Select(string item);
+
 
         void CheckItems(string[] items);
     }

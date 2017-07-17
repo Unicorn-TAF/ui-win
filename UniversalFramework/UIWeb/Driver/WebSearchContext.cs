@@ -34,6 +34,33 @@ namespace Unicorn.UIWeb.Driver
         }
 
 
+        public T Find<T>(string name, string alternativeName = "") where T : IControl
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control");
+
+
+            string xPath = $".//*[@name = '{name}' or @id = '{name}'";
+
+            if (!string.IsNullOrEmpty(alternativeName))
+                xPath += $" or @name = '{alternativeName}' or @id = '{alternativeName}'";
+
+            xPath += "]";
+
+            try
+            {
+                IWebElement elementToWrap = SearchContext.FindElement(By.XPath(xPath));
+                var wrapper = Activator.CreateInstance<T>();
+                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
+                return wrapper;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ControlNotFoundException($"Unable to find control by name = {name} and alternative name = {alternativeName}");
+            }
+        }
+
+
         public IList<T> FindList<T>(UICore.Driver.By by, string locator) where T : IControl
         {
             if (!typeof(WebControl).IsAssignableFrom(typeof(T)))

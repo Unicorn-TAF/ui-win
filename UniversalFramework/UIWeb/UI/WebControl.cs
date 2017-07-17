@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using Unicorn.UICore.UI;
 using Unicorn.UIWeb.Driver;
 using System.Drawing;
+using OpenQA.Selenium.Interactions;
 
 namespace Unicorn.UIWeb.UI
 {
@@ -16,28 +17,6 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-
-        public string GetAttribute(string attribute)
-        {
-            return Instance.GetAttribute(attribute);
-        }
-
-        public bool Enabled
-        {
-            get
-            {
-                return Instance.Enabled;
-            }
-        }
-
-        public Point Location
-        {
-            get
-            {
-                return Instance.Location;
-            }
-        }
-
         public string Text
         {
             get
@@ -46,11 +25,11 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-        public Size Size
+        public bool Enabled
         {
             get
             {
-                return Instance.Size;
+                return Instance.Enabled;
             }
         }
 
@@ -62,34 +41,41 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-        public void CheckAttributeContains(string attribute, string expectedValue)
+        public Point Location
         {
-            throw new NotImplementedException();
+            get
+            {
+                return Instance.Location;
+            }
         }
 
-        public void CheckAttributeDoeNotContain(string attribute, string expectedValue)
+        public Size Size
         {
-            throw new NotImplementedException();
+            get
+            {
+                return Instance.Size;
+            }
         }
 
-        public void CheckAttributeEquals(string attribute, string expectedValue)
+
+
+        public string GetAttribute(string attribute)
         {
-            throw new NotImplementedException();
+            return Instance.GetAttribute(attribute);
         }
+
 
         public void Click()
         {
             Instance.Click();
         }
 
-        public void WaitForAttributeValue(string attribute, string value, bool contains = true)
+        public void RightClick()
         {
-            throw new NotImplementedException();
-        }
-
-        public void WaitForEnabled(int timeout)
-        {
-            throw new NotImplementedException();
+            Actions actions = new Actions((IWebDriver)SearchContext);
+            actions.MoveToElement(Instance);
+            actions.ContextClick();
+            actions.Release().Perform();
         }
     }
 }

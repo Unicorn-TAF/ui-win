@@ -9,6 +9,9 @@ namespace Unicorn.UICore.Driver
         T Find<T>(By by, string locator) where T : IControl;
 
 
+        T Find<T>(string name, string alternativeName) where T : IControl;
+
+
         IList<T> FindList<T>(By by, string locator) where T : IControl;
 
 

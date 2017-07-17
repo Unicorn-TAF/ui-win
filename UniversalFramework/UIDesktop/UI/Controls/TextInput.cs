@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Automation;
+using Unicorn.UICore.UI;
 using Unicorn.UICore.UI.Controls;
 
 namespace Unicorn.UIDesktop.UI.Controls
 {
-    public class TextInput : GuiControl, ITextInput
+    public class TextInput : GuiControl, IControl, ITextInput
     {
         public override ControlType Type { get { return ControlType.Edit; } }
 
@@ -29,7 +30,7 @@ namespace Unicorn.UIDesktop.UI.Controls
 
         public void SendKeys(string text)
         {
-            WaitForEnabled();
+            this.WaitForEnabled();
 
             var pattern = GetPattern<ValuePattern>();
                 if (pattern.Current.IsReadOnly)

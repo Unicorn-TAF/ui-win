@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UICore.UI;
 using Unicorn.UIDesktop.Driver;
+using Unicorn.UIDesktop.Input;
 
 namespace Unicorn.UIDesktop.UI
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
         public virtual string ClassName { get { return null; } }
+
         public abstract ControlType Type { get; }
 
         public virtual AutomationElement Instance
@@ -17,39 +18,6 @@ namespace Unicorn.UIDesktop.UI
             get { return SearchContext; }
         }
 
-
-        public GuiControl() { }
-
-        public GuiControl(AutomationElement instance)
-            : base()
-        {
-            SearchContext = instance;
-        }
-
-
-        public string GetAttribute(string attribute)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Enabled
-        {
-            get
-            {
-                return (bool)Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
-            }
-        }
-
-        public System.Drawing.Point Location
-        {
-            get
-            {
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                int x = Convert.ToInt16(rect.Location.X);
-                int y = Convert.ToInt16(rect.Location.Y);
-                return new System.Drawing.Point(x, y);
-            }
-        }
 
         public string Text
         {
@@ -60,14 +28,11 @@ namespace Unicorn.UIDesktop.UI
             }
         }
 
-        public System.Drawing.Size Size
+        public bool Enabled
         {
             get
             {
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                int x = Convert.ToInt16(rect.Size.Width);
-                int y = Convert.ToInt16(rect.Size.Height);
-                return new System.Drawing.Size(x, y);
+                return (bool)Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
             }
         }
 
@@ -88,46 +53,114 @@ namespace Unicorn.UIDesktop.UI
             }
         }
 
-        public void CheckAttributeContains(string attribute, string expectedValue)
+        public System.Drawing.Point Location
         {
-            throw new NotImplementedException();
+            get
+            {
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                int x = Convert.ToInt16(rect.Location.X);
+                int y = Convert.ToInt16(rect.Location.Y);
+                return new System.Drawing.Point(x, y);
+            }
         }
 
-        public void CheckAttributeDoeNotContain(string attribute, string expectedValue)
+        public System.Drawing.Size Size
         {
-            throw new NotImplementedException();
+            get
+            {
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                int x = Convert.ToInt16(rect.Size.Width);
+                int y = Convert.ToInt16(rect.Size.Height);
+                return new System.Drawing.Size(x, y);
+            }
         }
 
-        public void CheckAttributeEquals(string attribute, string expectedValue)
+
+
+        public GuiControl() { }
+
+        public GuiControl(AutomationElement instance)
+            : base()
         {
-            throw new NotImplementedException();
+            SearchContext = instance;
         }
+
+
+
+        public string GetAttribute(string attribute)
+        {
+            AutomationProperty ap;
+
+            switch (attribute.ToLower())
+            {
+                case "class":
+                    ap = AutomationElement.ClassNameProperty; break;
+                case "text":
+                    ap = AutomationElement.NameProperty; break;
+                case "enabled":
+                    return Enabled.ToString();
+                case "visible":
+                    return Visible.ToString();
+                default:
+                    throw new ArgumentException($"No such property as {attribute}");
+            }
+
+            return (string)Instance.GetCurrentPropertyValue(ap);
+        }
+
 
         public void Click()
         {
-            WaitForEnabled();
+            this.WaitForEnabled();
 
             object pattern = null;
 
-            if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
-                ((InvokePattern)pattern).Invoke();
-            else
-                ((TogglePattern)Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
+            try
+            {
+                if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
+                    ((InvokePattern)pattern).Invoke();
+                else
+                    ((TogglePattern)Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
+            }
+            catch
+            {
+                MouseClick();
+            }
         }
 
-        public void WaitForAttributeValue(string attribute, string value, bool contains = true)
+        private void MouseClick()
         {
-            throw new NotImplementedException();
+            Instance.SetFocus();
+            Point point;
+            if (!Instance.TryGetClickablePoint(out point))
+            {
+                Point pt = new Point(3, 3);
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                point = rect.TopLeft;
+                point.Offset(pt.X, pt.Y);
+            }
+            Mouse.Instance.Click(point);
         }
 
-        public void WaitForEnabled(int timeout = 10000)
+
+        public void RightClick()
         {
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
-            while ((!Enabled || !Visible) && timer.ElapsedMilliseconds < timeout) ;
-            if (timer.ElapsedMilliseconds >= timeout)
-                throw new ElementInvalidStateException(string.Format("Control '{0}' is in illegal state. Visible: {1}, Enabled: {2}", Text, Visible, Enabled));
+            Instance.SetFocus();
+
+            Point point;
+            if (!Instance.TryGetClickablePoint(out point))
+            {
+                Point pt = new Point(3, 3);
+                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                point = rect.TopLeft;
+                point.Offset(pt.X, pt.Y);
+            }
+
+            Mouse.Instance.RightClick(point);
         }
+
+
+        #region "Helpers"
 
         protected T GetPattern<T>() where T : BasePattern
         {
@@ -136,5 +169,7 @@ namespace Unicorn.UIDesktop.UI
             Instance.TryGetCurrentPattern(pattern, out patternObject);
             return (T)patternObject;
         }
+
+        #endregion
     }
 }
