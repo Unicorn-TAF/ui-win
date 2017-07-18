@@ -8,6 +8,8 @@
         }
 
         bool Check();
+
+        bool Uncheck();
         
     }
 }

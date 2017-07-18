@@ -12,7 +12,7 @@ namespace Unicorn.UIWeb.Driver
 
 
         protected static TimeSpan ImplicitlyWait = _timeoutDefault;
-        private static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
+        protected static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
 
 
         public T Find<T>(UICore.Driver.By by, string locator) where T : IControl
@@ -83,7 +83,7 @@ namespace Unicorn.UIWeb.Driver
 
         public bool WaitFor<T>(UICore.Driver.By by, string locator, int millisecondsTimeout) where T : IControl
         {
-            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
+            WebDriver.Instance.SetImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
             bool isPresented = true;
             try
@@ -95,7 +95,7 @@ namespace Unicorn.UIWeb.Driver
                 isPresented = false;
             }
 
-            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(_timeoutDefault);
+            WebDriver.Instance.SetImplicitlyWait(_timeoutDefault);
 
             return isPresented;
         }
@@ -103,7 +103,7 @@ namespace Unicorn.UIWeb.Driver
 
         public bool WaitFor<T>(UICore.Driver.By by, string locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
-            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
+            WebDriver.Instance.SetImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
             bool isPresented = true;
             try
@@ -116,7 +116,7 @@ namespace Unicorn.UIWeb.Driver
                 isPresented = false;
             }
 
-            ((IWebDriver)SearchContext).Manage().Timeouts().ImplicitlyWait(_timeoutDefault);
+            WebDriver.Instance.SetImplicitlyWait(_timeoutDefault);
 
             return isPresented;
         }

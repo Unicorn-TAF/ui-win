@@ -24,18 +24,24 @@ namespace Unicorn.UIDesktop.UI.Controls
 
         public bool Check()
         {
+            if (Checked)
+                return false;
+
             var pattern = GetPattern<TogglePattern>();
-            if (pattern.Current.ToggleState == ToggleState.Off)
                 Toggle(pattern);
 
             return true;
         }
 
-        public void Uncheck()
+        public bool Uncheck()
         {
+            if (!Checked)
+                return false;
+
             var pattern = GetPattern<TogglePattern>();
-            if (pattern.Current.ToggleState == ToggleState.On)
                 Toggle(pattern);
+
+            return true;
         }
 
         private void Toggle(TogglePattern pattern)

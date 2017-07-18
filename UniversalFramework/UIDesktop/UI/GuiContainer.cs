@@ -25,12 +25,19 @@ namespace Unicorn.UIDesktop.UI
 
         public bool SelectRadio(string locator)
         {
-            throw new NotImplementedException();
+            Radio radio = Find<Radio>(locator);
+            return radio.Select();
         }
 
-        public bool SetheckboxState(string locator, bool state)
+        public bool SetCheckbox(string locator, bool state)
         {
-            throw new NotImplementedException();
+            Checkbox checkbox = Find<Checkbox>(locator);
+
+
+            if (state)
+                return checkbox.Check();
+            else
+                return checkbox.Uncheck();
         }
     }
 }

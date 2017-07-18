@@ -37,7 +37,7 @@ namespace Unicorn.UIWeb.UI
         {
             get
             {
-                throw new NotImplementedException();
+                return Instance.Displayed;
             }
         }
 
@@ -65,7 +65,7 @@ namespace Unicorn.UIWeb.UI
         }
 
 
-        public void Click()
+        public virtual void Click()
         {
             Instance.Click();
         }

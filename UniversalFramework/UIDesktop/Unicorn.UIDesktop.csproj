@@ -97,6 +97,7 @@
     <Compile Include="UI\Controls\Button.cs" />
     <Compile Include="UI\Controls\Checkbox.cs" />
     <Compile Include="UI\Controls\ListItem.cs" />
+    <Compile Include="UI\Controls\MenuItem.cs" />
     <Compile Include="UI\Controls\Radio.cs" />
     <Compile Include="UI\Controls\TabItem.cs" />
     <Compile Include="UI\Controls\Dropdown.cs" />

@@ -6,7 +6,7 @@
 
         bool SelectRadio(string locator);
 
-        bool SetheckboxState(string locator, bool state);
+        bool SetCheckbox(string locator, bool state);
 
         void InputText(string locator, string text);
     }

@@ -13,6 +13,26 @@ namespace Unicorn.UIWeb.Driver
         public Browser Browser;
         private IWebDriver Driver;
 
+
+        private static WebDriver _instance = null;
+        public static WebDriver Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new WebDriver(Browser.FIREFOX);
+
+                return _instance;
+            }
+        }
+
+
+        public static void Init(Browser browser, DriverOptions options)
+        {
+            _instance = new WebDriver(browser, options);
+        }
+
+
         public WebDriver(Browser browser, bool maximize = true)
         {
             Driver = GetInstance(browser);
@@ -20,7 +40,10 @@ namespace Unicorn.UIWeb.Driver
 
             if (maximize)
                 Driver.Manage().Window.Maximize();
+
+            SetImplicitlyWait(_timeoutDefault);
         }
+
 
         public WebDriver(Browser browser, DriverOptions options, bool maximize = true)
         {
@@ -29,6 +52,8 @@ namespace Unicorn.UIWeb.Driver
 
             if (maximize)
                 Driver.Manage().Window.Maximize();
+
+            SetImplicitlyWait(_timeoutDefault);
         }
 
 
@@ -39,6 +64,7 @@ namespace Unicorn.UIWeb.Driver
                 return Driver.Url;
             }
         }
+
 
         public void SetImplicitlyWait(TimeSpan time)
         {
@@ -60,7 +86,11 @@ namespace Unicorn.UIWeb.Driver
 
         public void Close()
         {
-            Driver.Quit();
+            if (_instance != null)
+            {
+                Driver.Quit();
+                _instance = null;
+            }
         }
 
 
