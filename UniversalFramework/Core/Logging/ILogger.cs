@@ -5,9 +5,9 @@
 
         void Init();
 
-        void Info(string message, params string[] parameters);
+        void Info(string message, params object[] parameters);
 
 
-        void Debug(string message, params string[] parameters);
+        void Debug(string message, params object[] parameters);
     }
 }
