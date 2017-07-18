@@ -4,50 +4,51 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using System;
 using System.Text.RegularExpressions;
+using Unicorn.Core.Logging;
 using Unicorn.UICore.Driver;
 
 namespace Unicorn.UIWeb.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        public Browser Browser;
+        public static Browser Browser = Browser.FIREFOX;
         private IWebDriver Driver;
 
+        static bool _needInit = false;
+        static DriverOptions _options = null;
 
         private static WebDriver _instance = null;
         public static WebDriver Instance
         {
             get
             {
-                if (_instance == null)
-                    _instance = new WebDriver(Browser.FIREFOX);
+                if (_instance == null || _needInit)
+                {
+                    _instance = new WebDriver();
+                    _needInit = false;
+                    Logger.Instance.Debug($"{Browser} WebDriver initialized");
+                }
 
                 return _instance;
             }
         }
 
 
-        public static void Init(Browser browser, DriverOptions options)
+        public static void Init(Browser browser, DriverOptions options = null)
         {
-            _instance = new WebDriver(browser, options);
+            _needInit = true;
+            Browser = browser;
+            _options = options;
         }
 
 
-        public WebDriver(Browser browser, bool maximize = true)
+        private WebDriver(bool maximize = true)
         {
-            Driver = GetInstance(browser);
-            SearchContext = Driver;
+            if (_options == null)
+                Driver = GetInstance();
+            else
+                Driver = GetInstance(_options);
 
-            if (maximize)
-                Driver.Manage().Window.Maximize();
-
-            SetImplicitlyWait(_timeoutDefault);
-        }
-
-
-        public WebDriver(Browser browser, DriverOptions options, bool maximize = true)
-        {
-            Driver = GetInstance(browser, options);
             SearchContext = Driver;
 
             if (maximize)
@@ -71,11 +72,11 @@ namespace Unicorn.UIWeb.Driver
             Driver.Manage().Timeouts().ImplicitlyWait(time);
         }
 
+
         public void Get(string path)
         {
             Driver.Navigate().GoToUrl(path);
         }
-
 
 
         public object ExecuteJS(string script, params object[] parameters)
@@ -84,21 +85,23 @@ namespace Unicorn.UIWeb.Driver
             return js.ExecuteScript(script, parameters);
         }
 
+
         public void Close()
         {
             if (_instance != null)
             {
                 Driver.Quit();
                 _instance = null;
+
+                Browser = Browser.FIREFOX;
+                _options = null;
             }
         }
 
 
-        private IWebDriver GetInstance(Browser browser)
+        private IWebDriver GetInstance()
         {
-            Browser = browser;
-
-            switch (browser)
+            switch (Browser)
             {
                 case Browser.CHROME:
                     return new ChromeDriver();
@@ -111,11 +114,10 @@ namespace Unicorn.UIWeb.Driver
             }
         }
 
-        private IWebDriver GetInstance(Browser browser, DriverOptions options)
-        {
-            Browser = browser;
 
-            switch (browser)
+        private IWebDriver GetInstance(DriverOptions options)
+        {
+            switch (Browser)
             {
                 case Browser.CHROME:
                     return new ChromeDriver((ChromeOptions)options);

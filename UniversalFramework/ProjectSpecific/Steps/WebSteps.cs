@@ -1,6 +1,7 @@
 ﻿using Unicorn.Core.Testing;
 using Unicorn.Core.Testing.Attributes;
 using Unicorn.UICore.Driver;
+using Unicorn.UIWeb.Driver;
 using Unicorn.UIWeb.UI;
 
 namespace ProjectSpecific.Steps
@@ -14,7 +15,7 @@ namespace ProjectSpecific.Steps
         {
             ReportStep(value);
 
-            driver = Web.Instance;
+            driver = WebDriver.Instance;
             driver.Get(value);
         }
 

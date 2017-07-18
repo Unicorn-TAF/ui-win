@@ -31,6 +31,7 @@ namespace Unicorn.UIDesktop.UI.Controls
             pattern.Close();
         }
 
+
         public virtual void Focus()
         {
             try
@@ -39,6 +40,7 @@ namespace Unicorn.UIDesktop.UI.Controls
             }
             catch { }
         }
+
 
         public void WaitForClosed(int timeout = 5000)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Automation;
+using Unicorn.Core.Logging;
 using Unicorn.UICore.Driver;
 using Unicorn.UIDesktop.UI.Controls;
 
@@ -19,10 +20,12 @@ namespace Unicorn.UIDesktop.Driver
                 {
                     _instance = new GuiDriver(); ;
                     _instance.SearchContext = AutomationElement.RootElement;
+                    Logger.Instance.Debug("UI Automation Driver initialized");
                 }
                 return _instance;
             }
         }
+
 
         public void Close()
         {
@@ -36,10 +39,12 @@ namespace Unicorn.UIDesktop.Driver
             }
         }
 
+
         public void Get(string path)
         {
             CurrentProcess = Process.Start(path);
         }
+
 
         public void SetImplicitlyWait(TimeSpan time)
         {
