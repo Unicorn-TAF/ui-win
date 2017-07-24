@@ -2,6 +2,7 @@
 using ProjectSpecific;
 using ProjectSpecific.BO;
 using ProjectSpecific.Steps;
+using static Unicorn.Core.Testing.Assertions.IsEvenMatcher;
 
 namespace Tests.UnitTests
 {
@@ -17,8 +18,7 @@ namespace Tests.UnitTests
             steps.FourthTestStep(new SampleObject());
             steps.FirstTestStep();
             steps.SecondTestStep("value");
+            Unicorn.Core.Testing.Assertions.Assert.AssertThat(5, IsEven());
         }
-
-
     }
 }

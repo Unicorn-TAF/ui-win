@@ -1,10 +1,10 @@
 ﻿using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
-using Unicorn.Core.Testing.Attributes;
+using Unicorn.Core.Testing.Steps.Attributes;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Unicorn.Core.Testing
+namespace Unicorn.Core.Testing.Steps
 {
     public class TestSteps
     {

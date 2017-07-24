@@ -50,8 +50,12 @@
     <Compile Include="Reporting\IReporter.cs" />
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
-    <Compile Include="Testing\Attributes\TestStep.cs" />
-    <Compile Include="Testing\TestSteps.cs" />
+    <Compile Include="Testing\Assertions\AssertThat.cs" />
+    <Compile Include="Testing\Assertions\CoreMatchers.cs" />
+    <Compile Include="Testing\Assertions\Matcher.cs" />
+    <Compile Include="Testing\Assertions\TypeSafeMatcher.cs" />
+    <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
+    <Compile Include="Testing\Steps\TestSteps.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
