@@ -1,11 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
 {
+
+    public static class CoreMatchers
+    {
+        public static EqualToMatcher IsEqualTo(object objectToCompare)
+        {
+            return new EqualToMatcher(objectToCompare);
+        }
+        
+
+        public static IsNullMatcher IsNull()
+        {
+            return new IsNullMatcher();
+        }
+
+
+        public static NotMatcher Not(Matcher matcher)
+        {
+            return new NotMatcher(matcher);
+        }
+
+
+        public static IsEvenMatcher IsEven()
+        {
+            return new IsEvenMatcher();
+        }
+    }
+
+
+
+    public static class CollectionsMatchers
+    {
+        public static HasItemMatcher HasItem(object expectedObject)
+        {
+            return new HasItemMatcher(expectedObject);
+        }
+
+        public static HasItemsMatcher HasItems(IEnumerable<object> expectedObjects)
+        {
+            return new HasItemsMatcher(expectedObjects);
+        }
+    }
+
+
+    
+
     public class IsEvenMatcher : TypeSafeMatcher<int>
     {
         public override void DescribeTo()
@@ -13,19 +55,19 @@ namespace Unicorn.Core.Testing.Assertions
             Description.Append("An Even number");
         }
 
-        public override bool Matches(object a)
+        protected override bool Assertion(object number)
         {
-            if (!MatchesSafely(a))
-                return false;
+            bool isEven = (int)number % 2 == 0;
+            if (!isEven)
+                DescribeMismatch(number);
 
-            Description.Append("was ").Append(a).Append(", which is an Odd number");
-
-            return (int)a % 2 == 0;
+            return isEven;
         }
 
-        public static IsEvenMatcher IsEven()
+        public override void DescribeMismatch(object number)
         {
-            return new IsEvenMatcher();
+            base.DescribeMismatch(number);
+            //Description.Append(", which is an Odd number");
         }
     }
 }

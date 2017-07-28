@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="BridgeExtension.cs" />
     <Compile Include="UnitTests\CoreTests.cs" />
+    <Compile Include="UnitTests\MatchersTests.cs" />
     <Compile Include="UnitTests\PlatformsMixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

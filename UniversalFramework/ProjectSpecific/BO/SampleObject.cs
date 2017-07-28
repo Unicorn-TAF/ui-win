@@ -1,13 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectSpecific.BO
 {
     public class SampleObject
     {
+        public SampleObject()
+        {
+
+        }
+
+        public SampleObject(string a, int b)
+        {
+            this.a = a;
+            this.b = b;
+        }
+
         string a = "param a";
 
         int b = 12;
@@ -15,6 +22,12 @@ namespace ProjectSpecific.BO
         public override string ToString()
         {
             return "complex object with " + a + " = " + b.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            SampleObject _obj = obj as SampleObject;
+            return a == _obj.a && b == _obj.b;
         }
     }
 }

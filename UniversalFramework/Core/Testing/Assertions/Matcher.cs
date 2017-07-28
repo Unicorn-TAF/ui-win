@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Unicorn.Core.Testing.Assertions
 {
@@ -7,21 +6,42 @@ namespace Unicorn.Core.Testing.Assertions
     {
         public StringBuilder Description;
 
+        protected bool NullCheckable = true;
+
+
         public Matcher()
         {
             Description = new StringBuilder();
         }
 
-        public virtual void DescribeTo()
+
+
+        public abstract void DescribeTo();
+
+
+        public virtual void DescribeMismatch(object _object)
         {
-            throw new NotImplementedException();
+            Description.Append("was ").Append(_object);
         }
 
 
-        public virtual bool Matches(object _object)
+        public abstract bool Matches(object _object);
+
+
+        protected bool IsNotNull(object _object)
         {
-            throw new NotImplementedException();
+            if (NullCheckable && _object == null)
+            {
+                Description.Append("was null");
+                return false;
+            }
+            return true;
         }
 
+
+        public override string ToString()
+        {
+            return Description.ToString();
+        }
     }
 }
