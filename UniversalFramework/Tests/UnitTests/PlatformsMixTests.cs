@@ -11,7 +11,7 @@ namespace Tests.UnitTests
         WebSteps Web = new WebSteps();
 
         const string EXE_PATH = @"C:\Users\Vitaliy_Dobriyan\Desktop\_Release\";
-        const string PORTAL_URL = @"https://devmi3-clients.ileveldev.com/";
+        const string PORTAL_URL = @"https://market.yandex.ru/";
 
 
         [Author("Vitaliy Dobriyan")]

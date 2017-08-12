@@ -11,7 +11,7 @@ namespace Unicorn.UIWeb.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        public static Browser Browser = Browser.FIREFOX;
+        public static Browser Browser = Browser.CHROME;
         private IWebDriver Driver;
 
         static bool _needInit = false;
