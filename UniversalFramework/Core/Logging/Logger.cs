@@ -10,7 +10,12 @@ namespace Unicorn.Core.Logging
             get
             {
                 if (_instance == null)
-                    throw new NullReferenceException("Logger instance is not created.");
+                {
+                    _instance = new ConsoleLogger();
+                    _instance.Info("Default console logger is initialized");
+                }
+                    
+                    //throw new NullReferenceException("Logger instance is not created.");
 
                 return _instance;
             }
