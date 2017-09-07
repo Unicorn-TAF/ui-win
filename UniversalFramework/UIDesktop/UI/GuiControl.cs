@@ -161,6 +161,12 @@ namespace Unicorn.UIDesktop.UI
         }
 
 
+        public AutomationElement GetParent()
+        {
+            TreeWalker tWalker = TreeWalker.ControlViewWalker;
+            return tWalker.GetParent(Instance);
+        }
+
         #region "Helpers"
 
         protected T GetPattern<T>() where T : BasePattern
