@@ -1,13 +1,15 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing.Steps.Attributes
+namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestStep : Attribute
+    public class TestAttribute : Attribute
     {
         private string description;
 
-        public TestStep(string description)
+        public TestAttribute() { }
+
+        public TestAttribute(string description)
         {
             this.description = description;
         }

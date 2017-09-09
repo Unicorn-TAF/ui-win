@@ -59,6 +59,12 @@
     <Compile Include="Testing\Assertions\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
+    <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\AfterTestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
+    <Compile Include="Testing\Tests\TestSuite.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

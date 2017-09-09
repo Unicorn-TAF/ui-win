@@ -140,6 +140,7 @@
     <Compile Include="UnitTests\MatchersTests.cs" />
     <Compile Include="UnitTests\PlatformsMixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\TestSuiteTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">
