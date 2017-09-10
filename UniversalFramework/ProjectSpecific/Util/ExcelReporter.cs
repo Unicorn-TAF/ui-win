@@ -3,7 +3,7 @@ using Unicorn.Core.Reporting;
 
 namespace ProjectSpecific.Util
 {
-    class ExcelReporter : IReporter
+    public class ExcelReporter : IReporter
     {
         public void Complete()
         {

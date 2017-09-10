@@ -6,7 +6,7 @@ using Unicorn.UIWeb.UI;
 
 namespace ProjectSpecific.Steps
 {
-    public class WebSteps : TestSteps
+    public class StepsYandexMarket : TestSteps
     {
         IDriver driver;
 

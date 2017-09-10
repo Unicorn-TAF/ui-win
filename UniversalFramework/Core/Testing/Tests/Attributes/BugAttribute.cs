@@ -3,7 +3,7 @@
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    class BugAttribute : Attribute
+    public class BugAttribute : Attribute
     {
         private string bug;
 

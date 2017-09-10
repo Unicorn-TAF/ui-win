@@ -7,7 +7,7 @@ using Unicorn.UIDesktop.UI.Controls;
 
 namespace ProjectSpecific.Steps
 {
-    public class TimeSeriesAnalysisSteps : TestSteps
+    public class StepsTimeSeriesAnalysis : TestSteps
     {
         IDriver driver;
 

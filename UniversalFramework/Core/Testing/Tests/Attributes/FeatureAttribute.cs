@@ -3,7 +3,7 @@
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    class FeatureAttribute : Attribute
+    public class FeatureAttribute : Attribute
     {
         private string featureName;
 
