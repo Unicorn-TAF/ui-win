@@ -5,7 +5,7 @@
         
 //            public void Log(ReportPortal.Client.Models.LogLevel level, string message)
 //            {
-//                NUnit.Framework.TestContext.Progress.WriteLine(message);
+//                TestContext.Progress.WriteLine(message);
 //            }
 //    }
 //}

@@ -135,6 +135,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BridgeExtension.cs" />
+    <Compile Include="TestData\Suite.cs" />
     <Compile Include="UnitTests\AssertionsTest.cs" />
     <Compile Include="UnitTests\CoreTests.cs" />
     <Compile Include="UnitTests\MatchersTests.cs" />

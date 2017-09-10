@@ -63,7 +63,12 @@
     <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\AfterTestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\FeatureAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SkipAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Result.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
   </ItemGroup>
   <ItemGroup />
