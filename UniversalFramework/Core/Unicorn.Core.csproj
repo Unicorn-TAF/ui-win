@@ -59,16 +59,21 @@
     <Compile Include="Testing\Assertions\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
+    <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\AfterTestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\FeatureAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SkipAttribute.cs" />
+    <Compile Include="Testing\Tests\SuiteOutcome.cs" />
+    <Compile Include="Testing\Tests\Test.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Result.cs" />
+    <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
   </ItemGroup>
   <ItemGroup />

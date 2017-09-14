@@ -4,6 +4,8 @@ namespace ProjectSpecific.Steps
 {
     public class Steps
     {
+
+
         private Lazy<StepsTimeSeriesAnalysis> _timeSeriesAnalysis = new Lazy<StepsTimeSeriesAnalysis>();
 
         public StepsTimeSeriesAnalysis TimeSeriesAnalysis
@@ -24,5 +26,17 @@ namespace ProjectSpecific.Steps
                 return _yandexMarket.Value;
             }
         }
+
+
+        private Lazy<TestingSteps> _testing = new Lazy<TestingSteps>();
+
+        public TestingSteps Testing
+        {
+            get
+            {
+                return _testing.Value;
+            }
+        }
+
     }
 }

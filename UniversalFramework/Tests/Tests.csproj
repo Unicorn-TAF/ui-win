@@ -138,8 +138,10 @@
     <Compile Include="TestData\BaseTestSuite.cs" />
     <Compile Include="TestData\PlatformsMixSuite.cs" />
     <Compile Include="TestData\Suite.cs" />
+    <Compile Include="TestData\SuiteForReporting.cs" />
+    <Compile Include="TestData\SuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\AssertionsTest.cs" />
-    <Compile Include="UnitTests\CoreTests.cs" />
+    <Compile Include="UnitTests\ReportingTests.cs" />
     <Compile Include="UnitTests\MatchersTests.cs" />
     <Compile Include="UnitTests\PlatformsMixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

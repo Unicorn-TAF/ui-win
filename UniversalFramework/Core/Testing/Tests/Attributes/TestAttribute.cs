@@ -5,20 +5,25 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TestAttribute : Attribute
     {
-        private string description;
+        private string _description;
 
-        public TestAttribute() { }
+
+        public TestAttribute()
+        {
+            _description = "";
+        }
 
         public TestAttribute(string description)
         {
-            this.description = description;
+            _description = description;
         }
+
 
         public string Description
         {
             get
             {
-                return description;
+                return _description;
             }
         }
     }

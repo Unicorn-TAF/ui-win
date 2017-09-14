@@ -5,18 +5,18 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TestSuiteAttribute : Attribute
     {
-        private string suiteName;
+        private string _name;
 
-        public TestSuiteAttribute(string suiteName)
+        public TestSuiteAttribute(string name)
         {
-            this.suiteName = suiteName;
+            _name = name;
         }
 
-        public string SuiteName
+        public string Name
         {
             get
             {
-                return suiteName;
+                return _name;
             }
         }
     }

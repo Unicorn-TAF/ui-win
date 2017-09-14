@@ -11,8 +11,6 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void IsNullMatcherPositiveTest()
         {
-
-
             Assert.Throws<AssertionError>(delegate {
                 SoftAssertion assert = new SoftAssertion();
                 assert.AssertThat("asd", IsEqualTo(("asd")))

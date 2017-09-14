@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Core.Logging;
+using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
@@ -22,7 +23,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     object[] attributes = GetType().GetCustomAttributes(typeof(TestSuiteAttribute), true);
                     if (attributes.Length != 0)
-                        _name = ((TestSuiteAttribute)attributes[0]).SuiteName;
+                        _name = ((TestSuiteAttribute)attributes[0]).Name;
                     else
                         _name = GetType().Name.Split('.').Last();
                 }
@@ -30,69 +31,151 @@ namespace Unicorn.Core.Testing.Tests
             }
         }
 
-        public Result ExecutionResult;
+
+        private string[] _features = null;
+        /// <summary>
+        /// Test suite features. Suite could not have any feature
+        /// </summary>
+        public string[] Features
+        {
+            get
+            {
+                if (_features == null)
+                {
+                    object[] attributes = GetType().GetCustomAttributes(typeof(FeatureAttribute), true);
+                    if (attributes.Length != 0)
+                    {
+                        _features = new string[attributes.Length];
+                        for (int i = 0; i < attributes.Length; i++)
+                            _features[i] = ((FeatureAttribute)attributes[0]).Feature;
+                    }
+                        
+                    else
+                        _features = new string[0];
+                }
+                return _features;
+            }
+        }
+
+        private static string[] CategoriesToRun;
+
+        private int RunnableTestsCount;
+
+        public string CurrentStepBug = "";
+
+        public SuiteOutcome Outcome;
 
         Stopwatch SuiteTimer;
-        public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
+        
 
-        private List<MethodInfo> ListBeforeSuite;
-        private List<MethodInfo> ListBeforeTest;
-        private List<MethodInfo> ListAfterTest;
-        private List<MethodInfo> ListAfterSuite;
-        private List<MethodInfo> ListTests;
+        private MethodInfo[] ListBeforeSuite;
+        private MethodInfo[] ListBeforeTest;
+        private MethodInfo[] ListAfterTest;
+        private MethodInfo[] ListAfterSuite;
+        private List<Test> ListTests;
+
 
 
         public TestSuite()
         {
+            RunnableTestsCount = 0;
+
+            if (CategoriesToRun == null)
+                CategoriesToRun = new string[0];
             SuiteTimer = new Stopwatch();
             ListBeforeSuite = GetMethodsListByAttribute(typeof(BeforeSuiteAttribute));
             ListBeforeTest = GetMethodsListByAttribute(typeof(BeforeTestAttribute));
             ListAfterTest = GetMethodsListByAttribute(typeof(AfterTestAttribute));
             ListAfterSuite = GetMethodsListByAttribute(typeof(AfterSuiteAttribute));
-            ListTests = GetMethodsListByAttribute(typeof(TestAttribute));
+            ListTests = GetTests();
+            Outcome = new SuiteOutcome();
         }
+
+
+        public static void SetRunCategories(params string[] categoriesToRun)
+        {
+            CategoriesToRun = categoriesToRun;
+        }
+
 
         public void Run()
         {
-            Logger.Instance.Info($"Starting suite '{Name}'");
+            Logger.Instance.Info($"==================== TEST SUITE '{Name}' ====================");
 
-            SuiteTimer.Start();
-            if (ListBeforeSuite.Count > 0)
-                foreach (MethodInfo beforeSuite in ListBeforeSuite)
-                    beforeSuite.Invoke(this, null);
-
-            foreach (MethodInfo test in ListTests)
+            if (RunnableTestsCount > 0)
             {
-                if (!IsTestNeedToBeSkipped(test))
-                    ExecuteTest(test);
+                SuiteTimer.Start();
+
+                bool beforeSuitePass = RunBeforeSuite();
+
+                if (beforeSuitePass)
+                    foreach (Test test in ListTests)
+                        test.Execute(this);
+
+                Outcome.FillWithTestsResults(ListTests);
+
+                if (!RunAfterSuite())
+                    Outcome.Result = Result.FAILED;
+
+                SuiteTimer.Stop();
+            }
+            else
+            {
+                Logger.Instance.Info("There are no runnable tests");
+                Outcome.Result = Result.SKIPPED;
             }
 
-            if (ListAfterSuite.Count > 0)
-                foreach (MethodInfo afterSuite in ListAfterSuite)
-                    afterSuite.Invoke(this, null);
+            Outcome.TotalTests = RunnableTestsCount;
+            Outcome.ExecutionTime = SuiteTimer.Elapsed;
 
-            SuiteTimer.Stop();
-
-            Logger.Instance.Info("Suite finished");
+            Logger.Instance.Info($"Suite {Outcome.Result}");
         }
 
 
-        private void ExecuteTest(MethodInfo test)
+        private bool RunBeforeSuite()
         {
-            if (ListBeforeTest.Count > 0)
-                foreach (MethodInfo beforeTest in ListBeforeTest)
-                    beforeTest.Invoke(this, null);
+            if (ListBeforeSuite.Length == 0)
+                return true;
 
-            Stopwatch testTimer = new Stopwatch();
-            testTimer.Start();
-            test.Invoke(this, null);
+            try
+            {
+                foreach (MethodInfo beforeSuite in ListBeforeSuite)
+                    beforeSuite.Invoke(this, null);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Before suite failed, all tests are skipped.\n" + ex.ToString());
+                Screenshot.TakeScreenshot($"{Name} - BeforeSuite");
+            }
+
+            foreach (Test test in ListTests)
+                test.Outcome.Result = Result.FAILED;
+            //TODO: to clear bugs in outcome (because in fact tests were not run)
+
+            return false;
+        }
 
 
-            if (ListAfterTest.Count > 0)
-                foreach (MethodInfo afterTest in ListAfterTest)
-                    afterTest.Invoke(this, null);
+        private bool RunAfterSuite()
+        {
+            if (ListAfterSuite.Length == 0)
+                return true;
 
-            testTimer.Stop();
+            try
+            {
+                foreach (MethodInfo afterSuite in ListAfterSuite)
+                    afterSuite.Invoke(this, null);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("After suite failed.\n" + ex.ToString());
+                Screenshot.TakeScreenshot($"{Name} - AfterSuite");
+                return false;
+            }
         }
 
 
@@ -103,7 +186,7 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="attribute">Type of attribute</param>
         /// <returns>list of MethodInfos with specified attribute</returns>
-        private List<MethodInfo> GetMethodsListByAttribute(Type attribute)
+        private MethodInfo[] GetMethodsListByAttribute(Type attribute)
         {
             List<MethodInfo> suitableMethods = new List<MethodInfo>();
             IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods();
@@ -115,21 +198,37 @@ namespace Unicorn.Core.Testing.Tests
                 if (attributes.Length != 0)
                     suitableMethods.Add(method);
             }
-            return suitableMethods;
+            return suitableMethods.ToArray();
         }
 
 
         /// <summary>
-        /// Check if specified test method should be skipped by presence of [Skip] attribute
+        /// Get list of Tests from suite instance based on [Test] Attribute presence. 
+        /// Determine if test should be skipped and update runnable tests count for the suite. 
         /// </summary>
-        /// <param name="test">test nethod</param>
-        /// <returns>true - if test should be skipped; false - if test should be run</returns>
-        private bool IsTestNeedToBeSkipped(MethodInfo test)
+        /// <returns>list of Tests</returns>
+        private List<Test> GetTests()
         {
-            object[] attributes = test.GetCustomAttributes(typeof(SkipAttribute), true);
-            return attributes.Length != 0;
-        }
+            List<Test> testMethods = new List<Test>();
+            IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods();
 
+            foreach (MethodInfo method in suiteMethods)
+            {
+                object[] attributes = method.GetCustomAttributes(typeof(TestAttribute), true);
+
+                if (attributes.Length != 0)
+                {
+                    Test test = new Test(method);
+                    test.CheckIfNeedToBeSkipped(CategoriesToRun);
+                    testMethods.Add(test);
+
+                    if (!test.IsNeedToBeSkipped)
+                        RunnableTestsCount++;
+                }
+            }
+            return testMethods;
+        }
+        
         #endregion
     }
 }

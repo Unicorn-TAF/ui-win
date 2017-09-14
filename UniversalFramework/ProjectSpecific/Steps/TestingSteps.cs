@@ -2,10 +2,11 @@
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using ProjectSpecific.BO;
+using System;
 
 namespace ProjectSpecific.Steps
 {
-    public class SampleSteps : TestSteps
+    public class TestingSteps : TestSteps
     {
 
         [TestStep("First Test Step")]
@@ -36,6 +37,15 @@ namespace ProjectSpecific.Steps
         {
             ReportStep(a);
             Logger.Instance.Info("");
+        }
+
+
+        [TestStep("Step which always fail '{0}'")]
+        public void StepWhichSouldFail(SampleObject a)
+        {
+            ReportStep(a);
+            Logger.Instance.Info("");
+            throw new Exception("Looks strange, that step which should fail really failed");
         }
     }
 }

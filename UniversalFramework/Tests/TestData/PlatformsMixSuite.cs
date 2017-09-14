@@ -9,24 +9,24 @@ namespace Tests.TestData
     [Feature("Timeseries Analysis"), Feature("Yandex Market")]
     class PlatformsMixSuite : BaseTestSuite
     {
-        Steps Do;
-
         const string EXE_PATH = @"C:\Users\Vitaliy_Dobriyan\Desktop\_Release\";
         const string PORTAL_URL = @"https://market.yandex.ru/";
 
         [BeforeTest]
         public void BeforeTest()
         {
-            Do = new Steps();
+            Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
         }
 
-        //[Author("Vitaliy Dobriyan")]
+        [Bug("9999")]
+        [Author("Vitaliy Dobriyan")]
+        [Category("Smoke"), Category("test")]
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
+            
             Do.TimeSeriesAnalysis.OpenFile(EXE_PATH + "TestData\\henon");
-            Do.YandexMarket.OpenPortal(PORTAL_URL);
+            Bug("76237").YandexMarket.OpenPortal(PORTAL_URL);
             Do.YandexMarket.DoSomeActions();
         }
 
