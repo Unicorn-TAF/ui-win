@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Unicorn.Core.Logging
 {
@@ -11,6 +7,11 @@ namespace Unicorn.Core.Logging
         public void Debug(string message, params object[] parameters)
         {
             System.Diagnostics.Debug.WriteLine("|\t\tDEBUG: " + string.Format(message, parameters));
+        }
+
+        public void Error(string message, params object[] parameters)
+        {
+            System.Diagnostics.Debug.WriteLine("ERROR: " + string.Format(message, parameters));
         }
 
         public void Info(string message, params object[] parameters)

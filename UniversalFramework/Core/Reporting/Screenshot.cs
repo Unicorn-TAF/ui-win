@@ -2,29 +2,54 @@
 using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Reflection;
 
 namespace Unicorn.Core.Reporting
 {
     public class Screenshot
     {
-        public static Bitmap PrintScreen(string fileName)
+        static string SCREENSHOTS_FOLDER = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
+
+        public static Bitmap GetScreenshot()
         {
+            Bitmap printScreen;
             try
             {
                 Logger.Instance.Debug("Creating print screen...");
-                int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-                int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-                Bitmap printscreen = new Bitmap(screenWidth, screenHeight);
-                Graphics graphics = Graphics.FromImage(printscreen as Image);
-                graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
-                return printscreen;
-//                printscreen.Save(string.Format("{0}{1}.{2}", FILEPATH, fileName, ImageFormat.Jpeg.ToString()), ImageFormat.Jpeg);
+
+                int screenLeft = SystemInformation.VirtualScreen.Left;
+                int screenTop = SystemInformation.VirtualScreen.Top;
+                int screenWidth = SystemInformation.VirtualScreen.Width;
+                int screenHeight = SystemInformation.VirtualScreen.Height;
+
+                printScreen = new Bitmap(screenWidth, screenHeight);
+                using (Graphics g = Graphics.FromImage(printScreen))
+                {
+                    g.CopyFromScreen(screenLeft, screenTop, 0, 0, printScreen.Size);
+                }
             }
             catch (Exception e)
             {
-                Logger.Instance.Debug("Failed to get/save print screen...");
-                Logger.Instance.Debug("Exception: " + e.ToString());
-                return null;
+                Logger.Instance.Debug("Failed to get print screen:\n" + e.ToString());
+                printScreen = new Bitmap(1, 1);
+            }
+            return printScreen;
+        }
+
+
+        public static void TakeScreenshot(string fileName)
+        {
+            Bitmap printScreen = GetScreenshot();
+            try
+            {
+                Logger.Instance.Debug("Saving print screen");
+                printScreen.Save((Path.Combine(SCREENSHOTS_FOLDER, fileName)), ImageFormat.Jpeg);
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Debug("Failed to save print screen:\n" + e.ToString());
             }
         }
     }

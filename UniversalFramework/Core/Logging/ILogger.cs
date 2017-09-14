@@ -9,5 +9,8 @@
 
 
         void Debug(string message, params object[] parameters);
+
+
+        void Error(string message, params object[] parameters);
     }
 }
