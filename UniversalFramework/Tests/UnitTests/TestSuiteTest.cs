@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Tests.TestData;
 using Unicorn.Core.Testing.Tests;
@@ -85,6 +86,18 @@ namespace Tests.UnitTests
 
                 Assert.That(((SuiteToBeSkipped)suite).Output, Is.EqualTo(""));
             }
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [TestCase(Description = "Test For Suite Skipping")]
+        public void SuiteBugsTest()
+        {
+            SuiteForReporting repSuite = new SuiteForReporting();
+
+            repSuite.Run();
+            string[] expectedBugs = new string[] { "234", "871236" };
+
+            Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
         }
     }
 }

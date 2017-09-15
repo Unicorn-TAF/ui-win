@@ -6,7 +6,7 @@ using Unicorn.Core.Testing.Tests;
 
 namespace ProjectSpecific.Util
 {
-    public class ExcelReporter : IReporter
+    public class SimpleReporter : IReporter
     {
         public void Complete()
         {
@@ -22,17 +22,22 @@ namespace ProjectSpecific.Util
             //throw new NotImplementedException();
         }
 
-        public void Report(string info)
+        public void ReportInfo(string info)
         {
             //throw new NotImplementedException();
         }
 
-        public void ReportSuite(TestSuite testSuite)
+        public void ReportSuiteFinish(TestSuite testSuite)
         {
             //throw new NotImplementedException();
         }
 
-        public void ReportTest(Test test)
+        public void ReportTestStart(Test test)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void ReportTestFinish(Test test)
         {
             //throw new NotImplementedException();
         }

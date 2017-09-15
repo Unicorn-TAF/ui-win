@@ -7,13 +7,16 @@ namespace Unicorn.Core.Reporting
         void Init();
 
 
-        void Report(string info);
+        void ReportInfo(string info);
 
 
-        void ReportTest(Test test);
+        void ReportTestStart(Test test);
 
 
-        void ReportSuite(TestSuite testSuite);
+        void ReportTestFinish(Test test);
+
+
+        void ReportSuiteFinish(TestSuite testSuite);
 
 
         void Complete();

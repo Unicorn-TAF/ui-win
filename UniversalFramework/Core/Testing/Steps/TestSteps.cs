@@ -29,7 +29,7 @@ namespace Unicorn.Core.Testing.Steps
             }
 
             Logger.Instance.Info("STEP: " + stepDescription);
-            Reporter.Instance.Report(stepDescription);
+            Reporter.Instance.ReportInfo(stepDescription);
         }
 
 

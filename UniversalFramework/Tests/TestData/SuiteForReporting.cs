@@ -43,7 +43,13 @@ namespace Tests.TestData
         [Test]
         public void Test23()
         {
-            Bug("871236").Testing.SecondTestStep("a");
+            Bug("2343").Testing.SecondTestStep("a");
+        }
+
+        [Test]
+        public void Test53()
+        {
+            Bug("234").Testing.StepWhichSouldFail(new SampleObject());
         }
 
         [Test]
@@ -55,7 +61,7 @@ namespace Tests.TestData
         [Test]
         public void Test43()
         {
-            Bug("871236").Testing.SecondTestStep("a");
+            Bug("8716").Testing.SecondTestStep("a");
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 

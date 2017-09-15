@@ -52,7 +52,7 @@
     <Compile Include="Steps\StepsTimeSeriesAnalysis.cs" />
     <Compile Include="Steps\StepsYandexMarket.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
-    <Compile Include="Util\ExcelReporter.cs" />
+    <Compile Include="Util\SimpleReporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">

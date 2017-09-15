@@ -18,7 +18,7 @@ namespace ProjectSpecific
         public static void ClassInit()
         {
             Logger.Instance = new ConsoleLogger();
-            Reporter.Instance = new ExcelReporter();
+            Reporter.Instance = new SimpleReporter();
             Reporter.Instance.Init();
         }
 
