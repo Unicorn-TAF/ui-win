@@ -57,6 +57,9 @@ namespace Unicorn.Core.Testing.Tests
             }
         }
 
+
+        public Dictionary<string, string> Metadata;
+
         private static string[] CategoriesToRun;
 
         private int RunnableTestsCount;
@@ -79,7 +82,7 @@ namespace Unicorn.Core.Testing.Tests
         public TestSuite()
         {
             RunnableTestsCount = 0;
-
+            Metadata = new Dictionary<string, string>();
             if (CategoriesToRun == null)
                 CategoriesToRun = new string[0];
             SuiteTimer = new Stopwatch();

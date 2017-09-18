@@ -45,7 +45,7 @@ namespace Unicorn.Core.Reporting
             try
             {
                 Logger.Instance.Debug("Saving print screen");
-                printScreen.Save((Path.Combine(SCREENSHOTS_FOLDER, fileName)), ImageFormat.Jpeg);
+                printScreen.Save((Path.Combine(SCREENSHOTS_FOLDER, fileName + ImageFormat.Jpeg)), ImageFormat.Jpeg);
             }
             catch (Exception e)
             {

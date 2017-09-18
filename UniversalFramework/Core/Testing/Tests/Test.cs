@@ -144,7 +144,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     Logger.Instance.Error(ex.ToString());
 
-                    string screenshotFile = $"{suiteInstance.Name} - {TestMethod.Name}.Jpeg";
+                    string screenshotFile = $"{suiteInstance.Name} - {TestMethod.Name}";
                     Screenshot.TakeScreenshot(screenshotFile);
                     Outcome.Screenshot = screenshotFile;
 
