@@ -47,7 +47,7 @@ namespace Unicorn.Core.Testing.Tests
                     {
                         _features = new string[attributes.Length];
                         for (int i = 0; i < attributes.Length; i++)
-                            _features[i] = ((FeatureAttribute)attributes[0]).Feature;
+                            _features[i] = ((FeatureAttribute)attributes[i]).Feature;
                     }
                         
                     else
