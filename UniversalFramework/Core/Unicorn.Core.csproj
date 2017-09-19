@@ -56,6 +56,8 @@
     <Compile Include="Testing\Assertions\Matcher.cs" />
     <Compile Include="Testing\Assertions\Matchers\Collections.cs" />
     <Compile Include="Testing\Assertions\Matchers\Core.cs" />
+    <Compile Include="Testing\Assertions\Matchers\Misc.cs" />
+    <Compile Include="Testing\Assertions\MiscMatchers.cs" />
     <Compile Include="Testing\Assertions\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />

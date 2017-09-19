@@ -22,12 +22,6 @@ namespace Unicorn.Core.Testing.Assertions
         {
             return new NotMatcher(matcher);
         }
-
-
-        public static IsEvenMatcher IsEven()
-        {
-            return new IsEvenMatcher();
-        }
     }
 
 
@@ -42,32 +36,6 @@ namespace Unicorn.Core.Testing.Assertions
         public static HasItemsMatcher HasItems(IEnumerable<object> expectedObjects)
         {
             return new HasItemsMatcher(expectedObjects);
-        }
-    }
-
-
-    
-
-    public class IsEvenMatcher : TypeSafeMatcher<int>
-    {
-        public override void DescribeTo()
-        {
-            Description.Append("An Even number");
-        }
-
-        protected override bool Assertion(object number)
-        {
-            bool isEven = (int)number % 2 == 0;
-            if (!isEven)
-                DescribeMismatch(number);
-
-            return isEven;
-        }
-
-        public override void DescribeMismatch(object number)
-        {
-            base.DescribeMismatch(number);
-            //Description.Append(", which is an Odd number");
         }
     }
 }

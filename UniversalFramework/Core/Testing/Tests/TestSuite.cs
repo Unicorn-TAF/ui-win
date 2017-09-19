@@ -135,6 +135,14 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        public void Skip()
+        {
+            Logger.Instance.Info("Suite is skipped");
+            RunnableTestsCount = 0;
+            Outcome.Result = Result.SKIPPED;
+        }
+
+
         private bool RunBeforeSuite()
         {
             if (ListBeforeSuite.Length == 0)

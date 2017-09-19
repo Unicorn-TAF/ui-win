@@ -124,6 +124,7 @@ namespace Unicorn.Core.Testing.Tests
         public void Execute(TestSuite suiteInstance)
         {
             Logger.Instance.Info($"========== TEST '{Description}' ==========");
+            Reporter.Instance.ReportTestStart(this);
             TestTimer = new Stopwatch();
             
             if (IsNeedToBeSkipped)
@@ -142,16 +143,16 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex.ToString());
+                    Logger.Instance.Error(ex.InnerException.ToString());
 
                     string screenshotFile = $"{suiteInstance.Name} - {TestMethod.Name}";
                     Screenshot.TakeScreenshot(screenshotFile);
-                    Outcome.Screenshot = screenshotFile;
+                    Outcome.Screenshot = screenshotFile + ".Jpeg";
 
                     if (!string.IsNullOrEmpty(suiteInstance.CurrentStepBug))
                         Outcome.Bugs = suiteInstance.CurrentStepBug.Split(',');
 
-                    Outcome.Exception = ex;
+                    Outcome.Exception = ex.InnerException;
                     Outcome.Result = Result.FAILED;
                 }
 
@@ -159,7 +160,8 @@ namespace Unicorn.Core.Testing.Tests
             }
             
             Outcome.ExecutionTime = TestTimer.Elapsed;
-            
+
+            Reporter.Instance.ReportTestFinish(this);
             Logger.Instance.Info($"Test {Outcome.Result}");
         }
 
