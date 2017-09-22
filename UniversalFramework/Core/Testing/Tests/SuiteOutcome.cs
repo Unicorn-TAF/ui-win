@@ -19,6 +19,7 @@ namespace Unicorn.Core.Testing.Tests
         public SuiteOutcome()
         {
             Bugs = new string[0];
+            FailedTests = 0;
         }
 
         public void FillWithTestsResults(List<Test> testsList)
@@ -27,7 +28,10 @@ namespace Unicorn.Core.Testing.Tests
             foreach (Test test in testsList)
             {
                 if (test.Outcome.Result == Result.FAILED)
+                {
+                    FailedTests++;
                     Result = Result.FAILED;
+                }
 
                 foreach(string bug in test.Outcome.Bugs)
                     bugsList.Add(bug);
