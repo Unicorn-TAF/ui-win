@@ -78,6 +78,11 @@ namespace Unicorn.Core.Testing.Tests
         private List<Test> ListTests;
 
 
+        public delegate void TestSuiteEvent(TestSuite suite);
+
+        public static event TestSuiteEvent onStart;
+        public static event TestSuiteEvent onFinish;
+
 
         public TestSuite()
         {
@@ -105,6 +110,8 @@ namespace Unicorn.Core.Testing.Tests
         {
             Logger.Instance.Info($"==================== TEST SUITE '{Name}' ====================");
 
+            onStart?.Invoke(this);
+
             if (RunnableTestsCount > 0)
             {
                 SuiteTimer.Start();
@@ -124,12 +131,13 @@ namespace Unicorn.Core.Testing.Tests
             }
             else
             {
-                Logger.Instance.Info("There are no runnable tests");
-                Outcome.Result = Result.SKIPPED;
+                Skip();
             }
 
             Outcome.TotalTests = RunnableTestsCount;
             Outcome.ExecutionTime = SuiteTimer.Elapsed;
+
+            onFinish?.Invoke(this);
 
             Logger.Instance.Info($"Suite {Outcome.Result}");
         }
@@ -137,7 +145,7 @@ namespace Unicorn.Core.Testing.Tests
 
         public void Skip()
         {
-            Logger.Instance.Info("Suite is skipped");
+            Logger.Instance.Info("There are no runnable tests");
             RunnableTestsCount = 0;
             Outcome.Result = Result.SKIPPED;
         }
@@ -231,6 +239,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     Test test = new Test(method);
                     test.CheckIfNeedToBeSkipped(CategoriesToRun);
+                    test.FullTestName = $"{Name} - {method.Name}";
                     testMethods.Add(test);
 
                     if (!test.IsNeedToBeSkipped)

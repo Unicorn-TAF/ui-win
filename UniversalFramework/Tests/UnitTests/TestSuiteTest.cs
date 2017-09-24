@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using ProjectSpecific;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using Unicorn.Core.Testing.Tests;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class TestSuiteTest
+    class TestSuiteTest : NUnitTestRunner
     {
         Suite suite = Activator.CreateInstance<Suite>();
 

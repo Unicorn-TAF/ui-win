@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Core.Logging;
-using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
@@ -94,23 +93,51 @@ namespace Unicorn.Core.Testing.Tests
         public bool IsNeedToBeSkipped;
 
 
-        public void CheckIfNeedToBeSkipped(params string[] categories)
+        private string _fullTestName = null;
+        /// <summary>
+        /// Full test name which is "{Suite Name} - {test method name}"
+        /// </summary>
+        public string FullTestName
         {
-            object[] attributes = TestMethod.GetCustomAttributes(typeof(SkipAttribute), true);
-
-            IsNeedToBeSkipped = attributes.Length != 0;
-
-            if (categories.Length > 0)
-                IsNeedToBeSkipped |= Categories.Intersect(categories).Count() != categories.Count();
+            get
+            {
+                if (_fullTestName == null)
+                    _fullTestName = TestMethod.Name;
+                return _fullTestName;
+            }
+            set
+            {
+                _fullTestName = value;
+            }
         }
 
+        // Events section
 
+        public delegate void TestEvent(Test test);
+
+        public static event TestEvent onStart;
+        public static event TestEvent onFinish;
+        public static event TestEvent onPass;
+        public static event TestEvent onFail;
+        public static event TestEvent onSkip;
+
+
+        /// <summary>
+        /// Current test outcome, contains base information about execution results
+        /// </summary>
         public TestOutcome Outcome;
 
+
+        /// <summary>
+        /// Test execution timer
+        /// </summary>
         public Stopwatch TestTimer;
 
+
+        //Method which represents test
         private MethodInfo TestMethod;
         
+
 
         public Test(MethodInfo testMethod)
         {
@@ -120,55 +147,78 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
-
+        /// <summary>
+        /// Execute current test and fill TestOutcome
+        /// </summary>
+        /// <param name="suiteInstance">test suite instance to run in</param>
         public void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Info($"========== TEST '{Description}' ==========");
-            Reporter.Instance.ReportTestStart(this);
-            TestTimer = new Stopwatch();
-            
             if (IsNeedToBeSkipped)
             {
-                Outcome.Result = Result.SKIPPED;
+                Skip();
+                return;
             }
-            else
+
+            Logger.Instance.Info($"========== TEST '{Description}' ==========");
+
+            onStart?.Invoke(this);
+
+            TestTimer = new Stopwatch();
+
+            TestTimer.Start();
+            try
             {
-                TestTimer.Start();
-                try
-                {
-                    ExecuteMethods(suiteInstance, "ListBeforeTest");
-                    TestMethod.Invoke(suiteInstance, null);
-                    ExecuteMethods(suiteInstance, "ListAfterTest");
-                    Outcome.Result = Result.PASSED;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Error(ex.InnerException.ToString());
+                ExecuteMethods(suiteInstance, "ListBeforeTest");
+                TestMethod.Invoke(suiteInstance, null);
+                ExecuteMethods(suiteInstance, "ListAfterTest");
+                Outcome.Result = Result.PASSED;
 
-                    string screenshotFile = $"{suiteInstance.Name} - {TestMethod.Name}";
-                    Screenshot.TakeScreenshot(screenshotFile);
-                    Outcome.Screenshot = screenshotFile + ".Jpeg";
-
-                    if (!string.IsNullOrEmpty(suiteInstance.CurrentStepBug))
-                        Outcome.Bugs = suiteInstance.CurrentStepBug.Split(',');
-
-                    Outcome.Exception = ex.InnerException;
-                    Outcome.Result = Result.FAILED;
-                }
-
-                TestTimer.Stop();
+                onPass?.Invoke(this);
             }
-            
+            catch (Exception ex)
+            {
+                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+            }
+
+            TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
 
-            Reporter.Instance.ReportTestFinish(this);
+            onFinish?.Invoke(this);
+
             Logger.Instance.Info($"Test {Outcome.Result}");
         }
 
 
-        public void Skip()
+        private void Skip()
         {
             Outcome.Result = Result.SKIPPED;
+            onSkip?.Invoke(this);
+            Logger.Instance.Info($"Test {Outcome.Result}");
+        }
+
+
+        private void Fail(Exception ex, string bugs)
+        {
+            Logger.Instance.Error(ex.ToString());
+
+            if (!string.IsNullOrEmpty(bugs))
+                Outcome.Bugs = bugs.Split(',');
+
+            Outcome.Exception = ex;
+            Outcome.Result = Result.FAILED;
+
+            onFail?.Invoke(this);
+        }
+
+
+        public void CheckIfNeedToBeSkipped(params string[] categories)
+        {
+            object[] attributes = TestMethod.GetCustomAttributes(typeof(SkipAttribute), true);
+
+            IsNeedToBeSkipped = attributes.Length != 0;
+
+            if (categories.Length > 0)
+                IsNeedToBeSkipped |= Categories.Intersect(categories).Count() != categories.Count();
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using Unicorn.Core.Logging;
 using NUnit.Framework;
 using System;
+using Unicorn.Core.Testing.Tests;
 
 namespace ProjectSpecific.Util
 {
@@ -23,7 +24,6 @@ namespace ProjectSpecific.Util
 
         public void Init()
         {
-            
         }
     }
 }
