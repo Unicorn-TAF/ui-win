@@ -102,7 +102,10 @@ namespace Unicorn.Core.Testing.Tests
 
         public static void SetRunCategories(params string[] categoriesToRun)
         {
-            CategoriesToRun = categoriesToRun;
+            CategoriesToRun = categoriesToRun
+                .Select(v => { return v.ToUpper().Trim(); })
+                .Where(v => !string.IsNullOrEmpty(v))
+                .ToArray();
         }
 
 

@@ -76,7 +76,7 @@ namespace Unicorn.Core.Testing.Tests
                     {
                         _categories = new string[attributes.Length];
                         for (int i = 0; i < attributes.Length; i++)
-                            _categories[i] = ((CategoryAttribute)attributes[0]).Category;
+                            _categories[i] = ((CategoryAttribute)attributes[0]).Category.ToUpper().Trim();
                     }
 
                     else
