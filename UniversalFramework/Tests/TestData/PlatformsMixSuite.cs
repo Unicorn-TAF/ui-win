@@ -15,6 +15,7 @@ namespace Tests.TestData
         [BeforeTest]
         public void BeforeTest()
         {
+            Do.Testing.SecondTestStep("=iGetArray(TestCaseData!A12,\"Screening\",\"{\"\"Items\"\":[\"\"All Assets\"\"]}\",,,,\"[{\"\"Selector\"\":[\"\"Gross Margin %\"\",\"\"\"\",\"\"Actual\"\",\"\"1M\"\",\"\"Current\"\",\"\"Current\"\",\"\"\"\",\"\"\"\"],\"\"Operator\"\":\"\"=\"\",\"\"Values\"\":[\"\"25\"\"],\"\"AllowUserInput\"\":true}]\",\"{\"\"Show\"\":\"\"Investment\"\"}\")");
             Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
         }
 

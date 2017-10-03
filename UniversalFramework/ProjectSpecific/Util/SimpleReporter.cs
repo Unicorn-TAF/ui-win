@@ -24,7 +24,6 @@ namespace ProjectSpecific.Util
             Test.onStart += this.ReportTestStart;
             Test.onFinish += this.ReportTestFinish;
             Test.onFail += this.TakeScreenshot;
-            //throw new NotImplementedException();
         }
 
         public void ReportInfo(string info)
