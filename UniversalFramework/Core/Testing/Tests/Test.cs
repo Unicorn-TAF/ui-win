@@ -203,7 +203,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             Outcome.Result = Result.SKIPPED;
             onSkip?.Invoke(this);
-            Logger.Instance.Info($"Test {Outcome.Result}");
+            Logger.Instance.Info($"Test '{Description}' {Outcome.Result}");
         }
 
 
