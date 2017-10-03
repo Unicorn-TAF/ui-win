@@ -76,7 +76,7 @@ namespace Unicorn.Core.Testing.Tests
                     {
                         _categories = new string[attributes.Length];
                         for (int i = 0; i < attributes.Length; i++)
-                            _categories[i] = ((CategoryAttribute)attributes[0]).Category;
+                            _categories[i] = ((CategoryAttribute)attributes[0]).Category.ToUpper().Trim();
                     }
 
                     else
@@ -138,7 +138,12 @@ namespace Unicorn.Core.Testing.Tests
         private MethodInfo TestMethod;
         
 
-
+        /// <summary>
+        /// Object describing single test, which is part of some TestSuite.
+        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
+        /// Contains methods to execute the test and check if test should be skipped
+        /// </summary>
+        /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod)
         {
             TestMethod = testMethod;
@@ -149,6 +154,8 @@ namespace Unicorn.Core.Testing.Tests
 
         /// <summary>
         /// Execute current test and fill TestOutcome
+        /// Before the test List of BeforeTests is executed
+        /// After the test List of AfterTests is executed
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
         public void Execute(TestSuite suiteInstance)
@@ -189,6 +196,9 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Skip test and invoke onSkip event
+        /// </summary>
         private void Skip()
         {
             Outcome.Result = Result.SKIPPED;
@@ -197,12 +207,20 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.
+        /// If test failed not by existing bug it is marked as 'To investigate'
+        /// </summary>
+        /// <param name="ex">Exception caught on test execution</param>
+        /// <param name="bugs">string of bugs test failed on current step.</param>
         private void Fail(Exception ex, string bugs)
         {
             Logger.Instance.Error(ex.ToString());
 
             if (!string.IsNullOrEmpty(bugs))
                 Outcome.Bugs = bugs.Split(',');
+            else
+                Outcome.Bugs = new string[] { "To investigate" };
 
             Outcome.Exception = ex;
             Outcome.Result = Result.FAILED;
@@ -211,6 +229,12 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Check if test should be skipped. 
+        /// Test is skipped if it does not contain at least one of specified categories
+        /// Result of the check is stored in IsNeedToBeSkipped field
+        /// </summary>
+        /// <param name="categories">list of expected categories to run</param>
         public void CheckIfNeedToBeSkipped(params string[] categories)
         {
             object[] attributes = TestMethod.GetCustomAttributes(typeof(SkipAttribute), true);
@@ -222,6 +246,12 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Execute list of MethodInfos from TestSuite instance based on Field nameof TestSuite class.
+        /// Used to run BeforeTests and AfterTests
+        /// </summary>
+        /// <param name="suiteInstance">instance of TestSuite</param>
+        /// <param name="methodsList">name of Field contained array of MethodInfos</param>
         private void ExecuteMethods(TestSuite suiteInstance, string methodsList)
         {
             object field = typeof(TestSuite)
@@ -230,8 +260,8 @@ namespace Unicorn.Core.Testing.Tests
 
             MethodInfo[] methods = field as MethodInfo[];
 
-            foreach (MethodInfo afterTest in methods)
-                afterTest.Invoke(suiteInstance, null);
+            foreach (MethodInfo method in methods)
+                method.Invoke(suiteInstance, null);
         }
     }
 }

@@ -84,6 +84,13 @@ namespace Unicorn.Core.Testing.Tests
         public static event TestSuiteEvent onFinish;
 
 
+        /// <summary>
+        /// Object Describing TestSuite.
+        /// Contains List of tests and Lists of Before and AfterSuites.
+        /// Contains list of events related to different Suite states (started, finished, skipped)
+        /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites is retrieved from the instance.
+        /// For each test is performed check for skip
+        /// </summary>
         public TestSuite()
         {
             RunnableTestsCount = 0;
@@ -100,12 +107,28 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Set array of tests categories needed to be run.
+        /// All categories are converted in upper case.
+        /// Blank categories are ignored
+        /// </summary>
+        /// <param name="categoriesToRun">array of categories</param>
         public static void SetRunCategories(params string[] categoriesToRun)
         {
-            CategoriesToRun = categoriesToRun;
+            CategoriesToRun = categoriesToRun
+                .Select(v => { return v.ToUpper().Trim(); })
+                .Where(v => !string.IsNullOrEmpty(v))
+                .ToArray();
         }
 
 
+        /// <summary>
+        /// Run Test suite and all Before and After suites invoking corresponding suite events.
+        /// If there are no runna ble tests, the suite is skipped.
+        /// If BeforeSuite is failed, the suite is skipped.
+        /// If All tests are passed, but AfterSuite is failed, the suite is failed.
+        /// After run SuiteOutcome is filled with all info.
+        /// </summary>
         public void Run()
         {
             Logger.Instance.Info($"==================== TEST SUITE '{Name}' ====================");
@@ -143,6 +166,9 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Skip test suite and invoke onSkip event
+        /// </summary>
         public void Skip()
         {
             Logger.Instance.Info("There are no runnable tests");
@@ -151,6 +177,10 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Run BeforeSuites
+        /// </summary>
+        /// <returns></returns>
         private bool RunBeforeSuite()
         {
             if (ListBeforeSuite.Length == 0)
@@ -177,6 +207,10 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        /// <summary>
+        /// Run AfterSuites
+        /// </summary>
+        /// <returns></returns>
         private bool RunAfterSuite()
         {
             if (ListAfterSuite.Length == 0)
