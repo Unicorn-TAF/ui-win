@@ -14,13 +14,13 @@ namespace Unicorn.Core.Testing.Assertions
 
         public static void AssertThat(string message, object _object, Matcher matcher)
         {
-            matcher.Description.Append("Expected ");
+            matcher.Description.Append("Expected: ");
             matcher.DescribeTo();
-            matcher.Description.AppendLine("").Append("But ");
+            matcher.Description.AppendLine("").Append("But: ");
 
             if (!matcher.Matches(_object))
             {
-                throw new AssertionError(message + "\n" + matcher.ToString());
+                throw new AssertionError(message + "\n" + matcher.Description.ToString());
             }
         }
     }

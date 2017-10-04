@@ -220,7 +220,7 @@ namespace Unicorn.Core.Testing.Tests
             if (!string.IsNullOrEmpty(bugs))
                 Outcome.Bugs = bugs.Split(',');
             else
-                Outcome.Bugs = new string[] { "To investigate" };
+                Outcome.Bugs = new string[] { "?" };
 
             Outcome.Exception = ex;
             Outcome.Result = Result.FAILED;
