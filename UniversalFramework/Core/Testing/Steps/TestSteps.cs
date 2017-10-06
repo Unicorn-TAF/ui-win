@@ -8,9 +8,17 @@ namespace Unicorn.Core.Testing.Steps
 {
     public class TestSteps
     {
+        public delegate void TestStepEvent(MethodBase methodBase);
+
+        public static event TestStepEvent onStart;
+
+
         protected void ReportStep(params object[] parameters)
         {
             MethodBase mb = new StackFrame(1).GetMethod();
+
+            onStart?.Invoke(mb);
+
             string stepDescription = string.Empty;
 
             object[] attributes = mb.GetCustomAttributes(typeof(TestStep), true);
