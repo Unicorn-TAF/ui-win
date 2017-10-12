@@ -69,6 +69,7 @@
     <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\FeatureAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\ParametersSetAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SkipAttribute.cs" />
     <Compile Include="Testing\Tests\SuiteOutcome.cs" />
     <Compile Include="Testing\Tests\Test.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Testing\Tests\Result.cs" />
     <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
+    <Compile Include="Testing\Tests\TestSuiteParametersSet.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

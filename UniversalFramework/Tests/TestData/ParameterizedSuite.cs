@@ -4,14 +4,14 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
-    public class Suite : TestSuite
+    [ParametersSet("Set 1"), ParametersSet("Set 2")]
+    public class ParameterizedSuite : TestSuite
     {
-        public string Output;
+        public string Output = "";
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            Output = "";
             Output += "BeforeSuite>";
             Thread.Sleep(10);
         }
@@ -23,14 +23,14 @@ namespace Tests.TestData
             Thread.Sleep(10);
         }
 
-        [Test]
+        [Test("Test 2")]
         public void Test2()
         {
             Output += "Test1>";
             Thread.Sleep(10);
         }
 
-        [Test]
+        [Test("Test to Skip")]
         [Skip]
         public void TestToSkip()
         {
@@ -38,7 +38,7 @@ namespace Tests.TestData
             Thread.Sleep(10);
         }
 
-        [Test]
+        [Test("Test 1")]
         public void Test1()
         {
             Output += "Test2>";

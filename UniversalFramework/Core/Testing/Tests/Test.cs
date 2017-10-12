@@ -31,6 +31,10 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 return _description;
             }
+            set
+            {
+                _description = value;
+            }
         }
 
 

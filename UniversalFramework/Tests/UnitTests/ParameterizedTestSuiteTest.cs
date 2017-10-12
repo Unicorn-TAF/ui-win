@@ -2,7 +2,6 @@
 using ProjectSpecific;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Tests.TestData;
 using Unicorn.Core.Testing.Tests;
@@ -10,43 +9,43 @@ using Unicorn.Core.Testing.Tests;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class TestSuiteTest : NUnitTestRunner
+    class TestParameterizedTestSuiteTest : NUnitTestRunner
     {
-        Suite suite = Activator.CreateInstance<Suite>();
+        ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
-        public void CountOfTestsTest()
+        public void ParameterizedSuiteCountOfTestsTest()
         {
             List<Test>[] actualTests = (List<Test>[])typeof(TestSuite).GetField("ListTestsAll", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests[0].Count * actualTests.Length;
-            Assert.That(testsCount, Is.EqualTo(3));
+            Assert.That(testsCount, Is.EqualTo(6));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void CountOfAfterSuiteTest()
+        public void ParameterizedSuiteCountOfAfterSuiteTest()
         {
             Assert.That(GetListByName("ListAfterSuite").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void CountOfBeforeSuiteTest()
+        public void ParameterizedSuiteCountOfBeforeSuiteTest()
         {
             Assert.That(GetListByName("ListBeforeSuite").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void CountOfAfterTestTest()
+        public void ParameterizedSuiteCountOfAfterTestTest()
         {
             Assert.That(GetListByName("ListAfterTest").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void CountOfBeforeTestTest()
+        public void ParameterizedSuiteCountOfBeforeTestTest()
         {
             Assert.That(GetListByName("ListBeforeTest").Length, Is.EqualTo(1));
         }
@@ -54,11 +53,11 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
-        public void RunSuiteTest()
+        public void ParameterizedSuiteRunSuiteTest()
         {
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             suite.Run();
-            Assert.That(suite.Output, Is.EqualTo(expectedOutput));
+            Assert.That(suite.Output, Is.EqualTo(expectedOutput + expectedOutput));
         }
 
 
@@ -69,37 +68,6 @@ namespace Tests.UnitTests
                 .GetValue(suite);
 
             return field as MethodInfo[];
-        }
-
-
-
-        [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteSkipTest()
-        {
-            TestSuite.SetRunCategories("category");
-            List<Type> suitesList = new List<Type>();
-            suitesList.Add(typeof(SuiteToBeSkipped));
-
-            foreach(Type type in suitesList)
-            {
-                var suite = Activator.CreateInstance(type);
-                ((TestSuite)suite).Run();
-
-                Assert.That(((SuiteToBeSkipped)suite).Output, Is.EqualTo(""));
-            }
-        }
-
-        [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteBugsTest()
-        {
-            SuiteForReporting repSuite = new SuiteForReporting();
-
-            repSuite.Run();
-            string[] expectedBugs = new string[] { "234", "871236" };
-
-            Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
         }
     }
 }

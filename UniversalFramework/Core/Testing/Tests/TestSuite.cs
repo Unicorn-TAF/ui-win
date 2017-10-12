@@ -58,11 +58,38 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        private TestSuiteParametersSet[] _parametersSets = null;
+
+        private TestSuiteParametersSet[] ParametersSets
+        {
+            get
+            {
+                if (_parametersSets == null)
+                {
+                    object[] attributes = GetType().GetCustomAttributes(typeof(ParametersSetAttribute), true);
+                    if (attributes.Length != 0)
+                    {
+                        _parametersSets = new TestSuiteParametersSet[attributes.Length];
+                        for (int i = 0; i < attributes.Length; i++)
+                            _parametersSets[i] = ((ParametersSetAttribute)attributes[i]).ParametersSet;
+                    }
+
+                    else
+                        _parametersSets = new TestSuiteParametersSet[0];
+                }
+                return _parametersSets;
+            }
+        }
+
+
+        public TestSuiteParametersSet CurrentParametersSet;
+
+
         public Dictionary<string, string> Metadata;
 
-        private static string[] CategoriesToRun;
+        protected static string[] CategoriesToRun;
 
-        private int RunnableTestsCount;
+        protected int RunnableTestsCount;
 
         public string CurrentStepBug = "";
 
@@ -75,7 +102,8 @@ namespace Unicorn.Core.Testing.Tests
         private MethodInfo[] ListBeforeTest;
         private MethodInfo[] ListAfterTest;
         private MethodInfo[] ListAfterSuite;
-        private List<Test> ListTests;
+        protected List<Test>[] ListTestsAll;
+        protected List<Test> ListTests;
 
 
         public delegate void TestSuiteEvent(TestSuite suite);
@@ -102,8 +130,9 @@ namespace Unicorn.Core.Testing.Tests
             ListBeforeTest = GetMethodsListByAttribute(typeof(BeforeTestAttribute));
             ListAfterTest = GetMethodsListByAttribute(typeof(AfterTestAttribute));
             ListAfterSuite = GetMethodsListByAttribute(typeof(AfterSuiteAttribute));
-            ListTests = GetTests();
             Outcome = new SuiteOutcome();
+            Outcome.Result = Result.PASSED;
+            ListTestsAll = GetTests();
         }
 
 
@@ -139,16 +168,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 SuiteTimer.Start();
 
-                bool beforeSuitePass = RunBeforeSuite();
-
-                if (beforeSuitePass)
-                    foreach (Test test in ListTests)
-                        test.Execute(this);
-
-                Outcome.FillWithTestsResults(ListTests);
-
-                if (!RunAfterSuite())
-                    Outcome.Result = Result.FAILED;
+                ExecuteWholeSuite();
 
                 SuiteTimer.Stop();
             }
@@ -163,6 +183,29 @@ namespace Unicorn.Core.Testing.Tests
             onFinish?.Invoke(this);
 
             Logger.Instance.Info($"Suite {Outcome.Result}");
+        }
+
+
+        private void ExecuteWholeSuite()
+        {
+            for (int i = 0; i < ListTestsAll.Length; i++)
+            {
+                if(ParametersSets.Length > 0)
+                    CurrentParametersSet = ParametersSets[i];
+
+                ListTests = ListTestsAll[i];
+
+                bool beforeSuitePass = RunBeforeSuite();
+
+                if (beforeSuitePass)
+                    foreach (Test test in ListTests)
+                        test.Execute(this);
+
+                Outcome.FillWithTestsResults(ListTests);
+
+                if (!RunAfterSuite())
+                    Outcome.Result = Result.FAILED;
+            }
         }
 
 
@@ -181,7 +224,7 @@ namespace Unicorn.Core.Testing.Tests
         /// Run BeforeSuites
         /// </summary>
         /// <returns></returns>
-        private bool RunBeforeSuite()
+        protected bool RunBeforeSuite()
         {
             if (ListBeforeSuite.Length == 0)
                 return true;
@@ -211,7 +254,7 @@ namespace Unicorn.Core.Testing.Tests
         /// Run AfterSuites
         /// </summary>
         /// <returns></returns>
-        private bool RunAfterSuite()
+        protected bool RunAfterSuite()
         {
             if (ListAfterSuite.Length == 0)
                 return true;
@@ -260,24 +303,57 @@ namespace Unicorn.Core.Testing.Tests
         /// Determine if test should be skipped and update runnable tests count for the suite. 
         /// </summary>
         /// <returns>list of Tests</returns>
-        private List<Test> GetTests()
+        protected virtual List<Test>[] GetTests()
         {
-            List<Test> testMethods = new List<Test>();
+            List<Test>[] testMethods;
             IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods();
 
-            foreach (MethodInfo method in suiteMethods)
+            if (ParametersSets.Length == 0)
             {
-                object[] attributes = method.GetCustomAttributes(typeof(TestAttribute), true);
+                testMethods = new List<Test>[1];
+                testMethods[0] = new List<Test>();
 
-                if (attributes.Length != 0)
+                foreach (MethodInfo method in suiteMethods)
                 {
-                    Test test = new Test(method);
-                    test.CheckIfNeedToBeSkipped(CategoriesToRun);
-                    test.FullTestName = $"{Name} - {method.Name}";
-                    testMethods.Add(test);
+                    object[] attributes = method.GetCustomAttributes(typeof(TestAttribute), true);
 
-                    if (!test.IsNeedToBeSkipped)
-                        RunnableTestsCount++;
+                    if (attributes.Length != 0)
+                    {
+                        Test test = new Test(method);
+                        test.CheckIfNeedToBeSkipped(CategoriesToRun);
+                        test.FullTestName = $"{Name} - {method.Name}";
+                        testMethods[0].Add(test);
+
+                        if (!test.IsNeedToBeSkipped)
+                            RunnableTestsCount++;
+                    }
+                }
+            }
+            else
+            {
+                testMethods = new List<Test>[ParametersSets.Length];
+
+                for (int i = 0; i < ParametersSets.Length; i++)
+                {
+                    testMethods[i] = new List<Test>();
+
+                    foreach (MethodInfo method in suiteMethods)
+                    {
+                        object[] attributes = method.GetCustomAttributes(typeof(TestAttribute), true);
+
+                        if (attributes.Length != 0)
+                        {
+                            Test test = new Test(method);
+                            test.CheckIfNeedToBeSkipped(CategoriesToRun);
+                            test.FullTestName = $"{Name} - {method.Name}";
+                            test.Description = $"{test.Description}: set[{ParametersSets[i].SetName}]";
+
+                            testMethods[i].Add(test);
+
+                            if (!test.IsNeedToBeSkipped)
+                                RunnableTestsCount++;
+                        }
+                    }
                 }
             }
             return testMethods;
