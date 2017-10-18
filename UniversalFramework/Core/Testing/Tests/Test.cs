@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests.Attributes;
 
@@ -13,6 +14,8 @@ namespace Unicorn.Core.Testing.Tests
 
         public Guid Id;
         public Guid ParentId;
+
+        public static StringBuilder CurrentOutput = new StringBuilder();
 
         private string _description = null;
         /// <summary>
@@ -175,6 +178,7 @@ namespace Unicorn.Core.Testing.Tests
 
             Logger.Instance.Info($"========== TEST '{Description}' ==========");
 
+            CurrentOutput = new StringBuilder();
             onStart?.Invoke(this);
 
             TestTimer = new Stopwatch();

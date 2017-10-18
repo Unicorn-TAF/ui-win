@@ -8,6 +8,7 @@ using System.Web.Script.Serialization;
 using Unicorn.Core.Testing.Tests;
 using System.IO;
 using Unicorn.Core.Reporting;
+using System.Text;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -117,19 +118,7 @@ namespace ReportPortal.UnicornExtension
                         _testFlowIds[id].Update(updateTestRequest);
                     }
 
-                    // adding console output
-                    //var outputNode = xmlDoc.SelectSingleNode("//output");
-                    //if (outputNode != null)
-                    //{
-                    //    _testFlowIds[id].Log(new AddLogItemRequest
-                    //    {
-                    //        Level = LogLevel.Trace,
-                    //        Time = DateTime.UtcNow,
-                    //        Text = "Test Output: " + Environment.NewLine + outputNode.InnerText
-                    //    });
-                    //}
-
-                    // adding failure message
+                    // adding failure items
                     
                     if (test.Outcome.Result == Result.FAILED)
                     {
@@ -157,6 +146,14 @@ namespace ReportPortal.UnicornExtension
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                             });
                         }
+
+                        _testFlowIds[id].Log(new AddLogItemRequest
+                        {
+                            Level = LogLevel.Error,
+                            Time = DateTime.UtcNow,
+                            Text = "Attachment: Log file",
+                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
+                        });
                     }
 
                     // finishing test

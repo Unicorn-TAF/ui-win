@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Unicorn.Core.Testing.Tests;
+using ReportPortal.Client.Requests;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -98,6 +99,25 @@ namespace ReportPortal.UnicornExtension
         {
             if (Config.IsEnabled)
                 TestOutput(report);
+        }
+
+
+        public void AddAttachment(Test test, string name, string mime, byte[] content)
+        {
+            if (!Config.IsEnabled)
+                return;
+
+            string id = test.Id.ToString();
+            if (_testFlowIds.ContainsKey(id))
+            {
+                _testFlowIds[id].Log(new AddLogItemRequest
+                {
+                    Level = LogLevel.None,
+                    Time = DateTime.UtcNow,
+                    Text = "Attachment: " + name,
+                    Attach = new Attach(test.Outcome.Screenshot, mime, content)
+                });
+            }
         }
     }
 }
