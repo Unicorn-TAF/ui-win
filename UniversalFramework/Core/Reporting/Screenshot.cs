@@ -10,7 +10,7 @@ namespace Unicorn.Core.Reporting
 {
     public class Screenshot
     {
-        static string SCREENSHOTS_FOLDER = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
+        public static string SCREENSHOTS_FOLDER = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
 
         public static Bitmap GetScreenshot()
         {

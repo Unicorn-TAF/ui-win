@@ -1,5 +1,4 @@
-﻿using ProjectSpecific.Steps;
-using Unicorn.Core.Logging;
+﻿using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
@@ -15,7 +14,7 @@ namespace Tests.TestData
         [BeforeTest]
         public void BeforeTest()
         {
-            Do.Testing.SecondTestStep("=iGetArray(TestCaseData!A12,\"Screening\",\"{\"\"Items\"\":[\"\"All Assets\"\"]}\",,,,\"[{\"\"Selector\"\":[\"\"Gross Margin %\"\",\"\"\"\",\"\"Actual\"\",\"\"1M\"\",\"\"Current\"\",\"\"Current\"\",\"\"\"\",\"\"\"\"],\"\"Operator\"\":\"\"=\"\",\"\"Values\"\":[\"\"25\"\"],\"\"AllowUserInput\"\":true}]\",\"{\"\"Show\"\":\"\"Investment\"\"}\")");
+            //Do.Testing.SecondTestStep("=iGetArray(TestCaseData!A12,\"Screening\",\"{\"\"Items\"\":[\"\"All Assets\"\"]}\",,,,\"[{\"\"Selector\"\":[\"\"Gross Margin %\"\",\"\"\"\",\"\"Actual\"\",\"\"1M\"\",\"\"Current\"\",\"\"Current\"\",\"\"\"\",\"\"\"\"],\"\"Operator\"\":\"\"=\"\",\"\"Values\"\":[\"\"25\"\"],\"\"AllowUserInput\"\":true}]\",\"{\"\"Show\"\":\"\"Investment\"\"}\")");
             Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
         }
 
@@ -25,10 +24,9 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            
             Do.TimeSeriesAnalysis.OpenFile(EXE_PATH + "TestData\\henon");
-            Bug("76237").YandexMarket.OpenPortal(PORTAL_URL);
-            Do.YandexMarket.DoSomeActions();
+            Do.YandexMarket.OpenPortal(PORTAL_URL);
+            Bug("76237").YandexMarket.DoSomeActions();
         }
 
         [AfterTest]

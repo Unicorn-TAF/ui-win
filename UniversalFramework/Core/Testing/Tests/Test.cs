@@ -11,6 +11,8 @@ namespace Unicorn.Core.Testing.Tests
     {
         public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
 
+        public Guid Id;
+        public Guid ParentId;
 
         private string _description = null;
         /// <summary>
@@ -150,6 +152,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod)
         {
+            Id = Guid.NewGuid();
             TestMethod = testMethod;
             Outcome = new TestOutcome();
             IsNeedToBeSkipped = false;

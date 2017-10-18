@@ -11,6 +11,8 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
+        public Guid Id;
+
         private string _name = null;
         /// <summary>
         /// Test suite name. If name not specified through TestSuiteAttribute, then return suite class name
@@ -121,6 +123,7 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public TestSuite()
         {
+            Id = Guid.NewGuid();
             RunnableTestsCount = 0;
             Metadata = new Dictionary<string, string>();
             if (CategoriesToRun == null)
@@ -320,6 +323,7 @@ namespace Unicorn.Core.Testing.Tests
                     if (attributes.Length != 0)
                     {
                         Test test = new Test(method);
+                        test.ParentId = Id;
                         test.CheckIfNeedToBeSkipped(CategoriesToRun);
                         test.FullTestName = $"{Name} - {method.Name}";
                         testMethods[0].Add(test);
@@ -344,6 +348,7 @@ namespace Unicorn.Core.Testing.Tests
                         if (attributes.Length != 0)
                         {
                             Test test = new Test(method);
+                            test.ParentId = Id;
                             test.CheckIfNeedToBeSkipped(CategoriesToRun);
                             test.FullTestName = $"{Name} - {method.Name}";
                             test.Description = $"{test.Description}: set[{ParametersSets[i].SetName}]";

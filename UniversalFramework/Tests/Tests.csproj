@@ -82,10 +82,6 @@
       <HintPath>..\packages\NUnit.Engine.3.5.0\lib\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="nunit-agent, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.Engine.3.5.0\lib\nunit-agent.exe</HintPath>
       <Private>True</Private>
@@ -106,22 +102,6 @@
       <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ReportPortal.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReportPortal.Client.1.2.1\lib\ReportPortal.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ReportPortal.NUnitExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReportPortal.NUnit.3.0.0-beta-21\lib\ReportPortal.NUnitExtension.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ReportPortal.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReportPortal.Shared.1.1.1\lib\ReportPortal.Shared.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RestSharp, Version=105.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.105.2.1\lib\net452\RestSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
@@ -134,7 +114,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BridgeExtension.cs" />
+    <Compile Include="OtherTests\TestsReporting.cs" />
     <Compile Include="TestData\BaseTestSuite.cs" />
     <Compile Include="TestData\PlatformsMixSuite.cs" />
     <Compile Include="TestData\ParameterizedSuite.cs" />
@@ -142,9 +122,8 @@
     <Compile Include="TestData\SuiteForReporting.cs" />
     <Compile Include="TestData\SuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\AssertionsTest.cs" />
-    <Compile Include="UnitTests\ReportingTests.cs" />
     <Compile Include="UnitTests\MatchersTests.cs" />
-    <Compile Include="UnitTests\PlatformsMixTests.cs" />
+    <Compile Include="OtherTests\TestsPlatformsMix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\ParameterizedTestSuiteTest.cs" />
     <Compile Include="UnitTests\TestSuiteTest.cs" />
@@ -169,6 +148,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -43,6 +43,7 @@ namespace Tests.TestData
         {
             Output += "Test2>";
             Thread.Sleep(10);
+            throw new System.Exception("FAILED");
         }
 
         [AfterTest]

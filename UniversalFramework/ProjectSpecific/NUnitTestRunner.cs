@@ -11,9 +11,6 @@ namespace ProjectSpecific
     [TestFixture]
     public class NUnitTestRunner
     {
-        
-        
-
         [OneTimeSetUp]
         public static void ClassInit()
         {
@@ -24,12 +21,12 @@ namespace ProjectSpecific
         }
 
 
-
         [OneTimeTearDown]
         public static void ClassTearDown()
         {
 
         }
+
 
         protected string GetTestContextOut()
         {

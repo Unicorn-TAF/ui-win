@@ -5,7 +5,7 @@ using ProjectSpecific;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    public class PlatformsMixTests : NUnitTestRunner
+    public class TestsPlatformsMix : NUnitReportPortalTestRunner
     {
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test to check Demo version of TestSuite")]
