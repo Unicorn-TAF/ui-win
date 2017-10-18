@@ -1,4 +1,6 @@
-﻿namespace Unicorn.Core.Testing.Assertions.Matchers
+﻿using System.Reflection;
+
+namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public class EqualToMatcher : Matcher
     {
@@ -48,6 +50,10 @@
 
         public NotMatcher(Matcher matcher)
         {
+            FieldInfo partOfNotMatcherField = typeof(Matcher).GetField("PartOfNotMatcher",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            partOfNotMatcherField.SetValue(matcher, true);
+
             _matcher = matcher;
             _matcher.Description = Description;
         }

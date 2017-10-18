@@ -49,13 +49,12 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
     public class HasItemsMatcher : Matcher
     {
         private IEnumerable<object> ExpectedObjects;
-        private bool withNot = false;
+        string mismatch = "";
 
         public HasItemsMatcher(IEnumerable<object> expectedObjects)
         {
             ExpectedObjects = expectedObjects;
         }
-
 
 
         public override void DescribeTo()
@@ -69,16 +68,29 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 
         public override bool Matches(object collection)
         {
-            bool result = IsNotNull(collection);
+            if (!IsNotNull(collection))
+                return false;
 
-            if (result)
+            bool result;
+            IEnumerable<object> _collection = ((IEnumerable<object>)collection);
+
+            if (PartOfNotMatcher)
             {
-                IEnumerable<object> _collection = ((IEnumerable<object>)collection);
+                result = false;
+                mismatch = "Collection contains the value";
+                foreach (object obj in ExpectedObjects)
+                    result |= _collection.Contains(obj);
+            }
+            else
+            {
+                result = true;
+                mismatch = "Collection does not contain the value";
                 foreach (object obj in ExpectedObjects)
                     result &= _collection.Contains(obj);
-                if (!result)
-                    DescribeMismatch(collection);
             }
+
+            if (!result)
+                DescribeMismatch(collection);
 
             return result;
         }
@@ -87,7 +99,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         public override void DescribeMismatch(object collection)
         {
             //base.DescribeMismatch(collection);
-            Description.Append("Collection does not contain the value");
+            Description.Append(mismatch);
         }
     }
 

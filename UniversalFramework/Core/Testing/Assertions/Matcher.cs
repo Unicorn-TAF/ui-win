@@ -7,6 +7,7 @@ namespace Unicorn.Core.Testing.Assertions
         public StringBuilder Description;
 
         protected bool NullCheckable = true;
+        protected bool PartOfNotMatcher = false;
 
 
         public Matcher()

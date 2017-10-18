@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
