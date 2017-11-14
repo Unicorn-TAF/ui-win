@@ -4,25 +4,30 @@ namespace Unicorn.Core.Testing.Assertions
 {
     public abstract class Matcher
     {
-        public StringBuilder Description;
+        public StringBuilder MatcherOutput;
 
         protected bool NullCheckable = true;
         protected bool PartOfNotMatcher = false;
 
+        public abstract string CheckDescription { get; }
+
 
         public Matcher()
         {
-            Description = new StringBuilder();
+            MatcherOutput = new StringBuilder();
         }
 
 
 
-        public abstract void DescribeTo();
+        public void DescribeTo()
+        {
+            MatcherOutput.Append(CheckDescription);
+        }
 
 
         public virtual void DescribeMismatch(object _object)
         {
-            Description.Append("was ").Append(_object);
+            MatcherOutput.Append("was ").Append(_object);
         }
 
 
@@ -33,7 +38,7 @@ namespace Unicorn.Core.Testing.Assertions
         {
             if (NullCheckable && _object == null)
             {
-                Description.Append("was null");
+                MatcherOutput.Append("was null");
                 return false;
             }
             return true;
@@ -42,7 +47,7 @@ namespace Unicorn.Core.Testing.Assertions
 
         public override string ToString()
         {
-            return Description.ToString();
+            return MatcherOutput.ToString();
         }
     }
 }

@@ -6,17 +6,18 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
     {
         private object ObjectToCompare;
 
+        public override string CheckDescription
+        {
+            get
+            {
+                return "Is equal to " + ObjectToCompare;
+            }
+        }
+
 
         public EqualToMatcher(object objectToCompare)
         {
             ObjectToCompare = objectToCompare;
-        }
-
-
-
-        public override void DescribeTo()
-        {
-            Description.Append("Is equal to " + ObjectToCompare);
         }
 
 
@@ -30,7 +31,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         {
             if (!ObjectToCompare.GetType().Equals(_object.GetType()))
             {
-                Description.Append($"was not of type {ObjectToCompare.GetType()}");
+                MatcherOutput.Append($"was not of type {ObjectToCompare.GetType()}");
                 return false;
             }
                 
@@ -47,6 +48,14 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
     {
         private Matcher _matcher;
 
+        public override string CheckDescription
+        {
+            get
+            {
+                return $"Not ({_matcher.CheckDescription})";
+            }
+        }
+
 
         public NotMatcher(Matcher matcher)
         {
@@ -55,15 +64,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
             partOfNotMatcherField.SetValue(matcher, true);
 
             _matcher = matcher;
-            _matcher.Description = Description;
-        }
-
-
-
-        public override void DescribeTo()
-        {
-            _matcher.Description.Append("Not ");
-            _matcher.DescribeTo();
+            _matcher.MatcherOutput = MatcherOutput;
         }
 
 
@@ -78,7 +79,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
                     _matcher.DescribeMismatch(_object);
             }
 
-            Description = _matcher.Description;
+            MatcherOutput = _matcher.MatcherOutput;
             return result;
         }
     }
@@ -86,16 +87,18 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 
     public class IsNullMatcher : Matcher
     {
-        public IsNullMatcher() : base()
+        public override string CheckDescription
         {
-            NullCheckable = false;
+            get
+            {
+                return "Is null";
+            }
         }
 
 
-
-        public override void DescribeTo()
+        public IsNullMatcher() : base()
         {
-            Description.Append("Is null");
+            NullCheckable = false;
         }
 
 

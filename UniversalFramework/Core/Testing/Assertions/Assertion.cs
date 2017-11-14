@@ -14,13 +14,13 @@ namespace Unicorn.Core.Testing.Assertions
 
         public static void AssertThat(string message, object _object, Matcher matcher)
         {
-            matcher.Description.Append("Expected: ");
+            matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();
-            matcher.Description.AppendLine("").Append("But: ");
+            matcher.MatcherOutput.AppendLine("").Append("But: ");
 
             if (!matcher.Matches(_object))
             {
-                throw new AssertionError(message + "\n" + matcher.Description.ToString());
+                throw new AssertionError(message + "\n" + matcher.MatcherOutput.ToString());
             }
         }
     }
@@ -49,9 +49,9 @@ namespace Unicorn.Core.Testing.Assertions
 
         public SoftAssertion AssertThat(string message, object _object, Matcher matcher)
         {
-            matcher.Description.Append("Expected ");
+            matcher.MatcherOutput.Append("Expected ");
             matcher.DescribeTo();
-            matcher.Description.AppendLine("").Append("But ");
+            matcher.MatcherOutput.AppendLine("").Append("But ");
 
             
 

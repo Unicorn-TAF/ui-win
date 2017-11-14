@@ -1,49 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Unicorn.Core.Testing.Assertions.Matchers
 {
-    public class ContainsMatcher : Matcher
+    public class StringContainsMatcher : TypeSafeMatcher<string>
     {
-        private object ObjectToCompare;
+        private string ObjectToCompare;
 
 
-        public ContainsMatcher(object objectToCompare)
+        public StringContainsMatcher(string objectToCompare)
         {
             ObjectToCompare = objectToCompare;
         }
 
-
-
-        public override void DescribeTo()
+        public override string CheckDescription
         {
-            Description.Append("Contains " + ObjectToCompare);
-        }
-
-
-        public override bool Matches(object _object)
-        {
-            return IsNotNull(_object) && Assertion(_object);
-        }
-
-
-        protected bool Assertion(object _object)
-        {
-            if (!ObjectToCompare.GetType().Equals(_object.GetType()))
+            get
             {
-                Description.Append($"was not of type {ObjectToCompare.GetType()}");
-                return false;
+                return "Contains " + ObjectToCompare;
             }
+        }
 
+
+        protected override bool Assertion(object _object)
+        {
             string _objString = (string)_object;
-            string _objToCompareString = (string)ObjectToCompare;
 
-            bool contains = _objString.Contains(_objToCompareString);
+            bool contains = _objString.Contains(ObjectToCompare);
             if (!contains)
-                DescribeMismatch(_object);
+                DescribeMismatch(_objString);
 
             return contains;
         }
@@ -52,10 +35,14 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 
     public class IsEvenMatcher : TypeSafeMatcher<int>
     {
-        public override void DescribeTo()
+        public override string CheckDescription
         {
-            Description.Append("An Even number");
+            get
+            {
+                return "An Even number";
+            }
         }
+
 
         protected override bool Assertion(object number)
         {
@@ -69,7 +56,6 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         public override void DescribeMismatch(object number)
         {
             base.DescribeMismatch(number);
-            //Description.Append(", which is an Odd number");
         }
     }
 

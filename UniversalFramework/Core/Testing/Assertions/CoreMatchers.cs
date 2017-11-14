@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
@@ -29,6 +28,11 @@ namespace Unicorn.Core.Testing.Assertions
 
     public static class CollectionsMatchers
     {
+        public static IsNullOrEmptyMatcher IsNullOrEmpty()
+        {
+            return new IsNullOrEmptyMatcher();
+        }
+
         public static HasItemMatcher HasItem(object expectedObject)
         {
             return new HasItemMatcher(expectedObject);
@@ -38,5 +42,12 @@ namespace Unicorn.Core.Testing.Assertions
         {
             return new HasItemsMatcher(expectedObjects);
         }
+
+        public static IsEqualToCollectionMatcher IsEqualToCollection(IEnumerable<object> expectedObjects)
+        {
+            return new IsEqualToCollectionMatcher(expectedObjects);
+        }
+        
+
     }
 }

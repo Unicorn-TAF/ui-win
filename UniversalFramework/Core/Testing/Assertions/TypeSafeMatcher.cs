@@ -10,7 +10,7 @@ namespace Unicorn.Core.Testing.Assertions
             bool isCastable = _object is T;
             
             if(!isCastable)
-                Description.Append($"was not of type {typeof(T)}");
+                MatcherOutput.Append($"was not of type {typeof(T)}");
 
             return isCastable;
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicorn.Core.Testing.Assertions.Matchers;
+﻿using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
 {
@@ -14,9 +9,9 @@ namespace Unicorn.Core.Testing.Assertions
             return new IsEvenMatcher();
         }
 
-        public static ContainsMatcher Contains(string objectToCompare)
+        public static StringContainsMatcher StringContains(string objectToCompare)
         {
-            return new ContainsMatcher(objectToCompare);
+            return new StringContainsMatcher(objectToCompare);
         }
     }
 }
