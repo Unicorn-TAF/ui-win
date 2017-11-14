@@ -4,6 +4,7 @@
     {
         PASSED,
         FAILED,
-        SKIPPED
+        SKIPPED,
+        NOT_EXECUTED
     }
 }

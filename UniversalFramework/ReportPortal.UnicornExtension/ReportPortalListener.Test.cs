@@ -4,6 +4,7 @@ using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Script.Serialization;
 using Unicorn.Core.Testing.Tests;
 using System.IO;
@@ -42,7 +43,7 @@ namespace ReportPortal.UnicornExtension
                 var beforeTestEventArg = new TestItemStartedEventArgs(Bridge.Service, startTestRequest);
                 try
                 {
-                    if (BeforeTestStarted != null) BeforeTestStarted(this, beforeTestEventArg);
+                    BeforeTestStarted?.Invoke(this, beforeTestEventArg);
                 }
                 catch (Exception exp)
                 {
@@ -59,8 +60,7 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (AfterTestStarted != null)
-                            AfterTestStarted(this, new TestItemStartedEventArgs(Bridge.Service, startTestRequest, testVal));
+                        AfterTestStarted?.Invoke(this, new TestItemStartedEventArgs(Bridge.Service, startTestRequest, testVal));
                     }
                     catch (Exception exp)
                     {
@@ -96,27 +96,46 @@ namespace ReportPortal.UnicornExtension
 
                     // adding categories to test
                     var categories = test.Categories;
+
+                    updateTestRequest.Tags = new List<string>();
+                    updateTestRequest.Tags.Add(test.Author);
                     if (categories != null)
                     {
-                        updateTestRequest.Tags = new List<string>();
-
                         foreach (string category in categories)
-                        {
                             updateTestRequest.Tags.Add(category);
+                    }
+
+                    //add tag for fail reason
+                    if (test.Outcome.Result == Result.FAILED)
+                    {
+                        try
+                        {
+                            var rez = from v in test.Outcome.Bugs
+                                      where
+                                          (v.Trim().Equals("?")) ||
+                                          (v.ToLower().Contains("closed")) ||
+                                          (v.ToLower().Contains("rejected"))
+                                      select v;
+
+                            if (rez.Count() > 0)
+                                updateTestRequest.Tags.Add("TO_INVESTIGATE");
+                            else
+                                updateTestRequest.Tags.Add("FAILED_BY_OPEN_BUG");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Unable to get tag for fail reason." + Environment.NewLine + ex);
                         }
                     }
+
 
                     // adding description to test
                     var description = test.Description;
                     if (description != null)
-                    {
                         updateTestRequest.Description = description;
-                    }
 
                     if (updateTestRequest.Description != null || updateTestRequest.Tags != null)
-                    {
                         _testFlowIds[id].Update(updateTestRequest);
-                    }
 
                     // adding failure items
                     
@@ -167,7 +186,7 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (BeforeTestFinished != null) BeforeTestFinished(this, eventArg);
+                        BeforeTestFinished?.Invoke(this, eventArg);
                     }
                     catch (Exception exp)
                     {
@@ -179,9 +198,8 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (AfterTestFinished != null)
-                            AfterTestFinished(this,
-                                new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, _testFlowIds[id]));
+                        AfterTestFinished?.Invoke(this,
+                            new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, _testFlowIds[id]));
                     }
                     catch (Exception exp)
                     {
@@ -218,13 +236,9 @@ namespace ReportPortal.UnicornExtension
                     }
                     
                     if (logRequest != null)
-                    {
                         _testFlowNames[fullTestName].Log(logRequest);
-                    }
                     else
-                    {
                         _testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = LogLevel.Info, Time = DateTime.UtcNow, Text = message});
-                    }
                     
                 }
             }

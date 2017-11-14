@@ -13,21 +13,18 @@ namespace Tests.TestData
         public void BeforeSuite()
         {
             Output += "BeforeSuite>";
-            Thread.Sleep(10);
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
             Output += "BeforeTest>";
-            Thread.Sleep(10);
         }
 
         [Test("Test 2")]
         public void Test2()
         {
             Output += "Test1>";
-            Thread.Sleep(10);
         }
 
         [Test("Test to Skip")]
@@ -35,28 +32,24 @@ namespace Tests.TestData
         public void TestToSkip()
         {
             Output += "TestToSkip>";
-            Thread.Sleep(10);
         }
 
         [Test("Test 1")]
         public void Test1()
         {
             Output += "Test2>";
-            Thread.Sleep(10);
         }
 
         [AfterTest]
         public void AfterTest()
         {
             Output += "AfterTest>";
-            Thread.Sleep(10);
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
             Output += "AfterSuite";
-            Thread.Sleep(10);
         }
 
     }

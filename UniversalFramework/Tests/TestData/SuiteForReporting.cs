@@ -12,13 +12,13 @@ namespace Tests.TestData
         [BeforeSuite]
         public void BeforeSuite()
         {
-            Thread.Sleep(10);
+            Thread.Sleep(1);
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            Thread.Sleep(10);
+            Thread.Sleep(1);
         }
 
         [Test]
@@ -68,13 +68,13 @@ namespace Tests.TestData
         [AfterTest]
         public void AfterTest()
         {
-            Thread.Sleep(10);
+            Thread.Sleep(1);
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            Thread.Sleep(10);
+            Thread.Sleep(1);
         }
     }
 }

@@ -8,14 +8,8 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
 {
-    public class Test
+    public class Test : TestSuiteMethodBase
     {
-        public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
-
-        public Guid Id;
-        public Guid ParentId;
-
-        public static StringBuilder CurrentOutput = new StringBuilder();
 
         private string _description = null;
         /// <summary>
@@ -39,33 +33,6 @@ namespace Unicorn.Core.Testing.Tests
             set
             {
                 _description = value;
-            }
-        }
-
-
-        private string _author = null;
-        /// <summary>
-        /// Test author. If author not specified through AuthorAttribute, then return "No author"
-        /// </summary>
-        public string Author
-        {
-            get
-            {
-                if (_author == null)
-                {
-                    object[] attributes = TestMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
-
-                    if (attributes.Length > 0)
-                    {
-                        AuthorAttribute attribute = (AuthorAttribute)attributes[0];
-                        _author = attribute.Author;
-                    }
-                    else
-                    {
-                        _author = "No author";
-                    }
-                }
-                return _author;
             }
         }
 
@@ -102,24 +69,6 @@ namespace Unicorn.Core.Testing.Tests
         public bool IsNeedToBeSkipped;
 
 
-        private string _fullTestName = null;
-        /// <summary>
-        /// Full test name which is "{Suite Name} - {test method name}"
-        /// </summary>
-        public string FullTestName
-        {
-            get
-            {
-                if (_fullTestName == null)
-                    _fullTestName = TestMethod.Name;
-                return _fullTestName;
-            }
-            set
-            {
-                _fullTestName = value;
-            }
-        }
-
         // Events section
 
         public delegate void TestEvent(Test test);
@@ -131,21 +80,6 @@ namespace Unicorn.Core.Testing.Tests
         public static event TestEvent onSkip;
 
 
-        /// <summary>
-        /// Current test outcome, contains base information about execution results
-        /// </summary>
-        public TestOutcome Outcome;
-
-
-        /// <summary>
-        /// Test execution timer
-        /// </summary>
-        public Stopwatch TestTimer;
-
-
-        //Method which represents test
-        private MethodInfo TestMethod;
-        
 
         /// <summary>
         /// Object describing single test, which is part of some TestSuite.
@@ -155,11 +89,11 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod)
         {
-            Id = Guid.NewGuid();
             TestMethod = testMethod;
             Outcome = new TestOutcome();
             IsNeedToBeSkipped = false;
         }
+
 
 
         /// <summary>
@@ -168,7 +102,7 @@ namespace Unicorn.Core.Testing.Tests
         /// After the test List of AfterTests is executed
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
-        public void Execute(TestSuite suiteInstance)
+        public override void Execute(TestSuite suiteInstance)
         {
             if (IsNeedToBeSkipped)
             {
@@ -176,10 +110,10 @@ namespace Unicorn.Core.Testing.Tests
                 return;
             }
 
-            Logger.Instance.Info($"========== TEST '{Description}' ==========");
-
             CurrentOutput = new StringBuilder();
             onStart?.Invoke(this);
+
+            Logger.Instance.Info($"========== TEST '{Description}' ==========");
 
             TestTimer = new Stopwatch();
 
@@ -201,9 +135,9 @@ namespace Unicorn.Core.Testing.Tests
             TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
 
-            onFinish?.Invoke(this);
-
             Logger.Instance.Info($"Test {Outcome.Result}");
+
+            onFinish?.Invoke(this);
         }
 
 
@@ -224,8 +158,9 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
         /// <param name="bugs">string of bugs test failed on current step.</param>
-        private void Fail(Exception ex, string bugs)
+        protected override void Fail(Exception ex, string bugs)
         {
+            onFail?.Invoke(this);
             Logger.Instance.Error(ex.ToString());
 
             if (!string.IsNullOrEmpty(bugs))
@@ -235,8 +170,6 @@ namespace Unicorn.Core.Testing.Tests
 
             Outcome.Exception = ex;
             Outcome.Result = Result.FAILED;
-
-            onFail?.Invoke(this);
         }
 
 

@@ -26,14 +26,14 @@ namespace Tests.UnitTests
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
         public void ParameterizedSuiteCountOfAfterSuiteTest()
         {
-            Assert.That(GetListByName("ListAfterSuite").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("ListAfterSuite").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
         public void ParameterizedSuiteCountOfBeforeSuiteTest()
         {
-            Assert.That(GetListByName("ListBeforeSuite").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("ListBeforeSuite").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -68,6 +68,15 @@ namespace Tests.UnitTests
                 .GetValue(suite);
 
             return field as MethodInfo[];
+        }
+
+        private TestSuiteMethod[] GetSuiteMethodListByName(string name)
+        {
+            object field = typeof(TestSuite)
+                .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(suite);
+
+            return field as TestSuiteMethod[];
         }
     }
 }

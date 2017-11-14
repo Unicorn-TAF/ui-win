@@ -3,7 +3,6 @@ using ReportPortal.Client.Requests;
 using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
 using System;
-using System.Xml;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -39,7 +38,7 @@ namespace ReportPortal.UnicornExtension
 
                 try
                 {
-                    if (BeforeRunStarted != null) BeforeRunStarted(this, eventArg);
+                    BeforeRunStarted?.Invoke(this, eventArg);
                 }
                 catch (Exception exp)
                 {
@@ -53,7 +52,7 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (AfterRunStarted != null) AfterRunStarted(this, new RunStartedEventArgs(Bridge.Service, startLaunchRequest, Bridge.Context.LaunchReporter));
+                        AfterRunStarted?.Invoke(this, new RunStartedEventArgs(Bridge.Service, startLaunchRequest, Bridge.Context.LaunchReporter));
                     }
                     catch (Exception exp)
                     {
@@ -84,7 +83,7 @@ namespace ReportPortal.UnicornExtension
                 var eventArg = new RunFinishedEventArgs(Bridge.Service, finishLaunchRequest, Bridge.Context.LaunchReporter);
                 try
                 {
-                    if (BeforeRunFinished != null) BeforeRunFinished(this, eventArg);
+                    BeforeRunFinished?.Invoke(this, eventArg);
                 }
                 catch (Exception exp)
                 {
@@ -98,7 +97,7 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (AfterRunFinished != null) AfterRunFinished(this, new RunFinishedEventArgs(Bridge.Service, finishLaunchRequest, Bridge.Context.LaunchReporter));
+                        AfterRunFinished?.Invoke(this, new RunFinishedEventArgs(Bridge.Service, finishLaunchRequest, Bridge.Context.LaunchReporter));
                     }
                     catch (Exception exp)
                     {
