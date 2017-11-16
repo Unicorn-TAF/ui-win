@@ -19,8 +19,8 @@ namespace ReportPortal.UnicornExtension
         {
             try
             {
-                var id = suite.Id.ToString();
-                var parentId = "";
+                var id = suite.Id;
+                var parentId = Guid.Empty;
                 var name = suite.Name;
 
                 var startSuiteRequest = new StartTestItemRequest
@@ -33,7 +33,7 @@ namespace ReportPortal.UnicornExtension
                 var beforeSuiteEventArg = new TestItemStartedEventArgs(Bridge.Service, startSuiteRequest);
                 try
                 {
-                    if (BeforeSuiteStarted != null) BeforeSuiteStarted(this, beforeSuiteEventArg);
+                    BeforeSuiteStarted?.Invoke(this, beforeSuiteEventArg);
                 }
                 catch (Exception exp)
                 {
@@ -42,7 +42,7 @@ namespace ReportPortal.UnicornExtension
                 if (!beforeSuiteEventArg.Canceled)
                 {
                     TestReporter test;
-                    if (string.IsNullOrEmpty(parentId) || !_suitesFlow.ContainsKey(parentId))
+                    if (parentId.Equals(Guid.Empty) || !_suitesFlow.ContainsKey(parentId))
                     {
                         test = Bridge.Context.LaunchReporter.StartNewTestNode(startSuiteRequest);
                     }
@@ -55,7 +55,7 @@ namespace ReportPortal.UnicornExtension
 
                     try
                     {
-                        if (AfterSuiteStarted != null) AfterSuiteStarted(this, new TestItemStartedEventArgs(Bridge.Service, startSuiteRequest, test));
+                        AfterSuiteStarted?.Invoke(this, new TestItemStartedEventArgs(Bridge.Service, startSuiteRequest, test));
                     }
                     catch (Exception exp)
                     {
@@ -77,12 +77,12 @@ namespace ReportPortal.UnicornExtension
         {
             try
             {
-                var id = suite.Id.ToString();
-                var result = suite.Outcome.Result.ToString();
-                var parentId = "";
+                var id = suite.Id;
+                var result = suite.Outcome.Result;
+                var parentId = Guid.Empty;
 
                 // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
-                if (parentId != null)
+                if (parentId.Equals(Guid.Empty))
                 {
                     if (_suitesFlow.ContainsKey(id))
                     {
@@ -127,7 +127,7 @@ namespace ReportPortal.UnicornExtension
 
                         try
                         {
-                            if (BeforeSuiteFinished != null) BeforeSuiteFinished(this, eventArg);
+                            BeforeSuiteFinished?.Invoke(this, eventArg);
                         }
                         catch (Exception exp)
                         {
@@ -138,7 +138,7 @@ namespace ReportPortal.UnicornExtension
 
                         try
                         {
-                            if (AfterSuiteFinished != null) AfterSuiteFinished(this, new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest,_suitesFlow[id]));
+                            AfterSuiteFinished?.Invoke(this, new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, _suitesFlow[id]));
                         }
                         catch (Exception exp)
                         {

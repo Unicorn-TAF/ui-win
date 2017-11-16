@@ -4,12 +4,12 @@ using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Script.Serialization;
 using Unicorn.Core.Testing.Tests;
 using System.IO;
 using Unicorn.Core.Reporting;
 using System.Text;
+using System.Linq;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -22,12 +22,12 @@ namespace ReportPortal.UnicornExtension
 
         Test CurrentTest = null;
 
-        public void StartTest(Test test)
+        protected void StartTest(Test test)
         {
             try
             {
-                var id = test.Id.ToString();
-                var parentId = test.ParentId.ToString();
+                var id = test.Id;
+                var parentId = test.ParentId;
                 var name = test.Description;
                 var fullname = test.FullTestName;
 
@@ -80,13 +80,13 @@ namespace ReportPortal.UnicornExtension
         public static event TestFinishedHandler BeforeTestFinished;
         public static event TestFinishedHandler AfterTestFinished;
 
-        public void FinishTest(Test test)
+        protected void FinishTest(Test test)
         {
             try
             {
-                var id = test.Id.ToString();
-                var result = test.Outcome.Result.ToString();
-                var parentId = test.ParentId.ToString();
+                var id = test.Id;
+                var result = test.Outcome.Result;
+                var parentId = test.ParentId;
 
                 CurrentTest = null;
 
@@ -104,30 +104,6 @@ namespace ReportPortal.UnicornExtension
                         foreach (string category in categories)
                             updateTestRequest.Tags.Add(category);
                     }
-
-                    //add tag for fail reason
-                    if (test.Outcome.Result == Result.FAILED)
-                    {
-                        try
-                        {
-                            var rez = from v in test.Outcome.Bugs
-                                      where
-                                          (v.Trim().Equals("?")) ||
-                                          (v.ToLower().Contains("closed")) ||
-                                          (v.ToLower().Contains("rejected"))
-                                      select v;
-
-                            if (rez.Count() > 0)
-                                updateTestRequest.Tags.Add("TO_INVESTIGATE");
-                            else
-                                updateTestRequest.Tags.Add("FAILED_BY_OPEN_BUG");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Unable to get tag for fail reason." + Environment.NewLine + ex);
-                        }
-                    }
-
 
                     // adding description to test
                     var description = test.Description;
@@ -175,12 +151,30 @@ namespace ReportPortal.UnicornExtension
                         });
                     }
 
+                    FinishTestItemRequest finishTestRequest = null;
                     // finishing test
-                    var finishTestRequest = new FinishTestItemRequest
+                    if (test.Outcome.Result == Result.FAILED && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
-                        EndTime = DateTime.UtcNow,
-                        Status = _statusMap[result]
-                    };
+                        string iss = test.Outcome.OpenBugString;
+                        Issue issue = new Issue();
+                        issue.Type = IssueType.ProductionBug;
+                        issue.Comment = test.Outcome.OpenBugString;
+
+                        finishTestRequest = new FinishTestItemRequest
+                        {
+                            Issue = issue,
+                            EndTime = DateTime.UtcNow,
+                            Status = _statusMap[result]
+                        };
+                    }
+                    else
+                    {
+                        finishTestRequest = new FinishTestItemRequest
+                        {
+                            EndTime = DateTime.UtcNow,
+                            Status = _statusMap[result]
+                        };
+                    }
 
                     var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, _testFlowIds[id]);
 
@@ -207,7 +201,6 @@ namespace ReportPortal.UnicornExtension
                                           Environment.NewLine + exp);
                     }
                 }
-
             }
             catch (Exception exception)
             {
@@ -215,7 +208,7 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        public void TestOutput(string info)
+        protected void TestOutput(string info)
         {
             try
             {
@@ -245,6 +238,35 @@ namespace ReportPortal.UnicornExtension
             catch (Exception exception)
             {
                 Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+        }
+
+
+        protected void AddAttachment(Test test, string name, string mime, byte[] content)
+        {
+            var id = test.Id;
+            if (_testFlowIds.ContainsKey(id))
+            {
+                _testFlowIds[id].Log(new AddLogItemRequest
+                {
+                    Level = LogLevel.None,
+                    Time = DateTime.UtcNow,
+                    Text = "Attachment: " + name,
+                    Attach = new Attach(test.Outcome.Screenshot, mime, content)
+                });
+            }
+        }
+
+
+        protected void AddTestTags(Test test, params string[] tags)
+        {
+            var id = test.Id;
+            if (_testFlowIds.ContainsKey(id))
+            {
+                var updateTestRequest = new UpdateTestItemRequest();
+                updateTestRequest.Tags.AddRange(tags);
+
+                _testFlowIds[id].Update(updateTestRequest);
             }
         }
     }

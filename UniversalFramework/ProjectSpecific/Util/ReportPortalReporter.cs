@@ -1,11 +1,6 @@
 ﻿using ReportPortal.UnicornExtension;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 
@@ -16,7 +11,7 @@ namespace ProjectSpecific.Util
         ReportPortalListener Listener;
         public void Complete()
         {
-            Listener.CallerRunFinished();
+            Listener.ReportRunFinished();
         }
 
         public void Init()
@@ -26,7 +21,9 @@ namespace ProjectSpecific.Util
                 Directory.CreateDirectory(screenshotsDir);
 
             Listener = new ReportPortalListener();
-            Listener.CallerRunStarted();
+            //Listener.MergeRuns("Unit tests of Unicorn Framework stopped", "Unit tests of Unicorn Framework stopped");
+
+            Listener.ReportRunStarted();
 
             Test.onStart += this.ReportTestStart;
             Test.onFail += this.TakeScreenshot;
@@ -39,32 +36,32 @@ namespace ProjectSpecific.Util
 
         public void ReportInfo(string info)
         {
-            Listener.CallerTestOutput(info);
+            Listener.ReportTestOutput(info);
         }
 
         public void ReportSuiteFinish(TestSuite testSuite)
         {
-            Listener.CallerSuiteFinished(testSuite);
+            Listener.ReportSuiteFinished(testSuite);
         }
 
         public void ReportSuiteStart(TestSuite testSuite)
         {
-            Listener.CallerSuiteStarted(testSuite);
+            Listener.ReportSuiteStarted(testSuite);
         }
 
         public void ReportTestFinish(Test test)
         {
-            Listener.CallerTestFinished(test);
+            Listener.ReportTestFinished(test);
         }
 
         public void ReportTestStart(Test test)
         {
-            Listener.CallerTestStarted(test);
+            Listener.ReportTestStarted(test);
         }
 
         public void ReportTestSkip(Test test)
         {
-            Listener.CallerTestSkipped(test);
+            Listener.ReportTestSkipped(test);
         }
 
 
