@@ -97,7 +97,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="bugs">string of bugs test failed on current step.</param>
         protected override void Fail(Exception ex, string bugs)
         {
-            onFail?.Invoke(this);
+            
             Logger.Instance.Error(ex.ToString());
 
             if (!string.IsNullOrEmpty(bugs))
@@ -107,6 +107,7 @@ namespace Unicorn.Core.Testing.Tests
 
             Outcome.Exception = ex;
             Outcome.Result = Result.FAILED;
+            onFail?.Invoke(this);
         }
     }
 }

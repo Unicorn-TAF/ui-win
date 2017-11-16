@@ -30,6 +30,9 @@ namespace Unicorn.Core.Testing.Tests
         public string[] Bugs;
 
 
+        public string OpenBugString = string.Empty;
+
+
         /// <summary>
         /// Test outcome. Inits with zero execution time and empty bugs array
         /// </summary>
