@@ -152,5 +152,19 @@ namespace ReportPortal.UnicornExtension
                 Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
+
+
+        protected void AddSuiteTags(TestSuite suite, params string[] tags)
+        {
+            var id = suite.Id;
+            if (_suitesFlow.ContainsKey(id))
+            {
+                var updateTestRequest = new UpdateTestItemRequest();
+                updateTestRequest.Tags = new List<string>();
+                updateTestRequest.Tags.AddRange(tags);
+
+                _suitesFlow[id].Update(updateTestRequest);
+            }
+        }
     }
 }

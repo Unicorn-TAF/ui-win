@@ -264,6 +264,7 @@ namespace ReportPortal.UnicornExtension
             if (_testFlowIds.ContainsKey(id))
             {
                 var updateTestRequest = new UpdateTestItemRequest();
+                updateTestRequest.Tags = new List<string>();
                 updateTestRequest.Tags.AddRange(tags);
 
                 _testFlowIds[id].Update(updateTestRequest);

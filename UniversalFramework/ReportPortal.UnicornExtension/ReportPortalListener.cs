@@ -118,36 +118,19 @@ namespace ReportPortal.UnicornExtension
         }
 
 
-        public void MergeRuns(string descriptionGuid, string description)
+        public void ReportAddSuiteTags(TestSuite suite, params string[] tags)
         {
             if (Config.IsEnabled)
-            {
-                Client.Filtering.FilterOption filteringOptions = new Client.Filtering.FilterOption();
-                filteringOptions.Filters = new List<Client.Filtering.Filter>();
-                Client.Filtering.Filter filter = new Client.Filtering.Filter(Client.Filtering.FilterOperation.Contains, "description", descriptionGuid);
-                filteringOptions.Filters.Add(filter);
-
-                LaunchesContainer container = Bridge.Service.GetLaunches(filteringOptions);
-
-                if (container.Launches.Count > 1)
-                {
-                    Client.Requests.MergeLaunchesRequest request = new Client.Requests.MergeLaunchesRequest();
-                    request.Launches = new List<string>();
-                    request.Mode = LaunchMode.Default;
-                    //request.MergeType = "linear";
-                    request.Description = container.Launches[0].Description;
-                    request.Tags = container.Launches[0].Tags;
-                    request.StartTime = container.Launches[0].StartTime.Value;
-                    request.Name = container.Launches[0].Name;
-
-                    foreach (Client.Models.Launch launch in container.Launches)
-                        request.Launches.Add(launch.Name + " #" + launch.Number);
-
-                    Bridge.Service. MergeLaunches(request);
-                }
-
-            }
-                
+                AddSuiteTags(suite, tags);
         }
+        
+
+        public void ReportMergeLaunches(string descriptionSearchString, string description)
+        {
+            if (Config.IsEnabled)
+                MergeRuns(descriptionSearchString, description);
+        }
+
+
     }
 }

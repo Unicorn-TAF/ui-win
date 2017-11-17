@@ -1,4 +1,5 @@
 ﻿using ReportPortal.UnicornExtension;
+using System;
 using System.IO;
 using System.Reflection;
 using Unicorn.Core.Reporting;
@@ -21,7 +22,7 @@ namespace ProjectSpecific.Util
                 Directory.CreateDirectory(screenshotsDir);
 
             Listener = new ReportPortalListener();
-            //Listener.MergeRuns("Unit tests of Unicorn Framework stopped", "Unit tests of Unicorn Framework stopped");
+            //Listener.ReportMergeLaunches("qwerty23", "qwerty23");
 
             Listener.ReportRunStarted();
 
@@ -42,6 +43,7 @@ namespace ProjectSpecific.Util
         public void ReportSuiteFinish(TestSuite testSuite)
         {
             Listener.ReportSuiteFinished(testSuite);
+            Listener.ReportAddSuiteTags(testSuite, Environment.MachineName);
         }
 
         public void ReportSuiteStart(TestSuite testSuite)
@@ -52,11 +54,13 @@ namespace ProjectSpecific.Util
         public void ReportTestFinish(Test test)
         {
             Listener.ReportTestFinished(test);
+            Listener.ReportAddTestTags(test, Environment.MachineName);
         }
 
         public void ReportTestStart(Test test)
         {
             Listener.ReportTestStarted(test);
+            
         }
 
         public void ReportTestSkip(Test test)
