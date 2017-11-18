@@ -4,9 +4,13 @@ using System.Threading;
 using Unicorn.UICore.Driver;
 using Unicorn.UIDesktop.Driver;
 using Unicorn.UIDesktop.UI.Controls;
+using AspectInjector.Broker;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace ProjectSpecific.Steps
 {
+    //[Aspect(typeof(TestStepsEvents),AccessModifierFilter =AccessModifiers.Public)]
     public class StepsTimeSeriesAnalysis : TestSteps
     {
         IDriver driver;
@@ -15,8 +19,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Start Time Series Analysis '{0}'")]
         public void StartApplication(string value)
         {
-            ReportStep(value);
-
             driver = GuiDriver.Instance;
             driver.Get(value);
         }
@@ -24,8 +26,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Open File '{0}' For Analysis")]
         public void OpenFile(string fileName)
         {
-            ReportStep(fileName);
-
             Window mainWindow = driver.Find<Window>(By.Id, "mainForm");
             mainWindow.ClickButton("openFileBtn");
 
@@ -40,8 +40,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Draw charts")]
         public void DrawCharts()
         {
-            ReportStep();
-
             Window mainWindow = driver.Find<Window>(By.Name, "mainForm");
             mainWindow.ClickButton("plotBtn");
         }
@@ -50,9 +48,8 @@ namespace ProjectSpecific.Steps
         [TestStep("Close Time Series Analysis")]
         public void CloseApplication()
         {
-            ReportStep();
-
             driver.Close();
         }
     }
+
 }

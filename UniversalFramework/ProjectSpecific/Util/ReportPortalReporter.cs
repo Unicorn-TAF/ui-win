@@ -2,7 +2,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
+using Unicorn.Core.Testing.Steps;
+using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.Core.Testing.Tests;
 
 namespace ProjectSpecific.Util
@@ -22,7 +25,6 @@ namespace ProjectSpecific.Util
                 Directory.CreateDirectory(screenshotsDir);
 
             Listener = new ReportPortalListener();
-            //Listener.ReportMergeLaunches("qwerty23", "qwerty23");
 
             Listener.ReportRunStarted();
 
@@ -33,6 +35,41 @@ namespace ProjectSpecific.Util
 
             TestSuite.onStart += this.ReportSuiteStart;
             TestSuite.onFinish += this.ReportSuiteFinish;
+
+            TestStepsEvents.onStart += ReportInfo;
+        }
+
+        public void ReportInfo(MethodBase method, object[] arguments)
+        {
+            string stepDescription = string.Empty;
+
+            object[] attributes = method.GetCustomAttributes(typeof(TestStep), true);
+
+            //ParameterInfo[] methodParams = method.GetParameters();
+
+            //string[] parametersStr = new string[methodParams.Length];
+            //for (int i = 0; i < methodParams.Length; i++)
+            //    parametersStr[i] = methodParams[i].ToString();
+
+            if (attributes.Length == 0)
+            {
+                stepDescription = method.Name;
+
+                if (arguments.Length > 0)
+                    stepDescription += ":";
+                for (int i = 0; i < arguments.Length; i++)
+                    stepDescription += $" '{arguments[i]}'";
+            }
+            else
+            {
+                TestStep attribute = (TestStep)attributes[0];
+                stepDescription = attribute.Description;
+                stepDescription = string.Format(stepDescription, arguments);
+            }
+
+            string info = "STEP: " + stepDescription;
+            Logger.Instance.Info(info);
+            Listener.ReportTestOutput(info);
         }
 
         public void ReportInfo(string info)
