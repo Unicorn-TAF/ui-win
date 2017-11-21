@@ -15,7 +15,7 @@ namespace Tests.TestData
         public void BeforeTest()
         {
             //Do.Testing.SecondTestStep("=iGetArray(TestCaseData!A12,\"Screening\",\"{\"\"Items\"\":[\"\"All Assets\"\"]}\",,,,\"[{\"\"Selector\"\":[\"\"Gross Margin %\"\",\"\"\"\",\"\"Actual\"\",\"\"1M\"\",\"\"Current\"\",\"\"Current\"\",\"\"\"\",\"\"\"\"],\"\"Operator\"\":\"\"=\"\",\"\"Values\"\":[\"\"25\"\"],\"\"AllowUserInput\"\":true}]\",\"{\"\"Show\"\":\"\"Investment\"\"}\")");
-            Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
+            //Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
         }
 
         [Bug("9999")]
@@ -24,8 +24,8 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.TimeSeriesAnalysis.OpenFile(EXE_PATH + "TestData\\henon");
-            Do.YandexMarket.OpenPortal(PORTAL_URL);
+            //Do.TimeSeriesAnalysis.OpenFile(EXE_PATH + "TestData\\henon");
+            //Do.YandexMarket.OpenPortal(PORTAL_URL);
             Bug("76237").YandexMarket.DoSomeActions();
         }
 
