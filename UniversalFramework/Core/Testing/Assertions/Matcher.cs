@@ -47,7 +47,7 @@ namespace Unicorn.Core.Testing.Assertions
 
         public override string ToString()
         {
-            return MatcherOutput.ToString();
+            return CheckDescription;
         }
     }
 }
