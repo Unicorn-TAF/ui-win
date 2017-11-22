@@ -9,25 +9,18 @@ namespace Unicorn.Core.Testing.Tests
     public class TestSuiteMethod : TestSuiteMethodBase
     {
 
-        private string _description = null;
-        /// <summary>
-        /// Test description. If description not specified through TestAttribute, then return test method name
-        /// </summary>
-        public string Description
+        public bool IsBeforeSuite = false;
+
+        public override string[] Categories
         {
             get
             {
-                if (_description == null)
-                        _description = TestMethod.Name;
-                return _description;
-            }
-            set
-            {
-                _description = value;
+                if (_categories == null)
+                    _categories = new string[0];
+
+                return _categories;
             }
         }
-
-        public bool IsBeforeSuite = false;
 
         // Events section
 
@@ -61,9 +54,16 @@ namespace Unicorn.Core.Testing.Tests
         public override void Execute(TestSuite suiteInstance)
         {
             CurrentOutput = new StringBuilder();
-            onStart?.Invoke(this);
+            try
+            {
+                onStart?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onStart event invoke" + Environment.NewLine + ex);
+            }
 
-            Logger.Instance.Info($"========== '{Description}' ==========");
+            Logger.Instance.Info($"========== {(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE '{Description}' ==========");
 
             TestTimer = new Stopwatch();
 
@@ -78,36 +78,22 @@ namespace Unicorn.Core.Testing.Tests
             catch (Exception ex)
             {
                 Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                onFail?.Invoke(this);
             }
 
             TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
 
-            Logger.Instance.Info($"Suite method {Outcome.Result}");
+            Logger.Instance.Info($"{(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE {Outcome.Result}");
 
-            onFinish?.Invoke(this);
-        }
-
-
-        /// <summary>
-        /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.
-        /// If test failed not by existing bug it is marked as 'To investigate'
-        /// </summary>
-        /// <param name="ex">Exception caught on test execution</param>
-        /// <param name="bugs">string of bugs test failed on current step.</param>
-        protected override void Fail(Exception ex, string bugs)
-        {
-            
-            Logger.Instance.Error(ex.ToString());
-
-            if (!string.IsNullOrEmpty(bugs))
-                Outcome.Bugs = bugs.Split(',');
-            else
-                Outcome.Bugs = new string[] { "?" };
-
-            Outcome.Exception = ex;
-            Outcome.Result = Result.FAILED;
-            onFail?.Invoke(this);
+            try
+            {
+                onFinish?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+            }
         }
     }
 }

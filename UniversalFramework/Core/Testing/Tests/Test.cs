@@ -11,37 +11,7 @@ namespace Unicorn.Core.Testing.Tests
     public class Test : TestSuiteMethodBase
     {
 
-        private string _description = null;
-        /// <summary>
-        /// Test description. If description not specified through TestAttribute, then return test method name
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                if (_description == null)
-                {
-                    object[] attributes = TestMethod.GetCustomAttributes(typeof(TestAttribute), true);
-                    TestAttribute attribute = (TestAttribute)attributes[0];
-                    _description = attribute.Description;
-
-                    if (string.IsNullOrEmpty(_description))
-                        _description = TestMethod.Name;
-                }
-                return _description;
-            }
-            set
-            {
-                _description = value;
-            }
-        }
-
-
-        private string[] _categories = null;
-        /// <summary>
-        /// Test categories list. Test could not have any category
-        /// </summary>
-        public string[] Categories
+        public override string[] Categories
         {
             get
             {
@@ -111,7 +81,14 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             CurrentOutput = new StringBuilder();
-            onStart?.Invoke(this);
+            try
+            {
+                onStart?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onStart event invoke" + Environment.NewLine + ex);
+            }
 
             Logger.Instance.Info($"========== TEST '{Description}' ==========");
 
@@ -130,14 +107,22 @@ namespace Unicorn.Core.Testing.Tests
             catch (Exception ex)
             {
                 Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                onFail?.Invoke(this);
             }
 
             TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
 
-            Logger.Instance.Info($"Test {Outcome.Result}");
+            Logger.Instance.Info($"TEST {Outcome.Result}");
 
-            onFinish?.Invoke(this);
+            try
+            {
+                onFinish?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+            }
         }
 
 
@@ -148,29 +133,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             Outcome.Result = Result.SKIPPED;
             onSkip?.Invoke(this);
-            Logger.Instance.Info($"Test '{Description}' {Outcome.Result}");
-        }
-
-
-        /// <summary>
-        /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.
-        /// If test failed not by existing bug it is marked as 'To investigate'
-        /// </summary>
-        /// <param name="ex">Exception caught on test execution</param>
-        /// <param name="bugs">string of bugs test failed on current step.</param>
-        protected override void Fail(Exception ex, string bugs)
-        {
-            
-            Logger.Instance.Error(ex.ToString());
-
-            if (!string.IsNullOrEmpty(bugs))
-                Outcome.Bugs = bugs.Split(',');
-            else
-                Outcome.Bugs = new string[] { "?" };
-
-            Outcome.Exception = ex;
-            Outcome.Result = Result.FAILED;
-            onFail?.Invoke(this);
+            Logger.Instance.Info($"TEST '{Description}' {Outcome.Result}");
         }
 
 

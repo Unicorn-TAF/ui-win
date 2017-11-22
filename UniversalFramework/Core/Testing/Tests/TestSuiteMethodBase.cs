@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
@@ -44,6 +45,36 @@ namespace Unicorn.Core.Testing.Tests
         }
 
 
+        private string _description = null;
+        /// <summary>
+        /// Test description. If description not specified through TestAttribute, then return test method name
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                if (_description == null)
+                {
+                    object[] attributes = TestMethod.GetCustomAttributes(typeof(TestAttribute), true);
+
+                    if(attributes.Length > 0)
+                    {
+                        TestAttribute attribute = (TestAttribute)attributes[0];
+                        _description = attribute.Description;
+                    }
+
+                    if (string.IsNullOrEmpty(_description))
+                        _description = TestMethod.Name;
+                }
+                return _description;
+            }
+            set
+            {
+                _description = value;
+            }
+        }
+
+
         private string _fullTestName = null;
         /// <summary>
         /// Full test name which is "{Suite Name} - {test method name}"
@@ -61,6 +92,13 @@ namespace Unicorn.Core.Testing.Tests
                 _fullTestName = value;
             }
         }
+
+
+        protected string[] _categories = null;
+        /// <summary>
+        /// Test categories list. Test could not have any category
+        /// </summary>
+        public abstract string[] Categories { get; }
 
 
         /// <summary>
@@ -107,6 +145,17 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
         /// <param name="bugs">string of bugs test failed on current step.</param>
-        protected abstract void Fail(Exception ex, string bugs);
+        protected void Fail(Exception ex, string bugs)
+        {
+            Logger.Instance.Error(ex.ToString());
+
+            if (!string.IsNullOrEmpty(bugs))
+                Outcome.Bugs = bugs.Split(',');
+            else
+                Outcome.Bugs = new string[] { "?" };
+
+            Outcome.Exception = ex;
+            Outcome.Result = Result.FAILED;
+        }
     }
 }
