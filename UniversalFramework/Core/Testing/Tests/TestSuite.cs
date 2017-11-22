@@ -93,14 +93,23 @@ namespace Unicorn.Core.Testing.Tests
         public TestSuiteParametersSet CurrentParametersSet;
 
 
+        /// <summary>
+        /// TestSuite metadata dictionary, can contain only string values
+        /// </summary>
         public Dictionary<string, string> Metadata;
 
         private static string[] CategoriesToRun;
 
         private int RunnableTestsCount;
 
+        /// <summary>
+        /// Field containing current executing step bug, used in case of TestSteps feature usage
+        /// </summary>
         public string CurrentStepBug = "";
 
+        /// <summary>
+        /// Suite outcome, contain all information on suite run and results
+        /// </summary>
         public SuiteOutcome Outcome;
 
         Stopwatch SuiteTimer;
@@ -116,9 +125,18 @@ namespace Unicorn.Core.Testing.Tests
 
         public delegate void TestSuiteEvent(TestSuite suite);
 
-
+        /// <summary>
+        /// Event raised on TestSuite start
+        /// </summary>
         public static event TestSuiteEvent onStart;
+        /// <summary>
+        /// Event raised on TestSuite finish
+        /// </summary>
         public static event TestSuiteEvent onFinish;
+        /// <summary>
+        /// Event raised on TestSuite skip
+        /// </summary>
+        public static event TestSuiteEvent onSkip;
 
 
         /// <summary>
@@ -170,29 +188,44 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public void Run()
         {
+            if (RunnableTestsCount == 0)
+            {
+                Skip("There are no runnable tests");
+                return;
+            }
+
+            try
+            {
+                onStart?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Skip("Error running test suite");
+                Logger.Instance.Error("Exception occured during onStart event invoke" + Environment.NewLine + ex);
+                return;
+            }
+
             Logger.Instance.Info($"==================== TEST SUITE '{Name}' ====================");
 
-            onStart?.Invoke(this);
+            SuiteTimer.Start();
 
-            if (RunnableTestsCount > 0)
-            {
-                SuiteTimer.Start();
+            ExecuteWholeSuite();
 
-                ExecuteWholeSuite();
-
-                SuiteTimer.Stop();
-            }
-            else
-            {
-                Skip();
-            }
+            SuiteTimer.Stop();
 
             Outcome.TotalTests = RunnableTestsCount;
+
             Outcome.ExecutionTime = SuiteTimer.Elapsed;
+            Logger.Instance.Info($"TEST SUITE {Outcome.Result}");
 
-            Logger.Instance.Info($"SUITE {Outcome.Result}");
-
-            onFinish?.Invoke(this);
+            try
+            {
+                onFinish?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+            }
         }
 
 
@@ -220,18 +253,19 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Skip test suite and invoke onSkip event
         /// </summary>
-        public void Skip()
+        public void Skip(string reason)
         {
-            Logger.Instance.Info("There are no runnable tests");
+            Logger.Instance.Info(reason);
             RunnableTestsCount = 0;
             Outcome.Result = Result.SKIPPED;
+            onSkip?.Invoke(this);
         }
 
 
         /// <summary>
         /// Run BeforeSuites
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true - if before suites passed; false - if at least one Before suite is failed</returns>
         protected bool RunBeforeSuite()
         {
             if (ListBeforeSuite.Length == 0)
