@@ -73,6 +73,20 @@ namespace ReportPortal.UnicornExtension
         }
 
 
+        public void ReportSuiteMethodStarted(TestSuiteMethod test)
+        {
+            if (Config.IsEnabled)
+                StartSuiteMethod(test);
+        }
+
+
+        public void ReportSuiteMethodFinished(TestSuiteMethod test)
+        {
+            if (Config.IsEnabled)
+                FinishSuiteMethod(test);
+        }
+
+
         public void ReportTestStarted(Test test)
         {
             if (Config.IsEnabled)

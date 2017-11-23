@@ -29,9 +29,12 @@ namespace ProjectSpecific.Util
             Test.onStart += this.ReportTestStart;
             Test.onFail += this.TakeScreenshot;
             Test.onFinish += this.ReportTestFinish;
-            Test.onSkip += this.ReportTestSkip;
+            Test.onSkip += Listener.ReportTestSkipped;
 
-            TestSuite.onStart += this.ReportSuiteStart;
+            TestSuiteMethod.onStart += Listener.ReportSuiteMethodStarted;
+            TestSuiteMethod.onFinish += Listener.ReportSuiteMethodFinished;
+
+            TestSuite.onStart += Listener.ReportSuiteStarted;
             TestSuite.onFinish += this.ReportSuiteFinish;
         }
 
@@ -46,26 +49,17 @@ namespace ProjectSpecific.Util
             Listener.ReportAddSuiteTags(testSuite, Environment.MachineName);
         }
 
-        public void ReportSuiteStart(TestSuite testSuite)
-        {
-            Listener.ReportSuiteStarted(testSuite);
-        }
 
         public void ReportTestFinish(Test test)
         {
-            Listener.ReportTestFinished(test);
             Listener.ReportAddTestTags(test, Environment.MachineName);
+            Listener.ReportTestFinished(test);
         }
 
         public void ReportTestStart(Test test)
         {
             Listener.ReportTestStarted(test);
             
-        }
-
-        public void ReportTestSkip(Test test)
-        {
-            Listener.ReportTestSkipped(test);
         }
 
 
