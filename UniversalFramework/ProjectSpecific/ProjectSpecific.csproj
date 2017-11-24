@@ -56,6 +56,7 @@
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Util\ReportPortalReporter.cs" />
     <Compile Include="Util\SimpleReporter.cs" />
+    <Compile Include="Web\YandexTopMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">

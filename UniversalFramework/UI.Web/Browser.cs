@@ -1,4 +1,4 @@
-﻿namespace Unicorn.UIWeb
+﻿namespace Unicorn.UI.Web
 {
     public enum Browser
     {

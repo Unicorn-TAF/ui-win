@@ -32,13 +32,7 @@ namespace Unicorn.UI.Desktop.UI
         public GuiContainer(AutomationElement instance) : base(instance)
         { }
 
-        public void ClickButton(string locator)
-        {
-            Logger.Instance.Debug($"\tClick '{locator}' button");
 
-            Button button = Find<Button>(ByLocator.Name(locator));
-            button.Click();
-        }
 
         public void Init()
         {
@@ -56,6 +50,15 @@ namespace Unicorn.UI.Desktop.UI
                     field.SetValue(this, control);
                 }
             }
+        }
+
+
+        public void ClickButton(string locator)
+        {
+            Logger.Instance.Debug($"\tClick '{locator}' button");
+
+            Button button = Find<Button>(ByLocator.Name(locator));
+            button.Click();
         }
 
         public void InputText(string locator, string text)

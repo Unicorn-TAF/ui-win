@@ -107,7 +107,6 @@ namespace Unicorn.UI.Desktop.UI
         public GuiControl() { }
 
         public GuiControl(AutomationElement instance)
-            : base()
         {
             Instance = instance;
         }

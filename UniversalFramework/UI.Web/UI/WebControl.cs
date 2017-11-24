@@ -1,12 +1,11 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using Unicorn.UI.Core.UI;
-using Unicorn.UIWeb.Driver;
+using Unicorn.UI.Web.Driver;
 using System.Drawing;
 using OpenQA.Selenium.Interactions;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UIWeb.UI
+namespace Unicorn.UI.Web.UI
 {
     public class WebControl : WebSearchContext, IControl {
 
@@ -25,11 +24,20 @@ namespace Unicorn.UIWeb.UI
             }
         }
 
-        public IWebElement Instance
+        public bool Cached = true;
+
+        public virtual IWebElement Instance
         {
             get
             {
+                if (!Cached)
+                    SearchContext = GetNativeControlFromParentContext(Locator);
+
                 return (IWebElement)SearchContext;
+            }
+            set
+            {
+                SearchContext = value;
             }
         }
 
@@ -71,6 +79,13 @@ namespace Unicorn.UIWeb.UI
             {
                 return Instance.Size;
             }
+        }
+
+        public WebControl() { }
+
+        public WebControl(IWebElement instance)
+        {
+            Instance = instance;
         }
 
 

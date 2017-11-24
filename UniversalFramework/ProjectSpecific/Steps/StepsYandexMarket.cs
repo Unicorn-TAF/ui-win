@@ -1,8 +1,9 @@
-﻿using Unicorn.Core.Testing.Steps;
+﻿using ProjectSpecific.Web;
+using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UIWeb.Driver;
-using Unicorn.UIWeb.UI;
+using Unicorn.UI.Web.Driver;
+using Unicorn.UI.Web.UI;
 
 namespace ProjectSpecific.Steps
 {
@@ -23,8 +24,8 @@ namespace ProjectSpecific.Steps
         public void DoSomeActions()
         {
             ReportStep();
-
-            driver.Find<WebControl>(ByLocator.Xpath("//li[@data-department='Электроника']/a")).Click();
+            YandexTopMenu menu = driver.Find<YandexTopMenu>(ByLocator.Css(".topmenu__list"));
+            menu.Link.Click();
             WebControl checkbox = driver.Find<WebControl>(ByLocator.Xpath("//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']"));
             checkbox.Click();
         }

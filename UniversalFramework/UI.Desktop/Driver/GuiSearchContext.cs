@@ -42,7 +42,7 @@ namespace Unicorn.UI.Desktop.Driver
 
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
-            return GetWrappedControllList<T>(locator);
+            return GetWrappedControlsList<T>(locator);
         }
 
 
@@ -116,7 +116,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             do
             {
-                controlsList = GetWrappedControllList<T>(locator);
+                controlsList = GetWrappedControlsList<T>(locator);
                 Thread.Sleep(delayBetweenTryes);
             } while (controlsList.Count == 0 && timer.Elapsed < ImplicitlyWait);
 
@@ -126,7 +126,7 @@ namespace Unicorn.UI.Desktop.Driver
         }
 
 
-        private IList<T> GetWrappedControllList<T>(ByLocator locator)
+        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
             if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control: " + typeof(T));
@@ -162,7 +162,7 @@ namespace Unicorn.UI.Desktop.Driver
                     control = GetWrappedControl<T>(locator);
                     success = true;
                 }
-                catch
+                catch(ControlNotFoundException)
                 {
                     Thread.Sleep(delayBetweenTryes);
                 }
@@ -265,7 +265,7 @@ namespace Unicorn.UI.Desktop.Driver
                     locatorCondition = new PropertyCondition(AutomationElement.NameProperty, locator.Locator);
                     break;
                 default:
-                    throw new ArgumentException($"Incorrect locator type: {locator.How}");
+                    throw new ArgumentException($"Incorrect locator type specified: {locator.How}");
             }
 
             GuiControl _instance = (GuiControl)(object)Activator.CreateInstance<T>();

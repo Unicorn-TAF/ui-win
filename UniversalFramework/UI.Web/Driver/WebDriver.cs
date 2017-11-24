@@ -7,12 +7,12 @@ using System.Text.RegularExpressions;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UIWeb.Driver
+namespace Unicorn.UI.Web.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
         public static Browser Browser = Browser.CHROME;
-        private IWebDriver Driver;
+        private static IWebDriver Driver;
 
         static bool _needInit = false;
         static DriverOptions _options = null;
@@ -25,6 +25,7 @@ namespace Unicorn.UIWeb.Driver
                 if (_instance == null || _needInit)
                 {
                     _instance = new WebDriver();
+                    _instance.SearchContext = Driver;
                     _needInit = false;
                     Logger.Instance.Debug($"{Browser} WebDriver initialized");
                 }
@@ -48,8 +49,6 @@ namespace Unicorn.UIWeb.Driver
                 Driver = GetInstance();
             else
                 Driver = GetInstance(_options);
-
-            SearchContext = Driver;
 
             if (maximize)
                 Driver.Manage().Window.Maximize();

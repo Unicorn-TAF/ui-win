@@ -1,15 +1,15 @@
 ﻿using OpenQA.Selenium;
 using System;
 using Unicorn.UI.Core.UI;
-using Unicorn.UIWeb.UI;
+using Unicorn.UI.Web.UI;
 using System.Collections.Generic;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UIWeb.Driver
+namespace Unicorn.UI.Web.Driver
 {
-    public abstract class WebSearchContext : Unicorn.UI.Core.Driver.ISearchContext
+    public abstract class WebSearchContext : Core.Driver.ISearchContext
     {
-        protected OpenQA.Selenium.ISearchContext ParentContext;
+        public OpenQA.Selenium.ISearchContext ParentContext;
         protected OpenQA.Selenium.ISearchContext SearchContext;
 
 
@@ -19,23 +19,10 @@ namespace Unicorn.UIWeb.Driver
 
         public T Find<T>(ByLocator locator) where T : IControl
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control");
-
-            try
-            {
-                IWebElement elementToWrap = SearchContext.FindElement(GetLocator(locator));
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-                return wrapper;
-            }
-            catch (NoSuchElementException)
-            {
-                throw new ControlNotFoundException($"Unable to find control by {locator}");
-            }
+            return GetWrappedControl<T>(locator);
         }
 
-
+        /*
         public T Find<T>(string name, string alternativeName = "") where T : IControl
         {
             if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
@@ -61,25 +48,11 @@ namespace Unicorn.UIWeb.Driver
                 throw new ControlNotFoundException($"Unable to find control by name = {name} and alternative name = {alternativeName}");
             }
         }
-
+        */
 
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control");
-
-            List<T> listElements = new List<T>();
-            
-            IList<IWebElement> elementsToWrap = SearchContext.FindElements(GetLocator(locator));
-
-            foreach (IWebElement elementToWrap in elementsToWrap)
-            {
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-                listElements.Add(wrapper);
-            }
-
-            return listElements;
+            return GetWrappedControlsList<T>(locator);
         }
 
 
@@ -133,7 +106,85 @@ namespace Unicorn.UIWeb.Driver
 
         #region "Helpers"
 
-        private By GetLocator(ByLocator locator)
+        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+
+            List<T> controlsList = new List<T>();
+            IList<IWebElement> wElements = GetNativeControlsList(locator);
+
+            foreach (IWebElement wElement in wElements)
+            {
+                var wrapper = Activator.CreateInstance<T>();
+                ((WebControl)(object)wrapper).Instance = wElement;
+                ((WebControl)(object)wrapper).ParentContext = SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
+
+        private T GetWrappedControl<T>(ByLocator locator)
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+
+            IWebElement elementToWrap = GetNativeControl(locator);
+            var wrapper = Activator.CreateInstance<T>();
+            ((WebControl)(object)wrapper).Instance = elementToWrap;
+            ((WebControl)(object)wrapper).ParentContext = SearchContext;
+
+            return wrapper;
+        }
+
+        protected IWebElement GetNativeControl(ByLocator locator)
+        {
+            By by = GetNativeLocator(locator);
+            try
+            {
+                IWebElement nativeControl = SearchContext.FindElement(by);
+                return nativeControl;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
+        }
+
+
+        protected IWebElement GetNativeControlFromParentContext(ByLocator locator)
+        {
+            By by = GetNativeLocator(locator);
+            try
+            {
+                IWebElement nativeControl = ParentContext.FindElement(by);
+                return nativeControl;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
+        }
+
+
+        private IList<IWebElement> GetNativeControlsList(ByLocator locator)
+        {
+            By by = GetNativeLocator(locator);
+            
+            try
+            {
+                IList<IWebElement> nativeControls = SearchContext.FindElements(by);
+                return nativeControls;
+            }
+            catch (NoSuchElementException)
+            {
+                return new List<IWebElement>();
+            }
+        }
+
+
+        private By GetNativeLocator(ByLocator locator)
         {
             switch (locator.How)
             {
