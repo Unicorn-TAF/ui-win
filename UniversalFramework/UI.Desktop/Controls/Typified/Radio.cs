@@ -1,8 +1,6 @@
-﻿using System;
-using System.Windows.Automation;
-using Unicorn.UI.Core.UI;
+﻿using System.Windows.Automation;
 
-namespace Unicorn.UI.Desktop.UI.Controls
+namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Radio : GuiControl
     {

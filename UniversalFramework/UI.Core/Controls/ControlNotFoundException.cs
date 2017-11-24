@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.UI.Core.UI
+namespace Unicorn.UI.Core.Controls
 {
     public class ControlNotFoundException : Exception
     {

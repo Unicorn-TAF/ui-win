@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using System;
-using Unicorn.UI.Core.UI;
-using Unicorn.UI.Web.UI;
+using Unicorn.UI.Web.Controls;
 using System.Collections.Generic;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Web.Driver
 {

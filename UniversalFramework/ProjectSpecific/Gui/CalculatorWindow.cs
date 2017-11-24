@@ -1,6 +1,6 @@
 ﻿using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
-using Unicorn.UI.Desktop.UI.Controls;
+using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace ProjectSpecific.Gui
 {

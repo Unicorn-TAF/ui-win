@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Automation;
-using Unicorn.UI.Core.UI;
-using Unicorn.UI.Core.UI.Controls;
+using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
-namespace Unicorn.UI.Desktop.UI.Controls
+namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class TextInput : GuiControl, IControl, ITextInput
     {

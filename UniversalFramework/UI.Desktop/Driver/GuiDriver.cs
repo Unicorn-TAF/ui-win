@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows.Automation;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Desktop.UI.Controls;
+using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace Unicorn.UI.Desktop.Driver
 {

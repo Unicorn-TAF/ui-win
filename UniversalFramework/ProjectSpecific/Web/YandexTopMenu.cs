@@ -1,6 +1,6 @@
 ﻿using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
-using Unicorn.UI.Web.UI;
+using Unicorn.UI.Web.Controls;
 
 namespace ProjectSpecific.Web
 {

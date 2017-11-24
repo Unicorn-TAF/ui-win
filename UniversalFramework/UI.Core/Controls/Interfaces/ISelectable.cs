@@ -1,4 +1,4 @@
-﻿namespace Unicorn.UI.Core.UI
+﻿namespace Unicorn.UI.Core.Controls.Interfaces
 {
     public interface ISelectable
     {

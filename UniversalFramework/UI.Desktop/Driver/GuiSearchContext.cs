@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Automation;
+using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.UI;
-using Unicorn.UI.Desktop.UI;
+using Unicorn.UI.Desktop.Controls;
 
 namespace Unicorn.UI.Desktop.Driver
 {

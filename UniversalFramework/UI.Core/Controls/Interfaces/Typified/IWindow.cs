@@ -1,6 +1,6 @@
 ﻿using Unicorn.UI.Core.PageObject;
 
-namespace Unicorn.UI.Core.UI.Controls
+namespace Unicorn.UI.Core.Controls.Interfaces.Typified
 {
     public interface IWindow : IContainer
     {

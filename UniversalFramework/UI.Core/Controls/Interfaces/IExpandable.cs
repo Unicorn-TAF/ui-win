@@ -1,5 +1,5 @@
 ﻿
-namespace Unicorn.UI.Core.UI.Controls
+namespace Unicorn.UI.Core.Controls.Interfaces
 {
     public interface IExpandable
     {

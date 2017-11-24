@@ -1,7 +1,6 @@
 ﻿using System.Windows.Automation;
-using Unicorn.UI.Core.UI;
 
-namespace Unicorn.UI.Desktop.UI.Controls
+namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class ListItem : GuiControl
     {

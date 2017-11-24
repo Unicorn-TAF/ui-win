@@ -3,7 +3,7 @@ using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
-using Unicorn.UI.Web.UI;
+using Unicorn.UI.Web.Controls;
 
 namespace ProjectSpecific.Steps
 {

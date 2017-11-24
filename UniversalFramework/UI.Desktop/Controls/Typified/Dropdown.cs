@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Windows.Automation;
+using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.UI.Controls;
 
-namespace Unicorn.UI.Desktop.UI.Controls
+namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Dropdown : GuiControl, IDropdown
     {

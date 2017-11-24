@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.UI;
+using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Desktop.Driver;
 using Unicorn.UI.Desktop.Input;
 
-namespace Unicorn.UI.Desktop.UI
+namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {

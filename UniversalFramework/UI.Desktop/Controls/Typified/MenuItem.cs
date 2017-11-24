@@ -1,6 +1,6 @@
 ﻿using System.Windows.Automation;
 
-namespace Unicorn.UI.Desktop.UI.Controls
+namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class MenuItem : GuiControl
     {

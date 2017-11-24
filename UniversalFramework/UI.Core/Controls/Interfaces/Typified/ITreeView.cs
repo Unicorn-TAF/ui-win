@@ -1,4 +1,4 @@
-﻿namespace Unicorn.UI.Core.UI.Controls
+﻿namespace Unicorn.UI.Core.Controls.Interfaces.Typified
 {
     public interface ITreeView : ISelectable
     {

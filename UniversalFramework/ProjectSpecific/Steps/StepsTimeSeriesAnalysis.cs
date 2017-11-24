@@ -1,10 +1,9 @@
 ﻿using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
-using System.Threading;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Desktop.Driver;
-using Unicorn.UI.Desktop.UI.Controls;
 using ProjectSpecific.Gui;
+using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace ProjectSpecific.Steps
 {

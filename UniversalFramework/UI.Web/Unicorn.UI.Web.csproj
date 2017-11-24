@@ -91,12 +91,10 @@
     <Compile Include="Driver\WebSearchContext.cs" />
     <Compile Include="PageObject\WebPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\WebContainer.cs" />
-    <Compile Include="UI\WebControl.cs" />
+    <Compile Include="Controls\WebContainer.cs" />
+    <Compile Include="Controls\WebControl.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>

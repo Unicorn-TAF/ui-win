@@ -1,11 +1,11 @@
 ﻿using OpenQA.Selenium;
-using Unicorn.UI.Core.UI;
 using Unicorn.UI.Web.Driver;
 using System.Drawing;
 using OpenQA.Selenium.Interactions;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.Controls;
 
-namespace Unicorn.UI.Web.UI
+namespace Unicorn.UI.Web.Controls
 {
     public class WebControl : WebSearchContext, IControl {
 

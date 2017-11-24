@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Threading;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UI.Core.UI
+namespace Unicorn.UI.Core.Controls
 {
     public interface IControl
     {

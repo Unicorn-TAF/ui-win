@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using Unicorn.UI.Core.PageObject;
 
-namespace Unicorn.UI.Web.UI
+namespace Unicorn.UI.Web.Controls
 {
     public class WebContainer: WebControl, IContainer
     {
