@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UICore", "UICore\Unicorn.UICore.csproj", "{41306953-6A6F-4F5C-8713-E82D9122C32A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UI.Core", "UI.Core\Unicorn.UI.Core.csproj", "{41306953-6A6F-4F5C-8713-E82D9122C32A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{EB194BC1-4216-4757-8624-7F47D35C4395}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.Core", "Core\Unicorn.Core.csproj", "{DDE87224-BFF6-4ABD-879E-1C5316124536}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UIWeb", "UIWeb\Unicorn.UIWeb.csproj", "{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UI.Web", "UI.Web\Unicorn.UI.Web.csproj", "{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UIDesktop", "UIDesktop\Unicorn.UIDesktop.csproj", "{D0CA51A3-65BC-4530-85D1-507CC042F3A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UI.Desktop", "UI.Desktop\Unicorn.UI.Desktop.csproj", "{D0CA51A3-65BC-4530-85D1-507CC042F3A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectSpecific", "ProjectSpecific\ProjectSpecific.csproj", "{086860BD-94BD-455C-9954-38F827ED219B}"
 EndProject

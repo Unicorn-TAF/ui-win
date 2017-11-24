@@ -1,9 +1,10 @@
 ﻿using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using System.Threading;
-using Unicorn.UICore.Driver;
-using Unicorn.UIDesktop.Driver;
-using Unicorn.UIDesktop.UI.Controls;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Desktop.Driver;
+using Unicorn.UI.Desktop.UI.Controls;
+using ProjectSpecific.Gui;
 
 namespace ProjectSpecific.Steps
 {
@@ -26,13 +27,16 @@ namespace ProjectSpecific.Steps
         {
             ReportStep(fileName);
 
-            Window mainWindow = driver.Find<Window>(By.Id, "mainForm");
-            mainWindow.ClickButton("openFileBtn");
+            //Window mainWindow = driver.Find<Window>(ByLocator.Name("Signal Analyzer"));
+            //mainWindow.Find<Button>(ByLocator.Id("openFileBtn"));
 
-            Window openDialog = mainWindow.Find<Window>("Open");
-            openDialog.InputText("File name:", fileName);
-            openDialog.ClickButton("Open");
-            Thread.Sleep(2000);
+            //Window openDialog = mainWindow.Find<Window>(ByLocator.Name("Open"));
+            //openDialog.InputText("File name:", fileName);
+            //openDialog.ClickButton("Open");
+            //Thread.Sleep(2000);
+
+            CalculatorWindow mainWindow = driver.Find<CalculatorWindow>(ByLocator.Name("Calculator"));
+            mainWindow.ButtonNine.Click();
         }
 
 
@@ -42,7 +46,7 @@ namespace ProjectSpecific.Steps
         {
             ReportStep();
 
-            Window mainWindow = driver.Find<Window>(By.Name, "mainForm");
+            Window mainWindow = driver.Find<Window>(ByLocator.Name("mainForm"));
             mainWindow.ClickButton("plotBtn");
         }
 

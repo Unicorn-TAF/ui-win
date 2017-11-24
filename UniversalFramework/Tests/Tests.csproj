@@ -137,9 +137,9 @@
       <Project>{086860bd-94bd-455c-9954-38f827ed219b}</Project>
       <Name>ProjectSpecific</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UICore\Unicorn.UICore.csproj">
+    <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
-      <Name>Unicorn.UICore</Name>
+      <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

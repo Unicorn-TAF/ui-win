@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="Gui\CalculatorWindow.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Steps\Steps.cs" />
@@ -65,17 +66,17 @@
       <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
       <Name>ReportPortal.UnicornExtension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UICore\Unicorn.UICore.csproj">
+    <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
-      <Name>Unicorn.UICore</Name>
+      <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIDesktop\Unicorn.UIDesktop.csproj">
+    <ProjectReference Include="..\UI.Desktop\Unicorn.UI.Desktop.csproj">
       <Project>{d0ca51a3-65bc-4530-85d1-507cc042f3a5}</Project>
-      <Name>Unicorn.UIDesktop</Name>
+      <Name>Unicorn.UI.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIWeb\Unicorn.UIWeb.csproj">
+    <ProjectReference Include="..\UI.Web\Unicorn.UI.Web.csproj">
       <Project>{a6e1ed9c-2b52-4b46-bc24-ccaf20bae7fb}</Project>
-      <Name>Unicorn.UIWeb</Name>
+      <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

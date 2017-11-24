@@ -1,0 +1,97 @@
+﻿using System;
+using OpenQA.Selenium;
+using Unicorn.UI.Core.UI;
+using Unicorn.UIWeb.Driver;
+using System.Drawing;
+using OpenQA.Selenium.Interactions;
+using Unicorn.UI.Core.Driver;
+
+namespace Unicorn.UIWeb.UI
+{
+    public class WebControl : WebSearchContext, IControl {
+
+
+        private ByLocator _locator;
+        public ByLocator Locator
+        {
+            get
+            {
+                return _locator;
+            }
+
+            set
+            {
+                _locator = value;
+            }
+        }
+
+        public IWebElement Instance
+        {
+            get
+            {
+                return (IWebElement)SearchContext;
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return Instance.Text;
+            }
+        }
+
+        public bool Enabled
+        {
+            get
+            {
+                return Instance.Enabled;
+            }
+        }
+
+        public bool Visible
+        {
+            get
+            {
+                return Instance.Displayed;
+            }
+        }
+
+        public Point Location
+        {
+            get
+            {
+                return Instance.Location;
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                return Instance.Size;
+            }
+        }
+
+
+
+        public string GetAttribute(string attribute)
+        {
+            return Instance.GetAttribute(attribute);
+        }
+
+
+        public virtual void Click()
+        {
+            Instance.Click();
+        }
+
+        public void RightClick()
+        {
+            Actions actions = new Actions((IWebDriver)SearchContext);
+            actions.MoveToElement(Instance);
+            actions.ContextClick();
+            actions.Release().Perform();
+        }
+    }
+}
