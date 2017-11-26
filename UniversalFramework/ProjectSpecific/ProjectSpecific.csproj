@@ -45,18 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
-    <Compile Include="Gui\CalculatorWindow.cs" />
+    <Compile Include="UI\Gui\WindowCharMap.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Steps\Steps.cs" />
     <Compile Include="Util\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\StepsTimeSeriesAnalysis.cs" />
+    <Compile Include="Steps\StepsCharMap.cs" />
     <Compile Include="Steps\StepsYandexMarket.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Util\ReportPortalReporter.cs" />
     <Compile Include="Util\SimpleReporter.cs" />
-    <Compile Include="Web\YandexTopMenu.cs" />
+    <Compile Include="UI\Web\YandexTopMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">

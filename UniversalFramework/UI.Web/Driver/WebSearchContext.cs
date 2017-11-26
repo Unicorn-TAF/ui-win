@@ -188,17 +188,17 @@ namespace Unicorn.UI.Web.Driver
         {
             switch (locator.How)
             {
-                case LocatorType.Web_Xpath:
+                case Using.Web_Xpath:
                     return By.XPath(WebDriver.TransformXpath(locator.Locator));
-                case LocatorType.Web_Css:
+                case Using.Web_Css:
                     return By.CssSelector(locator.Locator);
-                case LocatorType.Id:
+                case Using.Id:
                     return By.Id(locator.Locator);
-                case LocatorType.Name:
+                case Using.Name:
                     return By.Name(locator.Locator);
-                case LocatorType.Class:
+                case Using.Class:
                     return By.ClassName(locator.Locator);
-                case LocatorType.Web_Tag:
+                case Using.Web_Tag:
                     return By.TagName(locator.Locator);
                 default:
                     throw new ArgumentException($"Incorrect locator type specified:  {locator.How}");

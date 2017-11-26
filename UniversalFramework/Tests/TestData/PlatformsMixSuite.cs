@@ -8,14 +8,13 @@ namespace Tests.TestData
     [Feature("Timeseries Analysis"), Feature("Yandex Market")]
     class PlatformsMixSuite : BaseTestSuite
     {
-        const string EXE_PATH = @"C:\Users\Vitaliy_Dobriyan\Desktop\_Release\";
+        const string EXE_PATH = @"C:\Windows\System32\";
         const string PORTAL_URL = @"https://market.yandex.ru/";
 
         [BeforeTest]
         public void BeforeTest()
         {
-            //Do.Testing.SecondTestStep("=iGetArray(TestCaseData!A12,\"Screening\",\"{\"\"Items\"\":[\"\"All Assets\"\"]}\",,,,\"[{\"\"Selector\"\":[\"\"Gross Margin %\"\",\"\"\"\",\"\"Actual\"\",\"\"1M\"\",\"\"Current\"\",\"\"Current\"\",\"\"\"\",\"\"\"\"],\"\"Operator\"\":\"\"=\"\",\"\"Values\"\":[\"\"25\"\"],\"\"AllowUserInput\"\":true}]\",\"{\"\"Show\"\":\"\"Investment\"\"}\")");
-            //Do.TimeSeriesAnalysis.StartApplication(EXE_PATH + "TimeSeriesAnalysis.exe");
+            Do.CharMap.StartApplication(EXE_PATH + "charmap.exe");
         }
 
         [Bug("9999")]
@@ -24,7 +23,7 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            //Do.TimeSeriesAnalysis.OpenFile(EXE_PATH + "TestData\\henon");
+            Do.CharMap.DoSomething("Calibri");
             Do.YandexMarket.OpenPortal(PORTAL_URL);
             Bug("76237").YandexMarket.DoSomeActions();
         }
@@ -33,7 +32,7 @@ namespace Tests.TestData
         public void TearDown()
         {
             Logger.Instance.Info("After Test: close app and browser");
-            Do.TimeSeriesAnalysis.CloseApplication();
+            Do.CharMap.CloseApplication();
             Do.YandexMarket.CloseBrowser();
         }
     }

@@ -8,7 +8,7 @@ namespace Unicorn.UI.Core.PageObject
     {
         public ByLocator Locator;
 
-        public FindAttribute(LocatorType how, string locator)
+        public FindAttribute(Using how, string locator)
         {
             Locator = new ByLocator(how, locator);
         }

@@ -208,13 +208,13 @@ namespace Unicorn.UI.Desktop.Driver
 
             switch (locator.How)
             {
-                case LocatorType.Id:
+                case Using.Id:
                     locatorCondition = new PropertyCondition(AutomationElement.AutomationIdProperty, locator.Locator);
                     break;
-                case LocatorType.Class:
+                case Using.Class:
                     locatorCondition = new PropertyCondition(AutomationElement.ClassNameProperty, locator.Locator);
                     break;
-                case LocatorType.Name:
+                case Using.Name:
                     locatorCondition = new PropertyCondition(AutomationElement.NameProperty, locator.Locator);
                     break;
                 default:
@@ -255,13 +255,13 @@ namespace Unicorn.UI.Desktop.Driver
 
             switch (locator.How)
             {
-                case LocatorType.Id:
+                case Using.Id:
                     locatorCondition = new PropertyCondition(AutomationElement.AutomationIdProperty, locator.Locator);
                     break;
-                case LocatorType.Class:
+                case Using.Class:
                     locatorCondition = new PropertyCondition(AutomationElement.ClassNameProperty, locator.Locator);
                     break;
-                case LocatorType.Name:
+                case Using.Name:
                     locatorCondition = new PropertyCondition(AutomationElement.NameProperty, locator.Locator);
                     break;
                 default:
