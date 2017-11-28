@@ -52,16 +52,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="UI\Gui\WindowCharMap.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Steps\Steps.cs" />
     <Compile Include="Util\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\StepsTimeSeriesAnalysis.cs" />
+    <Compile Include="Steps\StepsCharMap.cs" />
     <Compile Include="Steps\StepsYandexMarket.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Util\ReportPortalReporter.cs" />
     <Compile Include="Util\SimpleReporter.cs" />
+    <Compile Include="UI\Web\YandexTopMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Unicorn.Core.csproj">
@@ -72,17 +74,17 @@
       <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
       <Name>ReportPortal.UnicornExtension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UICore\Unicorn.UICore.csproj">
+    <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
-      <Name>Unicorn.UICore</Name>
+      <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIDesktop\Unicorn.UIDesktop.csproj">
+    <ProjectReference Include="..\UI.Desktop\Unicorn.UI.Desktop.csproj">
       <Project>{d0ca51a3-65bc-4530-85d1-507cc042f3a5}</Project>
-      <Name>Unicorn.UIDesktop</Name>
+      <Name>Unicorn.UI.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIWeb\Unicorn.UIWeb.csproj">
+    <ProjectReference Include="..\UI.Web\Unicorn.UI.Web.csproj">
       <Project>{a6e1ed9c-2b52-4b46-bc24-ccaf20bae7fb}</Project>
-      <Name>Unicorn.UIWeb</Name>
+      <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

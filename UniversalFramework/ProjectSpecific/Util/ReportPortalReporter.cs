@@ -1,5 +1,4 @@
 ﻿using ReportPortal.UnicornExtension;
-using System;
 using System.IO;
 using System.Reflection;
 using Unicorn.Core.Logging;
@@ -11,6 +10,7 @@ namespace ProjectSpecific.Util
 {
     class ReportPortalReporter : IReporter
     {
+
         ReportPortalListener Listener;
         public void Complete()
         {
@@ -24,13 +24,17 @@ namespace ProjectSpecific.Util
                 Directory.CreateDirectory(screenshotsDir);
 
             Listener = new ReportPortalListener();
-
+            //Listener.ExistingLaunchId = Listener.GetLaunchId("Unit tests of Unicorn Framework");
             Listener.ReportRunStarted();
+            
 
-            Test.onStart += this.ReportTestStart;
-            Test.onFail += this.TakeScreenshot;
-            Test.onFinish += this.ReportTestFinish;
-            Test.onSkip += this.ReportTestSkip;
+            Test.onStart += ReportTestStart;
+            Test.onFail += TakeScreenshot;
+            Test.onFinish += ReportTestFinish;
+            Test.onSkip += Listener.ReportTestSkipped;
+
+            TestSuiteMethod.onStart += Listener.ReportSuiteMethodStarted;
+            TestSuiteMethod.onFinish += Listener.ReportSuiteMethodFinished;
 
             TestSuite.onStart += this.ReportSuiteStart;
             TestSuite.onFinish += this.ReportSuiteFinish;
@@ -53,7 +57,6 @@ namespace ProjectSpecific.Util
         public void ReportSuiteFinish(TestSuite testSuite)
         {
             Listener.ReportSuiteFinished(testSuite);
-            Listener.ReportAddSuiteTags(testSuite, Environment.MachineName);
         }
 
         public void ReportSuiteStart(TestSuite testSuite)
@@ -64,18 +67,11 @@ namespace ProjectSpecific.Util
         public void ReportTestFinish(Test test)
         {
             Listener.ReportTestFinished(test);
-            Listener.ReportAddTestTags(test, Environment.MachineName);
         }
 
         public void ReportTestStart(Test test)
         {
             Listener.ReportTestStarted(test);
-            
-        }
-
-        public void ReportTestSkip(Test test)
-        {
-            Listener.ReportTestSkipped(test);
         }
 
 

@@ -44,6 +44,8 @@ namespace ReportPortal.UnicornExtension
 
         public static Config Config { get; private set; }
 
+        public string ExistingLaunchId;
+
 
         public void ReportRunStarted()
         {
@@ -70,6 +72,20 @@ namespace ReportPortal.UnicornExtension
         {
             if (Config.IsEnabled)
                 FinishSuite(suite);
+        }
+
+
+        public void ReportSuiteMethodStarted(TestSuiteMethod test)
+        {
+            if (Config.IsEnabled)
+                StartSuiteMethod(test);
+        }
+
+
+        public void ReportSuiteMethodFinished(TestSuiteMethod test)
+        {
+            if (Config.IsEnabled)
+                FinishSuiteMethod(test);
         }
 
 
@@ -125,12 +141,18 @@ namespace ReportPortal.UnicornExtension
         }
         
 
-        public void ReportMergeLaunches(string descriptionSearchString, string description)
+        public void ReportMergeLaunches(string descriptionSearchString)
         {
             if (Config.IsEnabled)
-                MergeRuns(descriptionSearchString, description);
+                MergeRuns(descriptionSearchString);
         }
 
-
+        public string ReportGetLaunchId(string descriptionSearchString)
+        {
+            if (Config.IsEnabled)
+                return GetLaunchId(descriptionSearchString);
+            else
+                return null;
+        }
     }
 }

@@ -4,12 +4,11 @@ using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
 using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using Unicorn.Core.Testing.Tests;
 using System.IO;
 using Unicorn.Core.Reporting;
 using System.Text;
-using System.Linq;
+using Unicorn.Core.Logging;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -19,8 +18,6 @@ namespace ReportPortal.UnicornExtension
 
         public static event TestStartedHandler BeforeTestStarted;
         public static event TestStartedHandler AfterTestStarted;
-
-        Test CurrentTest = null;
 
         protected void StartTest(Test test)
         {
@@ -47,7 +44,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
+                    Logger.Instance.Error("Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
                                       exp);
                 }
                 if (!beforeTestEventArg.Canceled)
@@ -64,14 +61,14 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine +
+                        Logger.Instance.Error("Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine +
                                           exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -184,7 +181,7 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'BeforeTestFinished' subscriber." +
+                        Logger.Instance.Error("Exception was thrown in 'BeforeTestFinished' subscriber." +
                                           Environment.NewLine + exp);
                     }
 
@@ -197,77 +194,57 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterTestFinished' subscriber." +
+                        Logger.Instance.Error("Exception was thrown in 'AfterTestFinished' subscriber." +
                                           Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
-            }
-        }
-
-        protected void TestOutput(string info)
-        {
-            try
-            {
-                var fullTestName = CurrentTest.FullTestName;
-                var message = info;
-
-                if (_testFlowNames.ContainsKey(fullTestName))
-                {
-                    var serializer = new JavaScriptSerializer {MaxJsonLength = int.MaxValue};
-                    AddLogItemRequest logRequest = null;
-                    try
-                    {
-                        logRequest = serializer.Deserialize<AddLogItemRequest>(message);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    
-                    if (logRequest != null)
-                        _testFlowNames[fullTestName].Log(logRequest);
-                    else
-                        _testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = LogLevel.Info, Time = DateTime.UtcNow, Text = message});
-                    
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
 
         protected void AddAttachment(Test test, string name, string mime, byte[] content)
         {
-            var id = test.Id;
-            if (_testFlowIds.ContainsKey(id))
+            try
             {
-                _testFlowIds[id].Log(new AddLogItemRequest
+                var id = test.Id;
+                if (_testFlowIds.ContainsKey(id))
                 {
-                    Level = LogLevel.None,
-                    Time = DateTime.UtcNow,
-                    Text = "Attachment: " + name,
-                    Attach = new Attach(test.Outcome.Screenshot, mime, content)
-                });
+                    _testFlowIds[id].Log(new AddLogItemRequest
+                    {
+                        Level = LogLevel.None,
+                        Time = DateTime.UtcNow,
+                        Text = "Attachment: " + name,
+                        Attach = new Attach(test.Outcome.Screenshot, mime, content)
+                    });
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
 
         protected void AddTestTags(Test test, params string[] tags)
         {
-            var id = test.Id;
-            if (_testFlowIds.ContainsKey(id))
-            {
-                var updateTestRequest = new UpdateTestItemRequest();
-                updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.AddRange(tags);
+            try {
+                var id = test.Id;
+                if (_testFlowIds.ContainsKey(id))
+                {
+                    var updateTestRequest = new UpdateTestItemRequest();
+                    updateTestRequest.Tags = new List<string>();
+                    updateTestRequest.Tags.AddRange(tags);
 
-                _testFlowIds[id].Update(updateTestRequest);
+                    _testFlowIds[id].Update(updateTestRequest);
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

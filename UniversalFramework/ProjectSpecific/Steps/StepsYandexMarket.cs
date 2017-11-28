@@ -1,9 +1,10 @@
-﻿using AspectInjector.Broker;
+﻿using ProjectSpecific.UI.Web;
+using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
-using Unicorn.UICore.Driver;
-using Unicorn.UIWeb.Driver;
-using Unicorn.UIWeb.UI;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Web.Driver;
+using Unicorn.UI.Web.Controls;
 
 namespace ProjectSpecific.Steps
 {
@@ -22,8 +23,9 @@ namespace ProjectSpecific.Steps
         [TestStep("Do Some Actions")]
         public void DoSomeActions()
         {
-            driver.Find<WebControl>(By.Web_Xpath, "//li[@data-department='Электроника']/a").Click();
-            WebControl checkbox = driver.Find<WebControl>(By.Web_Xpath, "//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']");
+            YandexTopMenu menu = driver.Find<YandexTopMenu>(ByLocator.Css(".topmenu__list"));
+            menu.Link.Click();
+            WebControl checkbox = driver.Find<WebControl>(ByLocator.Xpath("//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']"));
             checkbox.Click();
         }
 

@@ -6,13 +6,13 @@ namespace ProjectSpecific.Steps
     {
 
 
-        private Lazy<StepsTimeSeriesAnalysis> _timeSeriesAnalysis = new Lazy<StepsTimeSeriesAnalysis>();
+        private Lazy<StepsCharMap> _charmap = new Lazy<StepsCharMap>();
 
-        public StepsTimeSeriesAnalysis TimeSeriesAnalysis
+        public StepsCharMap CharMap
         {
             get
             {
-                return _timeSeriesAnalysis.Value;
+                return _charmap.Value;
             }
         }
 

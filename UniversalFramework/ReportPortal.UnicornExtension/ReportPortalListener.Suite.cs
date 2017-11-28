@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unicorn.Core.Testing.Tests;
+using System.IO;
+using Unicorn.Core.Reporting;
+using System.Text;
+using Unicorn.Core.Logging;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -15,7 +19,7 @@ namespace ReportPortal.UnicornExtension
         public static event SuiteStartedHandler BeforeSuiteStarted;
         public static event SuiteStartedHandler AfterSuiteStarted;
 
-        private void StartSuite(TestSuite suite)
+        protected void StartSuite(TestSuite suite)
         {
             try
             {
@@ -37,7 +41,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Error("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
                 }
                 if (!beforeSuiteEventArg.Canceled)
                 {
@@ -59,13 +63,13 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Error("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -73,7 +77,7 @@ namespace ReportPortal.UnicornExtension
         public static event SuiteFinishedHandler BeforeSuiteFinished;
         public static event SuiteFinishedHandler AfterSuiteFinished;
 
-        private void FinishSuite(TestSuite suite)
+        protected void FinishSuite(TestSuite suite)
         {
             try
             {
@@ -131,7 +135,7 @@ namespace ReportPortal.UnicornExtension
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Logger.Instance.Error("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
 
                         _suitesFlow[id].Finish(finishSuiteRequest);
@@ -142,7 +146,7 @@ namespace ReportPortal.UnicornExtension
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Logger.Instance.Error("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
                     }
                 }
@@ -156,14 +160,160 @@ namespace ReportPortal.UnicornExtension
 
         protected void AddSuiteTags(TestSuite suite, params string[] tags)
         {
-            var id = suite.Id;
-            if (_suitesFlow.ContainsKey(id))
+            try
             {
-                var updateTestRequest = new UpdateTestItemRequest();
-                updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.AddRange(tags);
+                var id = suite.Id;
+                if (_suitesFlow.ContainsKey(id))
+                {
+                    var updateTestRequest = new UpdateTestItemRequest();
+                    updateTestRequest.Tags = new List<string>();
+                    updateTestRequest.Tags.AddRange(tags);
 
-                _suitesFlow[id].Update(updateTestRequest);
+                    _suitesFlow[id].Update(updateTestRequest);
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+}
+
+
+
+        protected void StartSuiteMethod(TestSuiteMethod test)
+        {
+            try
+            {
+                var id = test.Id;
+                var parentId = test.ParentId;
+                var name = test.Description;
+                var fullname = test.FullTestName;
+
+                CurrentTest = test;
+
+                var startTestRequest = new StartTestItemRequest
+                {
+                    StartTime = DateTime.UtcNow,
+                    Name = name,
+                    Type = TestItemType.Step
+                };
+
+                var testVal = _suitesFlow[parentId].StartNewTestNode(startTestRequest);
+
+                _testFlowIds[id] = testVal;
+
+                _testFlowNames[fullname] = testVal;
+
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+        }
+
+
+        protected void FinishSuiteMethod(TestSuiteMethod test)
+        {
+            try
+            {
+                var id = test.Id;
+                var result = test.Outcome.Result;
+                var parentId = test.ParentId;
+
+                CurrentTest = null;
+
+                if (_testFlowIds.ContainsKey(id))
+                {
+                    var updateTestRequest = new UpdateTestItemRequest();
+
+                    // adding categories to test
+                    var categories = test.Categories;
+
+                    updateTestRequest.Tags = new List<string>();
+                    updateTestRequest.Tags.Add(test.Author);
+                    if (categories != null)
+                    {
+                        foreach (string category in categories)
+                            updateTestRequest.Tags.Add(category);
+                    }
+
+                    // adding description to test
+                    var description = test.Description;
+                    if (description != null)
+                        updateTestRequest.Description = description;
+
+                    if (updateTestRequest.Description != null || updateTestRequest.Tags != null)
+                        _testFlowIds[id].Update(updateTestRequest);
+
+                    // adding failure items
+
+                    if (test.Outcome.Result == Result.FAILED)
+                    {
+                        var failureMessage = test.Outcome.Exception.Message;
+                        var failureStacktrace = test.Outcome.Exception.StackTrace;
+
+                        if (!string.IsNullOrEmpty(test.Outcome.Screenshot))
+                        {
+                            byte[] screenshotBytes = File.ReadAllBytes(Path.Combine(Screenshot.SCREENSHOTS_FOLDER, test.Outcome.Screenshot));
+
+                            _testFlowIds[id].Log(new AddLogItemRequest
+                            {
+                                Level = LogLevel.Error,
+                                Time = DateTime.UtcNow,
+                                Text = failureMessage + Environment.NewLine + failureStacktrace,
+                                Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
+                            });
+                        }
+                        else
+                        {
+                            _testFlowIds[id].Log(new AddLogItemRequest
+                            {
+                                Level = LogLevel.Error,
+                                Time = DateTime.UtcNow,
+                                Text = failureMessage + Environment.NewLine + failureStacktrace,
+                            });
+                        }
+
+                        _testFlowIds[id].Log(new AddLogItemRequest
+                        {
+                            Level = LogLevel.Error,
+                            Time = DateTime.UtcNow,
+                            Text = "Attachment: Log file",
+                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
+                        });
+                    }
+
+                    FinishTestItemRequest finishTestRequest = null;
+                    // finishing test
+                    if (test.Outcome.Result == Result.FAILED && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
+                    {
+                        string iss = test.Outcome.OpenBugString;
+                        Issue issue = new Issue();
+                        issue.Type = IssueType.ProductionBug;
+                        issue.Comment = test.Outcome.OpenBugString;
+
+                        finishTestRequest = new FinishTestItemRequest
+                        {
+                            Issue = issue,
+                            EndTime = DateTime.UtcNow,
+                            Status = _statusMap[result]
+                        };
+                    }
+                    else
+                    {
+                        finishTestRequest = new FinishTestItemRequest
+                        {
+                            EndTime = DateTime.UtcNow,
+                            Status = _statusMap[result]
+                        };
+                    }
+
+                    _testFlowIds[id].Finish(finishTestRequest);
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }
