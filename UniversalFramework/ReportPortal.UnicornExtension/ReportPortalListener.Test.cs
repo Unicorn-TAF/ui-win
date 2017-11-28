@@ -96,6 +96,8 @@ namespace ReportPortal.UnicornExtension
 
                     updateTestRequest.Tags = new List<string>();
                     updateTestRequest.Tags.Add(test.Author);
+                    updateTestRequest.Tags.Add(Environment.MachineName);
+                    
                     if (categories != null)
                     {
                         foreach (string category in categories)
