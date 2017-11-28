@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
@@ -50,6 +49,11 @@ namespace ProjectSpecific.Util
         {
             Screenshot.TakeScreenshot(test.FullTestName);
             test.Outcome.Screenshot = test.FullTestName + ".Jpeg";
+        }
+
+        public void ReportSuiteStart(TestSuite testSuite)
+        {
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
         }
     }
 }
