@@ -4,6 +4,9 @@ using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
 using System;
 using System.Collections.Generic;
+using ReportPortal.Client.Filtering;
+using System.Threading.Tasks;
+using Unicorn.Core.Logging;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -13,10 +16,17 @@ namespace ReportPortal.UnicornExtension
         public static event RunStartedHandler BeforeRunStarted;
         public static event RunStartedHandler AfterRunStarted;
 
-        private void StartRun()
+        protected void StartRun()
         {
             try
             {
+                if (!string.IsNullOrEmpty(ExistingLaunchId))
+                {
+                    Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
+                    Bridge.Context.LaunchReporter.StartTask = Task.Run(() => { Bridge.Context.LaunchReporter.LaunchId = ExistingLaunchId; });
+                    return;
+                }
+
                 LaunchMode launchMode;
                 if (Config.Launch.IsDebugMode)
                 {
@@ -43,7 +53,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeRunStarted' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Error("Exception was thrown in 'BeforeRunStarted' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!eventArg.Canceled)
@@ -57,13 +67,13 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterRunStarted' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Error("Exception was thrown in 'AfterRunStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -71,10 +81,20 @@ namespace ReportPortal.UnicornExtension
         public static event RunFinishedHandler BeforeRunFinished;
         public static event RunFinishedHandler AfterRunFinished;
 
-        private void FinishRun()
+        protected void FinishRun()
         {
             try
             {
+                if (!string.IsNullOrEmpty(ExistingLaunchId))
+                {
+                    Bridge.Context.LaunchReporter.FinishTask = Task.Run(() =>
+                    {
+                        Bridge.Context.LaunchReporter.StartTask.Wait(); Bridge.Context.LaunchReporter.TestNodes.ForEach(tn => tn.FinishTask.Wait());
+                    });
+                    Bridge.Context.LaunchReporter.FinishTask.Wait();
+                    return;
+                }
+
                 var finishLaunchRequest = new FinishLaunchRequest
                 {
                     EndTime = DateTime.UtcNow,
@@ -88,7 +108,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeRunFinished' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Error("Exception was thrown in 'BeforeRunFinished' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!eventArg.Canceled)
@@ -102,27 +122,22 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterRunFinished' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Error("Exception was thrown in 'AfterRunFinished' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
 
-        public void MergeRuns(string descriptionSearchString, string description)
+        protected void MergeRuns(string descriptionSearchString)
         {
             try
             {
-                Client.Filtering.FilterOption filteringOptions = new Client.Filtering.FilterOption();
-                filteringOptions.Filters = new List<Client.Filtering.Filter>();
-                Client.Filtering.Filter filter = new Client.Filtering.Filter(Client.Filtering.FilterOperation.Contains, "description", descriptionSearchString);
-                filteringOptions.Filters.Add(filter);
-
-                LaunchesContainer container = Bridge.Service.GetLaunches(filteringOptions);
+                LaunchesContainer container = GetLaunchesByDescriptionFilter(descriptionSearchString);
 
                 if (container.Launches.Count > 1)
                 {
@@ -145,8 +160,36 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error merging launches: " + ex.ToString());
+                Logger.Instance.Error("Error merging launches: " + ex.ToString());
             }
+        }
+
+        protected string GetLaunchId(string descriptionSearchString)
+        {
+            try
+            {
+                LaunchesContainer container = GetLaunchesByDescriptionFilter(descriptionSearchString);
+
+                if (container.Launches.Count > 1)
+                    return container.Launches[0].Id;
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Error getting existing launch id: " + ex.ToString());
+            }
+            return null;
+        }
+
+
+        private LaunchesContainer GetLaunchesByDescriptionFilter(string descriptionSearchString)
+        {
+            FilterOption filteringOptions = new FilterOption();
+            filteringOptions.Filters = new List<Filter>();
+            Filter filter = new Filter(FilterOperation.Contains, "description", descriptionSearchString);
+            filteringOptions.Filters.Add(filter);
+
+            LaunchesContainer container = Bridge.Service.GetLaunches(filteringOptions);
+            return container;
         }
     }
 }

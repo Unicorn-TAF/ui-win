@@ -9,6 +9,7 @@ using Unicorn.Core.Testing.Tests;
 using System.IO;
 using Unicorn.Core.Reporting;
 using System.Text;
+using Unicorn.Core.Logging;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -18,7 +19,7 @@ namespace ReportPortal.UnicornExtension
         public static event SuiteStartedHandler BeforeSuiteStarted;
         public static event SuiteStartedHandler AfterSuiteStarted;
 
-        private void StartSuite(TestSuite suite)
+        protected void StartSuite(TestSuite suite)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Error("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
                 }
                 if (!beforeSuiteEventArg.Canceled)
                 {
@@ -62,13 +63,13 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Console.WriteLine("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Error("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -76,7 +77,7 @@ namespace ReportPortal.UnicornExtension
         public static event SuiteFinishedHandler BeforeSuiteFinished;
         public static event SuiteFinishedHandler AfterSuiteFinished;
 
-        private void FinishSuite(TestSuite suite)
+        protected void FinishSuite(TestSuite suite)
         {
             try
             {
@@ -134,7 +135,7 @@ namespace ReportPortal.UnicornExtension
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Logger.Instance.Error("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
 
                         _suitesFlow[id].Finish(finishSuiteRequest);
@@ -145,7 +146,7 @@ namespace ReportPortal.UnicornExtension
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Logger.Instance.Error("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
                     }
                 }
@@ -159,16 +160,23 @@ namespace ReportPortal.UnicornExtension
 
         protected void AddSuiteTags(TestSuite suite, params string[] tags)
         {
-            var id = suite.Id;
-            if (_suitesFlow.ContainsKey(id))
+            try
             {
-                var updateTestRequest = new UpdateTestItemRequest();
-                updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.AddRange(tags);
+                var id = suite.Id;
+                if (_suitesFlow.ContainsKey(id))
+                {
+                    var updateTestRequest = new UpdateTestItemRequest();
+                    updateTestRequest.Tags = new List<string>();
+                    updateTestRequest.Tags.AddRange(tags);
 
-                _suitesFlow[id].Update(updateTestRequest);
+                    _suitesFlow[id].Update(updateTestRequest);
+                }
             }
-        }
+            catch (Exception exception)
+            {
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+}
 
 
 
@@ -199,7 +207,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -305,7 +313,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

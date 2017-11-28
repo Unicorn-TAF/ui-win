@@ -2,6 +2,7 @@
 using ReportPortal.Client.Requests;
 using System;
 using System.Web.Script.Serialization;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 
 namespace ReportPortal.UnicornExtension
@@ -27,9 +28,9 @@ namespace ReportPortal.UnicornExtension
                     {
                         logRequest = serializer.Deserialize<AddLogItemRequest>(message);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-
+                        Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + ex);
                     }
                     
                     if (logRequest != null)
@@ -41,7 +42,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception exception)
             {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 

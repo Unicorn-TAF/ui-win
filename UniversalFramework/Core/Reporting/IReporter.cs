@@ -16,6 +16,9 @@ namespace Unicorn.Core.Reporting
         void ReportTestFinish(Test test);
 
 
+        void ReportSuiteStart(TestSuite testSuite);
+
+
         void ReportSuiteFinish(TestSuite testSuite);
 
 

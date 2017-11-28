@@ -1,5 +1,4 @@
 ﻿using ReportPortal.UnicornExtension;
-using System;
 using System.IO;
 using System.Reflection;
 using Unicorn.Core.Reporting;
@@ -9,6 +8,7 @@ namespace ProjectSpecific.Util
 {
     class ReportPortalReporter : IReporter
     {
+
         ReportPortalListener Listener;
         public void Complete()
         {
@@ -22,20 +22,20 @@ namespace ProjectSpecific.Util
                 Directory.CreateDirectory(screenshotsDir);
 
             Listener = new ReportPortalListener();
-            //Listener.ReportMergeLaunches("qwerty23", "qwerty23");
-
+            //Listener.ExistingLaunchId = Listener.GetLaunchId("Unit tests of Unicorn Framework");
             Listener.ReportRunStarted();
+            
 
-            Test.onStart += this.ReportTestStart;
-            Test.onFail += this.TakeScreenshot;
-            Test.onFinish += this.ReportTestFinish;
+            Test.onStart += ReportTestStart;
+            Test.onFail += TakeScreenshot;
+            Test.onFinish += ReportTestFinish;
             Test.onSkip += Listener.ReportTestSkipped;
 
             TestSuiteMethod.onStart += Listener.ReportSuiteMethodStarted;
             TestSuiteMethod.onFinish += Listener.ReportSuiteMethodFinished;
 
-            TestSuite.onStart += Listener.ReportSuiteStarted;
-            TestSuite.onFinish += this.ReportSuiteFinish;
+            TestSuite.onStart += ReportSuiteStart;
+            TestSuite.onFinish += ReportSuiteFinish;
         }
 
         public void ReportInfo(string info)
@@ -46,20 +46,21 @@ namespace ProjectSpecific.Util
         public void ReportSuiteFinish(TestSuite testSuite)
         {
             Listener.ReportSuiteFinished(testSuite);
-            Listener.ReportAddSuiteTags(testSuite, Environment.MachineName);
         }
 
+        public void ReportSuiteStart(TestSuite testSuite)
+        {
+            Listener.ReportSuiteStarted(testSuite);
+        }
 
         public void ReportTestFinish(Test test)
         {
-            Listener.ReportAddTestTags(test, Environment.MachineName);
             Listener.ReportTestFinished(test);
         }
 
         public void ReportTestStart(Test test)
         {
             Listener.ReportTestStarted(test);
-            
         }
 
 
