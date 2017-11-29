@@ -102,11 +102,6 @@ namespace ReportPortal.UnicornExtension
                             {
                                 updateSuiteRequest.Tags.Add(category);
                             }
-                            try
-                            {
-                                updateSuiteRequest.Tags.Add(suite.Metadata["Author"]);
-                            }
-                            catch { }
                         }
 
                         // adding description to suite
