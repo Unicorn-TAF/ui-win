@@ -1,4 +1,5 @@
 ﻿using ProjectSpecific.UI.Web;
+using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
@@ -7,6 +8,7 @@ using Unicorn.UI.Web.Controls;
 
 namespace ProjectSpecific.Steps
 {
+    [Aspect(typeof(TestStepsEvents))]
     public class StepsYandexMarket : TestSteps
     {
         IDriver driver;
@@ -14,8 +16,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Open Portal '{0}'")]
         public void OpenPortal(string value)
         {
-            ReportStep(value);
-
             driver = WebDriver.Instance;
             driver.Get(value);
         }
@@ -23,7 +23,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Do Some Actions")]
         public void DoSomeActions()
         {
-            ReportStep();
             YandexTopMenu menu = driver.Find<YandexTopMenu>(ByLocator.Css(".topmenu__list"));
             menu.Link.Click();
             WebControl checkbox = driver.Find<WebControl>(ByLocator.Xpath("//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']"));
@@ -33,8 +32,6 @@ namespace ProjectSpecific.Steps
         [TestStep("Close Browser")]
         public void CloseBrowser()
         {
-            ReportStep();
-
             driver.Close();
         }
     }

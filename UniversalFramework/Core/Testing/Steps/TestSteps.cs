@@ -1,51 +1,36 @@
-﻿using Unicorn.Core.Logging;
-using Unicorn.Core.Reporting;
+﻿using System.Reflection;
 using Unicorn.Core.Testing.Steps.Attributes;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace Unicorn.Core.Testing.Steps
 {
     public class TestSteps
     {
-        public delegate void TestStepEvent(MethodBase methodBase);
-
-        public static event TestStepEvent onStart;
-
-
-        protected void ReportStep(params object[] parameters)
+        public static string GetStepInfo(MethodBase method, object[] arguments)
         {
-            MethodBase mb = new StackFrame(1).GetMethod();
-
-            onStart?.Invoke(mb);
-
             string stepDescription = string.Empty;
 
-            object[] attributes = mb.GetCustomAttributes(typeof(TestStep), true);
+            object[] attributes = method.GetCustomAttributes(typeof(TestStep), true);
 
+            //generate description based on method signature if TestStep attribute is not defined
             if (attributes.Length == 0)
             {
-                stepDescription = mb.Name + ":";
-                for (int i = 0; i < parameters.Length; i++)
-                    stepDescription += $" '{parameters[i]}'";
+                stepDescription = method.Name;
+
+                if (arguments.Length > 0)
+                    stepDescription += ":";
+                for (int i = 0; i < arguments.Length; i++)
+                    stepDescription += $" '{arguments[i]}'";
             }
+            //if TestStep attribute is defined, use it as template for string.Format
             else
             {
                 TestStep attribute = (TestStep)attributes[0];
                 stepDescription = attribute.Description;
-                stepDescription = string.Format(stepDescription, parameters);
+                stepDescription = string.Format(stepDescription, arguments);
             }
 
-            Logger.Instance.Info("STEP: " + stepDescription);
-            Reporter.Instance.ReportInfo(stepDescription);
+            return stepDescription;
         }
-
-
-        public TestSteps()
-        {
-
-        }
-
-
     }
+
 }

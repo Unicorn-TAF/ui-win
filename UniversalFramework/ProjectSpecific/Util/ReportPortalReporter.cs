@@ -1,7 +1,9 @@
 ﻿using ReportPortal.UnicornExtension;
 using System.IO;
 using System.Reflection;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
+using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Tests;
 
 namespace ProjectSpecific.Util
@@ -34,8 +36,17 @@ namespace ProjectSpecific.Util
             TestSuiteMethod.onStart += Listener.ReportSuiteMethodStarted;
             TestSuiteMethod.onFinish += Listener.ReportSuiteMethodFinished;
 
-            TestSuite.onStart += ReportSuiteStart;
-            TestSuite.onFinish += ReportSuiteFinish;
+            TestSuite.onStart += this.ReportSuiteStart;
+            TestSuite.onFinish += this.ReportSuiteFinish;
+
+            TestStepsEvents.onStart += ReportInfo;
+        }
+
+        public void ReportInfo(MethodBase method, object[] arguments)
+        {
+            string info = TestSteps.GetStepInfo(method, arguments);
+            Logger.Instance.Info("STEP: " + info);
+            Listener.ReportTestOutput(info);
         }
 
         public void ReportInfo(string info)
