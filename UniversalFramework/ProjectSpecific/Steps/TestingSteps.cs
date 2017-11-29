@@ -3,9 +3,11 @@ using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using ProjectSpecific.BO;
 using System;
+using AspectInjector.Broker;
 
 namespace ProjectSpecific.Steps
 {
+    [Aspect(typeof(TestStepsEvents))]
     public class TestingSteps : TestSteps
     {
 
