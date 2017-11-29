@@ -12,7 +12,7 @@ namespace Unicorn.UI.Desktop.Driver
     public abstract class GuiSearchContext : ISearchContext
     {
         public AutomationElement ParentContext;
-        protected AutomationElement SearchContext;
+        protected virtual AutomationElement SearchContext { get; set; }
 
         protected static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
         protected static TimeSpan ImplicitlyWait = _timeoutDefault;

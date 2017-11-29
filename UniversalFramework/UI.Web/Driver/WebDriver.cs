@@ -12,7 +12,7 @@ namespace Unicorn.UI.Web.Driver
     public class WebDriver : WebSearchContext, IDriver
     {
         public static Browser Browser = Browser.CHROME;
-        private static IWebDriver Driver;
+        public static IWebDriver Driver;
 
         static bool _needInit = false;
         static DriverOptions _options = null;

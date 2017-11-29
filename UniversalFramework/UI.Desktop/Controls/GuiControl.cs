@@ -30,13 +30,27 @@ namespace Unicorn.UI.Desktop.Controls
 
         public abstract ControlType Type { get; }
 
+
+        protected override AutomationElement SearchContext
+        {
+            get
+            {
+                if (!Cached)
+                    base.SearchContext = GetNativeControlFromParentContext(Locator, GetType());
+
+                return base.SearchContext;
+            }
+
+            set
+            {
+                base.SearchContext = value;
+            }
+        }
+
         public virtual AutomationElement Instance
         {
             get
             {
-                if(!Cached)
-                    SearchContext = GetNativeControlFromParentContext(Locator, GetType());
-
                 return SearchContext;
             }
             set

@@ -13,20 +13,21 @@ namespace ProjectSpecific.Steps
     {
         IDriver driver;
 
+        public PageYandex Yandex;
+
         [TestStep("Open Portal '{0}'")]
         public void OpenPortal(string value)
         {
             driver = WebDriver.Instance;
             driver.Get(value);
+            Yandex = new PageYandex();
         }
 
         [TestStep("Do Some Actions")]
         public void DoSomeActions()
         {
-            YandexTopMenu menu = driver.Find<YandexTopMenu>(ByLocator.Css(".topmenu__list"));
-            menu.Link.Click();
-            WebControl checkbox = driver.Find<WebControl>(ByLocator.Xpath("//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']"));
-            checkbox.Click();
+            Yandex.MenuTop.LinkElectronics.Click();
+            Yandex.LinkMobilePhones.Click();
         }
 
         [TestStep("Close Browser")]

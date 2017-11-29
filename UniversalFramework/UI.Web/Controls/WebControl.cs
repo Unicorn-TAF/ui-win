@@ -26,13 +26,28 @@ namespace Unicorn.UI.Web.Controls
 
         public bool Cached = true;
 
-        public virtual IWebElement Instance
+
+        protected override OpenQA.Selenium.ISearchContext SearchContext
         {
             get
             {
                 if (!Cached)
-                    SearchContext = GetNativeControlFromParentContext(Locator);
+                    base.SearchContext = GetNativeControlFromParentContext(Locator);
 
+                return base.SearchContext;
+            }
+
+            set
+            {
+                base.SearchContext = value;
+            }
+        }
+
+
+        public virtual IWebElement Instance
+        {
+            get
+            {
                 return (IWebElement)SearchContext;
             }
             set

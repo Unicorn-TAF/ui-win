@@ -47,6 +47,8 @@ namespace Unicorn.UI.Desktop.Controls
                     ((GuiControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((GuiControl)control).Cached = false;
                     ((GuiControl)control).ParentContext = SearchContext;
+                    if (controlType.IsSubclassOf(typeof(GuiContainer)))
+                        ((GuiContainer)control).Init();
                     field.SetValue(this, control);
                 }
             }

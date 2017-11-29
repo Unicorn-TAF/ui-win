@@ -7,22 +7,22 @@ namespace Unicorn.UI.Web.Controls
 {
     public class WebContainer: WebControl, IContainer
     {
-        public override IWebElement Instance
+        protected override ISearchContext SearchContext
         {
             get
             {
                 if (!Cached)
-                    SearchContext = GetNativeControlFromParentContext(Locator);
+                    base.SearchContext = GetNativeControlFromParentContext(Locator);
 
-                return (IWebElement)SearchContext;
+                return base.SearchContext;
             }
+
             set
             {
-                SearchContext = value;
+                base.SearchContext = value;
                 Init();
             }
         }
-
 
         public WebContainer() : base(){ }
 
@@ -43,6 +43,8 @@ namespace Unicorn.UI.Web.Controls
                     ((WebControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((WebControl)control).Cached = false;
                     ((WebControl)control).ParentContext = SearchContext;
+                    if (controlType.IsSubclassOf(typeof(WebContainer)))
+                        ((WebContainer)control).Init();
                     field.SetValue(this, control);
                 }
             }
