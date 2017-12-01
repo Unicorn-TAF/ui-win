@@ -4,7 +4,7 @@ namespace Unicorn.UI.Core.Driver
 {
     public interface IDriver : ISearchContext
     {
-        void SetImplicitlyWait(TimeSpan time);
+        TimeSpan ImplicitlyWait { get; set; }
 
         void Get(string path);
 

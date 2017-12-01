@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="Steps\StepsAndroid.cs" />
     <Compile Include="UI\Gui\WindowCharMap.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
@@ -87,11 +88,18 @@
       <Project>{a6e1ed9c-2b52-4b46-bc24-ccaf20bae7fb}</Project>
       <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Unicorn.UI.Mobile\Unicorn.UI.Mobile.csproj">
+      <Project>{A1B2390D-5BB2-4CE4-A6F1-8130A3570330}</Project>
+      <Name>Unicorn.UI.Mobile</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Mobile\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

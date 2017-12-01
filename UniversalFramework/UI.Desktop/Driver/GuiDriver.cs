@@ -46,9 +46,16 @@ namespace Unicorn.UI.Desktop.Driver
         }
 
 
-        public void SetImplicitlyWait(TimeSpan time)
+        public TimeSpan ImplicitlyWait
         {
-            ImplicitlyWait = time;
+            get
+            {
+                return ImplicitlyWaitTimeout;
+            }
+            set
+            {
+                ImplicitlyWaitTimeout = value;
+            }
         }
 
     }

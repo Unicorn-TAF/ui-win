@@ -14,7 +14,7 @@ namespace Tests.TestData
         [BeforeTest]
         public void BeforeTest()
         {
-            Do.CharMap.StartApplication(EXE_PATH + "charmap.exe");
+            //Do.CharMap.StartApplication(EXE_PATH + "charmap.exe");
         }
 
         [Bug("9999")]
@@ -23,9 +23,11 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.CharMap.DoSomething("Calibri");
-            Do.YandexMarket.OpenPortal(PORTAL_URL);
-            Bug("76237").YandexMarket.DoSomeActions();
+            Do.Android.NavigateTo("http://www.bing.com");
+            Do.Android.SearchFor("bla-bla-bla");
+            //Do.CharMap.DoSomething("Calibri");
+            //Do.YandexMarket.OpenPortal(PORTAL_URL);
+            //Bug("76237").YandexMarket.DoSomeActions();
         }
 
         [AfterTest]

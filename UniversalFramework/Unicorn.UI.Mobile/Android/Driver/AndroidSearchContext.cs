@@ -1,16 +1,19 @@
-﻿using OpenQA.Selenium;
+﻿using Appium.Interfaces.Generic.SearchContext;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Android;
 using System;
-using Unicorn.UI.Web.Controls;
 using System.Collections.Generic;
-using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Mobile.Android.Controls;
 
-namespace Unicorn.UI.Web.Driver
+namespace Unicorn.UI.Mobile.Android.Driver
 {
-    public abstract class WebSearchContext : Core.Driver.ISearchContext
+    public class AndroidSearchContext : Core.Driver.ISearchContext
     {
-        public OpenQA.Selenium.ISearchContext ParentContext;
-        protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
+        public AppiumWebElement ParentContext;
+        protected virtual AppiumWebElement SearchContext { get; set; }
 
 
         protected static TimeSpan ImplicitlyWaitTimeout = _timeoutDefault;
@@ -22,33 +25,6 @@ namespace Unicorn.UI.Web.Driver
             return GetWrappedControl<T>(locator);
         }
 
-        /*
-        public T Find<T>(string name, string alternativeName = "") where T : IControl
-        {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control");
-
-
-            string xPath = $".//*[@name = '{name}' or @id = '{name}'";
-
-            if (!string.IsNullOrEmpty(alternativeName))
-                xPath += $" or @name = '{alternativeName}' or @id = '{alternativeName}'";
-
-            xPath += "]";
-
-            try
-            {
-                IWebElement elementToWrap = SearchContext.FindElement(By.XPath(xPath));
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-                return wrapper;
-            }
-            catch (NoSuchElementException)
-            {
-                throw new ControlNotFoundException($"Unable to find control by name = {name} and alternative name = {alternativeName}");
-            }
-        }
-        */
 
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
@@ -58,7 +34,7 @@ namespace Unicorn.UI.Web.Driver
 
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
         {
-            WebDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            AndroidDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
 
             bool isPresented = true;
             try
@@ -70,7 +46,7 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = _timeoutDefault;
+            AndroidDriver.Instance.ImplicitlyWait =_timeoutDefault;
 
             return isPresented;
         }
@@ -78,7 +54,7 @@ namespace Unicorn.UI.Web.Driver
 
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
-            WebDriver.Instance.ImplicitlyWait =TimeSpan.FromMilliseconds(millisecondsTimeout);
+            AndroidDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
 
             bool isPresented = true;
             try
@@ -91,7 +67,7 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = _timeoutDefault;
+            AndroidDriver.Instance.ImplicitlyWait = _timeoutDefault;
 
             return isPresented;
         }
@@ -108,17 +84,17 @@ namespace Unicorn.UI.Web.Driver
 
         private IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+            if (!typeof(AndroidControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control: " + typeof(T));
 
             List<T> controlsList = new List<T>();
-            IList<IWebElement> wElements = GetNativeControlsList(locator);
+            IList<AppiumWebElement> wElements = GetNativeControlsList(locator);
 
-            foreach (IWebElement wElement in wElements)
+            foreach (AppiumWebElement wElement in wElements)
             {
                 var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).Instance = wElement;
-                ((WebControl)(object)wrapper).ParentContext = SearchContext;
+                ((AndroidControl)(object)wrapper).Instance = wElement;
+                ((AndroidControl)(object)wrapper).ParentContext = SearchContext;
                 controlsList.Add(wrapper);
             }
 
@@ -127,23 +103,23 @@ namespace Unicorn.UI.Web.Driver
 
         private T GetWrappedControl<T>(ByLocator locator)
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+            if (!typeof(AndroidControl).IsAssignableFrom(typeof(T)))
                 throw new ArgumentException("Illegal type of control: " + typeof(T));
 
-            IWebElement elementToWrap = GetNativeControl(locator);
+            AppiumWebElement elementToWrap = GetNativeControl(locator);
             var wrapper = Activator.CreateInstance<T>();
-            ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = SearchContext;
+            ((AndroidControl)(object)wrapper).Instance = elementToWrap;
+            ((AndroidControl)(object)wrapper).ParentContext = SearchContext;
 
             return wrapper;
         }
 
-        protected IWebElement GetNativeControl(ByLocator locator)
+        protected AppiumWebElement GetNativeControl(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
             try
             {
-                IWebElement nativeControl = SearchContext.FindElement(by);
+                AppiumWebElement nativeControl = SearchContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -153,12 +129,12 @@ namespace Unicorn.UI.Web.Driver
         }
 
 
-        protected IWebElement GetNativeControlFromParentContext(ByLocator locator)
+        protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
             try
             {
-                IWebElement nativeControl = ParentContext.FindElement(by);
+                AppiumWebElement nativeControl = ParentContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -168,18 +144,18 @@ namespace Unicorn.UI.Web.Driver
         }
 
 
-        private IList<IWebElement> GetNativeControlsList(ByLocator locator)
+        private IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
-            
+
             try
             {
-                IList<IWebElement> nativeControls = SearchContext.FindElements(by);
+                IList<AppiumWebElement> nativeControls = SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)
             {
-                return new List<IWebElement>();
+                return new List<AppiumWebElement>();
             }
         }
 
@@ -189,7 +165,7 @@ namespace Unicorn.UI.Web.Driver
             switch (locator.How)
             {
                 case Using.Web_Xpath:
-                    return By.XPath(WebDriver.TransformXpath(locator.Locator));
+                    return By.XPath(locator.Locator);
                 case Using.Web_Css:
                     return By.CssSelector(locator.Locator);
                 case Using.Id:

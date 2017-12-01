@@ -15,7 +15,7 @@ namespace Unicorn.UI.Desktop.Driver
         protected virtual AutomationElement SearchContext { get; set; }
 
         protected static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
-        protected static TimeSpan ImplicitlyWait = _timeoutDefault;
+        protected static TimeSpan ImplicitlyWaitTimeout = _timeoutDefault;
 
         private Condition GetClassNameCondition(string className)
         {
@@ -55,9 +55,9 @@ namespace Unicorn.UI.Desktop.Driver
 
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
-            ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            ImplicitlyWaitTimeout = TimeSpan.FromMilliseconds(millisecondsTimeout);
             T control = WaitForWrappedControl<T>(locator);
-            ImplicitlyWait = _timeoutDefault;
+            ImplicitlyWaitTimeout = _timeoutDefault;
 
             controlInstance = control;
 
@@ -118,7 +118,7 @@ namespace Unicorn.UI.Desktop.Driver
             {
                 controlsList = GetWrappedControlsList<T>(locator);
                 Thread.Sleep(delayBetweenTryes);
-            } while (controlsList.Count == 0 && timer.Elapsed < ImplicitlyWait);
+            } while (controlsList.Count == 0 && timer.Elapsed < ImplicitlyWaitTimeout);
 
             timer.Stop();
 
@@ -166,7 +166,7 @@ namespace Unicorn.UI.Desktop.Driver
                 {
                     Thread.Sleep(delayBetweenTryes);
                 }
-            } while (!success && timer.Elapsed < ImplicitlyWait);
+            } while (!success && timer.Elapsed < ImplicitlyWaitTimeout);
 
             timer.Stop();
 

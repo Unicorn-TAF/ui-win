@@ -53,7 +53,7 @@ namespace Unicorn.UI.Web.Driver
             if (maximize)
                 Driver.Manage().Window.Maximize();
 
-            SetImplicitlyWait(_timeoutDefault);
+            ImplicitlyWait = _timeoutDefault;
         }
 
 
@@ -66,9 +66,17 @@ namespace Unicorn.UI.Web.Driver
         }
 
 
-        public void SetImplicitlyWait(TimeSpan time)
+        public TimeSpan ImplicitlyWait
         {
-            Driver.Manage().Timeouts().ImplicitlyWait(time);
+            get
+            {
+                return ImplicitlyWaitTimeout;
+            }
+            set
+            {
+                Driver.Manage().Timeouts().ImplicitWait = value;
+                ImplicitlyWaitTimeout = value;
+            }
         }
 
 
