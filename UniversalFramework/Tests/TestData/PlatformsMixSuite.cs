@@ -23,8 +23,10 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.Android.NavigateTo("http://www.bing.com");
-            Do.Android.SearchFor("bla-bla-bla");
+            Do.iOS.NavigateTo("http://www.bing.com");
+            //Do.iOS.SearchFor("bla-bla-bla");
+            //Do.Android.NavigateTo("http://www.bing.com");
+            //Do.Android.SearchFor("bla-bla-bla");
             //Do.CharMap.DoSomething("Calibri");
             //Do.YandexMarket.OpenPortal(PORTAL_URL);
             //Bug("76237").YandexMarket.DoSomeActions();
@@ -34,8 +36,8 @@ namespace Tests.TestData
         public void TearDown()
         {
             Logger.Instance.Info("After Test: close app and browser");
-            Do.CharMap.CloseApplication();
-            Do.YandexMarket.CloseBrowser();
+            //Do.CharMap.CloseApplication();
+            //Do.YandexMarket.CloseBrowser();
         }
     }
 }

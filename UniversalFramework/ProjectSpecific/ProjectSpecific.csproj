@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="Steps\StepsiOS.cs" />
     <Compile Include="Steps\StepsAndroid.cs" />
     <Compile Include="UI\Gui\WindowCharMap.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />

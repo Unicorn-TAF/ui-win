@@ -14,7 +14,9 @@ namespace ProjectSpecific.Steps
         public TestingSteps Testing => _testing.Value;
 
         private Lazy<StepsAndroid> _android = new Lazy<StepsAndroid>();
-
         public StepsAndroid Android => _android.Value;
+
+        private Lazy<StepsiOS> _iOs = new Lazy<StepsiOS>();
+        public StepsiOS iOS => _iOs.Value;
     }
 }
