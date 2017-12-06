@@ -9,16 +9,16 @@ namespace Unicorn.UI.Desktop.Driver
 {
     public class GuiDriver : GuiSearchContext, IDriver
     {
-        private static GuiDriver _instance = null;
         private Process CurrentProcess;
 
+        private static GuiDriver _instance = null;
         public static GuiDriver Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new GuiDriver(); ;
+                    _instance = new GuiDriver();
                     _instance.SearchContext = AutomationElement.RootElement;
                     Logger.Instance.Debug("UI Automation Driver initialized");
                 }

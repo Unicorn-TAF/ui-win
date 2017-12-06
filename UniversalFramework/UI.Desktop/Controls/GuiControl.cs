@@ -10,19 +10,7 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
-        private ByLocator _locator;
-        public ByLocator Locator
-        {
-            get
-            {
-                return _locator;
-            }
-
-            set
-            {
-                _locator = value;
-            }
-        }
+        public ByLocator Locator { get; set; }
 
         public bool Cached = true;
 
@@ -98,21 +86,15 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                int x = Convert.ToInt16(rect.Location.X);
-                int y = Convert.ToInt16(rect.Location.Y);
-                return new System.Drawing.Point(x, y);
+                return new System.Drawing.Point(BoundingRectangle.Location.X, BoundingRectangle.Location.Y);
             }
         }
 
-        public System.Drawing.Size Size
+        public System.Drawing.Rectangle BoundingRectangle
         {
             get
             {
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                int x = Convert.ToInt16(rect.Size.Width);
-                int y = Convert.ToInt16(rect.Size.Height);
-                return new System.Drawing.Size(x, y);
+                return (System.Drawing.Rectangle)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
             }
         }
 

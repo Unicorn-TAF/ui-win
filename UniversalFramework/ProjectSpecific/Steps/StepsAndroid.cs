@@ -19,7 +19,6 @@ namespace ProjectSpecific.Steps
             Dictionary<string, string> capabilities = new Dictionary<string, string>();
             capabilities.Add("deviceName", "device");
             capabilities.Add("platformVersion", "4.4.4");
-            //capabilities.Add("fullReset", "True");
             capabilities.Add("appPackage", "com.android.dialer");
             capabilities.Add("appActivity", "com.android.dialer.DialtactsActivity");
             capabilities.Add("platformName", "Android");

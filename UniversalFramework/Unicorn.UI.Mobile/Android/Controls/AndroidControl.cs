@@ -10,19 +10,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
     public class AndroidControl : AndroidSearchContext, IControl
     {
 
-        private ByLocator _locator;
-        public ByLocator Locator
-        {
-            get
-            {
-                return _locator;
-            }
-
-            set
-            {
-                _locator = value;
-            }
-        }
+        public ByLocator Locator { get; set; }
 
         public bool Cached = true;
 
@@ -88,7 +76,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
             }
         }
 
-        public Size Size
+        public Rectangle BoundingRectangle
         {
             get
             {

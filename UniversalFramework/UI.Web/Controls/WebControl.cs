@@ -10,19 +10,7 @@ namespace Unicorn.UI.Web.Controls
     public class WebControl : WebSearchContext, IControl {
 
 
-        private ByLocator _locator;
-        public ByLocator Locator
-        {
-            get
-            {
-                return _locator;
-            }
-
-            set
-            {
-                _locator = value;
-            }
-        }
+        public ByLocator Locator { get; set; }
 
         public bool Cached = true;
 
@@ -88,11 +76,11 @@ namespace Unicorn.UI.Web.Controls
             }
         }
 
-        public Size Size
+        public Rectangle BoundingRectangle
         {
             get
             {
-                return Instance.Size;
+                return new Rectangle(Location, Instance.Size);
             }
         }
 
