@@ -12,7 +12,7 @@ namespace Unicorn.Core.Testing.Assertions
         public abstract string CheckDescription { get; }
 
 
-        public Matcher()
+        protected Matcher()
         {
             MatcherOutput = new StringBuilder();
         }
