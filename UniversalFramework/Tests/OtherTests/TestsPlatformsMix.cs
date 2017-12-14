@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Tests.TestData;
 using ProjectSpecific;
+using Tests.TestData;
 
 namespace Tests.UnitTests
 {
@@ -14,8 +14,9 @@ namespace Tests.UnitTests
             PlatformsMixSuite suite = new PlatformsMixSuite();
             suite.Run();
             if (suite.Outcome.Result == Unicorn.Core.Testing.Tests.Result.FAILED)
+            {
                 Assert.Fail();
-
+            }
         }
     }
 }

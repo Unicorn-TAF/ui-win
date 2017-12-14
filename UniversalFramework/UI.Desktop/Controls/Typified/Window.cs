@@ -7,14 +7,16 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Window : GuiContainer, IWindow
     {
-        public override ControlType Type { get { return ControlType.Window; } }
-
-        public Window() { }
+        public Window()
+        {
+        }
 
         public Window(AutomationElement instance)
             : base(instance)
         {
         }
+
+        public override ControlType Type => ControlType.Window;
 
         public string Title
         {
@@ -23,7 +25,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return Text;
             }
         }
-        
 
         public void Close()
         {
@@ -31,16 +32,16 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             pattern.Close();
         }
 
-
         public virtual void Focus()
         {
             try
             {
                 Instance.SetFocus();
             }
-            catch { }
+            catch
+            {
+            }
         }
-
 
         public void WaitForClosed(int timeout = 5000)
         {
@@ -48,9 +49,13 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             {
                 Thread.Sleep(100);
                 timeout -= 100;
-            } while (Visible && timeout > 0);
+            }
+            while (Visible && timeout > 0);
+
             if (timeout <= 0)
+            {
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
+            }
         }
     }
 }

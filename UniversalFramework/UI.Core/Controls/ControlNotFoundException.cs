@@ -6,10 +6,12 @@ namespace Unicorn.UI.Core.Controls
     {
         public ControlNotFoundException()
             : base()
-        { }
+        {
+        }
 
         public ControlNotFoundException(string exception)
             : base(exception)
-        { }
+        {
+        }
     }
 }

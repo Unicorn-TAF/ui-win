@@ -14,48 +14,45 @@ namespace Unicorn.UI.Web.Driver
         public static Browser Browser = Browser.CHROME;
         public static IWebDriver Driver;
 
-        static bool _needInit = false;
-        static DriverOptions _options = null;
+        private static bool needInit = false;
+        private static DriverOptions options = null;
 
-        private static WebDriver _instance = null;
+        private static WebDriver instance = null;
+
+        private WebDriver(bool maximize = true)
+        {
+            if (options == null)
+            {
+                Driver = GetInstance();
+            }
+            else
+            {
+                Driver = GetInstance(options);
+            }
+
+            if (maximize)
+            {
+                Driver.Manage().Window.Maximize();
+            }
+
+            ImplicitlyWait = timeoutDefault;
+        }
+
         public static WebDriver Instance
         {
             get
             {
-                if (_instance == null || _needInit)
+                if (instance == null || needInit)
                 {
-                    _instance = new WebDriver();
-                    _instance.SearchContext = Driver;
-                    _needInit = false;
+                    instance = new WebDriver();
+                    instance.SearchContext = Driver;
+                    needInit = false;
                     Logger.Instance.Debug($"{Browser} WebDriver initialized");
                 }
 
-                return _instance;
+                return instance;
             }
         }
-
-
-        public static void Init(Browser browser, DriverOptions options = null)
-        {
-            _needInit = true;
-            Browser = browser;
-            _options = options;
-        }
-
-
-        private WebDriver(bool maximize = true)
-        {
-            if (_options == null)
-                Driver = GetInstance();
-            else
-                Driver = GetInstance(_options);
-
-            if (maximize)
-                Driver.Manage().Window.Maximize();
-
-            ImplicitlyWait = _timeoutDefault;
-        }
-
 
         public string Url
         {
@@ -65,26 +62,31 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-
         public TimeSpan ImplicitlyWait
         {
             get
             {
-                return ImplicitlyWaitTimeout;
+                return implicitlyWaitTimeout;
             }
+
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                ImplicitlyWaitTimeout = value;
+                implicitlyWaitTimeout = value;
             }
         }
 
+        public static void Init(Browser browser, DriverOptions driverPptions = null)
+        {
+            needInit = true;
+            Browser = browser;
+            options = driverPptions;
+        }
 
         public void Get(string path)
         {
             Driver.Navigate().GoToUrl(path);
         }
-
 
         public object ExecuteJS(string script, params object[] parameters)
         {
@@ -92,19 +94,17 @@ namespace Unicorn.UI.Web.Driver
             return js.ExecuteScript(script, parameters);
         }
 
-
         public void Close()
         {
-            if (_instance != null)
+            if (instance != null)
             {
                 Driver.Quit();
-                _instance = null;
+                instance = null;
 
                 Browser = Browser.FIREFOX;
-                _options = null;
+                options = null;
             }
         }
-
 
         private IWebDriver GetInstance()
         {
@@ -121,7 +121,6 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-
         private IWebDriver GetInstance(DriverOptions options)
         {
             switch (Browser)
@@ -137,29 +136,29 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
+        ////public static string TransformXpath(string xpath)
+        ////{
+        ////    string textRegex = @"'(\w*\s*-*\(*\)*/*)+'";
+        ////    Regex regex = new Regex(@"text\(\)\s*=\s*" + textRegex);
 
+        ////    string textToTransform = regex.Match(xpath).Value;
 
-        public static string TransformXpath(string xpath)
-        {
-            string textRegex = @"'(\w*\s*-*\(*\)*/*)+'";
-            Regex regex = new Regex(@"text\(\)\s*=\s*" + textRegex);
+        ////    if (string.IsNullOrEmpty(textToTransform))
+        ////    {
+        ////        return xpath;
+        ////    }
 
-            string textToTransform = regex.Match(xpath).Value;
+        ////    string[] parts = xpath.Split(new string[] { textToTransform }, StringSplitOptions.None);
 
-            if (string.IsNullOrEmpty(textToTransform))
-                return xpath;
+        ////    regex = new Regex(textRegex);
+        ////    string replacementString = regex.Match(textToTransform).Value.ToLower();
+        ////    textToTransform = regex.Replace(textToTransform, replacementString);
 
-            string[] parts = xpath.Split(new string[] { textToTransform }, StringSplitOptions.None);
+        ////    textToTransform = textToTransform.Replace("text()", "translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')");
 
-            regex = new Regex(textRegex);
-            string replacementString = regex.Match(textToTransform).Value.ToLower();
-            textToTransform = regex.Replace(textToTransform, replacementString);
+        ////    string newXpath = parts[0] + textToTransform + parts[1];
 
-            textToTransform = textToTransform.Replace("text()", "translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')");
-
-            string newXpath = parts[0] + textToTransform + parts[1];
-
-            return newXpath;
-        }
+        ////    return newXpath;
+        ////}
     }
 }

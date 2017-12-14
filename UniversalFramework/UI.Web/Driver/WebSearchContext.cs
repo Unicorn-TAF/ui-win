@@ -1,21 +1,20 @@
 ﻿using OpenQA.Selenium;
 using System;
-using Unicorn.UI.Web.Controls;
 using System.Collections.Generic;
-using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Web.Controls;
 
 namespace Unicorn.UI.Web.Driver
 {
     public abstract class WebSearchContext : Core.Driver.ISearchContext
     {
         public OpenQA.Selenium.ISearchContext ParentContext;
+
+        protected static TimeSpan implicitlyWaitTimeout = timeoutDefault;
+        protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
+
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
-
-
-        protected static TimeSpan ImplicitlyWaitTimeout = _timeoutDefault;
-        protected static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
-
 
         public T Find<T>(ByLocator locator) where T : IControl
         {
@@ -55,7 +54,6 @@ namespace Unicorn.UI.Web.Driver
             return GetWrappedControlsList<T>(locator);
         }
 
-
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
         {
             WebDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
@@ -70,15 +68,14 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = _timeoutDefault;
+            WebDriver.Instance.ImplicitlyWait = timeoutDefault;
 
             return isPresented;
         }
 
-
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
-            WebDriver.Instance.ImplicitlyWait =TimeSpan.FromMilliseconds(millisecondsTimeout);
+            WebDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
 
             bool isPresented = true;
             try
@@ -91,52 +88,17 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = _timeoutDefault;
+            WebDriver.Instance.ImplicitlyWait = timeoutDefault;
 
             return isPresented;
         }
-
 
         public T FirstChild<T>() where T : IControl
         {
             throw new NotImplementedException();
         }
 
-
-
         #region "Helpers"
-
-        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
-        {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-
-            List<T> controlsList = new List<T>();
-            IList<IWebElement> wElements = GetNativeControlsList(locator);
-
-            foreach (IWebElement wElement in wElements)
-            {
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).Instance = wElement;
-                ((WebControl)(object)wrapper).ParentContext = SearchContext;
-                controlsList.Add(wrapper);
-            }
-
-            return controlsList;
-        }
-
-        private T GetWrappedControl<T>(ByLocator locator)
-        {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-
-            IWebElement elementToWrap = GetNativeControl(locator);
-            var wrapper = Activator.CreateInstance<T>();
-            ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = SearchContext;
-
-            return wrapper;
-        }
 
         protected IWebElement GetNativeControl(ByLocator locator)
         {
@@ -152,7 +114,6 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-
         protected IWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
@@ -167,6 +128,41 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
+        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+            {
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+            }
+
+            List<T> controlsList = new List<T>();
+            IList<IWebElement> wrappedElements = GetNativeControlsList(locator);
+
+            foreach (IWebElement wrappedElement in wrappedElements)
+            {
+                var wrapper = Activator.CreateInstance<T>();
+                ((WebControl)(object)wrapper).Instance = wrappedElement;
+                ((WebControl)(object)wrapper).ParentContext = SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
+
+        private T GetWrappedControl<T>(ByLocator locator)
+        {
+            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
+            {
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+            }
+
+            IWebElement elementToWrap = GetNativeControl(locator);
+            var wrapper = Activator.CreateInstance<T>();
+            ((WebControl)(object)wrapper).Instance = elementToWrap;
+            ((WebControl)(object)wrapper).ParentContext = SearchContext;
+
+            return wrapper;
+        }
 
         private IList<IWebElement> GetNativeControlsList(ByLocator locator)
         {
@@ -183,13 +179,12 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-
         private By GetNativeLocator(ByLocator locator)
         {
             switch (locator.How)
             {
                 case Using.Web_Xpath:
-                    return By.XPath(WebDriver.TransformXpath(locator.Locator));
+                    return By.XPath(/*WebDriver.TransformXpath(*/locator.Locator);
                 case Using.Web_Css:
                     return By.CssSelector(locator.Locator);
                 case Using.Id:
@@ -206,6 +201,5 @@ namespace Unicorn.UI.Web.Driver
         }
 
         #endregion
-
     }
 }

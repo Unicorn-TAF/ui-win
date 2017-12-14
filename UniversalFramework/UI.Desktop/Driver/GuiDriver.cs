@@ -9,54 +9,51 @@ namespace Unicorn.UI.Desktop.Driver
 {
     public class GuiDriver : GuiSearchContext, IDriver
     {
-        private Process CurrentProcess;
+        private static GuiDriver instance = null;
+        private Process currentProcess;
 
-        private static GuiDriver _instance = null;
         public static GuiDriver Instance
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance = new GuiDriver();
-                    _instance.SearchContext = AutomationElement.RootElement;
+                    instance = new GuiDriver();
+                    instance.SearchContext = AutomationElement.RootElement;
                     Logger.Instance.Debug("UI Automation Driver initialized");
                 }
-                return _instance;
+
+                return instance;
             }
         }
-
-
-        public void Close()
-        {
-            try
-            {
-                new Window(AutomationElement.FromHandle(CurrentProcess.MainWindowHandle)).Close();
-            }
-            catch
-            {
-
-            }
-        }
-
-
-        public void Get(string path)
-        {
-            CurrentProcess = Process.Start(path);
-        }
-
 
         public TimeSpan ImplicitlyWait
         {
             get
             {
-                return ImplicitlyWaitTimeout;
+                return implicitlyWaitTimeout;
             }
+
             set
             {
-                ImplicitlyWaitTimeout = value;
+                implicitlyWaitTimeout = value;
             }
         }
 
+        public void Close()
+        {
+            try
+            {
+                new Window(AutomationElement.FromHandle(this.currentProcess.MainWindowHandle)).Close();
+            }
+            catch
+            {
+            }
+        }
+
+        public void Get(string path)
+        {
+            this.currentProcess = Process.Start(path);
+        }
     }
 }

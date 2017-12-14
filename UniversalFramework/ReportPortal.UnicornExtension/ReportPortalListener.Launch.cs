@@ -1,10 +1,10 @@
-﻿using ReportPortal.Client.Models;
+﻿using ReportPortal.Client.Filtering;
+using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
+using ReportPortal.UnicornExtension.EventArguments;
 using System;
 using System.Collections.Generic;
-using ReportPortal.Client.Filtering;
 using System.Threading.Tasks;
 using Unicorn.Core.Logging;
 
@@ -13,14 +13,22 @@ namespace ReportPortal.UnicornExtension
     public partial class ReportPortalListener
     {
         public delegate void RunStartedHandler(object sender, RunStartedEventArgs e);
+
+        public delegate void RunFinishedHandler(object sender, RunFinishedEventArgs e);
+
         public static event RunStartedHandler BeforeRunStarted;
+
         public static event RunStartedHandler AfterRunStarted;
+
+        public static event RunFinishedHandler BeforeRunFinished;
+
+        public static event RunFinishedHandler AfterRunFinished;
 
         protected void StartRun()
         {
             try
             {
-                if (!string.IsNullOrEmpty(ExistingLaunchId))
+                if (!string.IsNullOrEmpty(this.ExistingLaunchId))
                 {
                     Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
                     Bridge.Context.LaunchReporter.StartTask = Task.Run(() => { Bridge.Context.LaunchReporter.LaunchId = ExistingLaunchId; });
@@ -36,6 +44,7 @@ namespace ReportPortal.UnicornExtension
                 {
                     launchMode = LaunchMode.Default;
                 }
+
                 var startLaunchRequest = new StartLaunchRequest
                 {
                     Name = Config.Launch.Name,
@@ -77,15 +86,11 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        public delegate void RunFinishedHandler(object sender, RunFinishedEventArgs e);
-        public static event RunFinishedHandler BeforeRunFinished;
-        public static event RunFinishedHandler AfterRunFinished;
-
         protected void FinishRun()
         {
             try
             {
-                if (!string.IsNullOrEmpty(ExistingLaunchId))
+                if (!string.IsNullOrEmpty(this.ExistingLaunchId))
                 {
                     Bridge.Context.LaunchReporter.FinishTask = Task.Run(() =>
                     {
@@ -98,7 +103,6 @@ namespace ReportPortal.UnicornExtension
                 var finishLaunchRequest = new FinishLaunchRequest
                 {
                     EndTime = DateTime.UtcNow,
-                    
                 };
 
                 var eventArg = new RunFinishedEventArgs(Bridge.Service, finishLaunchRequest, Bridge.Context.LaunchReporter);
@@ -132,7 +136,6 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-
         protected void MergeRuns(string descriptionSearchString)
         {
             try
@@ -152,9 +155,13 @@ namespace ReportPortal.UnicornExtension
                     request.Name = container.Launches[0].Name;
 
                     foreach (Launch launch in container.Launches)
-                        if(launch.EndTime != null)
+                    {
+                        if (launch.EndTime != null)
+                        {
                             request.Launches.Add(launch.Id);
-
+                        }
+                    }
+                        
                     Bridge.Service.MergeLaunches(request);
                 }
             }
@@ -171,15 +178,17 @@ namespace ReportPortal.UnicornExtension
                 LaunchesContainer container = GetLaunchesByDescriptionFilter(descriptionSearchString);
 
                 if (container.Launches.Count > 1)
+                {
                     return container.Launches[0].Id;
+                }
             }
             catch (Exception ex)
             {
                 Logger.Instance.Error("Error getting existing launch id: " + ex.ToString());
             }
+
             return null;
         }
-
 
         private LaunchesContainer GetLaunchesByDescriptionFilter(string descriptionSearchString)
         {

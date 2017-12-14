@@ -6,42 +6,41 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public class HasItemMatcher : Matcher
     {
-        private object ExpectedObject;
-        string mismatch = "";
-
-        public override string CheckDescription
-        {
-            get
-            {
-                return "Collection has item " + ExpectedObject;
-            }
-        }
-
+        private object expectedObject;
+        private string mismatch = string.Empty;
 
         public HasItemMatcher(object expectedObject)
         {
-            ExpectedObject = expectedObject;
+            this.expectedObject = expectedObject;
         }
 
+        public override string CheckDescription => "Collection has item " + this.expectedObject;
 
         public override bool Matches(object collection)
         {
-            if(!IsNotNull(collection))
-                return PartOfNotMatcher;
+            if (!IsNotNull(collection))
+            {
+                return this.partOfNotMatcher;
+            }
 
-            bool result = ((IEnumerable<object>)collection).Contains(ExpectedObject);
+            bool result = ((IEnumerable<object>)collection).Contains(this.expectedObject);
 
-            if (PartOfNotMatcher)
+            if (this.partOfNotMatcher)
+            {
                 mismatch = "Collection contains the value";
+            }
             else
+            {
                 mismatch = "Collection does not contain the value";
+            }
             
             if (!result)
+            {
                 DescribeMismatch(collection);
+            }
 
             return result;
         }
-
 
         public override void DescribeMismatch(object collection)
         {
@@ -49,57 +48,67 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         }
     }
 
-
     public class HasItemsMatcher : Matcher
     {
-        private IEnumerable<object> ExpectedObjects;
-        string mismatch = "";
+        private IEnumerable<object> expectedObjects;
+        private string mismatch = string.Empty;
+
+        public HasItemsMatcher(IEnumerable<object> expectedObjects)
+        {
+            this.expectedObjects = expectedObjects;
+        }
 
         public override string CheckDescription
         {
             get
             {
-                string itemsList = string.Join(", ", ExpectedObjects);
+                string itemsList = string.Join(", ", this.expectedObjects);
+
                 if (itemsList.Length > 200)
+                {
                     itemsList = itemsList.Substring(0, 200) + " etc . . .";
+                }
 
                 return "Collection has items: " + itemsList;
             }
         }
 
-        public HasItemsMatcher(IEnumerable<object> expectedObjects)
+        public override bool Matches(object collectionObj)
         {
-            ExpectedObjects = expectedObjects;
-        }
+            if (!IsNotNull(collectionObj))
+            {
+                return this.partOfNotMatcher;
+            }
 
+            bool result = !this.partOfNotMatcher;
+            IEnumerable<object> collection = (IEnumerable<object>)collectionObj;
 
-        public override bool Matches(object collection)
-        {
-            if (!IsNotNull(collection))
-                return PartOfNotMatcher;
-
-            bool result = !PartOfNotMatcher;
-            IEnumerable<object> _collection = ((IEnumerable<object>)collection);
-
-            if (PartOfNotMatcher)
+            if (this.partOfNotMatcher)
             {
                 mismatch = "Collection contains the value";
-                foreach (object obj in ExpectedObjects)
-                    result |= _collection.Contains(obj);
+
+                foreach (object obj in this.expectedObjects)
+                {
+                    result |= collection.Contains(obj);
+                }
             }
             else
             {
                 mismatch = "Collection does not contain the value";
-                foreach (object obj in ExpectedObjects)
-                    result &= _collection.Contains(obj);
+
+                foreach (object obj in this.expectedObjects)
+                {
+                    result &= collection.Contains(obj);
+                }
             }
 
             if (!result)
-                DescribeMismatch(collection);
+            {
+                DescribeMismatch(collectionObj);
+            }
 
             return result;
         }
-
 
         public override void DescribeMismatch(object collection)
         {
@@ -107,103 +116,107 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         }
     }
 
-
     public class IsNullOrEmptyMatcher : Matcher
     {
-        string mismatch = "";
-
-        public override string CheckDescription
-        {
-            get
-            {
-                return "Is empty";
-            }
-        }
+        private string mismatch = string.Empty;
 
         public IsNullOrEmptyMatcher()
         {
         }
 
+        public override string CheckDescription => "Is empty";
 
-        public override bool Matches(object collection)
+        public override bool Matches(object collectionObj)
         {
             bool result = false;
-            ICollection _collection = ((ICollection)collection);
+            ICollection collection = (ICollection)collectionObj;
 
-            if (_collection == null)
+            if (collection == null)
+            {
                 result = true;
-            else if(_collection.Count == 0)
+            }
+            else if (collection.Count == 0)
+            {
                 result = true;
+            } 
 
-            if (_collection == null)
+            if (collection == null)
+            {
                 mismatch = "was null";
+            }
             else
-                mismatch = $"had length = {_collection.Count}";
+            {
+                mismatch = $"had length = {collection.Count}";
+            }
 
             if (!result)
-                DescribeMismatch(collection);
+            {
+                this.DescribeMismatch(collectionObj);
+            }
 
             return result;
         }
 
-
         public override void DescribeMismatch(object collection)
         {
-            MatcherOutput.Append(mismatch);
+            this.MatcherOutput.Append(mismatch);
         }
     }
 
-
     public class IsEqualToCollectionMatcher : Matcher
     {
-        private IEnumerable<object> ExpectedObjects;
-        string mismatch = "";
+        private IEnumerable<object> expectedObjects;
+        private string mismatch = string.Empty;
+
+        public IsEqualToCollectionMatcher(IEnumerable<object> expectedObjects)
+        {
+            this.expectedObjects = expectedObjects;
+        }
 
         public override string CheckDescription
         {
             get
             {
-                string itemsList = string.Join(", ", ExpectedObjects);
+                string itemsList = string.Join(", ", this.expectedObjects);
+
                 if (itemsList.Length > 200)
+                {
                     itemsList = itemsList.Substring(0, 200) + " etc . . .";
+                }
 
                 return "Is equal to collection: [" + itemsList + "]";
             }
         }
 
-        public IsEqualToCollectionMatcher(IEnumerable<object> expectedObjects)
+        public override bool Matches(object collectionObj)
         {
-            ExpectedObjects = expectedObjects;
-        }
+            if (!IsNotNull(collectionObj))
+            {
+                return this.partOfNotMatcher;
+            }
 
+            bool result = !this.partOfNotMatcher;
+            IEnumerable<object> collection = (IEnumerable<object>)collectionObj;
 
-        public override bool Matches(object collection)
-        {
-            if (!IsNotNull(collection))
-                return PartOfNotMatcher;
-
-            bool result = !PartOfNotMatcher;
-            IEnumerable<object> _collection = ((IEnumerable<object>)collection);
-            
-
-            if (PartOfNotMatcher)
+            if (this.partOfNotMatcher)
             {
                 mismatch = "Collections are equal";
-                result = ExpectedObjects.Count() != _collection.Count();
-                result |= _collection.Intersect(ExpectedObjects).Count() != ExpectedObjects.Count();
+                result = this.expectedObjects.Count() != collection.Count();
+                result |= collection.Intersect(this.expectedObjects).Count() != this.expectedObjects.Count();
             }
             else
             {
                 mismatch = "Collections are not equal";
-                result = ExpectedObjects.Count() == _collection.Count();
-                result &= _collection.Intersect(ExpectedObjects).Count() == ExpectedObjects.Count();
+                result = this.expectedObjects.Count() == collection.Count();
+                result &= collection.Intersect(this.expectedObjects).Count() == this.expectedObjects.Count();
             }
 
             if (!result)
-                DescribeMismatch(collection);
+            {
+                DescribeMismatch(mismatch);
+            }
 
             return result;
         }
     }
-
 }

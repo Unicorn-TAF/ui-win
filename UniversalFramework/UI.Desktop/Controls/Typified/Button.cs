@@ -4,13 +4,15 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Button : GuiControl
     {
-        public Button() { }
+        public Button()
+        {
+        }
 
         public Button(AutomationElement instance)
             : base(instance)
         {
         }
 
-        public override ControlType Type { get { return ControlType.Button; } }
+        public override ControlType Type => ControlType.Button;
     }
 }

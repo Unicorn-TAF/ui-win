@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using NUnit.Framework;
+using System.IO;
 using System.Reflection;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
-using NUnit.Framework;
 
 namespace ProjectSpecific.Util
 {
@@ -10,7 +10,7 @@ namespace ProjectSpecific.Util
     {
         public void Complete()
         {
-            //throw new NotImplementedException();
+            ////throw new NotImplementedException();
         }
 
         public void Init()
@@ -18,11 +18,13 @@ namespace ProjectSpecific.Util
             string screenshotsDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
 
             if (!Directory.Exists(screenshotsDir))
+            {
                 Directory.CreateDirectory(screenshotsDir);
+            }
 
-            Test.onStart += this.ReportTestStart;
-            Test.onFinish += this.ReportTestFinish;
-            Test.onFail += this.TakeScreenshot;
+            Test.OnStart += this.ReportTestStart;
+            Test.OnFinish += this.ReportTestFinish;
+            Test.OnFail += this.TakeScreenshot;
         }
 
         public void ReportInfo(string info)
@@ -45,15 +47,15 @@ namespace ProjectSpecific.Util
             TestContext.WriteLine($"REPORTER: Test '{test.Description}' {test.Outcome.Result}");
         }
 
+        public void ReportSuiteStart(TestSuite testSuite)
+        {
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
+        }
+
         private void TakeScreenshot(Test test)
         {
             Screenshot.TakeScreenshot(test.FullTestName);
             test.Outcome.Screenshot = test.FullTestName + ".Jpeg";
-        }
-
-        public void ReportSuiteStart(TestSuite testSuite)
-        {
-            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
         }
     }
 }

@@ -8,42 +8,44 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuiteMethod : TestSuiteMethodBase
     {
-
         public bool IsBeforeSuite = false;
 
-        public override string[] Categories
-        {
-            get
-            {
-                if (_categories == null)
-                    _categories = new string[0];
-
-                return _categories;
-            }
-        }
-
-        // Events section
-
-        public delegate void TestSuiteMethodEvent(TestSuiteMethod suiteMethod);
-
-        public static event TestSuiteMethodEvent onStart;
-        public static event TestSuiteMethodEvent onFinish;
-        public static event TestSuiteMethodEvent onPass;
-        public static event TestSuiteMethodEvent onFail;
-
-
         /// <summary>
-        /// Object describing single test, which is part of some TestSuite.
+        /// Initializes a new instance of the <see cref="TestSuiteMethod"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
         /// Contains methods to execute the test and check if test should be skipped
         /// </summary>
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public TestSuiteMethod(MethodInfo testMethod)
         {
-            TestMethod = testMethod;
+            this.testMethod = testMethod;
             Outcome = new TestOutcome();
         }
 
+        /* Events section*/
+
+        public delegate void TestSuiteMethodEvent(TestSuiteMethod suiteMethod);
+
+        public static event TestSuiteMethodEvent OnStart;
+
+        public static event TestSuiteMethodEvent OnFinish;
+
+        public static event TestSuiteMethodEvent OnPass;
+
+        public static event TestSuiteMethodEvent OnFail;
+
+        public override string[] Categories
+        {
+            get
+            {
+                if (this.categories == null)
+                {
+                    this.categories = new string[0];
+                }
+
+                return this.categories;
+            }
+        }
 
         /// <summary>
         /// Execute current test and fill TestOutcome
@@ -54,9 +56,10 @@ namespace Unicorn.Core.Testing.Tests
         public override void Execute(TestSuite suiteInstance)
         {
             CurrentOutput = new StringBuilder();
+
             try
             {
-                onStart?.Invoke(this);
+                OnStart?.Invoke(this);
             }
             catch (Exception ex)
             {
@@ -65,30 +68,30 @@ namespace Unicorn.Core.Testing.Tests
 
             Logger.Instance.Info($"========== {(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE '{Description}' ==========");
 
-            TestTimer = new Stopwatch();
+            this.testTimer = new Stopwatch();
 
-            TestTimer.Start();
+            this.testTimer.Start();
             try
             {
-                TestMethod.Invoke(suiteInstance, null);
+                this.testMethod.Invoke(suiteInstance, null);
                 Outcome.Result = Result.PASSED;
 
-                onPass?.Invoke(this);
+                OnPass?.Invoke(this);
             }
             catch (Exception ex)
             {
                 Fail(ex.InnerException, suiteInstance.CurrentStepBug);
-                onFail?.Invoke(this);
+                OnFail?.Invoke(this);
             }
 
-            TestTimer.Stop();
-            Outcome.ExecutionTime = TestTimer.Elapsed;
+            this.testTimer.Stop();
+            Outcome.ExecutionTime = this.testTimer.Elapsed;
 
             Logger.Instance.Info($"{(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE {Outcome.Result}");
 
             try
             {
-                onFinish?.Invoke(this);
+                OnFinish?.Invoke(this);
             }
             catch (Exception ex)
             {

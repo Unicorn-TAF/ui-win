@@ -18,7 +18,6 @@ namespace ReportPortal.UnicornExtension.EventArguments
 
         public FinishTestItemRequest TestItem { get; }
 
-
         public TestReporter TestReporter { get; }
 
         public bool Canceled { get; set; }

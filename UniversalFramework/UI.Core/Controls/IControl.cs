@@ -6,45 +6,47 @@ namespace Unicorn.UI.Core.Controls
     public interface IControl
     {
         /// <summary>
-        /// Element locator
+        /// Gets or sets element locator
         /// </summary>
         ByLocator Locator { get; set; }
 
-
         #region "Props"
 
-        string GetAttribute(string attribute);
-
-        bool Visible {
+        bool Visible
+        {
             get;
         }
 
-        bool Enabled {
+        bool Enabled
+        {
             get;
         }
 
-        string Text {
+        string Text
+        {
             get;
         }
 
-        Point Location {
+        Point Location
+        {
             get;
         }
 
-        Rectangle BoundingRectangle {
+        Rectangle BoundingRectangle
+        {
             get;
         }
 
         #endregion
 
-
         #region "Methods"
+
+        string GetAttribute(string attribute);
 
         void Click();
 
         void RightClick();
 
         #endregion
-
     }
 }

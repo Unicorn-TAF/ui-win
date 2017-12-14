@@ -3,17 +3,18 @@ using System.Windows.Automation;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
-    class TabItem : GuiControl
+    public class TabItem : GuiControl
     {
-        public override ControlType Type { get { return ControlType.TabItem; } }
-
-        public TabItem() { }
+        public TabItem()
+        {
+        }
 
         public TabItem(AutomationElement instance)
             : base(instance)
         {
         }
 
+        public override ControlType Type => ControlType.TabItem;
 
         public bool IsSelected
         {
@@ -21,7 +22,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             {
                 var selectionItem = GetPattern<SelectionItemPattern>();
                 if (selectionItem != null)
+                {
                     return selectionItem.Current.IsSelected;
+                }
+
                 return false;
             }
         }
@@ -30,17 +34,22 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             var selectionItem = GetPattern<SelectionItemPattern>();
             if (selectionItem != null)
+            {
                 selectionItem.Select();
+            }
             else
             {
                 var invoke = GetPattern<InvokePattern>();
                 if (invoke != null)
+                {
                     invoke.Invoke();
+                }
                 else
                 {
-                    Click();
+                    this.Click();
                 }
             }
+
             return true;
         }
     }

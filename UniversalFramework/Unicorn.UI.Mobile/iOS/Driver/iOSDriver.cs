@@ -10,48 +10,33 @@ namespace Unicorn.UI.Mobile.iOS.Driver
 {
     public class iOSDriver : iOSSearchContext, IDriver
     {
-
         public static AppiumDriver<IOSElement> Driver;
-        private static DesiredCapabilities _Capabilities = null;
-        private static Uri _Uri = null; 
-        static bool _needInit = false;
+        private static DesiredCapabilities capabilities = null;
+        private static Uri uri = null;
+        private static bool needInit = false;
+        private static iOSDriver instance = null;
 
-        private static iOSDriver _instance = null;
+        private iOSDriver()
+        {
+            Driver = new IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
+            ImplicitlyWait = timeoutDefault;
+        }
+
         public static iOSDriver Instance
         {
             get
             {
-                if (_instance == null || _needInit)
+                if (instance == null || needInit)
                 {
-                    _instance = new iOSDriver();
-                    _instance.SearchContext = Driver.FindElementByXPath(".//*");
-                    _needInit = false;
-                    Logger.Instance.Info(_instance.SearchContext.TagName);
+                    instance = new iOSDriver();
+                    instance.SearchContext = Driver.FindElementByXPath(".//*");
+                    needInit = false;
+                    Logger.Instance.Info(instance.SearchContext.TagName);
                     Logger.Instance.Debug($"iOSDriver initialized");
                 }
 
-                return _instance;
+                return instance;
             }
-        }
-
-        public static void Init(string url, Dictionary<string, string> capabilitiesList = null)
-        {
-            _needInit = true;
-            _Uri = new Uri(url);
-
-            _Capabilities = null;
-            if (capabilitiesList != null)
-            {
-                _Capabilities = new DesiredCapabilities();
-                foreach (string key in capabilitiesList.Keys)
-                    _Capabilities.SetCapability(key, capabilitiesList[key]);
-            }
-        }
-
-        private iOSDriver()
-        {
-            Driver = new IOSDriver<IOSElement>(_Uri, _Capabilities, TimeSpan.FromSeconds(120));
-            ImplicitlyWait = _timeoutDefault;
         }
 
         public TimeSpan ImplicitlyWait
@@ -60,12 +45,29 @@ namespace Unicorn.UI.Mobile.iOS.Driver
             {
                 return ImplicitlyWaitTimeout;
             }
+
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
                 ImplicitlyWaitTimeout = value;
             }
-            
+        }
+
+        public static void Init(string url, Dictionary<string, string> capabilitiesList = null)
+        {
+            needInit = true;
+            uri = new Uri(url);
+
+            capabilities = null;
+            if (capabilitiesList != null)
+            {
+                capabilities = new DesiredCapabilities();
+
+                foreach (string key in capabilitiesList.Keys)
+                {
+                    capabilities.SetCapability(key, capabilitiesList[key]);
+                }
+            }
         }
 
         public void Get(string path)

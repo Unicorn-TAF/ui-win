@@ -14,19 +14,16 @@ namespace ProjectSpecific
         [OneTimeSetUp]
         public static void ClassInit()
         {
-            Logger.Instance = new ConsoleLogger();
+            Logger.Instance = new Util.ConsoleLogger();
             Logger.Instance.Init();
             Reporter.Instance = new SimpleReporter();
             Reporter.Instance.Init();
         }
 
-
         [OneTimeTearDown]
         public static void ClassTearDown()
         {
-
         }
-
 
         protected string GetTestContextOut()
         {

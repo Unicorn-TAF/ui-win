@@ -1,33 +1,31 @@
-﻿using ProjectSpecific.UI.Web;
-using AspectInjector.Broker;
+﻿using AspectInjector.Broker;
+using ProjectSpecific.UI.Web;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
-using Unicorn.UI.Web.Controls;
 
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
     public class StepsYandexMarket : TestSteps
     {
-        IDriver driver;
-
-        public PageYandex Yandex;
+        private IDriver driver;
+        private PageYandex yandex;
 
         [TestStep("Open Portal '{0}'")]
         public void OpenPortal(string value)
         {
             driver = WebDriver.Instance;
             driver.Get(value);
-            Yandex = new PageYandex();
+            yandex = new PageYandex();
         }
 
         [TestStep("Do Some Actions")]
         public void DoSomeActions()
         {
-            Yandex.MenuTop.LinkElectronics.Click();
-            Yandex.LinkMobilePhones.Click();
+            yandex.MenuTop.LinkElectronics.Click();
+            yandex.LinkMobilePhones.Click();
         }
 
         [TestStep("Close Browser")]

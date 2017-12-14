@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Automation;
-using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Desktop.Driver;
 using Unicorn.UI.Desktop.Input;
 
@@ -10,30 +10,27 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
-        public ByLocator Locator { get; set; }
-
         public bool Cached = true;
 
-        public virtual string ClassName { get { return null; } }
+        public GuiControl()
+        {
+        }
+
+        public GuiControl(AutomationElement instance)
+        {
+            this.Instance = instance;
+        }
+
+        public ByLocator Locator
+        {
+            get;
+
+            set;
+        }
+
+        public virtual string ClassName => null;
 
         public abstract ControlType Type { get; }
-
-
-        protected override AutomationElement SearchContext
-        {
-            get
-            {
-                if (!Cached)
-                    base.SearchContext = GetNativeControlFromParentContext(Locator, GetType());
-
-                return base.SearchContext;
-            }
-
-            set
-            {
-                base.SearchContext = value;
-            }
-        }
 
         public virtual AutomationElement Instance
         {
@@ -41,19 +38,20 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 return SearchContext;
             }
+
             set
             {
                 SearchContext = value;
             }
         }
 
-
         public string Text
         {
             get
             {
-                var name = (string)Instance.GetCurrentPropertyValue(AutomationElement.NameProperty);
-                return !string.IsNullOrEmpty(name) ? name : (string)Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty);
+                var name = this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
+                var id = this.Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
+                return !string.IsNullOrEmpty(name) ? name : id;
             }
         }
 
@@ -61,7 +59,7 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                return (bool)Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
+                return (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
             }
         }
 
@@ -72,12 +70,13 @@ namespace Unicorn.UI.Desktop.Controls
                 bool isVisible;
                 try
                 {
-                    isVisible = !Instance.Current.IsOffscreen;
+                    isVisible = !this.Instance.Current.IsOffscreen;
                 }
                 catch (ElementNotAvailableException)
                 {
                     isVisible = false;
                 }
+
                 return isVisible;
             }
         }
@@ -86,7 +85,7 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                return new System.Drawing.Point(BoundingRectangle.Location.X, BoundingRectangle.Location.Y);
+                return new System.Drawing.Point(this.BoundingRectangle.Location.X, this.BoundingRectangle.Location.Y);
             }
         }
 
@@ -94,20 +93,27 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                return (System.Drawing.Rectangle)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                return (System.Drawing.Rectangle)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
             }
         }
 
-
-
-        public GuiControl() { }
-
-        public GuiControl(AutomationElement instance)
+        protected override AutomationElement SearchContext
         {
-            Instance = instance;
+            get
+            {
+                if (!this.Cached)
+                {
+                    base.SearchContext = GetNativeControlFromParentContext(this.Locator, GetType());
+                }
+
+                return base.SearchContext;
+            }
+
+            set
+            {
+                base.SearchContext = value;
+            }
         }
-
-
 
         public string GetAttribute(string attribute)
         {
@@ -116,20 +122,21 @@ namespace Unicorn.UI.Desktop.Controls
             switch (attribute.ToLower())
             {
                 case "class":
-                    ap = AutomationElement.ClassNameProperty; break;
+                    ap = AutomationElement.ClassNameProperty;
+                    break;
                 case "text":
-                    ap = AutomationElement.NameProperty; break;
+                    ap = AutomationElement.NameProperty;
+                    break;
                 case "enabled":
-                    return Enabled.ToString();
+                    return this.Enabled.ToString();
                 case "visible":
-                    return Visible.ToString();
+                    return this.Visible.ToString();
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
 
             return (string)Instance.GetCurrentPropertyValue(ap);
         }
-
 
         public void Click()
         {
@@ -140,9 +147,13 @@ namespace Unicorn.UI.Desktop.Controls
             try
             {
                 if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
+                {
                     ((InvokePattern)pattern).Invoke();
+                }
                 else
+                {
                     ((TogglePattern)Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
+                }
             }
             catch
             {
@@ -150,8 +161,7 @@ namespace Unicorn.UI.Desktop.Controls
             }
         }
 
-
-        private void MouseClick()
+        public void MouseClick()
         {
             Instance.SetFocus();
             Point point;
@@ -162,9 +172,9 @@ namespace Unicorn.UI.Desktop.Controls
                 point = rect.TopLeft;
                 point.Offset(pt.X, pt.Y);
             }
+
             Mouse.Instance.Click(point);
         }
-
 
         public void RightClick()
         {
@@ -182,11 +192,10 @@ namespace Unicorn.UI.Desktop.Controls
             Mouse.Instance.RightClick(point);
         }
 
-
         public AutomationElement GetParent()
         {
-            TreeWalker tWalker = TreeWalker.ControlViewWalker;
-            return tWalker.GetParent(Instance);
+            TreeWalker treeWalker = TreeWalker.ControlViewWalker;
+            return treeWalker.GetParent(Instance);
         }
 
         #region "Helpers"

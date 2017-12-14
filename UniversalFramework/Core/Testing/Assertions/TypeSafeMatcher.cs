@@ -1,25 +1,24 @@
-﻿using System;
-
-namespace Unicorn.Core.Testing.Assertions
+﻿namespace Unicorn.Core.Testing.Assertions
 {
     public abstract class TypeSafeMatcher<T> : Matcher
     {
-
-        protected bool IsCastable(object _object)
+        public override bool Matches(object obj)
         {
-            bool isCastable = _object is T;
-            
-            if(!isCastable)
+            return this.IsNotNull(obj) && this.CouldBeCasted(obj) && this.Assertion(obj);
+        }
+
+        protected bool CouldBeCasted(object obj)
+        {
+            bool couldBeCasted = obj is T;
+
+            if (!couldBeCasted)
+            {
                 MatcherOutput.Append($"was not of type {typeof(T)}");
+            }
 
-            return isCastable;
+            return couldBeCasted;
         }
 
-        public override bool Matches(object _object)
-        {
-            return IsNotNull(_object) && IsCastable(_object) && Assertion(_object);
-        }
-
-        protected abstract bool Assertion(object _object);
+        protected abstract bool Assertion(object obj);
     }
 }

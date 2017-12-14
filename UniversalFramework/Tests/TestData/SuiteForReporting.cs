@@ -7,7 +7,7 @@ namespace Tests.TestData
 {
     [TestSuite("Tests for reporting")]
     [Feature("Reporting")]
-    class SuiteForReporting : BaseTestSuite
+    public class SuiteForReporting : BaseTestSuite
     {
         [BeforeSuite]
         public void BeforeSuite()

@@ -12,6 +12,5 @@ namespace Unicorn.UI.Core.PageObject
         {
             Locator = new ByLocator(how, locator);
         }
-
     }
 }

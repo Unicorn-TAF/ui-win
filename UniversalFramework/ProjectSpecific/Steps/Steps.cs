@@ -4,19 +4,20 @@ namespace ProjectSpecific.Steps
 {
     public class Steps
     {
-        private Lazy<StepsCharMap> _charmap = new Lazy<StepsCharMap>();
-        public StepsCharMap CharMap => _charmap.Value;
+        private Lazy<StepsCharMap> charmap = new Lazy<StepsCharMap>();
+        private Lazy<StepsYandexMarket> yandexMarket = new Lazy<StepsYandexMarket>();
+        private Lazy<TestingSteps> testing = new Lazy<TestingSteps>();
+        private Lazy<StepsAndroid> android = new Lazy<StepsAndroid>();
+        private Lazy<StepsiOS> iOs = new Lazy<StepsiOS>();
 
-        private Lazy<StepsYandexMarket> _yandexMarket = new Lazy<StepsYandexMarket>();
-        public StepsYandexMarket YandexMarket => _yandexMarket.Value;
+        public StepsCharMap CharMap => charmap.Value;
 
-        private Lazy<TestingSteps> _testing = new Lazy<TestingSteps>();
-        public TestingSteps Testing => _testing.Value;
+        public StepsYandexMarket YandexMarket => yandexMarket.Value;
 
-        private Lazy<StepsAndroid> _android = new Lazy<StepsAndroid>();
-        public StepsAndroid Android => _android.Value;
+        public TestingSteps Testing => testing.Value;
 
-        private Lazy<StepsiOS> _iOs = new Lazy<StepsiOS>();
-        public StepsiOS iOS => _iOs.Value;
+        public StepsAndroid Android => android.Value;
+
+        public StepsiOS IOS => iOs.Value;
     }
 }

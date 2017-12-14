@@ -6,23 +6,16 @@ namespace Unicorn.Core.Reporting
     {
         void Init();
 
-
         void ReportInfo(string info);
-
 
         void ReportTestStart(Test test);
 
-
         void ReportTestFinish(Test test);
-
 
         void ReportSuiteStart(TestSuite testSuite);
 
-
         void ReportSuiteFinish(TestSuite testSuite);
 
-
         void Complete();
-
     }
 }

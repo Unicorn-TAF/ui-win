@@ -1,36 +1,26 @@
 ﻿using OpenQA.Selenium;
-using Unicorn.UI.Web.Driver;
-using System.Drawing;
 using OpenQA.Selenium.Interactions;
-using Unicorn.UI.Core.Driver;
+using System.Drawing;
 using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.Controls
 {
-    public class WebControl : WebSearchContext, IControl {
-
-
-        public ByLocator Locator { get; set; }
-
+    public class WebControl : WebSearchContext, IControl
+    {
         public bool Cached = true;
 
-
-        protected override OpenQA.Selenium.ISearchContext SearchContext
+        public WebControl()
         {
-            get
-            {
-                if (!Cached)
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
-
-                return base.SearchContext;
-            }
-
-            set
-            {
-                base.SearchContext = value;
-            }
         }
 
+        public WebControl(IWebElement instance)
+        {
+            Instance = instance;
+        }
+
+        public ByLocator Locator { get; set; }
 
         public virtual IWebElement Instance
         {
@@ -38,6 +28,7 @@ namespace Unicorn.UI.Web.Controls
             {
                 return (IWebElement)SearchContext;
             }
+
             set
             {
                 SearchContext = value;
@@ -84,20 +75,28 @@ namespace Unicorn.UI.Web.Controls
             }
         }
 
-        public WebControl() { }
-
-        public WebControl(IWebElement instance)
+        protected override OpenQA.Selenium.ISearchContext SearchContext
         {
-            Instance = instance;
+            get
+            {
+                if (!this.Cached)
+                {
+                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                }
+
+                return base.SearchContext;
+            }
+
+            set
+            {
+                base.SearchContext = value;
+            }
         }
-
-
 
         public string GetAttribute(string attribute)
         {
             return Instance.GetAttribute(attribute);
         }
-
 
         public virtual void Click()
         {

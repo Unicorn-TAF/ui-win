@@ -6,15 +6,15 @@ namespace Tests.TestData
 {
     [TestSuite("Tests for mixed platforms")]
     [Feature("Timeseries Analysis"), Feature("Yandex Market")]
-    class PlatformsMixSuite : BaseTestSuite
+    public class PlatformsMixSuite : BaseTestSuite
     {
-        const string EXE_PATH = @"C:\Windows\System32\";
-        const string PORTAL_URL = @"https://market.yandex.ru/";
+        private const string ExePath = @"C:\Windows\System32\";
+        private const string PortalUrl = @"https://market.yandex.ru/";
 
         [BeforeTest]
         public void BeforeTest()
         {
-            //Do.CharMap.StartApplication(EXE_PATH + "charmap.exe");
+            ////Do.CharMap.StartApplication(ExePath + "charmap.exe");
         }
 
         [Bug("9999")]
@@ -23,21 +23,21 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.iOS.NavigateTo("http://www.bing.com");
-            //Do.iOS.SearchFor("bla-bla-bla");
-            //Do.Android.NavigateTo("http://www.bing.com");
-            //Do.Android.SearchFor("bla-bla-bla");
-            //Do.CharMap.DoSomething("Calibri");
-            //Do.YandexMarket.OpenPortal(PORTAL_URL);
-            //Bug("76237").YandexMarket.DoSomeActions();
+            Do.IOS.NavigateTo("http://www.bing.com");
+            ////Do.iOS.SearchFor("bla-bla-bla");
+            ////Do.Android.NavigateTo("http://www.bing.com");
+            ////Do.Android.SearchFor("bla-bla-bla");
+            ////Do.CharMap.DoSomething("Calibri");
+            ////Do.YandexMarket.OpenPortal(PortalUrl);
+            ////Bug("76237").YandexMarket.DoSomeActions();
         }
 
         [AfterTest]
         public void TearDown()
         {
             Logger.Instance.Info("After Test: close app and browser");
-            //Do.CharMap.CloseApplication();
-            //Do.YandexMarket.CloseBrowser();
+            ////Do.CharMap.CloseApplication();
+            ////Do.YandexMarket.CloseBrowser();
         }
     }
 }

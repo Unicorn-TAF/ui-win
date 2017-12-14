@@ -6,48 +6,42 @@ namespace Unicorn.Core.Testing.Assertions
     {
         public StringBuilder MatcherOutput;
 
-        protected bool NullCheckable = true;
-        protected bool PartOfNotMatcher = false;
-
-        public abstract string CheckDescription { get; }
-
+        protected bool nullCheckable = true;
+        protected bool partOfNotMatcher = false;
 
         protected Matcher()
         {
-            MatcherOutput = new StringBuilder();
+            this.MatcherOutput = new StringBuilder();
         }
 
-
+        public abstract string CheckDescription { get; }
 
         public void DescribeTo()
         {
-            MatcherOutput.Append(CheckDescription);
+            this.MatcherOutput.Append(this.CheckDescription);
         }
 
-
-        public virtual void DescribeMismatch(object _object)
+        public virtual void DescribeMismatch(object obj)
         {
-            MatcherOutput.Append("was ").Append(_object);
+            this.MatcherOutput.Append("was ").Append(obj);
         }
 
-
-        public abstract bool Matches(object _object);
-
-
-        protected bool IsNotNull(object _object)
-        {
-            if (NullCheckable && _object == null)
-            {
-                MatcherOutput.Append("was null");
-                return false;
-            }
-            return true;
-        }
-
+        public abstract bool Matches(object obj);
 
         public override string ToString()
         {
-            return CheckDescription;
+            return this.CheckDescription;
+        }
+
+        protected bool IsNotNull(object obj)
+        {
+            if (this.nullCheckable && obj == null)
+            {
+                this.MatcherOutput.Append("was null");
+                return false;
+            }
+
+            return true;
         }
     }
 }

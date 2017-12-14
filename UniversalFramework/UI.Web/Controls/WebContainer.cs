@@ -5,14 +5,24 @@ using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Web.Controls
 {
-    public class WebContainer: WebControl, IContainer
+    public class WebContainer : WebControl, IContainer
     {
+        public WebContainer() : base()
+        {
+        }
+
+        public WebContainer(IWebElement instance) : base(instance)
+        {
+        }
+
         protected override ISearchContext SearchContext
         {
             get
             {
-                if (!Cached)
+                if (!this.Cached)
+                {
                     base.SearchContext = GetNativeControlFromParentContext(Locator);
+                }
 
                 return base.SearchContext;
             }
@@ -23,12 +33,6 @@ namespace Unicorn.UI.Web.Controls
                 Init();
             }
         }
-
-        public WebContainer() : base(){ }
-
-        public WebContainer(IWebElement instance) : base(instance)
-        { }
-
 
         public void Init()
         {
@@ -43,13 +47,16 @@ namespace Unicorn.UI.Web.Controls
                     ((WebControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((WebControl)control).Cached = false;
                     ((WebControl)control).ParentContext = SearchContext;
+
                     if (controlType.IsSubclassOf(typeof(WebContainer)))
+                    {
                         ((WebContainer)control).Init();
+                    }
+                        
                     field.SetValue(this, control);
                 }
             }
         }
-
 
         public void InputText(string locator, string text)
         {

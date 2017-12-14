@@ -1,62 +1,48 @@
-﻿
-namespace Unicorn.Core.Testing.Assertions.Matchers
+﻿namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public class StringContainsMatcher : TypeSafeMatcher<string>
     {
-        private string ObjectToCompare;
-
+        private string objectToCompare;
 
         public StringContainsMatcher(string objectToCompare)
         {
-            ObjectToCompare = objectToCompare;
+            this.objectToCompare = objectToCompare;
         }
 
-        public override string CheckDescription
+        public override string CheckDescription => "Contains " + this.objectToCompare;
+
+        protected override bool Assertion(object obj)
         {
-            get
-            {
-                return "Contains " + ObjectToCompare;
-            }
-        }
+            string objString = (string)obj;
 
-
-        protected override bool Assertion(object _object)
-        {
-            string _objString = (string)_object;
-
-            bool contains = _objString.Contains(ObjectToCompare);
+            bool contains = objString.Contains(this.objectToCompare);
             if (!contains)
-                DescribeMismatch(_objString);
+            {
+                this.DescribeMismatch(objString);
+            }
 
             return contains;
         }
     }
 
-
     public class IsEvenMatcher : TypeSafeMatcher<int>
     {
-        public override string CheckDescription
-        {
-            get
-            {
-                return "An Even number";
-            }
-        }
-
-
-        protected override bool Assertion(object number)
-        {
-            bool isEven = (int)number % 2 == 0;
-            if (!isEven)
-                DescribeMismatch(number);
-
-            return isEven;
-        }
+        public override string CheckDescription => "An Even number";
 
         public override void DescribeMismatch(object number)
         {
             base.DescribeMismatch(number);
         }
-    }
 
+        protected override bool Assertion(object number)
+        {
+            bool isEven = (int)number % 2 == 0;
+            if (!isEven)
+            {
+                DescribeMismatch(number);
+            }
+
+            return isEven;
+        }
+    }
 }

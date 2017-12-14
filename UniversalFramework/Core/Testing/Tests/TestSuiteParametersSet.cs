@@ -4,14 +4,14 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuiteParametersSet
     {
-        public string SetName;
+        public string Name;
         public object[] Parameters;
 
         public TestSuiteParametersSet(string setName, params object[] parameters)
         {
-            SetName = setName;
-            Parameters = new object[parameters.Length];
-            Array.Copy(parameters, Parameters, parameters.Length);
+            this.Name = setName;
+            this.Parameters = new object[parameters.Length];
+            Array.Copy(parameters, this.Parameters, parameters.Length);
         }
     }
 }

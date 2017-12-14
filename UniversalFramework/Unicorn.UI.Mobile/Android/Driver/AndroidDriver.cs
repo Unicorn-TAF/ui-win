@@ -10,47 +10,33 @@ namespace Unicorn.UI.Mobile.Android.Driver
 {
     public class AndroidDriver : AndroidSearchContext, IDriver
     {
-
         public static AppiumDriver<AndroidElement> Driver;
-        private static DesiredCapabilities _Capabilities = null;
-        private static Uri _Uri = null; 
-        static bool _needInit = false;
+        private static DesiredCapabilities capabilities = null;
+        private static Uri uri = null;
+        private static bool needInit = false;
 
-        private static AndroidDriver _instance = null;
+        private static AndroidDriver instance = null;
+
+        private AndroidDriver()
+        {
+            Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
+            ImplicitlyWait = timeoutDefault;
+        }
+
         public static AndroidDriver Instance
         {
             get
             {
-                if (_instance == null || _needInit)
+                if (instance == null || needInit)
                 {
-                    _instance = new AndroidDriver();
-                    _instance.SearchContext = Driver.FindElementByClassName("android.widget.FrameLayout");
-                    _needInit = false;
+                    instance = new AndroidDriver();
+                    instance.SearchContext = Driver.FindElementByClassName("android.widget.FrameLayout");
+                    needInit = false;
                     Logger.Instance.Debug($"AndroidDriver initialized");
                 }
 
-                return _instance;
+                return instance;
             }
-        }
-
-        public static void Init(string url, Dictionary<string, string> capabilitiesList = null)
-        {
-            _needInit = true;
-            _Uri = new Uri(url);
-
-            _Capabilities = null;
-            if (capabilitiesList != null)
-            {
-                _Capabilities = new DesiredCapabilities();
-                foreach (string key in capabilitiesList.Keys)
-                    _Capabilities.SetCapability(key, capabilitiesList[key]);
-            }
-        }
-
-        private AndroidDriver()
-        {
-            Driver = new AndroidDriver<AndroidElement>(_Uri, _Capabilities);
-            ImplicitlyWait = _timeoutDefault;
         }
 
         public TimeSpan ImplicitlyWait
@@ -59,12 +45,29 @@ namespace Unicorn.UI.Mobile.Android.Driver
             {
                 return ImplicitlyWaitTimeout;
             }
+
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
                 ImplicitlyWaitTimeout = value;
             }
-            
+        }
+
+        public static void Init(string url, Dictionary<string, string> capabilitiesList = null)
+        {
+            needInit = true;
+            uri = new Uri(url);
+
+            capabilities = null;
+
+            if (capabilitiesList != null)
+            {
+                capabilities = new DesiredCapabilities();
+                foreach (string key in capabilitiesList.Keys)
+                {
+                    capabilities.SetCapability(key, capabilitiesList[key]);
+                }
+            }
         }
 
         public void Get(string path)

@@ -5,11 +5,13 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Checkbox : GuiControl, ICheckbox
     {
-        public Checkbox() { }
+        public Checkbox()
+        {
+        }
 
         public Checkbox(AutomationElement instance)
-			: base(instance)
-		{
+            : base(instance)
+        {
         }
 
         public bool Checked
@@ -20,26 +22,30 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public override ControlType Type { get { return ControlType.CheckBox; } }
+        public override ControlType Type => ControlType.CheckBox;
 
         public bool Check()
         {
-            if (Checked)
+            if (this.Checked)
+            {
                 return false;
+            }
 
             var pattern = GetPattern<TogglePattern>();
-                Toggle(pattern);
+            Toggle(pattern);
 
             return true;
         }
 
         public bool Uncheck()
         {
-            if (!Checked)
+            if (!this.Checked)
+            {
                 return false;
+            }
 
             var pattern = GetPattern<TogglePattern>();
-                Toggle(pattern);
+            Toggle(pattern);
 
             return true;
         }

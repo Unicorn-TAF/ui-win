@@ -1,5 +1,4 @@
-﻿
-namespace Unicorn.UI.Core.Controls.Interfaces
+﻿namespace Unicorn.UI.Core.Controls.Interfaces
 {
     public interface IExpandable
     {
@@ -8,6 +7,5 @@ namespace Unicorn.UI.Core.Controls.Interfaces
         bool Expand();
 
         bool Collapse();
-
     }
 }

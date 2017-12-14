@@ -8,78 +8,82 @@ using Unicorn.Core.Testing.Tests;
 
 namespace ProjectSpecific.Util
 {
-    class ReportPortalReporter : IReporter
+    public class ReportPortalReporter : IReporter
     {
+        private ReportPortalListener listener;
 
-        ReportPortalListener Listener;
         public void Complete()
         {
-            Listener.ReportRunFinished();
+            this.listener.ReportRunFinished();
         }
 
         public void Init()
         {
             string screenshotsDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
+
             if (!Directory.Exists(screenshotsDir))
+            {
                 Directory.CreateDirectory(screenshotsDir);
+            }
 
-            Listener = new ReportPortalListener();
-            //Listener.ExistingLaunchId = Listener.GetLaunchId("Unit tests of Unicorn Framework");
-            Listener.ReportRunStarted();
-            
+            this.listener = new ReportPortalListener();
+            ////Listener.ExistingLaunchId = Listener.GetLaunchId("Unit tests of Unicorn Framework");
+            this.listener.ReportRunStarted();
 
-            Test.onStart += ReportTestStart;
-            Test.onFail += TakeScreenshot;
-            Test.onFinish += ReportTestFinish;
-            Test.onSkip += Listener.ReportTestSkipped;
+            Test.OnStart += ReportTestStart;
+            Test.OnFail += TakeScreenshot;
+            Test.OnFinish += ReportTestFinish;
+            Test.OnSkip += this.listener.ReportTestSkipped;
 
-            TestSuiteMethod.onStart += Listener.ReportSuiteMethodStarted;
-            TestSuiteMethod.onFinish += Listener.ReportSuiteMethodFinished;
+            TestSuiteMethod.OnStart += this.listener.ReportSuiteMethodStarted;
+            TestSuiteMethod.OnFinish += this.listener.ReportSuiteMethodFinished;
 
-            TestSuite.onStart += this.ReportSuiteStart;
-            TestSuite.onFinish += this.ReportSuiteFinish;
+            TestSuite.OnStart += this.ReportSuiteStart;
+            TestSuite.OnFinish += this.ReportSuiteFinish;
 
-            TestStepsEvents.onStart += ReportInfo;
+            TestStepsEvents.OnStart += ReportInfo;
         }
 
         public void ReportInfo(MethodBase method, object[] arguments)
         {
             string info = TestSteps.GetStepInfo(method, arguments);
             Logger.Instance.Info("STEP: " + info);
-            Listener.ReportTestOutput(info);
+            this.listener.ReportTestOutput(info);
         }
 
         public void ReportInfo(string info)
         {
-            Listener.ReportTestOutput(info);
+            this.listener.ReportTestOutput(info);
         }
 
         public void ReportSuiteFinish(TestSuite testSuite)
         {
-            Listener.ReportSuiteFinished(testSuite);
+            this.listener.ReportSuiteFinished(testSuite);
         }
 
         public void ReportSuiteStart(TestSuite testSuite)
         {
-            Listener.ReportSuiteStarted(testSuite);
+            this.listener.ReportSuiteStarted(testSuite);
         }
 
         public void ReportTestFinish(Test test)
         {
-            Listener.ReportTestFinished(test);
+            this.listener.ReportTestFinished(test);
         }
 
         public void ReportTestStart(Test test)
         {
-            Listener.ReportTestStarted(test);
+            this.listener.ReportTestStarted(test);
         }
-
 
         private void TakeScreenshot(Test test)
         {
             string screenshotName = test.FullTestName;
+
             if (screenshotName.Length > 150)
+            {
                 screenshotName = screenshotName.Substring(0, 150) + "~";
+            }
 
             Screenshot.TakeScreenshot(screenshotName);
             test.Outcome.Screenshot = screenshotName + ".Jpeg";

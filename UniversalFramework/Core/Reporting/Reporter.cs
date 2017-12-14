@@ -4,23 +4,24 @@ namespace Unicorn.Core.Reporting
 {
     public class Reporter
     {
+        private static IReporter instance;
 
-        private static IReporter _instance;
         public static IReporter Instance
         {
             get
             {
-                if (_instance == null)
+                if (instance == null)
+                {
                     throw new NullReferenceException("Reporter instance is not created.");
+                }
 
-                return _instance;
+                return instance;
             }
+
             set
             {
-                _instance = value;
+                instance = value;
             }
         }
-
-
     }
 }

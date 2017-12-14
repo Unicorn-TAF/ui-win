@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Logging
 {
-    class ConsoleLogger : ILogger
+    public class ConsoleLogger : ILogger
     {
         public void Debug(string message, params object[] parameters)
         {

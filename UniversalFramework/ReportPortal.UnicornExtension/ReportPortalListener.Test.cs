@@ -1,14 +1,14 @@
 ﻿using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using ReportPortal.UnicornExtension.EventArguments;
 using ReportPortal.Shared;
+using ReportPortal.UnicornExtension.EventArguments;
 using System;
 using System.Collections.Generic;
-using Unicorn.Core.Testing.Tests;
 using System.IO;
-using Unicorn.Core.Reporting;
 using System.Text;
 using Unicorn.Core.Logging;
+using Unicorn.Core.Reporting;
+using Unicorn.Core.Testing.Tests;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -16,8 +16,15 @@ namespace ReportPortal.UnicornExtension
     {
         public delegate void TestStartedHandler(object sender, TestItemStartedEventArgs e);
 
+        public delegate void TestFinishedHandler(object sender, TestItemFinishedEventArgs e);
+
         public static event TestStartedHandler BeforeTestStarted;
+
         public static event TestStartedHandler AfterTestStarted;
+
+        public static event TestFinishedHandler BeforeTestFinished;
+
+        public static event TestFinishedHandler AfterTestFinished;
 
         protected void StartTest(Test test)
         {
@@ -28,7 +35,7 @@ namespace ReportPortal.UnicornExtension
                 var name = test.Description;
                 var fullname = test.FullTestName;
 
-                CurrentTest = test;
+                this.currentTest = test;
 
                 var startTestRequest = new StartTestItemRequest
                 {
@@ -47,13 +54,14 @@ namespace ReportPortal.UnicornExtension
                     Logger.Instance.Error("Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
                                       exp);
                 }
+
                 if (!beforeTestEventArg.Canceled)
                 {
-                    var testVal = _suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                    var testVal = suitesFlow[parentId].StartNewTestNode(startTestRequest);
 
-                    _testFlowIds[id] = testVal;
+                    testFlowIds[id] = testVal;
 
-                    _testFlowNames[fullname] = testVal;
+                    testFlowNames[fullname] = testVal;
 
                     try
                     {
@@ -72,11 +80,6 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        public delegate void TestFinishedHandler(object sender, TestItemFinishedEventArgs e);
-
-        public static event TestFinishedHandler BeforeTestFinished;
-        public static event TestFinishedHandler AfterTestFinished;
-
         protected void FinishTest(Test test)
         {
             try
@@ -85,9 +88,9 @@ namespace ReportPortal.UnicornExtension
                 var result = test.Outcome.Result;
                 var parentId = test.ParentId;
 
-                CurrentTest = null;
+                this.currentTest = null;
 
-                if (_testFlowIds.ContainsKey(id))
+                if (testFlowIds.ContainsKey(id))
                 {
                     var updateTestRequest = new UpdateTestItemRequest();
 
@@ -99,19 +102,24 @@ namespace ReportPortal.UnicornExtension
                     if (categories != null)
                     {
                         foreach (string category in categories)
+                        {
                             updateTestRequest.Tags.Add(category);
+                        }
                     }
 
                     // adding description to test
                     var description = test.Description;
                     if (description != null)
+                    {
                         updateTestRequest.Description = description;
+                    }
 
                     if (updateTestRequest.Description != null || updateTestRequest.Tags != null)
-                        _testFlowIds[id].Update(updateTestRequest);
+                    {
+                        testFlowIds[id].Update(updateTestRequest);
+                    }
 
                     // adding failure items
-                    
                     if (test.Outcome.Result == Result.FAILED)
                     {
                         var failureMessage = test.Outcome.Exception.Message;
@@ -119,9 +127,9 @@ namespace ReportPortal.UnicornExtension
 
                         if (!string.IsNullOrEmpty(test.Outcome.Screenshot))
                         {
-                            byte[] screenshotBytes = File.ReadAllBytes(Path.Combine(Screenshot.SCREENSHOTS_FOLDER, test.Outcome.Screenshot));
+                            byte[] screenshotBytes = File.ReadAllBytes(Path.Combine(Screenshot.ScreenshotsFolder, test.Outcome.Screenshot));
 
-                            _testFlowIds[id].Log(new AddLogItemRequest
+                            testFlowIds[id].Log(new AddLogItemRequest
                             {
                                 Level = LogLevel.Error,
                                 Time = DateTime.UtcNow,
@@ -131,7 +139,7 @@ namespace ReportPortal.UnicornExtension
                         }
                         else
                         {
-                            _testFlowIds[id].Log(new AddLogItemRequest
+                            testFlowIds[id].Log(new AddLogItemRequest
                             {
                                 Level = LogLevel.Error,
                                 Time = DateTime.UtcNow,
@@ -139,7 +147,7 @@ namespace ReportPortal.UnicornExtension
                             });
                         }
 
-                        _testFlowIds[id].Log(new AddLogItemRequest
+                        testFlowIds[id].Log(new AddLogItemRequest
                         {
                             Level = LogLevel.Error,
                             Time = DateTime.UtcNow,
@@ -149,6 +157,7 @@ namespace ReportPortal.UnicornExtension
                     }
 
                     FinishTestItemRequest finishTestRequest = null;
+
                     // finishing test
                     if (test.Outcome.Result == Result.FAILED && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
@@ -161,7 +170,7 @@ namespace ReportPortal.UnicornExtension
                         {
                             Issue = issue,
                             EndTime = DateTime.UtcNow,
-                            Status = _statusMap[result]
+                            Status = statusMap[result]
                         };
                     }
                     else
@@ -169,11 +178,11 @@ namespace ReportPortal.UnicornExtension
                         finishTestRequest = new FinishTestItemRequest
                         {
                             EndTime = DateTime.UtcNow,
-                            Status = _statusMap[result]
+                            Status = statusMap[result]
                         };
                     }
 
-                    var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, _testFlowIds[id]);
+                    var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, testFlowIds[id]);
 
                     try
                     {
@@ -185,12 +194,13 @@ namespace ReportPortal.UnicornExtension
                                           Environment.NewLine + exp);
                     }
 
-                    _testFlowIds[id].Finish(finishTestRequest);
+                    testFlowIds[id].Finish(finishTestRequest);
 
                     try
                     {
-                        AfterTestFinished?.Invoke(this,
-                            new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, _testFlowIds[id]));
+                        AfterTestFinished?.Invoke(
+                            this,
+                            new TestItemFinishedEventArgs(Bridge.Service, finishTestRequest, testFlowIds[id]));
                     }
                     catch (Exception exp)
                     {
@@ -205,15 +215,14 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-
         protected void AddAttachment(Test test, string name, string mime, byte[] content)
         {
             try
             {
                 var id = test.Id;
-                if (_testFlowIds.ContainsKey(id))
+                if (testFlowIds.ContainsKey(id))
                 {
-                    _testFlowIds[id].Log(new AddLogItemRequest
+                    testFlowIds[id].Log(new AddLogItemRequest
                     {
                         Level = LogLevel.None,
                         Time = DateTime.UtcNow,
@@ -228,18 +237,18 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-
         protected void AddTestTags(Test test, params string[] tags)
         {
-            try {
+            try
+            {
                 var id = test.Id;
-                if (_testFlowIds.ContainsKey(id))
+                if (testFlowIds.ContainsKey(id))
                 {
                     var updateTestRequest = new UpdateTestItemRequest();
                     updateTestRequest.Tags = new List<string>();
                     updateTestRequest.Tags.AddRange(tags);
 
-                    _testFlowIds[id].Update(updateTestRequest);
+                    testFlowIds[id].Update(updateTestRequest);
                 }
             }
             catch (Exception exception)

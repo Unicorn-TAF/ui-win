@@ -20,7 +20,7 @@ namespace Unicorn.Core.Testing.Tests
         public Exception Exception;
 
         /// <summary>
-        /// Screenshot.
+        /// Screenshot of fail.
         /// </summary>
         public string Screenshot;
 
@@ -29,19 +29,15 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public string[] Bugs;
 
-
         public string OpenBugString = string.Empty;
 
-
         /// <summary>
-        /// Test outcome. Inits with zero execution time and empty bugs array
+        /// Initializes a new instance of the <see cref="TestOutcome"/> class. Inits with zero execution time and empty bugs array
         /// </summary>
         public TestOutcome()
         {
-            ExecutionTime = TimeSpan.FromSeconds(0);
-            Bugs = new string[0];
+            this.ExecutionTime = TimeSpan.FromSeconds(0);
+            this.Bugs = new string[0];
         }
-
-
     }
 }

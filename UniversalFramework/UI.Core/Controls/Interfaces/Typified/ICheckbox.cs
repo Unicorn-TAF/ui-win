@@ -10,6 +10,5 @@
         bool Check();
 
         bool Uncheck();
-        
     }
 }

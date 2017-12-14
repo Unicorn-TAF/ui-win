@@ -1,16 +1,16 @@
-﻿using Unicorn.Core.Logging;
-using System;
-using System.Windows.Forms;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
+using Unicorn.Core.Logging;
 
 namespace Unicorn.Core.Reporting
 {
     public class Screenshot
     {
-        public static string SCREENSHOTS_FOLDER = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
+        public static string ScreenshotsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
 
         public static Bitmap GetScreenshot()
         {
@@ -35,9 +35,9 @@ namespace Unicorn.Core.Reporting
                 Logger.Instance.Debug("Failed to get print screen:\n" + e.ToString());
                 printScreen = new Bitmap(1, 1);
             }
+
             return printScreen;
         }
-
 
         public static void TakeScreenshot(string fileName)
         {
@@ -45,7 +45,7 @@ namespace Unicorn.Core.Reporting
             try
             {
                 Logger.Instance.Debug("Saving print screen");
-                printScreen.Save((Path.Combine(SCREENSHOTS_FOLDER, fileName + "." + ImageFormat.Jpeg)), ImageFormat.Jpeg);
+                printScreen.Save(Path.Combine(ScreenshotsFolder, fileName + "." + ImageFormat.Jpeg), ImageFormat.Jpeg);
             }
             catch (Exception e)
             {

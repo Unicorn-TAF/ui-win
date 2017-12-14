@@ -3,28 +3,23 @@ using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
 {
-
     public static class CoreMatchers
     {
         public static EqualToMatcher IsEqualTo(object objectToCompare)
         {
             return new EqualToMatcher(objectToCompare);
         }
-        
 
         public static IsNullMatcher IsNull()
         {
             return new IsNullMatcher();
         }
 
-
         public static NotMatcher Not(Matcher matcher)
         {
             return new NotMatcher(matcher);
         }
     }
-
-
 
     public static class CollectionsMatchers
     {
@@ -47,7 +42,5 @@ namespace Unicorn.Core.Testing.Assertions
         {
             return new IsEqualToCollectionMatcher(expectedObjects);
         }
-        
-
     }
 }

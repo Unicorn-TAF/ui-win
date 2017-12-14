@@ -1,6 +1,15 @@
-﻿
-namespace Unicorn.UI.Core.Driver
+﻿namespace Unicorn.UI.Core.Driver
 {
+    public enum Using
+    {
+        Web_Css,
+        Web_Xpath,
+        Web_Tag,
+        Class,
+        Name,
+        Id
+    }
+
     public class ByLocator
     {
         public readonly Using How;
@@ -12,18 +21,15 @@ namespace Unicorn.UI.Core.Driver
             this.Locator = locator;
         }
 
-
         public static ByLocator Id(string locator)
         {
             return new ByLocator(Using.Id, locator);
         }
 
-
         public static ByLocator Name(string locator)
         {
             return new ByLocator(Using.Name, locator);
         }
-
 
         public static ByLocator Class(string locator)
         {
@@ -49,15 +55,5 @@ namespace Unicorn.UI.Core.Driver
         {
             return $"{How} = {Locator}";
         }
-    }
-
-    public enum Using
-    {
-        Web_Css,
-        Web_Xpath,
-        Web_Tag,
-        Class,
-        Name,
-        Id
     }
 }

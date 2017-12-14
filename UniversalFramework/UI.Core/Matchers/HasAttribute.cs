@@ -9,7 +9,6 @@ namespace Unicorn.UI.Core.Matchers
             return new AttributeContainsMatcher(attribute, expectedValue);
         }
 
-
         public static AttributeIsEqualToMatcher IsEqualTo(string attribute, string expectedValue)
         {
             return new AttributeIsEqualToMatcher(attribute, expectedValue);

@@ -11,10 +11,8 @@ namespace ProjectSpecific.UI.Web
         [Find(Using.Web_Css, ".topmenu__list")]
         public YandexTopMenu MenuTop;
 
-
         [Find(Using.Web_Xpath, "//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']")]
         public WebControl LinkMobilePhones;
-
 
         public override void WaitForPageLoading()
         {

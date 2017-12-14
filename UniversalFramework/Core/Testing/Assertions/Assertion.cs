@@ -1,85 +1,86 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Unicorn.Core.Testing.Assertions
 {
     public class Assertion
     {
-
-        public static void AssertThat(object _object, Matcher matcher)
+        public static void AssertThat(object obj, Matcher matcher)
         {
-            AssertThat("", _object, matcher);
+            AssertThat(string.Empty, obj, matcher);
         }
 
-
-        public static void AssertThat(string message, object _object, Matcher matcher)
+        public static void AssertThat(string message, object obj, Matcher matcher)
         {
             matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();
-            matcher.MatcherOutput.AppendLine("").Append("But: ");
+            matcher.MatcherOutput.AppendLine(string.Empty).Append("But: ");
 
-            if (!matcher.Matches(_object))
+            if (!matcher.Matches(obj))
             {
                 throw new AssertionError(message + "\n" + matcher.MatcherOutput.ToString());
             }
         }
     }
 
-
-
     public class SoftAssertion
     {
-        StringBuilder Errors;
-        bool IsSomethingFailed;
-        int ErrorCounter;
+        private StringBuilder errors;
+        private bool isSomethingFailed;
+        private int errorCounter;
 
         public SoftAssertion()
         {
-            Errors = new StringBuilder();
-            IsSomethingFailed = false;
-            ErrorCounter = 1;
+            this.errors = new StringBuilder();
+            this.isSomethingFailed = false;
+            this.errorCounter = 1;
         }
 
-        public SoftAssertion AssertThat(object _object, Matcher matcher)
+        public SoftAssertion AssertThat(object obj, Matcher matcher)
         {
-            AssertThat("", _object, matcher);
+            this.AssertThat(string.Empty, obj, matcher);
             return this;
         }
 
-
-        public SoftAssertion AssertThat(string message, object _object, Matcher matcher)
+        public SoftAssertion AssertThat(string message, object obj, Matcher matcher)
         {
             matcher.MatcherOutput.Append("Expected ");
             matcher.DescribeTo();
-            matcher.MatcherOutput.AppendLine("").Append("But ");
+            matcher.MatcherOutput.AppendLine(string.Empty).Append("But ");
 
-            
-
-            if (!matcher.Matches(_object))
+            if (!matcher.Matches(obj))
             {
                 if (!string.IsNullOrEmpty(message))
+                {
                     message += "\n";
+                }
 
-                Errors.AppendLine($"Error {ErrorCounter++}").Append(message).Append(matcher.ToString()).Append("\n\n");
-                IsSomethingFailed = true;
-                
+                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.ToString()).Append("\n\n");
+                this.isSomethingFailed = true;
             }
+
             return this;
         }
 
         public void AssertAll()
         {
-            if (IsSomethingFailed)
-                throw new AssertionError("\n" + Errors.ToString().Trim());
+            if (this.isSomethingFailed)
+            {
+                throw new AssertionError("\n" + this.errors.ToString().Trim());
+            }
         }
     }
 
-
-
+    [Serializable]
     public class AssertionError : Exception
     {
-        public AssertionError() : base() { }
+        public AssertionError() : base()
+        {
+        }
 
-        public AssertionError(string message) : base(message) { }
+        public AssertionError(string message) : base(message)
+        {
+        }
     }
 }

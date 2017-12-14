@@ -12,39 +12,30 @@ namespace Unicorn.UI.Desktop.Driver
     public abstract class GuiSearchContext : ISearchContext
     {
         public AutomationElement ParentContext;
+        protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
+        protected static TimeSpan implicitlyWaitTimeout = timeoutDefault;
+        private const int SearchDelay = 100;
+
         protected virtual AutomationElement SearchContext { get; set; }
-
-        protected static TimeSpan _timeoutDefault = TimeSpan.FromSeconds(20);
-        protected static TimeSpan ImplicitlyWaitTimeout = _timeoutDefault;
-
-        private Condition GetClassNameCondition(string className)
-        {
-            return !string.IsNullOrEmpty(className) ? new PropertyCondition(AutomationElement.ClassNameProperty, className) : Condition.TrueCondition;
-        }
-
-        private Condition GetControlTypeCondition(ControlType type)
-        {
-            return new PropertyCondition(AutomationElement.ControlTypeProperty, type);
-        }
-
-
 
         public T Find<T>(ByLocator locator) where T : IControl
         {
             T control = WaitForWrappedControl<T>(locator);
 
             if (control == null)
+            {
                 throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
             else
+            {
                 return control;
+            }
         }
-
 
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
             return GetWrappedControlsList<T>(locator);
         }
-
 
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
         {
@@ -52,23 +43,23 @@ namespace Unicorn.UI.Desktop.Driver
             return WaitFor<T>(locator, millisecondsTimeout, out control);
         }
 
-
         public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
-            ImplicitlyWaitTimeout = TimeSpan.FromMilliseconds(millisecondsTimeout);
+            implicitlyWaitTimeout = TimeSpan.FromMilliseconds(millisecondsTimeout);
             T control = WaitForWrappedControl<T>(locator);
-            ImplicitlyWaitTimeout = _timeoutDefault;
+            implicitlyWaitTimeout = timeoutDefault;
 
             controlInstance = control;
 
             return control != null;
         }
 
-
         public T FirstChild<T>() where T : IControl
         {
             if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
+            {
                 throw new ArgumentException("Illegal type of control: " + typeof(T));
+            }
 
             var wrapper = Activator.CreateInstance<T>();
 
@@ -77,130 +68,33 @@ namespace Unicorn.UI.Desktop.Driver
                 new PropertyCondition(AutomationElement.ControlTypeProperty, ((GuiControl)(object)wrapper).Type));
             var walker = new TreeWalker(condition);
 
-            var element = walker.GetFirstChild(SearchContext);
+            var element = walker.GetFirstChild(this.SearchContext);
 
             if (element == null)
+            {
                 throw new ControlNotFoundException($"Unable to find child {typeof(T)}");
+            }
 
             ((GuiControl)(object)wrapper).SearchContext = element;
 
             return wrapper;
         }
 
-
         #region "Helpers"
-
-
-        private Condition GetAlternativeNameCondition(string name, string alternativaName)
-        {
-            List<PropertyCondition> conditionsList = new List<PropertyCondition>();
-            conditionsList.Add(new PropertyCondition(AutomationElement.AutomationIdProperty, name));
-            conditionsList.Add(new PropertyCondition(AutomationElement.NameProperty, name));
-
-            if (!string.IsNullOrEmpty(alternativaName))
-            {
-                conditionsList.Add(new PropertyCondition(AutomationElement.AutomationIdProperty, alternativaName));
-                conditionsList.Add(new PropertyCondition(AutomationElement.NameProperty, alternativaName));
-            }
-            return new OrCondition(conditionsList.ToArray());
-        }
-
-
-        private const int delayBetweenTryes = 100;
-        private IList<T> WaitForWrappedControllList<T>(ByLocator locator)
-        {
-            IList<T> controlsList;
-
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
-
-            do
-            {
-                controlsList = GetWrappedControlsList<T>(locator);
-                Thread.Sleep(delayBetweenTryes);
-            } while (controlsList.Count == 0 && timer.Elapsed < ImplicitlyWaitTimeout);
-
-            timer.Stop();
-
-            return controlsList;
-        }
-
-
-        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
-        {
-            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-
-            var aElements = GetNativeControlsList<T>(locator);
-
-            List<T> controlsList = new List<T>();
-
-            foreach (AutomationElement aElement in aElements)
-            {
-                T wrapper = Activator.CreateInstance<T>();
-                ((GuiControl)(object)wrapper).Instance = aElement;
-                ((GuiControl)(object)wrapper).ParentContext = SearchContext;
-                controlsList.Add(wrapper);
-            }
-
-            return controlsList;
-        }
-
-
-        private T WaitForWrappedControl<T>(ByLocator locator)
-        {
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
-
-            T control = default(T);
-            bool success = false;
-
-            do
-            {
-                try
-                {
-                    control = GetWrappedControl<T>(locator);
-                    success = true;
-                }
-                catch(ControlNotFoundException)
-                {
-                    Thread.Sleep(delayBetweenTryes);
-                }
-            } while (!success && timer.Elapsed < ImplicitlyWaitTimeout);
-
-            timer.Stop();
-
-            return control;
-        }
-
-
-        private T GetWrappedControl<T>(ByLocator locator)
-        {
-            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-
-            AutomationElement aElement = GetNativeControl<T>(locator);
-
-            T wrapper = Activator.CreateInstance<T>();
-            ((GuiControl)(object)wrapper).Instance = aElement;
-            ((GuiControl)(object)wrapper).ParentContext = SearchContext;
-
-            return wrapper;
-        }
-
 
         protected AutomationElement GetNativeControl<T>(ByLocator locator)
         {
             Condition condition = GetNativeLocator<T>(locator);
 
-            AutomationElement nativeControl = SearchContext.FindFirst(TreeScope.Descendants, condition);
+            AutomationElement nativeControl = this.SearchContext.FindFirst(TreeScope.Descendants, condition);
 
             if (nativeControl == null)
+            {
                 throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
 
             return nativeControl;
         }
-
 
         protected AutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type)
         {
@@ -221,33 +115,142 @@ namespace Unicorn.UI.Desktop.Driver
                     throw new ArgumentException($"Incorrect locator type: {locator.How}");
             }
 
-            GuiControl _instance = (GuiControl)Activator.CreateInstance(type);
+            GuiControl instance = (GuiControl)Activator.CreateInstance(type);
 
-            Condition classCondition = GetClassNameCondition(_instance.ClassName);
-            Condition typeCondition = GetControlTypeCondition(_instance.Type);
+            Condition classCondition = GetClassNameCondition(instance.ClassName);
+            Condition typeCondition = GetControlTypeCondition(instance.Type);
 
-            _instance = null;
+            instance = null;
 
             Condition condition = new AndCondition(classCondition, typeCondition, locatorCondition);
 
-            //Condition condition = GetNativeLocator<T>(locator);
+            ////Condition condition = GetNativeLocator<T>(locator);
 
-            AutomationElement nativeControl = ParentContext.FindFirst(TreeScope.Descendants, condition);
+            AutomationElement nativeControl = this.ParentContext.FindFirst(TreeScope.Descendants, condition);
 
             if (nativeControl == null)
+            {
                 throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
 
             return nativeControl;
         }
 
+        private Condition GetClassNameCondition(string className)
+        {
+            return !string.IsNullOrEmpty(className) ? new PropertyCondition(AutomationElement.ClassNameProperty, className) : Condition.TrueCondition;
+        }
+
+        private Condition GetControlTypeCondition(ControlType type)
+        {
+            return new PropertyCondition(AutomationElement.ControlTypeProperty, type);
+        }
+
+        private Condition GetAlternativeNameCondition(string name, string alternativaName)
+        {
+            List<PropertyCondition> conditionsList = new List<PropertyCondition>();
+            conditionsList.Add(new PropertyCondition(AutomationElement.AutomationIdProperty, name));
+            conditionsList.Add(new PropertyCondition(AutomationElement.NameProperty, name));
+
+            if (!string.IsNullOrEmpty(alternativaName))
+            {
+                conditionsList.Add(new PropertyCondition(AutomationElement.AutomationIdProperty, alternativaName));
+                conditionsList.Add(new PropertyCondition(AutomationElement.NameProperty, alternativaName));
+            }
+
+            return new OrCondition(conditionsList.ToArray());
+        }
+
+        private IList<T> WaitForWrappedControllList<T>(ByLocator locator)
+        {
+            IList<T> controlsList;
+
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
+            do
+            {
+                controlsList = GetWrappedControlsList<T>(locator);
+                Thread.Sleep(SearchDelay);
+            }
+            while (controlsList.Count == 0 && timer.Elapsed < implicitlyWaitTimeout);
+
+            timer.Stop();
+
+            return controlsList;
+        }
+
+        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
+            {
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+            }
+
+            var wrappedElements = GetNativeControlsList<T>(locator);
+
+            List<T> controlsList = new List<T>();
+
+            foreach (AutomationElement wrappedElement in wrappedElements)
+            {
+                T wrapper = Activator.CreateInstance<T>();
+                ((GuiControl)(object)wrapper).Instance = wrappedElement;
+                ((GuiControl)(object)wrapper).ParentContext = this.SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
+
+        private T WaitForWrappedControl<T>(ByLocator locator)
+        {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
+            T control = default(T);
+            bool success = false;
+
+            do
+            {
+                try
+                {
+                    control = GetWrappedControl<T>(locator);
+                    success = true;
+                }
+                catch (ControlNotFoundException)
+                {
+                    Thread.Sleep(SearchDelay);
+                }
+            }
+            while (!success && timer.Elapsed < implicitlyWaitTimeout);
+
+            timer.Stop();
+
+            return control;
+        }
+
+        private T GetWrappedControl<T>(ByLocator locator)
+        {
+            if (!typeof(GuiControl).IsAssignableFrom(typeof(T)))
+            {
+                throw new ArgumentException("Illegal type of control: " + typeof(T));
+            }
+
+            AutomationElement wrappedElement = GetNativeControl<T>(locator);
+
+            T wrapper = Activator.CreateInstance<T>();
+            ((GuiControl)(object)wrapper).Instance = wrappedElement;
+            ((GuiControl)(object)wrapper).ParentContext = this.SearchContext;
+
+            return wrapper;
+        }
 
         private AutomationElementCollection GetNativeControlsList<T>(ByLocator locator)
         {
             Condition condition = GetNativeLocator<T>(locator);
-            AutomationElementCollection aElements = SearchContext.FindAll(TreeScope.Descendants, condition);
-            return aElements;
+            AutomationElementCollection wrappedElements = this.SearchContext.FindAll(TreeScope.Descendants, condition);
+            return wrappedElements;
         }
-
 
         private Condition GetNativeLocator<T>(ByLocator locator)
         {
@@ -268,12 +271,12 @@ namespace Unicorn.UI.Desktop.Driver
                     throw new ArgumentException($"Incorrect locator type specified: {locator.How}");
             }
 
-            GuiControl _instance = (GuiControl)(object)Activator.CreateInstance<T>();
+            GuiControl instance = (GuiControl)(object)Activator.CreateInstance<T>();
 
-            Condition classCondition = GetClassNameCondition(_instance.ClassName);
-            Condition typeCondition = GetControlTypeCondition(_instance.Type);
+            Condition classCondition = GetClassNameCondition(instance.ClassName);
+            Condition typeCondition = GetControlTypeCondition(instance.Type);
 
-            _instance = null;
+            instance = null;
 
             return new AndCondition(classCondition, typeCondition, locatorCondition);
         }

@@ -11,7 +11,6 @@ namespace Unicorn.UI.Web.PageObject
             Init();
         }
 
-
         public abstract void WaitForPageLoading();
     }
 }

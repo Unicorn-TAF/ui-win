@@ -5,7 +5,7 @@ using ReportPortal.Shared;
 
 namespace ReportPortal.UnicornExtension.EventArguments
 {
-    public class RunFinishedEventArgs: EventArgs
+    public class RunFinishedEventArgs : EventArgs
     {
         public RunFinishedEventArgs(Service service, FinishLaunchRequest request, LaunchReporter launchReporter)
         {

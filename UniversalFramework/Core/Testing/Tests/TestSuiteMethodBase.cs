@@ -11,111 +11,118 @@ namespace Unicorn.Core.Testing.Tests
     public abstract class TestSuiteMethodBase
     {
         public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
+        public static StringBuilder CurrentOutput = new StringBuilder();
 
         public Guid Id;
         public Guid ParentId;
 
-        public static StringBuilder CurrentOutput = new StringBuilder();
+        protected string[] categories = null;
 
+        // Method which represents test
+        protected MethodInfo testMethod;
 
-        private string _author = null;
+        private string author = null;
+        private string description = null;
+        private string fullTestName = null;
+
         /// <summary>
-        /// Test author. If author not specified through AuthorAttribute, then return "No author"
+        /// Test execution timer
+        /// </summary>
+        protected Stopwatch testTimer;
+
+        /// <summary>
+        /// Gets test author. If author not specified through AuthorAttribute, then return "No author"
         /// </summary>
         public string Author
         {
             get
             {
-                if (_author == null)
+                if (this.author == null)
                 {
-                    object[] attributes = TestMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
+                    object[] attributes = this.testMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
 
                     if (attributes.Length > 0)
                     {
                         AuthorAttribute attribute = (AuthorAttribute)attributes[0];
-                        _author = attribute.Author;
+                        this.author = attribute.Author;
                     }
                     else
                     {
-                        _author = "No author";
+                        this.author = "No author";
                     }
                 }
-                return _author;
+
+                return this.author;
             }
         }
 
-
-        private string _description = null;
         /// <summary>
-        /// Test description. If description not specified through TestAttribute, then return test method name
+        /// Gets or sets test description. If description not specified through TestAttribute, then return test method name
         /// </summary>
         public string Description
         {
             get
             {
-                if (_description == null)
+                if (this.description == null)
                 {
-                    object[] attributes = TestMethod.GetCustomAttributes(typeof(TestAttribute), true);
+                    object[] attributes = this.testMethod.GetCustomAttributes(typeof(TestAttribute), true);
 
-                    if(attributes.Length > 0)
+                    if (attributes.Length > 0)
                     {
                         TestAttribute attribute = (TestAttribute)attributes[0];
-                        _description = attribute.Description;
+                        this.description = attribute.Description;
                     }
 
-                    if (string.IsNullOrEmpty(_description))
-                        _description = TestMethod.Name;
+                    if (string.IsNullOrEmpty(this.description))
+                    {
+                        this.description = this.testMethod.Name;
+                    }
                 }
-                return _description;
+
+                return this.description;
             }
+
             set
             {
-                _description = value;
+                this.description = value;
             }
         }
 
-
-        private string _fullTestName = null;
         /// <summary>
-        /// Full test name which is "{Suite Name} - {test method name}"
+        /// Gets or sets full test name which is "{Suite Name} - {test method name}"
         /// </summary>
         public string FullTestName
         {
             get
             {
-                if (_fullTestName == null)
-                    _fullTestName = TestMethod.Name;
-                return _fullTestName;
+                if (this.fullTestName == null)
+                {
+                    this.fullTestName = this.testMethod.Name;
+                }
+                    
+                return this.fullTestName;
             }
+
             set
             {
-                _fullTestName = value;
+                this.fullTestName = value;
             }
         }
 
-
-        protected string[] _categories = null;
         /// <summary>
-        /// Test categories list. Test could not have any category
+        /// Gets test categories list. Test could not have any category
         /// </summary>
         public abstract string[] Categories { get; }
 
-
         /// <summary>
-        /// Current test outcome, contains base information about execution results
+        /// Gets or sets Current test outcome, contains base information about execution results
         /// </summary>
-        public TestOutcome Outcome;
+        public TestOutcome Outcome
+        {
+            get;
 
-
-        /// <summary>
-        /// Test execution timer
-        /// </summary>
-        public Stopwatch TestTimer;
-
-
-        //Method which represents test
-        protected MethodInfo TestMethod;
-        
+            set;
+        }
 
         /// <summary>
         /// Generates Id for the test wich will be the same each time for this test
@@ -124,11 +131,10 @@ namespace Unicorn.Core.Testing.Tests
         {
             using (MD5 md5 = MD5.Create())
             {
-                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(FullTestName));
-                Id = new Guid(hash);
+                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(this.FullTestName));
+                this.Id = new Guid(hash);
             }
         }
-
 
         /// <summary>
         /// Execute current test and fill TestOutcome
@@ -137,7 +143,6 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
         public abstract void Execute(TestSuite suiteInstance);
-
 
         /// <summary>
         /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.
@@ -150,12 +155,16 @@ namespace Unicorn.Core.Testing.Tests
             Logger.Instance.Error(ex.ToString());
 
             if (!string.IsNullOrEmpty(bugs))
-                Outcome.Bugs = bugs.Split(',');
+            {
+                this.Outcome.Bugs = bugs.Split(',');
+            }
             else
-                Outcome.Bugs = new string[] { "?" };
+            {
+                this.Outcome.Bugs = new string[] { "?" };
+            }
 
-            Outcome.Exception = ex;
-            Outcome.Result = Result.FAILED;
+            this.Outcome.Exception = ex;
+            this.Outcome.Result = Result.FAILED;
         }
     }
 }

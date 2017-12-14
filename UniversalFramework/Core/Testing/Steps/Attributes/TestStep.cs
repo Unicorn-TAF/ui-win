@@ -16,7 +16,7 @@ namespace Unicorn.Core.Testing.Steps.Attributes
         {
             get
             {
-                return description;
+                return this.description;
             }
         }
     }

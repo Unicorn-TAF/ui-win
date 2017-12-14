@@ -9,15 +9,16 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Dropdown : GuiControl, IDropdown
     {
-        public override ControlType Type { get { return ControlType.ComboBox; } }
-
-
-        public Dropdown() { }
+        public Dropdown()
+        {
+        }
 
         public Dropdown(AutomationElement instance)
             : base(instance)
         {
         }
+
+        public override ControlType Type => ControlType.ComboBox;
 
         public bool Expanded
         {
@@ -35,13 +36,21 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 if (selection != null)
                 {
                     var item = selection.Current.GetSelection().FirstOrDefault();
+
                     if (item != null)
+                    {
                         return GetAttribute("text");
+                    }
                 }
+
                 var value = GetPattern<ValuePattern>();
+
                 if (value != null)
+                {
                     return value.Current.Value;
-                return "";
+                }
+                    
+                return string.Empty;
             }
         }
 
@@ -56,28 +65,40 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public bool Select(string item)
         {
             if (item.Equals(SelectedValue))
+            {
                 return false;
+            }
 
             var valuePattern = GetPattern<ValuePattern>();
+
             if (valuePattern != null)
+            {
                 valuePattern.SetValue(item);
+            }
             else
             {
                 Expand();
                 Thread.Sleep(500);
                 var itemEl = Find<ListItem>(ByLocator.Name(item));
+
                 if (itemEl != null)
+                {
                     itemEl.Select();
+                }
+                    
                 Collapse();
                 Thread.Sleep(500);
             }
+
             return true;
         }
 
         public bool Expand()
         {
             if (Expanded)
+            {
                 return false;
+            }
 
             GetPattern<ExpandCollapsePattern>().Expand();
             return true;
@@ -86,11 +107,12 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public bool Collapse()
         {
             if (!Expanded)
+            {
                 return false;
+            }
 
             GetPattern<ExpandCollapsePattern>().Collapse();
             return true;
         }
-
     }
 }

@@ -11,17 +11,22 @@ namespace Unicorn.Core.Testing.Steps
 
             object[] attributes = method.GetCustomAttributes(typeof(TestStep), true);
 
-            //generate description based on method signature if TestStep attribute is not defined
+            // generate description based on method signature if TestStep attribute is not defined
+            // else if TestStep attribute is defined, use it as template for string.Format
             if (attributes.Length == 0)
             {
                 stepDescription = method.Name;
 
                 if (arguments.Length > 0)
+                {
                     stepDescription += ":";
+                }
+                    
                 for (int i = 0; i < arguments.Length; i++)
+                {
                     stepDescription += $" '{arguments[i]}'";
+                }
             }
-            //if TestStep attribute is defined, use it as template for string.Format
             else
             {
                 TestStep attribute = (TestStep)attributes[0];
@@ -32,5 +37,4 @@ namespace Unicorn.Core.Testing.Steps
             return stepDescription;
         }
     }
-
 }

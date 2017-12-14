@@ -1,38 +1,21 @@
 ﻿using System;
-using System.Windows;
 using System.Runtime.InteropServices;
 using System.Threading;
-
+using System.Windows;
 
 namespace Unicorn.UI.Desktop.Input
 {
     public class Mouse
     {
-        [DllImport("user32", EntryPoint = "SendInput")]
-        private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetMessageExtraInfo();
-
-        [DllImport("user32.dll")]
-        private static extern bool GetCursorPos(ref System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern bool GetCursorInfo(ref CursorInfo cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern short GetDoubleClickTime();
-
         public static Mouse Instance = new Mouse();
-        private DateTime lastClickTime = DateTime.Now;
+        private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
         private readonly short doubleClickTime = GetDoubleClickTime();
+        private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
-        private const int extraMillisecondsBecauseOfBugInWindows = 13;
 
-        private Mouse() { }
+        private Mouse()
+        {
+        }
 
         public virtual Point Location
         {
@@ -42,17 +25,18 @@ namespace Unicorn.UI.Desktop.Input
                 GetCursorPos(ref point);
                 return point.ConvertToWindowsPoint();
             }
+
             set
             {
                 if (value.IsInvalid())
                 {
                     throw new Exception(string.Format("Trying to set location outside the screen. {0}", value));
                 }
+
                 SetCursorPos(value.ToDrawingPoint());
             }
         }
 
-  
         public virtual void RightClick()
         {
             SendInput(Input.Mouse(MouseInput(WindowsConstants.MOUSEEVENTF_RIGHTDOWN)));
@@ -70,11 +54,38 @@ namespace Unicorn.UI.Desktop.Input
             if (lastClickLocation.Equals(clickLocation))
             {
                 int timeout = doubleClickTime - DateTime.Now.Subtract(lastClickTime).Milliseconds;
-                if (timeout > 0) Thread.Sleep(timeout + extraMillisecondsBecauseOfBugInWindows);
+                if (timeout > 0)
+                {
+                    Thread.Sleep(timeout + ExtraMillisecondsBecauseOfBugInWindows);
+                }
             }
+
             MouseLeftButtonUpAndDown();
             lastClickTime = DateTime.Now;
             lastClickLocation = Location;
+        }
+
+        public virtual void RightClick(Point point)
+        {
+            Location = point;
+            RightClick();
+        }
+
+        public virtual void Click(Point point)
+        {
+            Location = point;
+            Click();
+        }
+
+        public static void MouseLeftButtonUpAndDown()
+        {
+            LeftDown();
+            LeftUp();
+        }
+
+        public virtual void MoveOut()
+        {
+            Location = new Point(0, 0);
         }
 
         public static void LeftUp()
@@ -94,6 +105,24 @@ namespace Unicorn.UI.Desktop.Input
             MouseLeftButtonUpAndDown();
         }
 
+        [DllImport("user32", EntryPoint = "SendInput")]
+        private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetMessageExtraInfo();
+
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(ref System.Drawing.Point cursorInfo);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(System.Drawing.Point cursorInfo);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorInfo(ref CursorInfo cursorInfo);
+
+        [DllImport("user32.dll")]
+        private static extern short GetDoubleClickTime();
+
         private static void SendInput(Input input)
         {
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
@@ -103,33 +132,6 @@ namespace Unicorn.UI.Desktop.Input
         {
             return new MouseInput(command, GetMessageExtraInfo());
         }
-
-        public virtual void RightClick(Point point)
-        {
-            Location = point;
-            RightClick();
-        }
-
-        public virtual void Click(Point point)
-        {
-            Location = point;
-            Click();
-        }
-
-  
-
-        public static void MouseLeftButtonUpAndDown()
-        {
-            LeftDown();
-            LeftUp();
-        }
-
-        public virtual void MoveOut()
-        {
-            Location = new Point(0, 0);
-        }
-
-
     }
 
     public static class DrawingPointX

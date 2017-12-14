@@ -10,34 +10,37 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiContainer : GuiControl, IContainer
     {
+        public GuiContainer() : base()
+        {
+        }
+
+        public GuiContainer(AutomationElement instance) : base(instance)
+        {
+        }
+
         public override AutomationElement Instance
         {
             get
             {
-                if (!Cached)
-                    SearchContext = GetNativeControlFromParentContext(Locator, GetType());
+                if (!this.Cached)
+                {
+                    this.SearchContext = GetNativeControlFromParentContext(Locator, GetType());
+                }
 
-                return SearchContext;
+                return this.SearchContext;
             }
+
             set
             {
-                SearchContext = value;
+                this.SearchContext = value;
                 Init();
             }
         }
 
-
-        public GuiContainer() : base(){ }
-
-        public GuiContainer(AutomationElement instance) : base(instance)
-        { }
-
-
-
         public void Init()
         {
             FieldInfo[] fields = GetType().GetFields();
-            foreach(FieldInfo field in fields)
+            foreach (FieldInfo field in fields)
             {
                 object[] attributes = field.GetCustomAttributes(typeof(FindAttribute), true);
                 if (attributes.Length != 0)
@@ -47,13 +50,16 @@ namespace Unicorn.UI.Desktop.Controls
                     ((GuiControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((GuiControl)control).Cached = false;
                     ((GuiControl)control).ParentContext = SearchContext;
+
                     if (controlType.IsSubclassOf(typeof(GuiContainer)))
+                    {
                         ((GuiContainer)control).Init();
+                    }
+                        
                     field.SetValue(this, control);
                 }
             }
         }
-
 
         public void ClickButton(string locator)
         {
@@ -86,9 +92,13 @@ namespace Unicorn.UI.Desktop.Controls
             Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
 
             if (state)
+            {
                 return checkbox.Check();
+            }
             else
+            {
                 return checkbox.Uncheck();
+            }
         }
     }
 }

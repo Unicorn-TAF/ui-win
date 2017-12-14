@@ -10,14 +10,15 @@ namespace Unicorn.UI.Desktop.Input
     [StructLayout(LayoutKind.Explicit)]
     public struct Input
     {
+        [FieldOffset(4)]
+        private readonly HardwareInput hi;
+
         [FieldOffset(0)]
         private int type;
         [FieldOffset(4)]
         private MouseInput mi;
         [FieldOffset(4)]
         private KeyboardInput ki;
-        [FieldOffset(4)]
-        private readonly HardwareInput hi;
 
         public static Input Mouse(MouseInput mouseInput)
         {

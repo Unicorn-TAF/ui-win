@@ -7,50 +7,51 @@ namespace Tests.TestData
     [ParametersSet("Set 1"), ParametersSet("Set 2")]
     public class ParameterizedSuite : TestSuite
     {
-        public string Output = "";
+        private string output = string.Empty;
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            Output += "BeforeSuite>";
+            output += "BeforeSuite>";
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            Output += "BeforeTest>";
+            output += "BeforeTest>";
         }
 
         [Test("Test 2")]
         public void Test2()
         {
-            Output += "Test1>";
+            output += "Test1>";
         }
 
         [Test("Test to Skip")]
         [Skip]
         public void TestToSkip()
         {
-            Output += "TestToSkip>";
+            output += "TestToSkip>";
         }
 
         [Test("Test 1")]
         public void Test1()
         {
-            Output += "Test2>";
+            output += "Test2>";
         }
 
         [AfterTest]
         public void AfterTest()
         {
-            Output += "AfterTest>";
+            output += "AfterTest>";
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            Output += "AfterSuite";
+            output += "AfterSuite";
         }
 
+        public string GetOutput() => output;
     }
 }

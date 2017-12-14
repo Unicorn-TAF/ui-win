@@ -10,9 +10,9 @@ using Unicorn.Core.Testing.Tests;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class TestSuiteTest : NUnitTestRunner
+    public class TestSuiteTest : NUnitTestRunner
     {
-        Suite suite = Activator.CreateInstance<Suite>();
+        private Suite suite = Activator.CreateInstance<Suite>();
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
@@ -51,16 +51,43 @@ namespace Tests.UnitTests
             Assert.That(GetListByName("ListBeforeTest").Length, Is.EqualTo(1));
         }
 
-
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
         public void RunSuiteTest()
         {
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterSuite";
             suite.Run();
-            Assert.That(suite.Output, Is.EqualTo(expectedOutput));
+            Assert.That(suite.GetOutput(), Is.EqualTo(expectedOutput));
         }
 
+        [Author("Vitaliy Dobriyan")]
+        [TestCase(Description = "Test For Suite Skipping")]
+        public void SuiteSkipTest()
+        {
+            TestSuite.SetRunCategories("category");
+            List<Type> suitesList = new List<Type>();
+            suitesList.Add(typeof(SuiteToBeSkipped));
+
+            foreach (Type type in suitesList)
+            {
+                var suite = Activator.CreateInstance(type);
+                ((TestSuite)suite).Run();
+
+                Assert.That(((SuiteToBeSkipped)suite).GetOutput(), Is.EqualTo(string.Empty));
+            }
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [TestCase(Description = "Test For Suite Skipping")]
+        public void SuiteBugsTest()
+        {
+            SuiteForReporting repSuite = new SuiteForReporting();
+
+            repSuite.Run();
+            string[] expectedBugs = new string[] { "234", "871236" };
+
+            Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
+        }
 
         private MethodInfo[] GetListByName(string name)
         {
@@ -78,37 +105,6 @@ namespace Tests.UnitTests
                 .GetValue(suite);
 
             return field as TestSuiteMethod[];
-        }
-
-
-
-        [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteSkipTest()
-        {
-            TestSuite.SetRunCategories("category");
-            List<Type> suitesList = new List<Type>();
-            suitesList.Add(typeof(SuiteToBeSkipped));
-
-            foreach(Type type in suitesList)
-            {
-                var suite = Activator.CreateInstance(type);
-                ((TestSuite)suite).Run();
-
-                Assert.That(((SuiteToBeSkipped)suite).Output, Is.EqualTo(""));
-            }
-        }
-
-        [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteBugsTest()
-        {
-            SuiteForReporting repSuite = new SuiteForReporting();
-
-            repSuite.Run();
-            string[] expectedBugs = new string[] { "234", "871236" };
-
-            Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
         }
     }
 }

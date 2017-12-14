@@ -9,9 +9,9 @@ using Unicorn.Core.Testing.Tests;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class TestParameterizedTestSuiteTest : NUnitTestRunner
+    public class TestParameterizedTestSuiteTest : NUnitTestRunner
     {
-        ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
+        private ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
@@ -50,16 +50,14 @@ namespace Tests.UnitTests
             Assert.That(GetListByName("ListBeforeTest").Length, Is.EqualTo(1));
         }
 
-
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
         public void ParameterizedSuiteRunSuiteTest()
         {
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             suite.Run();
-            Assert.That(suite.Output, Is.EqualTo(expectedOutput + expectedOutput));
+            Assert.That(suite.GetOutput(), Is.EqualTo(expectedOutput + expectedOutput));
         }
-
 
         private MethodInfo[] GetListByName(string name)
         {

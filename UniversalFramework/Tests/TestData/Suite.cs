@@ -6,52 +6,53 @@ namespace Tests.TestData
 {
     public class Suite : TestSuite
     {
-        public string Output;
+        private string output;
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            Output = "";
-            Output += "BeforeSuite>";
+            output = string.Empty;
+            output += "BeforeSuite>";
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            Output += "BeforeTest>";
+            output += "BeforeTest>";
         }
 
         [Test]
         public void Test2()
         {
-            Output += "Test1>";
+            output += "Test1>";
         }
 
         [Test]
         [Skip]
         public void TestToSkip()
         {
-            Output += "TestToSkip>";
+            output += "TestToSkip>";
         }
 
         [Test]
         public void Test1()
         {
-            Output += "Test2>";
+            output += "Test2>";
             throw new System.Exception("FAILED");
         }
 
         [AfterTest]
         public void AfterTest()
         {
-            Output += "AfterTest>";
+            output += "AfterTest>";
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            Output += "AfterSuite";
+            output += "AfterSuite";
         }
 
+        public string GetOutput() => output;
     }
 }

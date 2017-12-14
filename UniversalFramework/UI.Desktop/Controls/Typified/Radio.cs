@@ -4,7 +4,16 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Radio : GuiControl
     {
-        public override ControlType Type { get { return ControlType.RadioButton; } }
+        public Radio()
+        {
+        }
+
+        public Radio(AutomationElement instance)
+            : base(instance)
+        {
+        }
+
+        public override ControlType Type => ControlType.RadioButton;
 
         public bool IsSelected
         {
@@ -12,13 +21,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             {
                 return (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern).Current.IsSelected;
             }
-        }
-
-        public Radio() { }
-
-        public Radio(AutomationElement instance)
-            : base(instance)
-        {
         }
 
         public bool Select()

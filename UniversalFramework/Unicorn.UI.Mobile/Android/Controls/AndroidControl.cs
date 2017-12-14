@@ -1,36 +1,17 @@
-﻿using System;
+﻿using OpenQA.Selenium.Appium;
+using System;
 using System.Drawing;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Driver;
-using OpenQA.Selenium.Appium;
 
 namespace Unicorn.UI.Mobile.Android.Controls
 {
     public class AndroidControl : AndroidSearchContext, IControl
     {
-
-        public ByLocator Locator { get; set; }
-
         public bool Cached = true;
 
-
-        protected override AppiumWebElement SearchContext
-        {
-            get
-            {
-                if (!Cached)
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
-
-                return base.SearchContext;
-            }
-
-            set
-            {
-                base.SearchContext = value;
-            }
-        }
-
+        public ByLocator Locator { get; set; }
 
         public virtual AppiumWebElement Instance
         {
@@ -38,6 +19,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
             {
                 return SearchContext;
             }
+
             set
             {
                 SearchContext = value;
@@ -81,6 +63,24 @@ namespace Unicorn.UI.Mobile.Android.Controls
             get
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        protected override AppiumWebElement SearchContext
+        {
+            get
+            {
+                if (!this.Cached)
+                {
+                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                }
+
+                return base.SearchContext;
+            }
+
+            set
+            {
+                base.SearchContext = value;
             }
         }
 

@@ -4,110 +4,92 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public class EqualToMatcher : Matcher
     {
-        private object ObjectToCompare;
-
-        public override string CheckDescription
-        {
-            get
-            {
-                return "Is equal to " + ObjectToCompare;
-            }
-        }
-
+        private object objectToCompare;
 
         public EqualToMatcher(object objectToCompare)
         {
-            ObjectToCompare = objectToCompare;
+            this.objectToCompare = objectToCompare;
         }
 
+        public override string CheckDescription => "Is equal to " + this.objectToCompare;
 
-        public override bool Matches(object _object)
+        public override bool Matches(object obj)
         {
-            return IsNotNull(_object) && Assertion(_object);
+            return this.IsNotNull(obj) && this.Assertion(obj);
         }
 
-
-        protected bool Assertion(object _object)
+        protected bool Assertion(object obj)
         {
-            if (!ObjectToCompare.GetType().Equals(_object.GetType()))
+            if (!this.objectToCompare.GetType().Equals(obj.GetType()))
             {
-                MatcherOutput.Append($"was not of type {ObjectToCompare.GetType()}");
+                MatcherOutput.Append($"was not of type {this.objectToCompare.GetType()}");
                 return false;
             }
                 
-            bool isEqual = _object.Equals(ObjectToCompare);
+            bool isEqual = obj.Equals(this.objectToCompare);
+
             if (!isEqual)
-                DescribeMismatch(_object);
+            {
+                DescribeMismatch(obj);
+            }
 
             return isEqual;
         }
     }
 
-
     public class NotMatcher : Matcher
     {
-        private Matcher _matcher;
-
-        public override string CheckDescription
-        {
-            get
-            {
-                return $"Not ({_matcher.CheckDescription})";
-            }
-        }
-
+        private Matcher matcher;
 
         public NotMatcher(Matcher matcher)
         {
-            FieldInfo partOfNotMatcherField = typeof(Matcher).GetField("PartOfNotMatcher",
+            FieldInfo partOfNotMatcherField = typeof(Matcher).GetField(
+                "partOfNotMatcher",
                 BindingFlags.NonPublic | BindingFlags.Instance);
             partOfNotMatcherField.SetValue(matcher, true);
 
-            _matcher = matcher;
-            _matcher.MatcherOutput = MatcherOutput;
+            this.matcher = matcher;
+            this.matcher.MatcherOutput = MatcherOutput;
         }
 
+        public override string CheckDescription => $"Not ({this.matcher.CheckDescription})";
 
-        public override bool Matches(object _object)
+        public override bool Matches(object obj)
         {
-            bool result = IsNotNull(_object);
+            bool result = IsNotNull(obj);
 
             if (result)
             {
-                result = !_matcher.Matches(_object);
+                result = !this.matcher.Matches(obj);
+
                 if (!result)
-                    _matcher.DescribeMismatch(_object);
+                {
+                    this.matcher.DescribeMismatch(obj);
+                }
             }
 
-            MatcherOutput = _matcher.MatcherOutput;
+            MatcherOutput = this.matcher.MatcherOutput;
             return result;
         }
     }
     
-
     public class IsNullMatcher : Matcher
     {
-        public override string CheckDescription
-        {
-            get
-            {
-                return "Is null";
-            }
-        }
-
-
         public IsNullMatcher() : base()
         {
-            NullCheckable = false;
+            this.nullCheckable = false;
         }
 
+        public override string CheckDescription => "Is null";
 
-        public override bool Matches(object _object)
+        public override bool Matches(object obj)
         {
-            bool result = _object == null;
+            bool result = obj == null;
 
             if (!result)
-                DescribeMismatch(_object);
+            {
+                DescribeMismatch(obj);
+            }
 
             return result;
         }

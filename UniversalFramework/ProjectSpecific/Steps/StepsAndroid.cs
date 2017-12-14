@@ -11,7 +11,7 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsAndroid : TestSteps
     {
-        IDriver driver;
+        private IDriver driver;
 
         [TestStep("Start '{0}'")]
         public void NavigateTo(string value)
@@ -27,7 +27,6 @@ namespace ProjectSpecific.Steps
             driver = AndroidDriver.Instance;
             driver.Get(value);
         }
-
 
         [TestStep("Search for '{0}'")]
         public void SearchFor(string value)

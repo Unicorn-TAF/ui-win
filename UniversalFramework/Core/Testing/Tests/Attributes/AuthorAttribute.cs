@@ -5,19 +5,13 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AuthorAttribute : Attribute
     {
-        private string _author;
+        private string author;
 
         public AuthorAttribute(string author)
         {
-            _author = author;
+            this.author = author;
         }
 
-        public string Author
-        {
-            get
-            {
-                return _author;
-            }
-        }
+        public string Author => this.author;
     }
 }

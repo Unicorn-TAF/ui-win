@@ -8,8 +8,10 @@ using Tests.TestData;
 namespace Tests.UnitTests
 {
     [TestFixture]
-    class TestReportingParameterizedTestSuite : NUnitReportPortalTestRunner
+    public class TestReportingParameterizedTestSuite : NUnitReportPortalTestRunner
     {
+        protected Steps Do => new Steps();
+
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
         public void ParameterizedSuiteRunSuiteTest()
@@ -17,9 +19,6 @@ namespace Tests.UnitTests
             ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
             suite.Run();
         }
-
-
-        Steps Do = new Steps();
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test For check logging")]
@@ -30,7 +29,6 @@ namespace Tests.UnitTests
             Do.Testing.FirstTestStep();
             Do.Testing.SecondTestStep("value");
         }
-
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test For check logging 2")]
