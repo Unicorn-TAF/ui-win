@@ -1,15 +1,28 @@
-﻿using OpenQA.Selenium.Appium;
-using System;
+﻿using System;
 using System.Drawing;
+using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Mobile.iOS.Driver;
+using Unicorn.UI.Mobile.IOS.Driver;
 
-namespace Unicorn.UI.Mobile.iOS.Controls
+namespace Unicorn.UI.Mobile.IOS.Controls
 {
-    public class IOSControl : iOSSearchContext, IControl
+    public class IOSControl : IOSSearchContext, IControl
     {
-        public bool Cached = true;
+        private bool cached = true;
+
+        public bool Cached
+        {
+            get
+            {
+                return this.cached;
+            }
+
+            set
+            {
+                this.cached = value;
+            }
+        }
 
         public ByLocator Locator { get; set; }
 
@@ -17,12 +30,12 @@ namespace Unicorn.UI.Mobile.iOS.Controls
         {
             get
             {
-                return SearchContext;
+                return this.SearchContext;
             }
 
             set
             {
-                SearchContext = value;
+                this.SearchContext = value;
             }
         }
 
@@ -72,7 +85,7 @@ namespace Unicorn.UI.Mobile.iOS.Controls
             {
                 if (!this.Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    base.SearchContext = GetNativeControlFromParentContext(this.Locator);
                 }
 
                 return base.SearchContext;
@@ -86,12 +99,12 @@ namespace Unicorn.UI.Mobile.iOS.Controls
 
         public void SendKeys(string keys)
         {
-            Instance.SendKeys(keys);
+            this.Instance.SendKeys(keys);
         }
 
         public void Click()
         {
-            Instance.Click();
+            this.Instance.Click();
         }
 
         public void RightClick()

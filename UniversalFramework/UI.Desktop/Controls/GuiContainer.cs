@@ -24,7 +24,7 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 if (!this.Cached)
                 {
-                    this.SearchContext = GetNativeControlFromParentContext(Locator, GetType());
+                    this.SearchContext = GetNativeControlFromParentContext(this.Locator, GetType());
                 }
 
                 return this.SearchContext;
@@ -49,7 +49,7 @@ namespace Unicorn.UI.Desktop.Controls
                     var control = Activator.CreateInstance(controlType);
                     ((GuiControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((GuiControl)control).Cached = false;
-                    ((GuiControl)control).ParentContext = SearchContext;
+                    ((GuiControl)control).ParentContext = this.SearchContext;
 
                     if (controlType.IsSubclassOf(typeof(GuiContainer)))
                     {

@@ -1,18 +1,19 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Mobile.iOS.Controls;
+using Unicorn.UI.Mobile.IOS.Controls;
 
-namespace Unicorn.UI.Mobile.iOS.Driver
+namespace Unicorn.UI.Mobile.IOS.Driver
 {
-    public class iOSSearchContext : Core.Driver.ISearchContext
+    public class IOSSearchContext : Core.Driver.ISearchContext
     {
         public AppiumWebElement ParentContext;
-        protected static TimeSpan ImplicitlyWaitTimeout = timeoutDefault;
-        protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
+        protected static TimeSpan implicitlyWaitTimeout = TimeoutDefault;
+
+        protected static TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
 
         protected virtual AppiumWebElement SearchContext { get; set; }
 
@@ -40,7 +41,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
                 isPresented = false;
             }
 
-            iOSDriver.Instance.ImplicitlyWait = timeoutDefault;
+            iOSDriver.Instance.ImplicitlyWait = TimeoutDefault;
 
             return isPresented;
         }
@@ -60,7 +61,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
                 isPresented = false;
             }
 
-            iOSDriver.Instance.ImplicitlyWait = timeoutDefault;
+            iOSDriver.Instance.ImplicitlyWait = TimeoutDefault;
 
             return isPresented;
         }
@@ -77,7 +78,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                AppiumWebElement nativeControl = SearchContext.FindElement(by);
+                AppiumWebElement nativeControl = this.SearchContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -91,7 +92,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                AppiumWebElement nativeControl = ParentContext.FindElement(by);
+                AppiumWebElement nativeControl = this.ParentContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -114,7 +115,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
             {
                 var wrapper = Activator.CreateInstance<T>();
                 ((IOSControl)(object)wrapper).Instance = wrappedElement;
-                ((IOSControl)(object)wrapper).ParentContext = SearchContext;
+                ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
                 controlsList.Add(wrapper);
             }
 
@@ -131,7 +132,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
             AppiumWebElement elementToWrap = GetNativeControl(locator);
             var wrapper = Activator.CreateInstance<T>();
             ((IOSControl)(object)wrapper).Instance = elementToWrap;
-            ((IOSControl)(object)wrapper).ParentContext = SearchContext;
+            ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
 
             return wrapper;
         }
@@ -142,7 +143,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
 
             try
             {
-                IList<AppiumWebElement> nativeControls = SearchContext.FindElements(by);
+                IList<AppiumWebElement> nativeControls = this.SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)

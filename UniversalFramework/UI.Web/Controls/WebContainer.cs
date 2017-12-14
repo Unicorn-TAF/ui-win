@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Reflection;
+using OpenQA.Selenium;
 using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Web.Controls
@@ -21,7 +21,7 @@ namespace Unicorn.UI.Web.Controls
             {
                 if (!this.Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    base.SearchContext = GetNativeControlFromParentContext(this.Locator);
                 }
 
                 return base.SearchContext;
@@ -46,7 +46,7 @@ namespace Unicorn.UI.Web.Controls
                     var control = Activator.CreateInstance(controlType);
                     ((WebControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((WebControl)control).Cached = false;
-                    ((WebControl)control).ParentContext = SearchContext;
+                    ((WebControl)control).ParentContext = this.SearchContext;
 
                     if (controlType.IsSubclassOf(typeof(WebContainer)))
                     {

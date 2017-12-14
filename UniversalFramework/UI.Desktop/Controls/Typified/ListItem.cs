@@ -22,7 +22,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Select()
         {
-            if (IsSelected)
+            if (this.IsSelected)
             {
                 return false;
             }

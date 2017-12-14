@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using NUnit.Framework;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 

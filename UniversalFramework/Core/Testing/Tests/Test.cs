@@ -11,11 +11,6 @@ namespace Unicorn.Core.Testing.Tests
     public class Test : TestSuiteMethodBase
     {
         /// <summary>
-        /// Indicate if specified test method should be skipped by presence of [Skip] attribute
-        /// </summary>
-        public bool IsNeedToBeSkipped;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
         /// Contains methods to execute the test and check if test should be skipped
@@ -24,8 +19,8 @@ namespace Unicorn.Core.Testing.Tests
         public Test(MethodInfo testMethod)
         {
             this.testMethod = testMethod;
-            Outcome = new TestOutcome();
-            IsNeedToBeSkipped = false;
+            this.Outcome = new TestOutcome();
+            this.IsNeedToBeSkipped = false;
         }
 
         /* Events section */
@@ -41,6 +36,19 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event TestEvent OnSkip;
 
+        /// <summary>
+        /// Gets or sets if specified test method should be skipped by presence of [Skip] attribute
+        /// </summary>
+        public bool IsNeedToBeSkipped
+        {
+            get;
+
+            set;
+        }
+        
+        /// <summary>
+        /// Gets or sets test categories
+        /// </summary>
         public override string[] Categories
         {
             get
@@ -75,7 +83,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            if (IsNeedToBeSkipped)
+            if (this.IsNeedToBeSkipped)
             {
                 Skip();
                 return;
@@ -99,10 +107,10 @@ namespace Unicorn.Core.Testing.Tests
             this.testTimer.Start();
             try
             {
-                ExecuteMethods(suiteInstance, "ListBeforeTest");
+                ExecuteMethods(suiteInstance, "listBeforeTest");
                 this.testMethod.Invoke(suiteInstance, null);
-                ExecuteMethods(suiteInstance, "ListAfterTest");
-                Outcome.Result = Result.PASSED;
+                ExecuteMethods(suiteInstance, "listAfterTest");
+                this.Outcome.Result = Result.PASSED;
 
                 OnPass?.Invoke(this);
             }
@@ -113,7 +121,7 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.testTimer.Stop();
-            Outcome.ExecutionTime = this.testTimer.Elapsed;
+            this.Outcome.ExecutionTime = this.testTimer.Elapsed;
 
             Logger.Instance.Info($"TEST {Outcome.Result}");
 
@@ -137,7 +145,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             object[] attributes = this.testMethod.GetCustomAttributes(typeof(SkipAttribute), true);
 
-            IsNeedToBeSkipped = attributes.Length != 0;
+            this.IsNeedToBeSkipped = attributes.Length != 0;
 
             if (categories.Length > 0)
             {
@@ -150,7 +158,7 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         private void Skip()
         {
-            Outcome.Result = Result.SKIPPED;
+            this.Outcome.Result = Result.SKIPPED;
             OnSkip?.Invoke(this);
             Logger.Instance.Info($"TEST '{Description}' {Outcome.Result}");
         }

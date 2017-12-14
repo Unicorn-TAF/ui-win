@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
-using ProjectSpecific.Util;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Text;
+using NUnit.Framework;
+using ProjectSpecific.Util;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 

@@ -12,12 +12,6 @@ namespace Unicorn.Core.Testing.Tests.Attributes
             this.name = name;
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public string Name => this.name;
     }
 }

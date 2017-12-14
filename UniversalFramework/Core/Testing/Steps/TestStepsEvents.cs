@@ -1,7 +1,7 @@
-﻿using AspectInjector.Broker;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using AspectInjector.Broker;
 
 namespace Unicorn.Core.Testing.Steps
 {

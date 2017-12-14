@@ -1,6 +1,6 @@
-﻿using AspectInjector.Broker;
+﻿using System;
+using AspectInjector.Broker;
 using ProjectSpecific.BO;
-using System;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;

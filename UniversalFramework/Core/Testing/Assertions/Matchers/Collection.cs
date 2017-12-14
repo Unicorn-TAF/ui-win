@@ -1,27 +1,9 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Core.Testing.Assertions.Matchers;
+using Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Assertions.Matchers
 {
-    public static class CoreMatchers
-    {
-        public static EqualToMatcher IsEqualTo(object objectToCompare)
-        {
-            return new EqualToMatcher(objectToCompare);
-        }
-
-        public static IsNullMatcher IsNull()
-        {
-            return new IsNullMatcher();
-        }
-
-        public static NotMatcher Not(Matcher matcher)
-        {
-            return new NotMatcher(matcher);
-        }
-    }
-
-    public static class CollectionsMatchers
+    public static class Collection
     {
         public static IsNullOrEmptyMatcher IsNullOrEmpty()
         {

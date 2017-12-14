@@ -1,5 +1,5 @@
-﻿using ProjectSpecific.Steps;
-using System;
+﻿using System;
+using ProjectSpecific.Steps;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;

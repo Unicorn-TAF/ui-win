@@ -1,11 +1,11 @@
-﻿using ReportPortal.Client.Filtering;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ReportPortal.Client.Filtering;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
 using ReportPortal.UnicornExtension.EventArguments;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unicorn.Core.Logging;
 
 namespace ReportPortal.UnicornExtension

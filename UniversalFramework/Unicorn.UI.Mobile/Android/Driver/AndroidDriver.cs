@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium.Appium;
+﻿using System;
+using System.Collections.Generic;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Remote;
-using System;
-using System.Collections.Generic;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
@@ -20,7 +20,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         private AndroidDriver()
         {
             Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
-            ImplicitlyWait = timeoutDefault;
+            this.ImplicitlyWait = timeoutDefault;
         }
 
         public static AndroidDriver Instance
@@ -43,13 +43,13 @@ namespace Unicorn.UI.Mobile.Android.Driver
         {
             get
             {
-                return ImplicitlyWaitTimeout;
+                return implicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                ImplicitlyWaitTimeout = value;
+                implicitlyWaitTimeout = value;
             }
         }
 

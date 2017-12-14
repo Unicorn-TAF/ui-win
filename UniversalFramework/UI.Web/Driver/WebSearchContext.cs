@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Controls;
@@ -11,8 +11,9 @@ namespace Unicorn.UI.Web.Driver
     {
         public OpenQA.Selenium.ISearchContext ParentContext;
 
-        protected static TimeSpan implicitlyWaitTimeout = timeoutDefault;
-        protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
+        protected static TimeSpan implicitlyWaitTimeout = TimeoutDefault;
+
+        protected static TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
 
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
 
@@ -68,7 +69,7 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = timeoutDefault;
+            WebDriver.Instance.ImplicitlyWait = TimeoutDefault;
 
             return isPresented;
         }
@@ -88,7 +89,7 @@ namespace Unicorn.UI.Web.Driver
                 isPresented = false;
             }
 
-            WebDriver.Instance.ImplicitlyWait = timeoutDefault;
+            WebDriver.Instance.ImplicitlyWait = TimeoutDefault;
 
             return isPresented;
         }
@@ -105,7 +106,7 @@ namespace Unicorn.UI.Web.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                IWebElement nativeControl = SearchContext.FindElement(by);
+                IWebElement nativeControl = this.SearchContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -119,7 +120,7 @@ namespace Unicorn.UI.Web.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                IWebElement nativeControl = ParentContext.FindElement(by);
+                IWebElement nativeControl = this.ParentContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -142,7 +143,7 @@ namespace Unicorn.UI.Web.Driver
             {
                 var wrapper = Activator.CreateInstance<T>();
                 ((WebControl)(object)wrapper).Instance = wrappedElement;
-                ((WebControl)(object)wrapper).ParentContext = SearchContext;
+                ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
                 controlsList.Add(wrapper);
             }
 
@@ -159,7 +160,7 @@ namespace Unicorn.UI.Web.Driver
             IWebElement elementToWrap = GetNativeControl(locator);
             var wrapper = Activator.CreateInstance<T>();
             ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = SearchContext;
+            ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
 
             return wrapper;
         }
@@ -170,7 +171,7 @@ namespace Unicorn.UI.Web.Driver
             
             try
             {
-                IList<IWebElement> nativeControls = SearchContext.FindElements(by);
+                IList<IWebElement> nativeControls = this.SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)

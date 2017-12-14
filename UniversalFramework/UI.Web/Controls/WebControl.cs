@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System.Drawing;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using System.Drawing;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
@@ -9,7 +9,7 @@ namespace Unicorn.UI.Web.Controls
 {
     public class WebControl : WebSearchContext, IControl
     {
-        public bool Cached = true;
+        private bool cached = true;
 
         public WebControl()
         {
@@ -17,7 +17,20 @@ namespace Unicorn.UI.Web.Controls
 
         public WebControl(IWebElement instance)
         {
-            Instance = instance;
+            this.Instance = instance;
+        }
+
+        public bool Cached
+        {
+            get
+            {
+                return this.cached;
+            }
+
+            set
+            {
+                this.cached = value;
+            }
         }
 
         public ByLocator Locator { get; set; }
@@ -26,12 +39,12 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return (IWebElement)SearchContext;
+                return (IWebElement)this.SearchContext;
             }
 
             set
             {
-                SearchContext = value;
+                this.SearchContext = value;
             }
         }
 
@@ -39,7 +52,7 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return Instance.Text;
+                return this.Instance.Text;
             }
         }
 
@@ -47,7 +60,7 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return Instance.Enabled;
+                return this.Instance.Enabled;
             }
         }
 
@@ -55,7 +68,7 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return Instance.Displayed;
+                return this.Instance.Displayed;
             }
         }
 
@@ -63,7 +76,7 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return Instance.Location;
+                return this.Instance.Location;
             }
         }
 
@@ -71,7 +84,7 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                return new Rectangle(Location, Instance.Size);
+                return new Rectangle(this.Location, this.Instance.Size);
             }
         }
 
@@ -81,7 +94,7 @@ namespace Unicorn.UI.Web.Controls
             {
                 if (!this.Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    base.SearchContext = GetNativeControlFromParentContext(this.Locator);
                 }
 
                 return base.SearchContext;
@@ -95,18 +108,18 @@ namespace Unicorn.UI.Web.Controls
 
         public string GetAttribute(string attribute)
         {
-            return Instance.GetAttribute(attribute);
+            return this.Instance.GetAttribute(attribute);
         }
 
         public virtual void Click()
         {
-            Instance.Click();
+            this.Instance.Click();
         }
 
         public void RightClick()
         {
-            Actions actions = new Actions((IWebDriver)SearchContext);
-            actions.MoveToElement(Instance);
+            Actions actions = new Actions((IWebDriver)this.SearchContext);
+            actions.MoveToElement(this.Instance);
             actions.ContextClick();
             actions.Release().Perform();
         }

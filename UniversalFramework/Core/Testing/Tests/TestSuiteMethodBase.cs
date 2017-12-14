@@ -12,23 +12,34 @@ namespace Unicorn.Core.Testing.Tests
     {
         public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
         public static StringBuilder CurrentOutput = new StringBuilder();
-
-        public Guid Id;
-        public Guid ParentId;
-
+                
         protected string[] categories = null;
 
         // Method which represents test
         protected MethodInfo testMethod;
 
-        private string author = null;
-        private string description = null;
-        private string fullTestName = null;
-
         /// <summary>
         /// Test execution timer
         /// </summary>
         protected Stopwatch testTimer;
+
+        private string author = null;
+        private string description = null;
+        private string fullTestName = null;
+
+        public Guid Id
+        {
+            get;
+
+            set;
+        }
+
+        public Guid ParentId
+        {
+            get;
+
+            set;
+        }
 
         /// <summary>
         /// Gets test author. If author not specified through AuthorAttribute, then return "No author"

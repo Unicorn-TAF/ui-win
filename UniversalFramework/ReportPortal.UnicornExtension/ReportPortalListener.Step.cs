@@ -1,7 +1,6 @@
-﻿using ReportPortal.Client.Models;
+﻿using System;
+using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using System;
-using System.Web.Script.Serialization;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 
@@ -18,7 +17,7 @@ namespace ReportPortal.UnicornExtension
                 var fullTestName = this.currentTest.FullTestName;
                 var message = info;
 
-                if (testFlowNames.ContainsKey(fullTestName))
+                if (this.testFlowNames.ContainsKey(fullTestName))
                 {
                     ////var serializer = new JavaScriptSerializer {MaxJsonLength = int.MaxValue};
                     ////AddLogItemRequest logRequest = null;
@@ -30,11 +29,11 @@ namespace ReportPortal.UnicornExtension
                     ////{
                     ////    Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + ex);
                     ////}
-                    
+
                     ////if (logRequest != null)
                     ////    _testFlowNames[fullTestName].Log(logRequest);
                     ////else
-                    testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = LogLevel.Info, Time = DateTime.UtcNow, Text = message });
+                    this.testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = LogLevel.Info, Time = DateTime.UtcNow, Text = message });
                 }
             }
             catch (Exception exception)

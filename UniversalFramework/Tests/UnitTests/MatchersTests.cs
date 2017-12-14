@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using ProjectSpecific.BO;
-using System.Collections.Generic;
 using Unicorn.Core.Testing.Assertions;
-using static Unicorn.Core.Testing.Assertions.CollectionsMatchers;
-using static Unicorn.Core.Testing.Assertions.CoreMatchers;
+using Unicorn.Core.Testing.Assertions.Matchers;
+using static Unicorn.Core.Testing.Assertions.Matchers.Is;
 
 namespace Tests.UnitTests
 {
@@ -23,25 +23,25 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullPositive()
         {
-            Assertion.AssertThat(null, IsNull());
+            Assertion.AssertThat(null, Null());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullWithNotPositive()
         {
-            Assertion.AssertThat("a", Not(IsNull()));
+            Assertion.AssertThat("a", Not(Null()));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullNegative()
         {
-            Assert.Throws<AssertionError>(delegate { Assertion.AssertThat("a", IsNull()); });
+            Assert.Throws<AssertionError>(delegate { Assertion.AssertThat("a", Null()); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullWithNotNegative()
         {
-            Assert.Throws<AssertionError>(delegate { Assertion.AssertThat(null, Not(IsNull())); });
+            Assert.Throws<AssertionError>(delegate { Assertion.AssertThat(null, Not(Null())); });
         }
 
         #endregion
@@ -51,92 +51,92 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringPositive()
         {
-            Assertion.AssertThat("asd", IsEqualTo("asd"));
+            Assertion.AssertThat("asd", EqualTo("asd"));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringWithNotPositive()
         {
-            Assertion.AssertThat("asd", Not(IsEqualTo("asd1")));
+            Assertion.AssertThat("asd", Not(EqualTo("asd1")));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNumberPositive()
         {
-            Assertion.AssertThat(2, IsEqualTo(2));
+            Assertion.AssertThat(2, EqualTo(2));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNumberWithNotPositive()
         {
-            Assertion.AssertThat(2, Not(IsEqualTo(3)));
+            Assertion.AssertThat(2, Not(EqualTo(3)));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectPositive()
         {
-            Assertion.AssertThat(new SampleObject(), IsEqualTo(new SampleObject()));
+            Assertion.AssertThat(new SampleObject(), EqualTo(new SampleObject()));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectWithNotPositive()
         {
-            Assertion.AssertThat(new SampleObject(), Not(IsEqualTo(new SampleObject("34", 324))));
+            Assertion.AssertThat(new SampleObject(), Not(EqualTo(new SampleObject("34", 324))));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat("asd", IsEqualTo("sd")); });
+                delegate { Assertion.AssertThat("asd", EqualTo("sd")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringWithNotNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat("asd", Not(IsEqualTo("asd"))); });
+                delegate { Assertion.AssertThat("asd", Not(EqualTo("asd"))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(new SampleObject(), IsEqualTo(new SampleObject("ds", 234))); });
+                delegate { Assertion.AssertThat(new SampleObject(), EqualTo(new SampleObject("ds", 234))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectWithNotNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(new SampleObject(), Not(IsEqualTo(new SampleObject()))); });
+                delegate { Assertion.AssertThat(new SampleObject(), Not(EqualTo(new SampleObject()))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNotCastableNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(new SampleObject(), IsEqualTo(23)); });
+                delegate { Assertion.AssertThat(new SampleObject(), EqualTo(23)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNotCastableWithNotPositive()
         {
-            Assertion.AssertThat(new SampleObject(), Not(IsEqualTo(23)));
+            Assertion.AssertThat(new SampleObject(), Not(EqualTo(23)));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, IsEqualTo(23)); });
+                delegate { Assertion.AssertThat(null, EqualTo(23)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullWithNotNegative()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, Not(IsEqualTo(23))); });
+                delegate { Assertion.AssertThat(null, Not(EqualTo(23))); });
         }
 
         #endregion
@@ -146,87 +146,87 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsPositive1()
         {
-            Assertion.AssertThat(hasItemsA, HasItems(hasItemsB));
+            Assertion.AssertThat(hasItemsA, Collection.HasItems(hasItemsB));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsPositive2()
         {
-            Assertion.AssertThat(hasItemsA, HasItems(new[] { "qwerty" }));
+            Assertion.AssertThat(hasItemsA, Collection.HasItems(new[] { "qwerty" }));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsPositive3()
         {
-            Assertion.AssertThat(hasItemsA, HasItems(hasItemsA));
+            Assertion.AssertThat(hasItemsA, Collection.HasItems(hasItemsA));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotPositive1()
         {
-            Assertion.AssertThat(hasItemsA, Not(HasItems(hasItemsC)));
+            Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(hasItemsC)));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotPositive2()
         {
-            Assertion.AssertThat(hasItemsA, Not(HasItems(new[] { "qwerty6" })));
+            Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(new[] { "qwerty6" })));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNegative1()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, HasItems(hasItemsD)); });
+                delegate { Assertion.AssertThat(hasItemsA, Collection.HasItems(hasItemsD)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNegative2()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, HasItems(new[] { "qwert12y" })); });
+                delegate { Assertion.AssertThat(hasItemsA, Collection.HasItems(new[] { "qwert12y" })); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNullNegative3()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, HasItems(hasItemsB)); });
+                delegate { Assertion.AssertThat(null, Collection.HasItems(hasItemsB)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative1()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, Not(HasItems(hasItemsB))); });
+                delegate { Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(hasItemsB))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative2()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, Not(HasItems(new[] { "qwerty" }))); });
+                delegate { Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(new[] { "qwerty" }))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative3()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, Not(HasItems(hasItemsA))); });
+                delegate { Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(hasItemsA))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative4()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, Not(HasItems(hasItemsD))); });
+                delegate { Assertion.AssertThat(hasItemsA, Not(Collection.HasItems(hasItemsD))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNullWithNotNegative5()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, Not(HasItems(hasItemsB))); });
+                delegate { Assertion.AssertThat(null, Not(Collection.HasItems(hasItemsB))); });
         }
 
         #endregion
@@ -236,41 +236,41 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemPositive1()
         {
-            Assertion.AssertThat(hasItemsA, HasItem("qwerty"));
+            Assertion.AssertThat(hasItemsA, Collection.HasItem("qwerty"));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemWithNotPositive1()
         {
-            Assertion.AssertThat(hasItemsA, Not(HasItem("qwerty27")));
+            Assertion.AssertThat(hasItemsA, Not(Collection.HasItem("qwerty27")));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemNegative1()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, HasItem("qwerty27")); });
+                delegate { Assertion.AssertThat(hasItemsA, Collection.HasItem("qwerty27")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemNullNegative2()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, HasItem("qwerty")); });
+                delegate { Assertion.AssertThat(null, Collection.HasItem("qwerty")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemWithNotNegative1()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(hasItemsA, Not(HasItem("qwerty"))); });
+                delegate { Assertion.AssertThat(hasItemsA, Not(Collection.HasItem("qwerty"))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemWithNotNullNegative2()
         {
             Assert.Throws<AssertionError>(
-                delegate { Assertion.AssertThat(null, Not(HasItem("qwerty"))); });
+                delegate { Assertion.AssertThat(null, Not(Collection.HasItem("qwerty"))); });
         }
 
         #endregion
@@ -280,31 +280,31 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyPositive1()
         {
-            Assertion.AssertThat(null, IsNullOrEmpty());
+            Assertion.AssertThat(null, Collection.IsNullOrEmpty());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyPositive2()
         {
-            Assertion.AssertThat(new List<string>(), IsNullOrEmpty());
+            Assertion.AssertThat(new List<string>(), Collection.IsNullOrEmpty());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyPositive3()
         {
-            Assertion.AssertThat(new string[0], IsNullOrEmpty());
+            Assertion.AssertThat(new string[0], Collection.IsNullOrEmpty());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotPositive1()
         {
-            Assertion.AssertThat(hasItemsA, Not(IsNullOrEmpty()));
+            Assertion.AssertThat(hasItemsA, Not(Collection.IsNullOrEmpty()));
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotPositive2()
         {
-            Assertion.AssertThat(new int[2] { 2, 3 }, Not(IsNullOrEmpty()));
+            Assertion.AssertThat(new int[2] { 2, 3 }, Not(Collection.IsNullOrEmpty()));
         }
 
         #endregion

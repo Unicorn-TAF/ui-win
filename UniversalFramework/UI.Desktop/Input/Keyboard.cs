@@ -52,7 +52,7 @@ namespace Unicorn.UI.Desktop.Input
 
             set
             {
-                if (CapsLockOn != value)
+                if (this.CapsLockOn != value)
                 {
                     Send(KeyboardInput.SpecialKeys.CAPS, true);
                 }
@@ -61,7 +61,7 @@ namespace Unicorn.UI.Desktop.Input
 
         public virtual KeyboardInput.SpecialKeys[] HeldKeys
         {
-            get { return heldKeys.ToArray(); }
+            get { return this.heldKeys.ToArray(); }
         }
 
         public virtual void Enter(string keysToType)
@@ -71,7 +71,7 @@ namespace Unicorn.UI.Desktop.Input
 
         public virtual void Send(string keysToType)
         {
-            CapsLockOn = false;
+            this.CapsLockOn = false;
             foreach (char c in keysToType)
             {
                 short key = VkKeyScan(c);
@@ -102,18 +102,18 @@ namespace Unicorn.UI.Desktop.Input
         public virtual void HoldKey(KeyboardInput.SpecialKeys key)
         {
             SendKeyDown((short)key, true);
-            heldKeys.Add(key);
+            this.heldKeys.Add(key);
         }
 
         public virtual void LeaveKey(KeyboardInput.SpecialKeys key)
         {
             SendKeyUp((short)key, true);
-            heldKeys.Remove(key);
+            this.heldKeys.Remove(key);
         }
 
         public virtual void LeaveAllKeys()
         {
-            new List<KeyboardInput.SpecialKeys>(heldKeys).ForEach(LeaveKey);
+            new List<KeyboardInput.SpecialKeys>(this.heldKeys).ForEach(LeaveKey);
         }
 
         [DllImport("user32", EntryPoint = "SendInput")]
@@ -131,41 +131,6 @@ namespace Unicorn.UI.Desktop.Input
         private static bool ShiftKeyIsNeeded(short key)
         {
             return ((key >> 8) & 1) == 1;
-        }
-
-        private void Press(short key, bool specialKey)
-        {
-            SendKeyDown(key, specialKey);
-            SendKeyUp(key, specialKey);
-        }
-
-        private void Send(KeyboardInput.SpecialKeys key, bool specialKey)
-        {
-            Press((short)key, specialKey);
-        }
-
-        private void SendKeyUp(short b, bool specialKey)
-        {
-            if (!keysHeld.Contains(b))
-            {
-                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
-            }
-                
-            keysHeld.Remove(b);
-            KeyboardInput.KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyboardInput.KeyUpDown.KEYEVENTF_KEYUP);
-            SendInput(GetInputFor(b, keyUpDown));
-        }
-
-        private void SendKeyDown(short b, bool specialKey)
-        {
-            if (keysHeld.Contains(b))
-            {
-                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
-            }
-
-            keysHeld.Add(b);
-            KeyboardInput.KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyboardInput.KeyUpDown.KEYEVENTF_KEYDOWN);
-            SendInput(GetInputFor(b, keyUpDown));
         }
 
         private static KeyboardInput.KeyUpDown GetSpecialKeyCode(bool specialKey, KeyboardInput.KeyUpDown key)
@@ -186,6 +151,41 @@ namespace Unicorn.UI.Desktop.Input
         private static Input GetInputFor(short character, KeyboardInput.KeyUpDown keyUpOrDown)
         {
             return Input.Keyboard(new KeyboardInput(character, keyUpOrDown, GetMessageExtraInfo()));
+        }
+
+        private void Press(short key, bool specialKey)
+        {
+            SendKeyDown(key, specialKey);
+            SendKeyUp(key, specialKey);
+        }
+
+        private void Send(KeyboardInput.SpecialKeys key, bool specialKey)
+        {
+            Press((short)key, specialKey);
+        }
+
+        private void SendKeyUp(short b, bool specialKey)
+        {
+            if (!this.keysHeld.Contains(b))
+            {
+                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
+            }
+
+            this.keysHeld.Remove(b);
+            KeyboardInput.KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyboardInput.KeyUpDown.KEYEVENTF_KEYUP);
+            SendInput(GetInputFor(b, keyUpDown));
+        }
+
+        private void SendKeyDown(short b, bool specialKey)
+        {
+            if (this.keysHeld.Contains(b))
+            {
+                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
+            }
+
+            this.keysHeld.Add(b);
+            KeyboardInput.KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyboardInput.KeyUpDown.KEYEVENTF_KEYDOWN);
+            SendInput(GetInputFor(b, keyUpDown));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool IsElementToggledOn()
         {
-            if (Instance == null)
+            if (this.Instance == null)
             {
                 // TODO: Invalid parameter error handling.
                 return false;

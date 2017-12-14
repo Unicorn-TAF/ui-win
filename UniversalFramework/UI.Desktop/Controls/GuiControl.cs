@@ -10,7 +10,7 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
-        public bool Cached = true;
+        private bool cached = true;
 
         public GuiControl()
         {
@@ -19,6 +19,19 @@ namespace Unicorn.UI.Desktop.Controls
         public GuiControl(AutomationElement instance)
         {
             this.Instance = instance;
+        }
+
+        public bool Cached
+        {
+            get
+            {
+                return this.cached;
+            }
+
+            set
+            {
+                this.cached = value;
+            }
         }
 
         public ByLocator Locator
@@ -36,12 +49,12 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                return SearchContext;
+                return this.SearchContext;
             }
 
             set
             {
-                SearchContext = value;
+                this.SearchContext = value;
             }
         }
 
@@ -135,7 +148,7 @@ namespace Unicorn.UI.Desktop.Controls
                     throw new ArgumentException($"No such property as {attribute}");
             }
 
-            return (string)Instance.GetCurrentPropertyValue(ap);
+            return (string)this.Instance.GetCurrentPropertyValue(ap);
         }
 
         public void Click()
@@ -146,13 +159,13 @@ namespace Unicorn.UI.Desktop.Controls
 
             try
             {
-                if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
+                if (this.Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
                 {
                     ((InvokePattern)pattern).Invoke();
                 }
                 else
                 {
-                    ((TogglePattern)Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
+                    ((TogglePattern)this.Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
                 }
             }
             catch
@@ -163,12 +176,12 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void MouseClick()
         {
-            Instance.SetFocus();
+            this.Instance.SetFocus();
             Point point;
-            if (!Instance.TryGetClickablePoint(out point))
+            if (!this.Instance.TryGetClickablePoint(out point))
             {
                 Point pt = new Point(3, 3);
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
                 point = rect.TopLeft;
                 point.Offset(pt.X, pt.Y);
             }
@@ -178,13 +191,13 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void RightClick()
         {
-            Instance.SetFocus();
+            this.Instance.SetFocus();
 
             Point point;
-            if (!Instance.TryGetClickablePoint(out point))
+            if (!this.Instance.TryGetClickablePoint(out point))
             {
                 Point pt = new Point(3, 3);
-                var rect = (Rect)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
                 point = rect.TopLeft;
                 point.Offset(pt.X, pt.Y);
             }
@@ -195,7 +208,7 @@ namespace Unicorn.UI.Desktop.Controls
         public AutomationElement GetParent()
         {
             TreeWalker treeWalker = TreeWalker.ControlViewWalker;
-            return treeWalker.GetParent(Instance);
+            return treeWalker.GetParent(this.Instance);
         }
 
         #region "Helpers"
@@ -204,7 +217,7 @@ namespace Unicorn.UI.Desktop.Controls
         {
             var pattern = (AutomationPattern)typeof(T).GetField("Pattern").GetValue(null);
             object patternObject;
-            Instance.TryGetCurrentPattern(pattern, out patternObject);
+            this.Instance.TryGetCurrentPattern(pattern, out patternObject);
             return (T)patternObject;
         }
 

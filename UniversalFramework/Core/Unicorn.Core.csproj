@@ -62,13 +62,20 @@
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
     <Compile Include="Testing\Assertions\Assertion.cs" />
-    <Compile Include="Testing\Assertions\CoreMatchers.cs" />
-    <Compile Include="Testing\Assertions\Matcher.cs" />
-    <Compile Include="Testing\Assertions\Matchers\Collections.cs" />
-    <Compile Include="Testing\Assertions\Matchers\Core.cs" />
-    <Compile Include="Testing\Assertions\Matchers\Misc.cs" />
-    <Compile Include="Testing\Assertions\MiscMatchers.cs" />
-    <Compile Include="Testing\Assertions\TypeSafeMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\Collection.cs" />
+    <Compile Include="Testing\Assertions\Matchers\Is.cs" />
+    <Compile Include="Testing\Assertions\Matchers\Matcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CollectionMatchers\HasItemMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CoreMatchers\EqualToMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CoreMatchers\IsNullMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\CoreMatchers\NotMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\MiscMatchers\IsEvenMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\MiscMatchers\StringContainsMatcher.cs" />
+    <Compile Include="Testing\Assertions\Matchers\MiscMatchers.cs" />
+    <Compile Include="Testing\Assertions\Matchers\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
@@ -98,6 +105,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

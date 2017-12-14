@@ -5,20 +5,45 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class SuiteOutcome
     {
-        public Result Result;
-
-        public TimeSpan ExecutionTime;
-
-        public int TotalTests;
-
-        public int FailedTests;
-
-        public string[] Bugs;
-
         public SuiteOutcome()
         {
             this.Bugs = new string[0];
             this.FailedTests = 0;
+        }
+
+        public Result Result
+        {
+            get;
+
+            set;
+        }
+
+        public TimeSpan ExecutionTime
+        {
+            get;
+
+            set;
+        }
+
+        public int TotalTests
+        {
+            get;
+
+            set;
+        }
+
+        public int FailedTests
+        {
+            get;
+
+            set;
+        }
+
+        public string[] Bugs
+        {
+            get;
+
+            set;
         }
 
         public void FillWithTestsResults(List<Test> testsList)

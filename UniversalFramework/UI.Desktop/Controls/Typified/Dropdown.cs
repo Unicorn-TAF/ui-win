@@ -64,7 +64,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Select(string item)
         {
-            if (item.Equals(SelectedValue))
+            if (item.Equals(this.SelectedValue))
             {
                 return false;
             }
@@ -95,7 +95,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Expand()
         {
-            if (Expanded)
+            if (this.Expanded)
             {
                 return false;
             }
@@ -106,7 +106,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Collapse()
         {
-            if (!Expanded)
+            if (!this.Expanded)
             {
                 return false;
             }

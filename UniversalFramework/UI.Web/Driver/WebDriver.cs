@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Text.RegularExpressions;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using System;
-using System.Text.RegularExpressions;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
@@ -35,7 +35,7 @@ namespace Unicorn.UI.Web.Driver
                 Driver.Manage().Window.Maximize();
             }
 
-            ImplicitlyWait = timeoutDefault;
+            this.ImplicitlyWait = TimeoutDefault;
         }
 
         public static WebDriver Instance

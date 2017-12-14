@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Client.Models;
 using ReportPortal.Shared;
 using ReportPortal.UnicornExtension.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using Unicorn.Core.Testing.Tests;
 
 namespace ReportPortal.UnicornExtension

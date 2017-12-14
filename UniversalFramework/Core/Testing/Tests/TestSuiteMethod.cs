@@ -8,8 +8,8 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuiteMethod : TestSuiteMethodBase
     {
-        public bool IsBeforeSuite = false;
-
+        private bool isBeforeSuite = false;
+                
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuiteMethod"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
@@ -19,7 +19,7 @@ namespace Unicorn.Core.Testing.Tests
         public TestSuiteMethod(MethodInfo testMethod)
         {
             this.testMethod = testMethod;
-            Outcome = new TestOutcome();
+            this.Outcome = new TestOutcome();
         }
 
         /* Events section*/
@@ -33,6 +33,19 @@ namespace Unicorn.Core.Testing.Tests
         public static event TestSuiteMethodEvent OnPass;
 
         public static event TestSuiteMethodEvent OnFail;
+
+        public bool IsBeforeSuite
+        {
+            get
+            {
+                return this.isBeforeSuite;
+            }
+
+            set
+            {
+                this.isBeforeSuite = value;
+            }
+        }
 
         public override string[] Categories
         {
@@ -74,7 +87,7 @@ namespace Unicorn.Core.Testing.Tests
             try
             {
                 this.testMethod.Invoke(suiteInstance, null);
-                Outcome.Result = Result.PASSED;
+                this.Outcome.Result = Result.PASSED;
 
                 OnPass?.Invoke(this);
             }
@@ -85,7 +98,7 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.testTimer.Stop();
-            Outcome.ExecutionTime = this.testTimer.Elapsed;
+            this.Outcome.ExecutionTime = this.testTimer.Elapsed;
 
             Logger.Instance.Info($"{(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE {Outcome.Result}");
 

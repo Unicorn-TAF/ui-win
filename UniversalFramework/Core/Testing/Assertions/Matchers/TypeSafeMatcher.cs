@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Testing.Assertions
+﻿namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public abstract class TypeSafeMatcher<T> : Matcher
     {

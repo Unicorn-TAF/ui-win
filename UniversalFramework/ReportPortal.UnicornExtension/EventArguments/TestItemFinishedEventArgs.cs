@@ -9,9 +9,9 @@ namespace ReportPortal.UnicornExtension.EventArguments
     {
         public TestItemFinishedEventArgs(Service service, FinishTestItemRequest request, TestReporter testReporter)
         {
-            Service = service;
-            TestItem = request;
-            TestReporter = testReporter;
+            this.Service = service;
+            this.TestItem = request;
+            this.TestReporter = testReporter;
         }
 
         public Service Service { get; }

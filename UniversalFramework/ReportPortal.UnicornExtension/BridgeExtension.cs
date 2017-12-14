@@ -1,6 +1,6 @@
-﻿using ReportPortal.Client.Requests;
+﻿using System.Web.Script.Serialization;
+using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using System.Web.Script.Serialization;
 
 namespace ReportPortal.UnicornExtension
 {
@@ -14,7 +14,7 @@ namespace ReportPortal.UnicornExtension
         {
             var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
             ////NUnit.Framework.TestContext.Progress.WriteLine(serializer.Serialize(logRequest));
-            Handled = true;
+            this.Handled = true;
         }
     }
 }

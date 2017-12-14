@@ -9,8 +9,8 @@ namespace ReportPortal.UnicornExtension.EventArguments
     {
         public TestItemStartedEventArgs(Service service, StartTestItemRequest request)
         {
-            Service = service;
-            TestItem = request;
+            this.Service = service;
+            this.TestItem = request;
         }
 
         public TestItemStartedEventArgs(Service service, StartTestItemRequest request, TestReporter testReporter) : this(service, request)

@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Testing.Assertions.Matchers;
+﻿using Unicorn.Core.Testing.Assertions.Matchers.MiscMatchers;
 
 namespace Unicorn.Core.Testing.Assertions
 {

@@ -43,7 +43,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 throw new Exception("Input is disabled");
             }
 
-            if (!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+            if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
                 GetPattern<ValuePattern>().SetValue(text);
             }

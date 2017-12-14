@@ -45,18 +45,18 @@ namespace Unicorn.UI.Desktop.Input
         private readonly int dx;
         private readonly int dy;
         private readonly int mouseData;
-        private readonly int dwFlags;
+        private readonly int flags;
         private readonly int time;
-        private readonly IntPtr dwExtraInfo;
+        private readonly IntPtr extraInfo;
 
-        public MouseInput(int dwFlags, IntPtr dwExtraInfo)
+        public MouseInput(int flags, IntPtr extraInfo)
         {
-            this.dwFlags = dwFlags;
-            this.dwExtraInfo = dwExtraInfo;
-            dx = 0;
-            dy = 0;
-            time = 0;
-            mouseData = 0;
+            this.flags = flags;
+            this.extraInfo = extraInfo;
+            this.dx = 0;
+            this.dy = 0;
+            this.time = 0;
+            this.mouseData = 0;
         }
     }
 
@@ -66,19 +66,19 @@ namespace Unicorn.UI.Desktop.Input
     [StructLayout(LayoutKind.Sequential)]
     public struct KeyboardInput
     {
-        private readonly short wVk;
-        private readonly short wScan;
-        private readonly KeyUpDown dwFlags;
+        private readonly short vk;
+        private readonly short scan;
+        private readonly KeyUpDown flags;
         private readonly int time;
-        private readonly IntPtr dwExtraInfo;
+        private readonly IntPtr extraInfo;
 
-        public KeyboardInput(short wVk, KeyUpDown dwFlags, IntPtr dwExtraInfo)
+        public KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
         {
-            this.wVk = wVk;
-            wScan = 0;
-            this.dwFlags = dwFlags;
-            time = 0;
-            this.dwExtraInfo = dwExtraInfo;
+            this.vk = wVk;
+            this.scan = 0;
+            this.flags = flags;
+            this.time = 0;
+            this.extraInfo = extraInfo;
         }
 
         public enum KeyUpDown
@@ -153,9 +153,9 @@ namespace Unicorn.UI.Desktop.Input
     [StructLayout(LayoutKind.Sequential)]
     public struct HardwareInput
     {
-        private int uMsg;
-        private short wParamL;
-        private short wParamH;
+        private int msg;
+        private short paramL;
+        private short paramH;
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ namespace Unicorn.UI.Desktop.Input
         public uint Size;
         public uint Flags;
         public Point Point;
-        private IntPtr Handle;
+        private IntPtr handle;
 
         public static CursorInfo New()
         {
@@ -188,8 +188,8 @@ namespace Unicorn.UI.Desktop.Input
 
         public POINT(int x, int y)
         {
-            X = x;
-            Y = y;
+            this.X = x;
+            this.Y = y;
         }
     }
 
@@ -205,57 +205,57 @@ namespace Unicorn.UI.Desktop.Input
 
         public override string ToString()
         {
-            return string.Format("R={0},G={1},B={2}", R, G, B);
+            return string.Format("R={0},G={1},B={2}", this.R, this.G, this.B);
         }
     }
 
     public class WindowsConstants
     {
-        public const uint SW_HIDE = 0;
-        public const uint SW_SHOWNORMAL = 1;
-        public const uint SW_NORMAL = 1;
-        public const uint SW_SHOWMINIMIZED = 2;
-        public const uint SW_SHOWMAXIMIZED = 3;
-        public const uint SW_MAXIMIZE = 3;
-        public const uint SW_SHOWNOACTIVATE = 4;
-        public const uint SW_SHOW = 5;
-        public const uint SW_MINIMIZE = 6;
-        public const uint SW_SHOWMINNOACTIVE = 7;
-        public const uint SW_SHOWNA = 8;
-        public const uint SW_RESTORE = 9;
-        public const uint SW_SHOWDEFAULT = 10;
-        public const uint SW_FORCEMINIMIZE = 11;
-        public const uint SW_MAX = 11;
+        public const uint SwHide = 0;
+        public const uint SwShowNormal = 1;
+        public const uint SwNormal = 1;
+        public const uint SwShowMinimized = 2;
+        public const uint SwShowMaximized = 3;
+        public const uint SwMaximize = 3;
+        public const uint SwShowNoActivate = 4;
+        public const uint SwShow = 5;
+        public const uint SwMinimize = 6;
+        public const uint SwShowMinNoActive = 7;
+        public const uint SwShowNa = 8;
+        public const uint SwRestore = 9;
+        public const uint SwShowDefault = 10;
+        public const uint SwForceMinimize = 11;
+        public const uint SwMax = 11;
 
-        public const long WS_CAPTION = 0x00C00000L;
-        public const long WS_DISABLED = 0x08000000L;
-        public const long WS_VSCROLL = 0x00200000L;
-        public const long WS_HSCROLL = 0x00100000L;
-        public const long WS_MINIMIZEBOX = 0x00020000L;
-        public const long WS_MAXIMIZEBOX = 0x00010000L;
-        public const long WS_POPUP = 0x80000000L;
-        public const long WS_SYSMENU = 0x00080000L;
-        public const long WS_TABSTOP = 0x00010000L;
-        public const long WS_VISIBLE = 0x10000000L;
+        public const long WsCaption = 0x00C00000L;
+        public const long WsDisabled = 0x08000000L;
+        public const long WsVScroll = 0x00200000L;
+        public const long WsHScroll = 0x00100000L;
+        public const long WsMinimizeBox = 0x00020000L;
+        public const long WsMaximizeBox = 0x00010000L;
+        public const long WsPopup = 0x80000000L;
+        public const long WsSysmenu = 0x00080000L;
+        public const long WsTabstop = 0x00010000L;
+        public const long WsVisible = 0x10000000L;
 
-        public const int INPUT_MOUSE = 0;
-        public const int INPUT_KEYBOARD = 1;
+        public const int InputMouse = 0;
+        public const int InputKeyboard = 1;
 
-        public const int MOUSEEVENTF_MOVE = 0x0001;
-        public const int MOUSEEVENTF_LEFTDOWN = 0x0002;
-        public const int MOUSEEVENTF_LEFTUP = 0x0004;
-        public const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
-        public const int MOUSEEVENTF_RIGHTUP = 0x0010;
-        public const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
-        public const int MOUSEEVENTF_MIDDLEUP = 0x0040;
-        public const int MOUSEEVENTF_XDOWN = 0x0080;
-        public const int MOUSEEVENTF_XUP = 0x0100;
-        public const int MOUSEEVENTF_WHEEL = 0x0800;
-        public const int MOUSEEVENTF_VIRTUALDESK = 0x4000;
-        public const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        public const int MouseEventFMove = 0x0001;
+        public const int MouseEventFLeftDown = 0x0002;
+        public const int MouseEventFLeftUp = 0x0004;
+        public const int MouseEventFRightDown = 0x0008;
+        public const int MouseEventFRightUp = 0x0010;
+        public const int MouseEventFMiddleDown = 0x0020;
+        public const int MouseEventFMiddleUp = 0x0040;
+        public const int MouseEventFXDown = 0x0080;
+        public const int MouseEventFXUp = 0x0100;
+        public const int MouseEventFWheel = 0x0800;
+        public const int MouseEventFVirtualDesk = 0x4000;
+        public const int MouseEventFAbsolute = 0x8000;
 
         public const int HourGlassValue = 65557;
 
-        public static uint WPF_RESTORETOMAXIMIZED = 2;
+        public static uint WpfRestoreToMaximized => 2;
     }
 }

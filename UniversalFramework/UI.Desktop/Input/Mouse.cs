@@ -37,10 +37,26 @@ namespace Unicorn.UI.Desktop.Input
             }
         }
 
+        public static void MouseLeftButtonUpAndDown()
+        {
+            LeftDown();
+            LeftUp();
+        }
+
+        public static void LeftUp()
+        {
+            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFLeftUp)));
+        }
+
+        public static void LeftDown()
+        {
+            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFLeftDown)));
+        }
+
         public virtual void RightClick()
         {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MOUSEEVENTF_RIGHTDOWN)));
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MOUSEEVENTF_RIGHTUP)));
+            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFRightDown)));
+            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFRightUp)));
         }
 
         public virtual void ResetPosition()
@@ -50,10 +66,10 @@ namespace Unicorn.UI.Desktop.Input
 
         public virtual void Click()
         {
-            Point clickLocation = Location;
-            if (lastClickLocation.Equals(clickLocation))
+            Point clickLocation = this.Location;
+            if (this.lastClickLocation.Equals(clickLocation))
             {
-                int timeout = doubleClickTime - DateTime.Now.Subtract(lastClickTime).Milliseconds;
+                int timeout = this.doubleClickTime - DateTime.Now.Subtract(this.lastClickTime).Milliseconds;
                 if (timeout > 0)
                 {
                     Thread.Sleep(timeout + ExtraMillisecondsBecauseOfBugInWindows);
@@ -61,46 +77,30 @@ namespace Unicorn.UI.Desktop.Input
             }
 
             MouseLeftButtonUpAndDown();
-            lastClickTime = DateTime.Now;
-            lastClickLocation = Location;
+            this.lastClickTime = DateTime.Now;
+            this.lastClickLocation = this.Location;
         }
 
         public virtual void RightClick(Point point)
         {
-            Location = point;
+            this.Location = point;
             RightClick();
         }
 
         public virtual void Click(Point point)
         {
-            Location = point;
+            this.Location = point;
             Click();
-        }
-
-        public static void MouseLeftButtonUpAndDown()
-        {
-            LeftDown();
-            LeftUp();
         }
 
         public virtual void MoveOut()
         {
-            Location = new Point(0, 0);
-        }
-
-        public static void LeftUp()
-        {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MOUSEEVENTF_LEFTUP)));
-        }
-
-        public static void LeftDown()
-        {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MOUSEEVENTF_LEFTDOWN)));
+            this.Location = new Point(0, 0);
         }
 
         public virtual void DoubleClick(Point point)
         {
-            Location = point;
+            this.Location = point;
             MouseLeftButtonUpAndDown();
             MouseLeftButtonUpAndDown();
         }
@@ -131,35 +131,6 @@ namespace Unicorn.UI.Desktop.Input
         private static MouseInput MouseInput(int command)
         {
             return new MouseInput(command, GetMessageExtraInfo());
-        }
-    }
-
-    public static class DrawingPointX
-    {
-        public static System.Windows.Point ConvertToWindowsPoint(this System.Drawing.Point point)
-        {
-            return new System.Windows.Point(point.X, point.Y);
-        }
-    }
-
-    public static class WindowsPointX
-    {
-        public static System.Drawing.Point ToDrawingPoint(this System.Windows.Point point)
-        {
-            return new System.Drawing.Point((int)point.X, (int)point.Y);
-        }
-
-        public static bool IsInvalid(this System.Windows.Point point)
-        {
-            return point.X.IsInvalid() || point.Y.IsInvalid();
-        }
-    }
-
-    public static class DoubleX
-    {
-        public static bool IsInvalid(this double @double)
-        {
-            return @double == double.PositiveInfinity || @double == double.NegativeInfinity || double.IsNaN(@double);
         }
     }
 }

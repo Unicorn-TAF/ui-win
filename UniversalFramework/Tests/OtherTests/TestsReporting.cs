@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ProjectSpecific;
 using ProjectSpecific.BO;
 using ProjectSpecific.Steps;
-using System;
 using Tests.TestData;
 
 namespace Tests.UnitTests

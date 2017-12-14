@@ -10,9 +10,6 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        protected List<Test>[] ListTestsAll;
-        protected List<Test> ListTests;
-
         private static string[] categoriesToRun;
         private Stopwatch suiteTimer;
         private string name = null;
@@ -21,10 +18,12 @@ namespace Unicorn.Core.Testing.Tests
         private int runnableTestsCount;
         private string currentStepBug = string.Empty;
 
-        private TestSuiteMethod[] ListBeforeSuite;
-        private MethodInfo[] ListBeforeTest;
-        private MethodInfo[] ListAfterTest;
-        private TestSuiteMethod[] ListAfterSuite;
+        private List<Test>[] listTestsAll;
+        private List<Test> listTests;
+        private TestSuiteMethod[] listBeforeSuite;
+        private MethodInfo[] listBeforeTest;
+        private MethodInfo[] listAfterTest;
+        private TestSuiteMethod[] listAfterSuite;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.
@@ -45,13 +44,13 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.suiteTimer = new Stopwatch();
-            this.ListBeforeSuite = GetTestSuiteMethodsListByAttribute(typeof(BeforeSuiteAttribute), true);
-            this.ListBeforeTest = GetMethodsListByAttribute(typeof(BeforeTestAttribute));
-            this.ListAfterTest = GetMethodsListByAttribute(typeof(AfterTestAttribute));
-            this.ListAfterSuite = GetTestSuiteMethodsListByAttribute(typeof(AfterSuiteAttribute), false);
+            this.listBeforeSuite = GetTestSuiteMethodsListByAttribute(typeof(BeforeSuiteAttribute), true);
+            this.listBeforeTest = GetMethodsListByAttribute(typeof(BeforeTestAttribute));
+            this.listAfterTest = GetMethodsListByAttribute(typeof(AfterTestAttribute));
+            this.listAfterSuite = GetTestSuiteMethodsListByAttribute(typeof(AfterSuiteAttribute), false);
             this.Outcome = new SuiteOutcome();
             this.Outcome.Result = Result.PASSED;
-            this.ListTestsAll = GetTests();
+            this.listTestsAll = GetTests();
         }
 
         public delegate void TestSuiteEvent(TestSuite suite);
@@ -212,7 +211,7 @@ namespace Unicorn.Core.Testing.Tests
         /// All categories are converted in upper case.
         /// Blank categories are ignored
         /// </summary>
-        /// <param name="categoriesToRun">array of categories</param>
+        /// <param name="categoriesToRunArray">array of categories</param>
         public static void SetRunCategories(params string[] categoriesToRunArray)
         {
             categoriesToRun = categoriesToRunArray
@@ -288,19 +287,19 @@ namespace Unicorn.Core.Testing.Tests
         /// <returns>true - if before suites passed; false - if at least one Before suite is failed</returns>
         protected bool RunBeforeSuite()
         {
-            if (this.ListBeforeSuite.Length == 0)
+            if (this.listBeforeSuite.Length == 0)
             {
                 return true;
             }
 
-            foreach (TestSuiteMethod beforeSuite in this.ListBeforeSuite)
+            foreach (TestSuiteMethod beforeSuite in this.listBeforeSuite)
             {
                 beforeSuite.Execute(this);
                 if (beforeSuite.Outcome.Result != Result.PASSED)
                 {
                     Logger.Instance.Error("Before suite failed, all tests are skipped.");
 
-                    foreach (Test test in this.ListTests)
+                    foreach (Test test in this.listTests)
                     {
                         test.Outcome.Result = Result.FAILED;
                     }
@@ -319,12 +318,12 @@ namespace Unicorn.Core.Testing.Tests
         /// <returns>true if after suites run successfully; fail if at leat one after suite failed</returns>
         protected bool RunAfterSuite()
         {
-            if (this.ListAfterSuite.Length == 0)
+            if (this.listAfterSuite.Length == 0)
             {
                 return true;
             }
 
-            foreach (TestSuiteMethod afterSuite in this.ListAfterSuite)
+            foreach (TestSuiteMethod afterSuite in this.listAfterSuite)
             {
                 afterSuite.Execute(this);
                 if (afterSuite.Outcome.Result != Result.PASSED)
@@ -410,24 +409,24 @@ namespace Unicorn.Core.Testing.Tests
 
         private void ExecuteWholeSuite()
         {
-            for (int i = 0; i < this.ListTestsAll.Length; i++)
+            for (int i = 0; i < this.listTestsAll.Length; i++)
             {
                 if (this.ParametersSets.Length > 0)
                 {
                     this.CurrentParametersSet = this.ParametersSets[i];
                 }
 
-                this.ListTests = this.ListTestsAll[i];
+                this.listTests = this.listTestsAll[i];
 
                 if (this.RunBeforeSuite())
                 {
-                    foreach (Test test in this.ListTests)
+                    foreach (Test test in this.listTests)
                     {
                         test.Execute(this);
                     }
                 }
 
-                this.Outcome.FillWithTestsResults(this.ListTests);
+                this.Outcome.FillWithTestsResults(this.listTests);
 
                 if (!this.RunAfterSuite())
                 {

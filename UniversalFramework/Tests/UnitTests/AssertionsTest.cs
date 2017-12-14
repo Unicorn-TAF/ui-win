@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using ProjectSpecific.BO;
 using Unicorn.Core.Testing.Assertions;
-using static Unicorn.Core.Testing.Assertions.CoreMatchers;
+using static Unicorn.Core.Testing.Assertions.Matchers.Is;
 
 namespace Tests.UnitTests
 {
@@ -14,11 +14,11 @@ namespace Tests.UnitTests
             Assert.Throws<AssertionError>(delegate 
             {
                 SoftAssertion assert = new SoftAssertion();
-                assert.AssertThat("asd", IsEqualTo("asd"))
-                    .AssertThat(2, IsEqualTo(2))
-                    .AssertThat(new SampleObject(), IsEqualTo(new SampleObject("ds", 234)))
-                    .AssertThat(new SampleObject(), IsEqualTo(new SampleObject()))
-                    .AssertThat("bla-bla-bla message", new SampleObject(), IsEqualTo(23));
+                assert.AssertThat("asd", EqualTo("asd"))
+                    .AssertThat(2, EqualTo(2))
+                    .AssertThat(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
+                    .AssertThat(new SampleObject(), EqualTo(new SampleObject()))
+                    .AssertThat("bla-bla-bla message", new SampleObject(), EqualTo(23));
 
                 assert.AssertAll();
             });

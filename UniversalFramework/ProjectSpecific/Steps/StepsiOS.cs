@@ -1,11 +1,11 @@
-﻿using AspectInjector.Broker;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
+using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Mobile.iOS.Controls;
-using Unicorn.UI.Mobile.iOS.Driver;
+using Unicorn.UI.Mobile.IOS.Controls;
+using Unicorn.UI.Mobile.IOS.Driver;
 
 namespace ProjectSpecific.Steps
 {

@@ -9,7 +9,7 @@ namespace Unicorn.Core.Testing.Tests.Attributes
 
         public TestAttribute()
         {
-            description = string.Empty;
+            this.description = string.Empty;
         }
 
         public TestAttribute(string description)

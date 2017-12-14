@@ -9,9 +9,9 @@ namespace ReportPortal.UnicornExtension.EventArguments
     {
         public RunFinishedEventArgs(Service service, FinishLaunchRequest request, LaunchReporter launchReporter)
         {
-            Service = service;
-            Launch = request;
-            LaunchReporter = launchReporter;
+            this.Service = service;
+            this.Launch = request;
+            this.LaunchReporter = launchReporter;
         }
 
         public Service Service { get; }

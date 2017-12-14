@@ -22,12 +22,12 @@ namespace Unicorn.UI.Desktop.Input
 
         public static Input Mouse(MouseInput mouseInput)
         {
-            return new Input { type = WindowsConstants.INPUT_MOUSE, mi = mouseInput };
+            return new Input { type = WindowsConstants.InputMouse, mi = mouseInput };
         }
 
         public static Input Keyboard(KeyboardInput keyboardInput)
         {
-            return new Input { type = WindowsConstants.INPUT_KEYBOARD, ki = keyboardInput };
+            return new Input { type = WindowsConstants.InputKeyboard, ki = keyboardInput };
         }
     }
 }

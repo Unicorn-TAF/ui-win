@@ -7,7 +7,7 @@ namespace Unicorn.UI.Web.PageObject
     {
         public WebPage()
         {
-            SearchContext = WebDriver.Driver as OpenQA.Selenium.ISearchContext;
+            this.SearchContext = WebDriver.Driver as OpenQA.Selenium.ISearchContext;
             Init();
         }
 

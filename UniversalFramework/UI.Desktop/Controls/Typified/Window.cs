@@ -22,7 +22,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             get
             {
-                return Text;
+                return this.Text;
             }
         }
 
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 Thread.Sleep(100);
                 timeout -= 100;
             }
-            while (Visible && timeout > 0);
+            while (this.Visible && timeout > 0);
 
             if (timeout <= 0)
             {

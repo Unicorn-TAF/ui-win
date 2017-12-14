@@ -1,18 +1,19 @@
 ﻿using System.Text;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public abstract class Matcher
     {
-        public StringBuilder MatcherOutput;
-
         protected bool nullCheckable = true;
         protected bool partOfNotMatcher = false;
+        protected StringBuilder matcherOutput;
 
         protected Matcher()
         {
-            this.MatcherOutput = new StringBuilder();
+            this.matcherOutput = new StringBuilder();
         }
+
+        public StringBuilder MatcherOutput => this.matcherOutput;
 
         public abstract string CheckDescription { get; }
 

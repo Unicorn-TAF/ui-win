@@ -1,6 +1,6 @@
-﻿using ReportPortal.UnicornExtension;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using ReportPortal.UnicornExtension;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Steps;

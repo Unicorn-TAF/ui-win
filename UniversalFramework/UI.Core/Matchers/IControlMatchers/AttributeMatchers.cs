@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Testing.Assertions;
+﻿using Unicorn.Core.Testing.Assertions.Matchers;
 using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers
@@ -70,7 +70,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
             IControl element = (IControl)obj;
             string actualValue = element.GetAttribute(this.attribute);
 
-            bool equals = actualValue.Equals(value);
+            bool equals = actualValue.Equals(this.value);
 
             if (!equals)
             {

@@ -1,5 +1,5 @@
-﻿using ProjectSpecific.BO;
-using System.Threading;
+﻿using System.Threading;
+using ProjectSpecific.BO;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 

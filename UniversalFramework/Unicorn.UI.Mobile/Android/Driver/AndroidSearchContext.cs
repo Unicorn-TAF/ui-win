@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Controls;
@@ -11,7 +11,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
     public class AndroidSearchContext : Core.Driver.ISearchContext
     {
         public AppiumWebElement ParentContext;
-        protected static TimeSpan ImplicitlyWaitTimeout = timeoutDefault;
+        protected static TimeSpan implicitlyWaitTimeout = timeoutDefault;
         protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
 
         protected virtual AppiumWebElement SearchContext { get; set; }
@@ -77,7 +77,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                AppiumWebElement nativeControl = SearchContext.FindElement(by);
+                AppiumWebElement nativeControl = this.SearchContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -91,7 +91,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             By by = GetNativeLocator(locator);
             try
             {
-                AppiumWebElement nativeControl = ParentContext.FindElement(by);
+                AppiumWebElement nativeControl = this.ParentContext.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -114,7 +114,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             {
                 var wrapper = Activator.CreateInstance<T>();
                 ((AndroidControl)(object)wrapper).Instance = wrappedElement;
-                ((AndroidControl)(object)wrapper).ParentContext = SearchContext;
+                ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
                 controlsList.Add(wrapper);
             }
 
@@ -131,7 +131,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             AppiumWebElement elementToWrap = GetNativeControl(locator);
             var wrapper = Activator.CreateInstance<T>();
             ((AndroidControl)(object)wrapper).Instance = elementToWrap;
-            ((AndroidControl)(object)wrapper).ParentContext = SearchContext;
+            ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
 
             return wrapper;
         }
@@ -142,7 +142,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
 
             try
             {
-                IList<AppiumWebElement> nativeControls = SearchContext.FindElements(by);
+                IList<AppiumWebElement> nativeControls = this.SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)

@@ -1,14 +1,14 @@
-﻿using OpenQA.Selenium.Appium;
+﻿using System;
+using System.Collections.Generic;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Remote;
-using System;
-using System.Collections.Generic;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UI.Mobile.iOS.Driver
+namespace Unicorn.UI.Mobile.IOS.Driver
 {
-    public class iOSDriver : iOSSearchContext, IDriver
+    public class iOSDriver : IOSSearchContext, IDriver
     {
         public static AppiumDriver<IOSElement> Driver;
         private static DesiredCapabilities capabilities = null;
@@ -19,7 +19,7 @@ namespace Unicorn.UI.Mobile.iOS.Driver
         private iOSDriver()
         {
             Driver = new IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
-            ImplicitlyWait = timeoutDefault;
+            this.ImplicitlyWait = TimeoutDefault;
         }
 
         public static iOSDriver Instance
@@ -43,13 +43,13 @@ namespace Unicorn.UI.Mobile.iOS.Driver
         {
             get
             {
-                return ImplicitlyWaitTimeout;
+                return implicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                ImplicitlyWaitTimeout = value;
+                implicitlyWaitTimeout = value;
             }
         }
 

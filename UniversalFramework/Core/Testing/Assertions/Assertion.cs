@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text;
+using Unicorn.Core.Testing.Assertions.Matchers;
 
 namespace Unicorn.Core.Testing.Assertions
 {
     public class Assertion
     {
-        public static void AssertThat(object obj, Matcher matcher)
-        {
-            AssertThat(string.Empty, obj, matcher);
-        }
-
-        public static void AssertThat(string message, object obj, Matcher matcher)
+        public static void AssertThat(object obj, Matcher matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();
@@ -19,7 +14,12 @@ namespace Unicorn.Core.Testing.Assertions
 
             if (!matcher.Matches(obj))
             {
-                throw new AssertionError(message + "\n" + matcher.MatcherOutput.ToString());
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += "\n";
+                }
+
+                throw new AssertionError(message + matcher.MatcherOutput.ToString());
             }
         }
     }
