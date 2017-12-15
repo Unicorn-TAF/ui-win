@@ -5,7 +5,7 @@ namespace Unicorn.Core.Testing.Tests
     public class TestOutcome
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestOutcome"/> class. Inits with zero execution time and empty bugs array
+        /// Initializes a new instance of the <see cref="TestOutcome"/> class. Initializes with zero execution time and empty bugs array
         /// </summary>
         public TestOutcome()
         {

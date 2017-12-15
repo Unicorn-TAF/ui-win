@@ -136,7 +136,7 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Generates Id for the test wich will be the same each time for this test
+        /// Generates Id for the test which will be the same each time for this test
         /// </summary>
         public void GenerateId()
         {

@@ -222,7 +222,7 @@ namespace Unicorn.Core.Testing.Tests
 
         /// <summary>
         /// Run Test suite and all Before and After suites invoking corresponding suite events.
-        /// If there are no runna ble tests, the suite is skipped.
+        /// If there are no runnable tests, the suite is skipped.
         /// If BeforeSuite is failed, the suite is skipped.
         /// If All tests are passed, but AfterSuite is failed, the suite is failed.
         /// After run SuiteOutcome is filled with all info.
@@ -315,7 +315,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Run AfterSuites
         /// </summary>
-        /// <returns>true if after suites run successfully; fail if at leat one after suite failed</returns>
+        /// <returns>true if after suites run successfully; fail if at least one after suite failed</returns>
         protected bool RunAfterSuite()
         {
             if (this.listAfterSuite.Length == 0)
@@ -436,10 +436,10 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Get list of MethodInfos from suite instance based on specified Attribute presence
+        /// Get list of MethodInfo from suite instance based on specified Attribute presence
         /// </summary>
         /// <param name="attribute">Type of attribute</param>
-        /// <returns>list of MethodInfos with specified attribute</returns>
+        /// <returns>list of MethodInfo with specified attribute</returns>
         private MethodInfo[] GetMethodsListByAttribute(Type attribute)
         {
             List<MethodInfo> suitableMethods = new List<MethodInfo>();
@@ -459,11 +459,11 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Get list of MethodInfos from suite instance based on specified Attribute presence
+        /// Get list of MethodInfo from suite instance based on specified Attribute presence
         /// </summary>
         /// <param name="attribute">Type of attribute</param>
         /// <param name="isBeforeSuite">identify if need to get list of before suites</param>
-        /// <returns>list of MethodInfos with specified attribute</returns>
+        /// <returns>list of MethodInfo with specified attribute</returns>
         private TestSuiteMethod[] GetTestSuiteMethodsListByAttribute(Type attribute, bool isBeforeSuite)
         {
             List<TestSuiteMethod> suitableMethods = new List<TestSuiteMethod>();

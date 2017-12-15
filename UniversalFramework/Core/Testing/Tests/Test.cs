@@ -37,7 +37,7 @@ namespace Unicorn.Core.Testing.Tests
         public static event TestEvent OnSkip;
 
         /// <summary>
-        /// Gets or sets if specified test method should be skipped by presence of [Skip] attribute
+        /// Gets or sets a value indicating whether specified test method should be skipped by presence of [Skip] attribute
         /// </summary>
         public bool IsNeedToBeSkipped
         {
@@ -164,11 +164,11 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Execute list of MethodInfos from TestSuite instance based on Field nameof TestSuite class.
+        /// Execute list of MethodInfo from TestSuite instance based on Field nameof TestSuite class.
         /// Used to run BeforeTests and AfterTests
         /// </summary>
         /// <param name="suiteInstance">instance of TestSuite</param>
-        /// <param name="methodsList">name of Field contained array of MethodInfos</param>
+        /// <param name="methodsList">name of Field contained array of MethodInfo</param>
         private void ExecuteMethods(TestSuite suiteInstance, string methodsList)
         {
             object field = typeof(TestSuite)

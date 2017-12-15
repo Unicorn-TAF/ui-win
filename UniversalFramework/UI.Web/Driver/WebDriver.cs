@@ -35,7 +35,7 @@ namespace Unicorn.UI.Web.Driver
                 Driver.Manage().Window.Maximize();
             }
 
-            this.ImplicitlyWait = TimeoutDefault;
+            this.ImplicitlyWait = WebSearchContext.TimeoutDefault;
         }
 
         public static WebDriver Instance
@@ -66,13 +66,13 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return implicitlyWaitTimeout;
+                return WebSearchContext.implicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                implicitlyWaitTimeout = value;
+                WebSearchContext.implicitlyWaitTimeout = value;
             }
         }
 

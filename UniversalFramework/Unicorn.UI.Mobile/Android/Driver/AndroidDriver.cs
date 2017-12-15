@@ -20,7 +20,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         private AndroidDriver()
         {
             Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
-            this.ImplicitlyWait = timeoutDefault;
+            this.ImplicitlyWait = AndroidSearchContext.timeoutDefault;
         }
 
         public static AndroidDriver Instance
@@ -43,13 +43,13 @@ namespace Unicorn.UI.Mobile.Android.Driver
         {
             get
             {
-                return implicitlyWaitTimeout;
+                return AndroidSearchContext.implicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                implicitlyWaitTimeout = value;
+                AndroidSearchContext.implicitlyWaitTimeout = value;
             }
         }
 
