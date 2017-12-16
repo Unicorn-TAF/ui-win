@@ -8,73 +8,52 @@ using Unicorn.UI.Mobile.Android.Controls;
 
 namespace Unicorn.UI.Mobile.Android.Driver
 {
-    public class AndroidSearchContext : Core.Driver.ISearchContext
+    public class AndroidSearchContext : UISearchContext
     {
-        public AppiumWebElement ParentContext;
-        protected static TimeSpan implicitlyWaitTimeout = timeoutDefault;
-        protected static TimeSpan timeoutDefault = TimeSpan.FromSeconds(20);
+        public AppiumWebElement ParentContext { get; set; }
 
         protected virtual AppiumWebElement SearchContext { get; set; }
 
-        public T Find<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControl<T>(locator);
-        }
-
-        public IList<T> FindList<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControlsList<T>(locator);
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
-        {
-            AndroidDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                isPresented = false;
-            }
-
-            AndroidDriver.Instance.ImplicitlyWait = timeoutDefault;
-
-            return isPresented;
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
-        {
-            AndroidDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                controlInstance = Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                controlInstance = default(T);
-                isPresented = false;
-            }
-
-            AndroidDriver.Instance.ImplicitlyWait = timeoutDefault;
-
-            return isPresented;
-        }
-
-        public T FirstChild<T>() where T : IControl
-        {
-            throw new NotImplementedException();
-        }
+        protected override Type ControlsBaseType => typeof(AndroidControl);
 
         #region "Helpers"
+
+        protected override T WaitForWrappedControl<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            AppiumWebElement elementToWrap = GetNativeControl(locator);
+
+            T wrapper = Activator.CreateInstance<T>();
+            ((AndroidControl)(object)wrapper).Instance = elementToWrap;
+            ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
+
+            return wrapper;
+        }
+
+        protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            var elementsToWrap = GetNativeControlsList(locator);
+
+            List<T> controlsList = new List<T>();
+
+            foreach (var elementToWrap in elementsToWrap)
+            {
+                var wrapper = Activator.CreateInstance<T>();
+                ((AndroidControl)(object)wrapper).Instance = elementToWrap;
+                ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
 
         protected AppiumWebElement GetNativeControl(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
+
             try
             {
                 AppiumWebElement nativeControl = this.SearchContext.FindElement(by);
@@ -100,40 +79,9 @@ namespace Unicorn.UI.Mobile.Android.Driver
             }
         }
 
-        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            if (!typeof(AndroidControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            List<T> controlsList = new List<T>();
-            IList<AppiumWebElement> wrappedElements = GetNativeControlsList(locator);
-
-            foreach (AppiumWebElement wrappedElement in wrappedElements)
-            {
-                var wrapper = Activator.CreateInstance<T>();
-                ((AndroidControl)(object)wrapper).Instance = wrappedElement;
-                ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
-                controlsList.Add(wrapper);
-            }
-
-            return controlsList;
-        }
-
-        private T GetWrappedControl<T>(ByLocator locator)
-        {
-            if (!typeof(AndroidControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            AppiumWebElement elementToWrap = GetNativeControl(locator);
-            var wrapper = Activator.CreateInstance<T>();
-            ((AndroidControl)(object)wrapper).Instance = elementToWrap;
-            ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
-
-            return wrapper;
+            AndroidDriver.Instance.ImplicitlyWait = timeout;
         }
 
         private IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)

@@ -8,74 +8,52 @@ using Unicorn.UI.Mobile.IOS.Controls;
 
 namespace Unicorn.UI.Mobile.IOS.Driver
 {
-    public class IOSSearchContext : Core.Driver.ISearchContext
+    public class IOSSearchContext : UISearchContext
     {
-        public AppiumWebElement ParentContext;
-        protected static TimeSpan implicitlyWaitTimeout = TimeoutDefault;
-
-        protected static TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
+        public AppiumWebElement ParentContext { get; set; }
 
         protected virtual AppiumWebElement SearchContext { get; set; }
 
-        public T Find<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControl<T>(locator);
-        }
-
-        public IList<T> FindList<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControlsList<T>(locator);
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
-        {
-            iOSDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                isPresented = false;
-            }
-
-            iOSDriver.Instance.ImplicitlyWait = TimeoutDefault;
-
-            return isPresented;
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
-        {
-            iOSDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                controlInstance = Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                controlInstance = default(T);
-                isPresented = false;
-            }
-
-            iOSDriver.Instance.ImplicitlyWait = TimeoutDefault;
-
-            return isPresented;
-        }
-
-        public T FirstChild<T>() where T : IControl
-        {
-            throw new NotImplementedException();
-        }
+        protected override Type ControlsBaseType => typeof(IOSControl);
 
         #region "Helpers"
+
+        protected override T WaitForWrappedControl<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            AppiumWebElement elementToWrap = GetNativeControl(locator);
+
+            T wrapper = Activator.CreateInstance<T>();
+            ((IOSControl)(object)wrapper).Instance = elementToWrap;
+            ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
+
+            return wrapper;
+        }
+
+        protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            var elementsToWrap = GetNativeControlsList(locator);
+
+            List<T> controlsList = new List<T>();
+
+            foreach (var elementToWrap in elementsToWrap)
+            {
+                var wrapper = Activator.CreateInstance<T>();
+                ((IOSControl)(object)wrapper).Instance = elementToWrap;
+                ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
 
         protected AppiumWebElement GetNativeControl(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
+
             try
             {
                 AppiumWebElement nativeControl = this.SearchContext.FindElement(by);
@@ -101,40 +79,9 @@ namespace Unicorn.UI.Mobile.IOS.Driver
             }
         }
 
-        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            if (!typeof(IOSControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            List<T> controlsList = new List<T>();
-            IList<AppiumWebElement> wrappedElements = GetNativeControlsList(locator);
-
-            foreach (AppiumWebElement wrappedElement in wrappedElements)
-            {
-                var wrapper = Activator.CreateInstance<T>();
-                ((IOSControl)(object)wrapper).Instance = wrappedElement;
-                ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
-                controlsList.Add(wrapper);
-            }
-
-            return controlsList;
-        }
-
-        private T GetWrappedControl<T>(ByLocator locator)
-        {
-            if (!typeof(IOSControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            AppiumWebElement elementToWrap = GetNativeControl(locator);
-            var wrapper = Activator.CreateInstance<T>();
-            ((IOSControl)(object)wrapper).Instance = elementToWrap;
-            ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
-
-            return wrapper;
+            iOSDriver.Instance.ImplicitlyWait = timeout;
         }
 
         private IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)

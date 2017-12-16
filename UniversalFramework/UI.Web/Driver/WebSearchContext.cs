@@ -7,103 +7,52 @@ using Unicorn.UI.Web.Controls;
 
 namespace Unicorn.UI.Web.Driver
 {
-    public abstract class WebSearchContext : Core.Driver.ISearchContext
+    public abstract class WebSearchContext : UISearchContext
     {
-        public OpenQA.Selenium.ISearchContext ParentContext;
-
-        protected static TimeSpan implicitlyWaitTimeout = TimeoutDefault;
-
-        protected static TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
+        public OpenQA.Selenium.ISearchContext ParentContext { get; set; }
 
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
 
-        public T Find<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControl<T>(locator);
-        }
-
-        /*
-        public T Find<T>(string name, string alternativeName = "") where T : IControl
-        {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-                throw new ArgumentException("Illegal type of control");
-
-
-            string xPath = $".//*[@name = '{name}' or @id = '{name}'";
-
-            if (!string.IsNullOrEmpty(alternativeName))
-                xPath += $" or @name = '{alternativeName}' or @id = '{alternativeName}'";
-
-            xPath += "]";
-
-            try
-            {
-                IWebElement elementToWrap = SearchContext.FindElement(By.XPath(xPath));
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).SearchContext = elementToWrap;
-                return wrapper;
-            }
-            catch (NoSuchElementException)
-            {
-                throw new ControlNotFoundException($"Unable to find control by name = {name} and alternative name = {alternativeName}");
-            }
-        }
-        */
-
-        public IList<T> FindList<T>(ByLocator locator) where T : IControl
-        {
-            return GetWrappedControlsList<T>(locator);
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
-        {
-            WebDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                isPresented = false;
-            }
-
-            WebDriver.Instance.ImplicitlyWait = TimeoutDefault;
-
-            return isPresented;
-        }
-
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
-        {
-            WebDriver.Instance.ImplicitlyWait = TimeSpan.FromMilliseconds(millisecondsTimeout);
-
-            bool isPresented = true;
-            try
-            {
-                controlInstance = Find<T>(locator);
-            }
-            catch (ControlNotFoundException)
-            {
-                controlInstance = default(T);
-                isPresented = false;
-            }
-
-            WebDriver.Instance.ImplicitlyWait = TimeoutDefault;
-
-            return isPresented;
-        }
-
-        public T FirstChild<T>() where T : IControl
-        {
-            throw new NotImplementedException();
-        }
+        protected override Type ControlsBaseType => typeof(WebControl);
 
         #region "Helpers"
+
+        protected override T WaitForWrappedControl<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            IWebElement elementToWrap = GetNativeControl(locator);
+
+            T wrapper = Activator.CreateInstance<T>();
+            ((WebControl)(object)wrapper).Instance = elementToWrap;
+            ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
+
+            return wrapper;
+        }
+
+        protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        {
+            CheckForControlType<T>();
+
+            var elementsToWrap = GetNativeControlsList(locator);
+
+            List<T> controlsList = new List<T>();
+
+            foreach (var elementToWrap in elementsToWrap)
+            {
+                var wrapper = Activator.CreateInstance<T>();
+                ((WebControl)(object)wrapper).Instance = elementToWrap;
+                ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
+                controlsList.Add(wrapper);
+            }
+
+            return controlsList;
+        }
 
         protected IWebElement GetNativeControl(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
+
             try
             {
                 IWebElement nativeControl = this.SearchContext.FindElement(by);
@@ -129,40 +78,9 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        private IList<T> GetWrappedControlsList<T>(ByLocator locator)
+        protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            List<T> controlsList = new List<T>();
-            IList<IWebElement> wrappedElements = GetNativeControlsList(locator);
-
-            foreach (IWebElement wrappedElement in wrappedElements)
-            {
-                var wrapper = Activator.CreateInstance<T>();
-                ((WebControl)(object)wrapper).Instance = wrappedElement;
-                ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
-                controlsList.Add(wrapper);
-            }
-
-            return controlsList;
-        }
-
-        private T GetWrappedControl<T>(ByLocator locator)
-        {
-            if (!typeof(WebControl).IsAssignableFrom(typeof(T)))
-            {
-                throw new ArgumentException("Illegal type of control: " + typeof(T));
-            }
-
-            IWebElement elementToWrap = GetNativeControl(locator);
-            var wrapper = Activator.CreateInstance<T>();
-            ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
-
-            return wrapper;
+            WebDriver.Instance.ImplicitlyWait = timeout;
         }
 
         private IList<IWebElement> GetNativeControlsList(ByLocator locator)

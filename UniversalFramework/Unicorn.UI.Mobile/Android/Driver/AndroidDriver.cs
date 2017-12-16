@@ -20,7 +20,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         private AndroidDriver()
         {
             Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
-            this.ImplicitlyWait = AndroidSearchContext.timeoutDefault;
+            this.ImplicitlyWait = UISearchContext.TimeoutDefault;
         }
 
         public static AndroidDriver Instance

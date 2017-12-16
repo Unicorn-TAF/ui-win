@@ -23,7 +23,7 @@ namespace Tests.TestData
         [Test("Run actions across different platforms using common IDriver instance")]
         public void SingleDriverTest()
         {
-            Do.IOS.NavigateTo("http://www.bing.com");
+            ////Do.IOS.NavigateTo("http://www.bing.com");
             ////Do.iOS.SearchFor("bla-bla-bla");
             ////Do.Android.NavigateTo("http://www.bing.com");
             ////Do.Android.SearchFor("bla-bla-bla");
