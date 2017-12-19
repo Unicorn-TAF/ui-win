@@ -1,25 +1,21 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
+using System;
 using System.Collections.Generic;
-using OpenQA.Selenium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Web.Controls;
 
-namespace Unicorn.UI.Web.Driver
+namespace Unicorn.UI.Mobile.Base.Driver
 {
-    public abstract class WebSearchContext : UISearchContext
+    public abstract class MobileSearchContext : UISearchContext
     {
-        public OpenQA.Selenium.ISearchContext ParentContext { get; set; }
+        public AppiumWebElement ParentContext { get; set; }
 
-        protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
-
-        protected override Type ControlsBaseType => typeof(WebControl);
-
-        #region "Helpers"
+        protected virtual AppiumWebElement SearchContext { get; set; }
 
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
-            IWebElement elementToWrap = GetNativeControl(locator);
+            AppiumWebElement elementToWrap = GetNativeControl(locator);
             return Wrap<T>(elementToWrap);
         }
 
@@ -42,27 +38,37 @@ namespace Unicorn.UI.Web.Driver
             return Wrap<T>(elementToWrap);
         }
 
-        protected IWebElement GetNativeControl(ByLocator locator)
+        protected AppiumWebElement GetNativeControl(ByLocator locator)
         {
             return GetNativeControlFromContext(locator, this.SearchContext);
         }
 
-        protected IWebElement GetNativeControlFromParentContext(ByLocator locator)
+        protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
             return GetNativeControlFromContext(locator, this.ParentContext);
         }
 
-        protected override void SetImplicitlyWait(TimeSpan timeout)
+        protected IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
         {
-            WebDriver.Instance.ImplicitlyWait = timeout;
+            By by = GetNativeLocator(locator);
+
+            try
+            {
+                IList<AppiumWebElement> nativeControls = this.SearchContext.FindElements(by);
+                return nativeControls;
+            }
+            catch (NoSuchElementException)
+            {
+                return new List<AppiumWebElement>();
+            }
         }
 
-        private IWebElement GetNativeControlFromContext(ByLocator locator, OpenQA.Selenium.ISearchContext context)
+        private AppiumWebElement GetNativeControlFromContext(ByLocator locator, AppiumWebElement context)
         {
             By by = GetNativeLocator(locator);
             try
             {
-                IWebElement nativeControl = context.FindElement(by);
+                AppiumWebElement nativeControl = context.FindElement(by);
                 return nativeControl;
             }
             catch (NoSuchElementException)
@@ -71,27 +77,12 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        private IList<IWebElement> GetNativeControlsList(ByLocator locator)
-        {
-            By by = GetNativeLocator(locator);
-            
-            try
-            {
-                IList<IWebElement> nativeControls = this.SearchContext.FindElements(by);
-                return nativeControls;
-            }
-            catch (NoSuchElementException)
-            {
-                return new List<IWebElement>();
-            }
-        }
-
-        private By GetNativeLocator(ByLocator locator)
+        protected By GetNativeLocator(ByLocator locator)
         {
             switch (locator.How)
             {
                 case Using.Web_Xpath:
-                    return By.XPath(/*WebDriver.TransformXpath(*/locator.Locator);
+                    return By.XPath(locator.Locator);
                 case Using.Web_Css:
                     return By.CssSelector(locator.Locator);
                 case Using.Id:
@@ -107,15 +98,6 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        private T Wrap<T>(IWebElement elementToWrap)
-        {
-            T wrapper = Activator.CreateInstance<T>();
-            ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
-
-            return wrapper;
-        }
-
-        #endregion
+        protected abstract T Wrap<T>(AppiumWebElement elementToWrap);
     }
 }

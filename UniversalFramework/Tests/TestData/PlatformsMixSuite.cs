@@ -14,7 +14,7 @@ namespace Tests.TestData
         [BeforeTest]
         public void BeforeTest()
         {
-            ////Do.CharMap.StartApplication(ExePath + "charmap.exe");
+            Do.CharMap.StartApplication(ExePath + "charmap.exe");
         }
 
         [Bug("9999")]
@@ -27,17 +27,17 @@ namespace Tests.TestData
             ////Do.iOS.SearchFor("bla-bla-bla");
             ////Do.Android.NavigateTo("http://www.bing.com");
             ////Do.Android.SearchFor("bla-bla-bla");
-            ////Do.CharMap.DoSomething("Calibri");
-            ////Do.YandexMarket.OpenPortal(PortalUrl);
-            ////Bug("76237").YandexMarket.DoSomeActions();
+            Do.CharMap.DoSomething("Calibri");
+            Do.YandexMarket.OpenPortal(PortalUrl);
+            Bug("76237").YandexMarket.DoSomeActions();
         }
 
         [AfterTest]
         public void TearDown()
         {
             Logger.Instance.Info("After Test: close app and browser");
-            ////Do.CharMap.CloseApplication();
-            ////Do.YandexMarket.CloseBrowser();
+            Do.CharMap.CloseApplication();
+            Do.YandexMarket.CloseBrowser();
         }
     }
 }

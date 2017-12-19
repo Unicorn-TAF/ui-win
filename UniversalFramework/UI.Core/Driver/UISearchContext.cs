@@ -17,13 +17,13 @@ namespace Unicorn.UI.Core.Driver
 
         public T Find<T>(ByLocator locator) where T : IControl
         {
+            CheckForControlType<T>();
             return WaitForWrappedControl<T>(locator);
         }
 
-        ////T Find<T>(string name, string alternativeName) where T : IControl;
-
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
+            CheckForControlType<T>();
             return GetWrappedControlsList<T>(locator);
         }
 
@@ -56,12 +56,15 @@ namespace Unicorn.UI.Core.Driver
 
         public T FirstChild<T>() where T : IControl
         {
-            throw new NotImplementedException();
+            CheckForControlType<T>();
+            return GetFirstChildWrappedControl<T>();
         }
 
         protected abstract T WaitForWrappedControl<T>(ByLocator locator);
 
         protected abstract IList<T> GetWrappedControlsList<T>(ByLocator locator);
+
+        protected abstract T GetFirstChildWrappedControl<T>();
 
         protected abstract void SetImplicitlyWait(TimeSpan timeout);
 
