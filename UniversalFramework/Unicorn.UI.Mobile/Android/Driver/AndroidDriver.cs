@@ -10,7 +10,6 @@ namespace Unicorn.UI.Mobile.Android.Driver
 {
     public class AndroidDriver : AndroidSearchContext, IDriver
     {
-        public static AppiumDriver<AndroidElement> Driver;
         private static DesiredCapabilities capabilities = null;
         private static Uri uri = null;
         private static bool needInit = false;
@@ -20,7 +19,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         private AndroidDriver()
         {
             Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
-            this.ImplicitlyWait = UISearchContext.TimeoutDefault;
+            this.ImplicitlyWait = this.TimeoutDefault;
         }
 
         public static AndroidDriver Instance
@@ -39,17 +38,19 @@ namespace Unicorn.UI.Mobile.Android.Driver
             }
         }
 
+        public static AppiumDriver<AndroidElement> Driver { get; set; }
+
         public TimeSpan ImplicitlyWait
         {
             get
             {
-                return AndroidSearchContext.implicitlyWaitTimeout;
+                return this.ImplicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                AndroidSearchContext.implicitlyWaitTimeout = value;
+                this.ImplicitlyWaitTimeout = value;
             }
         }
 

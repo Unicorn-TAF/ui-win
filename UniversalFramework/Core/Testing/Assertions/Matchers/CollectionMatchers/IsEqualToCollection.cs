@@ -32,13 +32,13 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
         {
             if (!IsNotNull(collectionObj))
             {
-                return this.partOfNotMatcher;
+                return this.Reverse;
             }
 
-            bool result = !this.partOfNotMatcher;
+            bool result = !this.Reverse;
             IEnumerable<object> collection = (IEnumerable<object>)collectionObj;
 
-            if (this.partOfNotMatcher)
+            if (this.Reverse)
             {
                 this.mismatch = "Collections are equal";
                 result = this.expectedObjects.Count() != collection.Count();

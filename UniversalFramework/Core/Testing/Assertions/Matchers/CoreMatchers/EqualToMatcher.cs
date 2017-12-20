@@ -20,7 +20,7 @@
         {
             if (!this.objectToCompare.GetType().Equals(obj.GetType()))
             {
-                MatcherOutput.Append($"was not of type {this.objectToCompare.GetType()}");
+                DescribeMismatch($"not of type {this.objectToCompare.GetType()}");
                 return false;
             }
 

@@ -4,27 +4,53 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
 {
     public abstract class Matcher
     {
-        protected bool nullCheckable = true;
-        protected bool partOfNotMatcher = false;
-        protected StringBuilder matcherOutput;
+        private bool nullCheckable = true;
+        private bool reverse = false;
+        private StringBuilder matcherOutput;
 
         protected Matcher()
         {
             this.matcherOutput = new StringBuilder();
         }
 
+        public abstract string CheckDescription { get; }
+
         public StringBuilder MatcherOutput => this.matcherOutput;
 
-        public abstract string CheckDescription { get; }
+        protected bool NullCheckable
+        {
+            get
+            {
+                return this.nullCheckable;
+            }
+
+            set
+            {
+                this.nullCheckable = value;
+            }
+        }
+
+        protected bool Reverse
+        {
+            get
+            {
+                return this.reverse;
+            }
+
+            set
+            {
+                this.reverse = value;
+            }
+        }
 
         public void DescribeTo()
         {
-            this.MatcherOutput.Append(this.CheckDescription);
+            this.matcherOutput.Append(this.CheckDescription);
         }
 
         public virtual void DescribeMismatch(object obj)
         {
-            this.MatcherOutput.Append("was ").Append(obj);
+            this.matcherOutput.Append("was ").Append(obj);
         }
 
         public abstract bool Matches(object obj);
@@ -38,7 +64,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers
         {
             if (this.nullCheckable && obj == null)
             {
-                this.MatcherOutput.Append("was null");
+                DescribeMismatch("null");
                 return false;
             }
 

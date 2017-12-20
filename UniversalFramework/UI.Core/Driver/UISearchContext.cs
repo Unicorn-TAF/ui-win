@@ -6,9 +6,9 @@ namespace Unicorn.UI.Core.Driver
 {
     public abstract class UISearchContext : ISearchContext
     {
-        protected static TimeSpan implicitlyWaitTimeout = TimeoutDefault;
+        protected TimeSpan ImplicitlyWaitTimeout { get; set; }
 
-        protected static TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
+        protected TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
 
         protected abstract Type ControlsBaseType
         {
@@ -49,7 +49,7 @@ namespace Unicorn.UI.Core.Driver
                 isPresented = false;
             }
 
-            SetImplicitlyWait(TimeoutDefault);
+            SetImplicitlyWait(this.TimeoutDefault);
 
             return isPresented;
         }

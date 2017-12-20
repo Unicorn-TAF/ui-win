@@ -227,18 +227,8 @@ namespace ReportPortal.UnicornExtension
                     var updateTestRequest = new UpdateTestItemRequest();
 
                     // adding categories to test
-                    var categories = test.Categories;
-
                     updateTestRequest.Tags = new List<string>();
                     updateTestRequest.Tags.Add(test.Author);
-
-                    if (categories != null)
-                    {
-                        foreach (string category in categories)
-                        {
-                            updateTestRequest.Tags.Add(category);
-                        }
-                    }
 
                     // adding description to test
                     var description = test.Description;

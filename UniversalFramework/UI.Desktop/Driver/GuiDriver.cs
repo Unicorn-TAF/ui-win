@@ -31,12 +31,12 @@ namespace Unicorn.UI.Desktop.Driver
         {
             get
             {
-                return GuiSearchContext.implicitlyWaitTimeout;
+                return this.ImplicitlyWaitTimeout;
             }
 
             set
             {
-                GuiSearchContext.implicitlyWaitTimeout = value;
+                this.ImplicitlyWaitTimeout = value;
             }
         }
 

@@ -17,25 +17,23 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override bool Matches(object obj)
         {
-            return this.IsNotNull(obj) && this.Assertion(obj);
+            return IsNotNull(obj) && Assertion(obj);
         }
 
         protected bool Assertion(object obj)
         {
             if (!obj.GetType().IsSubclassOf(typeof(IControl)))
             {
-                MatcherOutput.Append($"was not an instance of IControl");
+                DescribeMismatch("not an instance of IControl");
                 return false;
             }
 
-            IControl element = (IControl)obj;
-            string actualValue = element.GetAttribute(this.attribute);
-
+            string actualValue = (obj as IControl).GetAttribute(this.attribute);
             bool contains = actualValue.Contains(this.value);
 
-            if (!contains)
+            if (contains != this.Reverse)
             {
-                this.MatcherOutput.Append("was ").Append(actualValue);
+                DescribeMismatch(actualValue);
             }
                 
             return contains;

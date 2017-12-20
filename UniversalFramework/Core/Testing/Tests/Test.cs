@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,8 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class Test : TestSuiteMethodBase
     {
+        private List<string> categories = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
@@ -18,7 +21,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod)
         {
-            this.testMethod = testMethod;
+            this.TestMethod = testMethod;
             this.Outcome = new TestOutcome();
             this.IsNeedToBeSkipped = false;
         }
@@ -39,35 +42,23 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets a value indicating whether specified test method should be skipped by presence of [Skip] attribute
         /// </summary>
-        public bool IsNeedToBeSkipped
-        {
-            get;
-
-            set;
-        }
+        public bool IsNeedToBeSkipped { get; set; }
         
         /// <summary>
-        /// Gets or sets test categories
+        /// Gets test categories
         /// </summary>
-        public override string[] Categories
+        public List<string> Categories
         {
             get
             {
                 if (this.categories == null)
                 {
-                    object[] attributes = this.testMethod.GetCustomAttributes(typeof(CategoryAttribute), true);
-                    if (attributes.Length != 0)
-                    {
-                        this.categories = new string[attributes.Length];
+                    this.categories = new List<string>();
+                    var attributes = this.TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
 
-                        for (int i = 0; i < attributes.Length; i++)
-                        {
-                            this.categories[i] = ((CategoryAttribute)attributes[i]).Category.ToUpper().Trim();
-                        }
-                    }
-                    else
+                    foreach (var attribute in attributes)
                     {
-                        this.categories = new string[0];
+                        this.categories.Add(attribute.Category.ToUpper().Trim());
                     }
                 }
 
@@ -89,7 +80,7 @@ namespace Unicorn.Core.Testing.Tests
                 return;
             }
 
-            CurrentOutput = new StringBuilder();
+            TestSuiteMethodBase.CurrentOutput = new StringBuilder();
 
             try
             {
@@ -97,31 +88,46 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during onStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Error("Exception occured during OnStart event invoke" + Environment.NewLine + ex);
             }
 
             Logger.Instance.Info($"========== TEST '{Description}' ==========");
 
-            this.testTimer = new Stopwatch();
+            this.TestTimer = new Stopwatch();
+            this.TestTimer.Start();
 
-            this.testTimer.Start();
             try
             {
                 ExecuteMethods(suiteInstance, "listBeforeTest");
-                this.testMethod.Invoke(suiteInstance, null);
+                this.TestMethod.Invoke(suiteInstance, null);
                 ExecuteMethods(suiteInstance, "listAfterTest");
                 this.Outcome.Result = Result.PASSED;
 
-                OnPass?.Invoke(this);
+                try
+                {
+                    OnPass?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Error("Exception occured during OnPass event invoke" + Environment.NewLine + e);
+                }
             }
             catch (Exception ex)
             {
                 Fail(ex.InnerException, suiteInstance.CurrentStepBug);
-                OnFail?.Invoke(this);
+
+                try
+                {
+                    OnFail?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Error("Exception occured during OnFail event invoke" + Environment.NewLine + e);
+                }
             }
 
-            this.testTimer.Stop();
-            this.Outcome.ExecutionTime = this.testTimer.Elapsed;
+            this.TestTimer.Stop();
+            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
             Logger.Instance.Info($"TEST {Outcome.Result}");
 
@@ -140,16 +146,16 @@ namespace Unicorn.Core.Testing.Tests
         /// Test is skipped if it does not contain at least one of specified categories
         /// Result of the check is stored in IsNeedToBeSkipped field
         /// </summary>
-        /// <param name="categories">list of expected categories to run</param>
-        public void CheckIfNeedToBeSkipped(params string[] categories)
+        /// <param name="categoriesArray">list of expected categories to run</param>
+        public void CheckIfNeedToBeSkipped(params string[] categoriesArray)
         {
-            object[] attributes = this.testMethod.GetCustomAttributes(typeof(SkipAttribute), true);
+            object[] attributes = this.TestMethod.GetCustomAttributes(typeof(SkipAttribute), true);
 
             this.IsNeedToBeSkipped = attributes.Length != 0;
 
-            if (categories.Length > 0)
+            if (categoriesArray != null && categoriesArray.Length > 0)
             {
-                this.IsNeedToBeSkipped |= this.Categories.Intersect(categories).Count() != categories.Count();
+                this.IsNeedToBeSkipped |= this.Categories.Intersect(categoriesArray).Count() != categoriesArray.Count();
             }
         }
 

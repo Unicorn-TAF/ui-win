@@ -6,7 +6,6 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
     public class HasItemMatcher : Matcher
     {
         private object expectedObject;
-        private string mismatch = string.Empty;
 
         public HasItemMatcher(object expectedObject)
         {
@@ -19,31 +18,27 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
         {
             if (!IsNotNull(collection))
             {
-                return this.partOfNotMatcher;
+                return this.Reverse;
             }
 
+            string mismatch = string.Empty;
             bool result = ((IEnumerable<object>)collection).Contains(this.expectedObject);
 
-            if (this.partOfNotMatcher)
+            if (this.Reverse)
             {
-                this.mismatch = "Collection contains the value";
+                mismatch = "was contains the value";
             }
             else
             {
-                this.mismatch = "Collection does not contain the value";
+                mismatch = "was not contain the value";
             }
 
             if (!result)
             {
-                DescribeMismatch(collection);
+                DescribeMismatch(mismatch);
             }
 
             return result;
-        }
-
-        public override void DescribeMismatch(object collection)
-        {
-            MatcherOutput.Append(this.mismatch);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Unicorn.Core.Testing.Tests
 {
@@ -10,68 +11,38 @@ namespace Unicorn.Core.Testing.Tests
         public TestOutcome()
         {
             this.ExecutionTime = TimeSpan.FromSeconds(0);
-            this.Bugs = new string[0];
+            this.Bugs = new List<string>();
             this.OpenBugString = string.Empty;
         }
 
         /// <summary>
         /// Gets or sets Execution Result.
         /// </summary>
-        public Result Result
-        {
-            get;
-
-            set;
-        }
+        public Result Result { get; set; }
 
         /// <summary>
         /// Gets or sets Test execution time as TimeSpan.
         /// </summary>
-        public TimeSpan ExecutionTime
-        {
-            get;
-
-            set;
-        }
+        public TimeSpan ExecutionTime { get; set; }
 
         /// <summary>
         /// Gets or sets Fail Exception details. Has value only when test has failed.
         /// </summary>
-        public Exception Exception
-        {
-            get;
-
-            set;
-        }
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// Gets or sets Screenshot of fail.
         /// </summary>
-        public string Screenshot
-        {
-            get;
-
-            set;
-        }
+        public string Screenshot { get; set; }
 
         /// <summary>
-        /// Gets or sets Array of bugs attached to the test. Has values only when the test failed by bug.
+        /// Gets Array of bugs attached to the test. Has values only when the test failed by bug.
         /// </summary>
-        public string[] Bugs
-        {
-            get;
-
-            set;
-        }
+        public List<string> Bugs { get; }
 
         /// <summary>
         /// Gets or sets string for open bug
         /// </summary>
-        public string OpenBugString
-        {
-            get;
-
-            set;
-        }
+        public string OpenBugString { get; set; }
     }
 }

@@ -10,17 +10,21 @@ namespace Unicorn.Core.Reporting
         {
             get
             {
-                if (instance == null)
-                {
-                    throw new NullReferenceException("Reporter instance is not created.");
-                }
-
+                CheckForNullInstance();
                 return instance;
             }
 
             set
             {
                 instance = value;
+            }
+        }
+
+        private static void CheckForNullInstance()
+        {
+            if (instance == null)
+            {
+                throw new NullReferenceException("Reporter instance is not created.");
             }
         }
     }

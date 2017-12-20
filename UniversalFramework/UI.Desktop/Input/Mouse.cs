@@ -7,8 +7,8 @@ namespace Unicorn.UI.Desktop.Input
 {
     public class Mouse
     {
-        public static Mouse Instance = new Mouse();
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
+        private static Mouse instance = new Mouse();
         private readonly short doubleClickTime = GetDoubleClickTime();
         private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
@@ -16,6 +16,8 @@ namespace Unicorn.UI.Desktop.Input
         private Mouse()
         {
         }
+
+        public static Mouse Instance => instance;
 
         public virtual Point Location
         {

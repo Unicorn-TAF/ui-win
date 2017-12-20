@@ -10,36 +10,17 @@ namespace Unicorn.Core.Testing.Tests
 {
     public abstract class TestSuiteMethodBase
     {
-        public static TimeSpan TestTimeout = TimeSpan.FromMinutes(15);
-        public static StringBuilder CurrentOutput = new StringBuilder();
-                
-        protected string[] categories = null;
-
-        // Method which represents test
-        protected MethodInfo testMethod;
-
-        /// <summary>
-        /// Test execution timer
-        /// </summary>
-        protected Stopwatch testTimer;
-
         private string author = null;
         private string description = null;
         private string fullTestName = null;
 
-        public Guid Id
-        {
-            get;
+        public static TimeSpan TestTimeout => TimeSpan.FromMinutes(15);
 
-            set;
-        }
+        public static StringBuilder CurrentOutput { get; set; }
 
-        public Guid ParentId
-        {
-            get;
+        public Guid Id { get; set; }
 
-            set;
-        }
+        public Guid ParentId { get; set; }
 
         /// <summary>
         /// Gets test author. If author not specified through AuthorAttribute, then return "No author"
@@ -50,7 +31,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.author == null)
                 {
-                    object[] attributes = this.testMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
+                    object[] attributes = this.TestMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
 
                     if (attributes.Length > 0)
                     {
@@ -76,7 +57,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.description == null)
                 {
-                    object[] attributes = this.testMethod.GetCustomAttributes(typeof(TestAttribute), true);
+                    object[] attributes = this.TestMethod.GetCustomAttributes(typeof(TestAttribute), true);
 
                     if (attributes.Length > 0)
                     {
@@ -86,7 +67,7 @@ namespace Unicorn.Core.Testing.Tests
 
                     if (string.IsNullOrEmpty(this.description))
                     {
-                        this.description = this.testMethod.Name;
+                        this.description = this.TestMethod.Name;
                     }
                 }
 
@@ -108,7 +89,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.fullTestName == null)
                 {
-                    this.fullTestName = this.testMethod.Name;
+                    this.fullTestName = this.TestMethod.Name;
                 }
                     
                 return this.fullTestName;
@@ -121,19 +102,19 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Gets test categories list. Test could not have any category
-        /// </summary>
-        public abstract string[] Categories { get; }
-
-        /// <summary>
         /// Gets or sets Current test outcome, contains base information about execution results
         /// </summary>
-        public TestOutcome Outcome
-        {
-            get;
+        public TestOutcome Outcome { get; set; }
 
-            set;
-        }
+        /// <summary>
+        /// Gets or sets Test execution timer
+        /// </summary>
+        protected Stopwatch TestTimer { get; set; }
+
+        /// <summary>
+        /// Gets or sets Method which represents test
+        /// </summary>
+        protected MethodInfo TestMethod { get; set; } 
 
         /// <summary>
         /// Generates Id for the test which will be the same each time for this test
@@ -165,13 +146,15 @@ namespace Unicorn.Core.Testing.Tests
         {
             Logger.Instance.Error(ex.ToString());
 
+            this.Outcome.Bugs.Clear();
+
             if (!string.IsNullOrEmpty(bugs))
             {
-                this.Outcome.Bugs = bugs.Split(',');
+                this.Outcome.Bugs.AddRange(bugs.Split(','));
             }
             else
             {
-                this.Outcome.Bugs = new string[] { "?" };
+                this.Outcome.Bugs.Add("?");
             }
 
             this.Outcome.Exception = ex;

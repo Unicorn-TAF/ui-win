@@ -7,49 +7,22 @@ namespace Unicorn.Core.Testing.Tests
     {
         public SuiteOutcome()
         {
-            this.Bugs = new string[0];
+            this.Bugs = new List<string>();
             this.FailedTests = 0;
         }
 
-        public Result Result
-        {
-            get;
+        public Result Result { get; set; }
 
-            set;
-        }
+        public TimeSpan ExecutionTime { get; set; }
 
-        public TimeSpan ExecutionTime
-        {
-            get;
+        public int TotalTests { get; set; }
 
-            set;
-        }
+        public int FailedTests { get; set; }
 
-        public int TotalTests
-        {
-            get;
-
-            set;
-        }
-
-        public int FailedTests
-        {
-            get;
-
-            set;
-        }
-
-        public string[] Bugs
-        {
-            get;
-
-            set;
-        }
+        public List<string> Bugs { get; }
 
         public void FillWithTestsResults(List<Test> testsList)
         {
-            List<string> bugsList = new List<string>(this.Bugs);
-
             foreach (Test test in testsList)
             {
                 if (test.Outcome.Result == Result.FAILED)
@@ -60,12 +33,9 @@ namespace Unicorn.Core.Testing.Tests
 
                 foreach (string bug in test.Outcome.Bugs)
                 {
-                    bugsList.Add(bug);
+                    this.Bugs.Add(bug);
                 }
             }
-
-            this.Bugs = new string[bugsList.Count];
-            bugsList.CopyTo(this.Bugs);
         }
     }
 }

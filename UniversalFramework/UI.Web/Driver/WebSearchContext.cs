@@ -20,7 +20,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             IWebElement elementToWrap = GetNativeControl(locator);
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -30,7 +30,7 @@ namespace Unicorn.UI.Web.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap));
             }
 
             return controlsList;
@@ -39,7 +39,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.Web_Xpath, "./*"))[0];
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected IWebElement GetNativeControl(ByLocator locator)

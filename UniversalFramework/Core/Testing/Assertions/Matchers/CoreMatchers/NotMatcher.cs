@@ -9,7 +9,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CoreMatchers
         public NotMatcher(Matcher matcher)
         {
             FieldInfo partOfNotMatcherField = typeof(Matcher).GetField(
-                "partOfNotMatcher",
+                "reverse",
                 BindingFlags.NonPublic | BindingFlags.Instance);
             partOfNotMatcherField.SetValue(matcher, true);
 
@@ -33,7 +33,7 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CoreMatchers
                 }
             }
 
-            this.matcherOutput = this.matcher.MatcherOutput;
+            this.MatcherOutput.Clear().Append(this.matcher.MatcherOutput);
             return result;
         }
     }

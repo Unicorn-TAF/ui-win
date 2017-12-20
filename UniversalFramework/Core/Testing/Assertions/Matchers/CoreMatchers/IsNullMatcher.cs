@@ -4,7 +4,7 @@
     {
         public IsNullMatcher() : base()
         {
-            this.nullCheckable = false;
+            this.NullCheckable = false;
         }
 
         public override string CheckDescription => "Is null";

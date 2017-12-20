@@ -4,8 +4,6 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
 {
     public class IsNullOrEmptyMatcher : Matcher
     {
-        private string mismatch = string.Empty;
-
         public IsNullOrEmptyMatcher()
         {
         }
@@ -15,37 +13,26 @@ namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
         public override bool Matches(object collectionObj)
         {
             bool result = false;
+            string mismatch = string.Empty;
             ICollection collection = (ICollection)collectionObj;
 
-            if (collection == null)
-            {
-                result = true;
-            }
-            else if (collection.Count == 0)
-            {
-                result = true;
-            }
+            result = collection == null || collection.Count == 0;
 
             if (collection == null)
             {
-                this.mismatch = "was null";
+                mismatch = "was null";
             }
             else
             {
-                this.mismatch = $"had length = {collection.Count}";
+                mismatch = $"had length = {collection.Count}";
             }
 
             if (!result)
             {
-                this.DescribeMismatch(collectionObj);
+                this.DescribeMismatch(mismatch);
             }
 
             return result;
-        }
-
-        public override void DescribeMismatch(object collection)
-        {
-            this.MatcherOutput.Append(this.mismatch);
         }
     }
 }

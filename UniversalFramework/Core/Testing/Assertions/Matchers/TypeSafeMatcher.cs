@@ -13,7 +13,7 @@
 
             if (!couldBeCasted)
             {
-                MatcherOutput.Append($"was not of type {typeof(T)}");
+                DescribeMismatch($"not of type {typeof(T)}");
             }
 
             return couldBeCasted;

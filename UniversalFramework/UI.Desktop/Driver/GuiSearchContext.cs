@@ -24,7 +24,7 @@ namespace Unicorn.UI.Desktop.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             var elementToWrap = GetNativeControl<T>(locator);
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -34,7 +34,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             foreach (AutomationElement elementToWrap in elementsToWrap)
             {
-                controlsList.Add(Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap));
             }
 
             return controlsList;
@@ -54,7 +54,7 @@ namespace Unicorn.UI.Desktop.Driver
                 throw new ControlNotFoundException($"Unable to find child {typeof(T)}");
             }
 
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected AutomationElement GetNativeControl<T>(ByLocator locator)
@@ -69,7 +69,7 @@ namespace Unicorn.UI.Desktop.Driver
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            UISearchContext.implicitlyWaitTimeout = timeout;
+            this.ImplicitlyWaitTimeout = timeout;
         }
 
         private AutomationElement GetNativeControlFromContext(ByLocator locator, Type type, AutomationElement context)
@@ -86,7 +86,7 @@ namespace Unicorn.UI.Desktop.Driver
                 control = context.FindFirst(TreeScope.Descendants, condition);
                 Thread.Sleep(SearchDelay);
             }
-            while (control == null && timer.Elapsed < UISearchContext.implicitlyWaitTimeout);
+            while (control == null && timer.Elapsed < this.ImplicitlyWaitTimeout);
 
             timer.Stop();
 

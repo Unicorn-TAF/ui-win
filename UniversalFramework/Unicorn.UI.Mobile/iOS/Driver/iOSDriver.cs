@@ -10,7 +10,6 @@ namespace Unicorn.UI.Mobile.IOS.Driver
 {
     public class iOSDriver : IOSSearchContext, IDriver
     {
-        public static AppiumDriver<IOSElement> Driver;
         private static DesiredCapabilities capabilities = null;
         private static Uri uri = null;
         private static bool needInit = false;
@@ -39,17 +38,19 @@ namespace Unicorn.UI.Mobile.IOS.Driver
             }
         }
 
+        public static AppiumDriver<IOSElement> Driver { get; set; }
+
         public TimeSpan ImplicitlyWait
         {
             get
             {
-                return implicitlyWaitTimeout;
+                return ImplicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                implicitlyWaitTimeout = value;
+                ImplicitlyWaitTimeout = value;
             }
         }
 

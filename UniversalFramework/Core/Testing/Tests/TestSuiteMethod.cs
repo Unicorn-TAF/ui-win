@@ -18,7 +18,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public TestSuiteMethod(MethodInfo testMethod)
         {
-            this.testMethod = testMethod;
+            this.TestMethod = testMethod;
             this.Outcome = new TestOutcome();
         }
 
@@ -34,6 +34,9 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event TestSuiteMethodEvent OnFail;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether if method is before suite
+        /// </summary>
         public bool IsBeforeSuite
         {
             get
@@ -47,19 +50,6 @@ namespace Unicorn.Core.Testing.Tests
             }
         }
 
-        public override string[] Categories
-        {
-            get
-            {
-                if (this.categories == null)
-                {
-                    this.categories = new string[0];
-                }
-
-                return this.categories;
-            }
-        }
-
         /// <summary>
         /// Execute current test and fill TestOutcome
         /// Before the test List of BeforeTests is executed
@@ -68,7 +58,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            CurrentOutput = new StringBuilder();
+            TestSuiteMethodBase.CurrentOutput = new StringBuilder();
 
             try
             {
@@ -81,12 +71,12 @@ namespace Unicorn.Core.Testing.Tests
 
             Logger.Instance.Info($"========== {(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE '{Description}' ==========");
 
-            this.testTimer = new Stopwatch();
+            this.TestTimer = new Stopwatch();
+            this.TestTimer.Start();
 
-            this.testTimer.Start();
             try
             {
-                this.testMethod.Invoke(suiteInstance, null);
+                this.TestMethod.Invoke(suiteInstance, null);
                 this.Outcome.Result = Result.PASSED;
 
                 OnPass?.Invoke(this);
@@ -97,8 +87,8 @@ namespace Unicorn.Core.Testing.Tests
                 OnFail?.Invoke(this);
             }
 
-            this.testTimer.Stop();
-            this.Outcome.ExecutionTime = this.testTimer.Elapsed;
+            this.TestTimer.Stop();
+            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
             Logger.Instance.Info($"{(IsBeforeSuite ? "BEFORE" : "AFTER")} SUITE {Outcome.Result}");
 

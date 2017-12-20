@@ -11,9 +11,7 @@ namespace Unicorn.UI.Web.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        public static Browser Browser = Browser.CHROME;
-        public static IWebDriver Driver;
-
+        private static Browser browser = Browser.CHROME;
         private static bool needInit = false;
         private static DriverOptions options = null;
 
@@ -35,7 +33,7 @@ namespace Unicorn.UI.Web.Driver
                 Driver.Manage().Window.Maximize();
             }
 
-            this.ImplicitlyWait = WebSearchContext.TimeoutDefault;
+            this.ImplicitlyWait = this.TimeoutDefault;
         }
 
         public static WebDriver Instance
@@ -54,6 +52,21 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
+        public static IWebDriver Driver { get; set; }
+
+        public static Browser Browser
+        {
+            get
+            {
+                return browser;
+            }
+
+            set
+            {
+                browser = value;
+            }
+        }
+
         public string Url
         {
             get
@@ -66,13 +79,13 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return WebSearchContext.implicitlyWaitTimeout;
+                return this.ImplicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                WebSearchContext.implicitlyWaitTimeout = value;
+                this.ImplicitlyWaitTimeout = value;
             }
         }
 

@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 
@@ -16,7 +16,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             AppiumWebElement elementToWrap = GetNativeControl(locator);
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -26,7 +26,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap));
             }
 
             return controlsList;
@@ -35,7 +35,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.Web_Xpath, "./*"))[0];
-            return Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap);
         }
 
         protected AppiumWebElement GetNativeControl(ByLocator locator)
@@ -63,20 +63,6 @@ namespace Unicorn.UI.Mobile.Base.Driver
             }
         }
 
-        private AppiumWebElement GetNativeControlFromContext(ByLocator locator, AppiumWebElement context)
-        {
-            By by = GetNativeLocator(locator);
-            try
-            {
-                AppiumWebElement nativeControl = context.FindElement(by);
-                return nativeControl;
-            }
-            catch (NoSuchElementException)
-            {
-                throw new ControlNotFoundException($"Unable to find control by {locator}");
-            }
-        }
-
         protected By GetNativeLocator(ByLocator locator)
         {
             switch (locator.How)
@@ -99,5 +85,19 @@ namespace Unicorn.UI.Mobile.Base.Driver
         }
 
         protected abstract T Wrap<T>(AppiumWebElement elementToWrap);
+
+        private AppiumWebElement GetNativeControlFromContext(ByLocator locator, AppiumWebElement context)
+        {
+            By by = GetNativeLocator(locator);
+            try
+            {
+                AppiumWebElement nativeControl = context.FindElement(by);
+                return nativeControl;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ControlNotFoundException($"Unable to find control by {locator}");
+            }
+        }
     }
 }
