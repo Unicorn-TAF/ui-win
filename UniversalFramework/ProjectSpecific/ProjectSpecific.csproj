@@ -73,9 +73,9 @@
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ReportPortal.UnicornExtension\ReportPortal.UnicornExtension.csproj">
+    <ProjectReference Include="..\Unicorn.ReportPortalAgent\Unicorn.ReportPortalAgent.csproj">
       <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
-      <Name>ReportPortal.UnicornExtension</Name>
+      <Name>Unicorn.ReportPortalAgent</Name>
     </ProjectReference>
     <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UI.Desktop", "UI.De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectSpecific", "ProjectSpecific\ProjectSpecific.csproj", "{086860BD-94BD-455C-9954-38F827ED219B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportPortal.UnicornExtension", "ReportPortal.UnicornExtension\ReportPortal.UnicornExtension.csproj", "{3550FE3E-28F4-43E8-9789-57F53C4A3F95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.ReportPortalAgent", "Unicorn.ReportPortalAgent\Unicorn.ReportPortalAgent.csproj", "{3550FE3E-28F4-43E8-9789-57F53C4A3F95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UI.Mobile", "Unicorn.UI.Mobile\Unicorn.UI.Mobile.csproj", "{A1B2390D-5BB2-4CE4-A6F1-8130A3570330}"
 EndProject
