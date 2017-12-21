@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using Unicorn.Core.Testing.Tests;
+﻿using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
+    [TestSuite("Parameterized test suite")]
     [ParametersSet("Set 1"), ParametersSet("Set 2")]
     public class ParameterizedSuite : TestSuite
     {

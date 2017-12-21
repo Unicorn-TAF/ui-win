@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using Unicorn.Core.Testing.Tests;
+﻿using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
+    [TestSuite("Suite")]
     public class Suite : TestSuite
     {
         private string output;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Unicorn.Core.Logging;
+using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
@@ -146,17 +147,12 @@ namespace Unicorn.Core.Testing.Tests
         /// Test is skipped if it does not contain at least one of specified categories
         /// Result of the check is stored in IsNeedToBeSkipped field
         /// </summary>
-        /// <param name="categoriesArray">list of expected categories to run</param>
-        public void CheckIfNeedToBeSkipped(params string[] categoriesArray)
+        public void CheckIfNeedToBeSkipped()
         {
-            object[] attributes = this.TestMethod.GetCustomAttributes(typeof(SkipAttribute), true);
+            var skipAttribute = this.TestMethod.GetCustomAttribute(typeof(SkipAttribute), true) as SkipAttribute;
 
-            this.IsNeedToBeSkipped = attributes.Length != 0;
-
-            if (categoriesArray != null && categoriesArray.Length > 0)
-            {
-                this.IsNeedToBeSkipped |= this.Categories.Intersect(categoriesArray).Count() != categoriesArray.Count();
-            }
+            this.IsNeedToBeSkipped = skipAttribute != null;
+            this.IsNeedToBeSkipped |= this.Categories.Intersect(Configuration.RunCategories).Count() != Configuration.RunCategories.Count();
         }
 
         /// <summary>

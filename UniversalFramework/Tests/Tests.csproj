@@ -126,6 +126,7 @@
     <Compile Include="OtherTests\TestsPlatformsMix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\ParameterizedTestSuiteTest.cs" />
+    <Compile Include="UnitTests\TestsObserverTests.cs" />
     <Compile Include="UnitTests\TestSuiteTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private static string[] categoriesToRun;
+        
         private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
@@ -170,19 +170,7 @@ namespace Unicorn.Core.Testing.Tests
             }
         }
 
-        /// <summary>
-        /// Set array of tests categories needed to be run.
-        /// All categories are converted in upper case.
-        /// Blank categories are ignored
-        /// </summary>
-        /// <param name="categoriesToRunArray">array of categories</param>
-        public static void SetRunCategories(params string[] categoriesToRunArray)
-        {
-            categoriesToRun = categoriesToRunArray
-                .Select(v => { return v.ToUpper().Trim(); })
-                .Where(v => !string.IsNullOrEmpty(v))
-                .ToArray();
-        }
+
 
         /// <summary>
         /// Run Test suite and all Before and After suites invoking corresponding suite events.
@@ -340,7 +328,7 @@ namespace Unicorn.Core.Testing.Tests
 
                     Test test = new Test(method);
                     test.ParentId = this.Id;
-                    test.CheckIfNeedToBeSkipped(categoriesToRun);
+                    test.CheckIfNeedToBeSkipped();
 
                     string fullTestName = $"{Name} - {method.Name}";
                     string description = $"{test.Description}";

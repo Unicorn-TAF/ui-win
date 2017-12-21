@@ -6,6 +6,7 @@ using NUnit.Framework;
 using ProjectSpecific;
 using Tests.TestData;
 using Unicorn.Core.Testing.Tests;
+using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Tests.UnitTests
 {
@@ -64,7 +65,7 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For Suite Skipping")]
         public void SuiteSkipTest()
         {
-            TestSuite.SetRunCategories("category");
+            Configuration.SetTestCategories("category");
             List<Type> suitesList = new List<Type>();
             suitesList.Add(typeof(SuiteToBeSkipped));
 
@@ -72,7 +73,7 @@ namespace Tests.UnitTests
             {
                 var suite = Activator.CreateInstance(type);
                 ((TestSuite)suite).Run();
-
+                Configuration.SetTestCategories("category");
                 Assert.That(((SuiteToBeSkipped)suite).GetOutput(), Is.EqualTo(string.Empty));
             }
         }

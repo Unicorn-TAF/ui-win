@@ -81,6 +81,9 @@
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
+    <Compile Include="Testing\Tests\Adapter\Configuration.cs" />
+    <Compile Include="Testing\Tests\Adapter\TestsObserver.cs" />
+    <Compile Include="Testing\Tests\Adapter\TestsRunner.cs" />
     <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
