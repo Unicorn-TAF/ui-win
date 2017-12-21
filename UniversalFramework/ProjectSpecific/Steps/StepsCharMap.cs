@@ -11,21 +11,21 @@ namespace ProjectSpecific.Steps
     public class StepsCharMap : TestSteps
     {
         private IDriver driver;
+        public WindowCharMap CharMap;
 
         [TestStep("Start '{0}'")]
         public void StartApplication(string value)
         {
             driver = GuiDriver.Instance;
             driver.Get(value);
+            CharMap = driver.Find<WindowCharMap>(ByLocator.Name("Character Map"));
         }
 
         [TestStep("Select '{0}' font")]
-        public void DoSomething(string fontName)
+        public void SelectFont(string fontName)
         {
-            WindowCharMap charMap = driver.Find<WindowCharMap>(ByLocator.Name("Character Map"));
-            charMap.DropdownFonts.Select(fontName);
-
-            charMap.ButtonHelp.Click();
+            CharMap.DropdownFonts.Select(fontName);
+            CharMap.ButtonHelp.Click();
         }
 
         [TestStep("Close application")]

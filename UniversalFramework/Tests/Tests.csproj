@@ -141,6 +141,10 @@
       <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UI.Desktop\Unicorn.UI.Desktop.csproj">
+      <Project>{D0CA51A3-65BC-4530-85D1-507CC042F3A5}</Project>
+      <Name>Unicorn.UI.Desktop</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

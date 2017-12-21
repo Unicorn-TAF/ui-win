@@ -16,6 +16,9 @@ namespace ProjectSpecific.UI.Gui
         public Button ButtonCopy;
 
         [Find(Using.Name, "Font :")]
-        public Dropdown DropdownFonts; 
+        public Dropdown DropdownFonts;
+
+        [Find(Using.Name, "Characters to copy :")]
+        public TextInput InputCharactersToCopy;
     }
 }

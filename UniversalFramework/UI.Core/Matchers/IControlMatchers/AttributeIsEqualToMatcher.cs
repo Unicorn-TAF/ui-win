@@ -13,7 +13,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
             this.value = value;
         }
 
-        public override string CheckDescription => $"Attribute '{this.attribute}' is equal to '{this.value}'";
+        public override string CheckDescription => $"has attribute '{this.attribute}' is equal to '{this.value}'";
 
         public override bool Matches(object obj)
         {
@@ -22,23 +22,22 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         protected bool Assertion(object obj)
         {
-            if (!obj.GetType().IsSubclassOf(typeof(IControl)))
+            IControl element = null;
+
+            try
             {
-                MatcherOutput.Append($"was not an instance of IControl");
-                return false;
+                element = obj as IControl;
+            }
+            catch
+            {
+                DescribeMismatch("was not an instance of IControl");
+                return !Reverse;
             }
 
-            IControl element = (IControl)obj;
             string actualValue = element.GetAttribute(this.attribute);
+            DescribeMismatch($"having '{attribute}' = '{actualValue}'");
 
-            bool equals = actualValue.Equals(this.value);
-
-            if (!equals)
-            {
-                this.MatcherOutput.Append("was ").Append(actualValue);
-            }
-
-            return equals;
+            return actualValue.Equals(this.value);
         }
     }
 }

@@ -193,11 +193,22 @@ namespace ReportPortal.UnicornExtension
 
                 this.currentTest = test;
 
+                TestItemType itemType;
+
+                if (test.IsBeforeSuite)
+                {
+                    itemType = TestItemType.BeforeClass;
+                }
+                else
+                {
+                    itemType = TestItemType.AfterClass;
+                }
+
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = TestItemType.Step
+                    Type = itemType
                 };
 
                 var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);

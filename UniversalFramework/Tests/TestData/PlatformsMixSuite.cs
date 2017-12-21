@@ -1,6 +1,7 @@
 ﻿using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.UI.Core.Matchers;
 
 namespace Tests.TestData
 {
@@ -17,15 +18,17 @@ namespace Tests.TestData
             Logger.Instance.Info("BeforeTest started");
         }
 
-        [Skip]
+        //[Skip]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Gui")]
         [Test("Run Gui driver test")]
         public void GuiDriverTest()
         {
-            Do.CharMap.StartApplication(ExePath + "charmap.exe");
-            Do.CharMap.DoSomething("Calibri");
-            Do.CharMap.CloseApplication();
+            Do.UI.CharMap.StartApplication(ExePath + "charmap.exe");
+            Do.UI.CheckThat(Do.UI.CharMap.CharMap.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
+            Do.UI.CheckThat(Do.UI.CharMap.CharMap.ButtonCopy, Control.Enabled());
+            Do.UI.CharMap.SelectFont("Calibri");
+            Do.UI.CharMap.CloseApplication();
         }
 
         [Skip]
@@ -34,9 +37,9 @@ namespace Tests.TestData
         [Test("Run Web driver test")]
         public void WebDriverTest()
         {
-            Do.YandexMarket.OpenPortal(PortalUrl);
-            Bug("76237").YandexMarket.DoSomeActions();
-            Do.YandexMarket.CloseBrowser();
+            Do.UI.YandexMarket.OpenPortal(PortalUrl);
+            Bug("76237").UI.YandexMarket.DoSomeActions();
+            Do.UI.YandexMarket.CloseBrowser();
         }
 
         [Skip]
@@ -46,10 +49,10 @@ namespace Tests.TestData
         [Test("Run mobile driver test")]
         public void SingleDriverTest()
         {
-            Do.IOS.NavigateTo("http://www.bing.com");
-            Do.IOS.SearchFor("bla-bla-bla");
-            Do.Android.NavigateTo("http://www.bing.com");
-            Do.Android.SearchFor("bla-bla-bla");
+            Do.UI.IOS.NavigateTo("http://www.bing.com");
+            Do.UI.IOS.SearchFor("bla-bla-bla");
+            Do.UI.Android.NavigateTo("http://www.bing.com");
+            Do.UI.Android.SearchFor("bla-bla-bla");
         }
 
         [AfterTest]

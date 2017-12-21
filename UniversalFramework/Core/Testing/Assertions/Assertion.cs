@@ -17,7 +17,7 @@ namespace Unicorn.Core.Testing.Assertions
                     message += "\n";
                 }
 
-                throw new AssertionError(message + matcher.MatcherOutput.ToString());
+                throw new AssertionError("\n" + message + matcher.MatcherOutput.ToString());
             }
         }
     }
