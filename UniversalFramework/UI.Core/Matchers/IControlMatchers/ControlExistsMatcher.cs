@@ -27,7 +27,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
             catch
             {
                 DescribeMismatch("was not an instance of IControl");
-                return !Reverse;
+                return !this.Reverse;
             }
 
             return false;

@@ -11,7 +11,6 @@ namespace Unicorn.UI.Core.Matchers
             this.attribute = attribute;
         }
 
-
         public static AttributeContainsMatcher Contains(string attribute, string expectedValue)
         {
             return new AttributeContainsMatcher(attribute, expectedValue);

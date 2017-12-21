@@ -13,7 +13,7 @@ namespace Unicorn.UI.Mobile.IOS.Driver
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            iOSDriver.Instance.ImplicitlyWait = timeout;
+            IOSDriver.Instance.ImplicitlyWait = timeout;
         }
 
         protected override T Wrap<T>(AppiumWebElement elementToWrap)

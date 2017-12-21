@@ -13,9 +13,9 @@ namespace Unicorn.UI.Desktop.Driver
     {
         private const int SearchDelay = 100;
 
-        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
-
         public AutomationElement ParentContext { get; set; }
+
+        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
         protected virtual AutomationElement SearchContext { get; set; }
 

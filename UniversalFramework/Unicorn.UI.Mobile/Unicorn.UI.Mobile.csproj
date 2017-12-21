@@ -62,8 +62,8 @@
   <ItemGroup>
     <Compile Include="Android\Controls\AndroidControl.cs" />
     <Compile Include="Base\Driver\MobileSearchContext.cs" />
-    <Compile Include="iOS\Controls\iOSControl.cs" />
-    <Compile Include="iOS\Driver\iOSDriver.cs" />
+    <Compile Include="iOS\Controls\IOSControl.cs" />
+    <Compile Include="iOS\Driver\IOSDriver.cs" />
     <Compile Include="iOS\Driver\IOSSearchContext.cs" />
     <Compile Include="Android\Driver\AndroidDriver.cs" />
     <Compile Include="Android\Driver\AndroidSearchContext.cs" />

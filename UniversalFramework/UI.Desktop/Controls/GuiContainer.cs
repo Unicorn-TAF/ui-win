@@ -24,7 +24,7 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 if (!this.Cached)
                 {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator, GetType());
+                    this.SearchContext = GetNativeControlFromParentContext(this.Locator, this.GetType());
                 }
 
                 return this.SearchContext;
@@ -33,7 +33,7 @@ namespace Unicorn.UI.Desktop.Controls
             set
             {
                 this.SearchContext = value;
-                Init();
+                this.Init();
             }
         }
 

@@ -30,7 +30,7 @@ namespace Unicorn.UI.Web.Controls
             set
             {
                 base.SearchContext = value;
-                Init();
+                this.Init();
             }
         }
 

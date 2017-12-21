@@ -116,7 +116,7 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 if (!this.Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(this.Locator, GetType());
+                    base.SearchContext = GetNativeControlFromParentContext(this.Locator, this.GetType());
                 }
 
                 return base.SearchContext;

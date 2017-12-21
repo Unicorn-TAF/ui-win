@@ -10,8 +10,8 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsCharMap : TestSteps
     {
-        private IDriver driver;
         public WindowCharMap CharMap;
+        private IDriver driver;
 
         [TestStep("Start '{0}'")]
         public void StartApplication(string value)

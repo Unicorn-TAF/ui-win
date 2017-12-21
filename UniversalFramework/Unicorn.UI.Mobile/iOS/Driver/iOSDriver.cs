@@ -8,26 +8,26 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.IOS.Driver
 {
-    public class iOSDriver : IOSSearchContext, IDriver
+    public class IOSDriver : IOSSearchContext, IDriver
     {
         private static DesiredCapabilities capabilities = null;
         private static Uri uri = null;
         private static bool needInit = false;
-        private static iOSDriver instance = null;
+        private static IOSDriver instance = null;
 
-        private iOSDriver()
+        private IOSDriver()
         {
-            Driver = new IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
+            Driver = new OpenQA.Selenium.Appium.iOS.IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
             this.ImplicitlyWait = TimeoutDefault;
         }
 
-        public static iOSDriver Instance
+        public static IOSDriver Instance
         {
             get
             {
                 if (instance == null || needInit)
                 {
-                    instance = new iOSDriver();
+                    instance = new IOSDriver();
                     instance.SearchContext = Driver.FindElementByXPath(".//*");
                     needInit = false;
                     Logger.Instance.Info(instance.SearchContext.TagName);

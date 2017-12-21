@@ -1,4 +1,5 @@
 ﻿using Unicorn.Core.Logging;
+using Unicorn.Core.Testing.Assertions.Matchers;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 using Unicorn.UI.Core.Matchers;
@@ -18,7 +19,6 @@ namespace Tests.TestData
             Logger.Instance.Info("BeforeTest started");
         }
 
-        //[Skip]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Gui")]
         [Test("Run Gui driver test")]
@@ -26,7 +26,7 @@ namespace Tests.TestData
         {
             Do.UI.CharMap.StartApplication(ExePath + "charmap.exe");
             Do.UI.CheckThat(Do.UI.CharMap.CharMap.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
-            Do.UI.CheckThat(Do.UI.CharMap.CharMap.ButtonCopy, Control.Enabled());
+            Do.UI.CheckThat(Do.UI.CharMap.CharMap.ButtonCopy, Is.Not(Control.Enabled()));
             Do.UI.CharMap.SelectFont("Calibri");
             Do.UI.CharMap.CloseApplication();
         }

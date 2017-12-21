@@ -32,7 +32,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
 
             var pattern = GetPattern<TogglePattern>();
-            Toggle(pattern);
+            this.Toggle(pattern);
 
             return true;
         }
@@ -45,7 +45,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
 
             var pattern = GetPattern<TogglePattern>();
-            Toggle(pattern);
+            this.Toggle(pattern);
 
             return true;
         }

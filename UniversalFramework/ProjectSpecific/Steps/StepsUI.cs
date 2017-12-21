@@ -1,5 +1,5 @@
-﻿using AspectInjector.Broker;
-using System;
+﻿using System;
+using AspectInjector.Broker;
 using Unicorn.Core.Testing.Assertions;
 using Unicorn.Core.Testing.Assertions.Matchers;
 using Unicorn.Core.Testing.Steps;
@@ -23,7 +23,6 @@ namespace ProjectSpecific.Steps
         public StepsAndroid Android => android.Value;
 
         public StepsiOS IOS => iOs.Value;
-
 
         [TestStep("Check that '{0}' {1}")]
         public void CheckThat(IControl control, Matcher controlMatcher)

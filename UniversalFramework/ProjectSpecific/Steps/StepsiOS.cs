@@ -30,9 +30,9 @@ namespace ProjectSpecific.Steps
             capabilities.Add("testobjectApiKey", "F8AA734736664E49908774F266C99173");
             capabilities.Add("platformName", "iOS");
             capabilities.Add("platformVersion", "10.0.2");
-            iOSDriver.Init("https://us1.appium.testobject.com/wd/hub", capabilities);
+            IOSDriver.Init("https://us1.appium.testobject.com/wd/hub", capabilities);
 
-            driver = iOSDriver.Instance;
+            driver = IOSDriver.Instance;
             driver.Get(value);
         }
 
