@@ -13,8 +13,8 @@ namespace ProjectSpecific.Steps
     {
         private IDriver driver;
 
-        [TestStep("Start '{0}'")]
-        public void NavigateTo(string value)
+        [TestStep("Open dialer app")]
+        public void OpenDialer()
         {
             Dictionary<string, string> capabilities = new Dictionary<string, string>();
             capabilities.Add("deviceName", "device");
@@ -25,11 +25,10 @@ namespace ProjectSpecific.Steps
 
             AndroidDriver.Init("http://127.0.0.1:4723/wd/hub", capabilities);
             driver = AndroidDriver.Instance;
-            driver.Get(value);
         }
 
-        [TestStep("Search for '{0}'")]
-        public void SearchFor(string value)
+        [TestStep("Click dialpad button")]
+        public void ClickDialpadButton()
         {
             driver.Find<AndroidControl>(ByLocator.Id("com.android.dialer:id/dialpad_button")).Click();
         }

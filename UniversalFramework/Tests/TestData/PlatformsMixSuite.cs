@@ -19,6 +19,7 @@ namespace Tests.TestData
             Logger.Instance.Info("BeforeTest started");
         }
 
+        [Skip]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Gui")]
         [Test("Run Gui driver test")]
@@ -49,10 +50,10 @@ namespace Tests.TestData
         [Test("Run mobile driver test")]
         public void SingleDriverTest()
         {
-            Do.UI.IOS.NavigateTo("http://www.bing.com");
-            Do.UI.IOS.SearchFor("bla-bla-bla");
-            Do.UI.Android.NavigateTo("http://www.bing.com");
-            Do.UI.Android.SearchFor("bla-bla-bla");
+            ////Do.UI.IOS.NavigateTo("http://www.bing.com");
+            ////Do.UI.IOS.SearchFor("bla-bla-bla");
+            Do.UI.Android.OpenDialer();
+            Do.UI.Android.ClickDialpadButton();
         }
 
         [AfterTest]
