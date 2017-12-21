@@ -20,6 +20,7 @@ namespace Unicorn.UI.Desktop.Driver
                 {
                     instance = new GuiDriver();
                     instance.SearchContext = AutomationElement.RootElement;
+                    instance.ImplicitlyWait = instance.TimeoutDefault;
                     Logger.Instance.Debug("UI Automation Driver initialized");
                 }
 
@@ -31,12 +32,12 @@ namespace Unicorn.UI.Desktop.Driver
         {
             get
             {
-                return this.ImplicitlyWaitTimeout;
+                return GuiSearchContext.ImplicitlyWaitTimeout;
             }
 
             set
             {
-                this.ImplicitlyWaitTimeout = value;
+                GuiSearchContext.ImplicitlyWaitTimeout = value;
             }
         }
 

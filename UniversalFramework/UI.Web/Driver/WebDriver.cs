@@ -79,13 +79,13 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return this.ImplicitlyWaitTimeout;
+                return WebSearchContext.ImplicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                this.ImplicitlyWaitTimeout = value;
+                WebSearchContext.ImplicitlyWaitTimeout = value;
             }
         }
 

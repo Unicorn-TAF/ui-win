@@ -14,30 +14,48 @@ namespace Tests.TestData
         [BeforeTest]
         public void BeforeTest()
         {
-            Do.CharMap.StartApplication(ExePath + "charmap.exe");
+            Logger.Instance.Info("BeforeTest started");
         }
 
-        [Bug("9999")]
+        [Skip]
         [Author("Vitaliy Dobriyan")]
-        [Category("Smoke"), Category("test")]
-        [Test("Run actions across different platforms using common IDriver instance")]
-        public void SingleDriverTest()
+        [Category("Smoke"), Category("Gui")]
+        [Test("Run Gui driver test")]
+        public void GuiDriverTest()
         {
-            ////Do.IOS.NavigateTo("http://www.bing.com");
-            ////Do.iOS.SearchFor("bla-bla-bla");
-            ////Do.Android.NavigateTo("http://www.bing.com");
-            ////Do.Android.SearchFor("bla-bla-bla");
+            Do.CharMap.StartApplication(ExePath + "charmap.exe");
             Do.CharMap.DoSomething("Calibri");
+            Do.CharMap.CloseApplication();
+        }
+
+        [Skip]
+        [Author("Vitaliy Dobriyan")]
+        [Category("Smoke"), Category("Web")]
+        [Test("Run Web driver test")]
+        public void WebDriverTest()
+        {
             Do.YandexMarket.OpenPortal(PortalUrl);
             Bug("76237").YandexMarket.DoSomeActions();
+            Do.YandexMarket.CloseBrowser();
+        }
+
+        [Skip]
+        [Bug("9999")]
+        [Author("Vitaliy Dobriyan")]
+        [Category("Smoke"), Category("Mobile")]
+        [Test("Run mobile driver test")]
+        public void SingleDriverTest()
+        {
+            Do.IOS.NavigateTo("http://www.bing.com");
+            Do.IOS.SearchFor("bla-bla-bla");
+            Do.Android.NavigateTo("http://www.bing.com");
+            Do.Android.SearchFor("bla-bla-bla");
         }
 
         [AfterTest]
         public void TearDown()
         {
-            Logger.Instance.Info("After Test: close app and browser");
-            Do.CharMap.CloseApplication();
-            Do.YandexMarket.CloseBrowser();
+            Logger.Instance.Info("After Test");
         }
     }
 }

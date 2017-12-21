@@ -5,6 +5,7 @@ using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Remote;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Mobile.Base.Driver;
 
 namespace Unicorn.UI.Mobile.Android.Driver
 {
@@ -44,13 +45,13 @@ namespace Unicorn.UI.Mobile.Android.Driver
         {
             get
             {
-                return this.ImplicitlyWaitTimeout;
+                return MobileSearchContext.ImplicitlyWaitTimeout;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                this.ImplicitlyWaitTimeout = value;
+                MobileSearchContext.ImplicitlyWaitTimeout = value;
             }
         }
 

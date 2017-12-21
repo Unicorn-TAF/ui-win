@@ -9,6 +9,8 @@ namespace Unicorn.UI.Web.Driver
 {
     public abstract class WebSearchContext : UISearchContext
     {
+        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
+
         public OpenQA.Selenium.ISearchContext ParentContext { get; set; }
 
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }

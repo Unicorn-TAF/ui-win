@@ -13,6 +13,8 @@ namespace Unicorn.UI.Desktop.Driver
     {
         private const int SearchDelay = 100;
 
+        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
+
         public AutomationElement ParentContext { get; set; }
 
         protected virtual AutomationElement SearchContext { get; set; }
@@ -69,7 +71,7 @@ namespace Unicorn.UI.Desktop.Driver
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            this.ImplicitlyWaitTimeout = timeout;
+            ImplicitlyWaitTimeout = timeout;
         }
 
         private AutomationElement GetNativeControlFromContext(ByLocator locator, Type type, AutomationElement context)
@@ -86,7 +88,7 @@ namespace Unicorn.UI.Desktop.Driver
                 control = context.FindFirst(TreeScope.Descendants, condition);
                 Thread.Sleep(SearchDelay);
             }
-            while (control == null && timer.Elapsed < this.ImplicitlyWaitTimeout);
+            while (control == null && timer.Elapsed < ImplicitlyWaitTimeout);
 
             timer.Stop();
 

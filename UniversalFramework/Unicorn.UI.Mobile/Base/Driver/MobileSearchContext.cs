@@ -9,6 +9,8 @@ namespace Unicorn.UI.Mobile.Base.Driver
 {
     public abstract class MobileSearchContext : UISearchContext
     {
+        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
+
         public AppiumWebElement ParentContext { get; set; }
 
         protected virtual AppiumWebElement SearchContext { get; set; }

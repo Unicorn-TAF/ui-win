@@ -6,8 +6,6 @@ namespace Unicorn.UI.Core.Driver
 {
     public abstract class UISearchContext : ISearchContext
     {
-        protected TimeSpan ImplicitlyWaitTimeout { get; set; }
-
         protected TimeSpan TimeoutDefault => TimeSpan.FromSeconds(20);
 
         protected abstract Type ControlsBaseType
