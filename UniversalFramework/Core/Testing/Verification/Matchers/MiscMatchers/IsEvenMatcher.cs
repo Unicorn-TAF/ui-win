@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Testing.Assertions.Matchers.MiscMatchers
+﻿namespace Unicorn.Core.Testing.Verification.Matchers.MiscMatchers
 {
     public class IsEvenMatcher : TypeSafeMatcher<int>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Unicorn.Core.Testing.Assertions.Matchers.CollectionMatchers
+namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 {
     public class HasItemMatcher : Matcher
     {

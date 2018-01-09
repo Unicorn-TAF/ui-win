@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Verification
 {
     [Serializable]
     public class AssertionError : Exception

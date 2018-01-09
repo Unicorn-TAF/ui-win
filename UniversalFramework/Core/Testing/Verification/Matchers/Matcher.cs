@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Unicorn.Core.Testing.Assertions.Matchers
+namespace Unicorn.Core.Testing.Verification.Matchers
 {
     public abstract class Matcher
     {

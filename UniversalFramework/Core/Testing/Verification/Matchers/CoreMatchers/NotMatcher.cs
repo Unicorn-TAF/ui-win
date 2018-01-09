@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Unicorn.Core.Testing.Assertions.Matchers.CoreMatchers
+namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 {
     public class NotMatcher : Matcher
     {

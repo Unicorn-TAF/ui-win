@@ -1,7 +1,7 @@
 ﻿using System;
 using AspectInjector.Broker;
-using Unicorn.Core.Testing.Assertions;
-using Unicorn.Core.Testing.Assertions.Matchers;
+using Unicorn.Core.Testing.Verification;
+using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Core.Controls;
@@ -27,7 +27,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Check that '{0}' {1}")]
         public void CheckThat(IControl control, Matcher controlMatcher)
         {
-            Assertion.AssertThat(control, controlMatcher);
+            Assert.That(control, controlMatcher);
         }
     }
 }

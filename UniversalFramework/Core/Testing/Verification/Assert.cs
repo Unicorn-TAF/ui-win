@@ -1,10 +1,10 @@
-﻿using Unicorn.Core.Testing.Assertions.Matchers;
+﻿using Unicorn.Core.Testing.Verification.Matchers;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Verification
 {
-    public class Assertion
+    public class Assert
     {
-        public static void AssertThat(object obj, Matcher matcher, string message = "")
+        public static void That(object obj, Matcher matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();

@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Testing.Assertions.Matchers;
+﻿using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers

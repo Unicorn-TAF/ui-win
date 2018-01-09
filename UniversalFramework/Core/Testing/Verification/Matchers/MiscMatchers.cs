@@ -1,6 +1,6 @@
-﻿using Unicorn.Core.Testing.Assertions.Matchers.MiscMatchers;
+﻿using Unicorn.Core.Testing.Verification.Matchers.MiscMatchers;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Verification
 {
     public class MiscMatchers
     {

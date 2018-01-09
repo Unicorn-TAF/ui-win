@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Unicorn.Core.Testing.Assertions.Matchers;
+using Unicorn.Core.Testing.Verification.Matchers;
 
-namespace Unicorn.Core.Testing.Assertions
+namespace Unicorn.Core.Testing.Verification
 {
     public class SoftAssertion
     {

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using ProjectSpecific.BO;
-using Unicorn.Core.Testing.Assertions;
-using static Unicorn.Core.Testing.Assertions.Matchers.Is;
+using Unicorn.Core.Testing.Verification;
+using static Unicorn.Core.Testing.Verification.Matchers.Is;
 
 namespace Tests.UnitTests
 {
@@ -11,7 +11,7 @@ namespace Tests.UnitTests
         [Test, Author("Vitaliy Dobriyan")]
         public void IsNullMatcherPositiveTest()
         {
-            Assert.Throws<AssertionError>(delegate 
+            NUnit.Framework.Assert.Throws<AssertionError>(delegate 
             {
                 SoftAssertion assert = new SoftAssertion();
                 assert.AssertThat("asd", EqualTo("asd"))
