@@ -1,7 +1,7 @@
 ﻿using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.UI.Core.Matchers;
 
 namespace Tests.TestData

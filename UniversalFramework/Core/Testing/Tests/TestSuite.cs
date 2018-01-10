@@ -10,7 +10,6 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        
         private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
@@ -169,8 +168,6 @@ namespace Unicorn.Core.Testing.Tests
                 return this.parametersSets;
             }
         }
-
-
 
         /// <summary>
         /// Run Test suite and all Before and After suites invoking corresponding suite events.

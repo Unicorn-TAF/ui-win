@@ -1,9 +1,9 @@
 ﻿using System;
 using AspectInjector.Broker;
-using Unicorn.Core.Testing.Verification;
-using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
+using Unicorn.Core.Testing.Verification;
+using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.UI.Core.Controls;
 
 namespace ProjectSpecific.Steps

@@ -11,7 +11,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// <summary>
         /// Search assembly for all TestSuites located inside
         /// </summary>
-        /// <param name="assembly">assembly instance to search test suitest for</param>
+        /// <param name="assembly">assembly instance to search test suites for</param>
         /// <returns>collection of Type representing TestSuites</returns>
         public static IEnumerable<Type> ObserveTestSuites(Assembly assembly)
         {
