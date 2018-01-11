@@ -100,13 +100,8 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.features == null)
                 {
-                    this.features = new List<string>();
                     var attributes = GetType().GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[];
-
-                    foreach (var attribute in attributes)
-                    {
-                        this.features.Add(attribute.Feature.ToUpper());
-                    }
+                    this.features = (from attribute in attributes select attribute.Feature.ToUpper()).ToList();
                 }
 
                 return this.features;

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
@@ -11,51 +13,84 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         Test
     }
 
-    public static class Configuration
+    public class Configuration
     {
-        private static TimeSpan testTimeout = TimeSpan.FromMinutes(15);
-        private static Parallelization parallelizationType = Parallelization.Assembly;
-        private static List<string> testCategories = new List<string>();
-        private static List<string> suiteFeatures = new List<string>();
+        [JsonProperty("testTimeout")]
+        private int testTimeout = 15;
 
-        public static TimeSpan TestTimeout
+        [JsonProperty("suiteTimeout")]
+        private int suiteTimeout = 60;
+
+        [JsonProperty("suiteTimeout")]
+        private string parallelBy = "assembly";
+
+        [JsonIgnore]
+        public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
+
+        [JsonIgnore]
+        public TimeSpan SuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
+
+        [JsonIgnore]
+        public Parallelization ParallelBy
         {
             get
             {
-                return testTimeout;
+                switch(this.parallelBy.ToLower())
+                {
+                    case "suite":
+                        return Parallelization.Suite;
+                    case "test":
+                        return Parallelization.Test;
+                    case "assembly":
+                    default:
+                        return Parallelization.Assembly;
+                }
+            }
+        }
+        
+        private List<string> categories = new List<string>();
+        private List<string> features = new List<string>();
+        private List<string> tests = new List<string>();
+
+        [JsonProperty("categories")]
+        public List<string> RunCategories
+        {
+            get
+            {
+                return this.categories;
             }
 
             set
             {
-                testTimeout = value;
+                SetTestCategories(value.ToArray());
             }
         }
 
-        public static Parallelization ParallelizationType
+        [JsonProperty("features")]
+        public List<string> RunFeatures
         {
             get
             {
-                return parallelizationType;
+                return this.features;
             }
 
             set
             {
-                parallelizationType = value;
+                SetSuiteFeatures(value.ToArray());
             }
         }
 
-        public static List<string> RunCategories => testCategories;
-
-        public static List<string> RunFeatures => suiteFeatures;
+        [JsonProperty("tests")]
+        public List<string> RunTests { get; set; }
 
         /// <summary>
         /// Set tests categories needed to be run.
         /// All categories are converted in upper case. Blank categories are ignored
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
-        public static void SetTestCategories(params string[] categoriesToRun)
+        public void SetTestCategories(params string[] categoriesToRun)
         {
-            testCategories = categoriesToRun
+            this.categories = categoriesToRun
                 .Select(v => { return v.ToUpper().Trim(); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
@@ -66,12 +101,22 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// All features are converted in upper case. Blank features are ignored
         /// </summary>
         /// <param name="featuresToRun">array of features</param>
-        public static void SetSuiteFeatures(params string[] featuresToRun)
+        public void SetSuiteFeatures(params string[] featuresToRun)
         {
-            suiteFeatures = featuresToRun
+            this.features = featuresToRun
                 .Select(v => { return v.ToUpper().Trim(); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
+        }
+
+        public static Configuration FromFile(string configPath = "")
+        {
+            if (configPath == "")
+            {
+                configPath = Path.GetDirectoryName(new Uri(typeof(Configuration).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
+            }
+
+            return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(configPath));
         }
     }
 }
