@@ -143,22 +143,9 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Check if test should be skipped. 
-        /// Test is skipped if it does not contain at least one of specified categories
-        /// Result of the check is stored in IsNeedToBeSkipped field
-        /// </summary>
-        public void CheckIfNeedToBeSkipped()
-        {
-            var skipAttribute = this.TestMethod.GetCustomAttribute(typeof(SkipAttribute), true) as SkipAttribute;
-
-            this.IsNeedToBeSkipped = skipAttribute != null;
-            this.IsNeedToBeSkipped |= this.Categories.Intersect(Configuration.RunCategories).Count() != Configuration.RunCategories.Count();
-        }
-
-        /// <summary>
         /// Skip test and invoke onSkip event
         /// </summary>
-        private void Skip()
+        public void Skip()
         {
             this.Outcome.Result = Result.SKIPPED;
             OnSkip?.Invoke(this);

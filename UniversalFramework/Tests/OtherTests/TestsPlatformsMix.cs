@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using ProjectSpecific;
+using System.Reflection;
 using Tests.TestData;
+using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Tests.UnitTests
 {
@@ -11,12 +13,8 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test to check Demo version of TestSuite")]
         public void PlatformMixTest()
         {
-            PlatformsMixSuite suite = new PlatformsMixSuite();
-            suite.Run();
-            if (suite.Outcome.Result == Unicorn.Core.Testing.Tests.Result.FAILED)
-            {
-                Assert.Fail();
-            }
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly());
+            runner.RunTests();
         }
     }
 }

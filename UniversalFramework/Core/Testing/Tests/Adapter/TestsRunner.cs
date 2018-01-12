@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
@@ -8,44 +9,28 @@ namespace Unicorn.Core.Testing.Tests.Adapter
     public class TestsRunner
     {
         private List<Type> runnableSuites;
+        Assembly ass;
 
-        public TestsRunner()
+        public TestsRunner(Assembly ass)
         {
+            this.ass = ass;
             this.Configuration = Configuration.FromFile();
+            ObserveRunnableSuites();
         }
 
         public delegate void UnicornTestEvent(Test test);
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
         public delegate void UnicornSuiteMethodEvent(TestSuiteMethod testSuite);
 
-        public static event UnicornTestEvent TestStarted;
-
-        public static event UnicornTestEvent TestFinished;
-
-        public static event UnicornTestEvent TestPassed;
-
-        public static event UnicornTestEvent TestFailed;
-
-        public static event UnicornTestEvent TestSkipped;
-
-        /// <summary>
-        /// Event raised on TestSuite start
-        /// </summary>
         public static event UnicornSuiteEvent SuiteStarted;
 
-        /// <summary>
-        /// Event raised on TestSuite finish
-        /// </summary>
         public static event UnicornSuiteEvent SuiteFinished;
 
         public static event UnicornSuiteEvent SuitePassed;
 
         public static event UnicornSuiteEvent SuiteFailed;
 
-        /// <summary>
-        /// Event raised on TestSuite skip
-        /// </summary>
-        public static event UnicornSuiteEvent SuiteSkipped;
+        ////public static event UnicornSuiteEvent SuiteSkipped;
 
         public static event UnicornSuiteMethodEvent SuiteMethodStarted;
 
@@ -55,19 +40,51 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public static event UnicornSuiteMethodEvent SuiteMethodFailed;
 
+        public static event UnicornTestEvent TestStarted;
+
+        public static event UnicornTestEvent TestFinished;
+
+        public static event UnicornTestEvent TestPassed;
+
+        public static event UnicornTestEvent TestFailed;
+
+        ////public static event UnicornTestEvent TestSkipped;
+
         public Configuration Configuration { get; set; }
 
 
-        private bool IsSuiteRunnable(Type suiteType)
+        public void RunTests()
         {
-            bool runnable = true;
+            foreach (var suiteType in runnableSuites)
+            {
+                RunTestSuite(suiteType);
+            }
+        }
 
-            var attributes = suiteType.GetType().GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[];
-            List<string> features = (from attribute in attributes select attribute.Feature.ToUpper()).ToList();
-            runnable &= features.Intersect(this.Configuration.RunFeatures).Count() > 0;
+        public void RunTestSuite(Type type)
+        {
+            if (Util.IsSuiteParameterized(type))
+            {
+                foreach (var parametersSet in Util.GetSuiteData(type))
+                {
+                    var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters) as TestSuite;
+                }
+            }
+
+            var suite = Activator.CreateInstance(type) as TestSuite;
+            suite.Run();
+        }
+
+        private void RunTest(Test test)
+        {
+
+        }
 
 
-            return false;
+        private void ObserveRunnableSuites()
+        {
+            runnableSuites = TestsObserver.ObserveTestSuites(ass)
+                .Where(s => Util.IsSuiteRunnable(s, this.Configuration)).ToList();
         }
     }
 }

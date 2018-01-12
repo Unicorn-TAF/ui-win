@@ -64,6 +64,9 @@
     <Compile Include="Reporting\IReporter.cs" />
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
+    <Compile Include="Testing\Tests\Adapter\Util.cs" />
+    <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Testing\Verification\Assert.cs" />
     <Compile Include="Testing\Verification\AssertionError.cs" />
     <Compile Include="Testing\Verification\Matchers\Collection.cs" />

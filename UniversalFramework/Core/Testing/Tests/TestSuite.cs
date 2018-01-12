@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Core.Logging;
+using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
@@ -295,7 +296,7 @@ namespace Unicorn.Core.Testing.Tests
         /// Determine if test should be skipped and update runnable tests count for the suite. 
         /// </summary>
         /// <returns>list of Tests</returns>
-        protected List<Test>[] GetTests()
+        private List<Test>[] GetTests()
         {
             List<Test>[] testMethods;
             IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods();
@@ -320,7 +321,7 @@ namespace Unicorn.Core.Testing.Tests
 
                     Test test = new Test(method);
                     test.ParentId = this.Id;
-                    test.CheckIfNeedToBeSkipped();
+                    ////test.IsNeedToBeSkipped = !Util.IsTestRunnable(method, ca);
 
                     string fullTestName = $"{Name} - {method.Name}";
                     string description = $"{test.Description}";

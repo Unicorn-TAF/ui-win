@@ -21,7 +21,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         [JsonProperty("suiteTimeout")]
         private int suiteTimeout = 60;
 
-        [JsonProperty("suiteTimeout")]
+        [JsonProperty("parallel")]
         private string parallelBy = "assembly";
 
         [JsonIgnore]
@@ -47,38 +47,19 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 }
             }
         }
-        
+
+        [JsonIgnore]
         private List<string> categories = new List<string>();
+        [JsonIgnore]
         private List<string> features = new List<string>();
+        [JsonIgnore]
         private List<string> tests = new List<string>();
 
         [JsonProperty("categories")]
-        public List<string> RunCategories
-        {
-            get
-            {
-                return this.categories;
-            }
-
-            set
-            {
-                SetTestCategories(value.ToArray());
-            }
-        }
+        public List<string> RunCategories => this.categories;
 
         [JsonProperty("features")]
-        public List<string> RunFeatures
-        {
-            get
-            {
-                return this.features;
-            }
-
-            set
-            {
-                SetSuiteFeatures(value.ToArray());
-            }
-        }
+        public List<string> RunFeatures => this.features;
 
         [JsonProperty("tests")]
         public List<string> RunTests { get; set; }
@@ -109,6 +90,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 .ToList();
         }
 
+        /// <summary>
+        /// Deserialize run configuration fro JSON file</br>
+        /// If path is not specified 'unicorn.conf' from current directory is used
+        /// </summary>
+        /// <param name="configPath">path to JSON config file </param>
+        /// <returns></returns>
         public static Configuration FromFile(string configPath = "")
         {
             if (configPath == "")
