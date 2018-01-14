@@ -20,22 +20,5 @@ namespace Unicorn.Core.Testing.Tests
         public int FailedTests { get; set; }
 
         public List<string> Bugs { get; }
-
-        public void FillWithTestsResults(List<Test> testsList)
-        {
-            foreach (Test test in testsList)
-            {
-                if (test.Outcome.Result == Result.FAILED)
-                {
-                    this.FailedTests++;
-                    this.Result = Result.FAILED;
-                }
-
-                foreach (string bug in test.Outcome.Bugs)
-                {
-                    this.Bugs.Add(bug);
-                }
-            }
-        }
     }
 }

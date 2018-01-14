@@ -19,7 +19,6 @@ namespace Tests.TestData
             Logger.Instance.Info("BeforeTest started");
         }
 
-        [Skip]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Gui")]
         [Test("Run Gui driver test")]

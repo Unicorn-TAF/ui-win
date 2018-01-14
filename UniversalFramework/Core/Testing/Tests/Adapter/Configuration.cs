@@ -13,65 +13,68 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         Test
     }
 
-    public class Configuration
+    public static class Configuration
     {
-        [JsonProperty("testTimeout")]
-        private int testTimeout = 15;
+        private static TimeSpan testTimeout = TimeSpan.FromMinutes(15);
+        private static TimeSpan suiteTimeout = TimeSpan.FromMinutes(60);
+        private static Parallelization parallelBy = Parallelization.Assembly;
+        private static List<string> categories = new List<string>();
+        private static List<string> features = new List<string>();
+        private static List<string> tests = new List<string>();
 
-        [JsonProperty("suiteTimeout")]
-        private int suiteTimeout = 60;
-
-        [JsonProperty("parallel")]
-        private string parallelBy = "assembly";
-
-        [JsonIgnore]
-        public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
-
-        [JsonIgnore]
-        public TimeSpan SuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
-
-        [JsonIgnore]
-        public Parallelization ParallelBy
+        public static TimeSpan TestTimeout
         {
             get
             {
-                switch(this.parallelBy.ToLower())
-                {
-                    case "suite":
-                        return Parallelization.Suite;
-                    case "test":
-                        return Parallelization.Test;
-                    case "assembly":
-                    default:
-                        return Parallelization.Assembly;
-                }
+                return testTimeout;
+            }
+
+            set
+            {
+                testTimeout = value;
             }
         }
 
-        [JsonIgnore]
-        private List<string> categories = new List<string>();
-        [JsonIgnore]
-        private List<string> features = new List<string>();
-        [JsonIgnore]
-        private List<string> tests = new List<string>();
+        public static TimeSpan SuiteTimeout
+        {
+            get
+            {
+                return suiteTimeout;
+            }
 
-        [JsonProperty("categories")]
-        public List<string> RunCategories => this.categories;
+            set
+            {
+                suiteTimeout = value;
+            }
+        }
 
-        [JsonProperty("features")]
-        public List<string> RunFeatures => this.features;
+        public static Parallelization ParallelBy
+        {
+            get
+            {
+                return parallelBy;
+            }
 
-        [JsonProperty("tests")]
-        public List<string> RunTests { get; set; }
+            set
+            {
+                parallelBy = value;
+            }
+        }
+
+        public static List<string> RunCategories => categories;
+
+        public static List<string> RunFeatures => features;
+
+        public static List<string> RunTests { get; set; }
 
         /// <summary>
         /// Set tests categories needed to be run.
         /// All categories are converted in upper case. Blank categories are ignored
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
-        public void SetTestCategories(params string[] categoriesToRun)
+        public static void SetTestCategories(params string[] categoriesToRun)
         {
-            this.categories = categoriesToRun
+            categories = categoriesToRun
                 .Select(v => { return v.ToUpper().Trim(); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
@@ -82,9 +85,9 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// All features are converted in upper case. Blank features are ignored
         /// </summary>
         /// <param name="featuresToRun">array of features</param>
-        public void SetSuiteFeatures(params string[] featuresToRun)
+        public static void SetSuiteFeatures(params string[] featuresToRun)
         {
-            this.features = featuresToRun
+            features = featuresToRun
                 .Select(v => { return v.ToUpper().Trim(); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
@@ -96,14 +99,72 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// </summary>
         /// <param name="configPath">path to JSON config file </param>
         /// <returns></returns>
-        public static Configuration FromFile(string configPath = "")
+        public static void FillFromFile(string configPath = "")
         {
             if (configPath == "")
             {
                 configPath = Path.GetDirectoryName(new Uri(typeof(Configuration).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
             }
 
-            return JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(configPath));
+            JsonConf conf = JsonConvert.DeserializeObject<JsonConf>(File.ReadAllText(configPath));
+
+            testTimeout = conf.TestTimeout;
+            suiteTimeout = conf.SuiteTimeout;
+            parallelBy = conf.ParallelBy;
+            SetTestCategories(conf.RunCategories.ToArray());
+            SetSuiteFeatures(conf.RunFeatures.ToArray());
+        }
+
+        internal class JsonConf
+        {
+            [JsonProperty("testTimeout")]
+            private int testTimeout = 15;
+
+            [JsonProperty("suiteTimeout")]
+            private int suiteTimeout = 60;
+
+            [JsonProperty("parallel")]
+            private string parallelBy = "assembly";
+
+            [JsonIgnore]
+            public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
+
+            [JsonIgnore]
+            public TimeSpan SuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
+
+            [JsonIgnore]
+            public Parallelization ParallelBy
+            {
+                get
+                {
+                    switch(this.parallelBy.ToLower())
+                    {
+                        case "suite":
+                            return Parallelization.Suite;
+                        case "test":
+                            return Parallelization.Test;
+                        case "assembly":
+                        default:
+                            return Parallelization.Assembly;
+                    }
+                }
+            }
+
+            [JsonIgnore]
+            private List<string> categories = new List<string>();
+            [JsonIgnore]
+            private List<string> features = new List<string>();
+            [JsonIgnore]
+            private List<string> tests = new List<string>();
+
+            [JsonProperty("categories")]
+            public List<string> RunCategories => this.categories;
+
+            [JsonProperty("features")]
+            public List<string> RunFeatures => this.features;
+
+            [JsonProperty("tests")]
+            public List<string> RunTests { get; set; }
         }
     }
 }

@@ -88,7 +88,7 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        public void ReportSuiteMethodStarted(TestSuiteMethod test)
+        public void ReportSuiteMethodStarted(SuiteMethod test)
         {
             if (Config.IsEnabled)
             {
@@ -96,7 +96,7 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        public void ReportSuiteMethodFinished(TestSuiteMethod test)
+        public void ReportSuiteMethodFinished(SuiteMethod test)
         {
             if (Config.IsEnabled)
             {

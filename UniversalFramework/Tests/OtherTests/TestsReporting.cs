@@ -17,7 +17,8 @@ namespace Tests.UnitTests
         public void ParameterizedSuiteRunSuiteTest()
         {
             ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
-            suite.Run();
+            throw new NotImplementedException();
+            ////suite.Run();
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -35,7 +36,8 @@ namespace Tests.UnitTests
         public void StepsReportingTest2()
         {
             SuiteForReporting suite = new SuiteForReporting();
-            suite.Run();
+            throw new NotImplementedException();
+            ////suite.Run();
         }
     }
 }

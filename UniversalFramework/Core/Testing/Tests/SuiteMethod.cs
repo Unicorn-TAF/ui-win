@@ -8,11 +8,44 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
 {
-    public abstract class TestSuiteMethodBase
+    public enum SuiteMethodType
+    {
+        BeforeSuite,
+        BeforeTest,
+        AfterTest,
+        AfterSuite,
+        Test
+    }
+
+    public class SuiteMethod
     {
         private string author = null;
         private string description = null;
         private string fullTestName = null;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SuiteMethod"/> class, which is part of some TestSuite.
+        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
+        /// Contains methods to execute the test and check if test should be skipped
+        /// </summary>
+        /// <param name="testMethod">MethodInfo instance which represents test method</param>
+        public SuiteMethod(MethodInfo testMethod)
+        {
+            this.TestMethod = testMethod;
+            this.Outcome = new TestOutcome();
+        }
+
+        /* Events section*/
+
+        public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
+
+        public static event UnicornSuiteMethodEvent SuiteMethodStarted;
+
+        public static event UnicornSuiteMethodEvent SuiteMethodFinished;
+
+        public static event UnicornSuiteMethodEvent SuiteMethodPassed;
+
+        public static event UnicornSuiteMethodEvent SuiteMethodFailed;
 
         public static TimeSpan TestTimeout => TimeSpan.FromMinutes(15);
 
@@ -83,7 +116,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets full test name which is "{Suite Name} - {test method name}"
         /// </summary>
-        public string FullTestName
+        public string FullName
         {
             get
             {
@@ -91,7 +124,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     this.fullTestName = this.TestMethod.Name;
                 }
-                    
+
                 return this.fullTestName;
             }
 
@@ -106,6 +139,8 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public TestOutcome Outcome { get; set; }
 
+        public SuiteMethodType Type { get; set; }
+
         /// <summary>
         /// Gets or sets Test execution timer
         /// </summary>
@@ -114,7 +149,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets Method which represents test
         /// </summary>
-        protected MethodInfo TestMethod { get; set; } 
+        protected MethodInfo TestMethod { get; set; }
 
         /// <summary>
         /// Generates Id for the test which will be the same each time for this test
@@ -123,7 +158,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             using (MD5 md5 = MD5.Create())
             {
-                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(this.FullTestName));
+                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(this.FullName));
                 this.Id = new Guid(hash);
             }
         }
@@ -134,7 +169,51 @@ namespace Unicorn.Core.Testing.Tests
         /// After the test List of AfterTests is executed
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
-        public abstract void Execute(TestSuite suiteInstance);
+        public virtual void Execute(TestSuite suiteInstance)
+        {
+            CurrentOutput = new StringBuilder();
+
+            try
+            {
+                SuiteMethodStarted?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during SuiteMethodStarted event invoke" + Environment.NewLine + ex);
+            }
+
+            Logger.Instance.Info($"========== {this.Type} '{Description}' ==========");
+
+            this.TestTimer = new Stopwatch();
+            this.TestTimer.Start();
+
+            try
+            {
+                this.TestMethod.Invoke(suiteInstance, null);
+                this.Outcome.Result = Result.PASSED;
+
+                SuiteMethodPassed?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                SuiteMethodFailed?.Invoke(this);
+            }
+
+            this.TestTimer.Stop();
+            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
+
+            Logger.Instance.Info($"{this.Type} {Outcome.Result}");
+
+            try
+            {
+                SuiteMethodFinished?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+            }
+        }
 
         /// <summary>
         /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.

@@ -54,8 +54,8 @@ namespace ProjectSpecific.Util
 
         private void TakeScreenshot(Test test)
         {
-            Screenshot.TakeScreenshot(test.FullTestName);
-            test.Outcome.Screenshot = test.FullTestName + ".Jpeg";
+            Screenshot.TakeScreenshot(test.FullName);
+            test.Outcome.Screenshot = test.FullName + ".Jpeg";
         }
     }
 }

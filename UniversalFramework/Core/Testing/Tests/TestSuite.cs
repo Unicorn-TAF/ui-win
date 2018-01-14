@@ -11,19 +11,17 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private Stopwatch suiteTimer;
+        public Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
-        private TestSuiteParametersSet[] parametersSets = null;
         private int runnableTestsCount;
         private string currentStepBug = string.Empty;
 
-        private List<Test>[] listTestsAll;
-        private List<Test> listTests;
-        private TestSuiteMethod[] listBeforeSuite;
-        private MethodInfo[] listBeforeTest;
-        private MethodInfo[] listAfterTest;
-        private TestSuiteMethod[] listAfterSuite;
+        private Test[] tests;
+        private SuiteMethod[] beforeSuites;
+        private SuiteMethod[] beforeTests;
+        private SuiteMethod[] afterTests;
+        private SuiteMethod[] afterSuites;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.
@@ -38,31 +36,26 @@ namespace Unicorn.Core.Testing.Tests
             this.runnableTestsCount = 0;
             this.Metadata = new Dictionary<string, string>();
             this.suiteTimer = new Stopwatch();
-            this.listBeforeSuite = GetTestSuiteMethodsListByAttribute(typeof(BeforeSuiteAttribute), true);
-            this.listBeforeTest = GetMethodsListByAttribute(typeof(BeforeTestAttribute));
-            this.listAfterTest = GetMethodsListByAttribute(typeof(AfterTestAttribute));
-            this.listAfterSuite = GetTestSuiteMethodsListByAttribute(typeof(AfterSuiteAttribute), false);
+            this.beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
+            this.beforeTests = GetSuiteMethodsByAttribute(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
+            this.afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
+            this.afterSuites = GetSuiteMethodsByAttribute(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
             this.Outcome = new SuiteOutcome();
             this.Outcome.Result = Result.PASSED;
-            this.listTestsAll = GetTests();
+            this.tests = GetTests();
         }
 
-        public delegate void TestSuiteEvent(TestSuite suite);
+        public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
-        /// <summary>
-        /// Event raised on TestSuite start
-        /// </summary>
-        public static event TestSuiteEvent OnStart;
+        public static event UnicornSuiteEvent SuiteStarted;
 
-        /// <summary>
-        /// Event raised on TestSuite finish
-        /// </summary>
-        public static event TestSuiteEvent OnFinish;
+        public static event UnicornSuiteEvent SuiteFinished;
 
-        /// <summary>
-        /// Event raised on TestSuite skip
-        /// </summary>
-        public static event TestSuiteEvent OnSkip;
+        public static event UnicornSuiteEvent SuitePassed;
+
+        public static event UnicornSuiteEvent SuiteFailed;
+
+        public static event UnicornSuiteEvent SuiteSkipped;
 
         // Gets or sets Unique suite Guid
         public Guid Id { get; set; }
@@ -112,15 +105,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets TestSuite metadata dictionary, can contain only string values
         /// </summary>
-        public Dictionary<string, string> Metadata
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets or sets Current parameters set for the suite iteration (if suite is parameterized)
-        /// </summary>
-        public TestSuiteParametersSet CurrentParametersSet { get; set; }
+        public Dictionary<string, string> Metadata { get; }
 
         /// <summary>
         /// Gets or sets current executing step bug, used in case of TestSteps feature usage
@@ -143,73 +128,68 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public SuiteOutcome Outcome { get; set; }
 
-        /// <summary>
-        /// Gets array of test suite parameters sets (if suite is parameterized)
-        /// </summary>
-        private TestSuiteParametersSet[] ParametersSets
+        public void Execute()
         {
-            get
-            {
-                if (this.parametersSets == null)
-                {
-                    var attributes = GetType().GetCustomAttributes(typeof(ParametersSetAttribute), true) as ParametersSetAttribute[];
-                    this.parametersSets = new TestSuiteParametersSet[attributes.Length];
-
-                    for (int i = 0; i < attributes.Length; i++)
-                    {
-                        this.parametersSets[i] = attributes[i].ParametersSet;
-                    }
-                }
-
-                return this.parametersSets;
-            }
-        }
-
-        /// <summary>
-        /// Run Test suite and all Before and After suites invoking corresponding suite events.
-        /// If there are no runnable tests, the suite is skipped.
-        /// If BeforeSuite is failed, the suite is skipped.
-        /// If All tests are passed, but AfterSuite is failed, the suite is failed.
-        /// After run SuiteOutcome is filled with all info.
-        /// </summary>
-        public void Run()
-        {
-            if (this.runnableTestsCount == 0)
-            {
-                Skip("There are no runnable tests");
-                return;
-            }
-
             try
             {
-                OnStart?.Invoke(this);
+                SuiteStarted?.Invoke(this);
             }
             catch (Exception ex)
             {
-                Skip("Error running test suite");
-                Logger.Instance.Error("Exception occured during OnStart event invoke" + Environment.NewLine + ex);
+                this.Skip("Error running test suite");
+
+                try
+                {
+                    SuiteSkipped?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Error("Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
+                }
+
+                Logger.Instance.Error("Exception occured during SuiteStarted event invoke" + Environment.NewLine + ex);
                 return;
             }
 
-            Logger.Instance.Info($"==================== TEST SUITE '{Name}' ====================");
+            Logger.Instance.Info($"==================== TEST SUITE '{this.Name}' ====================");
 
             this.suiteTimer.Start();
 
-            ExecuteWholeSuite();
+            if (this.RunSuiteMethods(this.beforeSuites))
+            {
+                foreach (Test test in this.tests)
+                {
+                    RunTest(test);
+                }
+            }
+            else
+            {
+                foreach (Test test in this.tests)
+                {
+                    test.Outcome.Result = Result.SKIPPED;
+                    test.Outcome.Bugs.Clear();
+                }
+            }
+
+            FillOutcomeWithTestsResults();
+
+            if (!this.RunSuiteMethods(this.afterSuites))
+            {
+                this.Outcome.Result = Result.FAILED;
+            }
 
             this.suiteTimer.Stop();
-            this.Outcome.TotalTests = this.runnableTestsCount;
             this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
 
             Logger.Instance.Info($"TEST SUITE {this.Outcome.Result}");
 
             try
             {
-                OnFinish?.Invoke(this);
+                SuiteFinished?.Invoke(this);
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during OnFinish event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Error("Exception occured during SuiteFinished event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -223,179 +203,86 @@ namespace Unicorn.Core.Testing.Tests
 
             this.runnableTestsCount = 0;
             this.Outcome.Result = Result.SKIPPED;
-
-            try
-            {
-                OnSkip?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Error("Exception occured during OnSkip event invoke" + Environment.NewLine + ex);
-            }
         }
 
-        /// <summary>
-        /// Run BeforeSuites
-        /// </summary>
-        /// <returns>true - if before suites passed; false - if at least one Before suite is failed</returns>
-        protected bool RunBeforeSuite()
+        private void RunTest(Test test)
         {
-            if (this.listBeforeSuite.Length == 0)
+            if (test.IsNeedToBeSkipped)
             {
-                return true;
+                test.Skip();
+                return;
             }
 
-            foreach (var beforeSuite in this.listBeforeSuite)
+            if (this.RunSuiteMethods(this.beforeTests))
             {
-                beforeSuite.Execute(this);
-
-                if (beforeSuite.Outcome.Result != Result.PASSED)
-                {
-                    Logger.Instance.Error("Before suite failed, all tests are skipped.");
-
-                    foreach (Test test in this.listTests)
-                    {
-                        test.Outcome.Result = Result.SKIPPED;
-                        test.Outcome.Bugs.Clear();
-                    }
-
-                    return false;
-                }
+                test.Execute(this);
+            }
+            else
+            {
+                test.Skip();
             }
 
-            return true;
+            if (this.RunSuiteMethods(this.afterTests))
+            {
+
+            }
         }
-
+        
         /// <summary>
-        /// Run AfterSuites
+        /// Run SuiteMethods
         /// </summary>
         /// <returns>true if after suites run successfully; fail if at least one after suite failed</returns>
-        protected bool RunAfterSuite()
+        private bool RunSuiteMethods(SuiteMethod[] suiteMethods)
         {
-            if (this.listAfterSuite.Length == 0)
+            foreach (var suiteMethod in suiteMethods)
             {
-                return true;
-            }
+                suiteMethod.Execute(this);
 
-            foreach (var afterSuite in this.listAfterSuite)
-            {
-                afterSuite.Execute(this);
-
-                if (afterSuite.Outcome.Result != Result.PASSED)
+                if (suiteMethod.Outcome.Result != Result.PASSED)
                 {
-                    Logger.Instance.Error("After suite failed.");
+                    Logger.Instance.Error($"{suiteMethod.Type} failed.");
                     return false;
                 }
             }
 
             return true;
         }
+
+        #region Helpers
 
         /// <summary>
         /// Get list of Tests from suite instance based on [Test] Attribute presence. 
         /// Determine if test should be skipped and update runnable tests count for the suite. 
         /// </summary>
         /// <returns>list of Tests</returns>
-        private List<Test>[] GetTests()
+        private Test[] GetTests()
         {
-            List<Test>[] testMethods;
-            IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods();
+            List<Test> testMethods = new List<Test>();
 
-            if (this.ParametersSets.Length == 0)
+            IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods()
+                .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null);
+
+            foreach (MethodInfo method in suiteMethods)
             {
-                this.parametersSets = new TestSuiteParametersSet[1] { null };
+                Test test = new Test(method);
+                test.Type = SuiteMethodType.Test;
+                test.ParentId = this.Id;
+                test.IsNeedToBeSkipped = !Util.IsTestRunnable(method);
+
+                string fullTestName = $"{Name} - {method.Name}";
+                string description = $"{test.Description}";
+
+                if (GetType().GetCustomAttribute(typeof(ParameterizedAttribute), true) != null)
+                {
+                    fullTestName += $" - {this.Metadata["postfix"]}";
+                    description += $": set[{this.Metadata["postfix"]}]";
+                }
+
+                test.GenerateId();
+                testMethods.Add(test);
             }
 
-            testMethods = new List<Test>[this.ParametersSets.Length];
-
-            for (int i = 0; i < this.ParametersSets.Length; i++)
-            {
-                testMethods[i] = new List<Test>();
-
-                foreach (MethodInfo method in suiteMethods)
-                {
-                    if (method.GetCustomAttribute(typeof(TestAttribute), true) == null)
-                    {
-                        continue;
-                    }
-
-                    Test test = new Test(method);
-                    test.ParentId = this.Id;
-                    ////test.IsNeedToBeSkipped = !Util.IsTestRunnable(method, ca);
-
-                    string fullTestName = $"{Name} - {method.Name}";
-                    string description = $"{test.Description}";
-
-                    if (this.ParametersSets[i] != null)
-                    {
-                        fullTestName += $" - {ParametersSets[i].Name}";
-                        description += $": set[{ParametersSets[i].Name}]";
-                    }
-
-                    test.GenerateId();
-                    testMethods[i].Add(test);
-
-                    if (!test.IsNeedToBeSkipped)
-                    {
-                        this.runnableTestsCount++;
-                    }
-                }
-            }
-
-            return testMethods;
-        }
-
-        #region Helpers
-
-        private void ExecuteWholeSuite()
-        {
-            for (int i = 0; i < this.listTestsAll.Length; i++)
-            {
-                if (this.ParametersSets.Length > 0)
-                {
-                    this.CurrentParametersSet = this.ParametersSets[i];
-                }
-
-                this.listTests = this.listTestsAll[i];
-
-                if (this.RunBeforeSuite())
-                {
-                    foreach (Test test in this.listTests)
-                    {
-                        test.Execute(this);
-                    }
-                }
-
-                this.Outcome.FillWithTestsResults(this.listTests);
-
-                if (!this.RunAfterSuite())
-                {
-                    this.Outcome.Result = Result.FAILED;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get list of MethodInfo from suite instance based on specified Attribute presence
-        /// </summary>
-        /// <param name="attributeType">Type of attribute</param>
-        /// <returns>list of MethodInfo with specified attribute</returns>
-        private MethodInfo[] GetMethodsListByAttribute(Type attributeType)
-        {
-            var suitableMethods = new List<MethodInfo>();
-            var suiteMethods = GetType().GetRuntimeMethods();
-
-            foreach (var method in suiteMethods)
-            {
-                var attribute = method.GetCustomAttribute(attributeType, true);
-
-                if (attribute != null)
-                {
-                    suitableMethods.Add(method);
-                }
-            }
-
-            return suitableMethods.ToArray();
+            return testMethods.ToArray();
         }
 
         /// <summary>
@@ -404,9 +291,9 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="attributeType">Type of attribute</param>
         /// <param name="isBeforeSuite">identify if need to get list of before suites</param>
         /// <returns>list of MethodInfo with specified attribute</returns>
-        private TestSuiteMethod[] GetTestSuiteMethodsListByAttribute(Type attributeType, bool isBeforeSuite)
+        private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)
         {
-            var suitableMethods = new List<TestSuiteMethod>();
+            var suitableMethods = new List<SuiteMethod>();
             var suiteMethods = GetType().GetRuntimeMethods();
 
             foreach (var method in suiteMethods)
@@ -415,16 +302,33 @@ namespace Unicorn.Core.Testing.Tests
 
                 if (attribute != null)
                 {
-                    var suiteMethod = new TestSuiteMethod(method);
+                    var suiteMethod = new SuiteMethod(method);
                     suiteMethod.ParentId = this.Id;
-                    suiteMethod.FullTestName = $"{this.Name} - {method.Name}";
+                    suiteMethod.FullName = $"{this.Name} - {method.Name}";
                     suiteMethod.GenerateId();
-                    suiteMethod.IsBeforeSuite = isBeforeSuite;
+                    suiteMethod.Type = type;
                     suitableMethods.Add(suiteMethod);
                 }
             }
 
             return suitableMethods.ToArray();
+        }
+
+        private void FillOutcomeWithTestsResults()
+        {
+            foreach (Test test in this.tests)
+            {
+                if (test.Outcome.Result == Result.FAILED)
+                {
+                    this.Outcome.FailedTests++;
+                    this.Outcome.Result = Result.FAILED;
+                }
+
+                foreach (string bug in test.Outcome.Bugs)
+                {
+                    this.Outcome.Bugs.Add(bug);
+                }
+            }
         }
 
         #endregion

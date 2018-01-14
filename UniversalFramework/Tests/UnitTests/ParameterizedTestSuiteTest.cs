@@ -55,7 +55,8 @@ namespace Tests.UnitTests
         public void ParameterizedSuiteRunSuiteTest()
         {
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
-            suite.Run();
+            throw new NotImplementedException();
+            ////suite.Run();
             Assert.That(suite.GetOutput(), Is.EqualTo(expectedOutput + expectedOutput));
         }
 
@@ -68,13 +69,13 @@ namespace Tests.UnitTests
             return field as MethodInfo[];
         }
 
-        private TestSuiteMethod[] GetSuiteMethodListByName(string name)
+        private SuiteMethod[] GetSuiteMethodListByName(string name)
         {
             object field = typeof(TestSuite)
                 .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(suite);
 
-            return field as TestSuiteMethod[];
+            return field as SuiteMethod[];
         }
     }
 }

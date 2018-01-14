@@ -35,11 +35,11 @@ namespace ProjectSpecific.Util
             Test.OnFinish += ReportTestFinish;
             Test.OnSkip += this.listener.ReportTestSkipped;
 
-            TestSuiteMethod.OnStart += this.listener.ReportSuiteMethodStarted;
-            TestSuiteMethod.OnFinish += this.listener.ReportSuiteMethodFinished;
+            SuiteMethod.SuiteMethodStarted += this.listener.ReportSuiteMethodStarted;
+            SuiteMethod.SuiteMethodFinished += this.listener.ReportSuiteMethodFinished;
 
-            TestSuite.OnStart += this.ReportSuiteStart;
-            TestSuite.OnFinish += this.ReportSuiteFinish;
+            TestSuite.SuiteStarted += this.ReportSuiteStart;
+            TestSuite.SuiteFinished += this.ReportSuiteFinish;
 
             TestStepsEvents.OnStart += ReportInfo;
         }
@@ -78,7 +78,7 @@ namespace ProjectSpecific.Util
 
         private void TakeScreenshot(Test test)
         {
-            string screenshotName = test.FullTestName;
+            string screenshotName = test.FullName;
 
             if (screenshotName.Length > 150)
             {

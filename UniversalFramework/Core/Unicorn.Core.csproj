@@ -101,8 +101,7 @@
     <Compile Include="Testing\Tests\Attributes\ParametersSetAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SkipAttribute.cs" />
     <Compile Include="Testing\Tests\SuiteOutcome.cs" />
-    <Compile Include="Testing\Tests\TestSuiteMethodBase.cs" />
-    <Compile Include="Testing\Tests\TestSuiteMethod.cs" />
+    <Compile Include="Testing\Tests\SuiteMethod.cs" />
     <Compile Include="Testing\Tests\Test.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />

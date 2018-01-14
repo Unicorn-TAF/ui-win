@@ -57,7 +57,8 @@ namespace Tests.UnitTests
         public void RunSuiteTest()
         {
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterSuite";
-            suite.Run();
+            throw new NotImplementedException();
+            ////suite.Run();
             Assert.That(suite.GetOutput(), Is.EqualTo(expectedOutput));
         }
 
@@ -65,6 +66,7 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For Suite Skipping")]
         public void SuiteSkipTest()
         {
+            throw new NotImplementedException();
             ////Configuration.SetTestCategories("category");
             List<Type> suitesList = new List<Type>();
             suitesList.Add(typeof(SuiteToBeSkipped));
@@ -72,7 +74,7 @@ namespace Tests.UnitTests
             foreach (Type type in suitesList)
             {
                 var suite = Activator.CreateInstance(type);
-                ((TestSuite)suite).Run();
+                ////((TestSuite)suite).Run();
                 ////Configuration.SetTestCategories("category");
                 Assert.That(((SuiteToBeSkipped)suite).GetOutput(), Is.EqualTo(string.Empty));
             }
@@ -84,7 +86,8 @@ namespace Tests.UnitTests
         {
             SuiteForReporting repSuite = new SuiteForReporting();
 
-            repSuite.Run();
+            throw new NotImplementedException();
+            //repSuite.Run();
             string[] expectedBugs = new string[] { "234", "871236" };
 
             Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
@@ -99,13 +102,13 @@ namespace Tests.UnitTests
             return field as MethodInfo[];
         }
 
-        private TestSuiteMethod[] GetSuiteMethodListByName(string name)
+        private SuiteMethod[] GetSuiteMethodListByName(string name)
         {
             object field = typeof(TestSuite)
                 .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(suite);
 
-            return field as TestSuiteMethod[];
+            return field as SuiteMethod[];
         }
     }
 }

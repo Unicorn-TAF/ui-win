@@ -8,25 +8,21 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 {
     public class Util
     {
-        public static bool IsSuiteRunnable(Type suiteType, Configuration config)
+        public static bool IsSuiteRunnable(Type suiteType)
         {
             var features = from attribute
                            in suiteType.GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[]
                            select attribute.Feature.ToUpper().Trim();
 
-            var runFeatures = config.RunFeatures
-                .Where(f => !string.IsNullOrEmpty(f.Trim()))
-                .Select(f => { return f.ToUpper().Trim(); });
-
-            if (features.Intersect(runFeatures).Count() == 0)
+            if (features.Intersect(Configuration.RunFeatures).Count() == 0)
             {
                 return false;
             }
 
-            return suiteType.GetRuntimeMethods().Any(t => IsTestRunnable(t, config.RunCategories));
+            return suiteType.GetRuntimeMethods().Any(t => IsTestRunnable(t));
         }
 
-        public static bool IsTestRunnable(MethodInfo testMethod, List<string> categoriesToRun)
+        public static bool IsTestRunnable(MethodInfo testMethod)
         {
             if (testMethod.GetCustomAttribute(typeof(SkipAttribute), true) != null)
             {
@@ -36,12 +32,8 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             var categories = from attribute
                                 in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                                 select attribute.Category.ToUpper().Trim();
-
-            var runCategories = categoriesToRun
-                .Where(c => !string.IsNullOrEmpty(c.Trim()))
-                .Select(c => { return c.ToUpper().Trim(); });
-
-            return categories.Intersect(runCategories).Count() == runCategories.Count();
+            
+            return categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count();
         }
 
         public static bool IsSuiteParameterized(Type suiteType)

@@ -8,13 +8,13 @@ namespace ReportPortal.UnicornExtension
 {
     public partial class ReportPortalListener
     {
-        private TestSuiteMethodBase currentTest = null;
+        private SuiteMethod currentTest = null;
 
         protected void TestOutput(string info)
         {
             try
             {
-                var fullTestName = this.currentTest.FullTestName;
+                var fullTestName = this.currentTest.FullName;
                 var message = info;
 
                 if (this.testFlowNames.ContainsKey(fullTestName))

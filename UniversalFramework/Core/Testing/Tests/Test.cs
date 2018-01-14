@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests
 {
-    public class Test : TestSuiteMethodBase
+    public class Test : SuiteMethod
     {
         private List<string> categories = null;
 
@@ -20,10 +18,8 @@ namespace Unicorn.Core.Testing.Tests
         /// Contains methods to execute the test and check if test should be skipped
         /// </summary>
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
-        public Test(MethodInfo testMethod)
+        public Test(MethodInfo testMethod) : base(testMethod)
         {
-            this.TestMethod = testMethod;
-            this.Outcome = new TestOutcome();
             this.IsNeedToBeSkipped = false;
         }
 
@@ -75,13 +71,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            if (this.IsNeedToBeSkipped)
-            {
-                Skip();
-                return;
-            }
-
-            TestSuiteMethodBase.CurrentOutput = new StringBuilder();
+            SuiteMethod.CurrentOutput = new StringBuilder();
 
             try
             {
@@ -99,9 +89,7 @@ namespace Unicorn.Core.Testing.Tests
 
             try
             {
-                ExecuteMethods(suiteInstance, "listBeforeTest");
                 this.TestMethod.Invoke(suiteInstance, null);
-                ExecuteMethods(suiteInstance, "listAfterTest");
                 this.Outcome.Result = Result.PASSED;
 
                 try

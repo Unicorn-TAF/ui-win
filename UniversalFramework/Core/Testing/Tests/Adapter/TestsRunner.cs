@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
@@ -14,43 +13,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         public TestsRunner(Assembly ass)
         {
             this.ass = ass;
-            this.Configuration = Configuration.FromFile();
+            Configuration.FillFromFile();
             ObserveRunnableSuites();
         }
 
         public delegate void UnicornTestEvent(Test test);
-        public delegate void UnicornSuiteEvent(TestSuite testSuite);
-        public delegate void UnicornSuiteMethodEvent(TestSuiteMethod testSuite);
-
-        public static event UnicornSuiteEvent SuiteStarted;
-
-        public static event UnicornSuiteEvent SuiteFinished;
-
-        public static event UnicornSuiteEvent SuitePassed;
-
-        public static event UnicornSuiteEvent SuiteFailed;
-
-        ////public static event UnicornSuiteEvent SuiteSkipped;
-
-        public static event UnicornSuiteMethodEvent SuiteMethodStarted;
-
-        public static event UnicornSuiteMethodEvent SuiteMethodFinished;
-
-        public static event UnicornSuiteMethodEvent SuiteMethodPassed;
-
-        public static event UnicornSuiteMethodEvent SuiteMethodFailed;
-
-        public static event UnicornTestEvent TestStarted;
-
-        public static event UnicornTestEvent TestFinished;
-
-        public static event UnicornTestEvent TestPassed;
-
-        public static event UnicornTestEvent TestFailed;
-
-        ////public static event UnicornTestEvent TestSkipped;
-
-        public Configuration Configuration { get; set; }
+        
 
 
         public void RunTests()
@@ -68,23 +36,26 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 foreach (var parametersSet in Util.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters) as TestSuite;
+                    parameterizedSuite.Metadata.Add("postfix", parametersSet.Name);
+                    ExecuteSuiteIteration(parameterizedSuite);
                 }
             }
 
             var suite = Activator.CreateInstance(type) as TestSuite;
-            suite.Run();
+            ExecuteSuiteIteration(suite);
         }
 
-        private void RunTest(Test test)
+        private TestSuite ExecuteSuiteIteration(TestSuite testSuite)
         {
+            testSuite.Execute();
 
+            return testSuite;
         }
-
 
         private void ObserveRunnableSuites()
         {
             runnableSuites = TestsObserver.ObserveTestSuites(ass)
-                .Where(s => Util.IsSuiteRunnable(s, this.Configuration)).ToList();
+                .Where(s => Util.IsSuiteRunnable(s)).ToList();
         }
     }
 }

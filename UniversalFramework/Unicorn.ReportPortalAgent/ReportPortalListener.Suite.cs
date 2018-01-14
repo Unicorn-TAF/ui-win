@@ -182,20 +182,20 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        protected void StartSuiteMethod(TestSuiteMethod test)
+        protected void StartSuiteMethod(SuiteMethod test)
         {
             try
             {
                 var id = test.Id;
                 var parentId = test.ParentId;
                 var name = test.Description;
-                var fullname = test.FullTestName;
+                var fullname = test.FullName;
 
                 this.currentTest = test;
 
                 TestItemType itemType;
 
-                if (test.IsBeforeSuite)
+                if (test.Type == SuiteMethodType.BeforeSuite)
                 {
                     itemType = TestItemType.BeforeClass;
                 }
@@ -223,7 +223,7 @@ namespace ReportPortal.UnicornExtension
             }
         }
 
-        protected void FinishSuiteMethod(TestSuiteMethod test)
+        protected void FinishSuiteMethod(SuiteMethod test)
         {
             try
             {

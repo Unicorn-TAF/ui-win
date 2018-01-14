@@ -33,7 +33,7 @@ namespace ReportPortal.UnicornExtension
                 var id = test.Id;
                 var parentId = test.ParentId;
                 var name = test.Description;
-                var fullname = test.FullTestName;
+                var fullname = test.FullName;
 
                 this.currentTest = test;
 
