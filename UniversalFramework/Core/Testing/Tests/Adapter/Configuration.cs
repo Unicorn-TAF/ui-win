@@ -18,6 +18,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         private static TimeSpan testTimeout = TimeSpan.FromMinutes(15);
         private static TimeSpan suiteTimeout = TimeSpan.FromMinutes(60);
         private static Parallelization parallelBy = Parallelization.Assembly;
+        private static int threads = 1;
         private static List<string> categories = new List<string>();
         private static List<string> features = new List<string>();
         private static List<string> tests = new List<string>();
@@ -58,6 +59,19 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             set
             {
                 parallelBy = value;
+            }
+        }
+
+        public static int Threads
+        {
+            get
+            {
+                 return threads;
+            }
+
+            set
+            {
+                threads = value;
             }
         }
 
@@ -111,6 +125,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             testTimeout = conf.TestTimeout;
             suiteTimeout = conf.SuiteTimeout;
             parallelBy = conf.ParallelBy;
+            threads = conf.Threads;
             SetTestCategories(conf.RunCategories.ToArray());
             SetSuiteFeatures(conf.RunFeatures.ToArray());
         }
@@ -125,6 +140,9 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
             [JsonProperty("parallel")]
             private string parallelBy = "assembly";
+
+            [JsonProperty("threads")]
+            private int threads = 1;
 
             [JsonIgnore]
             public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
@@ -149,6 +167,9 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                     }
                 }
             }
+
+            [JsonIgnore]
+            public int Threads => this.threads;
 
             [JsonIgnore]
             private List<string> categories = new List<string>();
