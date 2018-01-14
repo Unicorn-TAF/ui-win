@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    class ParameterizedAttribute : Attribute
+    public class ParameterizedAttribute : Attribute
     {
     }
 }

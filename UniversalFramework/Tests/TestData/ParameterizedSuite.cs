@@ -1,12 +1,21 @@
-﻿using Unicorn.Core.Testing.Tests;
+﻿using System.Collections.Generic;
+using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
-    [TestSuite("Parameterized test suite")]
-    [ParametersSet("Set 1"), ParametersSet("Set 2")]
+    [TestSuite("Parameterized test suite"), Parameterized]
     public class ParameterizedSuite : TestSuite
     {
+        [SuiteData]
+        public static List<TestSuiteParametersSet> GetSuiteData()
+        {
+            var parameters = new List<TestSuiteParametersSet>();
+            parameters.Add(new TestSuiteParametersSet("set 1"));
+            parameters.Add(new TestSuiteParametersSet("set 2"));
+            return parameters;
+        }
+
         private string output = string.Empty;
 
         [BeforeSuite]
