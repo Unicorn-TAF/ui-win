@@ -1,66 +1,78 @@
 ﻿using System.Collections.Generic;
+using ProjectSpecific.BO;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
     [TestSuite("Parameterized test suite"), Parameterized]
+    [Feature("parameterized")]
     public class ParameterizedSuite : TestSuite
     {
-        [SuiteData]
-        public static List<TestSuiteParametersSet> GetSuiteData()
+        private SampleObject so;
+
+        public ParameterizedSuite()
         {
-            var parameters = new List<TestSuiteParametersSet>();
-            parameters.Add(new TestSuiteParametersSet("set 1"));
-            parameters.Add(new TestSuiteParametersSet("set 2"));
-            return parameters;
         }
 
-        private string output = string.Empty;
+        public ParameterizedSuite(SampleObject so)
+        {
+            this.so = so;
+        }
+
+        public static string Output { get; set; }
+
+        [SuiteData]
+        public static List<SuiteDataSet> GetSuiteData()
+        {
+            var parameters = new List<SuiteDataSet>();
+            parameters.Add(new SuiteDataSet("set 1", new SampleObject("a", 2)));
+            parameters.Add(new SuiteDataSet("set 2", new SampleObject("b", 3)));
+            return parameters;
+        }
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            output += "BeforeSuite>";
+            Output += so.ToString();
+            Output += ">BeforeSuite>";
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            output += "BeforeTest>";
+            Output += "BeforeTest>";
         }
 
         [Test("Test 2")]
         public void Test2()
         {
-            output += "Test1>";
+            Output += "Test1>";
         }
 
         [Test("Test to Skip")]
         [Skip]
         public void TestToSkip()
         {
-            output += "TestToSkip>";
+            Output += "TestToSkip>";
         }
 
         [Test("Test 1")]
         public void Test1()
         {
-            output += "Test2>";
+            Output += "Test2>";
         }
 
         [AfterTest]
         public void AfterTest()
         {
-            output += "AfterTest>";
+            Output += "AfterTest>";
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            output += "AfterSuite";
+            Output += "AfterSuite";
         }
-
-        public string GetOutput() => output;
     }
 }

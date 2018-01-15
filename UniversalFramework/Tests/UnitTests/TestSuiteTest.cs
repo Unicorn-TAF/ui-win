@@ -19,8 +19,8 @@ namespace Tests.UnitTests
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
         public void CountOfTestsTest()
         {
-            List<Test>[] actualTests = (List<Test>[])typeof(TestSuite).GetField("listTestsAll", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
-            int testsCount = actualTests[0].Count * actualTests.Length;
+            Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(3));
         }
 
@@ -28,56 +28,52 @@ namespace Tests.UnitTests
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
         public void CountOfAfterSuiteTest()
         {
-            Assert.That(GetSuiteMethodListByName("listAfterSuite").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
         public void CountOfBeforeSuiteTest()
         {
-            Assert.That(GetSuiteMethodListByName("listBeforeSuite").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
         public void CountOfAfterTestTest()
         {
-            Assert.That(GetListByName("listAfterTest").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
         public void CountOfBeforeTestTest()
         {
-            Assert.That(GetListByName("listBeforeTest").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
         public void RunSuiteTest()
         {
-            string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterSuite";
-            throw new NotImplementedException();
-            ////suite.Run();
-            Assert.That(suite.GetOutput(), Is.EqualTo(expectedOutput));
+            Suite.Output = string.Empty;
+            string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
+            Configuration.SetSuiteFeatures("sample");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
+            Assert.That(Suite.Output, Is.EqualTo(expectedOutput));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test For Suite Skipping")]
         public void SuiteSkipTest()
         {
-            throw new NotImplementedException();
-            ////Configuration.SetTestCategories("category");
-            List<Type> suitesList = new List<Type>();
-            suitesList.Add(typeof(SuiteToBeSkipped));
-
-            foreach (Type type in suitesList)
-            {
-                var suite = Activator.CreateInstance(type);
-                ////((TestSuite)suite).Run();
-                ////Configuration.SetTestCategories("category");
-                Assert.That(((SuiteToBeSkipped)suite).GetOutput(), Is.EqualTo(string.Empty));
-            }
+            SuiteToBeSkipped.Output = string.Empty;
+            Configuration.SetTestCategories("category");
+            Configuration.SetSuiteFeatures("reporting");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
+            Assert.That(SuiteToBeSkipped.Output, Is.EqualTo(string.Empty));
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -87,19 +83,10 @@ namespace Tests.UnitTests
             SuiteForReporting repSuite = new SuiteForReporting();
 
             throw new NotImplementedException();
-            //repSuite.Run();
+            ////repSuite.Run();
             string[] expectedBugs = new string[] { "234", "871236" };
 
             Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
-        }
-
-        private MethodInfo[] GetListByName(string name)
-        {
-            object field = typeof(TestSuite)
-                .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(suite);
-
-            return field as MethodInfo[];
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)

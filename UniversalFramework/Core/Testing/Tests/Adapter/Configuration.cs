@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
@@ -79,7 +79,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public static List<string> RunFeatures => features;
 
-        public static List<string> RunTests { get; set; }
+        public static List<string> RunTests { get; }
 
         /// <summary>
         /// Set tests categories needed to be run.
@@ -108,14 +108,13 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         }
 
         /// <summary>
-        /// Deserialize run configuration fro JSON file</br>
-        /// If path is not specified 'unicorn.conf' from current directory is used
+        /// Deserialize run configuration fro JSON file
+        /// <para>If path is not specified 'unicorn.conf' from current directory is used</para>
         /// </summary>
         /// <param name="configPath">path to JSON config file </param>
-        /// <returns></returns>
         public static void FillFromFile(string configPath = "")
         {
-            if (configPath == "")
+            if (string.IsNullOrEmpty(configPath))
             {
                 configPath = Path.GetDirectoryName(new Uri(typeof(Configuration).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
             }
@@ -145,6 +144,13 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             private int threads = 1;
 
             [JsonIgnore]
+            private List<string> categories = new List<string>();
+            [JsonIgnore]
+            private List<string> features = new List<string>();
+            [JsonIgnore]
+            private List<string> tests = new List<string>();
+
+            [JsonIgnore]
             public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
 
             [JsonIgnore]
@@ -155,7 +161,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             {
                 get
                 {
-                    switch(this.parallelBy.ToLower())
+                    switch (this.parallelBy.ToLower())
                     {
                         case "suite":
                             return Parallelization.Suite;
@@ -170,13 +176,6 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
             [JsonIgnore]
             public int Threads => this.threads;
-
-            [JsonIgnore]
-            private List<string> categories = new List<string>();
-            [JsonIgnore]
-            private List<string> features = new List<string>();
-            [JsonIgnore]
-            private List<string> tests = new List<string>();
 
             [JsonProperty("categories")]
             public List<string> RunCategories => this.categories;

@@ -2,12 +2,12 @@
 
 namespace Unicorn.Core.Testing.Tests
 {
-    public class TestSuiteParametersSet
+    public class SuiteDataSet
     {
         private string name;
         private object[] parameters;
 
-        public TestSuiteParametersSet(string name, params object[] parameters)
+        public SuiteDataSet(string name, params object[] parameters)
         {
             this.name = name;
             this.parameters = new object[parameters.Length];

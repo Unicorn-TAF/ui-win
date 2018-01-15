@@ -4,55 +4,53 @@ using Unicorn.Core.Testing.Tests.Attributes;
 namespace Tests.TestData
 {
     [TestSuite("Suite")]
+    [Feature("sample")]
     public class Suite : TestSuite
     {
-        private string output;
+        public static string Output { get; set; }
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            output = string.Empty;
-            output += "BeforeSuite>";
+            Output += "BeforeSuite>";
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            output += "BeforeTest>";
+            Output += "BeforeTest>";
         }
 
         [Test]
         public void Test2()
         {
-            output += "Test1>";
+            Output += "Test1>";
         }
 
         [Test]
         [Skip]
         public void TestToSkip()
         {
-            output += "TestToSkip>";
+            Output += "TestToSkip>";
         }
 
         [Test]
         public void Test1()
         {
-            output += "Test2>";
+            Output += "Test2>";
             throw new System.Exception("FAILED");
         }
 
         [AfterTest]
         public void AfterTest()
         {
-            output += "AfterTest>";
+            Output += "AfterTest>";
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            output += "AfterSuite";
+            Output += "AfterSuite";
         }
-
-        public string GetOutput() => output;
     }
 }

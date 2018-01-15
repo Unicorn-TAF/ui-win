@@ -7,25 +7,25 @@ namespace Tests.TestData
     [Feature("Skipping")]
     public class SuiteToBeSkipped : BaseTestSuite
     {
-        private string output = string.Empty;
+        public static string Output { get; set; }
 
         [BeforeSuite]
         public void BeforeSuite()
         {
-            output += "BeforeSuite";
+            Output += "BeforeSuite";
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            output += "BeforeTest";
+            Output += "BeforeTest";
         }
 
         [Test]
         [Category("someCategory"), Category("thirdCategory")]
         public void Test2()
         {
-            output += "Test2";
+            Output += "Test2";
             Do.Testing.FirstTestStep();
         }
 
@@ -33,7 +33,7 @@ namespace Tests.TestData
         [Test]
         public void TestToSkip()
         {
-            output += "TestToSkip";
+            Output += "TestToSkip";
             Do.Testing.SecondTestStep("a");
         }
 
@@ -41,7 +41,7 @@ namespace Tests.TestData
         [Category("someCategory"), Category("anotherCategory")]
         public void Test1()
         {
-            output += "Test1";
+            Output += "Test1";
             Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
         }
 
@@ -49,7 +49,7 @@ namespace Tests.TestData
         [Test]
         public void Test23()
         {
-            output += "Test23";
+            Output += "Test23";
             Bug("871236").Testing.SecondTestStep("a");
         }
 
@@ -57,7 +57,7 @@ namespace Tests.TestData
         [Category("someCategory")]
         public void Test33()
         {
-            output += "Test33";
+            Output += "Test33";
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
@@ -66,7 +66,7 @@ namespace Tests.TestData
         [Category("someCategory")]
         public void Test43()
         {
-            output += "Test43";
+            Output += "Test43";
             Bug("871236").Testing.SecondTestStep("a");
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
@@ -74,15 +74,13 @@ namespace Tests.TestData
         [AfterTest]
         public void AfterTest()
         {
-            output += "AfterTest";
+            Output += "AfterTest";
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            output += "AfterSuite";
+            Output += "AfterSuite";
         }
-
-        public string GetOutput() => output;
     }
 }

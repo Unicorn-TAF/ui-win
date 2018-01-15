@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Reflection;
 using NUnit.Framework;
 using ProjectSpecific;
 using ProjectSpecific.BO;
 using ProjectSpecific.Steps;
-using Tests.TestData;
+using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Tests.UnitTests
 {
@@ -16,9 +16,9 @@ namespace Tests.UnitTests
         [TestCase(Description = "Check suite run")]
         public void ParameterizedSuiteRunSuiteTest()
         {
-            ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
-            throw new NotImplementedException();
-            ////suite.Run();
+            Unicorn.Core.Testing.Tests.Adapter.Configuration.SetSuiteFeatures("parameterized");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -35,9 +35,9 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For check logging 2")]
         public void StepsReportingTest2()
         {
-            SuiteForReporting suite = new SuiteForReporting();
-            throw new NotImplementedException();
-            ////suite.Run();
+            Unicorn.Core.Testing.Tests.Adapter.Configuration.SetSuiteFeatures("reporting");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
         }
     }
 }

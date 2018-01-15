@@ -41,18 +41,18 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             return suiteType.GetCustomAttribute(typeof(ParameterizedAttribute), true) != null;
         }
 
-        public static List<TestSuiteParametersSet> GetSuiteData(Type suiteType)
+        public static List<SuiteDataSet> GetSuiteData(Type suiteType)
         {
-            var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static)
+            var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 .Where(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null).FirstOrDefault();
 
             if (suiteDataMethod == null)
             {
-                return new List<TestSuiteParametersSet>();
+                return new List<SuiteDataSet>();
             }
             else
             {
-                return suiteDataMethod.Invoke(null, null) as List<TestSuiteParametersSet>;
+                return suiteDataMethod.Invoke(null, null) as List<SuiteDataSet>;
             }
         }
     }

@@ -11,7 +11,7 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        public Stopwatch suiteTimer;
+        private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
         private int runnableTestsCount;
@@ -224,13 +224,13 @@ namespace Unicorn.Core.Testing.Tests
 
             if (this.RunSuiteMethods(this.afterTests))
             {
-
             }
         }
-        
+
         /// <summary>
         /// Run SuiteMethods
         /// </summary>
+        /// <param name="suiteMethods">array of suite methods to run</param>
         /// <returns>true if after suites run successfully; fail if at least one after suite failed</returns>
         private bool RunSuiteMethods(SuiteMethod[] suiteMethods)
         {
@@ -274,8 +274,15 @@ namespace Unicorn.Core.Testing.Tests
 
                 if (GetType().GetCustomAttribute(typeof(ParameterizedAttribute), true) != null)
                 {
-                    fullTestName += $" - {this.Metadata["postfix"]}";
-                    description += $": set[{this.Metadata["postfix"]}]";
+                    string postfix;
+
+                    if (!this.Metadata.TryGetValue("postfix", out postfix))
+                    {
+                        postfix = "parameterized";
+                    }
+                        
+                    fullTestName += $" - {postfix}";
+                    description += $": set[{postfix}]";
                 }
 
                 test.GenerateId();
@@ -289,7 +296,7 @@ namespace Unicorn.Core.Testing.Tests
         /// Get list of MethodInfo from suite instance based on specified Attribute presence
         /// </summary>
         /// <param name="attributeType">Type of attribute</param>
-        /// <param name="isBeforeSuite">identify if need to get list of before suites</param>
+        /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
         /// <returns>list of MethodInfo with specified attribute</returns>
         private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)
         {

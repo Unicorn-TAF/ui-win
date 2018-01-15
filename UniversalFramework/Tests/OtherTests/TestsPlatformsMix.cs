@@ -1,7 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Reflection;
+using NUnit.Framework;
 using ProjectSpecific;
-using System.Reflection;
-using Tests.TestData;
 using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Tests.UnitTests
