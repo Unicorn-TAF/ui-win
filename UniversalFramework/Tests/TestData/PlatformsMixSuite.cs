@@ -31,7 +31,7 @@ namespace Tests.TestData
             Do.UI.CharMap.CloseApplication();
         }
 
-        [Skip]
+        [Disable]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Web")]
         [Test("Run Web driver test")]
@@ -42,7 +42,7 @@ namespace Tests.TestData
             Do.UI.YandexMarket.CloseBrowser();
         }
 
-        [Skip]
+        [Disable]
         [Bug("9999")]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Mobile")]

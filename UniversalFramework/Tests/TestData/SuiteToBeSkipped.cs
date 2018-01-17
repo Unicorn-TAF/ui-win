@@ -29,7 +29,7 @@ namespace Tests.TestData
             Do.Testing.FirstTestStep();
         }
 
-        [Skip]
+        [Disable]
         [Test]
         public void TestToSkip()
         {
@@ -45,7 +45,7 @@ namespace Tests.TestData
             Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Skip]
+        [Disable]
         [Test]
         public void Test23()
         {
@@ -61,7 +61,7 @@ namespace Tests.TestData
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Skip]
+        [Disable]
         [Test]
         [Category("someCategory")]
         public void Test43()

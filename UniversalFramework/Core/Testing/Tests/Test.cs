@@ -20,7 +20,6 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod) : base(testMethod)
         {
-            this.IsNeedToBeSkipped = false;
         }
 
         /* Events section */
@@ -36,11 +35,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event TestEvent OnSkip;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether specified test method should be skipped by presence of [Skip] attribute
-        /// </summary>
-        public bool IsNeedToBeSkipped { get; set; }
-        
         /// <summary>
         /// Gets test categories
         /// </summary>
@@ -90,7 +84,7 @@ namespace Unicorn.Core.Testing.Tests
             try
             {
                 this.TestMethod.Invoke(suiteInstance, null);
-                this.Outcome.Result = Result.PASSED;
+                this.Outcome.Result = Result.Passed;
 
                 try
                 {
@@ -135,7 +129,8 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public void Skip()
         {
-            this.Outcome.Result = Result.SKIPPED;
+            this.Outcome.Result = Result.Skipped;
+            this.Outcome.Bugs.Clear();
             OnSkip?.Invoke(this);
             Logger.Instance.Info($"TEST '{Description}' {Outcome.Result}");
         }

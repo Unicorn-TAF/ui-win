@@ -28,7 +28,7 @@ namespace Tests.TestData
         }
 
         [Test]
-        [Skip]
+        [Disable]
         public void TestToSkip()
         {
             Do.Testing.SecondTestStep("a");

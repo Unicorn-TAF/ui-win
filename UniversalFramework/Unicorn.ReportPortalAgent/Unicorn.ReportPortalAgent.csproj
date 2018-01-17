@@ -69,6 +69,7 @@
     <Compile Include="ReportPortalListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportPortalListener.Launch.cs" />
+    <Compile Include="ReportPortalListener.SuiteMethod.cs" />
     <Compile Include="ReportPortalListener.Suite.cs" />
     <Compile Include="ReportPortalListener.Step.cs" />
     <Compile Include="ReportPortalListener.Test.cs" />

@@ -14,14 +14,11 @@ namespace Unicorn.Core.Testing.Tests
         private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
-        private int runnableTestsCount;
         private string currentStepBug = string.Empty;
+        private bool skipTests = false;
 
         private Test[] tests;
-        private SuiteMethod[] beforeSuites;
-        private SuiteMethod[] beforeTests;
-        private SuiteMethod[] afterTests;
-        private SuiteMethod[] afterSuites;
+        private SuiteMethod[] beforeSuites, beforeTests, afterTests, afterSuites;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.
@@ -33,7 +30,6 @@ namespace Unicorn.Core.Testing.Tests
         public TestSuite()
         {
             this.Id = Guid.NewGuid();
-            this.runnableTestsCount = 0;
             this.Metadata = new Dictionary<string, string>();
             this.suiteTimer = new Stopwatch();
             this.beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
@@ -41,7 +37,7 @@ namespace Unicorn.Core.Testing.Tests
             this.afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
             this.afterSuites = GetSuiteMethodsByAttribute(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
             this.Outcome = new SuiteOutcome();
-            this.Outcome.Result = Result.PASSED;
+            this.Outcome.Result = Result.Passed;
             this.tests = GetTests();
         }
 
@@ -50,10 +46,6 @@ namespace Unicorn.Core.Testing.Tests
         public static event UnicornSuiteEvent SuiteStarted;
 
         public static event UnicornSuiteEvent SuiteFinished;
-
-        public static event UnicornSuiteEvent SuitePassed;
-
-        public static event UnicornSuiteEvent SuiteFailed;
 
         public static event UnicornSuiteEvent SuiteSkipped;
 
@@ -136,18 +128,13 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                this.Skip("Error running test suite");
+                this.Skip("Exception occured during SuiteStarted event invoke" + Environment.NewLine + ex);
+                return;
+            }
 
-                try
-                {
-                    SuiteSkipped?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Error("Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
-                }
-
-                Logger.Instance.Error("Exception occured during SuiteStarted event invoke" + Environment.NewLine + ex);
+            if (!this.RunSuiteMethods(this.beforeSuites))
+            {
+                this.Skip("Before Suite failed");
                 return;
             }
 
@@ -155,29 +142,12 @@ namespace Unicorn.Core.Testing.Tests
 
             this.suiteTimer.Start();
 
-            if (this.RunSuiteMethods(this.beforeSuites))
+            foreach (Test test in this.tests)
             {
-                foreach (Test test in this.tests)
-                {
-                    RunTest(test);
-                }
-            }
-            else
-            {
-                foreach (Test test in this.tests)
-                {
-                    test.Outcome.Result = Result.SKIPPED;
-                    test.Outcome.Bugs.Clear();
-                }
+                RunTest(test);
             }
 
-            FillOutcomeWithTestsResults();
-
-            if (!this.RunSuiteMethods(this.afterSuites))
-            {
-                this.Outcome.Result = Result.FAILED;
-            }
-
+            this.RunSuiteMethods(this.afterSuites);
             this.suiteTimer.Stop();
             this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
 
@@ -201,31 +171,61 @@ namespace Unicorn.Core.Testing.Tests
         {
             Logger.Instance.Info(reason);
 
-            this.runnableTestsCount = 0;
-            this.Outcome.Result = Result.SKIPPED;
+            foreach (Test test in this.tests)
+            {
+                test.Skip();
+            }
+
+            this.Outcome.TotalTests = tests.Length;
+            this.Outcome.Result = Result.Skipped;
+
+            try
+            {
+                SuiteSkipped?.Invoke(this);
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Error("Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
+            }
         }
 
+        /// <summary>
+        /// Run specified Test.
+        /// </summary>
+        /// <param name="test">test instance</param>
         private void RunTest(Test test)
         {
-            if (test.IsNeedToBeSkipped)
+            this.Outcome.TotalTests++;
+
+            if (this.skipTests)
             {
                 test.Skip();
                 return;
             }
 
-            if (this.RunSuiteMethods(this.beforeTests))
-            {
-                test.Execute(this);
-            }
-            else
+            if (!this.RunSuiteMethods(this.beforeTests))
             {
                 test.Skip();
+                return;
             }
 
-            if (this.RunSuiteMethods(this.afterTests))
+            test.Execute(this);
+
+            this.RunAftertests(test.Outcome.Result == Result.Failed);
+
+            if (test.Outcome.Result == Result.Failed)
             {
+                this.Outcome.FailedTests++;
+                this.Outcome.Result = Result.Failed;
+
+                foreach (var bug in test.Outcome.Bugs)
+                {
+                    this.Outcome.Bugs.Add(bug);
+                }
             }
         }
+
+        #region Helpers
 
         /// <summary>
         /// Run SuiteMethods
@@ -238,9 +238,8 @@ namespace Unicorn.Core.Testing.Tests
             {
                 suiteMethod.Execute(this);
 
-                if (suiteMethod.Outcome.Result != Result.PASSED)
+                if (suiteMethod.Outcome.Result != Result.Passed)
                 {
-                    Logger.Instance.Error($"{suiteMethod.Type} failed.");
                     return false;
                 }
             }
@@ -248,7 +247,29 @@ namespace Unicorn.Core.Testing.Tests
             return true;
         }
 
-        #region Helpers
+        /// <summary>
+        /// Run SuiteMethods
+        /// </summary>
+        /// <param name="testWasFailed">array of suite methods to run</param>
+        private void RunAftertests(bool testWasFailed = false)
+        {
+            foreach (var suiteMethod in this.afterTests)
+            {
+                var attribute = suiteMethod.TestMethod.GetCustomAttribute(typeof(AfterTestAttribute), true) as AfterTestAttribute;
+
+                if (testWasFailed && !attribute.RunAlways)
+                {
+                    return;
+                }
+
+                suiteMethod.Execute(this);
+
+                if (suiteMethod.Outcome.Result == Result.Failed)
+                {
+                    skipTests = attribute.SkipTestsOnFail && Configuration.ParallelBy != Parallelization.Test;
+                }
+            }
+        }
 
         /// <summary>
         /// Get list of Tests from suite instance based on [Test] Attribute presence. 
@@ -264,10 +285,14 @@ namespace Unicorn.Core.Testing.Tests
 
             foreach (MethodInfo method in suiteMethods)
             {
+                if (!Helper.IsTestRunnable(method))
+                {
+                    continue;
+                }
+
                 Test test = new Test(method);
-                test.Type = SuiteMethodType.Test;
+                test.MethodType = SuiteMethodType.Test;
                 test.ParentId = this.Id;
-                test.IsNeedToBeSkipped = !Util.IsTestRunnable(method);
 
                 string fullTestName = $"{Name} - {method.Name}";
                 string description = $"{test.Description}";
@@ -313,29 +338,12 @@ namespace Unicorn.Core.Testing.Tests
                     suiteMethod.ParentId = this.Id;
                     suiteMethod.FullName = $"{this.Name} - {method.Name}";
                     suiteMethod.GenerateId();
-                    suiteMethod.Type = type;
+                    suiteMethod.MethodType = type;
                     suitableMethods.Add(suiteMethod);
                 }
             }
 
             return suitableMethods.ToArray();
-        }
-
-        private void FillOutcomeWithTestsResults()
-        {
-            foreach (Test test in this.tests)
-            {
-                if (test.Outcome.Result == Result.FAILED)
-                {
-                    this.Outcome.FailedTests++;
-                    this.Outcome.Result = Result.FAILED;
-                }
-
-                foreach (string bug in test.Outcome.Bugs)
-                {
-                    this.Outcome.Bugs.Add(bug);
-                }
-            }
         }
 
         #endregion

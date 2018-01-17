@@ -51,7 +51,7 @@ namespace Tests.TestData
         }
 
         [Test("Test to Skip")]
-        [Skip]
+        [Disable]
         public void TestToSkip()
         {
             Output += "TestToSkip>";

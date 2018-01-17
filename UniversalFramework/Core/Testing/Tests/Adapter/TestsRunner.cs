@@ -32,9 +32,9 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public void RunTestSuite(Type type)
         {
-            if (Util.IsSuiteParameterized(type))
+            if (Helper.IsSuiteParameterized(type))
             {
-                foreach (var parametersSet in Util.GetSuiteData(type))
+                foreach (var parametersSet in Helper.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters) as TestSuite;
                     parameterizedSuite.Metadata.Add("postfix", parametersSet.Name);
@@ -58,7 +58,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         private void ObserveRunnableSuites()
         {
             runnableSuites = TestsObserver.ObserveTestSuites(ass)
-                .Where(s => Util.IsSuiteRunnable(s)).ToList();
+                .Where(s => Helper.IsSuiteRunnable(s)).ToList();
         }
     }
 }

@@ -6,7 +6,7 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
-    public class Util
+    public class Helper
     {
         public static bool IsSuiteRunnable(Type suiteType)
         {
@@ -24,7 +24,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public static bool IsTestRunnable(MethodInfo testMethod)
         {
-            if (testMethod.GetCustomAttribute(typeof(SkipAttribute), true) != null)
+            if (testMethod.GetCustomAttribute(typeof(DisableAttribute), true) != null)
             {
                 return false;
             }

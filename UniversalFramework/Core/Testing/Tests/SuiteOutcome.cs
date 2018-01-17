@@ -7,8 +7,9 @@ namespace Unicorn.Core.Testing.Tests
     {
         public SuiteOutcome()
         {
-            this.Bugs = new List<string>();
+            this.Bugs = new HashSet<string>();
             this.FailedTests = 0;
+            this.TotalTests = 0;
         }
 
         public Result Result { get; set; }
@@ -19,6 +20,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public int FailedTests { get; set; }
 
-        public List<string> Bugs { get; }
+        public HashSet<string> Bugs { get; }
     }
 }

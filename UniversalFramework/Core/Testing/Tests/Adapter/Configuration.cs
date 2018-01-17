@@ -79,7 +79,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public static List<string> RunFeatures => features;
 
-        public static List<string> RunTests { get; }
+        public static List<string> RunTests => tests;
 
         /// <summary>
         /// Set tests categories needed to be run.
@@ -109,7 +109,6 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         /// <summary>
         /// Deserialize run configuration fro JSON file
-        /// <para>If path is not specified 'unicorn.conf' from current directory is used</para>
         /// </summary>
         /// <param name="configPath">path to JSON config file </param>
         public static void FillFromFile(string configPath = "")
@@ -184,7 +183,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             public List<string> RunFeatures => this.features;
 
             [JsonProperty("tests")]
-            public List<string> RunTests { get; set; }
+            public List<string> RunTests => this.tests;
         }
     }
 }

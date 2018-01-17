@@ -36,10 +36,9 @@ namespace ReportPortal.UnicornExtension
 
             Bridge.Service = reportPortalService;
 
-            statusMap[Result.PASSED] = Status.Passed;
-            statusMap[Result.FAILED] = Status.Failed;
-            statusMap[Result.SKIPPED] = Status.Skipped;
-            statusMap[Result.NOT_EXECUTED] = Status.None;
+            statusMap[Result.Passed] = Status.Passed;
+            statusMap[Result.Failed] = Status.Failed;
+            statusMap[Result.Skipped] = Status.Skipped;
         }
 
         public static Config Config

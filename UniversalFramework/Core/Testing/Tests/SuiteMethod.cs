@@ -139,17 +139,17 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public TestOutcome Outcome { get; set; }
 
-        public SuiteMethodType Type { get; set; }
+        public SuiteMethodType MethodType { get; set; }
+
+        /// <summary>
+        /// Gets or sets Method which represents test
+        /// </summary>
+        public MethodInfo TestMethod { get; set; }
 
         /// <summary>
         /// Gets or sets Test execution timer
         /// </summary>
         protected Stopwatch TestTimer { get; set; }
-
-        /// <summary>
-        /// Gets or sets Method which represents test
-        /// </summary>
-        protected MethodInfo TestMethod { get; set; }
 
         /// <summary>
         /// Generates Id for the test which will be the same each time for this test
@@ -182,7 +182,7 @@ namespace Unicorn.Core.Testing.Tests
                 Logger.Instance.Error("Exception occured during SuiteMethodStarted event invoke" + Environment.NewLine + ex);
             }
 
-            Logger.Instance.Info($"========== {this.Type} '{Description}' ==========");
+            Logger.Instance.Info($"========== {this.MethodType} '{Description}' ==========");
 
             this.TestTimer = new Stopwatch();
             this.TestTimer.Start();
@@ -190,7 +190,7 @@ namespace Unicorn.Core.Testing.Tests
             try
             {
                 this.TestMethod.Invoke(suiteInstance, null);
-                this.Outcome.Result = Result.PASSED;
+                this.Outcome.Result = Result.Passed;
 
                 SuiteMethodPassed?.Invoke(this);
             }
@@ -203,7 +203,7 @@ namespace Unicorn.Core.Testing.Tests
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
-            Logger.Instance.Info($"{this.Type} {Outcome.Result}");
+            Logger.Instance.Info($"{this.MethodType} {Outcome.Result}");
 
             try
             {
@@ -211,7 +211,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Error("Exception occured during SuiteMethodFinished event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -237,7 +237,7 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.Outcome.Exception = ex;
-            this.Outcome.Result = Result.FAILED;
+            this.Outcome.Result = Result.Failed;
         }
     }
 }

@@ -2,9 +2,9 @@
 {
     public enum Result
     {
-        PASSED,
-        FAILED,
-        SKIPPED,
-        NOT_EXECUTED
+        Passed,
+        Failed,
+        Skipped,
+        NotExecuted
     }
 }
