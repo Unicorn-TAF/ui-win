@@ -197,7 +197,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             this.Outcome.TotalTests++;
 
-            if (this.skipTests)
+            if (this.skipTests || !test.IsRunnable)
             {
                 test.Skip();
                 return;
@@ -285,14 +285,10 @@ namespace Unicorn.Core.Testing.Tests
 
             foreach (MethodInfo method in suiteMethods)
             {
-                if (!Helper.IsTestRunnable(method))
-                {
-                    continue;
-                }
-
                 Test test = new Test(method);
                 test.MethodType = SuiteMethodType.Test;
                 test.ParentId = this.Id;
+                test.IsRunnable = Helper.IsTestRunnable(method);
 
                 string fullTestName = $"{Name} - {method.Name}";
                 string description = $"{test.Description}";

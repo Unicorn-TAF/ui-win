@@ -11,6 +11,7 @@ namespace Unicorn.Core.Testing.Tests
     public class Test : SuiteMethod
     {
         private List<string> categories = null;
+        private bool isRunnable = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
@@ -54,6 +55,22 @@ namespace Unicorn.Core.Testing.Tests
                 }
 
                 return this.categories;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current test is need to be run
+        /// </summary>
+        public bool IsRunnable
+        {
+            get
+            {
+                return this.isRunnable;
+            }
+
+            set
+            {
+                this.isRunnable = value;
             }
         }
 

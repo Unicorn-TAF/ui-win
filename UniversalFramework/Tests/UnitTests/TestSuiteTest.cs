@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -80,13 +79,12 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For Suite Skipping")]
         public void SuiteBugsTest()
         {
-            SuiteForReporting repSuite = new SuiteForReporting();
-
-            throw new NotImplementedException();
-            ////repSuite.Run();
+            Configuration.SetSuiteFeatures("reporting");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
             string[] expectedBugs = new string[] { "234", "871236" };
 
-            Assert.IsTrue(repSuite.Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
+            Assert.IsTrue(runner.ExecutedSuites[0].Outcome.Bugs.Intersect(expectedBugs).Count() == 2);
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)

@@ -8,6 +8,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
     public class TestsRunner
     {
         private List<Type> runnableSuites;
+        private List<TestSuite> executedSuites;
         private Assembly ass;
 
         public TestsRunner(Assembly ass, bool getConfigFromFile = true)
@@ -18,9 +19,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             {
                 Configuration.FillFromFile();
             }
-            
-            ObserveRunnableSuites();
+
+            executedSuites = new List<TestSuite>();
+            runnableSuites = ObserveRunnableSuites();
         }
+
+        public List<TestSuite> ExecutedSuites => this.executedSuites;
 
         public void RunTests()
         {
@@ -36,7 +40,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             {
                 foreach (var parametersSet in Helper.GetSuiteData(type))
                 {
-                    var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters) as TestSuite;
+                    var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
                     parameterizedSuite.Metadata.Add("postfix", parametersSet.Name);
                     ExecuteSuiteIteration(parameterizedSuite);
                 }
@@ -51,13 +55,13 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         private TestSuite ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
-
+            this.executedSuites.Add(testSuite);
             return testSuite;
         }
 
-        private void ObserveRunnableSuites()
+        private List<Type> ObserveRunnableSuites()
         {
-            runnableSuites = TestsObserver.ObserveTestSuites(ass)
+            return TestsObserver.ObserveTestSuites(ass)
                 .Where(s => Helper.IsSuiteRunnable(s)).ToList();
         }
     }
