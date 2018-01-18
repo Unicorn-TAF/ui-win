@@ -41,7 +41,7 @@ namespace ReportPortal.UnicornExtension
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = TestItemType.Test
+                    Type = TestItemType.Step
                 };
 
                 var beforeTestEventArg = new TestItemStartedEventArgs(Bridge.Service, startTestRequest);
