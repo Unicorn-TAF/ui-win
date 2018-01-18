@@ -12,6 +12,7 @@ namespace Unicorn.Core.Testing.Tests
     {
         private List<string> categories = null;
         private bool isRunnable = true;
+        private DataSet dataSet;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
@@ -21,6 +22,19 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public Test(MethodInfo testMethod) : base(testMethod)
         {
+            this.dataSet = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite, based on specified <see cref="DataSet"/>.
+        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
+        /// Contains methods to execute the test and check if test should be skipped
+        /// </summary>
+        /// <param name="testMethod">MethodInfo instance which represents test method</param>
+        /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
+        public Test(MethodInfo testMethod, DataSet dataSet) : base(testMethod)
+        {
+            this.dataSet = dataSet;
         }
 
         /* Events section */
@@ -100,7 +114,15 @@ namespace Unicorn.Core.Testing.Tests
 
             try
             {
-                this.TestMethod.Invoke(suiteInstance, null);
+                if (this.dataSet == null)
+                {
+                    this.TestMethod.Invoke(suiteInstance, null);
+                }
+                else
+                {
+                    this.TestMethod.Invoke(suiteInstance, this.dataSet.Parameters.ToArray());
+                }
+                
                 this.Outcome.Result = Result.Passed;
 
                 try

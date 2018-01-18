@@ -285,32 +285,75 @@ namespace Unicorn.Core.Testing.Tests
 
             foreach (MethodInfo method in suiteMethods)
             {
-                Test test = new Test(method);
-                test.MethodType = SuiteMethodType.Test;
-                test.ParentId = this.Id;
-                test.IsRunnable = Helper.IsTestRunnable(method);
-
-                string fullTestName = $"{Name} - {method.Name}";
-                string description = $"{test.Description}";
-
-                if (GetType().GetCustomAttribute(typeof(ParameterizedAttribute), true) != null)
+                if (Helper.IsTestParameterized(method))
                 {
-                    string postfix;
-
-                    if (!this.Metadata.TryGetValue("postfix", out postfix))
+                    var attribute = method.GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
+                    foreach (DataSet dataSet in Helper.GetTestData(attribute.Method, this))
                     {
-                        postfix = "parameterized";
+                        Test test = GenerateTest(method, dataSet);
+                        testMethods.Add(test);
                     }
-                        
-                    fullTestName += $" - {postfix}";
-                    description += $": set[{postfix}]";
                 }
-
-                test.GenerateId();
-                testMethods.Add(test);
+                else
+                {
+                    Test test = GenerateTest(method, null);
+                    testMethods.Add(test);
+                }
             }
 
             return testMethods.ToArray();
+        }
+
+        /// <summary>
+        /// Generate instance of <see cref="Test"/> and fill with all data
+        /// </summary>
+        /// <param name="method">MethodInfo instance which represents test method</param>
+        /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
+        /// <returns>Test instance</returns>
+        private Test GenerateTest(MethodInfo method, DataSet dataSet)
+        {
+            Test test;
+
+            if (dataSet == null)
+            {
+                test = new Test(method);
+            }
+            else
+            {
+                test = new Test(method, dataSet);
+            }
+             
+            test.MethodType = SuiteMethodType.Test;
+            test.ParentId = this.Id;
+            test.IsRunnable = Helper.IsTestRunnable(method);
+
+            string fullTestName = $"{Name} - {method.Name}";
+            string description = $"{test.Description}";
+
+            if (GetType().GetCustomAttribute(typeof(ParameterizedAttribute), true) != null)
+            {
+                string postfix;
+
+                if (!this.Metadata.TryGetValue("postfix", out postfix))
+                {
+                    postfix = "parameterized";
+                }
+
+                fullTestName += $" - {postfix}";
+                description += $": set[{postfix}]";
+            }
+
+            if (dataSet != null)
+            {
+                fullTestName += $" - {dataSet.Name}";
+                description += $"[{dataSet.Name}]";
+            }
+
+            test.FullName = fullTestName;
+            test.Description = description;
+            test.GenerateId();
+
+            return test;
         }
 
         /// <summary>

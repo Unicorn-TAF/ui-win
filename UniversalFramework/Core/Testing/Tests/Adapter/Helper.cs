@@ -41,19 +41,30 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             return suiteType.GetCustomAttribute(typeof(ParameterizedAttribute), true) != null;
         }
 
-        public static List<SuiteDataSet> GetSuiteData(Type suiteType)
+        public static List<DataSet> GetSuiteData(Type suiteType)
         {
             var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 .Where(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null).FirstOrDefault();
 
             if (suiteDataMethod == null)
             {
-                return new List<SuiteDataSet>();
+                return new List<DataSet>();
             }
             else
             {
-                return suiteDataMethod.Invoke(null, null) as List<SuiteDataSet>;
+                return suiteDataMethod.Invoke(null, null) as List<DataSet>;
             }
+        }
+
+        public static bool IsTestParameterized(MethodInfo testMethod)
+        {
+            return testMethod.GetCustomAttribute(typeof(TestDataAttribute), true) != null;
+        }
+
+        public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance)
+        {
+            return suiteInstance.GetType().GetMethod(testDataMethod)
+                .Invoke(suiteInstance, null) as List<DataSet>;
         }
     }
 }

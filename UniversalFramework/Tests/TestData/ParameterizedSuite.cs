@@ -23,11 +23,11 @@ namespace Tests.TestData
         public static string Output { get; set; }
 
         [SuiteData]
-        public static List<SuiteDataSet> GetSuiteData()
+        public static List<DataSet> GetSuiteData()
         {
-            var parameters = new List<SuiteDataSet>();
-            parameters.Add(new SuiteDataSet("set 1", new SampleObject("a", 2)));
-            parameters.Add(new SuiteDataSet("set 2", new SampleObject("b", 3)));
+            var parameters = new List<DataSet>();
+            parameters.Add(new DataSet("set 1", new SampleObject("a", 2)));
+            parameters.Add(new DataSet("set 2", new SampleObject("b", 3)));
             return parameters;
         }
 

@@ -1,4 +1,5 @@
-﻿using Unicorn.Core.Logging;
+﻿using System.Collections.Generic;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 using Unicorn.Core.Testing.Verification.Matchers;
@@ -13,6 +14,14 @@ namespace Tests.TestData
         private const string ExePath = @"C:\Windows\System32\";
         private const string PortalUrl = @"https://market.yandex.ru/";
 
+        public static List<DataSet> GetGuiData()
+        {
+            List<DataSet> data = new List<DataSet>();
+            data.Add(new DataSet("Calibri font", "Calibri"));
+            data.Add(new DataSet("Cambria font", "Cambria"));
+            return data;
+        }
+
         [BeforeTest]
         public void BeforeTest()
         {
@@ -22,12 +31,13 @@ namespace Tests.TestData
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke"), Category("Gui")]
         [Test("Run Gui driver test")]
-        public void GuiDriverTest()
+        [TestData("GetGuiData")]
+        public void GuiDriverTest(string font)
         {
             Do.UI.CharMap.StartApplication(ExePath + "charmap.exe");
             Do.UI.CheckThat(Do.UI.CharMap.CharMap.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
             Do.UI.CheckThat(Do.UI.CharMap.CharMap.ButtonCopy, Is.Not(Control.Enabled()));
-            Do.UI.CharMap.SelectFont("Calibri");
+            Do.UI.CharMap.SelectFont(font);
             Do.UI.CharMap.CloseApplication();
         }
 

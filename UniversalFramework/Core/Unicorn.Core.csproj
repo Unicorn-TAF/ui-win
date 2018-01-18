@@ -66,6 +66,7 @@
     <Compile Include="Reporting\Screenshot.cs" />
     <Compile Include="Testing\Tests\Adapter\Helper.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestDataAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Testing\Verification\Assert.cs" />
     <Compile Include="Testing\Verification\AssertionError.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Testing\Tests\Result.cs" />
     <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
-    <Compile Include="Testing\Tests\SuiteDataSet.cs" />
+    <Compile Include="Testing\Tests\DataSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
