@@ -25,10 +25,10 @@ namespace Tests.UnitTests
         [TestCase(Description = "Test For check logging")]
         public void StepsReportingTest()
         {
-            Do.Testing.ThirdTestStep(3);
-            Do.Testing.FourthTestStep(new SampleObject());
+            Do.Testing.ReturnValue(3);
+            Do.Testing.ProcessTestObject(new SampleObject());
             Do.Testing.FirstTestStep();
-            Do.Testing.SecondTestStep("value");
+            Do.Testing.Say("value");
         }
 
         [Author("Vitaliy Dobriyan")]

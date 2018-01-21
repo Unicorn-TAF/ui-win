@@ -55,10 +55,12 @@
     <Compile Include="Steps\StepsiOS.cs" />
     <Compile Include="Steps\StepsAndroid.cs" />
     <Compile Include="Steps\StepsUI.cs" />
+    <Compile Include="UI\Desktop.cs" />
     <Compile Include="UI\Gui\WindowCharMap.cs" />
     <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Steps\Steps.cs" />
+    <Compile Include="UI\Pages.cs" />
     <Compile Include="UI\Web\PageYandex.cs" />
     <Compile Include="Util\ConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

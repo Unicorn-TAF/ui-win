@@ -1,8 +1,8 @@
 ﻿using AspectInjector.Broker;
+using ProjectSpecific.UI;
 using ProjectSpecific.UI.Gui;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
-using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Desktop.Driver;
 
 namespace ProjectSpecific.Steps
@@ -10,15 +10,12 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsCharMap : TestSteps
     {
-        public WindowCharMap CharMap;
-        private IDriver driver;
+        private WindowCharMap CharMap => Desktop.CharMap;
 
         [TestStep("Start '{0}'")]
         public void StartApplication(string value)
         {
-            driver = GuiDriver.Instance;
-            driver.Get(value);
-            CharMap = driver.Find<WindowCharMap>(ByLocator.Name("Character Map"));
+            GuiDriver.Instance.Get(value);
         }
 
         [TestStep("Select '{0}' font")]
@@ -31,7 +28,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Close application")]
         public void CloseApplication()
         {
-            driver.Close();
+            CharMap.Close();
         }
     }
 }

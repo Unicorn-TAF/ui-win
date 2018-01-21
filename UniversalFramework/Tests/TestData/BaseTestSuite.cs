@@ -26,13 +26,13 @@ namespace Tests.TestData
         [BeforeSuite]
         public void ClassInit()
         {
-            Logger.Instance.Info("Before suite");
+            Do.Testing.Say("Before suite");
         }
 
         [AfterSuite]
         public void ClassTearDown()
         {
-            Logger.Instance.Info("After suite");
+            Do.Testing.Say("After suite");
         }
 
         /// <summary>

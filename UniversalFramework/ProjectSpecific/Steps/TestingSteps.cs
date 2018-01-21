@@ -16,23 +16,23 @@ namespace ProjectSpecific.Steps
             Logger.Instance.Info(string.Empty);
         }
 
-        [TestStep("Second Test Step '{0}'")]
-        public void SecondTestStep(string value)
+        [TestStep("Say '{0}'")]
+        public void Say(string value)
         {
-            Logger.Instance.Info(string.Empty);
+            Logger.Instance.Info($"saying: '{value}'");
         }
 
-        [TestStep("Third Test Step '{0}'")]
-        public int ThirdTestStep(int a)
+        [TestStep("Return value '{0}'")]
+        public int ReturnValue(int a)
         {
-            Logger.Instance.Info(string.Empty);
+            Logger.Instance.Info(a.ToString());
             return a;
         }
 
-        [TestStep("Fourth Test Step '{0}'")]
-        public void FourthTestStep(SampleObject a)
+        [TestStep("Process '{0}'")]
+        public void ProcessTestObject(SampleObject a)
         {
-            Logger.Instance.Info(string.Empty);
+            Logger.Instance.Info($"retrieved {a}");
         }
 
         [TestStep("Step which always fail '{0}'")]

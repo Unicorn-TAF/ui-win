@@ -31,7 +31,7 @@ namespace Tests.TestData
         [Disable]
         public void TestToSkip()
         {
-            Do.Testing.SecondTestStep("a");
+            Do.Testing.Say("a");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Tests.TestData
         [Test]
         public void Test23()
         {
-            Bug("2343").Testing.SecondTestStep("a");
+            Bug("2343").Testing.Say("a");
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Tests.TestData
         [Test]
         public void Test43()
         {
-            Bug("8716").Testing.SecondTestStep("a");
+            Bug("8716").Testing.Say("a");
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
