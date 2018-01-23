@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests.Attributes;
@@ -144,7 +145,14 @@ namespace Unicorn.Core.Testing.Tests
 
             foreach (Test test in this.tests)
             {
-                RunTest(test);
+                Thread testThread = new Thread(() => this.RunTest(test));
+                testThread.Start();
+                if (!testThread.Join(Configuration.TestTimeout))
+                {
+                    testThread.Abort();
+                    test.Fail(new TimeoutException("Test timeout reached"), string.Empty);
+                    this.Outcome.FailedTests++;
+                }
             }
 
             this.RunSuiteMethods(this.afterSuites);

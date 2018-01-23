@@ -64,11 +64,10 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.author == null)
                 {
-                    object[] attributes = this.TestMethod.GetCustomAttributes(typeof(AuthorAttribute), true);
+                    var attribute = this.TestMethod.GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
 
-                    if (attributes.Length > 0)
+                    if (attribute != null)
                     {
-                        AuthorAttribute attribute = (AuthorAttribute)attributes[0];
                         this.author = attribute.Author;
                     }
                     else
@@ -90,11 +89,10 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.description == null)
                 {
-                    object[] attributes = this.TestMethod.GetCustomAttributes(typeof(TestAttribute), true);
+                    var attribute = this.TestMethod.GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute;
 
-                    if (attributes.Length > 0)
+                    if (attribute != null)
                     {
-                        TestAttribute attribute = (TestAttribute)attributes[0];
                         this.description = attribute.Description;
                     }
 
@@ -221,7 +219,7 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
         /// <param name="bugs">string of bugs test failed on current step.</param>
-        protected void Fail(Exception ex, string bugs)
+        public void Fail(Exception ex, string bugs)
         {
             Logger.Instance.Error(ex.ToString());
 
