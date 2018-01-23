@@ -10,11 +10,8 @@ namespace Tests.UnitTests
     public class MatchersTests
     {
         private List<string> hasItemsA = new List<string>() { "qwerty", "qwerty12", "qwerty123" };
-
         private List<string> hasItemsB = new List<string>() { "qwerty", "qwerty123" };
-
         private List<string> hasItemsC = new List<string>() { "qwerty3", "qwerty1234" };
-
         private List<string> hasItemsD = new List<string>() { "qwerty", "qwerty1234" };
 
         #region IsNull
@@ -295,6 +292,12 @@ namespace Tests.UnitTests
         }
 
         [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsNullOrEmptyNegative1()
+        {
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.IsNullOrEmpty()); });
+        }
+
+        [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotPositive1()
         {
             Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.IsNullOrEmpty()));
@@ -304,6 +307,12 @@ namespace Tests.UnitTests
         public void TestMatcherIsNullOrEmptyWithNotPositive2()
         {
             Unicorn.Core.Testing.Verification.Assert.That(new int[2] { 2, 3 }, Not(Collection.IsNullOrEmpty()));
+        }
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsNullOrEmptyWithNotNegative1()
+        {
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Collection.IsNullOrEmpty())); });
         }
 
         #endregion

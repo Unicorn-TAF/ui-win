@@ -9,7 +9,7 @@ namespace Tests.UnitTests
     public class AssertionsTest
     {
         [Test, Author("Vitaliy Dobriyan")]
-        public void IsNullMatcherPositiveTest()
+        public void TestSoftAssertion()
         {
             NUnit.Framework.Assert.Throws<AssertionError>(delegate 
             {

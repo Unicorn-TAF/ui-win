@@ -16,7 +16,7 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
-        public void CountOfTestsTest()
+        public void TestSuitesCountOfTests()
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
@@ -25,35 +25,35 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void CountOfAfterSuiteTest()
+        public void TestSuitesCountOfAfterSuite()
         {
             Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void CountOfBeforeSuiteTest()
+        public void TestSuitesCountOfBeforeSuite()
         {
             Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void CountOfAfterTestTest()
+        public void TestSuitesCountOfAfterTest()
         {
             Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void CountOfBeforeTestTest()
+        public void TestSuitesCountOfBeforeTest()
         {
             Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
-        public void RunSuiteTest()
+        public void TestSuitesRunSuite()
         {
             Suite.Output = string.Empty;
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
@@ -65,7 +65,7 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteSkipTest()
+        public void TestSuitesSuiteSkip()
         {
             SuiteToBeSkipped.Output = string.Empty;
             Configuration.SetTestCategories("category");
@@ -77,7 +77,7 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test For Suite Skipping")]
-        public void SuiteBugsTest()
+        public void TestSuitesSuiteBugs()
         {
             Configuration.SetSuiteFeatures("reporting");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);

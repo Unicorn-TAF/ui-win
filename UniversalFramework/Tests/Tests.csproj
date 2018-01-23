@@ -114,7 +114,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="OtherTests\TestsReporting.cs" />
     <Compile Include="TestData\BaseTestSuite.cs" />
     <Compile Include="TestData\PlatformsMixSuite.cs" />
     <Compile Include="TestData\ParameterizedSuite.cs" />

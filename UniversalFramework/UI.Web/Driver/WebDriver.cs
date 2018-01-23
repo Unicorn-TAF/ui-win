@@ -114,7 +114,6 @@ namespace Unicorn.UI.Web.Driver
                 Driver.Quit();
                 instance = null;
 
-                Browser = Browser.FIREFOX;
                 options = null;
             }
         }

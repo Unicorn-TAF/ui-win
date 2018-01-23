@@ -24,7 +24,7 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of tests inside")]
-        public void ParameterizedSuiteCountOfTestsTest()
+        public void TestParameterizedSuiteCountOfTests()
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
@@ -33,35 +33,35 @@ namespace Tests.UnitTests
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void ParameterizedSuiteCountOfAfterSuiteTest()
+        public void TestParameterizedSuiteCountOfAfterSuite()
         {
             Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void ParameterizedSuiteCountOfBeforeSuiteTest()
+        public void TestParameterizedSuiteCountOfBeforeSuite()
         {
             Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
-        public void ParameterizedSuiteCountOfAfterTestTest()
+        public void TestParameterizedSuiteCountOfAfterTest()
         {
             Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
-        public void ParameterizedSuiteCountOfBeforeTestTest()
+        public void TestParameterizedSuiteCountOfBeforeTest()
         {
             Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check suite run")]
-        public void ParameterizedSuiteRunSuiteTest()
+        public void TestParameterizedSuiteRunSuite()
         {
             ParameterizedSuite.Output = string.Empty;
             string suiteOutputSet1 = "complex object with a = 2>BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
