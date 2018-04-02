@@ -4,7 +4,7 @@ using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace ProjectSpecific.UI.Gui
 {
-    public class WindowCharMap : Window
+    public class FakeWindow : Window
     {
         [Find(Using.Name, "Help")]
         public Button ButtonHelp;
@@ -20,8 +20,5 @@ namespace ProjectSpecific.UI.Gui
 
         [Find(Using.Name, "Characters to copy :")]
         public TextInput InputCharactersToCopy;
-
-        [Find(Using.Name, "sdfj;gkldf to copy :")]
-        public FakeWindow InputChersToCopy;
     }
 }

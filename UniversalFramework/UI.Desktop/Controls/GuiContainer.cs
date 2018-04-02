@@ -49,13 +49,13 @@ namespace Unicorn.UI.Desktop.Controls
                     var control = Activator.CreateInstance(controlType);
                     ((GuiControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
                     ((GuiControl)control).Cached = false;
-                    ((GuiControl)control).ParentContext = this.SearchContext;
+                    ((GuiControl)control).ParentSearchContext = this;
 
                     if (controlType.IsSubclassOf(typeof(GuiContainer)))
                     {
                         ((GuiContainer)control).Init();
                     }
-                        
+
                     field.SetValue(this, control);
                 }
             }

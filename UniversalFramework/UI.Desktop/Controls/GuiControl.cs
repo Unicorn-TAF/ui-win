@@ -10,8 +10,6 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
-        private bool cached = true;
-
         public GuiControl()
         {
         }
@@ -21,25 +19,9 @@ namespace Unicorn.UI.Desktop.Controls
             this.Instance = instance;
         }
 
-        public bool Cached
-        {
-            get
-            {
-                return this.cached;
-            }
+        public bool Cached { get; set; } = true;
 
-            set
-            {
-                this.cached = value;
-            }
-        }
-
-        public ByLocator Locator
-        {
-            get;
-
-            set;
-        }
+        public ByLocator Locator { get; set; }
 
         public virtual string ClassName => null;
 
@@ -110,7 +92,7 @@ namespace Unicorn.UI.Desktop.Controls
             }
         }
 
-        protected override AutomationElement SearchContext
+        public override AutomationElement SearchContext
         {
             get
             {
@@ -176,7 +158,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void MouseClick()
         {
-            this.Instance.SetFocus();
+            ////this.Instance.SetFocus();
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))
             {
@@ -191,7 +173,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void RightClick()
         {
-            this.Instance.SetFocus();
+            ////this.Instance.SetFocus();
 
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))

@@ -11,13 +11,13 @@ namespace Unicorn.UI.Desktop.Driver
 {
     public abstract class GuiSearchContext : UISearchContext
     {
-        private const int SearchDelay = 100;
+        private const int SearchDelay = 50;
 
-        public AutomationElement ParentContext { get; set; }
+        public GuiSearchContext ParentSearchContext { get; set; }
 
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
-        protected virtual AutomationElement SearchContext { get; set; }
+        public virtual AutomationElement SearchContext { get; set; }
 
         protected override Type ControlsBaseType => typeof(GuiControl);
 
@@ -66,7 +66,7 @@ namespace Unicorn.UI.Desktop.Driver
 
         protected AutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type)
         {
-            return GetNativeControlFromContext(locator, type, this.ParentContext);
+            return GetNativeControlFromContext(locator, type, this.ParentSearchContext.SearchContext);
         }
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
@@ -83,12 +83,13 @@ namespace Unicorn.UI.Desktop.Driver
 
             AutomationElement control = null;
 
-            do
+            control = context.FindFirst(TreeScope.Descendants, condition);
+
+            while (control == null && timer.Elapsed < ImplicitlyWaitTimeout)
             {
-                control = context.FindFirst(TreeScope.Descendants, condition);
                 Thread.Sleep(SearchDelay);
+                control = context.FindFirst(TreeScope.Descendants, condition);
             }
-            while (control == null && timer.Elapsed < ImplicitlyWaitTimeout);
 
             timer.Stop();
 
@@ -150,7 +151,7 @@ namespace Unicorn.UI.Desktop.Driver
         {
             T wrapper = Activator.CreateInstance<T>();
             ((GuiControl)(object)wrapper).Instance = elementToWrap;
-            ((GuiControl)(object)wrapper).ParentContext = this.SearchContext;
+            ((GuiControl)(object)wrapper).ParentSearchContext = this;
 
             return wrapper;
         }

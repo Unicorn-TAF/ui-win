@@ -86,6 +86,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Typified\Hyperlink.cs" />
+    <Compile Include="Controls\Typified\ListView.cs" />
     <Compile Include="Driver\GuiDriver.cs" />
     <Compile Include="Driver\GuiSearchContext.cs" />
     <Compile Include="Input\CoordinatesExtension.cs" />

@@ -1,7 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Automation;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
+using Unicorn.UI.Desktop.Driver;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
@@ -45,14 +48,27 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public void WaitForClosed(int timeout = 5000)
         {
-            do
-            {
-                Thread.Sleep(100);
-                timeout -= 100;
-            }
-            while (this.Visible && timeout > 0);
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
 
-            if (timeout <= 0)
+            GuiDriver.ImplicitlyWaitTimeout = TimeSpan.FromSeconds(0);
+
+            try
+            {
+                do
+                {
+                    Thread.Sleep(50);
+                }
+                while (this.Visible && timer.ElapsedMilliseconds < timeout);
+            }
+            catch (ControlNotFoundException ex)
+            {
+                timer.Stop();
+            }
+
+            GuiDriver.ImplicitlyWaitTimeout = TimeoutDefault;
+
+            if (timer.ElapsedMilliseconds > timeout)
             {
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
