@@ -44,9 +44,11 @@ namespace Unicorn.UI.Desktop.Driver
 
         protected override T GetFirstChildWrappedControl<T>()
         {
+            GuiControl instance = (GuiControl)Activator.CreateInstance(typeof(T));
+
             var condition = new AndCondition(
                 TreeWalker.ControlViewWalker.Condition,
-                new PropertyCondition(AutomationElement.ControlTypeProperty, typeof(T)));
+               GetControlTypeCondition(instance.Type));
 
             var walker = new TreeWalker(condition);
             var elementToWrap = walker.GetFirstChild(this.SearchContext);
