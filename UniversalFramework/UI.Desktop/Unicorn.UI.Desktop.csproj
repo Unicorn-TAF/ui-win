@@ -100,6 +100,7 @@
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\WindowsApi.cs" />
+    <Compile Include="PageObject\GuiControlExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Typified\Button.cs" />
     <Compile Include="Controls\Typified\Checkbox.cs" />

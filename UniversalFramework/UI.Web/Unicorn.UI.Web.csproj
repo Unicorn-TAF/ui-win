@@ -89,6 +89,7 @@
     <Compile Include="Browser.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
+    <Compile Include="PageObject\WebControlExtension.cs" />
     <Compile Include="PageObject\WebPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\WebContainer.cs" />
