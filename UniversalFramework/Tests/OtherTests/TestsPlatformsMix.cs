@@ -8,7 +8,7 @@ namespace Tests.UnitTests
     [TestFixture]
     public class TestsPlatformsMix : NUnitReportPortalTestRunner
     {
-        [Ignore("not unit test")]
+        //[Ignore("not unit test")]
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Test to check Demo version of TestSuite")]
         public void PlatformMixTest()

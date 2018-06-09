@@ -33,7 +33,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Close Browser")]
         public void CloseBrowser()
         {
-            WebDriver.Instance.Close();
+            WebDriver.Close();
         }
     }
 }

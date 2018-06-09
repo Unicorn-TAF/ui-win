@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -107,7 +106,7 @@ namespace Unicorn.UI.Web.Driver
             return js.ExecuteScript(script, parameters);
         }
 
-        public void Close()
+        public static void Close()
         {
             if (instance != null)
             {

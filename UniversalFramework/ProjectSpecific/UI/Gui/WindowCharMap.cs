@@ -22,6 +22,6 @@ namespace ProjectSpecific.UI.Gui
         public TextInput InputCharactersToCopy;
 
         [Find(Using.Name, "sdfj;gkldf to copy :")]
-        public FakeWindow InputChersToCopy;
+        public FakeWindow NonExistingWindow;
     }
 }

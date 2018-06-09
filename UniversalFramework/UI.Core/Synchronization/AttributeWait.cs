@@ -8,16 +8,13 @@ namespace Unicorn.UI.Core.Synchronization
 {
     public class AttributeWait<T>
     {
-        private static TimeSpan DefaultSleepTimeout = TimeSpan.FromMilliseconds(500);
+        private static TimeSpan defaultSleepTimeout = TimeSpan.FromMilliseconds(500);
+        private static TimeSpan defaultTimeout = TimeSpan.FromSeconds(30);
 
         private T input;
         private SystemClock clock;
         private string attribute;
         private string value;
-
-        private TimeSpan timeout = DefaultSleepTimeout;
-        private TimeSpan sleepInterval = DefaultSleepTimeout;
-        private string message = string.Empty;
 
         private List<Type> ignoredExceptions = new List<Type>();
 
@@ -33,11 +30,6 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentNullException("input", "input cannot be null");
             }
 
-            if (clock == null)
-            {
-                throw new ArgumentNullException("clock", "clock cannot be null");
-            }
-
             this.input = input;
             this.clock = new SystemClock();
             this.attribute = attribute;
@@ -47,12 +39,12 @@ namespace Unicorn.UI.Core.Synchronization
         /// <summary>
         /// Gets or sets how long to wait for the evaluated condition to be true. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan Timeout { get; set; }
+        public TimeSpan Timeout { get; set; } = defaultTimeout;
 
         /// <summary>
         /// Gets or sets how often the condition should be evaluated. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan PollingInterval { get; set; }
+        public TimeSpan PollingInterval { get; set; } = defaultSleepTimeout;
 
         /// <summary>
         /// Gets or sets the message to be displayed when time expires.
@@ -110,7 +102,7 @@ namespace Unicorn.UI.Core.Synchronization
             }
 
             Exception lastException = null;
-            var endTime = this.clock.LaterBy(this.timeout);
+            var endTime = this.clock.LaterBy(this.Timeout);
             while (true)
             {
                 try
@@ -146,16 +138,16 @@ namespace Unicorn.UI.Core.Synchronization
                 // with a zero timeout can succeed.
                 if (!this.clock.IsNowBefore(endTime))
                 {
-                    string timeoutMessage = string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds", this.timeout.TotalSeconds);
-                    if (!string.IsNullOrEmpty(this.message))
+                    string timeoutMessage = string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds", this.Timeout.TotalSeconds);
+                    if (!string.IsNullOrEmpty(this.Message))
                     {
-                        timeoutMessage += ": " + this.message;
+                        timeoutMessage += ": " + this.Message;
                     }
 
                     throw new TimeoutException(timeoutMessage, lastException);
                 }
 
-                Thread.Sleep(this.sleepInterval);
+                Thread.Sleep(this.PollingInterval);
             }
         }
 

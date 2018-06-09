@@ -7,7 +7,5 @@ namespace Unicorn.UI.Core.Driver
         TimeSpan ImplicitlyWait { get; set; }
 
         void Get(string path);
-
-        void Close();
     }
 }
