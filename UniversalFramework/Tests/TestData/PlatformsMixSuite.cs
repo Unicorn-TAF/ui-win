@@ -4,7 +4,10 @@ using ProjectSpecific.UI;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 using Unicorn.Core.Testing.Verification.Matchers;
+using Unicorn.UI.Desktop.Controls;
+using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Matchers;
+using Unicorn.UI.Core.Synchronization;
 
 namespace Tests.TestData
 {
@@ -72,6 +75,11 @@ namespace Tests.TestData
             Do.UI.YandexMarket.SelectSubCatalog();
 
             Do.UI.CheckThat(Pages.YandexMarket.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
+
+            Pages.YandexMarket.MenuTop.LinkElectronics
+                .WaitForAttributeContains("class", "wee")
+                .WaitForVisible()
+                .Click();
 
             Do.UI.YandexMarket.CloseBrowser();
         }
