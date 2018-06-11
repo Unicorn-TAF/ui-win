@@ -34,8 +34,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public void SendKeys(string text)
         {
-            this.WaitForEnabled();
-
             var pattern = GetPattern<ValuePattern>();
 
             if (pattern.Current.IsReadOnly)

@@ -135,8 +135,6 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void Click()
         {
-            this.WaitForEnabled();
-
             object pattern = null;
 
             try
