@@ -8,7 +8,6 @@ namespace Unicorn.Core.Testing.Tests.Adapter
     public class TestsRunner
     {
         private List<Type> runnableSuites;
-        private List<TestSuite> executedSuites;
         private Assembly ass;
 
         public TestsRunner(Assembly ass, bool getConfigFromFile = true)
@@ -20,11 +19,11 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 Configuration.FillFromFile();
             }
 
-            executedSuites = new List<TestSuite>();
+            this.ExecutedSuites = new List<TestSuite>();
             runnableSuites = ObserveRunnableSuites();
         }
 
-        public List<TestSuite> ExecutedSuites => this.executedSuites;
+        public List<TestSuite> ExecutedSuites { get; protected set; }
 
         public void RunTests()
         {
@@ -55,7 +54,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         private TestSuite ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
-            this.executedSuites.Add(testSuite);
+            this.ExecutedSuites.Add(testSuite);
             return testSuite;
         }
 

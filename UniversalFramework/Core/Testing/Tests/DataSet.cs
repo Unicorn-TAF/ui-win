@@ -4,17 +4,14 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class DataSet
     {
-        private string name;
-        private List<object> parameters;
-
         public DataSet(string name, params object[] parameters)
         {
-            this.name = name;
-            this.parameters = new List<object>(parameters);
+            this.Name = name;
+            this.Parameters = new List<object>(parameters);
         }
 
-        public string Name => this.name;
+        public string Name { get; protected set; }
 
-        public List<object> Parameters => this.parameters;
+        public List<object> Parameters { get; protected set; }
     }
 }

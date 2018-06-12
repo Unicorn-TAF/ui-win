@@ -12,14 +12,15 @@
 
     public class ByLocator
     {
-        public readonly Using How;
-        public readonly string Locator;
-
         public ByLocator(Using how, string locator)
         {
             this.How = how;
             this.Locator = locator;
         }
+
+        public Using How { get; protected set; }
+
+        public string Locator { get; protected set; }
 
         public static ByLocator Id(string locator)
         {

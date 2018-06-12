@@ -47,8 +47,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event UnicornSuiteMethodEvent SuiteMethodFailed;
 
-        public static TimeSpan TestTimeout => TimeSpan.FromMinutes(15);
-
         public static StringBuilder CurrentOutput { get; set; }
 
         public Guid Id { get; set; }
@@ -66,14 +64,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     var attribute = this.TestMethod.GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
 
-                    if (attribute != null)
-                    {
-                        this.author = attribute.Author;
-                    }
-                    else
-                    {
-                        this.author = "No author";
-                    }
+                    this.author = attribute != null ? attribute.Author : "No author";
                 }
 
                 return this.author;
@@ -118,12 +109,7 @@ namespace Unicorn.Core.Testing.Tests
         {
             get
             {
-                if (this.fullTestName == null)
-                {
-                    this.fullTestName = this.TestMethod.Name;
-                }
-
-                return this.fullTestName;
+                return this.fullTestName ?? (this.fullTestName = this.TestMethod.Name);
             }
 
             set

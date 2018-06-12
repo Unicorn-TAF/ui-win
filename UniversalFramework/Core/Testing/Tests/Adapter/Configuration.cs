@@ -15,65 +15,17 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
     public static class Configuration
     {
-        private static TimeSpan testTimeout = TimeSpan.FromMinutes(15);
-        private static TimeSpan suiteTimeout = TimeSpan.FromMinutes(60);
-        private static Parallelization parallelBy = Parallelization.Assembly;
-        private static int threads = 1;
         private static List<string> categories = new List<string>();
         private static List<string> features = new List<string>();
         private static List<string> tests = new List<string>();
 
-        public static TimeSpan TestTimeout
-        {
-            get
-            {
-                return testTimeout;
-            }
+        public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
 
-            set
-            {
-                testTimeout = value;
-            }
-        }
+        public static TimeSpan SuiteTimeout { get; set; } = TimeSpan.FromMinutes(60);
 
-        public static TimeSpan SuiteTimeout
-        {
-            get
-            {
-                return suiteTimeout;
-            }
+        public static Parallelization ParallelBy { get; set; } = Parallelization.Assembly;
 
-            set
-            {
-                suiteTimeout = value;
-            }
-        }
-
-        public static Parallelization ParallelBy
-        {
-            get
-            {
-                return parallelBy;
-            }
-
-            set
-            {
-                parallelBy = value;
-            }
-        }
-
-        public static int Threads
-        {
-            get
-            {
-                 return threads;
-            }
-
-            set
-            {
-                threads = value;
-            }
-        }
+        public static int Threads { get; set; } = 1;
 
         public static List<string> RunCategories => categories;
 
@@ -120,10 +72,10 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
             JsonConf conf = JsonConvert.DeserializeObject<JsonConf>(File.ReadAllText(configPath));
 
-            testTimeout = conf.TestTimeout;
-            suiteTimeout = conf.SuiteTimeout;
-            parallelBy = conf.ParallelBy;
-            threads = conf.Threads;
+            TestTimeout = conf.TestTimeout;
+            SuiteTimeout = conf.SuiteTimeout;
+            ParallelBy = conf.ParallelBy;
+            Threads = conf.Threads;
             SetTestCategories(conf.RunCategories.ToArray());
             SetSuiteFeatures(conf.RunFeatures.ToArray());
         }

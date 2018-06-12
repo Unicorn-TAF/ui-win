@@ -16,7 +16,6 @@ namespace Unicorn.Core.Logging
                     instance.Info("Default console logger is initialized");
                 }
                     
-                ////throw new NullReferenceException("Logger instance is not created.");
                 return instance;
             }
 

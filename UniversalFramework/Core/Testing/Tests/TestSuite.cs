@@ -15,7 +15,6 @@ namespace Unicorn.Core.Testing.Tests
         private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
-        private string currentStepBug = string.Empty;
         private bool skipTests = false;
 
         private Test[] tests;
@@ -64,14 +63,7 @@ namespace Unicorn.Core.Testing.Tests
                 {
                     var attribute = GetType().GetCustomAttribute(typeof(TestSuiteAttribute), true) as TestSuiteAttribute;
 
-                    if (attribute != null)
-                    {
-                        this.name = attribute.Name;
-                    }
-                    else
-                    {
-                        this.name = GetType().Name.Split('.').Last();
-                    }
+                    this.name = attribute != null ? attribute.Name : GetType().Name.Split('.').Last();
                 }
 
                 return this.name;
@@ -103,18 +95,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets current executing step bug, used in case of TestSteps feature usage
         /// </summary>
-        public string CurrentStepBug
-        {
-            get
-            {
-                return this.currentStepBug;
-            }
-
-            set
-            {
-                this.currentStepBug = value;
-            }
-        }
+        public string CurrentStepBug { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets Suite outcome, contain all information on suite run and results

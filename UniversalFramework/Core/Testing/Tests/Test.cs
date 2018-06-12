@@ -11,7 +11,6 @@ namespace Unicorn.Core.Testing.Tests
     public class Test : SuiteMethod
     {
         private List<string> categories = null;
-        private bool isRunnable = true;
         private DataSet dataSet;
 
         /// <summary>
@@ -75,18 +74,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets a value indicating whether current test is need to be run
         /// </summary>
-        public bool IsRunnable
-        {
-            get
-            {
-                return this.isRunnable;
-            }
-
-            set
-            {
-                this.isRunnable = value;
-            }
-        }
+        public bool IsRunnable { get; set; } = true;
 
         /// <summary>
         /// Execute current test and fill TestOutcome

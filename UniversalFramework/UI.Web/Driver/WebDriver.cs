@@ -18,14 +18,7 @@ namespace Unicorn.UI.Web.Driver
 
         private WebDriver(bool maximize = true)
         {
-            if (options == null)
-            {
-                Driver = GetInstance();
-            }
-            else
-            {
-                Driver = GetInstance(options);
-            }
+            Driver = options == null ? GetInstance() : GetInstance(options);
 
             if (maximize)
             {
@@ -66,13 +59,7 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        public string Url
-        {
-            get
-            {
-                return Driver.Url;
-            }
-        }
+        public string Url => Driver.Url;
 
         public TimeSpan ImplicitlyWait
         {
