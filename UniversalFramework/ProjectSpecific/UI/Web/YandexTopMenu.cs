@@ -6,7 +6,7 @@ namespace ProjectSpecific.UI.Web
 {
     public class YandexTopMenu : WebContainer
     {
-        [Find(Using.Web_Xpath, ".//li[@data-department='Электроника']")]
+        [Find(Using.Web_Css, "[data-department = Электроника]")]
         public WebControl LinkElectronics;
     }
 }

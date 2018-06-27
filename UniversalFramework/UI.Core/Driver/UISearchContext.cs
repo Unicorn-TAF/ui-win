@@ -25,13 +25,13 @@ namespace Unicorn.UI.Core.Driver
             return GetWrappedControlsList<T>(locator);
         }
 
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
+        public bool TryGetChild<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
         {
             T control;
-            return WaitFor<T>(locator, millisecondsTimeout, out control);
+            return TryGetChild<T>(locator, millisecondsTimeout, out control);
         }
 
-        public bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
+        public bool TryGetChild<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl
         {
             SetImplicitlyWait(TimeSpan.FromMilliseconds(millisecondsTimeout));
 

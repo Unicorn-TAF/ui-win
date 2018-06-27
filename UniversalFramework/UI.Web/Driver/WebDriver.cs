@@ -10,7 +10,7 @@ namespace Unicorn.UI.Web.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        private static Browser browser = Browser.CHROME;
+        private static Browser browser = Browser.Chrome;
         private static bool needInit = false;
         private static DriverOptions options = null;
 
@@ -108,11 +108,11 @@ namespace Unicorn.UI.Web.Driver
         {
             switch (Browser)
             {
-                case Browser.CHROME:
+                case Browser.Chrome:
                     return new ChromeDriver();
                 case Browser.IE:
                     return new InternetExplorerDriver();
-                case Browser.FIREFOX:
+                case Browser.Firefox:
                     return new FirefoxDriver();
                 default:
                     return null;
@@ -123,11 +123,11 @@ namespace Unicorn.UI.Web.Driver
         {
             switch (Browser)
             {
-                case Browser.CHROME:
+                case Browser.Chrome:
                     return new ChromeDriver((ChromeOptions)options);
                 case Browser.IE:
                     return new InternetExplorerDriver((InternetExplorerOptions)options);
-                case Browser.FIREFOX:
+                case Browser.Firefox:
                     return new FirefoxDriver((FirefoxOptions)options);
                 default:
                     return null;

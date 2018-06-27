@@ -12,7 +12,7 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsiOS : TestSteps
     {
-        private IDriver driver;
+        private IOSDriver driver;
 
         [TestStep("Start '{0}'")]
         public void NavigateTo(string value)

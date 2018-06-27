@@ -1,8 +1,6 @@
 ﻿using System;
 using ProjectSpecific.Steps;
-using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
-using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Tests.TestData
 {
@@ -21,18 +19,6 @@ namespace Tests.TestData
                 this.CurrentStepBug = string.Empty;
                 return steps.Value;
             }
-        }
-
-        [BeforeSuite]
-        public void ClassInit()
-        {
-            Do.Testing.Say("Before suite");
-        }
-
-        [AfterSuite]
-        public void ClassTearDown()
-        {
-            Do.Testing.Say("After suite");
         }
 
         /// <summary>

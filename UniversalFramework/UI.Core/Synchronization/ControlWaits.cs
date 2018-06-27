@@ -46,19 +46,7 @@ namespace Unicorn.UI.Core.Synchronization
             return wait.Until(command);
         }
 
-        private static TReturn Wait<TTarget, TReturn>(this TTarget control, Func<TTarget, string, string, TReturn> command, string attribute, string value, TimeSpan commandTimeout, TimeSpan pollingInterval, string message = null) where TTarget : IControl
-        {
-            var wait = new AttributeWait<TTarget>(control, attribute, value)
-            {
-                Message = message ?? string.Format("{0} expired after {1}", command, commandTimeout),
-                PollingInterval = pollingInterval,
-                Timeout = commandTimeout
-            };
-
-            return wait.Until(command);
-        }
-
-        private static TReturn Wait<TTarget, TReturn>(this TTarget control, Func<TTarget, string, string, TReturn> command, string attribute, string value, string message = null) where TTarget : IControl
+        public static TReturn Wait<TTarget, TReturn>(this TTarget control, Func<TTarget, string, string, TReturn> command, string attribute, string value, string message = null) where TTarget : IControl
         {
             var wait = new AttributeWait<TTarget>(control, attribute, value)
             {
@@ -69,21 +57,5 @@ namespace Unicorn.UI.Core.Synchronization
 
             return wait.Until(command);
         }
-
-        //public static TTarget WaitForAttributeContains<TTarget>(this TTarget control, string attribute, string value) where TTarget : class, IControl
-        //{
-        //    return control.WaitTillAttribute(AttributeContains, attribute, value, DefaultCommandTimeout, DefaultPollingInterval, $"value '{value}' was not appeared in '{attribute}' attribute");
-        //}
-
-        //public static TTarget WaitForAttributeDoesNotContain<TTarget>(this TTarget control, string attribute, string value) where TTarget : class, IControl
-        //{
-        //    return control.WaitTillAttribute(AttributeDoesNotContain, attribute, value, DefaultCommandTimeout, DefaultPollingInterval, $"value '{value}' was not disappeared from '{attribute}' attribute");
-        //}
-
-
-
-        
-
-
     }
 }

@@ -5,7 +5,7 @@ namespace Unicorn.UI.Web.PageObject
 {
     public abstract class WebPage : WebContainer
     {
-        public WebPage()
+        protected WebPage()
         {
             this.SearchContext = WebDriver.Driver as OpenQA.Selenium.ISearchContext;
             Init();

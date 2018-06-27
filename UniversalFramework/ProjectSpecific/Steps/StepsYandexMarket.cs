@@ -1,6 +1,4 @@
 ﻿using AspectInjector.Broker;
-using ProjectSpecific.UI;
-using ProjectSpecific.UI.Web;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Web.Driver;
@@ -10,8 +8,6 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsYandexMarket : TestSteps
     {
-        private PageYandex Yandex => Pages.YandexMarket;
-
         [TestStep("Navigate to '{0}'")]
         public void NavigateTo(string value)
         {
@@ -21,13 +17,13 @@ namespace ProjectSpecific.Steps
         [TestStep("Select 'Electronics' catalog")]
         public void SelectCatalog()
         {
-            Yandex.MenuTop.LinkElectronics.Click();
+            TestEnvironment.Instance.YandexMarket.MainPage.MenuTop.LinkElectronics.Click();
         }
 
         [TestStep("Select 'Mobile phones' sub-catalog")]
         public void SelectSubCatalog()
         {
-            Yandex.LinkMobilePhones.Click();
+            TestEnvironment.Instance.YandexMarket.MainPage.LinkMobilePhones.Click();
         }
 
         [TestStep("Close Browser")]

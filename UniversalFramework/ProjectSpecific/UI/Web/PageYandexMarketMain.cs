@@ -6,7 +6,7 @@ using Unicorn.UI.Web.PageObject;
 
 namespace ProjectSpecific.UI.Web
 {
-    public class PageYandex : WebPage
+    public class PageYandexMarketMain : WebPage
     {
         [Find(Using.Web_Css, ".topmenu__list")]
         public YandexTopMenu MenuTop;

@@ -9,8 +9,8 @@ namespace Unicorn.UI.Core.Driver
 
         IList<T> FindList<T>(ByLocator locator) where T : IControl;
 
-        bool WaitFor<T>(ByLocator locator, int millisecondsTimeout) where T : IControl;
+        bool TryGetChild<T>(ByLocator locator, int millisecondsTimeout) where T : IControl;
 
-        bool WaitFor<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl;
+        bool TryGetChild<T>(ByLocator locator, int millisecondsTimeout, out T controlInstance) where T : IControl;
     }
 }

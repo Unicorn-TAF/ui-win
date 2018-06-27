@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using ProjectSpecific;
 using ProjectSpecific.BO;
-using ProjectSpecific.UI;
+using System.Collections.Generic;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.UI.Core.Matchers;
 using Unicorn.UI.Core.Synchronization;
+using Unicorn.UI.Core.Synchronization.Conditions;
 
 namespace Tests.TestData
 {
-    [TestSuite("Tests for mixed platforms")]
-    [Feature("Timeseries Analysis"), Feature("Yandex Market"), Parameterized]
+    [Parameterized, TestSuite("Tests for mixed platforms")]
+    [Feature("Timeseries Analysis"), Feature("Yandex Market")]
     public class PlatformsMixSuite : BaseTestSuite
     {
-        private const string ExePath = @"C:\Windows\System32\";
-        private const string Url = @"https://market.yandex.ru/";
-
         private int valueToReturn;
         private SampleObject sampleObject;
 
@@ -42,6 +40,12 @@ namespace Tests.TestData
             return data;
         }
 
+        [BeforeSuite]
+        public void ClassInit()
+        {
+            Do.Testing.Say("Before suite");
+        }
+
         [BeforeTest]
         public void BeforeTest()
         {
@@ -54,11 +58,12 @@ namespace Tests.TestData
         [TestData("GetGuiData")]
         public void GuiDriverTest(string font)
         {
-            Do.UI.CharMap.StartApplication(ExePath + "charmap.exe");
+            var charmap = TestEnvironment.Instance.Charmap;
+            Do.UI.CharMap.StartApplication();
             Do.UI.CharMap.SelectFont(font);
 
-            Do.UI.CheckThat(Desktop.CharMap.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
-            Do.UI.CheckThat(Desktop.CharMap.ButtonCopy, Is.Not(Control.Enabled()));
+            Do.UI.CheckThat(charmap.Window.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
+            Do.UI.CheckThat(charmap.Window.ButtonCopy, Is.Not(Control.Enabled()));
 
             Do.UI.CharMap.CloseApplication();
         }
@@ -68,15 +73,17 @@ namespace Tests.TestData
         [Test("Run Web driver test")]
         public void WebDriverTest()
         {
-            Do.UI.YandexMarket.NavigateTo(Url);
+            var yandexMarket = TestEnvironment.Instance.YandexMarket;
+
+            Do.UI.YandexMarket.NavigateTo(yandexMarket.BaseUrl);
             Bug("76237").UI.YandexMarket.SelectCatalog();
             Do.UI.YandexMarket.SelectSubCatalog();
 
-            Do.UI.CheckThat(Pages.YandexMarket.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
+            Do.UI.CheckThat(yandexMarket.MainPage.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
 
-            Pages.YandexMarket.MenuTop.LinkElectronics.Wait(() => Until.AttributeContains("a", "b"));
-                //.WaitForAttributeContains("class", "topmenu__item_mode_current")
-                //.WaitForVisible();
+            yandexMarket.MainPage.MenuTop.LinkElectronics
+                .Wait(Until.AttributeContains, "class", "topmenu__item_mode_current")
+                .Wait(Until.Visible);
 
             Do.UI.YandexMarket.CloseBrowser();
         }
@@ -98,6 +105,12 @@ namespace Tests.TestData
         public void TearDown()
         {
             Do.Testing.ProcessTestObject(sampleObject);
+        }
+
+        [AfterSuite]
+        public void ClassTearDown()
+        {
+            Do.Testing.Say("After suite");
         }
     }
 }
