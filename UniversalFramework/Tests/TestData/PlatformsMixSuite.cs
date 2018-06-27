@@ -75,7 +75,7 @@ namespace Tests.TestData
         {
             var yandexMarket = TestEnvironment.Instance.YandexMarket;
 
-            Do.UI.YandexMarket.NavigateTo(yandexMarket.BaseUrl);
+            Do.UI.YandexMarket.Open();
             Bug("76237").UI.YandexMarket.SelectCatalog();
             Do.UI.YandexMarket.SelectSubCatalog();
 

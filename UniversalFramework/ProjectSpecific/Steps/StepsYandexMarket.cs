@@ -8,10 +8,10 @@ namespace ProjectSpecific.Steps
     [Aspect(typeof(TestStepsEvents))]
     public class StepsYandexMarket : TestSteps
     {
-        [TestStep("Navigate to '{0}'")]
-        public void NavigateTo(string value)
+        [TestStep("Open Yandex Market")]
+        public void Open()
         {
-            WebDriver.Instance.Get(value);
+            WebDriver.Instance.Get(TestEnvironment.Instance.YandexMarket.BaseUrl);
         }
 
         [TestStep("Select 'Electronics' catalog")]
