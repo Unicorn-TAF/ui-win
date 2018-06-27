@@ -74,9 +74,9 @@ namespace Tests.TestData
 
             Do.UI.CheckThat(Pages.YandexMarket.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
 
-            Pages.YandexMarket.MenuTop.LinkElectronics
-                .WaitForAttributeContains("class", "topmenu__item_mode_current")
-                .WaitForVisible();
+            Pages.YandexMarket.MenuTop.LinkElectronics.Wait(() => Until.AttributeContains("a", "b"));
+                //.WaitForAttributeContains("class", "topmenu__item_mode_current")
+                //.WaitForVisible();
 
             Do.UI.YandexMarket.CloseBrowser();
         }

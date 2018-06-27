@@ -113,6 +113,7 @@
     <Compile Include="Synchronization\AttributeWait.cs" />
     <Compile Include="Synchronization\DefaultWait.cs" />
     <Compile Include="Synchronization\SystemClock.cs" />
+    <Compile Include="Synchronization\Conditions\Until.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

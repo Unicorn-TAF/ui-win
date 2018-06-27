@@ -10,10 +10,7 @@ namespace Unicorn.UI.Core.Synchronization
         /// <summary>
         /// Gets the current date and time values.
         /// </summary>
-        public DateTime Now
-        {
-            get { return DateTime.Now; }
-        }
+        public DateTime Now => DateTime.Now;
 
         /// <summary>
         /// Calculates the date and time values after a specific delay.
