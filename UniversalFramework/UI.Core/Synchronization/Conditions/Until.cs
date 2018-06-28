@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicorn.UI.Core.Controls;
+﻿using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization.Conditions
 {
@@ -51,6 +46,17 @@ namespace Unicorn.UI.Core.Synchronization.Conditions
         public static TTarget AttributeDoesNotContain<TTarget>(this TTarget element, string attribute, string value) where TTarget : class, IControl
         {
             return !(element as IControl).GetAttribute(attribute).Contains(value) ? element : null;
+        }
+
+        /// <summary>
+        ///     Checks weather element exist in DOM and visible.
+        /// </summary>
+        /// <typeparam name="TTarget">Target element type</typeparam>
+        /// <param name="element">Element to check</param>
+        /// <returns><c>true</c> when element exist in DOM and <c>false</c> otherwise</returns>
+        public static TTarget AttributeHasValue<TTarget>(this TTarget element, string attribute, string value) where TTarget : class, IControl
+        {
+            return (element as IControl).GetAttribute(attribute).Equals(value) ? element : null;
         }
     }
 }

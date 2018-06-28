@@ -31,6 +31,12 @@ namespace Unicorn.Core.Testing.Tests
         {
             this.Id = Guid.NewGuid();
             this.Metadata = new Dictionary<string, string>();
+
+            foreach (var attribute in GetType().GetCustomAttributes(typeof(MetadataAttribute), true) as MetadataAttribute[])
+            {
+                this.Metadata.Add(attribute.Key, attribute.Value);
+            }
+
             this.suiteTimer = new Stopwatch();
             this.beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
             this.beforeTests = GetSuiteMethodsByAttribute(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
@@ -67,6 +73,10 @@ namespace Unicorn.Core.Testing.Tests
                 }
 
                 return this.name;
+            }
+            set
+            {
+                this.name = value;
             }
         }
 
@@ -319,23 +329,10 @@ namespace Unicorn.Core.Testing.Tests
             string fullTestName = $"{Name} - {method.Name}";
             string description = $"{test.Description}";
 
-            if (GetType().GetCustomAttribute(typeof(ParameterizedAttribute), true) != null)
-            {
-                string postfix;
-
-                if (!this.Metadata.TryGetValue("postfix", out postfix))
-                {
-                    postfix = "parameterized";
-                }
-
-                fullTestName += $" - {postfix}";
-                description += $": set[{postfix}]";
-            }
-
             if (dataSet != null)
             {
                 fullTestName += $" - {dataSet.Name}";
-                description += $"[{dataSet.Name}]";
+                description += $" [{dataSet.Name}]";
             }
 
             test.FullName = fullTestName;

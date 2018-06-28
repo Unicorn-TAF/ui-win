@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ProjectSpecific;
 using Unicorn.Core.Testing.Tests.Adapter;
-using System.Linq;
 using Unicorn.Core.Testing.Tests;
 
 namespace Tests.UnitTests
@@ -18,7 +17,7 @@ namespace Tests.UnitTests
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly());
             runner.RunTests();
 
-            if (runner.ExecutedSuites.Any(s => !s.Outcome.Result.Equals(Result.Passed)))
+            if (runner.RunStatus.Equals(Result.Failed))
             {
                 throw new System.Exception("Run failed");
             }

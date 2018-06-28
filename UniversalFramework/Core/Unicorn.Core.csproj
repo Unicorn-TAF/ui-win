@@ -67,6 +67,7 @@
     <Compile Include="Reporting\Screenshot.cs" />
     <Compile Include="Testing\Tests\Adapter\Helper.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SuiteMetadataAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestDataAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Testing\Verification\Assert.cs" />

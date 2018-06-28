@@ -107,8 +107,14 @@ namespace ReportPortal.UnicornExtension
                         }
 
                         // adding description to suite
-                        var description = suite.Name;
-                        if (description != null)
+                        var description = string.Empty;
+
+                        foreach (var key in suite.Metadata.Keys)
+                        {
+                            description += $"{key}: {suite.Metadata[key]}\n";
+                        }
+
+                        if (!string.IsNullOrEmpty(description.Trim()))
                         {
                             updateSuiteRequest.Description = description;
                         }

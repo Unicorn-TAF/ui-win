@@ -25,12 +25,16 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public List<TestSuite> ExecutedSuites { get; protected set; }
 
+        public Result RunStatus { get; protected set; }
+
         public void RunTests()
         {
             foreach (var suiteType in runnableSuites)
             {
                 RunTestSuite(suiteType);
             }
+
+            this.RunStatus = this.ExecutedSuites.Any(s => s.Outcome.Result.Equals(Result.Failed)) ? Result.Failed : Result.Passed;
         }
 
         public void RunTestSuite(Type type)
@@ -40,7 +44,8 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 foreach (var parametersSet in Helper.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
-                    parameterizedSuite.Metadata.Add("postfix", parametersSet.Name);
+                    parameterizedSuite.Metadata.Add("Data Set", parametersSet.Name);
+                    parameterizedSuite.Name += $" [{parametersSet.Name}]";
                     ExecuteSuiteIteration(parameterizedSuite);
                 }
             }

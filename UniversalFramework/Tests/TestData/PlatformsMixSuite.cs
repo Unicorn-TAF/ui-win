@@ -12,6 +12,8 @@ namespace Tests.TestData
 {
     [Parameterized, TestSuite("Tests for mixed platforms")]
     [Feature("Timeseries Analysis"), Feature("Yandex Market")]
+    [Metadata(key: "Description", value: "Sample parameterized suite containing parameterized tests for different platforms as Desktop, Web and Mobile")]
+    [Metadata(key: "Tests link", value: "http://bla-bla")]
     public class PlatformsMixSuite : BaseTestSuite
     {
         private int valueToReturn;
@@ -35,8 +37,8 @@ namespace Tests.TestData
         public static List<DataSet> GetSuiteData()
         {
             List<DataSet> data = new List<DataSet>();
-            data.Add(new DataSet("set 1", 1, new SampleObject("object 1", 1)));
-            data.Add(new DataSet("set 2", 2, new SampleObject("object 2", 2)));
+            data.Add(new DataSet("iteration 1", 1, new SampleObject("object 1", 1)));
+            data.Add(new DataSet("iteration 2", 2, new SampleObject("object 2", 2)));
             return data;
         }
 
