@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
@@ -78,6 +79,19 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             Threads = conf.Threads;
             SetTestCategories(conf.RunCategories.ToArray());
             SetSuiteFeatures(conf.RunFeatures.ToArray());
+        }
+
+        public static string GetInfo()
+        {
+            StringBuilder info = new StringBuilder();
+
+            info.AppendLine($"Features to run: {string.Join(",", RunFeatures)}")
+                .AppendLine($"Categories to run: {string.Join(",", RunCategories)}")
+                .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
+                .AppendLine($"Test run timeout: {TestTimeout}")
+                .AppendLine($"Suite run timeout: {SuiteTimeout}");
+
+            return info.ToString();
         }
 
         internal class JsonConf

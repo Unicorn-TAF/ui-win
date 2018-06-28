@@ -26,9 +26,9 @@ namespace Unicorn.Core
             return countdown;
         }
 
-        public void SetTimeLimit(TimeSpan timeLimit)
+        public void SetTimeLimit(TimeSpan timeLimitValue)
         {
-            this.timeLimit = timeLimit;
+            this.timeLimit = timeLimitValue;
         }
 
         public void Start()

@@ -199,12 +199,14 @@ namespace Unicorn.Core.Testing.Tests
             if (this.skipTests || !test.IsRunnable)
             {
                 test.Skip();
+                this.Outcome.SkippedTests++;
                 return;
             }
 
             if (!this.RunSuiteMethods(this.beforeTests))
             {
                 test.Skip();
+                this.Outcome.SkippedTests++;
                 return;
             }
 

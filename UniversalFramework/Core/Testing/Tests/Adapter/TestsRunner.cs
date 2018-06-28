@@ -23,6 +23,16 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             runnableSuites = ObserveRunnableSuites();
         }
 
+        public TestsRunner(Assembly ass, string configurationFileName)
+        {
+            this.ass = ass;
+
+            Configuration.FillFromFile(configurationFileName);
+
+            this.ExecutedSuites = new List<TestSuite>();
+            runnableSuites = ObserveRunnableSuites();
+        }
+
         public List<TestSuite> ExecutedSuites { get; protected set; }
 
         public Result RunStatus { get; protected set; }
