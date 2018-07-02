@@ -37,7 +37,7 @@ namespace Unicorn.UI.Web.Driver
                     instance = new WebDriver();
                     instance.SearchContext = Driver;
                     needInit = false;
-                    Logger.Instance.Debug($"{Browser} WebDriver initialized");
+                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"{Browser} WebDriver initialized");
                 }
 
                 return instance;

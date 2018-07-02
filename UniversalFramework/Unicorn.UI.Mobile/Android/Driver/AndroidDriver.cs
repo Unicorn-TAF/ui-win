@@ -32,7 +32,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
                     instance = new AndroidDriver();
                     instance.SearchContext = Driver.FindElementByClassName("android.widget.FrameLayout");
                     needInit = false;
-                    Logger.Instance.Debug($"AndroidDriver initialized");
+                    Logger.Instance.Log(LogLevel.Debug, $"AndroidDriver initialized");
                 }
 
                 return instance;

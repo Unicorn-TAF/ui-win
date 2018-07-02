@@ -17,7 +17,7 @@ namespace Unicorn.Core.Reporting
             Bitmap printScreen;
             try
             {
-                Logger.Instance.Debug("Creating print screen...");
+                Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
 
                 int screenLeft = SystemInformation.VirtualScreen.Left;
                 int screenTop = SystemInformation.VirtualScreen.Top;
@@ -32,7 +32,7 @@ namespace Unicorn.Core.Reporting
             }
             catch (Exception e)
             {
-                Logger.Instance.Debug("Failed to get print screen:\n" + e.ToString());
+                Logger.Instance.Log(LogLevel.Debug, "Failed to get print screen:\n" + e.ToString());
                 printScreen = new Bitmap(1, 1);
             }
 
@@ -44,12 +44,12 @@ namespace Unicorn.Core.Reporting
             Bitmap printScreen = GetScreenshot();
             try
             {
-                Logger.Instance.Debug("Saving print screen");
+                Logger.Instance.Log(LogLevel.Debug, "Saving print screen");
                 printScreen.Save(Path.Combine(ScreenshotsFolder, fileName + "." + ImageFormat.Jpeg), ImageFormat.Jpeg);
             }
             catch (Exception e)
             {
-                Logger.Instance.Debug("Failed to save print screen:\n" + e.ToString());
+                Logger.Instance.Log(LogLevel.Debug, "Failed to save print screen:\n" + e.ToString());
             }
         }
     }

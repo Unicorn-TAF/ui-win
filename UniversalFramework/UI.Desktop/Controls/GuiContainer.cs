@@ -63,7 +63,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void ClickButton(string locator)
         {
-            Logger.Instance.Debug($"Click '{locator}' button");
+            Logger.Instance.Log(LogLevel.Debug, $"Click '{locator}' button");
 
             Button button = Find<Button>(ByLocator.Name(locator));
             button.Click();
@@ -71,7 +71,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void InputText(string locator, string text)
         {
-            Logger.Instance.Debug($"Input Text '{text}' to '{locator}' field");
+            Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{locator}' field");
 
             TextInput edit = Find<TextInput>(ByLocator.Name(locator));
             edit.SendKeys(text);
@@ -79,7 +79,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public bool SelectRadio(string locator)
         {
-            Logger.Instance.Debug($"Select '{locator}' radio button");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{locator}' radio button");
 
             Radio radio = Find<Radio>(ByLocator.Name(locator));
             return radio.Select();
@@ -87,7 +87,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public bool SetCheckbox(string locator, bool state)
         {
-            Logger.Instance.Debug($"Set checkbox '{locator}' to '{state}'");
+            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
 
             Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
 

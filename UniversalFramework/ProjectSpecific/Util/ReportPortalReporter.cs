@@ -47,7 +47,7 @@ namespace ProjectSpecific.Util
         public void ReportInfo(MethodBase method, object[] arguments)
         {
             string info = TestSteps.GetStepInfo(method, arguments);
-            Logger.Instance.Info("STEP: " + info);
+            Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
             this.listener.ReportTestOutput(info);
         }
 

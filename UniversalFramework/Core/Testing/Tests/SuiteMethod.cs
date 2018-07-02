@@ -163,10 +163,10 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during SuiteMethodStarted event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteMethodStarted event invoke" + Environment.NewLine + ex);
             }
 
-            Logger.Instance.Info($"========== {this.MethodType} '{Description}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== {this.MethodType} '{Description}' ==========");
 
             this.TestTimer = new Stopwatch();
             this.TestTimer.Start();
@@ -187,7 +187,7 @@ namespace Unicorn.Core.Testing.Tests
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
-            Logger.Instance.Info($"{this.MethodType} {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"{this.MethodType} {Outcome.Result}");
 
             try
             {
@@ -195,7 +195,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during SuiteMethodFinished event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteMethodFinished event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -207,7 +207,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="bugs">string of bugs test failed on current step.</param>
         public void Fail(Exception ex, string bugs)
         {
-            Logger.Instance.Error(ex.ToString());
+            Logger.Instance.Log(LogLevel.Error, ex.ToString());
 
             this.Outcome.Bugs.Clear();
 

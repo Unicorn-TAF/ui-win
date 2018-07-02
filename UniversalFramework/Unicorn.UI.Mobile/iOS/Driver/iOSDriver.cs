@@ -30,8 +30,8 @@ namespace Unicorn.UI.Mobile.IOS.Driver
                     instance = new IOSDriver();
                     instance.SearchContext = Driver.FindElementByXPath(".//*");
                     needInit = false;
-                    Logger.Instance.Info(instance.SearchContext.TagName);
-                    Logger.Instance.Debug($"iOSDriver initialized");
+                    Logger.Instance.Log(LogLevel.Info, instance.SearchContext.TagName);
+                    Logger.Instance.Log(LogLevel.Debug, $"iOSDriver initialized");
                 }
 
                 return instance;

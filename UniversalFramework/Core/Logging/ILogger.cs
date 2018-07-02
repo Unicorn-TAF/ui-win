@@ -1,13 +1,15 @@
 ﻿namespace Unicorn.Core.Logging
 {
+    public enum LogLevel
+    {
+        Info,
+        Debug,
+        Warning,
+        Error
+    }
+
     public interface ILogger
     {
-        void Init();
-
-        void Info(string message, params object[] parameters);
-
-        void Debug(string message, params object[] parameters);
-
-        void Error(string message, params object[] parameters);
+        void Log(LogLevel level, string message);
     }
 }

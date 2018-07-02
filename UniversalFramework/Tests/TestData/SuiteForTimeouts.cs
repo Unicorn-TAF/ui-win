@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
@@ -21,9 +22,9 @@ namespace Tests.TestData
         [Test]
         public void Test2()
         {
-            Unicorn.Core.Logging.Logger.Instance.Info("Test2 started");
+            Logger.Instance.Log(LogLevel.Info, "Test2 started");
             Thread.Sleep(2100);
-            Unicorn.Core.Logging.Logger.Instance.Info("Test2 finished");
+            Logger.Instance.Log(LogLevel.Info, "Test2 finished");
         }
 
         [Test]
@@ -35,9 +36,9 @@ namespace Tests.TestData
         [Test]
         public void Test1()
         {
-            Unicorn.Core.Logging.Logger.Instance.Info("Test1 started");
+            Logger.Instance.Log(LogLevel.Info, "Test1 started");
             Thread.Sleep(1900);
-            Unicorn.Core.Logging.Logger.Instance.Info("Test1 started");
+            Logger.Instance.Log(LogLevel.Info, "Test1 started");
         }
 
         [AfterTest]

@@ -51,7 +51,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Logger.Instance.Error("Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
+                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
                                       exp);
                 }
 
@@ -69,14 +69,14 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Error("Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine +
+                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine +
                                           exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -131,7 +131,7 @@ namespace ReportPortal.UnicornExtension
 
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = LogLevel.Error,
+                                Level = Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                                 Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
@@ -141,7 +141,7 @@ namespace ReportPortal.UnicornExtension
                         {
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = LogLevel.Error,
+                                Level = Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                             });
@@ -149,7 +149,7 @@ namespace ReportPortal.UnicornExtension
 
                         this.testFlowIds[id].Log(new AddLogItemRequest
                         {
-                            Level = LogLevel.Error,
+                            Level = Client.Models.LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
                             Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
@@ -190,7 +190,7 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Error("Exception was thrown in 'BeforeTestFinished' subscriber." +
+                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeTestFinished' subscriber." +
                                           Environment.NewLine + exp);
                     }
 
@@ -204,14 +204,14 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Error("Exception was thrown in 'AfterTestFinished' subscriber." +
+                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterTestFinished' subscriber." +
                                           Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -224,7 +224,7 @@ namespace ReportPortal.UnicornExtension
                 {
                     this.testFlowIds[id].Log(new AddLogItemRequest
                     {
-                        Level = LogLevel.None,
+                        Level = Client.Models.LogLevel.None,
                         Time = DateTime.UtcNow,
                         Text = "Attachment: " + name,
                         Attach = new Attach(test.Outcome.Screenshot, mime, content)
@@ -233,7 +233,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -253,7 +253,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

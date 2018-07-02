@@ -92,10 +92,10 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during OnStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStart event invoke" + Environment.NewLine + ex);
             }
 
-            Logger.Instance.Info($"========== TEST '{Description}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{Description}' ==========");
 
             this.TestTimer = new Stopwatch();
             this.TestTimer.Start();
@@ -119,7 +119,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Error("Exception occured during OnPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnPass event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
@@ -132,14 +132,14 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Error("Exception occured during OnFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnFail event invoke" + Environment.NewLine + e);
                 }
             }
 
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
-            Logger.Instance.Info($"TEST {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"TEST {Outcome.Result}");
 
             try
             {
@@ -147,7 +147,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during onFinish event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -159,7 +159,7 @@ namespace Unicorn.Core.Testing.Tests
             this.Outcome.Result = Result.Skipped;
             this.Outcome.Bugs.Clear();
             OnSkip?.Invoke(this);
-            Logger.Instance.Info($"TEST '{Description}' {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"TEST '{Description}' {Outcome.Result}");
         }
 
         /// <summary>

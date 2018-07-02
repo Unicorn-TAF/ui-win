@@ -13,7 +13,7 @@ namespace Unicorn.Core.Logging
                 if (instance == null)
                 {
                     instance = new ConsoleLogger();
-                    instance.Info("Default console logger is initialized");
+                    instance.Log(LogLevel.Info, "Default console logger is initialized");
                 }
                     
                 return instance;

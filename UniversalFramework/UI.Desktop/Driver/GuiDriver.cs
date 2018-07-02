@@ -18,7 +18,7 @@ namespace Unicorn.UI.Desktop.Driver
                     instance = new GuiDriver();
                     instance.SearchContext = AutomationElement.RootElement;
                     instance.ImplicitlyWait = instance.TimeoutDefault;
-                    Logger.Instance.Debug("UI Automation Driver initialized");
+                    Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
                 }
 
                 return instance;

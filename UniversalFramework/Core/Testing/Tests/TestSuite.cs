@@ -130,7 +130,7 @@ namespace Unicorn.Core.Testing.Tests
                 return;
             }
 
-            Logger.Instance.Info($"==================== TEST SUITE '{this.Name}' ====================");
+            Logger.Instance.Log(LogLevel.Info, $"==================== TEST SUITE '{this.Name}' ====================");
 
             this.suiteTimer.Start();
 
@@ -150,7 +150,7 @@ namespace Unicorn.Core.Testing.Tests
             this.suiteTimer.Stop();
             this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
 
-            Logger.Instance.Info($"TEST SUITE {this.Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
 
             try
             {
@@ -158,7 +158,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Exception occured during SuiteFinished event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteFinished event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="reason">skip reason message</param>
         public void Skip(string reason)
         {
-            Logger.Instance.Info(reason);
+            Logger.Instance.Log(LogLevel.Info, reason);
 
             foreach (Test test in this.tests)
             {
@@ -184,7 +184,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception e)
             {
-                Logger.Instance.Error("Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
             }
         }
 

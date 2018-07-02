@@ -33,12 +33,12 @@ namespace ReportPortal.UnicornExtension
                     ////if (logRequest != null)
                     ////    _testFlowNames[fullTestName].Log(logRequest);
                     ////else
-                    this.testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = LogLevel.Info, Time = DateTime.UtcNow, Text = message });
+                    this.testFlowNames[fullTestName].Log(new AddLogItemRequest { Level = Client.Models.LogLevel.Info, Time = DateTime.UtcNow, Text = message });
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

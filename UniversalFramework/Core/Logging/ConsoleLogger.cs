@@ -4,24 +4,10 @@ namespace Unicorn.Core.Logging
 {
     public class ConsoleLogger : ILogger
     {
-        public void Debug(string message, params object[] parameters)
+        public void Log(LogLevel level, string message)
         {
-            System.Diagnostics.Debug.WriteLine("|\t\tDEBUG: " + string.Format(message, parameters));
-        }
-
-        public void Error(string message, params object[] parameters)
-        {
-            System.Diagnostics.Debug.WriteLine("ERROR: " + string.Format(message, parameters));
-        }
-
-        public void Info(string message, params object[] parameters)
-        {
-            System.Diagnostics.Debug.WriteLine(string.Format(message, parameters));
-        }
-
-        public void Init()
-        {
-            throw new NotImplementedException();
+            string prefix = level.Equals(LogLevel.Debug) ? $"|\t\t" : string.Empty;
+            System.Diagnostics.Debug.WriteLine($"{prefix}{level}: {message}");
         }
     }
 }

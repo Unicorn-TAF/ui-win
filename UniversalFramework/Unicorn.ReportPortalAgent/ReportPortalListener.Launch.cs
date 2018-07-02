@@ -62,7 +62,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Logger.Instance.Error("Exception was thrown in 'BeforeRunStarted' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Exception was thrown in 'BeforeRunStarted' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!eventArg.Canceled)
@@ -76,13 +76,13 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Error("Exception was thrown in 'AfterRunStarted' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Exception was thrown in 'AfterRunStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -112,7 +112,7 @@ namespace ReportPortal.UnicornExtension
                 }
                 catch (Exception exp)
                 {
-                    Logger.Instance.Error("Exception was thrown in 'BeforeRunFinished' subscriber." + Environment.NewLine + exp);
+                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Exception was thrown in 'BeforeRunFinished' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!eventArg.Canceled)
@@ -126,13 +126,13 @@ namespace ReportPortal.UnicornExtension
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Error("Exception was thrown in 'AfterRunFinished' subscriber." + Environment.NewLine + exp);
+                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Exception was thrown in 'AfterRunFinished' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Error("ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -167,7 +167,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Error merging launches: " + ex.ToString());
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Error merging launches: " + ex.ToString());
             }
         }
 
@@ -184,7 +184,7 @@ namespace ReportPortal.UnicornExtension
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error("Error getting existing launch id: " + ex.ToString());
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error,"Error getting existing launch id: " + ex.ToString());
             }
 
             return null;
