@@ -13,25 +13,27 @@
 
         public override bool Matches(object obj)
         {
-            return this.IsNotNull(obj) && this.Assertion(obj);
-        }
+            if (obj == null)
+            {
+                DescribeMismatch("null");
+                return Reverse;
+            }
 
-        protected bool Assertion(object obj)
-        {
             if (!this.objectToCompare.GetType().Equals(obj.GetType()))
             {
                 DescribeMismatch($"not of type {this.objectToCompare.GetType()}");
                 return false;
             }
 
-            bool isEqual = obj.Equals(this.objectToCompare);
-
-            if (!isEqual)
+            if (!obj.Equals(this.objectToCompare))
             {
-                DescribeMismatch(obj);
+                DescribeMismatch(obj.ToString());
+                return false;
             }
-
-            return isEqual;
+            else
+            {
+                return true;
+            }
         }
     }
 }

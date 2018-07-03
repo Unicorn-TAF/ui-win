@@ -12,33 +12,25 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
             this.expectedObject = expectedObject;
         }
 
-        public override string CheckDescription => "Collection has item " + this.expectedObject;
+        public override string CheckDescription => $"Collection has item {this.expectedObject}";
 
         public override bool Matches(object collection)
         {
-            if (!IsNotNull(collection))
+            if (collection == null)
             {
-                return this.Reverse;
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            string mismatch = string.Empty;
-            bool result = ((IEnumerable<object>)collection).Contains(this.expectedObject);
-
-            if (this.Reverse)
+            if (((IEnumerable<object>)collection).Contains(this.expectedObject))
             {
-                mismatch = "was contains the value";
+                return true;
             }
             else
             {
-                mismatch = "was not contain the value";
+                DescribeMismatch(this.Reverse ? "was contains the value" : "was not contain the value");
+                return false;
             }
-
-            if (!result)
-            {
-                DescribeMismatch(mismatch);
-            }
-
-            return result;
         }
     }
 }

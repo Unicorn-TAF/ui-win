@@ -4,71 +4,32 @@ namespace Unicorn.Core.Testing.Verification.Matchers
 {
     public abstract class Matcher
     {
-        private bool nullCheckable = true;
-        private bool reverse = false;
-        private StringBuilder matcherOutput;
-
         protected Matcher()
         {
-            this.matcherOutput = new StringBuilder();
+            this.MatcherOutput = new StringBuilder();
         }
 
         public abstract string CheckDescription { get; }
 
-        public StringBuilder MatcherOutput => this.matcherOutput;
+        public StringBuilder MatcherOutput { get; protected set; }
 
-        protected bool NullCheckable
-        {
-            get
-            {
-                return this.nullCheckable;
-            }
-
-            set
-            {
-                this.nullCheckable = value;
-            }
-        }
-
-        protected bool Reverse
-        {
-            get
-            {
-                return this.reverse;
-            }
-
-            set
-            {
-                this.reverse = value;
-            }
-        }
+        protected bool Reverse { get; set; } = false;
 
         public void DescribeTo()
         {
-            this.matcherOutput.Append(this.CheckDescription);
+            this.MatcherOutput.Append(this.CheckDescription);
         }
 
-        public virtual void DescribeMismatch(object obj)
+        public virtual void DescribeMismatch(string mismatch)
         {
-            this.matcherOutput.Append("was ").Append(obj);
+            this.MatcherOutput.Append("was ").Append(mismatch);
         }
 
-        public abstract bool Matches(object obj);
+        public abstract bool Matches(object actual);
 
         public override string ToString()
         {
             return this.CheckDescription;
-        }
-
-        protected bool IsNotNull(object obj)
-        {
-            if (this.nullCheckable && obj == null)
-            {
-                DescribeMismatch("null");
-                return false;
-            }
-
-            return true;
         }
     }
 }

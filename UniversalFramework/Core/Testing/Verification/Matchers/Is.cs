@@ -9,9 +9,9 @@ namespace Unicorn.Core.Testing.Verification.Matchers
             return new EqualToMatcher(objectToCompare);
         }
 
-        public static IsNullMatcher Null()
+        public static NullMatcher Null()
         {
-            return new IsNullMatcher();
+            return new NullMatcher();
         }
 
         public static NotMatcher Not(Matcher matcher)

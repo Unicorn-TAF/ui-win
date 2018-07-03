@@ -11,17 +11,23 @@
 
         public override string CheckDescription => "Contains " + this.objectToCompare;
 
-        protected override bool Assertion(object obj)
+        public override bool Matches(string actual)
         {
-            string objString = (string)obj;
-
-            bool contains = objString.Contains(this.objectToCompare);
-            if (!contains)
+            if (actual == null)
             {
-                this.DescribeMismatch(objString);
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            return contains;
+            if (actual.Contains(this.objectToCompare))
+            {
+                return true;
+            }
+            else
+            {
+                this.DescribeMismatch(actual);
+                return false;
+            }
         }
     }
 }

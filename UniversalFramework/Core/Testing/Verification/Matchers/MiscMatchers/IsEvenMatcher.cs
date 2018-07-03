@@ -4,20 +4,17 @@
     {
         public override string CheckDescription => "An Even number";
 
-        public override void DescribeMismatch(object number)
+        public override bool Matches(int actual)
         {
-            base.DescribeMismatch(number);
-        }
-
-        protected override bool Assertion(object number)
-        {
-            bool isEven = (int)number % 2 == 0;
-            if (!isEven)
+            if (actual % 2 == 0)
             {
-                DescribeMismatch(number);
+                return true;
             }
-
-            return isEven;
+            else
+            {
+                DescribeMismatch(actual.ToString());
+                return false;
+            }
         }
     }
 }

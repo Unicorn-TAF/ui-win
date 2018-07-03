@@ -29,40 +29,25 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
         public override bool Matches(object collectionObj)
         {
-            if (!IsNotNull(collectionObj))
+            if (collectionObj == null)
             {
-                return this.Reverse;
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            string mismatch = string.Empty;
-            bool result = !this.Reverse;
             IEnumerable<object> collection = (IEnumerable<object>)collectionObj;
 
-            if (this.Reverse)
-            {
-                mismatch = "Collection contains the value";
+            IEnumerable<object> mismatchItems = this.Reverse ?
+                collection.Where(i => expectedObjects.Contains(i)) :
+                expectedObjects.Where(i => !collection.Contains(i));
 
-                foreach (object obj in this.expectedObjects)
-                {
-                    result |= collection.Contains(obj);
-                }
-            }
-            else
+            if (mismatchItems.Any())
             {
-                mismatch = "Collection does not contain the value";
-
-                foreach (object obj in this.expectedObjects)
-                {
-                    result &= collection.Contains(obj);
-                }
+                DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(",", mismatchItems)}");
+                return Reverse;
             }
 
-            if (!result)
-            {
-                DescribeMismatch(mismatch);
-            }
-
-            return result;
+            return !this.Reverse;
         }
     }
 }

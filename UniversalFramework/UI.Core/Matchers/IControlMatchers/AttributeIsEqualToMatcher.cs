@@ -17,7 +17,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override bool Matches(object obj)
         {
-            return this.IsNotNull(obj) && this.Assertion(obj);
+            return /*this.IsNotNull(obj) &&*/ this.Assertion(obj);
         }
 
         protected bool Assertion(object obj)

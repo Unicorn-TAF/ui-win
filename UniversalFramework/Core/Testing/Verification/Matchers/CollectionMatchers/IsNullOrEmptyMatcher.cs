@@ -12,27 +12,17 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
         public override bool Matches(object collectionObj)
         {
-            bool result = false;
-            string mismatch = string.Empty;
             ICollection collection = (ICollection)collectionObj;
 
-            result = collection == null || collection.Count == 0;
-
-            if (collection == null)
+            if (collection == null || collection.Count == 0)
             {
-                mismatch = "was null";
+                return true;
             }
             else
             {
-                mismatch = $"had length = {collection.Count}";
+                this.DescribeMismatch($"of length = {collection.Count}");
+                return false;
             }
-
-            if (!result)
-            {
-                this.DescribeMismatch(mismatch);
-            }
-
-            return result;
         }
     }
 }

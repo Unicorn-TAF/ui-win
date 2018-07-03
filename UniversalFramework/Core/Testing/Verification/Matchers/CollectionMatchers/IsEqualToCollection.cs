@@ -30,8 +30,9 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
         public override bool Matches(object collectionObj)
         {
-            if (!IsNotNull(collectionObj))
+            if (collectionObj == null)
             {
+                DescribeMismatch("null");
                 return this.Reverse;
             }
 

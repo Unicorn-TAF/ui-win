@@ -82,7 +82,7 @@
     <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
     <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CoreMatchers\IsNullMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CoreMatchers\NullMatcher.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\NotMatcher.cs" />
     <Compile Include="Testing\Verification\Matchers\MiscMatchers\IsEvenMatcher.cs" />
     <Compile Include="Testing\Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />

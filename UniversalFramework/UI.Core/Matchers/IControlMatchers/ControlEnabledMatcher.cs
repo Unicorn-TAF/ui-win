@@ -13,7 +13,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override bool Matches(object obj)
         {
-            return IsNotNull(obj) && Assertion(obj);
+            return /*IsNotNull(obj) &&*/ Assertion(obj);
         }
 
         protected bool Assertion(object obj)

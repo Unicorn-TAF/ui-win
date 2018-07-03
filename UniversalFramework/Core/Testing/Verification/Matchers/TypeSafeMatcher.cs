@@ -1,24 +1,35 @@
-﻿namespace Unicorn.Core.Testing.Verification.Matchers
+﻿using System.Text;
+
+namespace Unicorn.Core.Testing.Verification.Matchers
 {
-    public abstract class TypeSafeMatcher<T> : Matcher
+    public abstract class TypeSafeMatcher<T>
     {
-        public override bool Matches(object obj)
+        protected TypeSafeMatcher()
         {
-            return this.IsNotNull(obj) && this.CouldBeCasted(obj) && this.Assertion(obj);
+            this.MatcherOutput = new StringBuilder();
         }
 
-        protected bool CouldBeCasted(object obj)
+        public abstract string CheckDescription { get; }
+
+        public StringBuilder MatcherOutput { get; protected set; }
+
+        protected bool Reverse { get; set; } = false;
+
+        public void DescribeTo()
         {
-            bool couldBeCasted = obj is T;
-
-            if (!couldBeCasted)
-            {
-                DescribeMismatch($"not of type {typeof(T)}");
-            }
-
-            return couldBeCasted;
+            this.MatcherOutput.Append(this.CheckDescription);
         }
 
-        protected abstract bool Assertion(object obj);
+        public virtual void DescribeMismatch(string mismatch)
+        {
+            this.MatcherOutput.Append("was ").Append(mismatch);
+        }
+
+        public abstract bool Matches(T obj);
+
+        public override string ToString()
+        {
+            return this.CheckDescription;
+        }
     }
 }

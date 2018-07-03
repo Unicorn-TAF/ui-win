@@ -14,7 +14,7 @@ namespace Tests.UnitTests
         public void TestTestsObserverSearchTestSuites()
         {
             IEnumerable<Type> foundSuites = TestsObserver.ObserveTestSuites(Assembly.GetExecutingAssembly());
-            Assert.AreEqual(6, foundSuites.Count());
+            Assert.AreEqual(7, foundSuites.Count());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
