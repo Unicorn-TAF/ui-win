@@ -3,7 +3,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
-    public class ControlEnabledMatcher : Matcher
+    public class ControlEnabledMatcher : TypeSafeMatcher<IControl>
     {
         public ControlEnabledMatcher()
         {
@@ -11,29 +11,25 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override string CheckDescription => "enabled";
 
-        public override bool Matches(object obj)
+        public override bool Matches(IControl actual)
         {
-            return /*IsNotNull(obj) &&*/ Assertion(obj);
-        }
-
-        protected bool Assertion(object obj)
-        {
-            IControl element = null;
-
-            try
+            if (actual == null)
             {
-                element = obj as IControl;
-            }
-            catch
-            {
-                DescribeMismatch("was not an instance of IControl");
-                return !this.Reverse;
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            bool enabled = element.Enabled;
-            DescribeMismatch(enabled ? "enabled" : "disabled");
+            bool enabled = actual.Enabled;
 
-            return enabled;
+            if (enabled)
+            {
+                return true;
+            }
+            else
+            {
+                DescribeMismatch(enabled ? "enabled" : "disabled");
+                return false;
+            }
         }
     }
 }

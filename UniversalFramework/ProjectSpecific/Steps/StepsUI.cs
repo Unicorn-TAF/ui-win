@@ -25,7 +25,7 @@ namespace ProjectSpecific.Steps
         public StepsiOS IOS => iOs.Value;
 
         [TestStep("Check that '{0}' {1}")]
-        public void CheckThat(IControl control, Matcher controlMatcher)
+        public void CheckThat<T>(T control, TypeSafeMatcher<T> controlMatcher) where T : IControl
         {
             Assert.That(control, controlMatcher);
         }

@@ -3,7 +3,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
-    public class ControlVisibleMatcher : Matcher
+    public class ControlVisibleMatcher : TypeSafeMatcher<IControl>
     {
         public ControlVisibleMatcher()
         {
@@ -11,29 +11,25 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override string CheckDescription => "visible";
 
-        public override bool Matches(object obj)
+        public override bool Matches(IControl actual)
         {
-            return /*IsNotNull(obj) &&*/ Assertion(obj);
-        }
-
-        protected bool Assertion(object obj)
-        {
-            IControl element = null;
-
-            try
+            if (actual == null)
             {
-                element = obj as IControl;
-            }
-            catch
-            {
-                DescribeMismatch("was not an instance of IControl");
-                return !this.Reverse;
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            bool visible = element.Visible;
-            DescribeMismatch(visible ? "visible" : "not visible");
+            bool visible = actual.Visible;
 
-            return visible;
+            if (visible)
+            {
+                return true;
+            }
+            else
+            {
+                DescribeMismatch(visible ? "visible" : "not visible");
+                return false;
+            }
         }
     }
 }

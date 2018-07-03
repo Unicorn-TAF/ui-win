@@ -9,11 +9,6 @@ namespace Unicorn.UI.Core.Matchers
             return new HasAttribute(attribute);
         }
 
-        public static ControlExistsMatcher Exists()
-        {
-            return new ControlExistsMatcher();
-        }
-
         public static ControlEnabledMatcher Enabled()
         {
             return new ControlEnabledMatcher();

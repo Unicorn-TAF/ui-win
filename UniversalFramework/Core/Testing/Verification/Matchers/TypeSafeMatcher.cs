@@ -25,7 +25,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers
             this.MatcherOutput.Append("was ").Append(mismatch);
         }
 
-        public abstract bool Matches(T obj);
+        public abstract bool Matches(T actual);
 
         public override string ToString()
         {

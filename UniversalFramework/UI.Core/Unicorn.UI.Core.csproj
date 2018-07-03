@@ -93,7 +93,6 @@
     <Compile Include="Matchers\IControlMatchers\AttributeIsEqualToMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\AttributeContainsMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlEnabledMatcher.cs" />
-    <Compile Include="Matchers\IControlMatchers\ControlExistsMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlVisibleMatcher.cs" />
     <Compile Include="PageObject\FindAttribute.cs" />
     <Compile Include="PageObject\NameAttribute.cs" />

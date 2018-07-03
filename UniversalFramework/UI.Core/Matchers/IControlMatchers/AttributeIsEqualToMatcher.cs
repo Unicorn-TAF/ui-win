@@ -3,7 +3,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
-    public class AttributeIsEqualToMatcher : Matcher
+    public class AttributeIsEqualToMatcher : TypeSafeMatcher<IControl>
     {
         private string attribute, value;
 
@@ -15,29 +15,25 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
         public override string CheckDescription => $"has attribute '{this.attribute}' is equal to '{this.value}'";
 
-        public override bool Matches(object obj)
+        public override bool Matches(IControl actual)
         {
-            return /*this.IsNotNull(obj) &&*/ this.Assertion(obj);
-        }
-
-        protected bool Assertion(object obj)
-        {
-            IControl element = null;
-
-            try
+            if (actual == null)
             {
-                element = obj as IControl;
-            }
-            catch
-            {
-                DescribeMismatch("was not an instance of IControl");
-                return !this.Reverse;
+                DescribeMismatch("null");
+                return Reverse;
             }
 
-            string actualValue = element.GetAttribute(this.attribute);
-            DescribeMismatch($"having '{attribute}' = '{actualValue}'");
+            string actualValue = actual.GetAttribute(this.attribute);
 
-            return actualValue.Equals(this.value);
+            if(actualValue.Equals(this.value))
+            {
+                return true;
+            }
+            else
+            {
+                DescribeMismatch($"having '{attribute}' = '{actualValue}'");
+                return false;
+            }
         }
     }
 }

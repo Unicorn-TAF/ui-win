@@ -18,5 +18,10 @@ namespace Unicorn.Core.Testing.Verification.Matchers
         {
             return new NotMatcher(matcher);
         }
+
+        public static TypeSafeNotMatcher<T> Not<T>(TypeSafeMatcher<T> matcher)
+        {
+            return new TypeSafeNotMatcher<T>(matcher);
+        }
     }
 }
