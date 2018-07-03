@@ -14,7 +14,7 @@ namespace ProjectSpecific
         [OneTimeSetUp]
         public static void ClassInit()
         {
-            Logger.Instance = new Util.ConsoleLogger();
+            Logger.Instance = new TestContextLogger();
             Reporter.Instance = new SimpleReporter();
             Reporter.Instance.Init();
         }
