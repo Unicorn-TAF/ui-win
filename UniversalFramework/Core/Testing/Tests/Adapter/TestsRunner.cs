@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
@@ -39,12 +40,27 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public void RunTests()
         {
-            foreach (var suiteType in runnableSuites)
+            if (runnableSuites.Any())
             {
-                RunTestSuite(suiteType);
-            }
+                var initRun = GetRunInitCleanupMethods(typeof(RunInitializeAttribute));
+                if (initRun != null)
+                {
+                    initRun.Invoke(null, null);
+                }
 
-            this.RunStatus = this.ExecutedSuites.Any(s => s.Outcome.Result.Equals(Result.Failed)) ? Result.Failed : Result.Passed;
+                foreach (var suiteType in runnableSuites)
+                {
+                    RunTestSuite(suiteType);
+                }
+
+                var finalyzeRun = GetRunInitCleanupMethods(typeof(RunFinalyzeAttribute));
+                if (finalyzeRun != null)
+                {
+                    finalyzeRun.Invoke(null, null);
+                }
+
+                this.RunStatus = this.ExecutedSuites.Any(s => s.Outcome.Result.Equals(Result.Failed)) ? Result.Failed : Result.Passed;
+            }
         }
 
         public void RunTestSuite(Type type)
@@ -77,6 +93,27 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         {
             return TestsObserver.ObserveTestSuites(ass)
                 .Where(s => Helper.IsSuiteRunnable(s)).ToList();
+        }
+
+        private MethodInfo GetRunInitCleanupMethods(Type attributeType)
+        {
+            var suitesWithRunInit = TestsObserver.ObserveTestSuites(ass)
+                .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
+
+            if (suitesWithRunInit.Any())
+            {
+                return GetTypeStaticMethodsWithAttribute(suitesWithRunInit.First(), attributeType).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType)
+        {
+            return containerType.GetRuntimeMethods()
+                .Where(m => m.GetCustomAttribute(attributeType, true) != null);
         }
     }
 }

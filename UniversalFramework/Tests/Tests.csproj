@@ -115,6 +115,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="TestData\BaseTestSuite.cs" />
+    <Compile Include="TestData\UnicornTestsRunBase.cs" />
     <Compile Include="TestData\PlatformsMixSuite.cs" />
     <Compile Include="TestData\ParameterizedSuite.cs" />
     <Compile Include="TestData\SuiteForTimeouts.cs" />
