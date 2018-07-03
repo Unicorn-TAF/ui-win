@@ -58,7 +58,6 @@
     <Compile Include="TestEnvironment.cs" />
     <Compile Include="UI\Gui\FakeWindow.cs" />
     <Compile Include="UI\Gui\WindowCharMap.cs" />
-    <Compile Include="NUnitReportPortalTestRunner.cs" />
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Steps\Steps.cs" />
     <Compile Include="UI\CharmapApplication.cs" />

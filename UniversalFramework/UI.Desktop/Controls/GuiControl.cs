@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Driver;
 using Unicorn.UI.Desktop.Input;
 
@@ -189,6 +191,13 @@ namespace Unicorn.UI.Desktop.Controls
         {
             TreeWalker treeWalker = TreeWalker.ControlViewWalker;
             return treeWalker.GetParent(this.Instance);
+        }
+
+        public override string ToString()
+        {
+            var attribute = this.GetType().GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+
+            return attribute != null ? attribute.Name : base.ToString();
         }
 
         #region "Helpers"

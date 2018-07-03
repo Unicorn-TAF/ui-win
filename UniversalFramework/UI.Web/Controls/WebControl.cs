@@ -4,6 +4,8 @@ using OpenQA.Selenium.Interactions;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
+using Unicorn.UI.Core.PageObject;
+using System.Reflection;
 
 namespace Unicorn.UI.Web.Controls
 {
@@ -48,45 +50,15 @@ namespace Unicorn.UI.Web.Controls
             }
         }
 
-        public string Text
-        {
-            get
-            {
-                return this.Instance.Text;
-            }
-        }
+        public string Text => this.Instance.Text;
 
-        public bool Enabled
-        {
-            get
-            {
-                return this.Instance.Enabled;
-            }
-        }
+        public bool Enabled => this.Instance.Enabled;
 
-        public bool Visible
-        {
-            get
-            {
-                return this.Instance.Displayed;
-            }
-        }
+        public bool Visible => this.Instance.Displayed;
 
-        public Point Location
-        {
-            get
-            {
-                return this.Instance.Location;
-            }
-        }
+        public Point Location => this.Instance.Location;
 
-        public Rectangle BoundingRectangle
-        {
-            get
-            {
-                return new Rectangle(this.Location, this.Instance.Size);
-            }
-        }
+        public Rectangle BoundingRectangle => new Rectangle(this.Location, this.Instance.Size);
 
         protected override OpenQA.Selenium.ISearchContext SearchContext
         {
@@ -122,6 +94,13 @@ namespace Unicorn.UI.Web.Controls
             actions.MoveToElement(this.Instance);
             actions.ContextClick();
             actions.Release().Perform();
+        }
+
+        public override string ToString()
+        {
+            var attribute = this.GetType().GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+
+            return attribute != null ? attribute.Name : base.ToString();
         }
     }
 }

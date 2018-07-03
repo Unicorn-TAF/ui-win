@@ -96,6 +96,7 @@
     <Compile Include="Matchers\IControlMatchers\ControlExistsMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlVisibleMatcher.cs" />
     <Compile Include="PageObject\FindAttribute.cs" />
+    <Compile Include="PageObject\NameAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Interfaces\Typified\ICheckbox.cs" />
     <Compile Include="Controls\Interfaces\Typified\IDropdown.cs" />

@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
 using NUnit.Framework;
-using ProjectSpecific;
 using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests;
 
 namespace Tests.UnitTests
 {
     [TestFixture]
-    public class TestsPlatformsMix : NUnitReportPortalTestRunner
+    public class TestsPlatformsMix
     {
         //[Ignore("not unit test")]
         [Author("Vitaliy Dobriyan")]
