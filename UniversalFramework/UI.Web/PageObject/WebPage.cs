@@ -5,10 +5,12 @@ namespace Unicorn.UI.Web.PageObject
 {
     public abstract class WebPage : WebContainer
     {
-        protected WebPage()
+        protected WebPage(string url, string title)
         {
             this.SearchContext = WebDriver.Driver as OpenQA.Selenium.ISearchContext;
             Init();
+            this.Url = url;
+            this.Title = title;
         }
 
         public bool IsOpened
@@ -26,8 +28,13 @@ namespace Unicorn.UI.Web.PageObject
             }
         } 
 
-        public abstract string Url { get; }
+        public string Url { get; protected set; }
 
-        public abstract string Title { get; }
+        public string Title { get; protected set; }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(this.Title) ? base.ToString() : this.Title;
+        }
     }
 }

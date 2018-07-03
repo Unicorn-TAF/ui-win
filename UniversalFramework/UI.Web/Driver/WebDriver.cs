@@ -82,9 +82,9 @@ namespace Unicorn.UI.Web.Driver
             options = driverPptions;
         }
 
-        public void Get(string path)
+        public void Get(string url)
         {
-            Driver.Navigate().GoToUrl(path);
+            Driver.Navigate().GoToUrl(url);
         }
 
         public object ExecuteJS(string script, params object[] parameters)

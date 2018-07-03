@@ -7,17 +7,14 @@ namespace ProjectSpecific.UI.Web
 {
     public class PageYandexMarketMain : WebPage
     {
-        private readonly string title = "Яндекс.Маркет — выбор и покупка товаров из проверенных интернет-магазинов";
-        private readonly string url = "";
-
+        [Name("Top Navigation Menu")]
         [Find(Using.Web_Css, ".topmenu__list")]
         public YandexTopMenu MenuTop;
 
+        [Name("Mobile Phones link")]
         [Find(Using.Web_Xpath, "//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']")]
         public WebControl LinkMobilePhones;
 
-        public override string Url => url;
-
-        public override string Title => title;
+        public PageYandexMarketMain() : base("", "Яндекс.Маркет — выбор и покупка товаров из проверенных интернет-магазинов") { }
     }
 }

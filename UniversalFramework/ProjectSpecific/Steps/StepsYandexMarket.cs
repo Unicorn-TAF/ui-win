@@ -1,4 +1,5 @@
 ﻿using AspectInjector.Broker;
+using ProjectSpecific.UI.Web;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.UI.Web.Driver;
@@ -11,7 +12,7 @@ namespace ProjectSpecific.Steps
         [TestStep("Open Yandex Market")]
         public void Open()
         {
-            WebDriver.Instance.Get(TestEnvironment.Instance.YandexMarket.BaseUrl);
+            TestEnvironment.Instance.YandexMarket.NavigateTo<PageYandexMarketMain>();
         }
 
         [TestStep("Select 'Electronics' catalog")]

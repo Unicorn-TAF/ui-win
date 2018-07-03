@@ -6,6 +6,7 @@ namespace ProjectSpecific.UI.Web
 {
     public class YandexTopMenu : WebContainer
     {
+        [Name("Link Electronics")]
         [Find(Using.Web_Css, "[data-department = Электроника]")]
         public WebControl LinkElectronics;
     }
