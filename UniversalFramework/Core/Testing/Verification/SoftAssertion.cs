@@ -22,7 +22,33 @@ namespace Unicorn.Core.Testing.Verification
             return this;
         }
 
+        public SoftAssertion AssertThat<T>(T obj, TypeSafeMatcher<T> matcher)
+        {
+            this.AssertThat<T>(string.Empty, obj, matcher);
+            return this;
+        }
+
         public SoftAssertion AssertThat(string message, object obj, Matcher matcher)
+        {
+            matcher.MatcherOutput.Append("Expected ");
+            matcher.DescribeTo();
+            matcher.MatcherOutput.AppendLine(string.Empty).Append("But ");
+
+            if (!matcher.Matches(obj))
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += "\n";
+                }
+
+                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.ToString()).Append("\n\n");
+                this.isSomethingFailed = true;
+            }
+
+            return this;
+        }
+
+        public SoftAssertion AssertThat<T>(string message, T obj, TypeSafeMatcher<T> matcher)
         {
             matcher.MatcherOutput.Append("Expected ");
             matcher.DescribeTo();

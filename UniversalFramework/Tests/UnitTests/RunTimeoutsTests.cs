@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using ProjectSpecific;
-using Tests.TestData;
-using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Tests.UnitTests

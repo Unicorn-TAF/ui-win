@@ -4,9 +4,9 @@ namespace Unicorn.Core.Testing.Verification.Matchers
 {
     public static class Is
     {
-        public static EqualToMatcher EqualTo(object objectToCompare)
+        public static EqualToMatcher<T> EqualTo<T>(T objectToCompare)
         {
-            return new EqualToMatcher(objectToCompare);
+            return new EqualToMatcher<T>(objectToCompare);
         }
 
         public static NullMatcher Null()

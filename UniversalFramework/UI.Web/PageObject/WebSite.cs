@@ -29,5 +29,10 @@ namespace Unicorn.UI.Web.PageObject
             WebDriver.Instance.Get(this.BaseUrl + page.Url);
             return page;
         }
+
+        public void Open()
+        {
+            WebDriver.Instance.Get(this.BaseUrl);
+        }
     }
 }

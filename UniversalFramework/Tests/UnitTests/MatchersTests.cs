@@ -3,6 +3,7 @@ using NUnit.Framework;
 using ProjectSpecific.BO;
 using Unicorn.Core.Testing.Verification.Matchers;
 using static Unicorn.Core.Testing.Verification.Matchers.Is;
+using System;
 
 namespace Tests.UnitTests
 {
@@ -109,30 +110,17 @@ namespace Tests.UnitTests
         }
 
         [Test, Author("Vitaliy Dobriyan")]
-        public void TestMatcherIsEqualToNotCastableNegative()
-        {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
-                delegate { Unicorn.Core.Testing.Verification.Assert.That(new SampleObject(), EqualTo(23)); });
-        }
-
-        [Test, Author("Vitaliy Dobriyan")]
-        public void TestMatcherIsEqualToNotCastableWithNotPositive()
-        {
-            Unicorn.Core.Testing.Verification.Assert.That(new SampleObject(), Not(EqualTo(23)));
-        }
-
-        [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullNegative()
         {
             Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
-                delegate { Unicorn.Core.Testing.Verification.Assert.That(null, EqualTo(23)); });
+                delegate { Unicorn.Core.Testing.Verification.Assert.That(null, EqualTo("23")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullWithNotNegative()
         {
             Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
-                delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(EqualTo(23))); });
+                delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(EqualTo("23"))); });
         }
 
         #endregion

@@ -17,8 +17,7 @@ namespace Tests.UnitTests
                 assert.AssertThat("asd", EqualTo("asd"))
                     .AssertThat(2, EqualTo(2))
                     .AssertThat(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
-                    .AssertThat(new SampleObject(), EqualTo(new SampleObject()))
-                    .AssertThat("bla-bla-bla message", new SampleObject(), EqualTo(23));
+                    .AssertThat(new SampleObject(), EqualTo(new SampleObject()));
 
                 assert.AssertAll();
             });
