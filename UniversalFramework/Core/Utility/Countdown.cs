@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Unicorn.Core.Logging;
 
-namespace Unicorn.Core
+namespace Unicorn.Core.Utility
 {
     public class Countdown
     {
