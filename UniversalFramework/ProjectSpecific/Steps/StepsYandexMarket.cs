@@ -1,6 +1,8 @@
 ﻿using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
+using Unicorn.UI.Core.Synchronization;
+using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Driver;
 
 namespace ProjectSpecific.Steps
@@ -24,6 +26,10 @@ namespace ProjectSpecific.Steps
         public void SelectSubCatalog()
         {
             TestEnvironment.Instance.YandexMarket.MainPage.LinkMobilePhones.Click();
+
+            TestEnvironment.Instance.YandexMarket.MainPage.MenuTop.LinkElectronics
+                .Wait(Until.AttributeContains, "class", "topmenu__item_mode_current")
+                .Wait(Until.Visible);
         }
 
         [TestStep("Close Browser")]

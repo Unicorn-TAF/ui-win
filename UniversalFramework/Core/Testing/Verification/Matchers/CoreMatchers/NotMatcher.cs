@@ -16,13 +16,13 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
             this.matcher = matcher;
         }
 
-        public override string CheckDescription => $"Not ({this.matcher.CheckDescription})";
+        public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
         public override bool Matches(object obj)
         {
             if (this.matcher.Matches(obj))
             {
-                this.MatcherOutput.Clear().Append(this.matcher.MatcherOutput);
+                this.MatcherOutput.Append(this.matcher.MatcherOutput);
                 return false;
             }
             
@@ -44,13 +44,13 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
             this.matcher = matcher;
         }
 
-        public override string CheckDescription => $"Not ({this.matcher.CheckDescription})";
+        public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
         public override bool Matches(T actual)
         {
             if (this.matcher.Matches(actual))
             {
-                this.MatcherOutput.Clear().Append(this.matcher.MatcherOutput);
+                this.MatcherOutput.Append(this.matcher.MatcherOutput);
                 return false;
             }
 

@@ -10,6 +10,8 @@ namespace Unicorn.UI.Core.Controls
         /// </summary>
         ByLocator Locator { get; set; }
 
+        string Name { get; set; }
+
         #region "Props"
 
         bool Visible

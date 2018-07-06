@@ -4,8 +4,6 @@ using OpenQA.Selenium.Interactions;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
-using Unicorn.UI.Core.PageObject;
-using System.Reflection;
 
 namespace Unicorn.UI.Web.Controls
 {
@@ -36,6 +34,8 @@ namespace Unicorn.UI.Web.Controls
         }
 
         public ByLocator Locator { get; set; }
+
+        public string Name { get; set; }
 
         public virtual IWebElement Instance
         {
@@ -98,9 +98,7 @@ namespace Unicorn.UI.Web.Controls
 
         public override string ToString()
         {
-            var attribute = this.GetType().GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
-
-            return attribute != null ? attribute.Name : base.ToString();
+            return string.IsNullOrEmpty(this.Name) ? base.ToString(): this.Name;
         }
     }
 }

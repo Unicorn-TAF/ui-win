@@ -17,5 +17,10 @@ namespace Tests.TestData
             Reporter.Instance.Init();
         }
 
+        [RunFinalize]
+        public static void FinalizeRun()
+        {
+            Reporter.Instance.Complete();
+        }
     }
 }

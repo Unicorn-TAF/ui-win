@@ -5,8 +5,6 @@ using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 using Unicorn.Core.Testing.Verification.Matchers;
 using Unicorn.UI.Core.Matchers;
-using Unicorn.UI.Core.Synchronization;
-using Unicorn.UI.Core.Synchronization.Conditions;
 
 namespace Tests.TestData
 {
@@ -81,13 +79,17 @@ namespace Tests.TestData
             Bug("76237").UI.YandexMarket.SelectCatalog();
             Do.UI.YandexMarket.SelectSubCatalog();
 
+            var link = yandexMarket.MainPage.MenuTop.LinkElectronics;
+
             Do.Assertion.AssertThat(yandexMarket.MainPage.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
-
-            yandexMarket.MainPage.MenuTop.LinkElectronics
-                .Wait(Until.AttributeContains, "class", "topmenu__item_mode_current")
-                .Wait(Until.Visible);
-
-            Do.UI.YandexMarket.CloseBrowser();
+            
+            Do.Assertion
+                .VerifyThat(link, Is.Not(Control.Enabled()))
+                .VerifyThat(link, Control.HasAttribute("class").Contains("topmenu__item_mode_current"))
+                .VerifyThat(link, Is.Not(Control.HasAttribute("class").Contains("isdfsadasd")))
+                .VerifyThat(link, Control.Visible())
+                .VerifyThat(link, Control.HasAttribute("class").Contains("asdasdfvtrh"))
+                .AssertVerificationsChain();
         }
 
         [Disable]
@@ -112,7 +114,7 @@ namespace Tests.TestData
         [AfterSuite]
         public void ClassTearDown()
         {
-            Do.Testing.Say("After suite");
+            Do.UI.YandexMarket.CloseBrowser();
         }
     }
 }

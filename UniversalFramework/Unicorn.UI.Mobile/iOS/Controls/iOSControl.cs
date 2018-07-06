@@ -26,6 +26,8 @@ namespace Unicorn.UI.Mobile.IOS.Controls
 
         public ByLocator Locator { get; set; }
 
+        public string Name { get; set; }
+
         public AppiumWebElement Instance
         {
             get

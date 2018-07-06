@@ -39,20 +39,27 @@ namespace Unicorn.UI.Web.Controls
             FieldInfo[] fields = GetType().GetFields();
             foreach (FieldInfo field in fields)
             {
-                object[] attributes = field.GetCustomAttributes(typeof(FindAttribute), true);
+                var attributes = field.GetCustomAttributes(typeof(FindAttribute), true) as FindAttribute[];
                 if (attributes.Length != 0)
                 {
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
-                    ((WebControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
+                    ((WebControl)control).Locator = (attributes[0]).Locator;
                     ((WebControl)control).Cached = false;
                     ((WebControl)control).ParentContext = this.SearchContext;
+
+                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+
+                    if (nameAttribute != null)
+                    {
+                        ((WebControl)control).Name = nameAttribute.Name;
+                    }
 
                     if (controlType.IsSubclassOf(typeof(WebContainer)))
                     {
                         ((WebContainer)control).Init();
                     }
-                        
+                    
                     field.SetValue(this, control);
                 }
             }

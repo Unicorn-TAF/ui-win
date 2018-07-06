@@ -47,6 +47,7 @@ namespace Unicorn.Core.Testing.Steps
             return this;
         }
 
+        [TestStep("Assert verifications chain")]
         public void AssertVerificationsChain()
         {
             if (softAssertion == null)

@@ -42,14 +42,21 @@ namespace Unicorn.UI.Desktop.Controls
             FieldInfo[] fields = GetType().GetFields();
             foreach (FieldInfo field in fields)
             {
-                object[] attributes = field.GetCustomAttributes(typeof(FindAttribute), true);
+                var attributes = field.GetCustomAttributes(typeof(FindAttribute), true) as FindAttribute[];
                 if (attributes.Length != 0)
                 {
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
-                    ((GuiControl)control).Locator = ((FindAttribute)attributes[0]).Locator;
+                    ((GuiControl)control).Locator = (attributes[0]).Locator;
                     ((GuiControl)control).Cached = false;
                     ((GuiControl)control).ParentSearchContext = this;
+
+                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+
+                    if (nameAttribute != null)
+                    {
+                        ((GuiControl)control).Name = nameAttribute.Name;
+                    }
 
                     if (controlType.IsSubclassOf(typeof(GuiContainer)))
                     {

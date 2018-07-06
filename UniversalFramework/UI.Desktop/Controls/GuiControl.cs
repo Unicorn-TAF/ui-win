@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Automation;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Driver;
 using Unicorn.UI.Desktop.Input;
 
@@ -24,6 +22,8 @@ namespace Unicorn.UI.Desktop.Controls
         public bool Cached { get; set; } = true;
 
         public ByLocator Locator { get; set; }
+
+        public string Name { get; set; }
 
         public virtual string ClassName => null;
 
@@ -195,9 +195,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public override string ToString()
         {
-            var attribute = this.GetType().GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
-
-            return attribute != null ? attribute.Name : base.ToString();
+            return string.IsNullOrEmpty(this.Name) ? base.ToString() : this.Name;
         }
 
         #region "Helpers"

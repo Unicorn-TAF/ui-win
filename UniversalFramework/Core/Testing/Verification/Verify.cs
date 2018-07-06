@@ -29,7 +29,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.ToString()).Append("\n\n");
+                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.MatcherOutput.ToString()).Append("\n\n");
                 this.isSomethingFailed = true;
             }
 
@@ -49,7 +49,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.ToString()).Append("\n\n");
+                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.MatcherOutput.ToString()).Append("\n\n");
                 this.isSomethingFailed = true;
             }
 
