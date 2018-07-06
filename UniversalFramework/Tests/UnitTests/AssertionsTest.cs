@@ -13,11 +13,11 @@ namespace Tests.UnitTests
         {
             NUnit.Framework.Assert.Throws<AssertionError>(delegate 
             {
-                SoftAssertion assert = new SoftAssertion();
-                assert.AssertThat("asd", EqualTo("asd"))
-                    .AssertThat(2, EqualTo(2))
-                    .AssertThat(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
-                    .AssertThat(new SampleObject(), EqualTo(new SampleObject()));
+                Verify assert = new Verify();
+                assert.VerifyThat("asd", EqualTo("asd"))
+                    .VerifyThat(2, EqualTo(2))
+                    .VerifyThat(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
+                    .VerifyThat(new SampleObject(), EqualTo(new SampleObject()));
 
                 assert.AssertAll();
             });

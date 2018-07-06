@@ -57,7 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Countdown.cs" />
+    <Compile Include="Utility\FileDownloader.cs" />
+    <Compile Include="Utility\Countdown.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Reporting\IReporter.cs" />
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
+    <Compile Include="Testing\Steps\AssertionSteps.cs" />
     <Compile Include="Testing\Tests\Adapter\Helper.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\RunFinalyzeAttribute.cs" />
@@ -88,7 +90,7 @@
     <Compile Include="Testing\Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
     <Compile Include="Testing\Verification\Matchers\MiscMatchers.cs" />
     <Compile Include="Testing\Verification\Matchers\TypeSafeMatcher.cs" />
-    <Compile Include="Testing\Verification\SoftAssertion.cs" />
+    <Compile Include="Testing\Verification\Verify.cs" />
     <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />

@@ -20,16 +20,8 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
             }
 
             bool visible = actual.Visible;
-
-            if (visible)
-            {
-                return true;
-            }
-            else
-            {
-                DescribeMismatch(visible ? "visible" : "not visible");
-                return false;
-            }
+            DescribeMismatch(visible ? "visible" : "not visible");
+            return visible;
         }
     }
 }

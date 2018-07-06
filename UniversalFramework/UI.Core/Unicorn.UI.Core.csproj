@@ -84,16 +84,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Interfaces\ISortable.cs" />
     <Compile Include="Driver\IDriver.cs" />
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Driver\UISearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
+    <Compile Include="Matchers\Checkbox.cs" />
+    <Compile Include="Matchers\Table.cs" />
+    <Compile Include="Matchers\Dropdown.cs" />
     <Compile Include="Matchers\Control.cs" />
     <Compile Include="Matchers\HasAttribute.cs" />
     <Compile Include="Matchers\IControlMatchers\AttributeIsEqualToMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\AttributeContainsMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlEnabledMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlVisibleMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\TableHasRowMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\DropdownHasSelectedValue.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\CheckboxCheckedMatcher.cs" />
     <Compile Include="PageObject\FindAttribute.cs" />
     <Compile Include="PageObject\NameAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

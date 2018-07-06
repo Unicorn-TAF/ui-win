@@ -64,8 +64,8 @@ namespace Tests.TestData
             Do.UI.CharMap.StartApplication();
             Do.UI.CharMap.SelectFont(font);
 
-            Do.UI.CheckThat(charmap.Window.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
-            Do.UI.CheckThat(charmap.Window.ButtonCopy, Is.Not(Control.Enabled()));
+            Do.Assertion.AssertThat(charmap.Window.InputCharactersToCopy, Control.HasAttribute("class").IsEqualTo("RICHEDIT50W"));
+            Do.Assertion.AssertThat(charmap.Window.ButtonCopy, Is.Not(Control.Enabled()));
 
             Do.UI.CharMap.CloseApplication();
         }
@@ -81,7 +81,7 @@ namespace Tests.TestData
             Bug("76237").UI.YandexMarket.SelectCatalog();
             Do.UI.YandexMarket.SelectSubCatalog();
 
-            Do.UI.CheckThat(yandexMarket.MainPage.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
+            Do.Assertion.AssertThat(yandexMarket.MainPage.MenuTop.LinkElectronics, Control.HasAttribute("class").Contains("topmenu__item_mode_current"));
 
             yandexMarket.MainPage.MenuTop.LinkElectronics
                 .Wait(Until.AttributeContains, "class", "topmenu__item_mode_current")

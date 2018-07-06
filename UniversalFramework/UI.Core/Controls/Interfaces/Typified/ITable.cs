@@ -2,5 +2,10 @@
 {
     public interface ITable
     {
+        ITableRow GetRow(string column, string cellValue);
+    }
+
+    public interface ITableRow
+    {
     }
 }

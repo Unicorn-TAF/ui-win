@@ -3,38 +3,26 @@ using Unicorn.Core.Testing.Verification.Matchers;
 
 namespace Unicorn.Core.Testing.Verification
 {
-    public class SoftAssertion
+    public class Verify
     {
         private StringBuilder errors;
         private bool isSomethingFailed;
         private int errorCounter;
 
-        public SoftAssertion()
+        public Verify()
         {
             this.errors = new StringBuilder();
             this.isSomethingFailed = false;
             this.errorCounter = 1;
         }
 
-        public SoftAssertion AssertThat(object obj, Matcher matcher)
-        {
-            this.AssertThat(string.Empty, obj, matcher);
-            return this;
-        }
-
-        public SoftAssertion AssertThat<T>(T obj, TypeSafeMatcher<T> matcher)
-        {
-            this.AssertThat<T>(string.Empty, obj, matcher);
-            return this;
-        }
-
-        public SoftAssertion AssertThat(string message, object obj, Matcher matcher)
+        public Verify VerifyThat(object actual, Matcher matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected ");
             matcher.DescribeTo();
             matcher.MatcherOutput.AppendLine(string.Empty).Append("But ");
 
-            if (!matcher.Matches(obj))
+            if (!matcher.Matches(actual))
             {
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -48,13 +36,13 @@ namespace Unicorn.Core.Testing.Verification
             return this;
         }
 
-        public SoftAssertion AssertThat<T>(string message, T obj, TypeSafeMatcher<T> matcher)
+        public Verify VerifyThat<T>(T actual, TypeSafeMatcher<T> matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected ");
             matcher.DescribeTo();
             matcher.MatcherOutput.AppendLine(string.Empty).Append("But ");
 
-            if (!matcher.Matches(obj))
+            if (!matcher.Matches(actual))
             {
                 if (!string.IsNullOrEmpty(message))
                 {

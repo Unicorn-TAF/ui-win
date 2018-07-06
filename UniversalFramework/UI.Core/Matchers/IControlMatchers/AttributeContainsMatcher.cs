@@ -25,15 +25,9 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
             string actualValue = actual.GetAttribute(this.attribute);
 
-            if (actualValue.Contains(this.value))
-            {
-                return true;
-            }
-            else
-            {
-                DescribeMismatch($"having '{attribute}' = '{actualValue}'");
-                return false;
-            }
+            DescribeMismatch($"having '{attribute}' = '{actualValue}'");
+
+            return actualValue.Contains(this.value);
         }
     }
 }

@@ -21,15 +21,9 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
             bool enabled = actual.Enabled;
 
-            if (enabled)
-            {
-                return true;
-            }
-            else
-            {
-                DescribeMismatch(enabled ? "enabled" : "disabled");
-                return false;
-            }
+            DescribeMismatch(enabled ? "enabled" : "disabled");
+
+            return enabled;
         }
     }
 }

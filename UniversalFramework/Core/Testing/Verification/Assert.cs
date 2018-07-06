@@ -4,13 +4,13 @@ namespace Unicorn.Core.Testing.Verification
 {
     public class Assert
     {
-        public static void That(object obj, Matcher matcher, string message = "")
+        public static void That(object actual, Matcher matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();
             matcher.MatcherOutput.AppendLine(string.Empty).Append("But: ");
 
-            if (!matcher.Matches(obj))
+            if (!matcher.Matches(actual))
             {
                 if (!string.IsNullOrEmpty(message))
                 {
@@ -21,13 +21,13 @@ namespace Unicorn.Core.Testing.Verification
             }
         }
 
-        public static void That<T>(T obj, TypeSafeMatcher<T> matcher, string message = "")
+        public static void That<T>(T actual, TypeSafeMatcher<T> matcher, string message = "")
         {
             matcher.MatcherOutput.Append("Expected: ");
             matcher.DescribeTo();
             matcher.MatcherOutput.AppendLine(string.Empty).Append("But: ");
 
-            if (!matcher.Matches(obj))
+            if (!matcher.Matches(actual))
             {
                 if (!string.IsNullOrEmpty(message))
                 {

@@ -1,10 +1,6 @@
 ﻿using System;
 using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps;
-using Unicorn.Core.Testing.Steps.Attributes;
-using Unicorn.Core.Testing.Verification;
-using Unicorn.Core.Testing.Verification.Matchers;
-using Unicorn.UI.Core.Controls;
 
 namespace ProjectSpecific.Steps
 {
@@ -23,11 +19,5 @@ namespace ProjectSpecific.Steps
         public StepsAndroid Android => android.Value;
 
         public StepsiOS IOS => iOs.Value;
-
-        [TestStep("Check that '{0}' {1}")]
-        public void CheckThat<T>(T control, TypeSafeMatcher<T> controlMatcher) where T : IControl
-        {
-            Assert.That(control, controlMatcher);
-        }
     }
 }
