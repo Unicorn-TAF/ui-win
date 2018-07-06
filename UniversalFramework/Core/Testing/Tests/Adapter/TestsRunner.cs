@@ -34,7 +34,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             runnableSuites = ObserveRunnableSuites();
         }
 
-        public List<TestSuite> ExecutedSuites { get; protected set; }
+        public List<TestSuite> ExecutedSuites { get; }
 
         public Result RunStatus { get; protected set; }
 
@@ -53,7 +53,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                     RunTestSuite(suiteType);
                 }
 
-                var finalyzeRun = GetRunInitCleanupMethods(typeof(RunFinalyzeAttribute));
+                var finalyzeRun = GetRunInitCleanupMethods(typeof(RunFinalizeAttribute));
                 if (finalyzeRun != null)
                 {
                     finalyzeRun.Invoke(null, null);

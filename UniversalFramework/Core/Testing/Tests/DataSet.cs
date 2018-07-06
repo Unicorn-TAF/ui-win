@@ -12,6 +12,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public string Name { get; protected set; }
 
-        public List<object> Parameters { get; protected set; }
+        public List<object> Parameters { get; }
     }
 }

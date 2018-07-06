@@ -1,8 +1,19 @@
 ﻿namespace Unicorn.UI.Core.Controls.Interfaces
 {
+    public enum SortDirection
+    {
+        Ascending,
+        Descending
+    }
+
     public interface ISortable
     {
-        bool Sort(bool ascending);
+        SortDirection CurrentSorting
+        {
+            get;
+        }
+
+        bool Sort(SortDirection direction);
 
     }
 }

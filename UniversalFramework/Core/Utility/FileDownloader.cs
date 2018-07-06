@@ -25,6 +25,7 @@ namespace Unicorn.Core.Utility
 
         public FileDownloader(string destinationFolder, string downloadFileName)
         {
+            this.destinationFolder = destinationFolder;
             this.downloadFileName = downloadFileName;
             this.fileNamesToExclude = null;
             this.fileNamesBeforeDownload = null;

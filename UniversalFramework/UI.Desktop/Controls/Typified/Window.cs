@@ -61,7 +61,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 }
                 while (this.Visible && timer.ElapsedMilliseconds < timeout);
             }
-            catch (ControlNotFoundException ex)
+            catch (ControlNotFoundException)
             {
                 timer.Stop();
             }
