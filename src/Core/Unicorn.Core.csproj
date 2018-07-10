@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
     <Compile Include="Utility\Countdown.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />

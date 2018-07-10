@@ -97,7 +97,8 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         private MethodInfo GetRunInitCleanupMethods(Type attributeType)
         {
-            var suitesWithRunInit = TestsObserver.ObserveTestSuites(ass)
+            var suitesWithRunInit = ass.GetTypes()
+                .Where(t => t.GetCustomAttributes(typeof(TestsAssemblyAttribute), true).Length > 0)
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 
             if (suitesWithRunInit.Any())
