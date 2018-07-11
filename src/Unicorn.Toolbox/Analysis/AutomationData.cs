@@ -12,6 +12,7 @@ namespace Unicorn.Toolbox.Analysis
             this.SuitesInfos = new List<SuiteInfo>();
             this.UniqueFeatures = new HashSet<string>();
             this.UniqueCategories = new HashSet<string>();
+            this.UniqueAuthors = new HashSet<string>();
             this.FilteredInfo = null;
         }
 
@@ -23,6 +24,8 @@ namespace Unicorn.Toolbox.Analysis
 
         public HashSet<string> UniqueCategories { get; protected set; }
 
+        public HashSet<string> UniqueAuthors { get; protected set; }
+
         public void ClearFilters()
         {
             this.FilteredInfo = null;
@@ -32,6 +35,11 @@ namespace Unicorn.Toolbox.Analysis
         {
             this.SuitesInfos.Add(suiteData);
             this.UniqueFeatures.UnionWith(suiteData.Features);
+
+            var authors = from TestInfo ti in suiteData.TestsInfos
+                          select ti.Author;
+
+            this.UniqueAuthors.UnionWith(authors);
 
             foreach (var testInfo in suiteData.TestsInfos)
             {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Unicorn.Toolbox"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="MainWindow" Height="750" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
@@ -13,10 +13,10 @@
         </Grid.ColumnDefinitions>
         <TabControl x:Name="tabControl" Margin="10" Grid.ColumnSpan="2">
             <TabItem Header="Tests statistics">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,1">
                     <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0"/>
-                    <TextBox x:Name="textBoxStatistics" TextWrapping="Wrap" Text="" Margin="10,40,300,0" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="264" VerticalAlignment="Top"/>
-                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10,309,300,0" Height="412" VerticalAlignment="Top">
+                    <TextBox x:Name="textBoxStatistics" TextWrapping="Wrap" Text="" Margin="300,37,10,0" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="150" VerticalAlignment="Top"/>
+                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="300,192,10,0" Height="465" VerticalAlignment="Top">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Test Suite"  Width="300">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -58,10 +58,10 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Canvas x:Name="canvasFilters" HorizontalAlignment="Left" Height="467" Margin="876,40,0,0" VerticalAlignment="Top" Width="280" Background="White">
+                    <Canvas x:Name="canvasFilters" HorizontalAlignment="Left" Height="620" Margin="10,37,0,0" VerticalAlignment="Top" Width="280" Background="White">
 
                     </Canvas>
-                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Margin="1004,475,0,0" Click="buttonApplyFilter_Click"/>
+                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="155,10,0,0" Click="buttonApplyFilter_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="TabItem">

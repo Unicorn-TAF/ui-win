@@ -74,7 +74,6 @@ namespace Unicorn.Toolbox
                 Canvas.SetLeft(featureControl, 20);
             }
 
-
             int categoriesOffset = 30 + 20 * featureIndex;
 
             var labelategories = new Label();
@@ -93,6 +92,26 @@ namespace Unicorn.Toolbox
                 canvasFilters.Children.Add(categoryControl);
                 Canvas.SetTop(categoryControl, 10 + categoriesOffset + 20 * categoryIndex++);
                 Canvas.SetLeft(categoryControl, 20);
+            }
+
+            int authorOffset = 30 + categoriesOffset + 20 * categoryIndex;
+
+            var labelAuthors = new Label();
+            labelAuthors.Content = "AVAILABLE AUTHORS";
+            canvasFilters.Children.Add(labelAuthors);
+            Canvas.SetTop(labelAuthors, authorOffset);
+            Canvas.SetLeft(labelAuthors, 5);
+
+
+            int authorIndex = 1;
+            foreach (var author in data.UniqueAuthors)
+            {
+                var authorControl = new CheckBox();
+                authorControl.Content = author;
+
+                canvasFilters.Children.Add(authorControl);
+                Canvas.SetTop(authorControl, 10 + authorOffset + 20 * authorIndex++);
+                Canvas.SetLeft(authorControl, 20);
             }
         }
 
