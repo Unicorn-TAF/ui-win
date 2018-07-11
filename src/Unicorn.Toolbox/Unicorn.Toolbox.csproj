@@ -56,6 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Analysis\Filtering\AuthorsFilter.cs" />
+    <Compile Include="Analysis\Filtering\CategoriesFilter.cs" />
+    <Compile Include="Analysis\Filtering\FeaturesFilter.cs" />
+    <Compile Include="Analysis\Filtering\ITestsFilter.cs" />
     <Compile Include="WindowTestPreview.xaml.cs">
       <DependentUpon>WindowTestPreview.xaml</DependentUpon>
     </Compile>
@@ -65,7 +69,7 @@
     </Page>
     <Compile Include="Analysis\Analyzer.cs" />
     <Compile Include="Analysis\AutomationData.cs" />
-    <Compile Include="Analysis\IDataFilter.cs" />
+    <Compile Include="Analysis\Filtering\ISuitesFilter.cs" />
     <Compile Include="Analysis\SuiteInfo.cs" />
     <Compile Include="Analysis\TestInfo.cs" />
     <Compile Include="App.xaml.cs">

@@ -10,27 +10,28 @@ namespace Unicorn.Toolbox.Analysis
     public class Analyzer
     {
         private string assemblyDir;
-        private string assemblyFile;
-        private string assemblyName;
-
         private Type baseSuiteType = typeof(TestSuite);
 
         public Analyzer(Assembly assembly, string fileName)
         {
             assemblyDir = Path.GetDirectoryName(fileName);
-            assemblyFile = Path.GetFileName(fileName);
-            assemblyName = assembly.FullName;
+            AssemblyFile = Path.GetFileName(fileName);
+            AssemblyName = assembly.FullName;
 
             this.Data = new AutomationData();
         }
 
         public AutomationData Data { get; protected set; }
 
-        public string GetTestsStatistics()
+        public string AssemblyFile { get; protected set; }
+
+        public string AssemblyName { get; protected set; }
+
+        public void GetTestsStatistics()
         {
             LoadDependenciesToCurrentAppDomain();
 
-            var testsAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.Equals(assemblyName)).First();
+            var testsAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.Equals(AssemblyName)).First();
             var allSuites = TestsObserver.ObserveTestSuites(testsAssembly);
 
             foreach (var suiteType in allSuites)
@@ -50,8 +51,6 @@ namespace Unicorn.Toolbox.Analysis
                     this.Data.AddSuiteData(GetSuiteInfo(nonParameterizedSuite));
                 }
             }
-
-            return Data.ToString();
         }
 
         private void LoadDependenciesToCurrentAppDomain()
@@ -61,7 +60,7 @@ namespace Unicorn.Toolbox.Analysis
 
             var referencedPaths = Directory.GetFiles(assemblyDir, "*.dll");
             var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
-            toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(path))));
+            toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(System.Reflection.AssemblyName.GetAssemblyName(path))));
         }
 
         private SuiteInfo GetSuiteInfo(object suiteInstance)

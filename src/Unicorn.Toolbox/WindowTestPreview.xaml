@@ -27,7 +27,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Categories"  Width="150">
+                <DataGridTemplateColumn Header="Categories"  Width="250">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DataGrid DataContext="{Binding Categories}" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None">

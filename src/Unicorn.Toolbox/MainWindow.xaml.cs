@@ -1,21 +1,12 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Unicorn.Toolbox.Analysis;
+using Unicorn.Toolbox.Analysis.Filtering;
 
 namespace Unicorn.Toolbox
 {
@@ -46,79 +37,58 @@ namespace Unicorn.Toolbox
 
             var testsAssembly = Assembly.LoadFrom(assemblyName);
             this.analyzer = new Analyzer(testsAssembly, assemblyName);
+            this.analyzer.GetTestsStatistics();
 
-            this.textBoxStatistics.Text = "";
-            this.textBoxStatistics.Text = this.analyzer.GetTestsStatistics();
+            var statusLine = $"Assembly: {this.analyzer.AssemblyFile} ({this.analyzer.AssemblyName})    |    " + this.analyzer.Data.ToString();
+            this.textBoxStatistics.Text = statusLine;
 
             FillFiltersFrom(analyzer.Data);
         }
 
         private void FillFiltersFrom(AutomationData data)
         {
-            canvasFilters.Children.Clear();
+            FillGrid(gridFeatures, data.UniqueFeatures);
+            FillGrid(gridCategories, data.UniqueCategories);
+            FillGrid(gridAuthors, data.UniqueAuthors);
+        }
 
-            var labelFeatures = new Label();
-            labelFeatures.Content = "AVAILABLE FEATURES";
-            canvasFilters.Children.Add(labelFeatures);
-            Canvas.SetTop(labelFeatures, 10);
-            Canvas.SetLeft(labelFeatures, 5);
+        private void FillGrid(Grid grid, HashSet<string> items)
+        {
+            grid.Children.Clear();
+            grid.RowDefinitions.Clear();
 
-            int featureIndex = 1;
-            foreach (var feature in data.UniqueFeatures)
+            for (int i = 0; i < 25; i++)
             {
-                var featureControl = new CheckBox();
-                featureControl.Content = feature;
-
-                canvasFilters.Children.Add(featureControl);
-                Canvas.SetTop(featureControl, 20 + 20 * featureIndex++);
-                Canvas.SetLeft(featureControl, 20);
+                grid.RowDefinitions.Add(new RowDefinition());
             }
 
-            int categoriesOffset = 30 + 20 * featureIndex;
-
-            var labelategories = new Label();
-            labelategories.Content = "AVAILABLE CATEGORIES";
-            canvasFilters.Children.Add(labelategories);
-            Canvas.SetTop(labelategories, categoriesOffset);
-            Canvas.SetLeft(labelategories, 5);
-
-
-            int categoryIndex = 1;
-            foreach (var category in data.UniqueCategories)
+            int index = 1;
+            foreach (var item in items)
             {
-                var categoryControl = new CheckBox();
-                categoryControl.Content = category;
-
-                canvasFilters.Children.Add(categoryControl);
-                Canvas.SetTop(categoryControl, 10 + categoriesOffset + 20 * categoryIndex++);
-                Canvas.SetLeft(categoryControl, 20);
-            }
-
-            int authorOffset = 30 + categoriesOffset + 20 * categoryIndex;
-
-            var labelAuthors = new Label();
-            labelAuthors.Content = "AVAILABLE AUTHORS";
-            canvasFilters.Children.Add(labelAuthors);
-            Canvas.SetTop(labelAuthors, authorOffset);
-            Canvas.SetLeft(labelAuthors, 5);
-
-
-            int authorIndex = 1;
-            foreach (var author in data.UniqueAuthors)
-            {
-                var authorControl = new CheckBox();
-                authorControl.Content = author;
-
-                canvasFilters.Children.Add(authorControl);
-                Canvas.SetTop(authorControl, 10 + authorOffset + 20 * authorIndex++);
-                Canvas.SetLeft(authorControl, 20);
+                var itemCheckbox = new CheckBox();
+                itemCheckbox.Content = item;
+                itemCheckbox.IsChecked = true;
+                grid.Children.Add(itemCheckbox);
+                Grid.SetRow(itemCheckbox, index++);
             }
         }
 
         private void buttonApplyFilter_Click(object sender, RoutedEventArgs e)
         {
-            //var groups = (this.Resources["CvsKey"] as CollectionViewSource).View.Groups;
-            gridResults.ItemsSource = analyzer.Data.SuitesInfos;
+            var features = from CheckBox cBox in gridFeatures.Children where cBox.IsChecked.Value select (string)cBox.Content;
+            var categories = from CheckBox cBox in gridCategories.Children where cBox.IsChecked.Value select (string)cBox.Content;
+            var authors = from CheckBox cBox in gridAuthors.Children where cBox.IsChecked.Value select (string)cBox.Content;
+
+            var featuresFilter = new FeaturesFilter(features);
+            var categoriesFilter = new CategoriesFilter(categories);
+            var authorsFilter = new AuthorsFilter(authors);
+
+            analyzer.Data.FilteredInfo = featuresFilter.FilterSuites(analyzer.Data.SuitesInfos);
+            analyzer.Data.FilteredInfo = categoriesFilter.FilterSuites(analyzer.Data.FilteredInfo);
+            analyzer.Data.FilteredInfo = authorsFilter.FilterSuites(analyzer.Data.FilteredInfo);
+            gridResults.ItemsSource = analyzer.Data.FilteredInfo;
+
+            textBoxCurrentFilter.Text = $"Filter by: Features[{string.Join(",", features)}] Categories[{string.Join(",", categories)}] Authors[{string.Join(",", authors)}]";
         }
 
         private void cellSuiteName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -128,10 +98,15 @@ namespace Unicorn.Toolbox
                 string testSuiteName = (sender as TextBlock).Text;
 
                 var preview = new WindowTestPreview();
+                preview.ShowActivated = false;
                 preview.Show();
                 preview.gridResults.ItemsSource = analyzer.Data.SuitesInfos.Where(s => s.Name.Equals(testSuiteName)).First().TestsInfos;
-                preview.Focus();
             }
+        }
+
+        private void buttonShowAll_Click(object sender, RoutedEventArgs e)
+        {
+            gridResults.ItemsSource = analyzer.Data.SuitesInfos;
         }
     }
 }

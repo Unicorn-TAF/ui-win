@@ -5,20 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Unicorn.Toolbox"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Unicorn toolbox" Height="750" Width="1200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="tabControl" Margin="10" Grid.ColumnSpan="2">
+        <TabControl x:Name="tabControl" Margin="10,37,10,0" Grid.ColumnSpan="2" Height="644" VerticalAlignment="Top">
             <TabItem Header="Tests statistics">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,1">
-                    <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0"/>
-                    <TextBox x:Name="textBoxStatistics" TextWrapping="Wrap" Text="" Margin="300,37,10,0" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="150" VerticalAlignment="Top"/>
-                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="300,192,10,0" Height="465" VerticalAlignment="Top">
+                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="224,10,10,0" Height="568" VerticalAlignment="Top">
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Test Suite"  Width="300">
+                            <DataGridTemplateColumn Header="Test Suite"  Width="350">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -27,7 +25,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Features"  Width="150">
+                            <DataGridTemplateColumn Header="Features" Width="150">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGrid DataContext="{Binding Features}" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None">
@@ -44,13 +42,13 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Metadata"  Width="*">
+                            <DataGridTemplateColumn Header="Metadata" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGrid DataContext="{Binding Metadata}" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
-                                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                                                <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </DataTemplate>
@@ -58,16 +56,29 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Canvas x:Name="canvasFilters" HorizontalAlignment="Left" Height="620" Margin="10,37,0,0" VerticalAlignment="Top" Width="280" Background="White">
 
-                    </Canvas>
-                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="155,10,0,0" Click="buttonApplyFilter_Click"/>
+                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="120,10,0,0" Click="buttonApplyFilter_Click"/>
+                    <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,37" Width="200">
+                        <TabItem Header="Features">
+                            <Grid x:Name="gridFeatures" Background="White"/>
+                        </TabItem>
+                        <TabItem Header="Categories">
+                            <Grid x:Name="gridCategories" Background="White"/>
+                        </TabItem>
+                        <TabItem Header="Authors">
+                            <Grid x:Name="gridAuthors" Background="White"/>
+                        </TabItem>
+                    </TabControl>
+                    <Button x:Name="buttonShowAll" Content="Show all" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="10,10,0,0" Click="buttonShowAll_Click"/>
+                    <TextBox x:Name="textBoxCurrentFilter" Text="" Margin="10,583,10,10" IsEnabled="False" FontSize="10"/>
                 </Grid>
             </TabItem>
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
+        <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="textBoxStatistics" Text="" Margin="0,686,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

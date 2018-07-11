@@ -6,7 +6,6 @@ namespace Unicorn.Toolbox.Analysis
 {
     public class AutomationData
     {
-
         public AutomationData()
         {
             this.SuitesInfos = new List<SuiteInfo>();
@@ -18,7 +17,7 @@ namespace Unicorn.Toolbox.Analysis
 
         public List<SuiteInfo> SuitesInfos { get; protected set; }
 
-        public List<SuiteInfo> FilteredInfo { get; protected set; }
+        public List<SuiteInfo> FilteredInfo { get; set; }
 
         public HashSet<string> UniqueFeatures { get; protected set; }
 
@@ -36,7 +35,8 @@ namespace Unicorn.Toolbox.Analysis
             this.SuitesInfos.Add(suiteData);
             this.UniqueFeatures.UnionWith(suiteData.Features);
 
-            var authors = from TestInfo ti in suiteData.TestsInfos
+            var authors = from TestInfo ti 
+                          in suiteData.TestsInfos
                           select ti.Author;
 
             this.UniqueAuthors.UnionWith(authors);
@@ -47,26 +47,15 @@ namespace Unicorn.Toolbox.Analysis
             }
         }
 
-        public AutomationData FilterBy(IDataFilter filter)
-        {
-            
-            return this;
-        }
-
         public override string ToString()
         {
             StringBuilder statistics = new StringBuilder();
 
-            statistics.AppendLine($"Total suites: {this.SuitesInfos.Count}")
-                .AppendLine($"Total tests: {this.SuitesInfos.Sum(s => s.TestsInfos.Count)}")
-                .AppendLine($"Unique features: {string.Join(",", this.UniqueFeatures)}")
-                .AppendLine($"Unique categories: {string.Join(",", this.UniqueCategories)}")
-                .AppendLine().AppendLine("Details:");
-
-            foreach (var info in this.SuitesInfos)
-            {
-                statistics.AppendLine(info.ToString());
-            }
+            statistics.Append($"suites: {this.SuitesInfos.Count}    |    ")
+                .Append($"tests: {this.SuitesInfos.Sum(s => s.TestsInfos.Count)}    |    ")
+                .Append($"features: {this.UniqueFeatures.Count}    |    ")
+                .Append($"categories: {this.UniqueCategories.Count}    |    ")
+                .Append($"authors: {this.UniqueAuthors.Count}");
 
             return statistics.ToString();
         }
