@@ -1,4 +1,5 @@
 ﻿using System.Windows.Automation;
+using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
@@ -25,9 +26,19 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Select()
         {
-            SelectionItemPattern pattern = Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
+            Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
+
+            if (this.IsSelected)
+            {
+                Logger.Instance.Log(LogLevel.Debug, "\tNo need to select (selected by default)");
+                return false;
+            }
+
+            var pattern = this.Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
 
             pattern.Select();
+            Logger.Instance.Log(LogLevel.Debug, "\tSelected");
+
             return true;
         }
     }

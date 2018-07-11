@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Automation;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Desktop.Controls;
 using Unicorn.UI.Desktop.Controls.Typified;
 using Unicorn.UI.Desktop.Driver;
@@ -26,11 +27,13 @@ namespace Unicorn.UI.Desktop.PageObject
 
         public virtual void Start()
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Start {this.ExeName} application");
             this.Process = Process.Start(System.IO.Path.Combine(this.Path, this.ExeName));
         }
 
         public virtual void Close()
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Close {this.ExeName} application");
             try
             {
                 new Window(AutomationElement.FromHandle(this.Process.MainWindowHandle)).Close();

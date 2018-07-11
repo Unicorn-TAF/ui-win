@@ -1,4 +1,5 @@
 ﻿using System;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.PageObject
@@ -14,11 +15,13 @@ namespace Unicorn.UI.Web.PageObject
 
         public T GetPage<T>() where T : WebPage
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Get {typeof(T).Name} page");
             return Activator.CreateInstance<T>();
         }
 
         public T NavigateTo<T>(T pageInstance) where T : WebPage
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Navigate to {pageInstance.GetType()} page");
             WebDriver.Instance.Get(this.BaseUrl + pageInstance.Url);
             return pageInstance;
         }
@@ -26,12 +29,14 @@ namespace Unicorn.UI.Web.PageObject
         public T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();
+            Logger.Instance.Log(LogLevel.Debug, $"Navigate to {page.Url} page");
             WebDriver.Instance.Get(this.BaseUrl + page.Url);
             return page;
         }
 
         public void Open()
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Open {this.BaseUrl} site");
             WebDriver.Instance.Get(this.BaseUrl);
         }
     }

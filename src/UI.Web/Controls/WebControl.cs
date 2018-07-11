@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
+using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Web.Controls
 {
@@ -15,7 +15,7 @@ namespace Unicorn.UI.Web.Controls
         {
         }
 
-        public WebControl(IWebElement instance)
+        public WebControl(OpenQA.Selenium.IWebElement instance)
         {
             this.Instance = instance;
         }
@@ -37,11 +37,11 @@ namespace Unicorn.UI.Web.Controls
 
         public string Name { get; set; }
 
-        public virtual IWebElement Instance
+        public virtual OpenQA.Selenium.IWebElement Instance
         {
             get
             {
-                return (IWebElement)this.SearchContext;
+                return (OpenQA.Selenium.IWebElement)this.SearchContext;
             }
 
             set
@@ -85,12 +85,14 @@ namespace Unicorn.UI.Web.Controls
 
         public virtual void Click()
         {
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
             this.Instance.Click();
         }
 
         public void RightClick()
         {
-            Actions actions = new Actions((IWebDriver)this.SearchContext);
+            Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
+            Actions actions = new Actions((OpenQA.Selenium.IWebDriver)this.SearchContext);
             actions.MoveToElement(this.Instance);
             actions.ContextClick();
             actions.Release().Perform();
@@ -98,7 +100,7 @@ namespace Unicorn.UI.Web.Controls
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(this.Name) ? base.ToString(): this.Name;
+            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator.ToString()}]" : this.Name;
         }
     }
 }

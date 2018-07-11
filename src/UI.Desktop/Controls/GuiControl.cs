@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Automation;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Desktop.Driver;
@@ -137,6 +138,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void Click()
         {
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
             object pattern = null;
 
             try
@@ -158,7 +160,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void MouseClick()
         {
-            ////this.Instance.SetFocus();
+            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this.ToString());
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))
             {
@@ -173,8 +175,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void RightClick()
         {
-            ////this.Instance.SetFocus();
-
+            Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))
             {
@@ -195,7 +196,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(this.Name) ? base.ToString() : this.Name;
+            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator.ToString()}]" : this.Name;
         }
 
         #region "Helpers"

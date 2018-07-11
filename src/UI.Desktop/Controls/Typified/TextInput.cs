@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Automation;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
@@ -34,6 +35,8 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public void SendKeys(string text)
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Input {text} to {this.ToString()}");
+
             var pattern = GetPattern<ValuePattern>();
 
             if (pattern.Current.IsReadOnly)
