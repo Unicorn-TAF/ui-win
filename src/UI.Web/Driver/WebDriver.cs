@@ -45,7 +45,7 @@ namespace Unicorn.UI.Web.Driver
 
         public static IWebDriver Driver { get; set; }
 
-        public static Browser Browser { get; set; } = Browser.Chrome;
+        public static BrowserType Browser { get; set; } = BrowserType.Chrome;
 
         public string Url => Driver.Url;
 
@@ -63,11 +63,11 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        public static void Init(Browser browser, DriverOptions driverPptions = null)
+        public static void Init(BrowserType browser, DriverOptions driverOptions = null)
         {
             needInit = true;
             Browser = browser;
-            options = driverPptions;
+            options = driverOptions;
         }
 
         public void Get(string url)
@@ -77,12 +77,15 @@ namespace Unicorn.UI.Web.Driver
 
         public object ExecuteJS(string script, params object[] parameters)
         {
+            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
             IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
             return js.ExecuteScript(script, parameters);
         }
 
         public static void Close()
         {
+            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, "Close driver");
+
             if (instance != null)
             {
                 Driver.Quit();
@@ -96,11 +99,11 @@ namespace Unicorn.UI.Web.Driver
         {
             switch (Browser)
             {
-                case Browser.Chrome:
+                case BrowserType.Chrome:
                     return new ChromeDriver();
-                case Browser.IE:
+                case BrowserType.IE:
                     return new InternetExplorerDriver();
-                case Browser.Firefox:
+                case BrowserType.Firefox:
                     return new FirefoxDriver();
                 default:
                     return null;
@@ -111,11 +114,11 @@ namespace Unicorn.UI.Web.Driver
         {
             switch (Browser)
             {
-                case Browser.Chrome:
+                case BrowserType.Chrome:
                     return new ChromeDriver((ChromeOptions)options);
-                case Browser.IE:
+                case BrowserType.IE:
                     return new InternetExplorerDriver((InternetExplorerOptions)options);
-                case Browser.Firefox:
+                case BrowserType.Firefox:
                     return new FirefoxDriver((FirefoxOptions)options);
                 default:
                     return null;

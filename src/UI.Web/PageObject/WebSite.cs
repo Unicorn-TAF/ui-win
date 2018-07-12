@@ -6,6 +6,12 @@ namespace Unicorn.UI.Web.PageObject
 {
     public abstract class WebSite
     {
+        protected WebSite(BrowserType type, string baseUrl)
+        {
+            WebDriver.Init(type);
+            this.BaseUrl = baseUrl.TrimEnd('/');
+        }
+
         protected WebSite(string baseUrl)
         {
             this.BaseUrl = baseUrl.TrimEnd('/');

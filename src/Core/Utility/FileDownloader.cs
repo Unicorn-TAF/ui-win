@@ -40,10 +40,12 @@ namespace Unicorn.Core.Utility
         {
             if (!string.IsNullOrEmpty(downloadFileName))
             {
+                Logger.Instance.Log(LogLevel.Debug, $"Wait for '{downloadFileName}' file is downloaded to {destinationFolder} folder");
                 return WaitForExpectedFile(timeout);
             }
             else
             {
+                Logger.Instance.Log(LogLevel.Debug, $"Allocate downloading file and wait for download to {destinationFolder} folder");
                 return WaitForFileAllocation(timeout);
             }
         }
@@ -109,7 +111,7 @@ namespace Unicorn.Core.Utility
         //find all files from download
         private HashSet<string> GetFileNamesFromDestinationFolder()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Get files list from Downloads");
+            Logger.Instance.Log(LogLevel.Debug, $"\tGet files list from {destinationFolder} folder");
             return new HashSet<string>(Directory.GetFiles(this.destinationFolder));
         }
     }

@@ -120,6 +120,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
+                            Logger.Instance.Log(LogLevel.Debug, "\twait is successfull");
                             return result;
                         }
                     }
@@ -127,6 +128,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
+                            Logger.Instance.Log(LogLevel.Debug, "\twait is successfull");
                             return result;
                         }
                     }

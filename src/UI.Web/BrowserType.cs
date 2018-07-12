@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.UI.Web
 {
-    public enum Browser
+    public enum BrowserType
     {
         IE,
         Chrome,

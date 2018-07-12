@@ -86,7 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browser.cs" />
+    <Compile Include="BrowserType.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
     <Compile Include="PageObject\WebControlExtension.cs" />

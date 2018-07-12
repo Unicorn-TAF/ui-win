@@ -93,7 +93,7 @@ namespace Unicorn.UI.Web.Controls
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator.ToString()}]" : this.Name;
+            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
         }
     }
 }
