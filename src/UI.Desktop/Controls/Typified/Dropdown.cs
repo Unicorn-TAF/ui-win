@@ -78,6 +78,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
                 if (itemEl != null)
                 {
+                    Logger.Instance.Log(LogLevel.Debug, "\tItem was found. Selecting...");
                     itemEl.Select();
                 }
                     

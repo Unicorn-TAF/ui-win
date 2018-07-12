@@ -24,13 +24,13 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public string Title => this.Text;
 
-        public void Close()
+        public virtual void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
             GetPattern<WindowPattern>().Close();
         }
 
-        public virtual void Focus()
+        public void Focus()
         {
             try
             {

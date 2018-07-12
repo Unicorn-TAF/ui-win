@@ -18,6 +18,16 @@ namespace Unicorn.UI.Desktop.Controls
         public GuiControl(AutomationElement instance)
         {
             this.Instance = instance;
+            var id = this.Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
+            if (!string.IsNullOrEmpty(id))
+            {
+                this.Locator = ByLocator.Id(id);
+            }
+            else
+            {
+                var name = this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
+                this.Locator = ByLocator.Name(name);
+            }
         }
 
         public bool Cached { get; set; } = true;
