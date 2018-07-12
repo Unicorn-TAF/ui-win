@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Unicorn.Toolbox.Analysis
 {
@@ -34,18 +33,9 @@ namespace Unicorn.Toolbox.Analysis
 
         public Dictionary<string, string> Metadata => this.metadata;
 
-        public override string ToString()
+        public void SetTestInfo(List<TestInfo> newInfos)
         {
-            StringBuilder info = new StringBuilder();
-            info.AppendLine($"Suite: {this.Name}")
-                .AppendLine($"\tFeatures: {string.Join(",", this.Features)}");
-
-            foreach (var testInfo in testsInfos)
-            {
-                info.AppendLine($"\t{testInfo.ToString()}");
-            }
-
-            return info.ToString();
+            this.testsInfos = newInfos;
         }
     }
 }

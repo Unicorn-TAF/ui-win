@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Unicorn.Toolbox.Analysis.Filtering
@@ -20,7 +19,7 @@ namespace Unicorn.Toolbox.Analysis.Filtering
 
         public List<TestInfo> FilterTests(List<TestInfo> input)
         {
-            throw new NotImplementedException();
+            return input.Where(t => this.categories.Intersect(t.Categories).Any()).ToList();
         }
     }
 }

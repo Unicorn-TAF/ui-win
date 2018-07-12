@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Unicorn.Toolbox.Analysis
 {
@@ -29,15 +28,5 @@ namespace Unicorn.Toolbox.Analysis
         public string Author => this.author;
 
         public List<string> Categories => this.categories;
-
-        public override string ToString()
-        {
-            StringBuilder info = new StringBuilder();
-            info.AppendLine($"Test: {this.Name}")
-                .AppendLine($"\tAuthor: {this.Author}")
-                .AppendLine($"\tCategories: {string.Join(",", this.Categories)}");
-
-            return info.ToString();
-        }
     }
 }

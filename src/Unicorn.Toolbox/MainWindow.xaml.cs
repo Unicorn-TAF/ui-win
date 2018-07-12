@@ -66,6 +66,7 @@ namespace Unicorn.Toolbox
             }
 
             int index = 1;
+
             foreach (var item in items)
             {
                 var itemCheckbox = new CheckBox();
@@ -82,13 +83,11 @@ namespace Unicorn.Toolbox
             var categories = from CheckBox cBox in gridCategories.Children where cBox.IsChecked.Value select (string)cBox.Content;
             var authors = from CheckBox cBox in gridAuthors.Children where cBox.IsChecked.Value select (string)cBox.Content;
 
-            var featuresFilter = new FeaturesFilter(features);
-            var categoriesFilter = new CategoriesFilter(categories);
-            var authorsFilter = new AuthorsFilter(authors);
+            this.analyzer.Data.ClearFilters();
+            this.analyzer.Data.FilterBy(new FeaturesFilter(features));
+            this.analyzer.Data.FilterBy(new CategoriesFilter(categories));
+            this.analyzer.Data.FilterBy(new AuthorsFilter(authors));
 
-            analyzer.Data.FilteredInfo = featuresFilter.FilterSuites(analyzer.Data.SuitesInfos);
-            analyzer.Data.FilteredInfo = categoriesFilter.FilterSuites(analyzer.Data.FilteredInfo);
-            analyzer.Data.FilteredInfo = authorsFilter.FilterSuites(analyzer.Data.FilteredInfo);
             gridResults.ItemsSource = analyzer.Data.FilteredInfo;
 
             textBoxCurrentFilter.Text = $"Filter by:\nFeatures[{string.Join(",", features)}]\n";
@@ -105,13 +104,13 @@ namespace Unicorn.Toolbox
                 var preview = new WindowTestPreview();
                 preview.ShowActivated = false;
                 preview.Show();
-                preview.gridResults.ItemsSource = analyzer.Data.SuitesInfos.Where(s => s.Name.Equals(testSuiteName)).First().TestsInfos;
+                preview.gridResults.ItemsSource = analyzer.Data.FilteredInfo.Where(s => s.Name.Equals(testSuiteName)).First().TestsInfos;
             }
         }
 
         private void buttonShowAll_Click(object sender, RoutedEventArgs e)
         {
-            analyzer.Data.FilteredInfo = analyzer.Data.SuitesInfos;
+            this.analyzer.Data.ClearFilters();
             gridResults.ItemsSource = analyzer.Data.FilteredInfo;
         }
 
