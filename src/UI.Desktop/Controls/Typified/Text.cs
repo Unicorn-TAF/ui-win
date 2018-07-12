@@ -11,6 +11,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 		{
         }
 
-        public override ControlType Type { get { return ControlType.Text; } }
+        public override ControlType Type => ControlType.Text;
     }
 }

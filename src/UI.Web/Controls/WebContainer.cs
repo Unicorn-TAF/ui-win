@@ -65,22 +65,22 @@ namespace Unicorn.UI.Web.Controls
             }
         }
 
-        public void InputText(string locator, string text)
+        public virtual void InputText(string locator, string text)
         {
             throw new NotImplementedException();
         }
 
-        public bool SelectRadio(string locator)
+        public virtual bool SelectRadio(string locator)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetCheckbox(string locator, bool state)
+        public virtual bool SetCheckbox(string locator, bool state)
         {
             throw new NotImplementedException();
         }
 
-        public void ClickButton(string locator)
+        public virtual void ClickButton(string locator)
         {
             throw new NotImplementedException();
         }

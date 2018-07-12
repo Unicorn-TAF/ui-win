@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
     <Compile Include="Controls\Interfaces\ISortable.cs" />
     <Compile Include="Controls\Interfaces\IMultiSelectable.cs" />
     <Compile Include="Driver\IDriver.cs" />
@@ -118,8 +119,7 @@
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="PageObject\IContainer.cs" />
     <Compile Include="Synchronization\ControlWaits.cs" />
-    <Compile Include="Synchronization\AttributeWait.cs" />
-    <Compile Include="Synchronization\DefaultWait.cs" />
+    <Compile Include="Synchronization\UiWait.cs" />
     <Compile Include="Synchronization\SystemClock.cs" />
     <Compile Include="Synchronization\Conditions\Until.cs" />
   </ItemGroup>

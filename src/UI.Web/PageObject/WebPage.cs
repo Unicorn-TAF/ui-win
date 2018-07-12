@@ -13,18 +13,18 @@ namespace Unicorn.UI.Web.PageObject
             this.Title = title;
         }
 
-        public bool IsOpened
+        public bool Opened
         {
             get
             {
-                bool isOpened = WebDriver.Instance.Url.EndsWith(this.Url);
+                bool opened = WebDriver.Instance.Url.EndsWith(this.Url);
 
                 if (!string.IsNullOrEmpty(this.Title))
                 {
-                    isOpened &= WebDriver.Driver.Title.Equals(this.Title);
+                    opened &= WebDriver.Driver.Title.Equals(this.Title);
                 }
 
-                return isOpened;
+                return opened;
             }
         } 
 

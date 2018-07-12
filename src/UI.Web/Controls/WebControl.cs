@@ -9,8 +9,6 @@ namespace Unicorn.UI.Web.Controls
 {
     public class WebControl : WebSearchContext, IControl
     {
-        private bool cached = true;
-
         public WebControl()
         {
         }
@@ -20,18 +18,7 @@ namespace Unicorn.UI.Web.Controls
             this.Instance = instance;
         }
 
-        public bool Cached
-        {
-            get
-            {
-                return this.cached;
-            }
-
-            set
-            {
-                this.cached = value;
-            }
-        }
+        public bool Cached { get; set; } = true;
 
         public ByLocator Locator { get; set; }
 
@@ -89,7 +76,13 @@ namespace Unicorn.UI.Web.Controls
             this.Instance.Click();
         }
 
-        public void RightClick()
+        public virtual void JsClick()
+        {
+            Logger.Instance.Log(LogLevel.Debug, "JavaScript click " + this.ToString());
+            WebDriver.Instance.ExecuteJS("arguments[0].click()", this.Instance);
+        }
+
+        public virtual void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
             Actions actions = new Actions((OpenQA.Selenium.IWebDriver)this.SearchContext);

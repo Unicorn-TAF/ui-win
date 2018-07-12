@@ -28,8 +28,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var pattern = GetPattern<TogglePattern>();
-            this.Toggle(pattern);
+            GetPattern<TogglePattern>().Toggle();
             Logger.Instance.Log(LogLevel.Debug, "\tChecked");
 
             return true;
@@ -44,16 +43,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var pattern = GetPattern<TogglePattern>();
-            this.Toggle(pattern);
+            GetPattern<TogglePattern>().Toggle();
             Logger.Instance.Log(LogLevel.Debug, "\tUnchecked");
 
             return true;
-        }
-
-        private void Toggle(TogglePattern pattern)
-        {
-            pattern.Toggle();
         }
     }
 }

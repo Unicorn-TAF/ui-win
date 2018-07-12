@@ -206,7 +206,7 @@ namespace Unicorn.UI.Desktop.Controls
             var pattern = (AutomationPattern)typeof(T).GetField("Pattern").GetValue(null);
             object patternObject;
             this.Instance.TryGetCurrentPattern(pattern, out patternObject);
-            return (T)patternObject;
+            return patternObject as T;
         }
 
         #endregion

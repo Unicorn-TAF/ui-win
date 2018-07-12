@@ -86,7 +86,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Typified\HeaderItem.cs" />
     <Compile Include="Controls\Typified\Custom.cs" />
     <Compile Include="Controls\Typified\DataGrid.cs" />
     <Compile Include="Controls\Typified\Text.cs" />

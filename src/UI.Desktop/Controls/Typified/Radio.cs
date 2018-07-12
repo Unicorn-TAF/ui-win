@@ -1,9 +1,10 @@
 ﻿using System.Windows.Automation;
 using Unicorn.Core.Logging;
+using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
-    public class Radio : GuiControl
+    public class Radio : GuiControl, ISelectable
     {
         public Radio()
         {
@@ -16,7 +17,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType Type => ControlType.RadioButton;
 
-        public bool IsSelected
+        public bool Selected
         {
             get
             {
@@ -28,7 +29,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 
-            if (this.IsSelected)
+            if (this.Selected)
             {
                 Logger.Instance.Log(LogLevel.Debug, "\tNo need to select (selected by default)");
                 return false;

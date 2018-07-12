@@ -19,13 +19,6 @@ namespace Unicorn.UI.Web.PageObject
             return Activator.CreateInstance<T>();
         }
 
-        public T NavigateTo<T>(T pageInstance) where T : WebPage
-        {
-            Logger.Instance.Log(LogLevel.Debug, $"Navigate to {pageInstance.GetType()} page");
-            WebDriver.Instance.Get(this.BaseUrl + pageInstance.Url);
-            return pageInstance;
-        }
-
         public T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();

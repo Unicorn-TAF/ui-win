@@ -2,8 +2,8 @@
 {
     public interface ISelectable
     {
-        string SelectedValue { get; }
+        bool Selected { get; }
 
-        bool Select(string itemName);
+        bool Select();
     }
 }

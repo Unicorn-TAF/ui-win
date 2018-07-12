@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Automation;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Desktop.Controls;
@@ -38,8 +39,9 @@ namespace Unicorn.UI.Desktop.PageObject
             {
                 new Window(AutomationElement.FromHandle(this.Process.MainWindowHandle)).Close();
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Instance.Log(LogLevel.Warning, $"Unable to close {this.ExeName} application: {ex.Message}");
             }
         }
     }

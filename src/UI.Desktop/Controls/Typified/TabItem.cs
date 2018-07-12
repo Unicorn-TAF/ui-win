@@ -1,9 +1,10 @@
-﻿using System;
-using System.Windows.Automation;
+﻿using System.Windows.Automation;
+using Unicorn.Core.Logging;
+using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
-    public class TabItem : GuiControl
+    public class TabItem : GuiControl, ISelectable
     {
         public TabItem()
         {
@@ -16,7 +17,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType Type => ControlType.TabItem;
 
-        public bool IsSelected
+        public bool Selected
         {
             get
             {
@@ -32,6 +33,14 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Select()
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
+
+            if (this.Selected)
+            {
+                Logger.Instance.Log(LogLevel.Debug, "\tNo need to select (selected by default)");
+                return false;
+            }
+
             var selectionItem = GetPattern<SelectionItemPattern>();
             if (selectionItem != null)
             {
@@ -39,17 +48,21 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
             else
             {
+                
                 var invoke = GetPattern<InvokePattern>();
                 if (invoke != null)
                 {
+                    Logger.Instance.Log(LogLevel.Debug, "\tSelectionItemPattern was not found, trying to call Invoke");
                     invoke.Invoke();
                 }
                 else
                 {
+                    Logger.Instance.Log(LogLevel.Debug, "\tSelectionItemPattern was not found, trying to click");
                     this.Click();
                 }
             }
 
+            Logger.Instance.Log(LogLevel.Debug, "\tSelected");
             return true;
         }
     }

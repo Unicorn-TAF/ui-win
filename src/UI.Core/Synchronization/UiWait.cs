@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Core.Synchronization
 {
-    public class AttributeWait<T>
+    public class UiWait<T>
     {
         private static TimeSpan defaultSleepTimeout = TimeSpan.FromMilliseconds(500);
         private static TimeSpan defaultTimeout = TimeSpan.FromSeconds(30);
@@ -23,15 +24,19 @@ namespace Unicorn.UI.Core.Synchronization
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="clock">The clock to use when measuring the timeout.</param>
-        public AttributeWait(T input, string attribute, string value)
+        public UiWait(T input)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException("input", "input cannot be null");
-            }
+            Init(input);
+        }
 
-            this.input = input;
-            this.clock = new SystemClock();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="input">The input value to pass to the evaluated conditions.</param>
+        /// <param name="clock">The clock to use when measuring the timeout.</param>
+        public UiWait(T input, string attribute, string value)
+        {
+            Init(input);
             this.attribute = attribute;
             this.value = value;
         }
@@ -88,6 +93,83 @@ namespace Unicorn.UI.Core.Synchronization
         /// <typeparam name="TResult">The delegate's expected return type.</typeparam>
         /// <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
         /// <returns>The delegate's return value.</returns>
+        public TResult Until<TResult>(Func<T, TResult> condition)
+        {
+            if (condition == null)
+            {
+                throw new ArgumentNullException("condition", "condition cannot be null");
+            }
+
+            var resultType = typeof(TResult);
+            if ((resultType.IsValueType && resultType != typeof(bool)) || !typeof(object).IsAssignableFrom(resultType))
+            {
+                throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
+            }
+
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {condition} during {this.Timeout} with polling interval {this.PollingInterval}");
+
+            Exception lastException = null;
+            var endTime = this.clock.LaterBy(this.Timeout);
+            while (true)
+            {
+                try
+                {
+                    var result = condition(this.input);
+                    if (resultType == typeof(bool))
+                    {
+                        var boolResult = result as bool?;
+                        if (boolResult.HasValue && boolResult.Value)
+                        {
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        if (result != null)
+                        {
+                            return result;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (!this.IsIgnoredException(ex))
+                    {
+                        throw;
+                    }
+
+                    lastException = ex;
+                }
+
+                // Check the timeout after evaluating the function to ensure conditions
+                // with a zero timeout can succeed.
+                if (!this.clock.IsNowBefore(endTime))
+                {
+                    var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
+                        string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :
+                        string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds: {1}", this.Timeout.TotalSeconds, this.Message);
+
+                    throw new TimeoutException(timeoutMessage, lastException);
+                }
+
+                Thread.Sleep(this.PollingInterval);
+            }
+        }
+
+        /// <summary>
+        /// Repeatedly applies this instance's input value to the given function until one of the following
+        /// occurs:
+        /// <para>
+        /// <list type="bullet">
+        /// <item>the function returns neither null nor false</item>
+        /// <item>the function throws an exception that is not in the list of ignored exception types</item>
+        /// <item>the timeout expires</item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <typeparam name="TResult">The delegate's expected return type.</typeparam>
+        /// <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
+        /// <returns>The delegate's return value.</returns>
         public TResult Until<TResult>(Func<T, string, string, TResult> condition)
         {
             if (condition == null)
@@ -100,6 +182,8 @@ namespace Unicorn.UI.Core.Synchronization
             {
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
+
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {condition} during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
             var endTime = this.clock.LaterBy(this.Timeout);
@@ -138,17 +222,26 @@ namespace Unicorn.UI.Core.Synchronization
                 // with a zero timeout can succeed.
                 if (!this.clock.IsNowBefore(endTime))
                 {
-                    string timeoutMessage = string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds", this.Timeout.TotalSeconds);
-                    if (!string.IsNullOrEmpty(this.Message))
-                    {
-                        timeoutMessage += ": " + this.Message;
-                    }
+                    var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
+                        string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :
+                        string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds: {1}", this.Timeout.TotalSeconds, this.Message);
 
                     throw new TimeoutException(timeoutMessage, lastException);
                 }
 
                 Thread.Sleep(this.PollingInterval);
             }
+        }
+
+        private void Init(T input)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "input cannot be null");
+            }
+
+            this.input = input;
+            this.clock = new SystemClock();
         }
 
         private bool IsIgnoredException(Exception exception)

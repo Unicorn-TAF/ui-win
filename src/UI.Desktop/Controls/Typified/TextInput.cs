@@ -46,7 +46,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
             if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
-                GetPattern<ValuePattern>().SetValue(text);
+                pattern.SetValue(text);
             }
         }
     }

@@ -27,18 +27,19 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
-            var pattern = GetPattern<WindowPattern>();
-            pattern.Close();
+            GetPattern<WindowPattern>().Close();
         }
 
         public virtual void Focus()
         {
             try
             {
+                Logger.Instance.Log(LogLevel.Debug, $"Focusing {this.ToString()}");
                 Instance.SetFocus();
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Instance.Log(LogLevel.Warning, $"Unable to focus window: {ex.Message}");
             }
         }
 

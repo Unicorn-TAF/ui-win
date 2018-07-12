@@ -10,7 +10,6 @@ namespace Unicorn.UI.Web.Driver
 {
     public class WebDriver : WebSearchContext, IDriver
     {
-        private static Browser browser = Browser.Chrome;
         private static bool needInit = false;
         private static DriverOptions options = null;
 
@@ -46,18 +45,7 @@ namespace Unicorn.UI.Web.Driver
 
         public static IWebDriver Driver { get; set; }
 
-        public static Browser Browser
-        {
-            get
-            {
-                return browser;
-            }
-
-            set
-            {
-                browser = value;
-            }
-        }
+        public static Browser Browser { get; set; } = Browser.Chrome;
 
         public string Url => Driver.Url;
 
@@ -133,30 +121,5 @@ namespace Unicorn.UI.Web.Driver
                     return null;
             }
         }
-
-        ////public static string TransformXpath(string xpath)
-        ////{
-        ////    string textRegex = @"'(\w*\s*-*\(*\)*/*)+'";
-        ////    Regex regex = new Regex(@"text\(\)\s*=\s*" + textRegex);
-
-        ////    string textToTransform = regex.Match(xpath).Value;
-
-        ////    if (string.IsNullOrEmpty(textToTransform))
-        ////    {
-        ////        return xpath;
-        ////    }
-
-        ////    string[] parts = xpath.Split(new string[] { textToTransform }, StringSplitOptions.None);
-
-        ////    regex = new Regex(textRegex);
-        ////    string replacementString = regex.Match(textToTransform).Value.ToLower();
-        ////    textToTransform = regex.Replace(textToTransform, replacementString);
-
-        ////    textToTransform = textToTransform.Replace("text()", "translate(normalize-space(text()), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')");
-
-        ////    string newXpath = parts[0] + textToTransform + parts[1];
-
-        ////    return newXpath;
-        ////}
     }
 }
