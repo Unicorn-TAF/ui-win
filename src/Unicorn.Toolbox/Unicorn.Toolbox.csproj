@@ -37,6 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -60,6 +63,14 @@
     <Compile Include="Analysis\Filtering\CategoriesFilter.cs" />
     <Compile Include="Analysis\Filtering\FeaturesFilter.cs" />
     <Compile Include="Analysis\Filtering\ITestsFilter.cs" />
+    <Compile Include="Coverage\AppSpecs.cs" />
+    <Compile Include="Coverage\SpecsCoverage.cs" />
+    <Compile Include="Coverage\Module.cs" />
+    <Compile Include="packages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>packages.config</DependentUpon>
+    </Compile>
     <Compile Include="WindowTestPreview.xaml.cs">
       <DependentUpon>WindowTestPreview.xaml</DependentUpon>
     </Compile>
@@ -104,6 +115,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>packages.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

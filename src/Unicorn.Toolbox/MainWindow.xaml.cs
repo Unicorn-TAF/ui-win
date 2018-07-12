@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Unicorn.Toolbox.Analysis;
 using Unicorn.Toolbox.Analysis.Filtering;
+using Unicorn.Toolbox.Coverage;
 
 namespace Unicorn.Toolbox
 {
@@ -16,6 +18,7 @@ namespace Unicorn.Toolbox
     public partial class MainWindow : Window
     {
         private Analyzer analyzer;
+        private SpecsCoverage coverage;
 
         public MainWindow()
         {
@@ -88,7 +91,9 @@ namespace Unicorn.Toolbox
             analyzer.Data.FilteredInfo = authorsFilter.FilterSuites(analyzer.Data.FilteredInfo);
             gridResults.ItemsSource = analyzer.Data.FilteredInfo;
 
-            textBoxCurrentFilter.Text = $"Filter by: Features[{string.Join(",", features)}] Categories[{string.Join(",", categories)}] Authors[{string.Join(",", authors)}]";
+            textBoxCurrentFilter.Text = $"Filter by:\nFeatures[{string.Join(",", features)}]\n";
+            textBoxCurrentFilter.Text += $"Categories[{string.Join(",", categories)}]\n";
+            textBoxCurrentFilter.Text += $"Authors[{string.Join(",", authors)}]";
         }
 
         private void cellSuiteName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -106,7 +111,48 @@ namespace Unicorn.Toolbox
 
         private void buttonShowAll_Click(object sender, RoutedEventArgs e)
         {
-            gridResults.ItemsSource = analyzer.Data.SuitesInfos;
+            analyzer.Data.FilteredInfo = analyzer.Data.SuitesInfos;
+            gridResults.ItemsSource = analyzer.Data.FilteredInfo;
+        }
+
+        private void buttonLoadSpecs_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Application specs|*.json";
+            openFileDialog.ShowDialog();
+
+            string specFileName = openFileDialog.FileName;
+
+            if (string.IsNullOrEmpty(specFileName))
+            {
+                return;
+            }
+
+            this.coverage = new SpecsCoverage(specFileName);
+        }
+
+        private void buttonGetCoverage_Click(object sender, RoutedEventArgs e)
+        {
+            this.coverage.Analyze(this.analyzer.Data.FilteredInfo);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Coverage:");
+
+            var covered = from Coverage.Module m
+                          in this.coverage.Specs.Modules.Where(m => m.Suites.Any())
+                          select m.Name;
+
+            sb.Append("Covered modules: " + string.Join(",", covered));
+            sb.AppendLine();
+
+            var notCovered = from Coverage.Module m
+                          in this.coverage.Specs.Modules.Where(m => !m.Suites.Any())
+                             select m.Name;
+
+            sb.Append("Not covered modules: " + string.Join(",", notCovered));
+            sb.AppendLine();
+
+            this.textBoxCoverage.Text = sb.ToString();
         }
     }
 }

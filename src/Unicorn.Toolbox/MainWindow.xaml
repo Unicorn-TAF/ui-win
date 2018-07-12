@@ -14,7 +14,7 @@
         <TabControl x:Name="tabControl" Margin="10,37,10,0" Grid.ColumnSpan="2" Height="644" VerticalAlignment="Top">
             <TabItem Header="Tests statistics">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,1">
-                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="224,10,10,0" Height="568" VerticalAlignment="Top">
+                    <DataGrid x:Name="gridResults" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="224,10,10,0" Height="530" VerticalAlignment="Top">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Test Suite"  Width="350">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -58,7 +58,7 @@
                     </DataGrid>
 
                     <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="120,10,0,0" Click="buttonApplyFilter_Click"/>
-                    <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,37" Width="200">
+                    <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,10" Width="200">
                         <TabItem Header="Features">
                             <Grid x:Name="gridFeatures" Background="White"/>
                         </TabItem>
@@ -70,11 +70,15 @@
                         </TabItem>
                     </TabControl>
                     <Button x:Name="buttonShowAll" Content="Show all" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="10,10,0,0" Click="buttonShowAll_Click"/>
-                    <TextBox x:Name="textBoxCurrentFilter" Text="" Margin="10,583,10,10" IsEnabled="False" FontSize="10"/>
+                    <TextBox x:Name="textBoxCurrentFilter" Text="" Margin="224,545,10,10" IsEnabled="False" FontSize="10"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Coverage">
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="buttonLoadSpecs" Content="Load Specs" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="91" Click="buttonLoadSpecs_Click"/>
+                    <TextBox x:Name="textBoxCoverage" HorizontalAlignment="Left" Height="181" Margin="10,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="455"/>
+                    <Button x:Name="buttonGetCoverage" Content="Get coverage" HorizontalAlignment="Left" Margin="106,10,0,0" VerticalAlignment="Top" Width="89" Click="buttonGetCoverage_Click"/>
+                </Grid>
             </TabItem>
         </TabControl>
         <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0" Grid.ColumnSpan="2"/>

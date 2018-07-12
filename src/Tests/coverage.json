@@ -1,0 +1,18 @@
+﻿{
+		"name": "Mixed platform",
+		"modules": [
+		  {
+			  "name": "yandex market",
+			  "features": ["electronics", "feature2"]
+		  },
+        {
+          "name": "charmap",
+          "features": [ "dropdown", "feature2" ]
+      },
+      {
+			  "name": "some epic",
+			  "features": ["feature3", "feature4"]
+		  }
+
+		]
+}
