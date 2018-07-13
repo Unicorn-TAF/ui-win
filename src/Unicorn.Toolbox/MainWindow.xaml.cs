@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Unicorn.Toolbox.Analysis;
 using Unicorn.Toolbox.Analysis.Filtering;
 using Unicorn.Toolbox.Coverage;
+using Unicorn.Toolbox.Visualization;
 
 namespace Unicorn.Toolbox
 {
@@ -152,6 +153,13 @@ namespace Unicorn.Toolbox
             sb.AppendLine();
 
             this.textBoxCoverage.Text = sb.ToString();
+        }
+
+        private void buttonVisualize_Click(object sender, RoutedEventArgs e)
+        {
+            var visualization = new WindowVisualization();
+            visualization.ShowActivated = false;
+            visualization.Show();
         }
     }
 }

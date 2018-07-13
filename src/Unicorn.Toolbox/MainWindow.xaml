@@ -83,6 +83,7 @@
         </TabControl>
         <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0" Grid.ColumnSpan="2"/>
         <TextBox x:Name="textBoxStatistics" Text="" Margin="0,686,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
+        <Button x:Name="buttonVisualize" Grid.ColumnSpan="2" Content="Visualize" Margin="1109,10,10,0" VerticalAlignment="Top" Click="buttonVisualize_Click"/>
 
     </Grid>
 </Window>
