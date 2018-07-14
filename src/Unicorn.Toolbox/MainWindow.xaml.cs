@@ -160,6 +160,8 @@ namespace Unicorn.Toolbox
             var visualization = new WindowVisualization();
             visualization.ShowActivated = false;
             visualization.Show();
+
+            Visualizer.VisualizeCoverage(analyzer.Data, visualization.canvasVisualization);
         }
     }
 }

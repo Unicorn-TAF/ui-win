@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Unicorn.Toolbox.Visualization"
         mc:Ignorable="d"
-        Title="Visualizator" Height="300" Width="300">
+        Title="Visualizator" Height="750" Width="1100">
     <Grid>
-        <Canvas/>
+        <Canvas x:Name="canvasVisualization"/>
 
     </Grid>
 </Window>

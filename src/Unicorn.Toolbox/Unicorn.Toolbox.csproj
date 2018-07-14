@@ -71,6 +71,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>packages.config</DependentUpon>
     </Compile>
+    <Compile Include="Visualization\Visualizer.cs" />
     <Compile Include="Visualization\WindowVisualization.xaml.cs">
       <DependentUpon>WindowVisualization.xaml</DependentUpon>
     </Compile>
