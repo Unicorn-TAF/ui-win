@@ -59,13 +59,13 @@
 
                     <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="120,10,0,0" Click="buttonApplyFilter_Click"/>
                     <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,10" Width="200">
-                        <TabItem Header="Features">
+                        <TabItem x:Name="tabFeaures" Header="Features">
                             <Grid x:Name="gridFeatures" Background="White"/>
                         </TabItem>
-                        <TabItem Header="Categories">
+                        <TabItem x:Name="tabCategories" Header="Categories">
                             <Grid x:Name="gridCategories" Background="White"/>
                         </TabItem>
-                        <TabItem Header="Authors">
+                        <TabItem x:Name="tabAuthors" Header="Authors">
                             <Grid x:Name="gridAuthors" Background="White"/>
                         </TabItem>
                     </TabControl>

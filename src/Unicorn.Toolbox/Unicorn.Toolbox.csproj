@@ -62,6 +62,7 @@
     <Compile Include="Analysis\Filtering\AuthorsFilter.cs" />
     <Compile Include="Analysis\Filtering\CategoriesFilter.cs" />
     <Compile Include="Analysis\Filtering\FeaturesFilter.cs" />
+    <Compile Include="Analysis\Filtering\FilterType.cs" />
     <Compile Include="Analysis\Filtering\ITestsFilter.cs" />
     <Compile Include="Coverage\AppSpecs.cs" />
     <Compile Include="Coverage\SpecsCoverage.cs" />

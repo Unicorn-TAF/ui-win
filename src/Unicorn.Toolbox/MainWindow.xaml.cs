@@ -47,6 +47,7 @@ namespace Unicorn.Toolbox
             this.textBoxStatistics.Text = statusLine;
 
             FillFiltersFrom(analyzer.Data);
+            ShowAll();
         }
 
         private void FillFiltersFrom(AutomationData data)
@@ -111,8 +112,7 @@ namespace Unicorn.Toolbox
 
         private void buttonShowAll_Click(object sender, RoutedEventArgs e)
         {
-            this.analyzer.Data.ClearFilters();
-            gridResults.ItemsSource = analyzer.Data.FilteredInfo;
+            ShowAll();
         }
 
         private void buttonLoadSpecs_Click(object sender, RoutedEventArgs e)
@@ -161,7 +161,27 @@ namespace Unicorn.Toolbox
             visualization.ShowActivated = false;
             visualization.Show();
 
-            Visualizer.VisualizeCoverage(analyzer.Data, visualization.canvasVisualization);
+            Visualizer.VisualizeAllData(analyzer.Data, GetFilter(), visualization.canvasVisualization);
+        }
+
+        private void ShowAll()
+        {
+            this.analyzer.Data.ClearFilters();
+            gridResults.ItemsSource = analyzer.Data.FilteredInfo;
+        }
+
+        private FilterType GetFilter()
+        {
+            if (tabFeaures.IsSelected)
+            {
+                return FilterType.Feature;
+            } else if (tabCategories.IsSelected)
+            {
+                return FilterType.Category;
+            } else
+            {
+                return FilterType.Author;
+            }
         }
     }
 }
