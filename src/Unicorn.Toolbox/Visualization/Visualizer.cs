@@ -15,17 +15,55 @@ namespace Unicorn.Toolbox.Visualization
     public class Visualizer
     {
         private static Random random = new Random();
-        private static int margin = 10;
+        private static int margin = 30;
         private static List<Rect> rects = new List<Rect>();
 
         public static void VisualizeAllData(AutomationData data, FilterType filterType, Canvas canvas)
         {
             rects.Clear();
             canvas.Children.Clear();
-            canvas.Background = Brushes.DarkGray;
+
+            var stats = GetStats(data, filterType);
+
+            int max = stats.Values.Max();
+            int featuresCount = stats.Values.Count;
+
+            foreach (var key in stats.Keys)
+            {
+                int radius = CalculateRadius(stats[key], max, featuresCount, (int)canvas.RenderSize.Width);
+                DrawFeature(key, stats[key], radius, canvas);
+            }
+        }
+
+        public static void VisualizeCoverage(AppSpecs specs, Canvas canvas)
+        {
+            rects.Clear();
+            canvas.Children.Clear();
 
             var featuresStats = new Dictionary<string, int>();
 
+            foreach (var module in specs.Modules)
+            {
+                var tests = from SuiteInfo s
+                            in module.Suites
+                            select s.TestsInfos;
+
+                featuresStats.Add(module.Name, tests.Sum(t => t.Count));
+            }
+
+            int max = featuresStats.Values.Max();
+            int featuresCount = featuresStats.Values.Count;
+
+            foreach (var key in featuresStats.Keys)
+            {
+                int radius = CalculateRadius(featuresStats[key], max, featuresCount, (int)canvas.RenderSize.Width);
+                DrawFeature(key, featuresStats[key], radius, canvas);
+            }
+        }
+
+        private static Dictionary<string, int> GetStats(AutomationData data, FilterType filterType)
+        {
+            var stats = new Dictionary<string, int>();
 
             switch (filterType)
             {
@@ -38,9 +76,9 @@ namespace Unicorn.Toolbox.Visualization
                                         in suites
                                         select s.TestsInfos;
 
-                            featuresStats.Add(feature, tests.Count());
+                            stats.Add(feature, tests.Sum(t => t.Count));
                         }
-                        break;
+                        return stats;
                     }
                 case FilterType.Category:
                     {
@@ -51,63 +89,26 @@ namespace Unicorn.Toolbox.Visualization
                                         in suites
                                         select s.TestsInfos;
 
-                            tests = tests.Where(t => t.ToList().Wh)
-
-                            featuresStats.Add(feature, tests.Count());
+                            stats.Add(category, tests.Sum(t => t.Count));
                         }
-                        break;
+                        return stats;
                     }
-                case FilterType.Feature:
+                case FilterType.Author:
                     {
-                        foreach (var feature in data.UniqueFeatures)
+                        foreach (var author in data.UniqueAuthors)
                         {
-                            var suites = data.SuitesInfos.Where(s => s.Features.Contains(feature));
+                            var suites = data.SuitesInfos.Where(s => s.TestsInfos.Where(t => t.Author.Equals(author)).Any());
                             var tests = from SuiteInfo s
                                         in suites
                                         select s.TestsInfos;
 
-                            featuresStats.Add(feature, tests.Count());
+                            stats.Add(author, tests.Sum(t => t.Count));
                         }
-                        break;
+                        return stats;
                     }
             }
 
-
-            int max = featuresStats.Values.Max();
-            int featuresCount = featuresStats.Values.Count;
-
-            foreach (var key in featuresStats.Keys)
-            {
-                int radius = CalculateRadius(featuresStats[key], max, featuresCount, (int)canvas.RenderSize.Width);
-                DrawFeature(key, featuresStats[key], radius, canvas);
-            }
-        }
-
-        public static void VisualizeCoverage(AppSpecs specs, Canvas canvas)
-        {
-            rects.Clear();
-            canvas.Children.Clear();
-            canvas.Background = Brushes.DarkGray;
-
-            var featuresStats = new Dictionary<string, int>();
-
-            foreach (var module in specs.Modules)
-            {
-                var tests = from SuiteInfo s
-                            in module.Suites
-                            select s.TestsInfos;
-
-                featuresStats.Add(module.Name, tests.Count());
-            }
-
-            int max = featuresStats.Values.Max();
-            int featuresCount = featuresStats.Values.Count;
-
-            foreach (var key in featuresStats.Keys)
-            {
-                int radius = CalculateRadius(featuresStats[key], max, featuresCount, (int)canvas.RenderSize.Width);
-                DrawFeature(key, featuresStats[key], radius, canvas);
-            }
+            throw new ArgumentException("please check args");
         }
 
         private static void DrawFeature(string name, int tests, int radius, Canvas canvas)
@@ -121,7 +122,7 @@ namespace Unicorn.Toolbox.Visualization
                 x = random.Next(margin + radius, (int)canvas.RenderSize.Width - radius - margin);
                 y = random.Next(margin + radius, (int)canvas.RenderSize.Height - radius - margin);
 
-                rect = new Rect(x - radius, y - radius, radius * 2, radius * 2);
+                rect = new Rect(x - radius - margin, y - radius - margin, (radius + margin) * 2, (radius + margin) * 2);
             }
             while (rects.Any(r => r.IntersectsWith(rect)));
 
@@ -141,6 +142,7 @@ namespace Unicorn.Toolbox.Visualization
             var label = new TextBlock();
             label.Text = $"{name}\n{tests} tests";
             label.TextAlignment = TextAlignment.Center;
+            label.Foreground = Brushes.White;
 
             var formattedText = new FormattedText(
                 label.Text,

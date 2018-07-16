@@ -56,8 +56,6 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
-                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="120,10,0,0" Click="buttonApplyFilter_Click"/>
                     <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,10" Width="200">
                         <TabItem x:Name="tabFeaures" Header="Features">
                             <Grid x:Name="gridFeatures" Background="White"/>
@@ -69,21 +67,44 @@
                             <Grid x:Name="gridAuthors" Background="White"/>
                         </TabItem>
                     </TabControl>
-                    <Button x:Name="buttonShowAll" Content="Show all" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="10,10,0,0" Click="buttonShowAll_Click"/>
+                    <Button x:Name="buttonShowAll" Content="Show all" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="10,10,0,0" Click="buttonShowAll_Click"/>
                     <TextBox x:Name="textBoxCurrentFilter" Text="" Margin="224,545,10,10" IsEnabled="False" FontSize="10"/>
+                    <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="60,69,0,0" Click="buttonApplyFilter_Click"/>
+                    <Button x:Name="buttonVisualize" Content="Visualize" Width="80" Margin="130,10,0,0" VerticalAlignment="Top" Click="buttonVisualize_Click" HorizontalAlignment="Left"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Coverage">
                 <Grid Background="#FFE5E5E5">
                     <Button x:Name="buttonLoadSpecs" Content="Load Specs" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="91" Click="buttonLoadSpecs_Click"/>
-                    <TextBox x:Name="textBoxCoverage" HorizontalAlignment="Left" Height="181" Margin="10,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="455"/>
                     <Button x:Name="buttonGetCoverage" Content="Get coverage" HorizontalAlignment="Left" Margin="106,10,0,0" VerticalAlignment="Top" Width="89" Click="buttonGetCoverage_Click"/>
+                    <Button x:Name="buttonVisualizeCoverage" Content="Visualize" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Width="75" Click="buttonVisualizeCoverage_Click"/>
+                    <DataGrid x:Name="gridCoverage" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="All" Grid.Column="0" RowHeaderWidth="0" CanUserAddRows="False" AutoGenerateColumns="False"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10,35,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Module"  Width="350">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="Covered by tests">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=Covered, Mode=OneWay}" IsEnabled="False" Margin="2,0,2,0" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="" Width="*">
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
         <Button x:Name="buttonLoadTestsAssembly" Content="Load tests assembly" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Click="buttonLoadTestsAssembly_Click" Margin="10,10,0,0" Grid.ColumnSpan="2"/>
         <TextBox x:Name="textBoxStatistics" Text="" Margin="0,686,0,0" IsEnabled="False" Grid.ColumnSpan="2"/>
-        <Button x:Name="buttonVisualize" Grid.ColumnSpan="2" Content="Visualize" Margin="1109,10,10,0" VerticalAlignment="Top" Click="buttonVisualize_Click"/>
 
     </Grid>
 </Window>

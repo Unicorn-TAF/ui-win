@@ -62,12 +62,12 @@ namespace Unicorn.Toolbox
             grid.Children.Clear();
             grid.RowDefinitions.Clear();
 
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 35; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
             }
 
-            int index = 1;
+            int index = 2;
 
             foreach (var item in items)
             {
@@ -129,45 +129,37 @@ namespace Unicorn.Toolbox
             }
 
             this.coverage = new SpecsCoverage(specFileName);
+
+            GetCoverage();
         }
 
         private void buttonGetCoverage_Click(object sender, RoutedEventArgs e)
         {
-            this.coverage.Analyze(this.analyzer.Data.FilteredInfo);
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Coverage:");
-
-            var covered = from Coverage.Module m
-                          in this.coverage.Specs.Modules.Where(m => m.Suites.Any())
-                          select m.Name;
-
-            sb.Append("Covered modules: " + string.Join(",", covered));
-            sb.AppendLine();
-
-            var notCovered = from Coverage.Module m
-                          in this.coverage.Specs.Modules.Where(m => !m.Suites.Any())
-                             select m.Name;
-
-            sb.Append("Not covered modules: " + string.Join(",", notCovered));
-            sb.AppendLine();
-
-            this.textBoxCoverage.Text = sb.ToString();
+            GetCoverage();
         }
 
         private void buttonVisualize_Click(object sender, RoutedEventArgs e)
         {
+            var filter = GetFilter();
             var visualization = new WindowVisualization();
             visualization.ShowActivated = false;
+            visualization.Title = $"Overall statistics: {filter}";
             visualization.Show();
 
-            Visualizer.VisualizeAllData(analyzer.Data, GetFilter(), visualization.canvasVisualization);
+            Visualizer.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
         }
 
         private void ShowAll()
         {
             this.analyzer.Data.ClearFilters();
             gridResults.ItemsSource = analyzer.Data.FilteredInfo;
+        }
+
+        private void GetCoverage()
+        {
+            this.coverage.Analyze(this.analyzer.Data.FilteredInfo);
+            this.gridCoverage.ItemsSource = null;
+            this.gridCoverage.ItemsSource = coverage.Specs.Modules;
         }
 
         private FilterType GetFilter()
@@ -182,6 +174,16 @@ namespace Unicorn.Toolbox
             {
                 return FilterType.Author;
             }
+        }
+
+        private void buttonVisualizeCoverage_Click(object sender, RoutedEventArgs e)
+        {
+            var visualization = new WindowVisualization();
+            visualization.ShowActivated = false;
+            visualization.Title = "Modules coverage";
+            visualization.Show();
+
+            Visualizer.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
         }
     }
 }
