@@ -5,10 +5,10 @@ using ReportPortal.Client.Filtering;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using ReportPortal.UnicornExtension.EventArguments;
 using Unicorn.Core.Logging;
+using Unicorn.ReportPortalAgent.EventArguments;
 
-namespace ReportPortal.UnicornExtension
+namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {

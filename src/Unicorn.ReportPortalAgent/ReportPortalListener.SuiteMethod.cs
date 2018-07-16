@@ -8,7 +8,7 @@ using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 
-namespace ReportPortal.UnicornExtension
+namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
@@ -103,7 +103,7 @@ namespace ReportPortal.UnicornExtension
 
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = Client.Models.LogLevel.Error,
+                                Level = ReportPortal.Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                                 Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
@@ -113,7 +113,7 @@ namespace ReportPortal.UnicornExtension
                         {
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = Client.Models.LogLevel.Error,
+                                Level = ReportPortal.Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                             });
@@ -121,7 +121,7 @@ namespace ReportPortal.UnicornExtension
 
                         this.testFlowIds[id].Log(new AddLogItemRequest
                         {
-                            Level = Client.Models.LogLevel.Error,
+                            Level = ReportPortal.Client.Models.LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
                             Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))

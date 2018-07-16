@@ -138,7 +138,7 @@
     <Folder Include="GuiRunner\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>

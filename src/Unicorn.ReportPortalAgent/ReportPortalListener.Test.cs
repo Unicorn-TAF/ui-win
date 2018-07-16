@@ -5,12 +5,12 @@ using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using ReportPortal.UnicornExtension.EventArguments;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
+using Unicorn.ReportPortalAgent.EventArguments;
 
-namespace ReportPortal.UnicornExtension
+namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
@@ -131,7 +131,7 @@ namespace ReportPortal.UnicornExtension
 
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = Client.Models.LogLevel.Error,
+                                Level = ReportPortal.Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                                 Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
@@ -141,7 +141,7 @@ namespace ReportPortal.UnicornExtension
                         {
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = Client.Models.LogLevel.Error,
+                                Level = ReportPortal.Client.Models.LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                             });
@@ -149,7 +149,7 @@ namespace ReportPortal.UnicornExtension
 
                         this.testFlowIds[id].Log(new AddLogItemRequest
                         {
-                            Level = Client.Models.LogLevel.Error,
+                            Level = ReportPortal.Client.Models.LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
                             Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
@@ -224,7 +224,7 @@ namespace ReportPortal.UnicornExtension
                 {
                     this.testFlowIds[id].Log(new AddLogItemRequest
                     {
-                        Level = Client.Models.LogLevel.None,
+                        Level = ReportPortal.Client.Models.LogLevel.None,
                         Time = DateTime.UtcNow,
                         Text = "Attachment: " + name,
                         Attach = new Attach(test.Outcome.Screenshot, mime, content)

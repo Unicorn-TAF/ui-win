@@ -131,7 +131,7 @@
     <Compile Include="UnitTests\TestSuiteTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>
@@ -139,17 +139,21 @@
       <Project>{086860bd-94bd-455c-9954-38f827ed219b}</Project>
       <Name>ProjectSpecific</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
+    <ProjectReference Include="..\Unicorn.UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UI.Desktop\Unicorn.UI.Desktop.csproj">
+    <ProjectReference Include="..\Unicorn.UI.Desktop\Unicorn.UI.Desktop.csproj">
       <Project>{D0CA51A3-65BC-4530-85D1-507CC042F3A5}</Project>
       <Name>Unicorn.UI.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UI.Web\Unicorn.UI.Web.csproj">
+    <ProjectReference Include="..\Unicorn.UI.Web\Unicorn.UI.Web.csproj">
       <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
       <Name>Unicorn.UI.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicorn.ReportPortalAgent\Unicorn.ReportPortalAgent.csproj">
+      <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
+      <Name>Unicorn.ReportPortalAgent</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

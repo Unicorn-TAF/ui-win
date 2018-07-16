@@ -1,7 +1,7 @@
-﻿using ProjectSpecific.Util;
-using Unicorn.Core.Logging;
+﻿using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.ReportPortalAgent;
 
 namespace Tests.TestData
 {
@@ -12,7 +12,7 @@ namespace Tests.TestData
         public static void InitRun()
         {
             Logger.Instance = new ProjectSpecific.Util.ConsoleLogger();
-            Reporter.Instance = new ReportPortalReporter();
+            Reporter.Instance = new ReporterInstance();
             Reporter.Instance.Init();
         }
 

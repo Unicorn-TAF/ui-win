@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ReportPortal.UnicornExtension.Configuration
+namespace Unicorn.ReportPortalAgent.Configuration
 {
     public class Config
     {

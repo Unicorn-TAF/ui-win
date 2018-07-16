@@ -116,11 +116,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UI.Core\Unicorn.UI.Core.csproj">
+    <ProjectReference Include="..\Unicorn.UI.Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>

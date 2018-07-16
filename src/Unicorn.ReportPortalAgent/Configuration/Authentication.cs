@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportPortal.UnicornExtension.Configuration
+namespace Unicorn.ReportPortalAgent.Configuration
 {
     public class Authentication
     {

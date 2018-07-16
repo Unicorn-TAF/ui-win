@@ -1,14 +1,19 @@
-﻿using System.IO;
-using System.Reflection;
-using ReportPortal.UnicornExtension;
+﻿using Unicorn.ReportPortalAgent;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
-using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Tests;
+using Unicorn.Core.Testing.Steps;
+using System.Reflection;
+using System.IO;
 
-namespace ProjectSpecific.Util
+namespace Unicorn.ReportPortalAgent
 {
-    public class ReportPortalReporter : IReporter
+    public class ReporterInstance : IReporter
     {
         private ReportPortalListener listener;
 
@@ -27,7 +32,6 @@ namespace ProjectSpecific.Util
             }
 
             this.listener = new ReportPortalListener();
-            ////Listener.ExistingLaunchId = Listener.GetLaunchId("Unit tests of Unicorn Framework");
             this.listener.ReportRunStarted();
 
             Test.OnStart += ReportTestStart;
@@ -88,5 +92,6 @@ namespace ProjectSpecific.Util
             Screenshot.TakeScreenshot(screenshotName);
             test.Outcome.Screenshot = screenshotName + ".Jpeg";
         }
+
     }
 }

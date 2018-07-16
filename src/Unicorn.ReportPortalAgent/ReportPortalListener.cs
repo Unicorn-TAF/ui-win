@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Client.Models;
 using ReportPortal.Shared;
-using ReportPortal.UnicornExtension.Configuration;
+using Unicorn.ReportPortalAgent.Configuration;
 using Unicorn.Core.Testing.Tests;
 
-namespace ReportPortal.UnicornExtension
+namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {

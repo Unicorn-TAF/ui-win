@@ -3,7 +3,7 @@ using ReportPortal.Client;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
 
-namespace ReportPortal.UnicornExtension.EventArguments
+namespace Unicorn.ReportPortalAgent.EventArguments
 {
     public class TestItemStartedEventArgs : EventArgs
     {

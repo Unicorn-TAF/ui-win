@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{41306953-6A6F-4F5C-8713-E82D9122C32A}</ProjectGuid>
+    <ProjectGuid>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicorn.UI.Core</RootNamespace>
-    <AssemblyName>Unicorn.UI.Core</AssemblyName>
+    <RootNamespace>Unicorn.UI.Web</RootNamespace>
+    <AssemblyName>Unicorn.UI.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -73,7 +73,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -82,53 +81,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebDriver">
+      <HintPath>..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
-    <Compile Include="Controls\Interfaces\ISortable.cs" />
-    <Compile Include="Controls\Interfaces\IMultiSelectable.cs" />
-    <Compile Include="Driver\IDriver.cs" />
-    <Compile Include="Driver\ISearchContext.cs" />
-    <Compile Include="Driver\UISearchContext.cs" />
-    <Compile Include="Driver\ByLocator.cs" />
-    <Compile Include="Matchers\Checkbox.cs" />
-    <Compile Include="Matchers\Table.cs" />
-    <Compile Include="Matchers\Dropdown.cs" />
-    <Compile Include="Matchers\Control.cs" />
-    <Compile Include="Matchers\HasAttribute.cs" />
-    <Compile Include="Matchers\IControlMatchers\AttributeIsEqualToMatcher.cs" />
-    <Compile Include="Matchers\IControlMatchers\AttributeContainsMatcher.cs" />
-    <Compile Include="Matchers\IControlMatchers\ControlEnabledMatcher.cs" />
-    <Compile Include="Matchers\IControlMatchers\ControlVisibleMatcher.cs" />
-    <Compile Include="Matchers\TypifiedMatchers\TableHasRowMatcher.cs" />
-    <Compile Include="Matchers\TypifiedMatchers\DropdownHasSelectedValue.cs" />
-    <Compile Include="Matchers\TypifiedMatchers\CheckboxCheckedMatcher.cs" />
-    <Compile Include="PageObject\FindAttribute.cs" />
-    <Compile Include="PageObject\NameAttribute.cs" />
+    <Compile Include="BrowserType.cs" />
+    <Compile Include="Driver\WebDriver.cs" />
+    <Compile Include="Driver\WebSearchContext.cs" />
+    <Compile Include="PageObject\WebControlExtension.cs" />
+    <Compile Include="PageObject\WebPage.cs" />
+    <Compile Include="PageObject\WebSite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\Interfaces\Typified\ICheckbox.cs" />
-    <Compile Include="Controls\Interfaces\Typified\IDropdown.cs" />
-    <Compile Include="Controls\Interfaces\IExpandable.cs" />
-    <Compile Include="Controls\Interfaces\ISelectable.cs" />
-    <Compile Include="Controls\Interfaces\Typified\ITable.cs" />
-    <Compile Include="Controls\Interfaces\Typified\ITextInput.cs" />
-    <Compile Include="Controls\Interfaces\Typified\ITreeView.cs" />
-    <Compile Include="Controls\Interfaces\Typified\IWindow.cs" />
-    <Compile Include="Controls\ControlInvalidStateException.cs" />
-    <Compile Include="Controls\ControlNotFoundException.cs" />
-    <Compile Include="Controls\IControl.cs" />
-    <Compile Include="PageObject\IContainer.cs" />
-    <Compile Include="Synchronization\ControlWaits.cs" />
-    <Compile Include="Synchronization\UiWait.cs" />
-    <Compile Include="Synchronization\SystemClock.cs" />
-    <Compile Include="Synchronization\Conditions\Until.cs" />
+    <Compile Include="Controls\WebContainer.cs" />
+    <Compile Include="Controls\WebControl.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Unicorn.UI.Core\Unicorn.UI.Core.csproj">
+      <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
+      <Name>Unicorn.UI.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

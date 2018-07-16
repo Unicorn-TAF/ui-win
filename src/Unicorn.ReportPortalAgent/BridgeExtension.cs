@@ -2,7 +2,7 @@
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
 
-namespace ReportPortal.UnicornExtension
+namespace Unicorn.ReportPortalAgent
 {
     public class BridgeExtension : IBridgeExtension
     {
