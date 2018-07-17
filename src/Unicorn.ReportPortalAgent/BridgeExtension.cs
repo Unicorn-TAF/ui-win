@@ -13,7 +13,6 @@ namespace Unicorn.ReportPortalAgent
         public void FormatLog(ref AddLogItemRequest logRequest)
         {
             var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
-            ////NUnit.Framework.TestContext.Progress.WriteLine(serializer.Serialize(logRequest));
             this.Handled = true;
         }
     }

@@ -136,6 +136,14 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
+        public void ReportLoggerMessage(Core.Logging.LogLevel level, string report)
+        {
+            if (Config.IsEnabled)
+            {
+                TestOutput(level, report);
+            }
+        }
+
         public void ReportAddAttachment(Test test, string name, string mime, byte[] content)
         {
             if (Config.IsEnabled)

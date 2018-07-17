@@ -1,10 +1,4 @@
-﻿using Unicorn.ReportPortalAgent;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unicorn.Core.Logging;
+﻿using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Steps;
@@ -52,12 +46,17 @@ namespace Unicorn.ReportPortalAgent
         {
             string info = TestSteps.GetStepInfo(method, arguments);
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
-            this.listener.ReportTestOutput(info);
+            //this.listener.ReportTestOutput(info);
         }
 
         public void ReportInfo(string info)
         {
             this.listener.ReportTestOutput(info);
+        }
+
+        public void ReportLoggerMessage(LogLevel level, string info)
+        {
+            this.listener.ReportLoggerMessage(level, info);
         }
 
         public void ReportSuiteFinish(TestSuite testSuite)

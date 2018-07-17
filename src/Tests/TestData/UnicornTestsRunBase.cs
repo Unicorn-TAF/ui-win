@@ -12,8 +12,10 @@ namespace Tests.TestData
         public static void InitRun()
         {
             Logger.Instance = new ProjectSpecific.Util.ConsoleLogger();
-            Reporter.Instance = new ReporterInstance();
+            var reporterInstance = new ReporterInstance();
+            Reporter.Instance = reporterInstance;
             Reporter.Instance.Init();
+            ProjectSpecific.Util.ConsoleLogger.Reporter = reporterInstance;
         }
 
         [RunFinalize]

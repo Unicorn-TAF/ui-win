@@ -60,10 +60,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 }
                 while (this.Visible && timer.ElapsedMilliseconds < timeout);
             }
-            catch (ControlNotFoundException)
-            {
-                timer.Stop();
-            }
+            catch (ControlNotFoundException) { }
+
+            timer.Stop();
 
             GuiDriver.ImplicitlyWaitTimeout = originalTimeout;
 
@@ -72,7 +71,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"\tClosed");
+            Logger.Instance.Log(LogLevel.Trace, $"\tClosed. [Wait time = {timer.Elapsed}]");
         }
     }
 }

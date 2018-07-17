@@ -60,7 +60,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
             if (item.Equals(this.SelectedValue))
             {
-                Logger.Instance.Log(LogLevel.Debug, "\tNo need to select (the item is selected by default)");
+                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (the item is selected by default)");
                 return false;
             }
 
@@ -78,7 +78,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
                 if (itemEl != null)
                 {
-                    Logger.Instance.Log(LogLevel.Debug, "\tItem was found. Selecting...");
+                    Logger.Instance.Log(LogLevel.Trace, "\tItem was found. Selecting...");
                     itemEl.Select();
                 }
                     
@@ -86,36 +86,36 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 Thread.Sleep(500);
             }
 
-            Logger.Instance.Log(LogLevel.Debug, "\tItem was selected");
+            Logger.Instance.Log(LogLevel.Trace, "\tItem was selected");
 
             return true;
         }
 
         public bool Expand()
         {
-            Logger.Instance.Log(LogLevel.Debug, "\tExpanding dropdown");
+            Logger.Instance.Log(LogLevel.Trace, "\tExpanding dropdown");
             if (this.Expanded)
             {
-                Logger.Instance.Log(LogLevel.Debug, "\t\tNo need to expand (expanded by default)");
+                Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to expand (expanded by default)");
                 return false;
             }
 
             GetPattern<ExpandCollapsePattern>().Expand();
-            Logger.Instance.Log(LogLevel.Debug, "\t\tExpanded");
+            Logger.Instance.Log(LogLevel.Trace, "\t\tExpanded");
             return true;
         }
 
         public bool Collapse()
         {
-            Logger.Instance.Log(LogLevel.Debug, "\tCollapsing dropdown");
+            Logger.Instance.Log(LogLevel.Trace, "\tCollapsing dropdown");
             if (!this.Expanded)
             {
-                Logger.Instance.Log(LogLevel.Debug, "\t\tNo need to collapse (collapsed by default)");
+                Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to collapse (collapsed by default)");
                 return false;
             }
 
             GetPattern<ExpandCollapsePattern>().Collapse();
-            Logger.Instance.Log(LogLevel.Debug, "\t\tCollapsed");
+            Logger.Instance.Log(LogLevel.Trace, "\t\tCollapsed");
             return true;
         }
     }

@@ -2,10 +2,11 @@
 {
     public enum LogLevel
     {
+        Error,
+        Warning,
         Info,
         Debug,
-        Warning,
-        Error
+        Trace
     }
 
     public interface ILogger

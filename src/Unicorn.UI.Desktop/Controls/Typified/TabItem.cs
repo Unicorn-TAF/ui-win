@@ -37,7 +37,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
             if (this.Selected)
             {
-                Logger.Instance.Log(LogLevel.Debug, "\tNo need to select (selected by default)");
+                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (selected by default)");
                 return false;
             }
 
@@ -52,17 +52,17 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 var invoke = GetPattern<InvokePattern>();
                 if (invoke != null)
                 {
-                    Logger.Instance.Log(LogLevel.Debug, "\tSelectionItemPattern was not found, trying to call Invoke");
+                    Logger.Instance.Log(LogLevel.Trace, "\tSelectionItemPattern was not found, trying to call Invoke");
                     invoke.Invoke();
                 }
                 else
                 {
-                    Logger.Instance.Log(LogLevel.Debug, "\tSelectionItemPattern was not found, trying to click");
+                    Logger.Instance.Log(LogLevel.Trace, "\tSelectionItemPattern was not found, trying to click");
                     this.Click();
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Debug, "\tSelected");
+            Logger.Instance.Log(LogLevel.Trace, "\tSelected");
             return true;
         }
     }

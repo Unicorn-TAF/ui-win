@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.EventArguments;
 
@@ -46,7 +45,7 @@ namespace Unicorn.ReportPortalAgent
                 }
                 catch (Exception exp)
                 {
-                    Logger.Instance.Log(Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
+                    Console.WriteLine("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!beforeSuiteEventArg.Canceled)
@@ -69,13 +68,13 @@ namespace Unicorn.ReportPortalAgent
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Log(Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
+                        Console.WriteLine("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -143,7 +142,7 @@ namespace Unicorn.ReportPortalAgent
                         }
                         catch (Exception exp)
                         {
-                            Logger.Instance.Log(Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
 
                         this.suitesFlow[id].Finish(finishSuiteRequest);
@@ -154,7 +153,7 @@ namespace Unicorn.ReportPortalAgent
                         }
                         catch (Exception exp)
                         {
-                            Logger.Instance.Log(Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
+                            Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
                         }
                     }
                 }
@@ -181,7 +180,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

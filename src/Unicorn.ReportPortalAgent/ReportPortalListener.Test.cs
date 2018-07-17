@@ -5,7 +5,6 @@ using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.EventArguments;
@@ -51,8 +50,7 @@ namespace Unicorn.ReportPortalAgent
                 }
                 catch (Exception exp)
                 {
-                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine +
-                                      exp);
+                    Console.WriteLine("Exception was thrown in 'BeforeTestStarted' subscriber." + Environment.NewLine + exp);
                 }
 
                 if (!beforeTestEventArg.Canceled)
@@ -69,14 +67,13 @@ namespace Unicorn.ReportPortalAgent
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine +
-                                          exp);
+                        Console.WriteLine("Exception was thrown in 'AfterTestStarted' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -190,8 +187,7 @@ namespace Unicorn.ReportPortalAgent
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'BeforeTestFinished' subscriber." +
-                                          Environment.NewLine + exp);
+                        Console.WriteLine("Exception was thrown in 'BeforeTestFinished' subscriber." + Environment.NewLine + exp);
                     }
 
                     this.testFlowIds[id].Finish(finishTestRequest);
@@ -204,14 +200,13 @@ namespace Unicorn.ReportPortalAgent
                     }
                     catch (Exception exp)
                     {
-                        Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "Exception was thrown in 'AfterTestFinished' subscriber." +
-                                          Environment.NewLine + exp);
+                        Console.WriteLine("Exception was thrown in 'AfterTestFinished' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -233,7 +228,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -253,7 +248,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }

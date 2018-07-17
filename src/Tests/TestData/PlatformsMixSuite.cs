@@ -9,7 +9,7 @@ using Unicorn.UI.Core.Matchers;
 namespace Tests.TestData
 {
     [Parameterized, TestSuite("Tests for mixed platforms")]
-    [Feature("dropdown"), Feature("electronics")]
+    [Feature("Yandex Market"), Feature("electronics")]
     [Metadata(key: "Description", value: "Sample parameterized suite containing parameterized tests for different platforms as Desktop, Web and Mobile")]
     [Metadata(key: "Tests link", value: "http://bla-bla")]
     public class PlatformsMixSuite : BaseTestSuite

@@ -1,8 +1,9 @@
 ﻿using System.Windows.Automation;
+using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
-    public class ListItem : GuiControl
+    public class ListItem : GuiControl, ISelectable
     {
         public ListItem()
         {
@@ -15,14 +16,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType Type => ControlType.ListItem;
 
-        public bool IsSelected
-        {
-            get { return (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern).Current.IsSelected; }
-        }
+        public bool Selected => GetPattern<SelectionItemPattern>().Current.IsSelected;
 
         public bool Select()
         {
-            if (this.IsSelected)
+            if (this.Selected)
             {
                 return false;
             }

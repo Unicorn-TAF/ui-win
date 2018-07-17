@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 
@@ -56,7 +55,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
 
@@ -159,7 +158,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception exception)
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Error, "ReportPortal exception was thrown." + Environment.NewLine + exception);
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
     }
