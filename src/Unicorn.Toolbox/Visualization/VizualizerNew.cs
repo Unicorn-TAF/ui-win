@@ -14,18 +14,16 @@ using Unicorn.Toolbox.Visualization.Palettes;
 
 namespace Unicorn.Toolbox.Visualization
 {
-    public class Visualizer
+    public class VizualizerNew
     {
         private static Random random = new Random();
-        private static int margin = 30;
-        private static List<Rect> rects = new List<Rect>();
+        private static int margin = 15;
 
         private static IPalette palette = new DeepPurple();
 
         public static void VisualizeAllData(AutomationData data, FilterType filterType, Canvas canvas)
         {
             canvas.Background = palette.BackColor;
-            rects.Clear();
             canvas.Children.Clear();
 
             var stats = GetStats(data, filterType);
@@ -41,15 +39,13 @@ namespace Unicorn.Toolbox.Visualization
 
             foreach (KeyValuePair<string, int> pair in items)
             {
-                int radius = CalculateRadius(pair.Value, max, featuresCount, (int)canvas.RenderSize.Width);
-                DrawFeature(pair.Key, pair.Value, radius, currentIndex++, featuresCount, canvas);
+                DrawFeature(pair.Key, pair.Value, currentIndex++, max, featuresCount, canvas);
             }
         }
 
         public static void VisualizeCoverage(AppSpecs specs, Canvas canvas)
         {
             canvas.Background = palette.BackColor;
-            rects.Clear();
             canvas.Children.Clear();
 
             var featuresStats = new Dictionary<string, int>();
@@ -74,8 +70,7 @@ namespace Unicorn.Toolbox.Visualization
 
             foreach (KeyValuePair<string, int> pair in items)
             {
-                int radius = CalculateRadius(pair.Value, max, featuresCount, (int)canvas.RenderSize.Width);
-                DrawFeature(pair.Key, pair.Value, radius, currentIndex++, featuresCount, canvas);
+                DrawFeature(pair.Key, pair.Value, currentIndex++, max, featuresCount, canvas);
             }
         }
 
@@ -129,44 +124,37 @@ namespace Unicorn.Toolbox.Visualization
             throw new ArgumentException("please check args");
         }
 
-        private static void DrawFeature(string name, int tests, int radius, int index, int featuresCount, Canvas canvas)
+        private static void DrawFeature(string name, int tests, int index, int max, int featuresCount, Canvas canvas)
         {
-            int x = 0;
-            int y = 0;
-            Rect rect;
+            var workHeight = canvas.RenderSize.Height - 2 * margin;
+            var workWidth = canvas.RenderSize.Width - 2 * margin;
 
-            do
-            {
-                x = random.Next(margin + radius, (int)canvas.RenderSize.Width - radius - margin);
-                y = random.Next(margin + radius, (int)canvas.RenderSize.Height - radius - margin);
+            double height = workHeight / featuresCount - margin;
+            double width = tests == 0 ? 1 : workWidth * ((double)tests / max); 
 
-                rect = new Rect(x - radius - margin, y - radius - margin, (radius + margin) * 2, (radius + margin) * 2);
-            }
-            while (rects.Any(r => r.IntersectsWith(rect)));
-
-            rects.Add(rect);
+            double x = margin;
+            double y = margin + index * (height + margin);
 
             double colorIndexStep = (double)palette.DataColors.Count / featuresCount;
             int currentColorIndex = (int)((index + 1) * colorIndexStep - 1);
 
-            var ellipse = new Ellipse()
+            var bar = new Rectangle()
             {
                 Fill = palette.DataColors[currentColorIndex],
-                Width = radius * 2,
-                Height = radius * 2,
+                Width = width,
+                Height = height,
                 StrokeThickness = 1,
                 Stroke = Brushes.Black,
                 Effect = new DropShadowEffect()
             };
 
-            Canvas.SetLeft(ellipse, x - radius);
-            Canvas.SetTop(ellipse, y - radius);
-            canvas.Children.Add(ellipse);
+            Canvas.SetLeft(bar, x);
+            Canvas.SetTop(bar, y);
+            canvas.Children.Add(bar);
 
             var label = new TextBlock();
-            label.Text = $"{name}\n{tests} tests";
+            label.Text = $"{name}: {tests} tests";
             label.TextAlignment = TextAlignment.Center;
-            
             label.FontFamily = new FontFamily("Calibri");
             label.FontSize = 15;
 
@@ -176,26 +164,14 @@ namespace Unicorn.Toolbox.Visualization
                 FlowDirection.LeftToRight,
                 new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
                 label.FontSize,
-                Brushes.Black,
+                label.Foreground,
                 new NumberSubstitution(), TextFormattingMode.Display);
 
-            label.Foreground = formattedText.Width > radius * 2 ? palette.FontColor : palette.DataFontColor;
+            label.Foreground = formattedText.Width > width ? palette.FontColor : palette.DataFontColor;
 
             canvas.Children.Add(label);
-            Canvas.SetLeft(label, x - formattedText.Width / 2);
-            Canvas.SetTop(label, y - formattedText.Height / 2);
-        }
-
-        private static int CalculateRadius(int capacity, int max, int count, int canvasSize)
-        {
-            if (capacity == 0)
-            {
-                return 1;
-            }
-
-            double radius = (double)canvasSize / (Math.Sqrt(count + margin));
-            double ratio = (double)capacity / (double)max;
-            return (int)(radius * ratio / 2);
+            Canvas.SetLeft(label, x + 2);
+            Canvas.SetTop(label, y + 2);
         }
     }
 }

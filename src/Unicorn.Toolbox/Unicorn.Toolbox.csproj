@@ -72,6 +72,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>packages.config</DependentUpon>
     </Compile>
+    <Compile Include="Visualization\Palettes\DeepPurple.cs" />
+    <Compile Include="Visualization\Palettes\IPalette.cs" />
+    <Compile Include="Visualization\VizualizerNew.cs" />
     <Compile Include="Visualization\Visualizer.cs" />
     <Compile Include="Visualization\WindowVisualization.xaml.cs">
       <DependentUpon>WindowVisualization.xaml</DependentUpon>

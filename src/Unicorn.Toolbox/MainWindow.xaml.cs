@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -146,7 +145,15 @@ namespace Unicorn.Toolbox
             visualization.Title = $"Overall statistics: {filter}";
             visualization.Show();
 
-            Visualizer.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
+            if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)
+            {
+                Visualizer.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
+            }
+            else
+            {
+                VizualizerNew.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
+            }
+            
         }
 
         private void ShowAll()
@@ -183,7 +190,16 @@ namespace Unicorn.Toolbox
             visualization.Title = "Modules coverage";
             visualization.Show();
 
-            Visualizer.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+            if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)
+            {
+                Visualizer.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+            }
+            else
+            {
+                VizualizerNew.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+            }
+
+            
         }
     }
 }
