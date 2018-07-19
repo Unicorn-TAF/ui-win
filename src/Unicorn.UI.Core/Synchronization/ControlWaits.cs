@@ -11,7 +11,7 @@ namespace Unicorn.UI.Core.Synchronization
             {
                 Message = message,
                 PollingInterval = pollingInterval,
-                Timeout = commandTimeout
+                Timeout = commandTimeout,
             };
 
             wait.IgnoreExceptionTypes(ignoreException);
@@ -48,7 +48,7 @@ namespace Unicorn.UI.Core.Synchronization
                 Message = message,
             };
 
-            return wait.Until(command);
+            return wait.UntilAttribute(command);
         }
     }
 }

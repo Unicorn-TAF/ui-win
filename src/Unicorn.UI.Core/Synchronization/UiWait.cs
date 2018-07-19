@@ -3,10 +3,11 @@ using System.Globalization;
 using System.Threading;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Utility.Synchronization;
+using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization
 {
-    public class UiWait<T> : DefaultWait<T>
+    public class UiWait<T> : DefaultWait<T> where T : IControl
     {
         private string attribute;
         private string value;
@@ -56,7 +57,7 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {condition} during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {input} {condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
             var endTime = this.clock.LaterBy(this.Timeout);
@@ -123,7 +124,7 @@ namespace Unicorn.UI.Core.Synchronization
         /// <typeparam name="TResult">The delegate's expected return type.</typeparam>
         /// <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
         /// <returns>The delegate's return value.</returns>
-        public TResult Until<TResult>(Func<T, string, string, TResult> condition)
+        public TResult UntilAttribute<TResult>(Func<T, string, string, TResult> condition)
         {
             if (condition == null)
             {
@@ -136,7 +137,7 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {condition} during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {input} '{this.attribute}' {condition.Method.Name} '{this.value}' during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
             var endTime = this.clock.LaterBy(this.Timeout);

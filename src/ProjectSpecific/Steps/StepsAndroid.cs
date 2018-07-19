@@ -9,7 +9,7 @@ using Unicorn.UI.Mobile.Android.Driver;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class StepsAndroid : TestSteps
+    public class StepsAndroid
     {
         private IDriver driver;
 

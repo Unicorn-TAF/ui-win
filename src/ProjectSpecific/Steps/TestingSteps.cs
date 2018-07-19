@@ -8,7 +8,7 @@ using Unicorn.Core.Testing.Steps.Attributes;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class TestingSteps : TestSteps
+    public class TestingSteps
     {
         [TestStep("First Test Step")]
         public void FirstTestStep()

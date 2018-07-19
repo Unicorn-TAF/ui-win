@@ -5,7 +5,7 @@ using Unicorn.Core.Testing.Steps.Attributes;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class StepsCharMap : TestSteps
+    public class StepsCharMap
     {
         [TestStep("Start charmap")]
         public void StartApplication()

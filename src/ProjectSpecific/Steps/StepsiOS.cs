@@ -10,7 +10,7 @@ using Unicorn.UI.Mobile.IOS.Driver;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class StepsiOS : TestSteps
+    public class StepsiOS
     {
         private IOSDriver driver;
 

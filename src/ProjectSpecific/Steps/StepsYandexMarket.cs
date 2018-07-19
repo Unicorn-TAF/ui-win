@@ -8,7 +8,7 @@ using Unicorn.UI.Web.Driver;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class StepsYandexMarket : TestSteps
+    public class StepsYandexMarket
     {
         [TestStep("Open Yandex Market")]
         public void Open()

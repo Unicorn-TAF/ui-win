@@ -5,7 +5,7 @@ using Unicorn.Core.Testing.Steps;
 namespace ProjectSpecific.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class StepsUI : TestSteps
+    public class StepsUI
     {
         private Lazy<StepsCharMap> charmap = new Lazy<StepsCharMap>();
         private Lazy<StepsYandexMarket> yandexMarket = new Lazy<StepsYandexMarket>();
