@@ -19,7 +19,7 @@ namespace Unicorn.Toolbox.Visualization
         private static Random random = new Random();
         private static int margin = 15;
 
-        private static IPalette palette = new DeepPurple();
+        private static IPalette palette = new Orange();
 
         public static void VisualizeAllData(AutomationData data, FilterType filterType, Canvas canvas)
         {

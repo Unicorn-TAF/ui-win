@@ -20,7 +20,7 @@ namespace Unicorn.Toolbox.Visualization
         private static int margin = 30;
         private static List<Rect> rects = new List<Rect>();
 
-        private static IPalette palette = new DeepPurple();
+        private static IPalette palette = new Orange();
 
         public static void VisualizeAllData(AutomationData data, FilterType filterType, Canvas canvas)
         {
