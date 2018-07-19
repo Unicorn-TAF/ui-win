@@ -121,7 +121,6 @@
     <Compile Include="PageObject\IContainer.cs" />
     <Compile Include="Synchronization\ControlWaits.cs" />
     <Compile Include="Synchronization\UiWait.cs" />
-    <Compile Include="Synchronization\SystemClock.cs" />
     <Compile Include="Synchronization\Conditions\Until.cs" />
   </ItemGroup>
   <ItemGroup />

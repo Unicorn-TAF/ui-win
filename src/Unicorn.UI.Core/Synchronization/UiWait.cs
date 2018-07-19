@@ -1,82 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using Unicorn.Core.Logging;
+using Unicorn.Core.Utility.Synchronization;
 
 namespace Unicorn.UI.Core.Synchronization
 {
-    public class UiWait<T>
+    public class UiWait<T> : DefaultWait<T>
     {
-        private static TimeSpan defaultSleepTimeout = TimeSpan.FromMilliseconds(500);
-        private static TimeSpan defaultTimeout = TimeSpan.FromSeconds(30);
-
-        private T input;
-        private SystemClock clock;
         private string attribute;
         private string value;
 
-        private List<Type> ignoredExceptions = new List<Type>();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="input">The input value to pass to the evaluated conditions.</param>
+        /// <param name="clock">The clock to use when measuring the timeout.</param>
+        public UiWait(T input) : base(input) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="clock">The clock to use when measuring the timeout.</param>
-        public UiWait(T input)
+        public UiWait(T input, string attribute, string value) : base(input)
         {
-            Init(input);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
-        /// </summary>
-        /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        /// <param name="clock">The clock to use when measuring the timeout.</param>
-        public UiWait(T input, string attribute, string value)
-        {
-            Init(input);
             this.attribute = attribute;
             this.value = value;
-        }
-
-        /// <summary>
-        /// Gets or sets how long to wait for the evaluated condition to be true. The default timeout is 500 milliseconds.
-        /// </summary>
-        public TimeSpan Timeout { get; set; } = defaultTimeout;
-
-        /// <summary>
-        /// Gets or sets how often the condition should be evaluated. The default timeout is 500 milliseconds.
-        /// </summary>
-        public TimeSpan PollingInterval { get; set; } = defaultSleepTimeout;
-
-        /// <summary>
-        /// Gets or sets the message to be displayed when time expires.
-        /// </summary>
-        public string Message { get; set; }
-
-        /// <summary>
-        /// Configures this instance to ignore specific types of exceptions while waiting for a condition.
-        /// Any exceptions not whitelisted will be allowed to propagate, terminating the wait.
-        /// </summary>
-        /// <param name="exceptionTypes">The types of exceptions to ignore.</param>
-        public void IgnoreExceptionTypes(params Type[] exceptionTypes)
-        {
-            if (exceptionTypes == null)
-            {
-                throw new ArgumentNullException("exceptionTypes", "exceptionTypes cannot be null");
-            }
-
-            foreach (Type exceptionType in exceptionTypes)
-            {
-                if (!typeof(Exception).IsAssignableFrom(exceptionType))
-                {
-                    throw new ArgumentException("All types to be ignored must derive from System.Exception", "exceptionTypes");
-                }
-            }
-
-            this.ignoredExceptions.AddRange(exceptionTypes);
         }
 
         /// <summary>
@@ -110,6 +60,7 @@ namespace Unicorn.UI.Core.Synchronization
 
             Exception lastException = null;
             var endTime = this.clock.LaterBy(this.Timeout);
+            var startTime = DateTime.Now;
             while (true)
             {
                 try
@@ -120,7 +71,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Debug, "\twait is successfull");
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }
@@ -128,7 +79,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Debug, "\twait is successfull");
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }
@@ -189,6 +140,7 @@ namespace Unicorn.UI.Core.Synchronization
 
             Exception lastException = null;
             var endTime = this.clock.LaterBy(this.Timeout);
+            var startTime = DateTime.Now;
             while (true)
             {
                 try
@@ -199,6 +151,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }
@@ -206,6 +159,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }
@@ -233,22 +187,6 @@ namespace Unicorn.UI.Core.Synchronization
 
                 Thread.Sleep(this.PollingInterval);
             }
-        }
-
-        private void Init(T input)
-        {
-            if (input == null)
-            {
-                throw new ArgumentNullException("input", "input cannot be null");
-            }
-
-            this.input = input;
-            this.clock = new SystemClock();
-        }
-
-        private bool IsIgnoredException(Exception exception)
-        {
-            return this.ignoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
         }
     }
 }

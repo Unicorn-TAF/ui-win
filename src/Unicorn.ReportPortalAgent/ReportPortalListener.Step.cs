@@ -28,6 +28,11 @@ namespace Unicorn.ReportPortalAgent
 
         protected void TestOutput(Core.Logging.LogLevel level, string info)
         {
+            if (this.currentTest == null)
+            {
+                return;
+            }
+
             try
             {
                 var fullTestName = this.currentTest.FullName;

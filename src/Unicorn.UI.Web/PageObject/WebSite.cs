@@ -21,7 +21,6 @@ namespace Unicorn.UI.Web.PageObject
 
         public T GetPage<T>() where T : WebPage
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Get {typeof(T).Name} page");
             return Activator.CreateInstance<T>();
         }
 
