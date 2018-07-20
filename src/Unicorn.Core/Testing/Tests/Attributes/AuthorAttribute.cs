@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
@@ -10,6 +11,8 @@ namespace Unicorn.Core.Testing.Tests.Attributes
         public AuthorAttribute(string author)
         {
             this.author = author;
+
+            this.author = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(author.ToLower());
         }
 
         public string Author => this.author;

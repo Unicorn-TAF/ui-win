@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using Unicorn.Toolbox.Visualization.Palettes;
 
@@ -29,14 +28,6 @@ namespace Unicorn.Toolbox.Visualization
         private List<Brush> dataColors;
 
         public Brush BackColor => backColor;
-
-        public List<Brush> Colors
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public List<Brush> DataColors => dataColors;
 

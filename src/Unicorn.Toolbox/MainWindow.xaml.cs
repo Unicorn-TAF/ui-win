@@ -142,7 +142,7 @@ namespace Unicorn.Toolbox
             var filter = GetFilter();
             var visualization = new WindowVisualization();
             visualization.ShowActivated = false;
-            visualization.Title = $"Overall statistics: {filter}";
+            visualization.Title = $"Overall tests statistics: {filter}";
             visualization.Show();
 
             if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)
@@ -187,7 +187,7 @@ namespace Unicorn.Toolbox
         {
             var visualization = new WindowVisualization();
             visualization.ShowActivated = false;
-            visualization.Title = "Modules coverage";
+            visualization.Title = "Modules coverage by tests";
             visualization.Show();
 
             if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)

@@ -73,6 +73,7 @@
       <DependentUpon>packages.config</DependentUpon>
     </Compile>
     <Compile Include="Visualization\Palettes\Orange.cs" />
+    <Compile Include="Visualization\Palettes\LightGreen.cs" />
     <Compile Include="Visualization\Palettes\DeepPurple.cs" />
     <Compile Include="Visualization\Palettes\IPalette.cs" />
     <Compile Include="Visualization\VizualizerNew.cs" />

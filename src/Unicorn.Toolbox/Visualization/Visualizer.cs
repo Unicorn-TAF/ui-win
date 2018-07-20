@@ -20,7 +20,7 @@ namespace Unicorn.Toolbox.Visualization
         private static int margin = 30;
         private static List<Rect> rects = new List<Rect>();
 
-        private static IPalette palette = new Orange();
+        private static IPalette palette = new LightGreen();
 
         public static void VisualizeAllData(AutomationData data, FilterType filterType, Canvas canvas)
         {
@@ -79,7 +79,7 @@ namespace Unicorn.Toolbox.Visualization
             }
         }
 
-        private static Dictionary<string, int> GetStats(AutomationData data, FilterType filterType)
+        public static Dictionary<string, int> GetStats(AutomationData data, FilterType filterType)
         {
             var stats = new Dictionary<string, int>();
 
@@ -102,12 +102,11 @@ namespace Unicorn.Toolbox.Visualization
                     {
                         foreach (var category in data.UniqueCategories)
                         {
-                            var suites = data.SuitesInfos.Where(s => s.TestsInfos.Where(t => t.Categories.Contains(category)).Any());
                             var tests = from SuiteInfo s
-                                        in suites
-                                        select s.TestsInfos;
+                                        in data.SuitesInfos
+                                        select s.TestsInfos.Where(ti => ti.Categories.Contains(category));
 
-                            stats.Add(category, tests.Sum(t => t.Count));
+                            stats.Add(category, tests.Sum(t => t.Count()));
                         }
                         return stats;
                     }
@@ -115,12 +114,11 @@ namespace Unicorn.Toolbox.Visualization
                     {
                         foreach (var author in data.UniqueAuthors)
                         {
-                            var suites = data.SuitesInfos.Where(s => s.TestsInfos.Where(t => t.Author.Equals(author)).Any());
                             var tests = from SuiteInfo s
-                                        in suites
-                                        select s.TestsInfos;
+                                        in data.SuitesInfos
+                                        select s.TestsInfos.Where(ti => ti.Author.Equals(author));
 
-                            stats.Add(author, tests.Sum(t => t.Count));
+                            stats.Add(author, tests.Sum(t => t.Count()));
                         }
                         return stats;
                     }
@@ -151,6 +149,7 @@ namespace Unicorn.Toolbox.Visualization
 
             var ellipse = new Ellipse()
             {
+                Name = name,
                 Fill = palette.DataColors[currentColorIndex],
                 Width = radius * 2,
                 Height = radius * 2,
@@ -164,7 +163,7 @@ namespace Unicorn.Toolbox.Visualization
             canvas.Children.Add(ellipse);
 
             var label = new TextBlock();
-            label.Text = $"{name}\n{tests} tests";
+            label.Text = $"{name}\n{tests}";
             label.TextAlignment = TextAlignment.Center;
             
             label.FontFamily = new FontFamily("Calibri");
