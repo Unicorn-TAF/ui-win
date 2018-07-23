@@ -150,16 +150,9 @@
       <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
       <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.ReportPortalAgent\Unicorn.ReportPortalAgent.csproj">
-      <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
-      <Name>Unicorn.ReportPortalAgent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="unicorn.conf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Choose>
