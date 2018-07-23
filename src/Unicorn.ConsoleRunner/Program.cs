@@ -8,13 +8,13 @@ using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Unicorn.ConsoleRunner
 {
-    class Program
+    public class Program
     {
         private const string ConstTestAssembly = "testAssembly";
         private const string ConstConfiguration = "configuration";
-        private static readonly string delimiter = new string('-', 123);
+        private static readonly string Delimiter = new string('-', 123);
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length == 0)
             {
@@ -27,7 +27,7 @@ namespace Unicorn.ConsoleRunner
 
             var assemblyArgs = args.Where(a => a.Trim().StartsWith(ConstTestAssembly));
 
-            if(assemblyArgs.Any())
+            if (assemblyArgs.Any())
             {
                 assemblyPath = assemblyArgs.First().Trim().Split('=')[1].Trim();
             }
@@ -36,7 +36,6 @@ namespace Unicorn.ConsoleRunner
                 PrintHelpText();
                 throw new ArgumentException($"'{ConstTestAssembly}' parameter was not specified");
             }
-
 
             var configArgs = args.Where(a => a.Trim().StartsWith(ConstConfiguration));
 
@@ -86,7 +85,7 @@ namespace Unicorn.ConsoleRunner
             StringBuilder header = new StringBuilder();
 
             header.AppendLine().AppendLine().AppendLine().AppendLine()
-                .AppendLine(delimiter).AppendLine()
+                .AppendLine(Delimiter).AppendLine()
                 .AppendLine($"Tests run {runner.RunStatus}").AppendLine();
 
             var color = runner.RunStatus.Equals(Result.Passed) ? ConsoleColor.Green : ConsoleColor.Red;
@@ -116,13 +115,13 @@ namespace Unicorn.ConsoleRunner
             Console.WriteLine(ResourceAsciiLogo.Logo);
             Console.WriteLine();
 
-            Console.WriteLine(delimiter);
+            Console.WriteLine(Delimiter);
             Console.WriteLine();
             Console.WriteLine("Configuration");
             Console.WriteLine();
             Console.WriteLine("Tests assembly: " + assemblyPath);
             Console.WriteLine(Configuration.GetInfo());
-            Console.WriteLine(delimiter);
+            Console.WriteLine(Delimiter);
             Console.WriteLine();
 
             Console.ForegroundColor = ConsoleColor.White;

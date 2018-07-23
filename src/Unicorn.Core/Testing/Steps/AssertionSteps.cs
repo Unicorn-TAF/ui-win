@@ -1,5 +1,5 @@
-﻿using AspectInjector.Broker;
-using System;
+﻿using System;
+using AspectInjector.Broker;
 using Unicorn.Core.Testing.Steps.Attributes;
 using Unicorn.Core.Testing.Verification;
 using Unicorn.Core.Testing.Verification.Matchers;

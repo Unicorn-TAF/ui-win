@@ -86,7 +86,7 @@ namespace Unicorn.Core.Utility
 
                 Thread.Sleep(pollingInterval);
             }
-            while (downloading && !timer.Expired) ;
+            while (downloading && !timer.Expired);
 
             timer.ThrowExceptionIfExpired($"File was not downloaded in time");
 
@@ -101,14 +101,14 @@ namespace Unicorn.Core.Utility
             {
                 Thread.Sleep(pollingInterval);
             }
-            while (!File.Exists(downloadFileName) && !timer.Expired) ;
+            while (!File.Exists(downloadFileName) && !timer.Expired);
 
             timer.ThrowExceptionIfExpired($"File '{downloadFileName}' was not downloaded in time");
 
             return downloadFileName;
         }
 
-        //find all files from download
+        // Find all files from download.
         private HashSet<string> GetFileNamesFromDestinationFolder()
         {
             Logger.Instance.Log(LogLevel.Debug, $"\tGet files list from {destinationFolder} folder");

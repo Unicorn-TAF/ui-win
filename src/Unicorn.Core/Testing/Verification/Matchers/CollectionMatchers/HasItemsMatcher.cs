@@ -43,7 +43,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
             if (mismatchItems.Any())
             {
-                DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(",", mismatchItems)}");
+                DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(", ", mismatchItems)}");
                 return Reverse;
             }
 

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {

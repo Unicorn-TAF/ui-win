@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using OpenQA.Selenium.Interactions;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
-using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Web.Controls
 {

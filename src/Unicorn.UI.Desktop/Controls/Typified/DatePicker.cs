@@ -18,6 +18,39 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override string ClassName => "DatePicker";
 
+        public string Value
+        {
+            get
+            {
+                var value = GetPattern<ValuePattern>();
+
+                if (value != null)
+                {
+                    return value.Current.Value;
+                }
+                    
+                return null;
+            }
+
+            set
+            {
+                var valuePattern = GetPattern<ValuePattern>();
+
+                if (valuePattern != null)
+                {
+                    valuePattern.SetValue(value);
+                }
+            }
+        }
+
+        public bool Expanded
+        {
+            get
+            {
+                return GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState == ExpandCollapseState.Expanded;
+            }
+        }
+
         public bool Expand()
         {
             if (!Expanded)
@@ -41,39 +74,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             else
             {
                 return false;
-            }
-        }
-
-        public string Value
-        {
-            get
-            {
-                var value = GetPattern<ValuePattern>();
-
-                if (value != null)
-                {
-                    return value.Current.Value;
-                }
-                    
-                return null;
-            }
-            set
-            {
-                var valuePattern = GetPattern<ValuePattern>();
-
-                if (valuePattern != null)
-                {
-                    valuePattern.SetValue(value);
-                }
-                    
-            }
-        }
-
-        public bool Expanded
-        {
-            get
-            {
-                return GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState == ExpandCollapseState.Expanded;
             }
         }
     }

@@ -4,7 +4,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Hyperlink : GuiControl
     {
-        public Hyperlink() { }
+        public Hyperlink()
+        {
+        }
 
         public Hyperlink(AutomationElement instance)
             : base(instance)

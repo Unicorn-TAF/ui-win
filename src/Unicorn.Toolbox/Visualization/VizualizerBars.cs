@@ -14,7 +14,7 @@ using Unicorn.Toolbox.Visualization.Palettes;
 
 namespace Unicorn.Toolbox.Visualization
 {
-    public class VizualizerNew
+    public class VizualizerBars
     {
         private static Random random = new Random();
         private static int margin = 15;
@@ -26,7 +26,7 @@ namespace Unicorn.Toolbox.Visualization
             canvas.Background = palette.BackColor;
             canvas.Children.Clear();
 
-            var stats = Visualizer.GetStats(data, filterType);
+            var stats = VisualizerCircles.GetStats(data, filterType);
 
             int max = stats.Values.Max();
             int featuresCount = stats.Values.Count;

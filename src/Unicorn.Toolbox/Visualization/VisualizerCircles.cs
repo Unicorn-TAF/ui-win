@@ -14,7 +14,7 @@ using Unicorn.Toolbox.Visualization.Palettes;
 
 namespace Unicorn.Toolbox.Visualization
 {
-    public class Visualizer
+    public class VisualizerCircles
     {
         private static Random random = new Random();
         private static int margin = 30;
@@ -149,7 +149,6 @@ namespace Unicorn.Toolbox.Visualization
 
             var ellipse = new Ellipse()
             {
-                Name = name,
                 Fill = palette.DataColors[currentColorIndex],
                 Width = radius * 2,
                 Height = radius * 2,
@@ -192,7 +191,7 @@ namespace Unicorn.Toolbox.Visualization
                 return 1;
             }
 
-            double radius = (double)canvasSize / (Math.Sqrt(count + margin));
+            double radius = (double)canvasSize / Math.Sqrt(count + margin);
             double ratio = (double)capacity / (double)max;
             return (int)(radius * ratio / 2);
         }

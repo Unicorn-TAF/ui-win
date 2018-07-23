@@ -4,7 +4,6 @@
     {
         public NullMatcher() : base()
         {
-            
         }
 
         public override string CheckDescription => "Is null";

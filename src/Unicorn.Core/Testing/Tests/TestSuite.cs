@@ -59,7 +59,7 @@ namespace Unicorn.Core.Testing.Tests
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets test suite name. If name not specified through TestSuiteAttribute, then return suite class name
+        /// Gets or sets test suite name. If name not specified through TestSuiteAttribute, then return suite class name
         /// </summary>
         public string Name
         {
@@ -74,6 +74,7 @@ namespace Unicorn.Core.Testing.Tests
 
                 return this.name;
             }
+
             set
             {
                 this.name = value;

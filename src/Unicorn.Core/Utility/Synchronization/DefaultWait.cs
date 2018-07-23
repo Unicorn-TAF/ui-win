@@ -17,7 +17,6 @@ namespace Unicorn.Core.Utility.Synchronization
         /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        /// <param name="clock">The clock to use when measuring the timeout.</param>
         protected DefaultWait(T input)
         {
             if (input == null)

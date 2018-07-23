@@ -15,9 +15,9 @@ namespace Unicorn.UI.Desktop.Driver
 
         public GuiSearchContext ParentSearchContext { get; set; }
 
-        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
-
         public virtual AutomationElement SearchContext { get; set; }
+
+        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
         protected override Type ControlsBaseType => typeof(GuiControl);
 

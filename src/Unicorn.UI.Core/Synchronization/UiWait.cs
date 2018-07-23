@@ -13,14 +13,16 @@ namespace Unicorn.UI.Core.Synchronization
         private string value;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="clock">The clock to use when measuring the timeout.</param>
-        public UiWait(T input) : base(input) { }
+        public UiWait(T input) : base(input)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="clock">The clock to use when measuring the timeout.</param>

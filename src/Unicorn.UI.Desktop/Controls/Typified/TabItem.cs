@@ -48,7 +48,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
             else
             {
-                
                 var invoke = GetPattern<InvokePattern>();
                 if (invoke != null)
                 {

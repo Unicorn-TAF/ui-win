@@ -44,7 +44,7 @@ namespace Unicorn.UI.Web.Controls
                 {
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
-                    ((WebControl)control).Locator = (attributes[0]).Locator;
+                    ((WebControl)control).Locator = attributes[0].Locator;
                     ((WebControl)control).Cached = false;
                     ((WebControl)control).ParentContext = this.SearchContext;
 

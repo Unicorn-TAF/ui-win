@@ -76,8 +76,8 @@
     <Compile Include="Visualization\Palettes\LightGreen.cs" />
     <Compile Include="Visualization\Palettes\DeepPurple.cs" />
     <Compile Include="Visualization\Palettes\IPalette.cs" />
-    <Compile Include="Visualization\VizualizerNew.cs" />
-    <Compile Include="Visualization\Visualizer.cs" />
+    <Compile Include="Visualization\VizualizerBars.cs" />
+    <Compile Include="Visualization\VisualizerCircles.cs" />
     <Compile Include="Visualization\WindowVisualization.xaml.cs">
       <DependentUpon>WindowVisualization.xaml</DependentUpon>
     </Compile>

@@ -15,6 +15,6 @@ namespace ProjectSpecific.UI.Web
         [Find(Using.Web_Xpath, "//div[@class = 'catalog-menu__list']/a[. = 'Мобильные телефоны']")]
         public WebControl LinkMobilePhones;
 
-        public PageYandexMarketMain() : base("", "Яндекс.Маркет — выбор и покупка товаров из проверенных интернет-магазинов") { }
+        public PageYandexMarketMain() : base(string.Empty, "Яндекс.Маркет — выбор и покупка товаров из проверенных интернет-магазинов") { }
     }
 }

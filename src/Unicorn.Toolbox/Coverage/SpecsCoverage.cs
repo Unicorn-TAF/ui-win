@@ -17,7 +17,7 @@ namespace Unicorn.Toolbox.Coverage
 
         public void Analyze(List<SuiteInfo> suites)
         {
-            foreach(var module in this.Specs.Modules)
+            foreach (var module in this.Specs.Modules)
             {
                 module.Suites = suites.Where(s => s.Features.Intersect(module.Features).Any()).ToList();
             }

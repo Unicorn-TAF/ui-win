@@ -70,18 +70,6 @@ namespace Unicorn.UI.Web.Driver
             options = driverOptions;
         }
 
-        public void Get(string url)
-        {
-            Driver.Navigate().GoToUrl(url);
-        }
-
-        public object ExecuteJS(string script, params object[] parameters)
-        {
-            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
-            IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
-            return js.ExecuteScript(script, parameters);
-        }
-
         public static void Close()
         {
             Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, "Close driver");
@@ -93,6 +81,18 @@ namespace Unicorn.UI.Web.Driver
 
                 options = null;
             }
+        }
+
+        public void Get(string url)
+        {
+            Driver.Navigate().GoToUrl(url);
+        }
+
+        public object ExecuteJS(string script, params object[] parameters)
+        {
+            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
+            IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
+            return js.ExecuteScript(script, parameters);
         }
 
         private IWebDriver GetInstance()

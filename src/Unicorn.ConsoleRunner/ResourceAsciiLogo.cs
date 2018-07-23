@@ -1,5 +1,4 @@
-﻿
-namespace Unicorn.ConsoleRunner
+﻿namespace Unicorn.ConsoleRunner
 {
     public static class ResourceAsciiLogo
     {
@@ -9,7 +8,6 @@ namespace Unicorn.ConsoleRunner
         private static string line4 = @"'  '-'  '    |  | `   |    |  |    '  '--'\    '  '-'  '    |  |\  \     |  | `   |";
         private static string line5 = @" `-----'     `--'  `--'    `--'     `-----'     `-----'     `--' '--'    `--'  `--' ";
 
-        public static string Logo = $"{line1}\n{line2}\n{line3}\n{line4}\n{line5}";
-
+        public static string Logo => $"{line1}\n{line2}\n{line3}\n{line4}\n{line5}";
     }
 }

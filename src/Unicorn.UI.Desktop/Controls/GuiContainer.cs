@@ -47,7 +47,7 @@ namespace Unicorn.UI.Desktop.Controls
                 {
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
-                    ((GuiControl)control).Locator = (attributes[0]).Locator;
+                    ((GuiControl)control).Locator = attributes[0].Locator;
                     ((GuiControl)control).Cached = false;
                     ((GuiControl)control).ParentSearchContext = this;
 

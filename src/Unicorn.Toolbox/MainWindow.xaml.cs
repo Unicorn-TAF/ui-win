@@ -147,11 +147,11 @@ namespace Unicorn.Toolbox
 
             if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)
             {
-                Visualizer.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
+                VisualizerCircles.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
             }
             else
             {
-                VizualizerNew.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
+                VizualizerBars.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
             }
             
         }
@@ -192,11 +192,11 @@ namespace Unicorn.Toolbox
 
             if (checkBoxModern.IsChecked.HasValue && checkBoxModern.IsChecked.Value)
             {
-                Visualizer.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+                VisualizerCircles.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
             }
             else
             {
-                VizualizerNew.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+                VizualizerBars.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
             }
 
             
