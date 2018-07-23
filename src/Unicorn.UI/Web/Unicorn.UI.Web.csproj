@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D0CA51A3-65BC-4530-85D1-507CC042F3A5}</ProjectGuid>
+    <ProjectGuid>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicorn.UI.Desktop</RootNamespace>
-    <AssemblyName>Unicorn.UI.Desktop</AssemblyName>
+    <RootNamespace>Unicorn.UI.Web</RootNamespace>
+    <AssemblyName>Unicorn.UI.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,7 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\CodeRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -82,49 +82,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationClient" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="WebDriver">
+      <HintPath>..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Typified\Custom.cs" />
-    <Compile Include="Controls\Typified\DataGrid.cs" />
-    <Compile Include="Controls\Typified\Text.cs" />
-    <Compile Include="Controls\Typified\Hyperlink.cs" />
-    <Compile Include="Controls\Typified\ListView.cs" />
-    <Compile Include="Controls\Typified\DatePicker.cs" />
-    <Compile Include="Driver\GuiDriver.cs" />
-    <Compile Include="Driver\GuiSearchContext.cs" />
-    <Compile Include="Input\CoordinatesExtension.cs" />
-    <Compile Include="Input\Input.cs" />
-    <Compile Include="Input\Keyboard.cs" />
-    <Compile Include="Input\Mouse.cs" />
-    <Compile Include="Input\WindowsApi.cs" />
-    <Compile Include="PageObject\GuiControlExtension.cs" />
-    <Compile Include="PageObject\Application.cs" />
+    <Compile Include="BrowserType.cs" />
+    <Compile Include="Driver\WebDriver.cs" />
+    <Compile Include="Driver\WebSearchContext.cs" />
+    <Compile Include="PageObject\WebControlExtension.cs" />
+    <Compile Include="PageObject\WebPage.cs" />
+    <Compile Include="PageObject\WebSite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\Typified\Button.cs" />
-    <Compile Include="Controls\Typified\Checkbox.cs" />
-    <Compile Include="Controls\Typified\ListItem.cs" />
-    <Compile Include="Controls\Typified\MenuItem.cs" />
-    <Compile Include="Controls\Typified\Radio.cs" />
-    <Compile Include="Controls\Typified\TabItem.cs" />
-    <Compile Include="Controls\Typified\Dropdown.cs" />
-    <Compile Include="Controls\Typified\TextInput.cs" />
-    <Compile Include="Controls\Typified\Window.cs" />
-    <Compile Include="Controls\GuiContainer.cs" />
-    <Compile Include="Controls\GuiControl.cs" />
+    <Compile Include="Controls\WebContainer.cs" />
+    <Compile Include="Controls\WebControl.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
       <Name>Unicorn.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.UI.Core\Unicorn.UI.Core.csproj">
+    <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

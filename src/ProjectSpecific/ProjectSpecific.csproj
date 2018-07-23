@@ -81,19 +81,19 @@
       <Project>{3550FE3E-28F4-43E8-9789-57F53C4A3F95}</Project>
       <Name>Unicorn.ReportPortalAgent</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.UI.Core\Unicorn.UI.Core.csproj">
+    <ProjectReference Include="..\Unicorn.UI\Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.UI.Desktop\Unicorn.UI.Desktop.csproj">
+    <ProjectReference Include="..\Unicorn.UI\Desktop\Unicorn.UI.Desktop.csproj">
       <Project>{d0ca51a3-65bc-4530-85d1-507cc042f3a5}</Project>
       <Name>Unicorn.UI.Desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.UI.Web\Unicorn.UI.Web.csproj">
+    <ProjectReference Include="..\Unicorn.UI\Web\Unicorn.UI.Web.csproj">
       <Project>{a6e1ed9c-2b52-4b46-bc24-ccaf20bae7fb}</Project>
       <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicorn.UI.Mobile\Unicorn.UI.Mobile.csproj">
+    <ProjectReference Include="..\Unicorn.UI\Mobile\Unicorn.UI.Mobile.csproj">
       <Project>{A1B2390D-5BB2-4CE4-A6F1-8130A3570330}</Project>
       <Name>Unicorn.UI.Mobile</Name>
     </ProjectReference>
