@@ -80,6 +80,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Unicorn.ReportPortalAgent.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">

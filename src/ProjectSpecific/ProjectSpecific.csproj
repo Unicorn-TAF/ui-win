@@ -51,26 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BO\SampleObject.cs" />
-    <Compile Include="Steps\StepsiOS.cs" />
-    <Compile Include="Steps\StepsAndroid.cs" />
-    <Compile Include="Steps\StepsUI.cs" />
-    <Compile Include="TestEnvironment.cs" />
-    <Compile Include="UI\Gui\FakeWindow.cs" />
-    <Compile Include="UI\Gui\WindowCharMap.cs" />
-    <Compile Include="NUnitTestRunner.cs" />
-    <Compile Include="Steps\Steps.cs" />
-    <Compile Include="UI\CharmapApplication.cs" />
-    <Compile Include="UI\YandexMarketSite.cs" />
-    <Compile Include="UI\Web\PageYandexMarketMain.cs" />
-    <Compile Include="Util\ConsoleLogger.cs" />
-    <Compile Include="Util\TestContextLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\StepsCharMap.cs" />
-    <Compile Include="Steps\StepsYandexMarket.cs" />
-    <Compile Include="Steps\TestingSteps.cs" />
-    <Compile Include="Util\SimpleReporter.cs" />
-    <Compile Include="UI\Web\YandexTopMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
@@ -103,9 +84,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Mobile\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
