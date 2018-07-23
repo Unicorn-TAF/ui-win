@@ -64,6 +64,7 @@ namespace Unicorn.ReportPortalAgent
                 case Core.Logging.LogLevel.Info:
                     return ReportPortal.Client.Models.LogLevel.Info;
             }
+
             throw new NotSupportedException($"Log level {level} is not supported");
         }
     }

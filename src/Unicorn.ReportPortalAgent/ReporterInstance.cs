@@ -1,9 +1,9 @@
-﻿using Unicorn.Core.Logging;
-using Unicorn.Core.Reporting;
-using Unicorn.Core.Testing.Tests;
-using Unicorn.Core.Testing.Steps;
+﻿using System.IO;
 using System.Reflection;
-using System.IO;
+using Unicorn.Core.Logging;
+using Unicorn.Core.Reporting;
+using Unicorn.Core.Testing.Steps;
+using Unicorn.Core.Testing.Tests;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -46,7 +46,7 @@ namespace Unicorn.ReportPortalAgent
         {
             string info = TestSteps.GetStepInfo(method, arguments);
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
-            //this.listener.ReportTestOutput(info);
+            ////this.listener.ReportTestOutput(info);
         }
 
         public void ReportInfo(string info)
@@ -91,6 +91,5 @@ namespace Unicorn.ReportPortalAgent
             Screenshot.TakeScreenshot(screenshotName);
             test.Outcome.Screenshot = screenshotName + ".Jpeg";
         }
-
     }
 }
