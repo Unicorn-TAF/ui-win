@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Unicorn.Toolbox")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPAM Systems")]
-[assembly: AssemblyProduct("Unicorn.Toolbox")]
-[assembly: AssemblyCopyright("Copyright © EPAM Systems 2018")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Unicorn")]
+[assembly: AssemblyCopyright("Copyright © Vitaliy Dobriyan 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
