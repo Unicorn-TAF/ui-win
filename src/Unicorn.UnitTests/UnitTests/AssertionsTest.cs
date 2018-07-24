@@ -22,5 +22,14 @@ namespace Unicorn.UnitTests.Tests
                 assert.AssertAll();
             });
         }
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestAssertion()
+        {
+            NUnit.Framework.Assert.Throws<AssertionError>(delegate
+            {
+                Core.Testing.Verification.Assert.That("as2d", EqualTo("asd"));
+            });
+        }
     }
 }

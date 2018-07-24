@@ -20,13 +20,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType Type => ControlType.ComboBox;
 
-        public bool Expanded
-        {
-            get
-            {
-                return GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState == ExpandCollapseState.Expanded;
-            }
-        }
+        public bool Expanded => GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
 
         public string SelectedValue
         {
@@ -39,7 +33,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
                     if (item != null)
                     {
-                        return GetAttribute("text");
+                        return item.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
                     }
                 }
 

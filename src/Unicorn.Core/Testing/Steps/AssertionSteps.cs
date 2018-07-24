@@ -7,7 +7,7 @@ using Unicorn.Core.Testing.Verification.Matchers;
 namespace Unicorn.Core.Testing.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
-    public class AssertionSteps : TestSteps
+    public class AssertionSteps
     {
         private Verify softAssertion = null;
 

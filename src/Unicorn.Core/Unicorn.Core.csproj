@@ -3,7 +3,7 @@
   <Import Project="..\packages\AspectInjector.0.9.44\build\AspectInjector.props" Condition="Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DDE87224-BFF6-4ABD-879E-1C5316124536}</ProjectGuid>
     <OutputType>Library</OutputType>
