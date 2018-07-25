@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium;
 using Unicorn.UI.Mobile.Android.Controls;
 using Unicorn.UI.Mobile.Base.Driver;
+using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Android.Driver
 {
@@ -14,12 +15,12 @@ namespace Unicorn.UI.Mobile.Android.Driver
             AndroidDriver.Instance.ImplicitlyWait = timeout;
         }
 
-        protected override T Wrap<T>(AppiumWebElement elementToWrap)
+        protected override T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator)
         {
             T wrapper = Activator.CreateInstance<T>();
             ((AndroidControl)(object)wrapper).Instance = elementToWrap;
-            ((AndroidControl)(object)wrapper).ParentContext = this.SearchContext;
-
+            ((AndroidControl)(object)wrapper).ParentSearchContext = this;
+            ((AndroidControl)(object)wrapper).Locator = locator;
             return wrapper;
         }
     }

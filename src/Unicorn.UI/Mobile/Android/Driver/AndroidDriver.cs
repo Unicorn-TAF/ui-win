@@ -77,9 +77,15 @@ namespace Unicorn.UI.Mobile.Android.Driver
             Driver.Navigate().GoToUrl(path);
         }
 
-        public void Close()
+        public static void Close()
         {
-            throw new NotImplementedException();
+            Logger.Instance.Log(LogLevel.Debug, "Close driver");
+
+            if (instance != null)
+            {
+                Driver.Quit();
+                instance = null;
+            }
         }
     }
 }

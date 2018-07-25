@@ -4,25 +4,22 @@ using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Driver;
+using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Mobile.Android.Controls
 {
     public class AndroidControl : AndroidSearchContext, IControl
     {
-        private bool cached = true;
-
-        public bool Cached
+        public AndroidControl()
         {
-            get
-            {
-                return this.cached;
-            }
-
-            set
-            {
-                this.cached = value;
-            }
         }
+
+        public AndroidControl(AppiumWebElement instance)
+        {
+            this.Instance = instance;
+        }
+
+        public bool Cached { get; set; } = true;
 
         public ByLocator Locator { get; set; }
 
@@ -41,45 +38,15 @@ namespace Unicorn.UI.Mobile.Android.Controls
             }
         }
 
-        public bool Visible
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Visible => this.Instance.Displayed;
 
-        public bool Enabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Enabled => this.Instance.Enabled;
 
-        public string Text
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Text => this.Instance.Text;
 
-        public Point Location
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Point Location => this.Instance.Location;
 
-        public Rectangle BoundingRectangle
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Rectangle BoundingRectangle => new Rectangle(this.Location, this.Instance.Size);
 
         protected override AppiumWebElement SearchContext
         {
@@ -106,6 +73,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
 
         public void Click()
         {
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
             this.Instance.Click();
         }
 
@@ -116,7 +84,12 @@ namespace Unicorn.UI.Mobile.Android.Controls
 
         public string GetAttribute(string attribute)
         {
-            throw new NotImplementedException();
+            return this.Instance.GetAttribute(attribute);
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
         }
     }
 }

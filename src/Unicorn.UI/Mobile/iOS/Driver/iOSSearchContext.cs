@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium;
 using Unicorn.UI.Mobile.Base.Driver;
 using Unicorn.UI.Mobile.IOS.Controls;
+using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.IOS.Driver
 {
@@ -16,12 +17,12 @@ namespace Unicorn.UI.Mobile.IOS.Driver
             IOSDriver.Instance.ImplicitlyWait = timeout;
         }
 
-        protected override T Wrap<T>(AppiumWebElement elementToWrap)
+        protected override T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator)
         {
             T wrapper = Activator.CreateInstance<T>();
             ((IOSControl)(object)wrapper).Instance = elementToWrap;
-            ((IOSControl)(object)wrapper).ParentContext = this.SearchContext;
-
+            ((IOSControl)(object)wrapper).ParentSearchContext = this;
+            ((IOSControl)(object)wrapper).Locator = locator;
             return wrapper;
         }
 

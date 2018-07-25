@@ -9,7 +9,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 {
     public abstract class MobileSearchContext : UISearchContext
     {
-        public AppiumWebElement ParentContext { get; set; }
+        public MobileSearchContext ParentSearchContext { get; set; }
 
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
@@ -18,7 +18,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             AppiumWebElement elementToWrap = GetNativeControl(locator);
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, locator);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -28,7 +28,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -37,7 +37,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.Web_Xpath, "./*"))[0];
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, null);
         }
 
         protected AppiumWebElement GetNativeControl(ByLocator locator)
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
         protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
-            return GetNativeControlFromContext(locator, this.ParentContext);
+            return GetNativeControlFromContext(locator, this.ParentSearchContext.SearchContext);
         }
 
         protected IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
@@ -86,7 +86,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
             }
         }
 
-        protected abstract T Wrap<T>(AppiumWebElement elementToWrap);
+        protected abstract T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator);
 
         private AppiumWebElement GetNativeControlFromContext(ByLocator locator, AppiumWebElement context)
         {

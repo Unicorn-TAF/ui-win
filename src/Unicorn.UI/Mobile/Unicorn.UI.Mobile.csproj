@@ -60,17 +60,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Android\Controls\AndroidContainer.cs" />
     <Compile Include="Android\Controls\AndroidControl.cs" />
+    <Compile Include="Android\PageObject\AndroidApplication.cs" />
+    <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
     <Compile Include="Base\Driver\MobileSearchContext.cs" />
     <Compile Include="iOS\Controls\IOSControl.cs" />
     <Compile Include="iOS\Driver\IOSDriver.cs" />
     <Compile Include="iOS\Driver\IOSSearchContext.cs" />
     <Compile Include="Android\Driver\AndroidDriver.cs" />
     <Compile Include="Android\Driver\AndroidSearchContext.cs" />
+    <Compile Include="iOS\PageObject\IOSControlExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Unicorn.UI.Mobile.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unicorn.Core\Unicorn.Core.csproj">
@@ -82,6 +87,7 @@
       <Name>Unicorn.UI.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
