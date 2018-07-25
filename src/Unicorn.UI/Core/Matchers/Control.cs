@@ -18,5 +18,10 @@ namespace Unicorn.UI.Core.Matchers
         {
             return new ControlVisibleMatcher();
         }
+
+        public static ControlHasTextMatcher HasText(string expectedText)
+        {
+            return new ControlHasTextMatcher(expectedText);
+        }
     }
 }

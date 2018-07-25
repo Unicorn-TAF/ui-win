@@ -94,6 +94,7 @@
     <Compile Include="Driver\UISearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
     <Compile Include="Matchers\Checkbox.cs" />
+    <Compile Include="Matchers\IControlMatchers\ControlHasTextMatcher.cs" />
     <Compile Include="Matchers\Table.cs" />
     <Compile Include="Matchers\Dropdown.cs" />
     <Compile Include="Matchers\Control.cs" />
