@@ -26,7 +26,7 @@ namespace Unicorn.UI.Desktop.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             var elementToWrap = GetNativeControl<T>(locator);
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, locator);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -36,7 +36,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             foreach (AutomationElement elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -58,7 +58,7 @@ namespace Unicorn.UI.Desktop.Driver
                 throw new ControlNotFoundException($"Unable to find child {typeof(T)}");
             }
 
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, null);
         }
 
         protected AutomationElement GetNativeControl<T>(ByLocator locator)
@@ -149,12 +149,12 @@ namespace Unicorn.UI.Desktop.Driver
             return new AndCondition(classCondition, typeCondition, locatorCondition);
         }
 
-        private T Wrap<T>(AutomationElement elementToWrap)
+        private T Wrap<T>(AutomationElement elementToWrap, ByLocator locator)
         {
             T wrapper = Activator.CreateInstance<T>();
             ((GuiControl)(object)wrapper).Instance = elementToWrap;
             ((GuiControl)(object)wrapper).ParentSearchContext = this;
-
+            ((GuiControl)(object)wrapper).Locator = locator;
             return wrapper;
         }
         
