@@ -9,7 +9,7 @@ namespace Unicorn.UI.Web.Driver
 {
     public abstract class WebSearchContext : UISearchContext
     {
-        public OpenQA.Selenium.ISearchContext ParentContext { get; set; }
+        public WebSearchContext ParentSearchContext { get; set; }
 
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
@@ -22,7 +22,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             IWebElement elementToWrap = GetNativeControl(locator);
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, locator);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -32,7 +32,7 @@ namespace Unicorn.UI.Web.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap));
+                controlsList.Add(this.Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -41,7 +41,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.Web_Xpath, "./*"))[0];
-            return this.Wrap<T>(elementToWrap);
+            return this.Wrap<T>(elementToWrap, null);
         }
 
         protected IWebElement GetNativeControl(ByLocator locator)
@@ -51,7 +51,7 @@ namespace Unicorn.UI.Web.Driver
 
         protected IWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
-            return GetNativeControlFromContext(locator, this.ParentContext);
+            return GetNativeControlFromContext(locator, this.ParentSearchContext.SearchContext);
         }
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
@@ -109,12 +109,12 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        private T Wrap<T>(IWebElement elementToWrap)
+        private T Wrap<T>(IWebElement elementToWrap, ByLocator locator)
         {
             T wrapper = Activator.CreateInstance<T>();
             ((WebControl)(object)wrapper).Instance = elementToWrap;
-            ((WebControl)(object)wrapper).ParentContext = this.SearchContext;
-
+            ((WebControl)(object)wrapper).ParentSearchContext = this;
+            ((WebControl)(object)wrapper).Locator = locator;
             return wrapper;
         }
 

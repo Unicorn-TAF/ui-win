@@ -15,21 +15,21 @@ namespace Unicorn.UI.Web.Controls
         {
         }
 
-        protected override ISearchContext SearchContext
+        public override IWebElement Instance
         {
             get
             {
                 if (!this.Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(this.Locator);
+                    this.SearchContext = GetNativeControlFromParentContext(this.Locator);
                 }
 
-                return base.SearchContext;
+                return (IWebElement)this.SearchContext;
             }
 
             set
             {
-                base.SearchContext = value;
+                this.SearchContext = value;
                 this.Init();
             }
         }
@@ -46,7 +46,7 @@ namespace Unicorn.UI.Web.Controls
                     var control = Activator.CreateInstance(controlType);
                     ((WebControl)control).Locator = attributes[0].Locator;
                     ((WebControl)control).Cached = false;
-                    ((WebControl)control).ParentContext = this.SearchContext;
+                    ((WebControl)control).ParentSearchContext = this;
 
                     var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
 
