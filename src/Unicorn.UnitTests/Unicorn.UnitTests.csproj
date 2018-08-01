@@ -114,18 +114,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
+    <Compile Include="Gui\CharmapApplication.cs" />
+    <Compile Include="Gui\WindowCharMap.cs" />
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
-    <Compile Include="TestData\BaseTestSuite.cs" />
-    <Compile Include="TestData\ParameterizedSuite.cs" />
-    <Compile Include="TestData\SuiteForTimeouts.cs" />
-    <Compile Include="TestData\Suite.cs" />
-    <Compile Include="TestData\SuiteForReporting.cs" />
-    <Compile Include="TestData\SuiteToBeSkipped.cs" />
+    <Compile Include="Suites\BaseTestSuite.cs" />
+    <Compile Include="Suites\ParameterizedSuite.cs" />
+    <Compile Include="Suites\SuiteForTimeouts.cs" />
+    <Compile Include="Suites\Suite.cs" />
+    <Compile Include="Suites\SuiteForReporting.cs" />
+    <Compile Include="Suites\SuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\AssertionsTest.cs" />
     <Compile Include="UnitTests\MatchersTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\ParameterizedTestSuiteTest.cs" />
+    <Compile Include="UnitTests\GuiTests.cs" />
     <Compile Include="UnitTests\TestsObserverTests.cs" />
     <Compile Include="UnitTests\RunTimeoutsTests.cs" />
     <Compile Include="UnitTests\TestSuiteTest.cs" />

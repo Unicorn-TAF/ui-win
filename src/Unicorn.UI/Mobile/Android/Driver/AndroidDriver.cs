@@ -72,11 +72,6 @@ namespace Unicorn.UI.Mobile.Android.Driver
             }
         }
 
-        public void Get(string path)
-        {
-            Driver.Navigate().GoToUrl(path);
-        }
-
         public static void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, "Close driver");
@@ -86,6 +81,11 @@ namespace Unicorn.UI.Mobile.Android.Driver
                 Driver.Quit();
                 instance = null;
             }
+        }
+
+        public void Get(string path)
+        {
+            Driver.Navigate().GoToUrl(path);
         }
     }
 }

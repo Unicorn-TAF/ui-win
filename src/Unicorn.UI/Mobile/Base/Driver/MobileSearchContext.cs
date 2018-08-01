@@ -7,10 +7,8 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Base.Driver
 {
-    public abstract class MobileSearchContext : UISearchContext
+    public abstract class MobileSearchContext : UISearchContext<MobileSearchContext>
     {
-        public MobileSearchContext ParentSearchContext { get; set; }
-
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
         protected virtual AppiumWebElement SearchContext { get; set; }

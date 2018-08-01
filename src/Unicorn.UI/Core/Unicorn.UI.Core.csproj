@@ -106,6 +106,7 @@
     <Compile Include="Matchers\TypifiedMatchers\TableHasRowMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\DropdownHasSelectedValue.cs" />
     <Compile Include="Matchers\TypifiedMatchers\CheckboxCheckedMatcher.cs" />
+    <Compile Include="PageObject\ContainerFactory.cs" />
     <Compile Include="PageObject\FindAttribute.cs" />
     <Compile Include="PageObject\NameAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

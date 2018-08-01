@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium.Appium;
 using System;
-using System.Reflection;
 using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Mobile.Android.Controls
@@ -30,38 +29,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
             set
             {
                 this.SearchContext = value;
-                this.Init();
-            }
-        }
-
-        public void Init()
-        {
-            FieldInfo[] fields = GetType().GetFields();
-            foreach (FieldInfo field in fields)
-            {
-                var attributes = field.GetCustomAttributes(typeof(FindAttribute), true) as FindAttribute[];
-                if (attributes.Length != 0)
-                {
-                    Type controlType = field.FieldType;
-                    var control = Activator.CreateInstance(controlType);
-                    ((AndroidControl)control).Locator = attributes[0].Locator;
-                    ((AndroidControl)control).Cached = false;
-                    ((AndroidControl)control).ParentSearchContext = this;
-
-                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
-
-                    if (nameAttribute != null)
-                    {
-                        ((AndroidControl)control).Name = nameAttribute.Name;
-                    }
-
-                    if (controlType.IsSubclassOf(typeof(AndroidContainer)))
-                    {
-                        ((AndroidContainer)control).Init();
-                    }
-
-                    field.SetValue(this, control);
-                }
+                ContainerFactory.InitContainer(this);
             }
         }
 

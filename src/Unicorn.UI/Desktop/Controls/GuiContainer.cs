@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Automation;
+﻿using System.Windows.Automation;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
@@ -33,38 +31,7 @@ namespace Unicorn.UI.Desktop.Controls
             set
             {
                 this.SearchContext = value;
-                this.Init();
-            }
-        }
-
-        public void Init()
-        {
-            FieldInfo[] fields = GetType().GetFields();
-            foreach (FieldInfo field in fields)
-            {
-                var attributes = field.GetCustomAttributes(typeof(FindAttribute), true) as FindAttribute[];
-                if (attributes.Length != 0)
-                {
-                    Type controlType = field.FieldType;
-                    var control = Activator.CreateInstance(controlType);
-                    ((GuiControl)control).Locator = attributes[0].Locator;
-                    ((GuiControl)control).Cached = false;
-                    ((GuiControl)control).ParentSearchContext = this;
-
-                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
-
-                    if (nameAttribute != null)
-                    {
-                        ((GuiControl)control).Name = nameAttribute.Name;
-                    }
-
-                    if (controlType.IsSubclassOf(typeof(GuiContainer)))
-                    {
-                        ((GuiContainer)control).Init();
-                    }
-
-                    field.SetValue(this, control);
-                }
+                ContainerFactory.InitContainer(this);
             }
         }
 

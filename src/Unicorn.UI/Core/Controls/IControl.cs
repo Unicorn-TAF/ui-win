@@ -5,6 +5,8 @@ namespace Unicorn.UI.Core.Controls
 {
     public interface IControl
     {
+        bool Cached { get; set; }
+
         /// <summary>
         /// Gets or sets element locator
         /// </summary>

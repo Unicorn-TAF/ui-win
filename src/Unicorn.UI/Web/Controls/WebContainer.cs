@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using OpenQA.Selenium;
 using Unicorn.UI.Core.PageObject;
 
@@ -30,38 +29,7 @@ namespace Unicorn.UI.Web.Controls
             set
             {
                 this.SearchContext = value;
-                this.Init();
-            }
-        }
-
-        public void Init()
-        {
-            FieldInfo[] fields = GetType().GetFields();
-            foreach (FieldInfo field in fields)
-            {
-                var attributes = field.GetCustomAttributes(typeof(FindAttribute), true) as FindAttribute[];
-                if (attributes.Length != 0)
-                {
-                    Type controlType = field.FieldType;
-                    var control = Activator.CreateInstance(controlType);
-                    ((WebControl)control).Locator = attributes[0].Locator;
-                    ((WebControl)control).Cached = false;
-                    ((WebControl)control).ParentSearchContext = this;
-
-                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
-
-                    if (nameAttribute != null)
-                    {
-                        ((WebControl)control).Name = nameAttribute.Name;
-                    }
-
-                    if (controlType.IsSubclassOf(typeof(WebContainer)))
-                    {
-                        ((WebContainer)control).Init();
-                    }
-                    
-                    field.SetValue(this, control);
-                }
+                ContainerFactory.InitContainer(this);
             }
         }
 

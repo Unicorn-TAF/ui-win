@@ -21,7 +21,6 @@ namespace Unicorn.UI.Mobile.Android.PageObject
             capabilities.Add("appActivity", $"{this.AppPackage}.{this.AppActivity}");
             capabilities.Add("platformName", this.PlatformName);
 
-
             AndroidDriver.Init(hubUrl, capabilities);
         }
 

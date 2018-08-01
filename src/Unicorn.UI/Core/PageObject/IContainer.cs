@@ -2,8 +2,6 @@
 {
     public interface IContainer
     {
-        void Init();
-
         void ClickButton(string locator);
 
         bool SelectRadio(string locator);

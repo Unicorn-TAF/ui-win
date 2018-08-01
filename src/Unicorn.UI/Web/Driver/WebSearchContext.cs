@@ -7,10 +7,8 @@ using Unicorn.UI.Web.Controls;
 
 namespace Unicorn.UI.Web.Driver
 {
-    public abstract class WebSearchContext : UISearchContext
+    public abstract class WebSearchContext : UISearchContext<WebSearchContext>
     {
-        public WebSearchContext ParentSearchContext { get; set; }
-
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }

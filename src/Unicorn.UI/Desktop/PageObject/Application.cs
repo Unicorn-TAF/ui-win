@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Automation;
 using Unicorn.Core.Logging;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Controls;
 using Unicorn.UI.Desktop.Controls.Typified;
 using Unicorn.UI.Desktop.Driver;
@@ -13,7 +14,7 @@ namespace Unicorn.UI.Desktop.PageObject
         protected Application(string path, string exeName)
         {
             this.SearchContext = GuiDriver.Instance.SearchContext as AutomationElement;
-            Init();
+            ContainerFactory.InitContainer(this);
             this.Path = path;
             this.ExeName = exeName;
         }

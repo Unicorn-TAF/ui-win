@@ -3,7 +3,7 @@ using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.UnitTests.TestData
+namespace Unicorn.UnitTests.Suites
 {
     [TestSuite("Suite for timeouts")]
     [Feature("timeouts")]

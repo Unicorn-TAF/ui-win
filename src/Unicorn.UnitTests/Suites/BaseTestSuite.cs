@@ -2,7 +2,7 @@
 using Unicorn.UnitTests.Steps;
 using Unicorn.Core.Testing.Tests;
 
-namespace Unicorn.UnitTests.TestData
+namespace Unicorn.UnitTests.Suites
 {
     public class BaseTestSuite : TestSuite
     {

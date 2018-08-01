@@ -9,11 +9,9 @@ using Unicorn.UI.Desktop.Controls;
 
 namespace Unicorn.UI.Desktop.Driver
 {
-    public abstract class GuiSearchContext : UISearchContext
+    public abstract class GuiSearchContext : UISearchContext<GuiSearchContext>
     {
         private const int SearchDelay = 50;
-
-        public GuiSearchContext ParentSearchContext { get; set; }
 
         public virtual AutomationElement SearchContext { get; set; }
 

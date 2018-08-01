@@ -1,4 +1,5 @@
-﻿using Unicorn.UI.Web.Controls;
+﻿using Unicorn.UI.Core.PageObject;
+using Unicorn.UI.Web.Controls;
 using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.PageObject
@@ -8,7 +9,7 @@ namespace Unicorn.UI.Web.PageObject
         protected WebPage(string url, string title)
         {
             this.SearchContext = WebDriver.Driver as OpenQA.Selenium.ISearchContext;
-            Init();
+            ContainerFactory.InitContainer(this);
             this.Url = url;
             this.Title = title;
         }

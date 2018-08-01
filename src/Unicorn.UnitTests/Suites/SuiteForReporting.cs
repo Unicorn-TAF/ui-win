@@ -1,86 +1,80 @@
-﻿using Unicorn.UnitTests.BO;
+﻿using System.Threading;
+using Unicorn.UnitTests.BO;
+using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.UnitTests.TestData
+namespace Unicorn.UnitTests.Suites
 {
-    [TestSuite("Tests (all skipped)")]
-    [Feature("Skipping")]
-    public class SuiteToBeSkipped : BaseTestSuite
+    [TestSuite("Tests for reporting")]
+    [Feature("Reporting")]
+    public class SuiteForReporting : BaseTestSuite
     {
-        public static string Output { get; set; }
-
         [BeforeSuite]
         public void BeforeSuite()
         {
-            Output += "BeforeSuite";
+            Thread.Sleep(1);
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
-            Output += "BeforeTest";
+            Thread.Sleep(1);
         }
 
         [Test]
-        [Category("someCategory"), Category("thirdCategory")]
         public void Test2()
         {
-            Output += "Test2";
             Do.Testing.FirstTestStep();
         }
 
-        [Disable]
         [Test]
+        [Disable]
         public void TestToSkip()
         {
-            Output += "TestToSkip";
             Do.Testing.Say("a");
         }
 
         [Test]
-        [Category("someCategory"), Category("anotherCategory")]
         public void Test1()
         {
-            Output += "Test1";
             Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Disable]
         [Test]
         public void Test23()
         {
-            Output += "Test23";
-            Bug("871236").Testing.Say("a");
+            Bug("2343").Testing.Say("a");
         }
 
         [Test]
-        [Category("someCategory")]
+        public void Test53()
+        {
+            Bug("234").Testing.StepWhichSouldFail(new SampleObject());
+        }
+
+        [Test]
         public void Test33()
         {
-            Output += "Test33";
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Disable]
         [Test]
-        [Category("someCategory")]
         public void Test43()
         {
-            Output += "Test43";
-            Bug("871236").Testing.Say("a");
+            Bug("8716").Testing.Say("a");
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
         [AfterTest]
         public void AfterTest()
         {
-            Output += "AfterTest";
+            Thread.Sleep(1);
         }
 
         [AfterSuite]
         public void AfterSuite()
         {
-            Output += "AfterSuite";
+            Thread.Sleep(1);
         }
     }
 }

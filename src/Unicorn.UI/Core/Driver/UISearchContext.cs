@@ -4,8 +4,10 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Driver
 {
-    public abstract class UISearchContext : ISearchContext
+    public abstract class UISearchContext<U> : ISearchContext where U : UISearchContext<U>
     {
+        public U ParentSearchContext { get; set; }
+
         protected TimeSpan TimeoutDefault => TimeSpan.FromSeconds(30);
 
         protected abstract Type ControlsBaseType
