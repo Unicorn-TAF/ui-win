@@ -115,7 +115,8 @@ namespace Unicorn.Toolbox.Visualization
                 new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
                 label.FontSize,
                 label.Foreground,
-                new NumberSubstitution(), TextFormattingMode.Display);
+                new NumberSubstitution(), 
+                TextFormattingMode.Display);
 
             label.Foreground = formattedText.Width > width ? palette.FontColor : palette.DataFontColor;
 

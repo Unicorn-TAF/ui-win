@@ -14,9 +14,9 @@ namespace Unicorn.Toolbox.Analysis
 
         public Analyzer(Assembly assembly, string fileName)
         {
-            assemblyDir = Path.GetDirectoryName(fileName);
-            AssemblyFile = Path.GetFileName(fileName);
-            AssemblyName = assembly.FullName;
+            this.assemblyDir = Path.GetDirectoryName(fileName);
+            this.AssemblyFile = Path.GetFileName(fileName);
+            this.AssemblyName = assembly.FullName;
 
             this.Data = new AutomationData();
         }

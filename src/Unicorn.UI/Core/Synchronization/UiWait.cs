@@ -16,7 +16,6 @@ namespace Unicorn.UI.Core.Synchronization
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        /// <param name="clock">The clock to use when measuring the timeout.</param>
         public UiWait(T input) : base(input)
         {
         }
@@ -25,7 +24,8 @@ namespace Unicorn.UI.Core.Synchronization
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        /// <param name="clock">The clock to use when measuring the timeout.</param>
+        /// <param name="attribute">ui control attribute name</param>
+        /// <param name="value">ui control attribute value</param>
         public UiWait(T input, string attribute, string value) : base(input)
         {
             this.attribute = attribute;

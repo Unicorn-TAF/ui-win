@@ -96,6 +96,7 @@ namespace Unicorn.Toolbox.Visualization
 
                             stats.Add(feature, tests.Sum(t => t.Count));
                         }
+
                         return stats;
                     }
                 case FilterType.Category:
@@ -108,6 +109,7 @@ namespace Unicorn.Toolbox.Visualization
 
                             stats.Add(category, tests.Sum(t => t.Count()));
                         }
+
                         return stats;
                     }
                 case FilterType.Author:
@@ -120,6 +122,7 @@ namespace Unicorn.Toolbox.Visualization
 
                             stats.Add(author, tests.Sum(t => t.Count()));
                         }
+
                         return stats;
                     }
             }
@@ -175,7 +178,8 @@ namespace Unicorn.Toolbox.Visualization
                 new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
                 label.FontSize,
                 Brushes.Black,
-                new NumberSubstitution(), TextFormattingMode.Display);
+                new NumberSubstitution(), 
+                TextFormattingMode.Display);
 
             label.Foreground = formattedText.Width > radius * 2 ? palette.FontColor : palette.DataFontColor;
 

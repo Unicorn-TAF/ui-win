@@ -174,10 +174,12 @@ namespace Unicorn.Toolbox
             if (tabFeaures.IsSelected)
             {
                 return FilterType.Feature;
-            } else if (tabCategories.IsSelected)
+            }
+            else if (tabCategories.IsSelected)
             {
                 return FilterType.Category;
-            } else
+            }
+            else
             {
                 return FilterType.Author;
             }
@@ -198,8 +200,6 @@ namespace Unicorn.Toolbox
             {
                 VizualizerBars.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
             }
-
-            
         }
     }
 }

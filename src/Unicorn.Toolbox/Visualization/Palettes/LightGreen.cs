@@ -20,7 +20,7 @@ namespace Unicorn.Toolbox.Visualization
             dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F1F8E9")));
         }
 
-        private Brush backColor = Brushes.White;////new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
+        private Brush backColor = Brushes.White; ////new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
 
         private Brush fontColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#111"));
 
