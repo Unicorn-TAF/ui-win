@@ -2,13 +2,13 @@
 
 namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 {
-    public class NotMatcher : Matcher
+    public class TypeSafeNotMatcher<T> : TypeSafeMatcher<T>
     {
-        private Matcher matcher;
+        private TypeSafeMatcher<T> matcher;
 
-        public NotMatcher(Matcher matcher)
+        public TypeSafeNotMatcher(TypeSafeMatcher<T> matcher)
         {
-            PropertyInfo partOfNotMatcherField = typeof(Matcher).GetProperty(
+            PropertyInfo partOfNotMatcherField = typeof(TypeSafeMatcher<T>).GetProperty(
                 "Reverse",
                 BindingFlags.NonPublic | BindingFlags.Instance);
             partOfNotMatcherField.SetValue(matcher, true);
@@ -18,14 +18,14 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 
         public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
-        public override bool Matches(object obj)
+        public override bool Matches(T actual)
         {
-            if (this.matcher.Matches(obj))
+            if (this.matcher.Matches(actual))
             {
                 this.MatcherOutput.Append(this.matcher.MatcherOutput);
                 return false;
             }
-            
+
             return true;
         }
     }

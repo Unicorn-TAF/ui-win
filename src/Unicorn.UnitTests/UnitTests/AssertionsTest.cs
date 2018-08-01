@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Unicorn.UnitTests.BO;
 using Unicorn.Core.Testing.Verification;
 using static Unicorn.Core.Testing.Verification.Matchers.Is;
+using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Tests
 {

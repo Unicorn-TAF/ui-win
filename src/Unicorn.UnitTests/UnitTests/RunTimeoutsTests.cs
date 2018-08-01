@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using NUnit.Framework;
-using Unicorn.UnitTests.Util;
 using Unicorn.Core.Testing.Tests.Adapter;
+using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Tests
 {

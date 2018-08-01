@@ -43,7 +43,6 @@ namespace Unicorn.Toolbox.Analysis
 
                     info.SetTestInfo((filter as ITestsFilter).FilterTests(info.TestsInfos));
                     this.FilteredInfo[i] = info;
-
                 }
             }
         }

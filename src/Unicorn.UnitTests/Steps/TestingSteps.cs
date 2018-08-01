@@ -1,9 +1,9 @@
 ﻿using System;
 using AspectInjector.Broker;
-using Unicorn.UnitTests.BO;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Steps;
 using Unicorn.Core.Testing.Steps.Attributes;
+using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Steps
 {

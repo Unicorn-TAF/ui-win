@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Unicorn.Toolbox.Analysis;
 
 namespace Unicorn.Toolbox.Coverage
@@ -11,7 +11,7 @@ namespace Unicorn.Toolbox.Coverage
         private string name;
 
         [JsonProperty("features")]
-        public List<string> features;
+        private List<string> features;
 
         [JsonIgnore]
         public string Name => name.ToUpper();

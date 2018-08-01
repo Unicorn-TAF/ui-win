@@ -1,8 +1,8 @@
 ﻿using System;
 using OpenQA.Selenium.Appium;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Base.Driver;
 using Unicorn.UI.Mobile.IOS.Controls;
-using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.IOS.Driver
 {

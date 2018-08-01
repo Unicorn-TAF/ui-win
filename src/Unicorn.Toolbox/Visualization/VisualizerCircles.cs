@@ -99,6 +99,7 @@ namespace Unicorn.Toolbox.Visualization
 
                         return stats;
                     }
+
                 case FilterType.Category:
                     {
                         foreach (var category in data.UniqueCategories)
@@ -112,6 +113,7 @@ namespace Unicorn.Toolbox.Visualization
 
                         return stats;
                     }
+
                 case FilterType.Author:
                     {
                         foreach (var author in data.UniqueAuthors)
@@ -148,7 +150,7 @@ namespace Unicorn.Toolbox.Visualization
             rects.Add(rect);
 
             double colorIndexStep = (double)palette.DataColors.Count / featuresCount;
-            int currentColorIndex = (int)((index + 1) * colorIndexStep - 1);
+            int currentColorIndex = (int)(((index + 1) * colorIndexStep) - 1);
 
             var ellipse = new Ellipse()
             {
@@ -184,8 +186,8 @@ namespace Unicorn.Toolbox.Visualization
             label.Foreground = formattedText.Width > radius * 2 ? palette.FontColor : palette.DataFontColor;
 
             canvas.Children.Add(label);
-            Canvas.SetLeft(label, x - formattedText.Width / 2);
-            Canvas.SetTop(label, y - formattedText.Height / 2);
+            Canvas.SetLeft(label, x - (formattedText.Width / 2));
+            Canvas.SetTop(label, y - (formattedText.Height / 2));
         }
 
         private static int CalculateRadius(int capacity, int max, int count, int canvasSize)

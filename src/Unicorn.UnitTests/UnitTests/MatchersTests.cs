@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Unicorn.UnitTests.BO;
 using Unicorn.Core.Testing.Verification.Matchers;
 using static Unicorn.Core.Testing.Verification.Matchers.Is;
-using System;
+using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Tests
 {

@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium.Appium;
-using System;
+﻿using System;
+using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Mobile.Android.Controls

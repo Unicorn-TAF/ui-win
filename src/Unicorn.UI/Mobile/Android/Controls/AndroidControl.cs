@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using OpenQA.Selenium.Appium;
+using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Driver;
-using Unicorn.Core.Logging;
 
 namespace Unicorn.UI.Mobile.Android.Controls
 {

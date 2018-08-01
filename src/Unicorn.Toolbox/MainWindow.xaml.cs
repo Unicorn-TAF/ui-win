@@ -1,10 +1,10 @@
-﻿using Microsoft.Win32;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Win32;
 using Unicorn.Toolbox.Analysis;
 using Unicorn.Toolbox.Analysis.Filtering;
 using Unicorn.Toolbox.Coverage;
@@ -13,7 +13,7 @@ using Unicorn.Toolbox.Visualization;
 namespace Unicorn.Toolbox
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -25,7 +25,7 @@ namespace Unicorn.Toolbox
             InitializeComponent();
         }
 
-        private void buttonLoadTestsAssembly_Click(object sender, RoutedEventArgs e)
+        private void LoadTestsAssembly(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Unicorn tests assemblies|*.dll";
@@ -78,7 +78,7 @@ namespace Unicorn.Toolbox
             }
         }
 
-        private void buttonApplyFilter_Click(object sender, RoutedEventArgs e)
+        private void ApplyFilter(object sender, RoutedEventArgs e)
         {
             var features = from CheckBox cBox in gridFeatures.Children where cBox.IsChecked.Value select (string)cBox.Content;
             var categories = from CheckBox cBox in gridCategories.Children where cBox.IsChecked.Value select (string)cBox.Content;
@@ -96,7 +96,7 @@ namespace Unicorn.Toolbox
             textBoxCurrentFilter.Text += $"Authors[{string.Join(",", authors)}]";
         }
 
-        private void cellSuiteName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ClickCellWithSuite(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
@@ -109,12 +109,12 @@ namespace Unicorn.Toolbox
             }
         }
 
-        private void buttonShowAll_Click(object sender, RoutedEventArgs e)
+        private void ShowAllClick(object sender, RoutedEventArgs e)
         {
             ShowAll();
         }
 
-        private void buttonLoadSpecs_Click(object sender, RoutedEventArgs e)
+        private void LoadSpecs(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Application specs|*.json";
@@ -132,12 +132,12 @@ namespace Unicorn.Toolbox
             GetCoverage();
         }
 
-        private void buttonGetCoverage_Click(object sender, RoutedEventArgs e)
+        private void GetAutomationCoverage(object sender, RoutedEventArgs e)
         {
             GetCoverage();
         }
 
-        private void buttonVisualize_Click(object sender, RoutedEventArgs e)
+        private void Visualize(object sender, RoutedEventArgs e)
         {
             var filter = GetFilter();
             var visualization = new WindowVisualization();
@@ -153,7 +153,6 @@ namespace Unicorn.Toolbox
             {
                 VizualizerBars.VisualizeAllData(analyzer.Data, filter, visualization.canvasVisualization);
             }
-            
         }
 
         private void ShowAll()
@@ -185,7 +184,7 @@ namespace Unicorn.Toolbox
             }
         }
 
-        private void buttonVisualizeCoverage_Click(object sender, RoutedEventArgs e)
+        private void VisualizeCoverage(object sender, RoutedEventArgs e)
         {
             var visualization = new WindowVisualization();
             visualization.ShowActivated = false;

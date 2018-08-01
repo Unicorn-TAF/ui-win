@@ -76,17 +76,17 @@ namespace Unicorn.Toolbox.Visualization
 
         private static void DrawFeature(string name, int tests, int index, int max, int featuresCount, Canvas canvas)
         {
-            var workHeight = canvas.RenderSize.Height - 2 * margin;
-            var workWidth = canvas.RenderSize.Width - 2 * margin;
+            var workHeight = canvas.RenderSize.Height - (2 * margin);
+            var workWidth = canvas.RenderSize.Width - (2 * margin);
 
-            double height = workHeight / featuresCount - margin;
+            double height = (workHeight / featuresCount) - margin;
             double width = tests == 0 ? 1 : workWidth * ((double)tests / max); 
 
             double x = margin;
-            double y = margin + index * (height + margin);
+            double y = margin + (index * (height + margin));
 
             double colorIndexStep = (double)palette.DataColors.Count / featuresCount;
-            int currentColorIndex = (int)((index + 1) * colorIndexStep - 1);
+            int currentColorIndex = (int)(((index + 1) * colorIndexStep) - 1);
 
             var bar = new Rectangle()
             {

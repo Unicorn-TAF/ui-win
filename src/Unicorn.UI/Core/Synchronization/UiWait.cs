@@ -24,8 +24,8 @@ namespace Unicorn.UI.Core.Synchronization
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        /// <param name="attribute">ui control attribute name</param>
-        /// <param name="value">ui control attribute value</param>
+        /// <param name="attribute">UI control attribute name</param>
+        /// <param name="value">UI control attribute value</param>
         public UiWait(T input, string attribute, string value) : base(input)
         {
             this.attribute = attribute;
@@ -59,16 +59,16 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {input} {condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} {condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
-            var endTime = this.clock.LaterBy(this.Timeout);
+            var endTime = this.Clock.LaterBy(this.Timeout);
             var startTime = DateTime.Now;
             while (true)
             {
                 try
                 {
-                    var result = condition(this.input);
+                    var result = condition(this.Input);
                     if (resultType == typeof(bool))
                     {
                         var boolResult = result as bool?;
@@ -99,7 +99,7 @@ namespace Unicorn.UI.Core.Synchronization
 
                 // Check the timeout after evaluating the function to ensure conditions
                 // with a zero timeout can succeed.
-                if (!this.clock.IsNowBefore(endTime))
+                if (!this.Clock.IsNowBefore(endTime))
                 {
                     var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
                         string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :
@@ -139,16 +139,16 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {input} '{this.attribute}' {condition.Method.Name} '{this.value}' during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{this.attribute}' {condition.Method.Name} '{this.value}' during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
-            var endTime = this.clock.LaterBy(this.Timeout);
+            var endTime = this.Clock.LaterBy(this.Timeout);
             var startTime = DateTime.Now;
             while (true)
             {
                 try
                 {
-                    var result = condition(this.input, this.attribute, this.value);
+                    var result = condition(this.Input, this.attribute, this.value);
                     if (resultType == typeof(bool))
                     {
                         var boolResult = result as bool?;
@@ -179,7 +179,7 @@ namespace Unicorn.UI.Core.Synchronization
 
                 // Check the timeout after evaluating the function to ensure conditions
                 // with a zero timeout can succeed.
-                if (!this.clock.IsNowBefore(endTime))
+                if (!this.Clock.IsNowBefore(endTime))
                 {
                     var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
                         string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :

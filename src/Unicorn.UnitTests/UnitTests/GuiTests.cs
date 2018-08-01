@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Unicorn.UnitTests.Util;
 using Unicorn.UnitTests.Gui;
+using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Tests
 {

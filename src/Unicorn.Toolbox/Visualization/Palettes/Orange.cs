@@ -6,6 +6,14 @@ namespace Unicorn.Toolbox.Visualization
 {
     public class Orange : IPalette
     {
+        private Brush backColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
+
+        private Brush fontColor = Brushes.Black;
+
+        private Brush dataColor = Brushes.Black;
+
+        private List<Brush> dataColors;
+
         public Orange()
         {
             dataColors = new List<Brush>();
@@ -18,14 +26,6 @@ namespace Unicorn.Toolbox.Visualization
             dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCC80")));
             dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE0B2")));
         }
-
-        private Brush backColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
-
-        private Brush fontColor = Brushes.Black;
-
-        private Brush dataColor = Brushes.Black;
-
-        private List<Brush> dataColors;
 
         public Brush BackColor => backColor;
 

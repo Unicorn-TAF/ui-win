@@ -1,6 +1,6 @@
 ﻿using System;
-using Unicorn.UnitTests.Steps;
 using Unicorn.Core.Testing.Tests;
+using Unicorn.UnitTests.Steps;
 
 namespace Unicorn.UnitTests.Suites
 {

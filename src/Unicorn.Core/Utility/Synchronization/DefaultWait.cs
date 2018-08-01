@@ -6,13 +6,6 @@ namespace Unicorn.Core.Utility.Synchronization
 {
     public abstract class DefaultWait<T>
     {
-        protected static TimeSpan defaultSleepTimeout = TimeSpan.FromMilliseconds(250);
-        protected static TimeSpan defaultTimeout = TimeSpan.FromSeconds(60);
-
-        protected T input;
-        protected SystemClock clock;
-        protected List<Type> ignoredExceptions; 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
         /// </summary>
@@ -24,25 +17,31 @@ namespace Unicorn.Core.Utility.Synchronization
                 throw new ArgumentNullException("input", "input cannot be null");
             }
 
-            this.input = input;
-            this.clock = new SystemClock();
-            this.ignoredExceptions = new List<Type>();
+            this.Input = input;
+            this.Clock = new SystemClock();
+            this.IgnoredExceptions = new List<Type>();
         }
 
         /// <summary>
         /// Gets or sets how long to wait for the evaluated condition to be true. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan Timeout { get; set; } = defaultTimeout;
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(250);
 
         /// <summary>
         /// Gets or sets how often the condition should be evaluated. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan PollingInterval { get; set; } = defaultSleepTimeout;
+        public TimeSpan PollingInterval { get; set; } = TimeSpan.FromSeconds(60);
 
         /// <summary>
         /// Gets or sets the message to be displayed when time expires.
         /// </summary>
         public string Message { get; set; }
+
+        protected T Input { get; set; }
+
+        protected SystemClock Clock { get; set; }
+
+        protected List<Type> IgnoredExceptions { get; }
 
         /// <summary>
         /// Configures this instance to ignore specific types of exceptions while waiting for a condition.
@@ -64,12 +63,12 @@ namespace Unicorn.Core.Utility.Synchronization
                 }
             }
 
-            this.ignoredExceptions.AddRange(exceptionTypes);
+            this.IgnoredExceptions.AddRange(exceptionTypes);
         }
 
         protected bool IsIgnoredException(Exception exception)
         {
-            return this.ignoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
+            return this.IgnoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using Unicorn.Toolbox.Visualization.Palettes;
 
@@ -7,6 +6,14 @@ namespace Unicorn.Toolbox.Visualization
 {
     public class DeepPurple : IPalette
     {
+        private Brush backColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EDE7F6"));
+
+        private Brush fontColor = Brushes.Black;
+
+        private Brush dataColor = Brushes.WhiteSmoke;
+
+        private List<Brush> dataColors;
+
         public DeepPurple()
         {
             dataColors = new List<Brush>();
@@ -19,23 +26,7 @@ namespace Unicorn.Toolbox.Visualization
             dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9575CD")));
         }
 
-        private Brush backColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EDE7F6"));
-
-        private Brush fontColor = Brushes.Black;
-
-        private Brush dataColor = Brushes.WhiteSmoke;
-
-        private List<Brush> dataColors;
-
         public Brush BackColor => backColor;
-
-        public List<Brush> Colors
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public List<Brush> DataColors => dataColors;
 
