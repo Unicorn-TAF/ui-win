@@ -8,7 +8,7 @@ namespace Unicorn.UI.Core.Driver
     {
         public U ParentSearchContext { get; set; }
 
-        protected TimeSpan TimeoutDefault => TimeSpan.FromSeconds(30);
+        protected TimeSpan TimeoutDefault { get; } = TimeSpan.FromSeconds(30);
 
         protected abstract Type ControlsBaseType
         {

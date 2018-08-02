@@ -65,7 +65,7 @@ namespace Unicorn.Core.Utility
             if (Expired)
             {
                 this.timer.Stop();
-                Logger.Instance.Log(LogLevel.Debug, message);
+                Logger.Instance.Log(LogLevel.Warning, message);
             }
         }
     }
