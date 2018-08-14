@@ -117,8 +117,9 @@
     <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
     <Compile Include="Testing\Tests\DataSet.cs" />
-    <Compile Include="Utility\Synchronization\DefaultWait.cs" />
+    <Compile Include="Utility\Synchronization\AbstractWait.cs" />
     <Compile Include="Utility\Synchronization\SystemClock.cs" />
+    <Compile Include="Utility\Synchronization\DefaultWait.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

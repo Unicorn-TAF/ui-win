@@ -7,7 +7,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization
 {
-    public class UiWait<T> : DefaultWait<T> where T : IControl
+    public class UiWait<T> : AbstractWait where T : IControl
     {
         private string attribute;
         private string value;
@@ -16,8 +16,14 @@ namespace Unicorn.UI.Core.Synchronization
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
-        public UiWait(T input) : base(input)
+        public UiWait(T input) : base()
         {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "input cannot be null");
+            }
+
+            this.Input = input;
         }
 
         /// <summary>
@@ -26,11 +32,20 @@ namespace Unicorn.UI.Core.Synchronization
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="attribute">UI control attribute name</param>
         /// <param name="value">UI control attribute value</param>
-        public UiWait(T input, string attribute, string value) : base(input)
+        public UiWait(T input, string attribute, string value) : base()
         {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "input cannot be null");
+            }
+
+            this.Input = input;
+
             this.attribute = attribute;
             this.value = value;
         }
+
+        protected T Input { get; set; }
 
         /// <summary>
         /// Repeatedly applies this instance's input value to the given function until one of the following
@@ -74,7 +89,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {DateTime.Now - startTime}]");
                             return result;
                         }
                     }
@@ -82,7 +97,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {DateTime.Now - startTime}]");
                             return result;
                         }
                     }
@@ -182,7 +197,7 @@ namespace Unicorn.UI.Core.Synchronization
                 if (!this.Clock.IsNowBefore(endTime))
                 {
                     var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
-                        string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :
+                        string.Format("{0} expired after {1} seconds", condition.Method.Name, Timeout.TotalSeconds) :
                         string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds: {1}", this.Timeout.TotalSeconds, this.Message);
 
                     throw new TimeoutException(timeoutMessage, lastException);
