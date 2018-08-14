@@ -114,8 +114,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
-    <Compile Include="Gui\CharmapApplication.cs" />
-    <Compile Include="Gui\WindowCharMap.cs" />
+    <Compile Include="Gui\Desktop\CharmapApplication.cs" />
+    <Compile Include="Gui\Desktop\WindowCharMap.cs" />
+    <Compile Include="Gui\Win\WinCharmapApplication.cs" />
+    <Compile Include="Gui\Win\WinWindowCharMap.cs" />
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\BaseTestSuite.cs" />
@@ -152,6 +154,10 @@
     <ProjectReference Include="..\Unicorn.UI\Web\Unicorn.UI.Web.csproj">
       <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
       <Name>Unicorn.UI.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicorn.UI\Win\Unicorn.UI.Win.csproj">
+      <Project>{57ae2b75-bf21-4cdb-bdf6-07cd2227c181}</Project>
+      <Name>Unicorn.UI.Win</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
