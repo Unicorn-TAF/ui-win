@@ -45,13 +45,12 @@ namespace Unicorn.UI.Mobile.Android.Driver
         {
             get
             {
-                return MobileSearchContext.ImplicitlyWaitTimeout;
+                return Driver.Manage().Timeouts().ImplicitWait;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                MobileSearchContext.ImplicitlyWaitTimeout = value;
             }
         }
 

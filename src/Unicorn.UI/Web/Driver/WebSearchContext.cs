@@ -9,8 +9,6 @@ namespace Unicorn.UI.Web.Driver
 {
     public abstract class WebSearchContext : UISearchContext<WebSearchContext>
     {
-        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
-
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
 
         protected override Type ControlsBaseType => typeof(WebControl);
@@ -91,7 +89,7 @@ namespace Unicorn.UI.Web.Driver
             switch (locator.How)
             {
                 case Using.Web_Xpath:
-                    return By.XPath(/*WebDriver.TransformXpath(*/locator.Locator);
+                    return By.XPath(locator.Locator);
                 case Using.Web_Css:
                     return By.CssSelector(locator.Locator);
                 case Using.Id:

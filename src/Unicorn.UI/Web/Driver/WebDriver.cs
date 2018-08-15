@@ -53,13 +53,12 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return WebSearchContext.ImplicitlyWaitTimeout;
+                return Driver.Manage().Timeouts().ImplicitWait;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                WebSearchContext.ImplicitlyWaitTimeout = value;
             }
         }
 

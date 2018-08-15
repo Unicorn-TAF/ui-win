@@ -17,7 +17,7 @@ namespace Unicorn.UI.Mobile.IOS.Driver
 
         private IOSDriver()
         {
-            Driver = new OpenQA.Selenium.Appium.iOS.IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
+            Driver = new IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
             this.ImplicitlyWait = TimeoutDefault;
         }
 
@@ -44,13 +44,12 @@ namespace Unicorn.UI.Mobile.IOS.Driver
         {
             get
             {
-                return ImplicitlyWaitTimeout;
+                return Driver.Manage().Timeouts().ImplicitWait;
             }
 
             set
             {
                 Driver.Manage().Timeouts().ImplicitWait = value;
-                ImplicitlyWaitTimeout = value;
             }
         }
 

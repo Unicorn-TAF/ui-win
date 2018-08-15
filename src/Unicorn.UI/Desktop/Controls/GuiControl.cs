@@ -65,17 +65,14 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                bool isVisible;
                 try
                 {
-                    isVisible = !this.Instance.Current.IsOffscreen;
+                    return !this.Instance.Current.IsOffscreen;
                 }
                 catch (ElementNotAvailableException)
                 {
-                    isVisible = false;
+                    return false;
                 }
-
-                return isVisible;
             }
         }
 
@@ -115,16 +112,12 @@ namespace Unicorn.UI.Desktop.Controls
 
         public string GetAttribute(string attribute)
         {
-            AutomationProperty ap;
-
             switch (attribute.ToLower())
             {
                 case "class":
-                    ap = AutomationElement.ClassNameProperty;
-                    break;
+                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.ClassNameProperty);
                 case "text":
-                    ap = AutomationElement.NameProperty;
-                    break;
+                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty);
                 case "enabled":
                     return this.Enabled.ToString();
                 case "visible":
@@ -132,8 +125,6 @@ namespace Unicorn.UI.Desktop.Controls
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
-
-            return (string)this.Instance.GetCurrentPropertyValue(ap);
         }
 
         public void Click()
