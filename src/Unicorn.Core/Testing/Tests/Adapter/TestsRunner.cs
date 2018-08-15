@@ -59,7 +59,10 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                     finalyzeRun.Invoke(null, null);
                 }
 
-                this.RunStatus = this.ExecutedSuites.Any(s => s.Outcome.Result.Equals(Result.Failed)) ? Result.Failed : Result.Passed;
+                this.RunStatus = this.ExecutedSuites
+                    .Any(s => s.Outcome.Result.Equals(Result.Failed) || s.Outcome.Result.Equals(Result.Skipped)) ? 
+                    Result.Failed : 
+                    Result.Passed;
             }
         }
 

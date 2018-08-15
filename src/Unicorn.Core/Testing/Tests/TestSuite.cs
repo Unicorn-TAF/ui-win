@@ -139,6 +139,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 Thread testThread = new Thread(() => this.RunTest(test));
                 testThread.Start();
+
                 if (!testThread.Join(Configuration.TestTimeout))
                 {
                     testThread.Abort();
@@ -177,6 +178,7 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.Outcome.TotalTests = tests.Length;
+            this.Outcome.SkippedTests = tests.Length;
             this.Outcome.Result = Result.Skipped;
 
             try
