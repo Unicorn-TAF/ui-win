@@ -6,11 +6,12 @@ namespace Unicorn.UnitTests.Gui
 {
     public class WindowCharMap : Window
     {
-        [Find(Using.Name, "Help")]
-        public Button ButtonHelp;
+        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
 
         [Find(Using.Name, "Select")]
-        public Button ButtonSelect;
+        protected Button buttonSelect;
+
+        public Button SelectButton => this.buttonSelect;
 
         [Find(Using.Name, "Copy")]
         public Button ButtonCopy;

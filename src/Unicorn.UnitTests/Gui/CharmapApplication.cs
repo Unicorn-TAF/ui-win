@@ -9,6 +9,9 @@ namespace Unicorn.UnitTests.Gui
         [Find(Using.Name, "Character Map")]
         public WindowCharMap Window;
 
+        [Find(Using.Name, "asdlkjfghsdhjkfgdsfkjhfg")]
+        public WindowCharMap FakeWindow;
+
         public CharmapApplication(string path, string exeName) : base(path, exeName)
         {
         }
