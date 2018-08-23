@@ -11,7 +11,6 @@ namespace Unicorn.Core.Utility.Synchronization
         /// </summary>
         protected AbstractWait()
         {
-
             this.Clock = new SystemClock();
             this.IgnoredExceptions = new List<Type>();
         }

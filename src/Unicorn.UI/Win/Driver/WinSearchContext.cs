@@ -45,12 +45,10 @@ namespace Unicorn.UI.Win.Driver
             WinControl instance = (WinControl)Activator.CreateInstance(typeof(T));
 
             var condition = WinDriver.Driver.CreateAndCondition(
-                WinDriver.Driver.ControlViewCondition,
-                //TreeWalker.ControlViewWalker.Condition,
+               WinDriver.Driver.ControlViewCondition,
                GetControlTypeCondition(instance.Type));
 
             var walker = WinDriver.Driver.CreateTreeWalker(condition);
-            //var walker = new TreeWalker(condition);
             var elementToWrap = walker.GetFirstChildElement(this.SearchContext);
 
             if (elementToWrap == null)

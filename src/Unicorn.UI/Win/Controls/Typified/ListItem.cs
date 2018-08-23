@@ -16,9 +16,9 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_ListItemControlTypeId;
 
-        protected IUIAutomationSelectionItemPattern SelectionItemPattern => base.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
-
         public bool Selected => this.SelectionItemPattern.CurrentIsSelected != 0;
+
+        protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         public bool Select()
         {

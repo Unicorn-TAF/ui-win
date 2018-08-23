@@ -20,12 +20,6 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_ComboBoxControlTypeId;
 
-        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => base.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
-
-        protected IUIAutomationSelectionPattern SelectionPattern => base.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
-
-        protected IUIAutomationValuePattern ValuePattern => base.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
-
         public bool Expanded => this.ExpandCollapsePattern.CurrentExpandCollapseState.Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
 
         public string SelectedValue
@@ -49,10 +43,16 @@ namespace Unicorn.UI.Win.Controls.Typified
                 {
                     return value.CurrentValue;
                 }
-                    
+
                 return string.Empty;
             }
         }
+
+        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+
+        protected IUIAutomationSelectionPattern SelectionPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
+
+        protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
         public bool Select(string item)
         {

@@ -22,9 +22,9 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_WindowControlTypeId;
 
-        protected IUIAutomationWindowPattern WindowPattern => base.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
-
         public string Title => this.Text;
+
+        protected IUIAutomationWindowPattern WindowPattern => this.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
 
         public virtual void Close()
         {

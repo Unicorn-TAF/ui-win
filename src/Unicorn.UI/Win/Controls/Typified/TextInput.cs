@@ -18,8 +18,6 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_EditControlTypeId;
 
-        protected IUIAutomationValuePattern ValuePattern => base.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
-
         public string Value
         {
             get
@@ -34,6 +32,8 @@ namespace Unicorn.UI.Win.Controls.Typified
                 }
             }
         }
+
+        protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
         public void SendKeys(string text)
         {

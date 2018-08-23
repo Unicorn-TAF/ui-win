@@ -105,7 +105,6 @@ namespace Unicorn.UI.Win.Controls
                     return (string)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_ClassNamePropertyId);
                 case "text":
                     return (string)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId);
-                    break;
                 case "enabled":
                     return this.Enabled.ToString();
                 case "visible":

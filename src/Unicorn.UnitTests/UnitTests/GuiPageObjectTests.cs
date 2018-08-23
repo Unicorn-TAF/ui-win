@@ -10,55 +10,55 @@ namespace Unicorn.UnitTests.Tests
     [TestFixture]
     public class GuiPageObjectTests : NUnitTestRunner
     {
-        private static CharmapApplication Charmap;
+        private static CharmapApplication charmap;
 
         [OneTimeSetUp]
         public static void Setup()
         {
-            Charmap = new CharmapApplication(@"C:\Windows\System32\", "charmap.exe");
-            Charmap.Start();
+            charmap = new CharmapApplication(@"C:\Windows\System32\", "charmap.exe");
+            charmap.Start();
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that not existing controls don't brake page object initialization")]
         public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization()
         {
-            Assert.IsTrue(Charmap.Window.Visible);
+            Assert.IsTrue(charmap.Window.Visible);
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check nested controls initialization")]
         public void TestGuiPageObjectNestedControlsInitialization()
         {
-            Assert.IsTrue(Charmap.Window.ButtonCopy.Visible);
+            Assert.IsTrue(charmap.Window.ButtonCopy.Visible);
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check non public controls initialization")]
         public void TestGuiPageObjectNonPublicControlsInitialization()
         {
-            Assert.IsTrue(Charmap.Window.SelectButton.Visible);
+            Assert.IsTrue(charmap.Window.SelectButton.Visible);
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check for basic control search from initialized parent container")]
         public void TestGuiPageObjectBasicControlSearchFromInitializedContainer()
         {
-            Assert.IsTrue(Charmap.Window.ButtonHelp.Visible);
+            Assert.IsTrue(charmap.Window.ButtonHelp.Visible);
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that page object initialized controls are cached")]
         public void TestGuiPageObjectInitializedControlsAreNotCached()
         {
-            Assert.IsFalse(Charmap.Window.ButtonCopy.Cached);
+            Assert.IsFalse(charmap.Window.ButtonCopy.Cached);
         }
 
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that controls found by base search are cached")]
         public void TestGuiPageObjectBaseSearchedControlsAreCached()
         {
-            Assert.IsTrue(Charmap.Window.ButtonHelp.Cached);
+            Assert.IsTrue(charmap.Window.ButtonHelp.Cached);
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -70,7 +70,7 @@ namespace Unicorn.UnitTests.Tests
 
             try
             {
-                var visible = Charmap.FakeWindow.Visible;
+                var visible = charmap.FakeWindow.Visible;
                 Assert.Fail();
             }
             catch (ControlNotFoundException)
@@ -89,7 +89,7 @@ namespace Unicorn.UnitTests.Tests
         [OneTimeTearDown]
         public static void TearDown()
         {
-            Charmap.Close();
+            charmap.Close();
         }
     }
 }

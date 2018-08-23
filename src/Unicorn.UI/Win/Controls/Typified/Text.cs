@@ -13,6 +13,5 @@ namespace Unicorn.UI.Win.Controls.Typified
         }
 
         public override int Type => UIA_ControlTypeIds.UIA_TextControlTypeId;
-
     }
 }

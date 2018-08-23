@@ -15,7 +15,6 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_DataGridControlTypeId;
 
-
-        protected IUIAutomationGridPattern GridPattern => base.GetPattern(UIA_PatternIds.UIA_GridPatternId) as IUIAutomationGridPattern;
+        protected IUIAutomationGridPattern GridPattern => this.GetPattern(UIA_PatternIds.UIA_GridPatternId) as IUIAutomationGridPattern;
     }
 }

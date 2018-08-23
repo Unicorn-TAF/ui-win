@@ -6,13 +6,6 @@ namespace Unicorn.UnitTests.Gui
 {
     public class WindowCharMap : Window
     {
-        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
-
-        [Find(Using.Name, "Select")]
-        protected Button buttonSelect;
-
-        public Button SelectButton => this.buttonSelect;
-
         [Find(Using.Name, "Copy")]
         public Button ButtonCopy;
 
@@ -37,5 +30,12 @@ namespace Unicorn.UnitTests.Gui
         public Button ButtonSearch;
 
         #endregion
+
+        [Find(Using.Name, "Select")]
+        protected Button buttonSelect;
+
+        public Button SelectButton => this.buttonSelect;
+
+        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
     }
 }

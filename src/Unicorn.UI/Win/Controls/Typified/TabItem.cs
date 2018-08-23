@@ -17,8 +17,6 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int Type => UIA_ControlTypeIds.UIA_TabItemControlTypeId;
 
-        protected IUIAutomationSelectionItemPattern SelectionItemPattern => base.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
-
         public bool Selected
         {
             get
@@ -33,6 +31,8 @@ namespace Unicorn.UI.Win.Controls.Typified
                 return false;
             }
         }
+
+        protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         public bool Select()
         {
@@ -53,7 +53,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             else
             {
                 Logger.Instance.Log(LogLevel.Trace, "\tSelectionItemPattern was not found");
-                base.Click();
+                this.Click();
             }
 
             Logger.Instance.Log(LogLevel.Trace, "\tSelected");
