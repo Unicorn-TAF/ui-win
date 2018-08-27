@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Android\Controls\AndroidContainer.cs" />
     <Compile Include="Android\Controls\AndroidControl.cs" />
+    <Compile Include="Android\PageObject\AndroidBrowser.cs" />
     <Compile Include="Android\PageObject\AndroidApplication.cs" />
     <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
     <Compile Include="Base\Driver\MobileSearchContext.cs" />

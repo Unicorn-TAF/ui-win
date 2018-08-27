@@ -77,7 +77,6 @@ namespace Unicorn.UI.Web.Driver
             {
                 Driver.Quit();
                 instance = null;
-
                 options = null;
             }
         }

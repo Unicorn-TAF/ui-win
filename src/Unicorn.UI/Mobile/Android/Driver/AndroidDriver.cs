@@ -5,7 +5,6 @@ using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Remote;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Mobile.Base.Driver;
 
 namespace Unicorn.UI.Mobile.Android.Driver
 {
@@ -30,7 +29,10 @@ namespace Unicorn.UI.Mobile.Android.Driver
                 if (instance == null || needInit)
                 {
                     instance = new AndroidDriver();
-                    instance.SearchContext = Driver.FindElementByClassName("android.widget.FrameLayout");
+
+                    instance.SearchContext = capabilities.HasCapability("browserName") ? 
+                        Driver.FindElementByTagName("body") : 
+                        Driver.FindElementByClassName("android.widget.FrameLayout");
                     needInit = false;
                     Logger.Instance.Log(LogLevel.Debug, $"AndroidDriver initialized");
                 }
@@ -85,6 +87,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         public void Get(string path)
         {
             Driver.Navigate().GoToUrl(path);
+            instance.SearchContext = Driver.FindElementByTagName("body");
         }
     }
 }
