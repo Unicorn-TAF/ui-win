@@ -61,7 +61,9 @@ namespace Unicorn.Toolbox
             grid.Children.Clear();
             grid.RowDefinitions.Clear();
 
-            for (int i = 0; i < 35; i++)
+            grid.Height = items.Count * 20;
+
+            for (int i = 0; i < items.Count + 2; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
             }
@@ -198,6 +200,42 @@ namespace Unicorn.Toolbox
             else
             {
                 VizualizerBars.VisualizeCoverage(coverage.Specs, visualization.canvasVisualization);
+            }
+        }
+
+        private void checkBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var activeGrid = GetActiveGrid();
+
+            foreach (var child in activeGrid.Children)
+            {
+                ((CheckBox)child).IsChecked = false;
+            }
+        }
+
+        private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var activeGrid = GetActiveGrid();
+
+            foreach (var child in activeGrid.Children)
+            {
+                ((CheckBox)child).IsChecked = true;
+            }
+        }
+
+        private Grid GetActiveGrid()
+        {
+            if (tabFeaures.IsSelected)
+            {
+                return gridFeatures;
+            }
+            else if (tabCategories.IsSelected)
+            {
+                return gridCategories;
+            }
+            else
+            {
+                return gridAuthors;
             }
         }
     }

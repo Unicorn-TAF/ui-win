@@ -58,19 +58,26 @@
                     </DataGrid>
                     <TabControl x:Name="tabControlFilters" HorizontalAlignment="Left" Margin="10,38,0,10" Width="200">
                         <TabItem x:Name="tabFeaures" Header="Features">
-                            <Grid x:Name="gridFeatures" Background="White"/>
+                            <ScrollViewer>
+                                <Grid x:Name="gridFeatures" Background="White"/>
+                            </ScrollViewer>
                         </TabItem>
                         <TabItem x:Name="tabCategories" Header="Categories">
-                            <Grid x:Name="gridCategories" Background="White"/>
+                            <ScrollViewer>
+                                <Grid x:Name="gridCategories" Background="White"/>
+                            </ScrollViewer>
                         </TabItem>
                         <TabItem x:Name="tabAuthors" Header="Authors">
-                            <Grid x:Name="gridAuthors" Background="White"/>
+                            <ScrollViewer>
+                                <Grid x:Name="gridAuthors" Background="White"/>
+                            </ScrollViewer>
                         </TabItem>
                     </TabControl>
                     <Button x:Name="buttonShowAll" Content="Show all" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Margin="10,10,0,0" Click="ShowAllClick"/>
                     <TextBox x:Name="textBoxCurrentFilter" Text="" Margin="224,545,10,10" IsEnabled="False" FontSize="10"/>
                     <Button x:Name="buttonApplyFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="60,69,0,0" Click="ApplyFilter"/>
                     <Button x:Name="buttonVisualize" Content="Visualize" Width="80" Margin="130,10,0,0" VerticalAlignment="Top" Click="Visualize" HorizontalAlignment="Left"/>
+                    <CheckBox x:Name="checkBox" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,40,0,0" RenderTransformOrigin="0.633,1.422" Unchecked="checkBox_Unchecked" Checked="checkBox_Checked"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Coverage">
