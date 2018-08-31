@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Unicorn.UI.Mobile</id>
+    <version>2.0.0</version>
+    <title>Unicorn.UI.Mobile</title>
+    <authors>Vitaliy Dobriyan</authors>
+    <owners>Vitaliy Dobriyan</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Unicorn Automation Framework UI for Mobile</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>automation</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Selenium.WebDriver" version="3.5.0"/>
+        <dependency id="Selenium.Support" version="3.5.0"/>
+        <dependency id="Appium.WebDriver" version="3.0.0.2"/>
+        <dependency id="Newtonsoft.Json" version="10.0.1"/>
+        <dependency id="Castle.Core" version="3.3.3"/>
+      </group>
+      <group>
+        <dependency id="Unicorn.Core" version="2.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="2.0.0"/>
+      </group>
+    </dependencies>
+  </metadata>
+</package>

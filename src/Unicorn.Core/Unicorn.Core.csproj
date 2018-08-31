@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\AspectInjector.0.9.44\build\AspectInjector.props" Condition="Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DDE87224-BFF6-4ABD-879E-1C5316124536}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unicorn.Core</RootNamespace>
+    <AssemblyName>Unicorn.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\CodeRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AspectInjector.Broker, Version=0.9.44.0, Culture=neutral, PublicKeyToken=a29e12442a3d3609, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspectInjector.0.9.44\lib\AspectInjector.Broker.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
+    <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
+    <Compile Include="Utility\FileDownloader.cs" />
+    <Compile Include="Utility\Countdown.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\IReporter.cs" />
+    <Compile Include="Reporting\Reporter.cs" />
+    <Compile Include="Reporting\Screenshot.cs" />
+    <Compile Include="Testing\Steps\AssertionSteps.cs" />
+    <Compile Include="Testing\Tests\Adapter\Helper.cs" />
+    <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\RunFinalyzeAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\RunInitializeAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SuiteMetadataAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestDataAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
+    <Compile Include="Testing\Verification\Assert.cs" />
+    <Compile Include="Testing\Verification\AssertionError.cs" />
+    <Compile Include="Testing\Verification\Matchers\Collection.cs" />
+    <Compile Include="Testing\Verification\Matchers\Is.cs" />
+    <Compile Include="Testing\Verification\Matchers\Matcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
+    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CoreMatchers\NullMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\CoreMatchers\NotMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\MiscMatchers\IsEvenMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
+    <Compile Include="Testing\Verification\Matchers\MiscMatchers.cs" />
+    <Compile Include="Testing\Verification\Matchers\TypeSafeMatcher.cs" />
+    <Compile Include="Testing\Verification\Verify.cs" />
+    <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
+    <Compile Include="Testing\Steps\TestSteps.cs" />
+    <Compile Include="Testing\Steps\TestStepsEvents.cs" />
+    <Compile Include="Testing\Tests\Adapter\Configuration.cs" />
+    <Compile Include="Testing\Tests\Adapter\TestsObserver.cs" />
+    <Compile Include="Testing\Tests\Adapter\TestsRunner.cs" />
+    <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\AfterTestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\FeatureAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\DisableAttribute.cs" />
+    <Compile Include="Testing\Tests\SuiteOutcome.cs" />
+    <Compile Include="Testing\Tests\SuiteMethod.cs" />
+    <Compile Include="Testing\Tests\Test.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Result.cs" />
+    <Compile Include="Testing\Tests\TestOutcome.cs" />
+    <Compile Include="Testing\Tests\TestSuite.cs" />
+    <Compile Include="Testing\Tests\DataSet.cs" />
+    <Compile Include="Utility\Synchronization\AbstractWait.cs" />
+    <Compile Include="Utility\Synchronization\SystemClock.cs" />
+    <Compile Include="Utility\Synchronization\DefaultWait.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Unicorn.Core.nuspec" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.0.9.44\build\AspectInjector.props'))" />
+    <Error Condition="!Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.0.9.44\build\AspectInjector.targets'))" />
+  </Target>
+  <Import Project="..\packages\AspectInjector.0.9.44\build\AspectInjector.targets" Condition="Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
