@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Unicorn.ReportPortalAgent")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Unicorn TAF Agent for EPAM Report Portal")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Unicorn")]
-[assembly: AssemblyCopyright("Copyright © Vitaliy Dobriyan 2018")]
+[assembly: AssemblyCompany("EPAM Systems")]
+[assembly: AssemblyProduct("Unicorn TAF Agent for EPAM Report Portal")]
+[assembly: AssemblyCopyright("Copyright © 2018 Vitaliy Dobriyan")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

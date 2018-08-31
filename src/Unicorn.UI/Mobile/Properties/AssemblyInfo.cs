@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Unicorn.UI.Mobile")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Unicorn TAF UI Mobile module")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Unicorn")]
-[assembly: AssemblyCopyright("Unicorn.UI.Mobile")]
-[assembly: AssemblyTrademark("Copyright © Vitaliy Dobriyan 2018")]
+[assembly: AssemblyCompany("EPAM Systems")]
+[assembly: AssemblyProduct("Unicorn TAF UI Mobile module")]
+[assembly: AssemblyCopyright("Copyright © 2018 Vitaliy Dobriyan")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
