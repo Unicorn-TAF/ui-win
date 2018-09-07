@@ -8,9 +8,9 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Rework of taf core. Added configurable tests adapter. Introduced new testing logic: parameterized tests and suites. Improved assertions and implemented Type safe matchers. Added bunch of utilities.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>automation</tags>
+    <tags>automation taf core tests steps verification matchers</tags>
 	<dependencies>
 		<group targetFramework="net45">
 			<dependency id="AspectInjector" version="0.9.44"/>
