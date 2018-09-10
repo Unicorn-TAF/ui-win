@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Unicorn.Toolbox")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Vitaliy Dobriyan")]
 [assembly: AssemblyProduct("Unicorn")]
 [assembly: AssemblyCopyright("Copyright © Vitaliy Dobriyan 2018")]
 [assembly: AssemblyTrademark("")]
