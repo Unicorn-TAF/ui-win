@@ -42,4 +42,28 @@
     <Rule Id="CS1717" Action="Error" />
     <Rule Id="CS1718" Action="Error" />
   </Rules>
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S1110" Action="Error" />
+    <Rule Id="S1125" Action="Error" />
+    <Rule Id="S1145" Action="Error" />
+    <Rule Id="S1151" Action="Error" />
+    <Rule Id="S1155" Action="Error" />
+    <Rule Id="S1172" Action="Error" />
+    <Rule Id="S1481" Action="Error" />
+    <Rule Id="S1643" Action="Error" />
+    <Rule Id="S1858" Action="Error" />
+    <Rule Id="S1862" Action="Error" />
+    <Rule Id="S1871" Action="Error" />
+    <Rule Id="S1905" Action="Error" />
+    <Rule Id="S2225" Action="Error" />
+    <Rule Id="S2589" Action="Error" />
+    <Rule Id="S2737" Action="Error" />
+    <Rule Id="S3235" Action="Error" />
+    <Rule Id="S3256" Action="Error" />
+    <Rule Id="S3263" Action="Error" />
+    <Rule Id="S3415" Action="Error" />
+    <Rule Id="S3877" Action="Error" />
+    <Rule Id="S3962" Action="Error" />
+    <Rule Id="S907" Action="Error" />
+  </Rules>
 </RuleSet>

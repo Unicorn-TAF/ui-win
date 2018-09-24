@@ -11,11 +11,11 @@ namespace Unicorn.UI.Win.Controls
 {
     public abstract class WinControl : WinSearchContext, IControl
     {
-        public WinControl()
+        protected WinControl()
         {
         }
 
-        public WinControl(IUIAutomationElement instance)
+        protected WinControl(IUIAutomationElement instance)
         {
             this.Instance = instance;
         }
@@ -116,7 +116,7 @@ namespace Unicorn.UI.Win.Controls
 
         public void Click()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
 
             try
             {
@@ -139,7 +139,7 @@ namespace Unicorn.UI.Win.Controls
 
         public void MouseClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
             Point clickPoint;
             tagPOINT point;
             if (this.Instance.GetClickablePoint(out point) == 0)
@@ -160,7 +160,7 @@ namespace Unicorn.UI.Win.Controls
 
         public void RightClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
             Point clickPoint; 
             tagPOINT point;
             if (this.Instance.GetClickablePoint(out point) == 0)

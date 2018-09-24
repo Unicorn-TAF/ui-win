@@ -25,7 +25,7 @@ namespace Unicorn.Core.Testing.Steps
         [Advice(InjectionPoints.Exception, InjectionTargets.Method)]
         public void OnFailActions([AdviceArgument(AdviceArgumentSource.TargetException)] Exception exception)
         {
-            MethodBase method = new StackFrame(1).GetMethod();
+            ////MethodBase method = new StackFrame(1).GetMethod();
             OnFail?.Invoke(exception);
         }
     }

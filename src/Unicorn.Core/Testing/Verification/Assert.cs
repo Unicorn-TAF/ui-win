@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Testing.Verification
 {
-    public class Assert
+    public static class Assert
     {
         public static void That(object actual, Matcher matcher, string message = "")
         {
@@ -17,7 +17,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                throw new AssertionError("\n" + message + matcher.MatcherOutput.ToString());
+                throw new AssertionError("\n" + message + matcher.MatcherOutput);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                throw new AssertionError("\n" + message + matcher.MatcherOutput.ToString());
+                throw new AssertionError("\n" + message + matcher.MatcherOutput);
             }
         }
     }

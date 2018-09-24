@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Reporting
 {
-    public class Reporter
+    public static class Reporter
     {
         private static IReporter instance;
 
@@ -24,7 +24,7 @@ namespace Unicorn.Core.Reporting
         {
             if (instance == null)
             {
-                throw new NullReferenceException("Reporter instance is not created.");
+                throw new ArgumentException("Reporter instance is not created.");
             }
         }
     }

@@ -36,9 +36,9 @@ namespace Unicorn.Toolbox.Analysis
 
             foreach (var suiteType in allSuites)
             {
-                if (Helper.IsSuiteParameterized(suiteType))
+                if (AdapterUtilities.IsSuiteParameterized(suiteType))
                 {
-                    foreach (var parametersSet in Helper.GetSuiteData(suiteType))
+                    foreach (var parametersSet in AdapterUtilities.GetSuiteData(suiteType))
                     {
                         var parameterizedSuite = testsAssembly.CreateInstance(suiteType.FullName, true, BindingFlags.Default, null, parametersSet.Parameters.ToArray(), null, null);
                         ((TestSuite)parameterizedSuite).Name += $" [{parametersSet.Name}]";

@@ -69,7 +69,7 @@
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
     <Compile Include="Testing\Steps\AssertionSteps.cs" />
-    <Compile Include="Testing\Tests\Adapter\Helper.cs" />
+    <Compile Include="Testing\Tests\Adapter\AdapterUtilities.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\RunFinalyzeAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\RunInitializeAttribute.cs" />
@@ -93,7 +93,7 @@
     <Compile Include="Testing\Verification\Matchers\MiscMatchers.cs" />
     <Compile Include="Testing\Verification\Matchers\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Verification\Verify.cs" />
-    <Compile Include="Testing\Steps\Attributes\TestStep.cs" />
+    <Compile Include="Testing\Steps\Attributes\TestStepAttribute.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
     <Compile Include="Testing\Tests\Adapter\Configuration.cs" />
@@ -127,7 +127,11 @@
     </None>
     <None Include="Unicorn.Core.nuspec" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

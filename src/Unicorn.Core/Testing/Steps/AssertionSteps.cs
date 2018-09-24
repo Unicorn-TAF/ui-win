@@ -59,10 +59,6 @@ namespace Unicorn.Core.Testing.Steps
             {
                 softAssertion.AssertAll();
             }
-            catch
-            {
-                throw;
-            }
             finally
             {
                 softAssertion = null;

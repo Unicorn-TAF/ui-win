@@ -8,11 +8,11 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiContainer : GuiControl, IContainer
     {
-        public GuiContainer() : base()
+        protected GuiContainer() : base()
         {
         }
 
-        public GuiContainer(AutomationElement instance) : base(instance)
+        protected GuiContainer(AutomationElement instance) : base(instance)
         {
         }
 

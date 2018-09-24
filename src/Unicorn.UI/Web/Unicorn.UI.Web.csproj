@@ -98,7 +98,11 @@
     <Compile Include="Controls\WebContainer.cs" />
     <Compile Include="Controls\WebControl.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unicorn.Core\Unicorn.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>

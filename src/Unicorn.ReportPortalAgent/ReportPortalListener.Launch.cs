@@ -166,7 +166,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error merging launches: " + ex.ToString());
+                Console.WriteLine("Error merging launches: " + ex);
             }
         }
 
@@ -183,7 +183,7 @@ namespace Unicorn.ReportPortalAgent
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error getting existing launch id: " + ex.ToString());
+                Console.WriteLine("Error getting existing launch id: " + ex);
             }
 
             return null;

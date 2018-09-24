@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Logging
 {
-    public class Logger
+    public static class Logger
     {
         private static ILogger instance;
 

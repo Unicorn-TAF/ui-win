@@ -32,7 +32,7 @@ namespace Unicorn.Core.Reporting
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Debug, "Failed to get print screen:\n" + e.ToString());
+                Logger.Instance.Log(LogLevel.Debug, "Failed to get print screen:\n" + e);
                 printScreen = new Bitmap(1, 1);
             }
 
@@ -49,7 +49,7 @@ namespace Unicorn.Core.Reporting
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Debug, "Failed to save print screen:\n" + e.ToString());
+                Logger.Instance.Log(LogLevel.Debug, "Failed to save print screen:\n" + e);
             }
         }
     }

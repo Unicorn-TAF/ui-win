@@ -66,11 +66,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             }
         }
 
+#pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
         public void RunTestSuite(Type type)
         {
-            if (Helper.IsSuiteParameterized(type))
+            if (AdapterUtilities.IsSuiteParameterized(type))
             {
-                foreach (var parametersSet in Helper.GetSuiteData(type))
+                foreach (var parametersSet in AdapterUtilities.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
                     parameterizedSuite.Metadata.Add("Data Set", parametersSet.Name);
@@ -84,18 +85,18 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 ExecuteSuiteIteration(suite);
             }
         }
+#pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
 
-        private TestSuite ExecuteSuiteIteration(TestSuite testSuite)
+        private void ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
             this.ExecutedSuites.Add(testSuite);
-            return testSuite;
         }
 
         private List<Type> ObserveRunnableSuites()
         {
             return TestsObserver.ObserveTestSuites(ass)
-                .Where(s => Helper.IsSuiteRunnable(s)).ToList();
+                .Where(s => AdapterUtilities.IsSuiteRunnable(s)).ToList();
         }
 
         private MethodInfo GetRunInitCleanupMethods(Type attributeType)

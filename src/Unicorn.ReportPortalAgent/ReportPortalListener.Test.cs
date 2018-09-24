@@ -83,7 +83,7 @@ namespace Unicorn.ReportPortalAgent
             {
                 var id = test.Id;
                 var result = test.Outcome.Result;
-                var parentId = test.ParentId;
+                ////var parentId = test.ParentId;
 
                 this.currentTest = null;
 
@@ -158,7 +158,6 @@ namespace Unicorn.ReportPortalAgent
                     // finishing test
                     if (test.Outcome.Result == Result.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
-                        string iss = test.Outcome.OpenBugString;
                         Issue issue = new Issue();
                         issue.Type = IssueType.ProductionBug;
                         issue.Comment = test.Outcome.OpenBugString;

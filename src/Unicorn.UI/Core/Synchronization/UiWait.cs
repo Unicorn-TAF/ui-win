@@ -71,7 +71,7 @@ namespace Unicorn.UI.Core.Synchronization
             var resultType = typeof(TResult);
             if ((resultType.IsValueType && resultType != typeof(bool)) || !typeof(object).IsAssignableFrom(resultType))
             {
-                throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
+                throw new ArgumentException($"Can only wait on an object or boolean response, tried to use type: " + resultType, "condition");
             }
 
             Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} {condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
@@ -151,7 +151,7 @@ namespace Unicorn.UI.Core.Synchronization
             var resultType = typeof(TResult);
             if ((resultType.IsValueType && resultType != typeof(bool)) || !typeof(object).IsAssignableFrom(resultType))
             {
-                throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
+                throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType, "condition");
             }
 
             Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{this.attribute}' {condition.Method.Name} '{this.value}' during {this.Timeout} with polling interval {this.PollingInterval}");

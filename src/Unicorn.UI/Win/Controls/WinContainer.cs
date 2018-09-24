@@ -8,11 +8,11 @@ namespace Unicorn.UI.Win.Controls
 {
     public abstract class WinContainer : WinControl, IContainer
     {
-        public WinContainer() : base()
+        protected WinContainer() : base()
         {
         }
 
-        public WinContainer(IUIAutomationElement instance) : base(instance)
+        protected WinContainer(IUIAutomationElement instance) : base(instance)
         {
         }
 

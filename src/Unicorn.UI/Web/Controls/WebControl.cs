@@ -72,19 +72,19 @@ namespace Unicorn.UI.Web.Controls
 
         public virtual void Click()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
             this.Instance.Click();
         }
 
         public virtual void JsClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "JavaScript click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "JavaScript click " + this);
             WebDriver.Instance.ExecuteJS("arguments[0].click()", this.Instance);
         }
 
         public virtual void RightClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
             Actions actions = new Actions((OpenQA.Selenium.IWebDriver)this.SearchContext);
             actions.MoveToElement(this.Instance);
             actions.ContextClick();

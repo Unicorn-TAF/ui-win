@@ -6,7 +6,7 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
 {
-    public class Helper
+    public static class AdapterUtilities
     {
         public static bool IsSuiteRunnable(Type suiteType)
         {
@@ -14,7 +14,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                            in suiteType.GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[]
                            select attribute.Feature.ToUpper().Trim();
 
-            if (features.Intersect(Configuration.RunFeatures).Count() == 0 && Configuration.RunFeatures.Any())
+            if (!features.Intersect(Configuration.RunFeatures).Any() && Configuration.RunFeatures.Any())
             {
                 return false;
             }

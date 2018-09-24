@@ -13,7 +13,7 @@ namespace Unicorn.UI.Desktop.PageObject
     {
         protected Application(string path, string exeName)
         {
-            this.SearchContext = GuiDriver.Instance.SearchContext as AutomationElement;
+            this.SearchContext = GuiDriver.Instance.SearchContext;
             ContainerFactory.InitContainer(this);
             this.Path = path;
             this.ExeName = exeName;

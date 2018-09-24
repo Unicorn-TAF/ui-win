@@ -289,10 +289,10 @@ namespace Unicorn.Core.Testing.Tests
 
             foreach (MethodInfo method in suiteMethods)
             {
-                if (Helper.IsTestParameterized(method))
+                if (AdapterUtilities.IsTestParameterized(method))
                 {
                     var attribute = method.GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
-                    foreach (DataSet dataSet in Helper.GetTestData(attribute.Method, this))
+                    foreach (DataSet dataSet in AdapterUtilities.GetTestData(attribute.Method, this))
                     {
                         Test test = GenerateTest(method, dataSet);
                         testMethods.Add(test);
@@ -329,7 +329,7 @@ namespace Unicorn.Core.Testing.Tests
              
             test.MethodType = SuiteMethodType.Test;
             test.ParentId = this.Id;
-            test.IsRunnable = Helper.IsTestRunnable(method);
+            test.IsRunnable = AdapterUtilities.IsTestRunnable(method);
 
             string fullTestName = $"{Name} - {method.Name}";
             string description = $"{test.Description}";

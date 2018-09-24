@@ -11,11 +11,11 @@ namespace Unicorn.UI.Desktop.Controls
 {
     public abstract class GuiControl : GuiSearchContext, IControl
     {
-        public GuiControl()
+        protected GuiControl()
         {
         }
 
-        public GuiControl(AutomationElement instance)
+        protected GuiControl(AutomationElement instance)
         {
             this.Instance = instance;
         }
@@ -129,7 +129,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void Click()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
             object pattern = null;
 
             try
@@ -151,7 +151,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void MouseClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))
             {
@@ -166,7 +166,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public void RightClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Right click " + this.ToString());
+            Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
             Point point;
             if (!this.Instance.TryGetClickablePoint(out point))
             {

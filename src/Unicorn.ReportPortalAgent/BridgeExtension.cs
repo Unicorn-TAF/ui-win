@@ -1,4 +1,4 @@
-﻿using System.Web.Script.Serialization;
+﻿////using System.Web.Script.Serialization;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
 
@@ -12,7 +12,7 @@ namespace Unicorn.ReportPortalAgent
 
         public void FormatLog(ref AddLogItemRequest logRequest)
         {
-            var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
+            ////var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
             this.Handled = true;
         }
     }

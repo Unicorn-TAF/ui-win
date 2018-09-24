@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
@@ -87,74 +88,71 @@ namespace Unicorn.ReportPortalAgent
                 var parentId = Guid.Empty;
 
                 // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
-                if (parentId.Equals(Guid.Empty))
+                if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
                 {
-                    if (this.suitesFlow.ContainsKey(id))
+                    var updateSuiteRequest = new UpdateTestItemRequest();
+
+                    // adding categories to suite
+                    var categories = suite.Features;
+                    if (categories != null)
                     {
-                        var updateSuiteRequest = new UpdateTestItemRequest();
+                        updateSuiteRequest.Tags = new List<string>();
 
-                        // adding categories to suite
-                        var categories = suite.Features;
-                        if (categories != null)
+                        foreach (string category in categories)
                         {
-                            updateSuiteRequest.Tags = new List<string>();
-
-                            foreach (string category in categories)
-                            {
-                                updateSuiteRequest.Tags.Add(category);
-                            }
+                            updateSuiteRequest.Tags.Add(category);
                         }
+                    }
 
-                        // adding description to suite
-                        var description = string.Empty;
+                    // adding description to suite
+                    var description = new StringBuilder();
 
-                        foreach (var key in suite.Metadata.Keys)
+                    foreach (var key in suite.Metadata.Keys)
+                    {
+                        description.Append($"{key}: {suite.Metadata[key]}\n");
+                    }
+
+                    if (description.Length != 0)
+                    {
+                        updateSuiteRequest.Description = description.ToString();
+                    }
+
+                    if (updateSuiteRequest.Description != null || updateSuiteRequest.Tags != null)
+                    {
+                        this.suitesFlow[id].AdditionalTasks.Add(Task.Run(() =>
                         {
-                            description += $"{key}: {suite.Metadata[key]}\n";
-                        }
+                            this.suitesFlow[id].StartTask.Wait();
+                            Bridge.Service.UpdateTestItem(this.suitesFlow[id].TestId, updateSuiteRequest);
+                        }));
+                    }
 
-                        if (!string.IsNullOrEmpty(description.Trim()))
-                        {
-                            updateSuiteRequest.Description = description;
-                        }
-
-                        if (updateSuiteRequest.Description != null || updateSuiteRequest.Tags != null)
-                        {
-                            this.suitesFlow[id].AdditionalTasks.Add(Task.Run(() =>
-                            {
-                                this.suitesFlow[id].StartTask.Wait();
-                                Bridge.Service.UpdateTestItem(this.suitesFlow[id].TestId, updateSuiteRequest);
-                            }));
-                        }
-
-                        // finishing suite
-                        var finishSuiteRequest = new FinishTestItemRequest
-                        {
-                            EndTime = DateTime.UtcNow,
-                            Status = statusMap[result]
-                        };
+                    // finishing suite
+                    var finishSuiteRequest = new FinishTestItemRequest
+                    {
+                        EndTime = DateTime.UtcNow,
+                        Status = statusMap[result]
+                    };
                         
-                        var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]);
+                    var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]);
 
-                        try
-                        {
-                            BeforeSuiteFinished?.Invoke(this, eventArg);
-                        }
-                        catch (Exception exp)
-                        {
-                            Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
-                        }
+                    try
+                    {
+                        BeforeSuiteFinished?.Invoke(this, eventArg);
+                    }
+                    catch (Exception exp)
+                    {
+                        Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
+                    }
 
-                        this.suitesFlow[id].Finish(finishSuiteRequest);
+                    this.suitesFlow[id].Finish(finishSuiteRequest);
 
-                        try
-                        {
-                            AfterSuiteFinished?.Invoke(this, new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]));
-                        }
-                        catch (Exception exp)
-                        {
-                            Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
-                        }
+                    try
+                    {
+                        AfterSuiteFinished?.Invoke(this, new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]));
+                    }
+                    catch (Exception exp)
+                    {
+                        Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
                     }
                 }
             }

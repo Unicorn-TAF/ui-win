@@ -2,7 +2,7 @@
 
 namespace Unicorn.Core.Testing.Verification
 {
-    public class MiscMatchers
+    public static class MiscMatchers
     {
         public static IsEvenMatcher IsEven()
         {
