@@ -23,5 +23,10 @@ namespace Unicorn.UI.Core.Matchers
         {
             return new ControlHasTextMatcher(expectedText);
         }
+
+        public static ControlHasTextMatchesMatcher HasTextMatching(string expectedTextRegex)
+        {
+            return new ControlHasTextMatchesMatcher(expectedTextRegex);
+        }
     }
 }
