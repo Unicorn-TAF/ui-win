@@ -11,12 +11,12 @@ namespace Unicorn.UI.Core.Matchers
             this.attribute = attribute;
         }
 
-        public static AttributeContainsMatcher Contains(string attribute, string expectedValue)
+        public static AttributeContainsMatcher HasAttributeContains(string attribute, string expectedValue)
         {
             return new AttributeContainsMatcher(attribute, expectedValue);
         }
 
-        public static AttributeIsEqualToMatcher IsEqualTo(string attribute, string expectedValue)
+        public static AttributeIsEqualToMatcher HasAttributeIsEqualTo(string attribute, string expectedValue)
         {
             return new AttributeIsEqualToMatcher(attribute, expectedValue);
         }

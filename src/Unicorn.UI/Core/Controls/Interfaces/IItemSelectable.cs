@@ -2,7 +2,10 @@
 {
     public interface IItemSelectable
     {
-        string SelectedValue { get; }
+        string SelectedValue
+        {
+            get;
+        }
 
         bool Select(string itemName);
     }

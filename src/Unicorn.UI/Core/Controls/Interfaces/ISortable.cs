@@ -14,5 +14,7 @@
         }
 
         bool Sort(SortDirection direction);
+
+        bool IsSorted(SortDirection direction);
     }
 }

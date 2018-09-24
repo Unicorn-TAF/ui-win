@@ -2,7 +2,10 @@
 {
     public interface IExpandable
     {
-        bool Expanded { get; }
+        bool Expanded
+        {
+            get;
+        }
 
         bool Expand();
 

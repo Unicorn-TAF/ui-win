@@ -7,8 +7,6 @@
             get;
         }
 
-        bool Check();
-
-        bool Uncheck();
+        bool SetCheckState(bool isChecked);
     }
 }

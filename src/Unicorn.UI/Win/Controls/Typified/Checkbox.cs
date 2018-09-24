@@ -1,4 +1,5 @@
-﻿using UIAutomationClient;
+﻿using System;
+using UIAutomationClient;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
@@ -21,7 +22,12 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         protected IUIAutomationTogglePattern TogglePattern => this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
-        public bool Check()
+        public bool SetCheckState(bool isChecked)
+        {
+            return isChecked ? Check() : Uncheck();
+        }
+
+        private bool Check()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
             if (this.Checked)
@@ -36,7 +42,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             return true;
         }
 
-        public bool Uncheck()
+        private bool Uncheck()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
             if (!this.Checked)

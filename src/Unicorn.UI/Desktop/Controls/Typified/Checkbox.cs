@@ -1,4 +1,5 @@
-﻿using System.Windows.Automation;
+﻿using System;
+using System.Windows.Automation;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
@@ -19,7 +20,12 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
-        public bool Check()
+        public bool SetCheckState(bool isChecked)
+        {
+            return isChecked ? Check() : Uncheck();
+        }
+
+        private bool Check()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
             if (this.Checked)
@@ -34,7 +40,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             return true;
         }
 
-        public bool Uncheck()
+        private bool Uncheck()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
             if (!this.Checked)

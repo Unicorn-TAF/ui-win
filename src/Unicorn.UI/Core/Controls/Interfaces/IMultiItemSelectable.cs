@@ -1,8 +1,11 @@
 ﻿namespace Unicorn.UI.Core.Controls.Interfaces
 {
-    public interface IMultiSelectable
+    public interface IMultiItemSelectable
     {
-        string[] SelectedValues { get; }
+        string[] SelectedValues
+        {
+            get;
+        }
 
         bool SelectMultiple(params string[] itemName);
     }

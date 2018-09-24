@@ -59,12 +59,12 @@ namespace Unicorn.UI.Desktop.Controls
             return radio.Select();
         }
 
-        public virtual bool SetCheckbox(string locator, bool @checked)
+        public virtual bool SetCheckbox(string locator, bool isChecked)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{@checked}'");
+            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{isChecked}'");
 
             Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
-            return @checked ? checkbox.Check() : checkbox.Uncheck();
+            return checkbox.SetCheckState(isChecked);
         }
     }
 }
