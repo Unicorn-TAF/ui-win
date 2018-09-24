@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Unicorn.UI.Web")]
 [assembly: AssemblyDescription("Unicorn TAF UI Web module")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPAM Systems")]
+[assembly: AssemblyCompany("Vitaliy Dobriyan")]
 [assembly: AssemblyProduct("Unicorn TAF UI Web module")]
 [assembly: AssemblyCopyright("Copyright © 2018 Vitaliy Dobriyan")]
 [assembly: AssemblyTrademark("")]

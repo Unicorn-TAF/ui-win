@@ -8,9 +8,9 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Implementation of Desktop controls UI library based on UIA3.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>automation</tags>
+    <tags>automation ui controls page-object windows desktop uia3</tags>
 	<dependencies>
 		<group>
 			<dependency id="Unicorn.Core" version="2.0.0"/>

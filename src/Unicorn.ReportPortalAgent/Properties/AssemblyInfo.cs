@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Unicorn.ReportPortalAgent")]
 [assembly: AssemblyDescription("Unicorn TAF Agent for EPAM Report Portal")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPAM Systems")]
+[assembly: AssemblyCompany("Vitaliy Dobriyan")]
 [assembly: AssemblyProduct("Unicorn TAF Agent for EPAM Report Portal")]
 [assembly: AssemblyCopyright("Copyright © 2018 Vitaliy Dobriyan")]
 [assembly: AssemblyTrademark("")]

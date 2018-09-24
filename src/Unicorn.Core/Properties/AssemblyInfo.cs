@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Unicorn.Core")]
 [assembly: AssemblyDescription("Unicorn TAF Core")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPAM Systems")]
+[assembly: AssemblyCompany("Vitaliy Dobriyan")]
 [assembly: AssemblyProduct("Unicorn TAF Core")]
 [assembly: AssemblyCopyright("Copyright © 2018 Vitaliy Dobriyan")]
 [assembly: AssemblyTrademark("")]
