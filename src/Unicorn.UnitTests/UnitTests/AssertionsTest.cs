@@ -11,7 +11,7 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestSoftAssertion()
         {
-            NUnit.Framework.Assert.Throws<AssertionError>(delegate 
+            NUnit.Framework.Assert.Throws<Core.Testing.Verification.AssertionException>(delegate 
             {
                 Verify assert = new Verify();
                 assert.VerifyThat("asd", EqualTo("asd"))
@@ -26,7 +26,7 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestAssertion()
         {
-            NUnit.Framework.Assert.Throws<AssertionError>(delegate
+            NUnit.Framework.Assert.Throws<Core.Testing.Verification.AssertionException>(delegate
             {
                 Core.Testing.Verification.Assert.That("as2d", EqualTo("asd"));
             });

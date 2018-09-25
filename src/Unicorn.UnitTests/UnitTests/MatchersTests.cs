@@ -31,13 +31,13 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That("a", Null()); });
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(delegate { Core.Testing.Verification.Assert.That("a", Null()); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullWithNotNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Null())); });
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(delegate { Core.Testing.Verification.Assert.That(null, Not(Null())); });
         }
 
         #endregion
@@ -83,42 +83,42 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That("asd", EqualTo("sd")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToStringWithNotNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That("asd", Not(EqualTo("asd"))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(new SampleObject(), EqualTo(new SampleObject("ds", 234))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToCustomObjectWithNotNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(new SampleObject(), Not(EqualTo(new SampleObject()))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, EqualTo("23")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsEqualToNullWithNotNegative()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(EqualTo("23"))); });
         }
 
@@ -159,56 +159,56 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.HasItems(hasItemsD)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNegative2()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.HasItems(new[] { "qwert12y" })); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNullNegative3()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Collection.HasItems(hasItemsB)); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.HasItems(hasItemsB))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative2()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.HasItems(new[] { "qwerty" }))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative3()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.HasItems(hasItemsA))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotNegative4()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.HasItems(hasItemsD))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNullWithNotNegative5()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Collection.HasItems(hasItemsB))); });
         }
 
@@ -231,28 +231,28 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.HasItem("qwerty27")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemNullNegative2()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Collection.HasItem("qwerty")); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemWithNotNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Not(Collection.HasItem("qwerty"))); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemWithNotNullNegative2()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(
                 delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Collection.HasItem("qwerty"))); });
         }
 
@@ -281,7 +281,7 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.IsNullOrEmpty()); });
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(delegate { Unicorn.Core.Testing.Verification.Assert.That(hasItemsA, Collection.IsNullOrEmpty()); });
         }
 
         [Test, Author("Vitaliy Dobriyan")]
@@ -299,7 +299,7 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotNegative1()
         {
-            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionError>(delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Collection.IsNullOrEmpty())); });
+            Assert.Throws<Unicorn.Core.Testing.Verification.AssertionException>(delegate { Unicorn.Core.Testing.Verification.Assert.That(null, Not(Collection.IsNullOrEmpty())); });
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                throw new AssertionError("\n" + message + matcher.MatcherOutput);
+                throw new AssertionException("\n" + message + matcher.MatcherOutput);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Unicorn.Core.Testing.Verification
                     message += "\n";
                 }
 
-                throw new AssertionError("\n" + message + matcher.MatcherOutput);
+                throw new AssertionException("\n" + message + matcher.MatcherOutput);
             }
         }
     }
