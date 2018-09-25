@@ -144,8 +144,6 @@ namespace Unicorn.UI.Win.Driver
             IUIAutomationCondition classCondition = GetClassNameCondition(instance.ClassName);
             IUIAutomationCondition typeCondition = GetControlTypeCondition(instance.Type);
 
-            instance = null;
-
             var baseAndCondition = WinDriver.Driver.CreateAndCondition(classCondition, typeCondition);
             return WinDriver.Driver.CreateAndCondition(baseAndCondition, locatorCondition);
         }

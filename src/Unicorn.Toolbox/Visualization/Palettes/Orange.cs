@@ -6,33 +6,27 @@ namespace Unicorn.Toolbox.Visualization
 {
     public class Orange : IPalette
     {
-        private Brush backColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
-
-        private Brush fontColor = Brushes.Black;
-
-        private Brush dataColor = Brushes.Black;
-
-        private List<Brush> dataColors;
-
         public Orange()
         {
-            dataColors = new List<Brush>();
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EF6C00")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F57C00")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FB8C00")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9800")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA726")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB74D")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCC80")));
-            dataColors.Add(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE0B2")));
+            DataColors = new List<Brush>
+            {
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EF6C00")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F57C00")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FB8C00")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF9800")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA726")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB74D")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCC80")),
+                new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE0B2"))
+            };
         }
 
-        public Brush BackColor => backColor;
+        public Brush BackColor { get; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF3E0"));
 
-        public List<Brush> DataColors => dataColors;
+        public List<Brush> DataColors { get; protected set; }
 
-        public Brush DataFontColor => dataColor;
+        public Brush DataFontColor { get; } = Brushes.Black;
 
-        public Brush FontColor => fontColor;
+        public Brush FontColor { get; } = Brushes.Black;
     }
 }

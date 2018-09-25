@@ -9,12 +9,12 @@ namespace Unicorn.Toolbox.Analysis
 {
     public class Analyzer
     {
-        private string assemblyDir;
-        private Type baseSuiteType = typeof(TestSuite);
+        private readonly string assemblyDirectory;
+        private readonly Type baseSuiteType = typeof(TestSuite);
 
         public Analyzer(Assembly assembly, string fileName)
         {
-            this.assemblyDir = Path.GetDirectoryName(fileName);
+            this.assemblyDirectory = Path.GetDirectoryName(fileName);
             this.AssemblyFile = Path.GetFileName(fileName);
             this.AssemblyName = assembly.FullName;
 
@@ -31,7 +31,7 @@ namespace Unicorn.Toolbox.Analysis
         {
             LoadDependenciesToCurrentAppDomain();
 
-            var testsAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.Equals(AssemblyName)).First();
+            var testsAssembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.FullName.Equals(AssemblyName));
             var allSuites = TestsObserver.ObserveTestSuites(testsAssembly);
 
             foreach (var suiteType in allSuites)
@@ -58,7 +58,7 @@ namespace Unicorn.Toolbox.Analysis
             var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             var loadedPaths = loadedAssemblies.Select(a => a.Location).ToArray();
 
-            var referencedPaths = Directory.GetFiles(assemblyDir, "*.dll");
+            var referencedPaths = Directory.GetFiles(assemblyDirectory, "*.dll");
             var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
             toLoad.ForEach(path => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(System.Reflection.AssemblyName.GetAssemblyName(path))));
         }

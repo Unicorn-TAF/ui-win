@@ -5,7 +5,8 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
     public class AttributeContainsMatcher : TypeSafeMatcher<IControl>
     {
-        private string attribute, value;
+        private readonly string attribute;
+        private readonly string value;
 
         public AttributeContainsMatcher(string attribute, string value)
         {

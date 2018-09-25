@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Reflection;
 
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class TestDataAttribute : Attribute
     {
-        private string method;
-
         public TestDataAttribute(string method)
         {
-            this.method = method;
+            this.Method = method;
         }
 
-        public string Method => this.method;
+        public string Method { get; protected set; }
     }
 }

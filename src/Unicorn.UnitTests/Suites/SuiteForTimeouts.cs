@@ -12,11 +12,13 @@ namespace Unicorn.UnitTests.Suites
         [BeforeSuite]
         public void BeforeSuite()
         {
+            // Method intentionally left empty.
         }
 
         [BeforeTest]
         public void BeforeTest()
         {
+            // Method intentionally left empty.
         }
 
         [Test]
@@ -31,6 +33,7 @@ namespace Unicorn.UnitTests.Suites
         [Disable]
         public void TestToSkip()
         {
+            // Method intentionally left empty.
         }
 
         [Test]
@@ -44,6 +47,7 @@ namespace Unicorn.UnitTests.Suites
         [AfterTest]
         public void AfterTest()
         {
+            // Method intentionally left empty.
         }
 
         [AfterSuite]

@@ -11,7 +11,7 @@ namespace Unicorn.Core.Testing.Tests
     public class Test : SuiteMethod
     {
         private List<string> categories = null;
-        private DataSet dataSet;
+        private readonly DataSet dataSet;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
@@ -160,26 +160,6 @@ namespace Unicorn.Core.Testing.Tests
             this.Outcome.Bugs.Clear();
             OnSkip?.Invoke(this);
             Logger.Instance.Log(LogLevel.Info, $"TEST '{Description}' {Outcome.Result}");
-        }
-
-        /// <summary>
-        /// Execute list of MethodInfo from TestSuite instance based on Field nameof TestSuite class.
-        /// Used to run BeforeTests and AfterTests
-        /// </summary>
-        /// <param name="suiteInstance">instance of TestSuite</param>
-        /// <param name="methodsList">name of Field contained array of MethodInfo</param>
-        private void ExecuteMethods(TestSuite suiteInstance, string methodsList)
-        {
-            object field = typeof(TestSuite)
-                .GetField(methodsList, BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(suiteInstance);
-
-            MethodInfo[] methods = field as MethodInfo[];
-
-            foreach (MethodInfo method in methods)
-            {
-                method.Invoke(suiteInstance, null);
-            }
         }
     }
 }

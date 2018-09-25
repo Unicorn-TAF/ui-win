@@ -4,7 +4,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 {
     public class TypeSafeNotMatcher<T> : TypeSafeMatcher<T>
     {
-        private TypeSafeMatcher<T> matcher;
+        private readonly TypeSafeMatcher<T> matcher;
 
         public TypeSafeNotMatcher(TypeSafeMatcher<T> matcher)
         {

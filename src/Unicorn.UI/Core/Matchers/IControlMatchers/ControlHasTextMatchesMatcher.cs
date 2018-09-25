@@ -6,7 +6,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
     public class ControlHasTextMatchesMatcher : TypeSafeMatcher<IControl>
     {
-        private string expectedTextRegex;
+        private readonly string expectedTextRegex;
 
         public ControlHasTextMatchesMatcher(string expectedTextRegex)
         {

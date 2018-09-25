@@ -13,7 +13,7 @@ namespace Unicorn.UnitTests.Tests
     {
         private static TestsRunner runner;
 
-        private ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
+        private readonly ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
         
         [OneTimeSetUp]
         public static void Setup()

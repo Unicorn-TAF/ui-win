@@ -48,11 +48,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public bool Select(string item)
+        public bool Select(string itemName)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{item}' item from {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
 
-            if (item.Equals(this.SelectedValue))
+            if (itemName.Equals(this.SelectedValue))
             {
                 Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (the item is selected by default)");
                 return false;
@@ -62,13 +62,13 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
             if (valuePattern != null)
             {
-                valuePattern.SetValue(item);
+                valuePattern.SetValue(itemName);
             }
             else
             {
                 Expand();
                 Thread.Sleep(500);
-                var itemEl = Find<ListItem>(ByLocator.Name(item));
+                var itemEl = Find<ListItem>(ByLocator.Name(itemName));
 
                 if (itemEl != null)
                 {

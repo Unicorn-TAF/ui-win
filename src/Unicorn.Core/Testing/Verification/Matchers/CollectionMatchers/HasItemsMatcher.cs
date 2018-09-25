@@ -5,7 +5,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 {
     public class HasItemsMatcher : Matcher
     {
-        private IEnumerable<object> expectedObjects;
+        private readonly IEnumerable<object> expectedObjects;
         
         public HasItemsMatcher(IEnumerable<object> expectedObjects)
         {
@@ -27,15 +27,15 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
             }
         }
 
-        public override bool Matches(object collectionObj)
+        public override bool Matches(object actual)
         {
-            if (collectionObj == null)
+            if (actual == null)
             {
                 DescribeMismatch("null");
                 return Reverse;
             }
 
-            IEnumerable<object> collection = (IEnumerable<object>)collectionObj;
+            IEnumerable<object> collection = (IEnumerable<object>)actual;
 
             IEnumerable<object> mismatchItems = this.Reverse ?
                 collection.Where(i => expectedObjects.Contains(i)) :

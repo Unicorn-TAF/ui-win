@@ -5,7 +5,7 @@ namespace Unicorn.Toolbox.Analysis.Filtering
 {
     public class AuthorsFilter : ISuitesFilter, ITestsFilter
     {
-        private IEnumerable<string> authors;
+        private readonly IEnumerable<string> authors;
 
         public AuthorsFilter(IEnumerable<string> authors)
         {
@@ -14,7 +14,7 @@ namespace Unicorn.Toolbox.Analysis.Filtering
 
         public List<SuiteInfo> FilterSuites(List<SuiteInfo> input)
         {
-            return input.Where(s => s.TestsInfos.Where(t => authors.Contains(t.Author)).Any()).ToList();
+            return input.Where(s => s.TestsInfos.Any(t => authors.Contains(t.Author))).ToList();
         }
 
         public List<TestInfo> FilterTests(List<TestInfo> input)

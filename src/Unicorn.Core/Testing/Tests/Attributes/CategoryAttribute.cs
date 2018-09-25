@@ -5,13 +5,11 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class CategoryAttribute : Attribute
     {
-        private string category;
-
         public CategoryAttribute(string category)
         {
-            this.category = category;
+            this.Category = category;
         }
 
-        public string Category => this.category;
+        public string Category { get; protected set; }
     }
 }

@@ -5,7 +5,7 @@ namespace Unicorn.Core.Testing.Verification
 {
     public class Verify
     {
-        private StringBuilder errors;
+        private readonly StringBuilder errors;
         private bool isSomethingFailed;
         private int errorCounter;
 
@@ -60,7 +60,7 @@ namespace Unicorn.Core.Testing.Verification
         {
             if (this.isSomethingFailed)
             {
-                throw new AssertionError("\n" + this.errors.ToString().Trim());
+                throw new AssertionException("\n" + this.errors.ToString().Trim());
             }
         }
     }

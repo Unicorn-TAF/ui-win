@@ -5,7 +5,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
     public class ControlHasTextMatcher : TypeSafeMatcher<IControl>
     {
-        private string expectedText;
+        private readonly string expectedText;
 
         public ControlHasTextMatcher(string expectedText)
         {

@@ -7,9 +7,9 @@ namespace Unicorn.Toolbox.Analysis
     {
         public const string NoCategory = "<CATEGORY NOT SPECIFIED>";
 
-        private List<string> categories;
-        private string name;
-        private string author;
+        private readonly List<string> categories;
+        private readonly string name;
+        private readonly string author;
 
         public TestInfo(string testName, string author, IEnumerable<string> categories)
         {

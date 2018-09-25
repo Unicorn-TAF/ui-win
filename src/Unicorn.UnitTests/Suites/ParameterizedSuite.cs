@@ -9,7 +9,7 @@ namespace Unicorn.UnitTests.Suites
     [Feature("parameterized")]
     public class ParameterizedSuite : TestSuite
     {
-        private SampleObject so;
+        private readonly SampleObject so;
 
         public ParameterizedSuite()
         {

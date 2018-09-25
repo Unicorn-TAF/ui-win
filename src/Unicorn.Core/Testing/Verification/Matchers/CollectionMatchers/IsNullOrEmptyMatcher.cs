@@ -10,9 +10,9 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
         public override string CheckDescription => "Is empty";
 
-        public override bool Matches(object collectionObj)
+        public override bool Matches(object actual)
         {
-            ICollection collection = (ICollection)collectionObj;
+            ICollection collection = (ICollection)actual;
 
             if (collection == null || collection.Count == 0)
             {

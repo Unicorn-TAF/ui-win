@@ -2,7 +2,7 @@
 {
     public class StringContainsMatcher : TypeSafeMatcher<string>
     {
-        private string objectToCompare;
+        private readonly string objectToCompare;
 
         public StringContainsMatcher(string objectToCompare)
         {

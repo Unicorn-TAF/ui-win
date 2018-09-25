@@ -33,7 +33,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                                 in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                                 select attribute.Category.ToUpper().Trim();
             
-            return categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count();
+            return categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count;
         }
 
         public static bool IsSuiteParameterized(Type suiteType)
@@ -44,7 +44,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         public static List<DataSet> GetSuiteData(Type suiteType)
         {
             var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null).FirstOrDefault();
+                .FirstOrDefault(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null);
 
             if (suiteDataMethod == null)
             {

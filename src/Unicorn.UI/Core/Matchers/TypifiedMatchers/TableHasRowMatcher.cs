@@ -5,8 +5,8 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class TableHasRowMatcher : TypeSafeMatcher<ITable>
     {
-        private string column;
-        private string cellValue;
+        private readonly string column;
+        private readonly string cellValue;
 
         public TableHasRowMatcher(string column, string cellValue)
         {

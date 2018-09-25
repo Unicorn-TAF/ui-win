@@ -5,7 +5,7 @@ namespace Unicorn.Toolbox.Analysis.Filtering
 {
     public class FeaturesFilter : ISuitesFilter
     {
-        private IEnumerable<string> features;
+        private readonly IEnumerable<string> features;
 
         public FeaturesFilter(IEnumerable<string> features)
         {

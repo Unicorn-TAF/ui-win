@@ -7,10 +7,10 @@ namespace Unicorn.Toolbox.Analysis
     {
         public const string NoFeature = "<FEATURE NOT SPECIFIED>";
 
-        private string name;
+        private readonly string name;
         private List<TestInfo> testsInfos;
-        private List<string> features;
-        private Dictionary<string, string> metadata;
+        private readonly List<string> features;
+        private readonly Dictionary<string, string> metadata;
 
         public SuiteInfo(string suiteName, IEnumerable<string> features, Dictionary<string, string> metadata)
         {

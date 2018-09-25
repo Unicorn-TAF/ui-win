@@ -32,7 +32,7 @@ namespace Unicorn.UI.Win.Input
             {
                 if (value.IsInvalid())
                 {
-                    throw new Exception(string.Format("Trying to set location outside the screen. {0}", value));
+                    throw new InvalidOperationException(string.Format("Trying to set location outside the screen. {0}", value));
                 }
 
                 SetCursorPos(value.ToDrawingPoint());

@@ -9,8 +9,8 @@ namespace Unicorn.UI.Core.Synchronization
 {
     public class UiWait<T> : AbstractWait where T : IControl
     {
-        private string attribute;
-        private string value;
+        private readonly string attribute;
+        private readonly string value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.

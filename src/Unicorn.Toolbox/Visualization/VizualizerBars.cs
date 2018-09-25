@@ -14,9 +14,8 @@ using Unicorn.Toolbox.Visualization.Palettes;
 
 namespace Unicorn.Toolbox.Visualization
 {
-    public class VizualizerBars
+    public static class VizualizerBars
     {
-        private static Random random = new Random();
         private static int margin = 15;
 
         private static IPalette palette = new LightGreen();

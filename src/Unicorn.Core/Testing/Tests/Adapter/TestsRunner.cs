@@ -8,12 +8,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 {
     public class TestsRunner
     {
-        private List<Type> runnableSuites;
-        private Assembly ass;
+        private readonly List<Type> runnableSuites;
+        private readonly Assembly testsAssembly;
 
         public TestsRunner(Assembly ass, bool getConfigFromFile = true)
         {
-            this.ass = ass;
+            this.testsAssembly = ass;
 
             if (getConfigFromFile)
             {
@@ -26,7 +26,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public TestsRunner(Assembly ass, string configurationFileName)
         {
-            this.ass = ass;
+            this.testsAssembly = ass;
 
             Configuration.FillFromFile(configurationFileName);
 
@@ -95,13 +95,13 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         private List<Type> ObserveRunnableSuites()
         {
-            return TestsObserver.ObserveTestSuites(ass)
+            return TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s)).ToList();
         }
 
         private MethodInfo GetRunInitCleanupMethods(Type attributeType)
         {
-            var suitesWithRunInit = ass.GetTypes()
+            var suitesWithRunInit = testsAssembly.GetTypes()
                 .Where(t => t.GetCustomAttributes(typeof(TestsAssemblyAttribute), true).Length > 0)
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 

@@ -5,16 +5,14 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AfterTestAttribute : Attribute
     {
-        private bool runAlways, skipTestsOnFail;
-
         public AfterTestAttribute(bool runAlways = true, bool skipTestsOnFail = false)
         {
-            this.runAlways = runAlways;
-            this.skipTestsOnFail = skipTestsOnFail;
+            this.RunAlways = runAlways;
+            this.SkipTestsOnFail = skipTestsOnFail;
         }
 
-        public bool RunAlways => this.runAlways;
+        public bool RunAlways { get; protected set; }
 
-        public bool SkipTestsOnFail => this.skipTestsOnFail;
+        public bool SkipTestsOnFail { get; protected set; }
     }
 }

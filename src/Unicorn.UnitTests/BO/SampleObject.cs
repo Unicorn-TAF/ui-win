@@ -2,8 +2,8 @@
 {
     public class SampleObject
     {
-        private string a = "param a";
-        private int b = 12;
+        private readonly string a = "param a";
+        private readonly int b = 12;
 
         public SampleObject()
         {

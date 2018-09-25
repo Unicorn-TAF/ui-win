@@ -168,7 +168,7 @@ namespace Unicorn.UI.Win.Input
         {
             if (!this.keysHeld.Contains(b))
             {
-                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
+                throw new InvalidOperationException(string.Format("Cannot press the key {0} as its already pressed", b));
             }
 
             this.keysHeld.Remove(b);
@@ -180,7 +180,7 @@ namespace Unicorn.UI.Win.Input
         {
             if (this.keysHeld.Contains(b))
             {
-                throw new Exception(string.Format("Cannot press the key {0} as its already pressed", b));
+                throw new InvalidOperationException(string.Format("Cannot press the key {0} as its already pressed", b));
             }
 
             this.keysHeld.Add(b);

@@ -5,7 +5,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class DropdownHasSelectedValue : TypeSafeMatcher<IDropdown>
     {
-        private string expectedValue;
+        private readonly string expectedValue;
 
         public DropdownHasSelectedValue(string expectedValue)
         {

@@ -9,10 +9,10 @@ namespace Unicorn.UnitTests.Tests
     [TestFixture]
     public class MatchersTests
     {
-        private List<string> hasItemsA = new List<string>() { "qwerty", "qwerty12", "qwerty123" };
-        private List<string> hasItemsB = new List<string>() { "qwerty", "qwerty123" };
-        private List<string> hasItemsC = new List<string>() { "qwerty3", "qwerty1234" };
-        private List<string> hasItemsD = new List<string>() { "qwerty", "qwerty1234" };
+        private readonly List<string> hasItemsA = new List<string>() { "qwerty", "qwerty12", "qwerty123" };
+        private readonly List<string> hasItemsB = new List<string>() { "qwerty", "qwerty123" };
+        private readonly List<string> hasItemsC = new List<string>() { "qwerty3", "qwerty1234" };
+        private readonly List<string> hasItemsD = new List<string>() { "qwerty", "qwerty1234" };
 
         #region IsNull
 

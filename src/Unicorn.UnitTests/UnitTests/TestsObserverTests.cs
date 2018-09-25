@@ -21,7 +21,7 @@ namespace Unicorn.UnitTests.Tests
         public void TestTestsObserverSearchTests()
         {
             IEnumerable<MethodInfo> foundTests = TestsObserver.ObserveTests(Assembly.GetExecutingAssembly());
-            Assert.AreEqual(foundTests.Count(), 22);
+            Assert.AreEqual(22, foundTests.Count());
         }
     }
 }

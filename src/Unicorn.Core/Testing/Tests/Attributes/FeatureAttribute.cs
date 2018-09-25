@@ -5,13 +5,11 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class FeatureAttribute : Attribute
     {
-        private string feature;
-
         public FeatureAttribute(string feature)
         {
-            this.feature = feature;
+            this.Feature = feature;
         }
 
-        public string Feature => this.feature;
+        public string Feature { get; protected set; }
     }
 }

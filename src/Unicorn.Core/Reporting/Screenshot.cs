@@ -8,7 +8,7 @@ using Unicorn.Core.Logging;
 
 namespace Unicorn.Core.Reporting
 {
-    public class Screenshot
+    public static class Screenshot
     {
         public static string ScreenshotsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
 

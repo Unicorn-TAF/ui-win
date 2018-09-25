@@ -77,7 +77,7 @@
     <Compile Include="Testing\Tests\Attributes\TestDataAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Testing\Verification\Assert.cs" />
-    <Compile Include="Testing\Verification\AssertionError.cs" />
+    <Compile Include="Testing\Verification\AssertionException.cs" />
     <Compile Include="Testing\Verification\Matchers\Collection.cs" />
     <Compile Include="Testing\Verification\Matchers\Is.cs" />
     <Compile Include="Testing\Verification\Matchers\Matcher.cs" />

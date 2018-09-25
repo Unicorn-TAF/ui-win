@@ -5,13 +5,11 @@ namespace Unicorn.Core.Testing.Tests.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class BugAttribute : Attribute
     {
-        private string bug;
-
         public BugAttribute(string bug)
         {
-            this.bug = bug;
+            this.Bug = bug;
         }
 
-        public string Bug => this.bug;
+        public string Bug { get; protected set; }
     }
 }

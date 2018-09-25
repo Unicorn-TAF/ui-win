@@ -6,7 +6,7 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Win.Controls.Typified
 {
-    public class TextInput : WinControl, IControl, ITextInput
+    public class TextInput : WinControl, ITextInput
     {
         public TextInput()
         {
@@ -43,7 +43,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             if (pattern.CurrentIsReadOnly != 0)
             {
-                throw new Exception("Input is disabled");
+                throw new ControlInvalidStateException("Input is disabled");
             }
 
             if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))

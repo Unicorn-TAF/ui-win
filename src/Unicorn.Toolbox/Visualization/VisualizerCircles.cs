@@ -14,7 +14,7 @@ using Unicorn.Toolbox.Visualization.Palettes;
 
 namespace Unicorn.Toolbox.Visualization
 {
-    public class VisualizerCircles
+    public static class VisualizerCircles
     {
         private static Random random = new Random();
         private static int margin = 30;

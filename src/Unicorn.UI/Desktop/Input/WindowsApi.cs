@@ -209,7 +209,7 @@ namespace Unicorn.UI.Desktop.Input
         }
     }
 
-    public class WindowsConstants
+    public static class WindowsConstants
     {
         public const uint SwHide = 0;
         public const uint SwShowNormal = 1;

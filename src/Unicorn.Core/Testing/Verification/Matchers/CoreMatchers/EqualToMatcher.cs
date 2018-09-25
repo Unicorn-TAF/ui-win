@@ -2,7 +2,7 @@
 {
     public class EqualToMatcher<T> : TypeSafeMatcher<T>
     {
-        private T objectToCompare;
+        private readonly T objectToCompare;
 
         public EqualToMatcher(T objectToCompare)
         {

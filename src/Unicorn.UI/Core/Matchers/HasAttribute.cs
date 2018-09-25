@@ -4,7 +4,7 @@ namespace Unicorn.UI.Core.Matchers
 {
     public class HasAttribute
     {
-        private string attribute;
+        private readonly string attribute;
 
         public HasAttribute(string attribute)
         {

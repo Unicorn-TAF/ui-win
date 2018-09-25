@@ -4,7 +4,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 {
     public class NotMatcher : Matcher
     {
-        private Matcher matcher;
+        private readonly Matcher matcher;
 
         public NotMatcher(Matcher matcher)
         {
@@ -18,9 +18,9 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
 
         public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
-        public override bool Matches(object obj)
+        public override bool Matches(object actual)
         {
-            if (this.matcher.Matches(obj))
+            if (this.matcher.Matches(actual))
             {
                 this.MatcherOutput.Append(this.matcher.MatcherOutput);
                 return false;

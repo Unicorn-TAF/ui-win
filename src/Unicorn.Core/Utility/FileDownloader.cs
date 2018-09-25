@@ -10,10 +10,10 @@ namespace Unicorn.Core.Utility
     public class FileDownloader
     {
         private readonly string destinationFolder;
-        private string downloadFileName;
+        private readonly string downloadFileName;
         private string[] fileNamesToExclude;
-        private HashSet<string> fileNamesBeforeDownload;
-        private TimeSpan pollingInterval = TimeSpan.FromMilliseconds(500);
+        private readonly HashSet<string> fileNamesBeforeDownload;
+        private readonly TimeSpan pollingInterval = TimeSpan.FromMilliseconds(500);
 
         public FileDownloader(string destinationFolder)
         {

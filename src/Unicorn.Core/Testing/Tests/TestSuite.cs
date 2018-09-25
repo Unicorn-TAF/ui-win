@@ -12,13 +12,16 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private Stopwatch suiteTimer;
+        private readonly Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
         private bool skipTests = false;
 
-        private Test[] tests;
-        private SuiteMethod[] beforeSuites, beforeTests, afterTests, afterSuites;
+        private readonly Test[] tests;
+        private readonly SuiteMethod[] beforeSuites;
+        private readonly SuiteMethod[] beforeTests;
+        private readonly SuiteMethod[] afterTests;
+        private readonly SuiteMethod[] afterSuites;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.

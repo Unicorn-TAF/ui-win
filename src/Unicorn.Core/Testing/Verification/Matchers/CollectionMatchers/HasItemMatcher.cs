@@ -5,7 +5,7 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 {
     public class HasItemMatcher : Matcher
     {
-        private object expectedObject;
+        private readonly object expectedObject;
 
         public HasItemMatcher(object expectedObject)
         {
@@ -14,15 +14,15 @@ namespace Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers
 
         public override string CheckDescription => $"Collection has item {this.expectedObject}";
 
-        public override bool Matches(object collection)
+        public override bool Matches(object actual)
         {
-            if (collection == null)
+            if (actual == null)
             {
                 DescribeMismatch("null");
                 return Reverse;
             }
 
-            if (((IEnumerable<object>)collection).Contains(this.expectedObject))
+            if (((IEnumerable<object>)actual).Contains(this.expectedObject))
             {
                 return true;
             }

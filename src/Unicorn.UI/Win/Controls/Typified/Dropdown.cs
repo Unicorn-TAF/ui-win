@@ -3,7 +3,6 @@ using UIAutomationClient;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Win.Driver;
 
 namespace Unicorn.UI.Win.Controls.Typified
 {
@@ -54,11 +53,11 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
-        public bool Select(string item)
+        public bool Select(string itemName)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{item}' item from {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
 
-            if (item.Equals(this.SelectedValue))
+            if (itemName.Equals(this.SelectedValue))
             {
                 Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (the item is selected by default)");
                 return false;
@@ -68,13 +67,13 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             if (value != null)
             {
-                value.SetValue(item);
+                value.SetValue(itemName);
             }
             else
             {
                 Expand();
                 Thread.Sleep(500);
-                var itemEl = Find<ListItem>(ByLocator.Name(item));
+                var itemEl = Find<ListItem>(ByLocator.Name(itemName));
 
                 if (itemEl != null)
                 {

@@ -142,8 +142,6 @@ namespace Unicorn.UI.Desktop.Driver
             Condition classCondition = GetClassNameCondition(instance.ClassName);
             Condition typeCondition = GetControlTypeCondition(instance.Type);
 
-            instance = null;
-
             return new AndCondition(classCondition, typeCondition, locatorCondition);
         }
 

@@ -8,15 +8,15 @@
 
         public override string CheckDescription => "Is null";
 
-        public override bool Matches(object obj)
+        public override bool Matches(object actual)
         {
-            if (obj == null)
+            if (actual == null)
             {
                 return true;
             }
             else
             {
-                DescribeMismatch(obj.ToString());
+                DescribeMismatch(actual.ToString());
                 return false;
             }
         }
