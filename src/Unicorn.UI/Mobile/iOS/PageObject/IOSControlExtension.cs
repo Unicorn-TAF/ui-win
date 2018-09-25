@@ -14,8 +14,7 @@ namespace Unicorn.UI.Mobile.iOS.PageObject
 
             try
             {
-                control.Instance.GetType();
-                return true;
+                return control.Instance.GetType() != null;
             }
             catch (ControlNotFoundException)
             {

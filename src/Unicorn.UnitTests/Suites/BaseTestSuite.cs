@@ -6,7 +6,7 @@ namespace Unicorn.UnitTests.Suites
 {
     public class BaseTestSuite : TestSuite
     {
-        private Lazy<AllSteps> steps = new Lazy<AllSteps>();
+        private readonly Lazy<AllSteps> steps = new Lazy<AllSteps>();
 
         /// <summary>
         /// Gets entry point for steps without bug

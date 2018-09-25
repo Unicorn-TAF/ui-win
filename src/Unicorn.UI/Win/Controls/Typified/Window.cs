@@ -64,6 +64,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             catch (ControlNotFoundException)
             {
+                // Window not found, wait is successful
             }
 
             timer.Stop();

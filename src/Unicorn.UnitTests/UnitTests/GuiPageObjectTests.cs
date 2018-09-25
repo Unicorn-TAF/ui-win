@@ -71,10 +71,11 @@ namespace Unicorn.UnitTests.Tests
             try
             {
                 var visible = charmap.FakeWindow.Visible;
-                Assert.Fail();
+                Assert.Fail($"windows is visible ({visible})");
             }
             catch (ControlNotFoundException)
             {
+                // this is positive scenario, nothing to do
             }
             catch
             {

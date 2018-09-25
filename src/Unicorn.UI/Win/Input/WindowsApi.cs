@@ -8,38 +8,6 @@ namespace Unicorn.UI.Win.Input
     /// Intended for White Internal use only
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct WindowPlacement
-    {
-        public uint Length;
-        public uint Flags;
-        public uint ShowCMD;
-        public Point MinmizedPosition;
-        public Point MaximizedPosition;
-        public Rectangle NormalPosition;
-    }
-
-    /// <summary>
-    /// Intended for White Internal use only
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct WindowInfo
-    {
-        public uint Size;
-        public Rectangle Layout;
-        public Rectangle ClientLayout;
-        public uint Style;
-        public uint ExStyle;
-        public uint ActiveStatus;
-        public uint BorderWidth;
-        public uint BorderHeight;
-        public ushort Atom;
-        public ushort WindowVersion;
-    }
-
-    /// <summary>
-    /// Intended for White Internal use only
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
     public struct MouseInput
     {
         private readonly int dx;
@@ -66,11 +34,13 @@ namespace Unicorn.UI.Win.Input
     [StructLayout(LayoutKind.Sequential)]
     public struct KeyboardInput
     {
+#pragma warning disable S1450 // Private fields only used as local variables in methods should become local variables
         private readonly short vk;
         private readonly short scan;
         private readonly KeyUpDown flags;
         private readonly int time;
         private readonly IntPtr extraInfo;
+#pragma warning restore S1450 // Private fields only used as local variables in methods should become local variables
 
         public KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
         {
@@ -81,6 +51,7 @@ namespace Unicorn.UI.Win.Input
             this.extraInfo = extraInfo;
         }
 
+        [Flags]
         public enum KeyUpDown
         {
             KEYEVENTF_KEYDOWN = 0x0000,
@@ -147,6 +118,7 @@ namespace Unicorn.UI.Win.Input
         }
     }
 
+#pragma warning disable S1144 // Unused private types or members should be removed
     /// <summary>
     /// Intended for White Internal use only
     /// </summary>
@@ -157,6 +129,7 @@ namespace Unicorn.UI.Win.Input
         private short paramL;
         private short paramH;
     }
+#pragma warning restore S1144 // Unused private types or members should be removed
 
     /// <summary>
     /// Intended for White Internal use only
@@ -167,7 +140,9 @@ namespace Unicorn.UI.Win.Input
         public uint Size;
         public uint Flags;
         public Point Point;
+#pragma warning disable S1144 // Unused private types or members should be removed
         private IntPtr handle;
+#pragma warning restore S1144 // Unused private types or members should be removed
 
         public static CursorInfo New()
         {
@@ -177,39 +152,7 @@ namespace Unicorn.UI.Win.Input
         }
     }
 
-    /// <summary>
-    /// Intended for White Internal use only
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct POINT
-    {
-        public int X;
-        public int Y;
-
-        public POINT(int x, int y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-    }
-
-    /// <summary>
-    /// Intended for White Internal use only
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct COLORREF
-    {
-        public byte R;
-        public byte G;
-        public byte B;
-
-        public override string ToString()
-        {
-            return string.Format("R={0},G={1},B={2}", this.R, this.G, this.B);
-        }
-    }
-
-    public class WindowsConstants
+    public static class WindowsConstants
     {
         public const uint SwHide = 0;
         public const uint SwShowNormal = 1;

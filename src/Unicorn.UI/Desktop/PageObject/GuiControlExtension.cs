@@ -14,8 +14,7 @@ namespace Unicorn.UI.Desktop.PageObject
 
             try
             {
-                control.Instance.GetType();
-                return true;
+                return control.Instance.GetType() != null;
             }
             catch (ControlNotFoundException)
             {

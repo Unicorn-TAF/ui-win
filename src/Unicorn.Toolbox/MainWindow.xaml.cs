@@ -38,7 +38,9 @@ namespace Unicorn.Toolbox
                 return;
             }
 
+#pragma warning disable S3885 // "Assembly.Load" should be used
             var testsAssembly = Assembly.LoadFrom(assemblyName);
+#pragma warning restore S3885 // "Assembly.Load" should be used
             this.analyzer = new Analyzer(testsAssembly, assemblyName);
             this.analyzer.GetTestsStatistics();
 
@@ -107,7 +109,7 @@ namespace Unicorn.Toolbox
                 var preview = new WindowTestPreview();
                 preview.ShowActivated = false;
                 preview.Show();
-                preview.gridResults.ItemsSource = analyzer.Data.FilteredInfo.Where(s => s.Name.Equals(testSuiteName)).First().TestsInfos;
+                preview.gridResults.ItemsSource = analyzer.Data.FilteredInfo.First(s => s.Name.Equals(testSuiteName)).TestsInfos;
             }
         }
 

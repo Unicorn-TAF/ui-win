@@ -46,8 +46,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public void WaitForClosed(int timeout = 5000)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
+            var timer = Stopwatch.StartNew();
 
             var originalTimeout = GuiDriver.ImplicitlyWaitTimeout;
             GuiDriver.ImplicitlyWaitTimeout = TimeSpan.FromSeconds(0);
@@ -62,6 +61,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
             catch (ControlNotFoundException)
             {
+                // positive case, window disappeared
             }
 
             timer.Stop();

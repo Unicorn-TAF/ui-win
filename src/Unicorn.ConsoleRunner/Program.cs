@@ -14,6 +14,10 @@ namespace Unicorn.ConsoleRunner
         private const string ConstConfiguration = "configuration";
         private static readonly string Delimiter = new string('-', 123);
 
+        protected Program()
+        {
+        }
+
         public static void Main(string[] args)
         {
             if (args.Length == 0)

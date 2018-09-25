@@ -32,25 +32,5 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 ((InvokePattern)Instance.GetCurrentPattern(InvokePattern.Pattern)).Invoke();
             }
         }
-
-        public bool IsElementToggledOn()
-        {
-            if (this.Instance == null)
-            {
-                // TODO: Invalid parameter error handling.
-                return false;
-            }
-
-            object objPattern;
-            TogglePattern togPattern;
-            if (Instance.TryGetCurrentPattern(TogglePattern.Pattern, out objPattern))
-            {
-                togPattern = objPattern as TogglePattern;
-                return togPattern.Current.ToggleState == ToggleState.On;
-            }
-
-            // TODO: Object doesn't support TogglePattern error handling.
-            return false;
-        }
     }
 }

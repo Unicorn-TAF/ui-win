@@ -7,8 +7,10 @@ using Unicorn.Core.Reporting;
 
 namespace Unicorn.UnitTests.Util
 {
+#pragma warning disable S2187 // TestCases should contain tests
     [TestFixture]
     public class NUnitTestRunner
+
     {
         [OneTimeSetUp]
         public static void ClassInit()
@@ -16,11 +18,6 @@ namespace Unicorn.UnitTests.Util
             Logger.Instance = new TestContextLogger();
             Reporter.Instance = new SimpleReporter();
             Reporter.Instance.Init();
-        }
-
-        [OneTimeTearDown]
-        public static void ClassTearDown()
-        {
         }
 
         protected string GetTestContextOut()
@@ -31,4 +28,5 @@ namespace Unicorn.UnitTests.Util
             return sb.ToString();
         }
     }
+#pragma warning restore S2187 // TestCases should contain tests
 }

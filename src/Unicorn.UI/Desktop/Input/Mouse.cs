@@ -47,18 +47,18 @@ namespace Unicorn.UI.Desktop.Input
 
         public static void LeftUp()
         {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFLeftUp)));
+            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftUp, GetMessageExtraInfo())));
         }
 
         public static void LeftDown()
         {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFLeftDown)));
+            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftDown, GetMessageExtraInfo())));
         }
 
         public virtual void RightClick()
         {
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFRightDown)));
-            SendInput(Input.Mouse(MouseInput(WindowsConstants.MouseEventFRightUp)));
+            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFRightDown, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFRightUp, GetMessageExtraInfo())));
         }
 
         public virtual void ResetPosition()
@@ -120,19 +120,11 @@ namespace Unicorn.UI.Desktop.Input
         private static extern bool SetCursorPos(System.Drawing.Point cursorInfo);
 
         [DllImport("user32.dll")]
-        private static extern bool GetCursorInfo(ref CursorInfo cursorInfo);
-
-        [DllImport("user32.dll")]
         private static extern short GetDoubleClickTime();
 
         private static void SendInput(Input input)
         {
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
-        }
-
-        private static MouseInput MouseInput(int command)
-        {
-            return new MouseInput(command, GetMessageExtraInfo());
         }
     }
 }

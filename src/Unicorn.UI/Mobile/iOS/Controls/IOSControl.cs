@@ -9,20 +9,7 @@ namespace Unicorn.UI.Mobile.IOS.Controls
 {
     public class IOSControl : IOSSearchContext, IControl
     {
-        private bool cached = true;
-
-        public bool Cached
-        {
-            get
-            {
-                return this.cached;
-            }
-
-            set
-            {
-                this.cached = value;
-            }
-        }
+        public bool Cached { get; set; } = true;
 
         public ByLocator Locator { get; set; }
 

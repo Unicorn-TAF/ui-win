@@ -39,7 +39,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
         public void Open()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Open {this.AppActivity} application");
-            AndroidDriver.Instance.GetType();
+            AndroidDriver.Instance.ToString();
         }
     }
 }

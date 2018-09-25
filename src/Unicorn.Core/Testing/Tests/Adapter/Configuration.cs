@@ -73,12 +73,12 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
             JsonConf conf = JsonConvert.DeserializeObject<JsonConf>(File.ReadAllText(configPath));
 
-            TestTimeout = conf.TestTimeout;
-            SuiteTimeout = conf.SuiteTimeout;
-            ParallelBy = conf.ParallelBy;
-            Threads = conf.Threads;
-            SetTestCategories(conf.RunCategories.ToArray());
-            SetSuiteFeatures(conf.RunFeatures.ToArray());
+            TestTimeout = conf.JsonTestTimeout;
+            SuiteTimeout = conf.JsonSuiteTimeout;
+            ParallelBy = conf.JsonParallelBy;
+            Threads = conf.JsonThreads;
+            SetTestCategories(conf.JsonRunCategories.ToArray());
+            SetSuiteFeatures(conf.JsonRunFeatures.ToArray());
         }
 
         public static string GetInfo()
@@ -105,24 +105,14 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             [JsonProperty("parallel")]
             private string parallelBy = "assembly";
 
-            [JsonProperty("threads")]
-            private int threads = 1;
+            [JsonIgnore]
+            public TimeSpan JsonTestTimeout => TimeSpan.FromMinutes(this.testTimeout);
 
             [JsonIgnore]
-            private List<string> categories = new List<string>();
-            [JsonIgnore]
-            private List<string> features = new List<string>();
-            [JsonIgnore]
-            private List<string> tests = new List<string>();
+            public TimeSpan JsonSuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
 
             [JsonIgnore]
-            public TimeSpan TestTimeout => TimeSpan.FromMinutes(this.testTimeout);
-
-            [JsonIgnore]
-            public TimeSpan SuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
-
-            [JsonIgnore]
-            public Parallelization ParallelBy
+            public Parallelization JsonParallelBy
             {
                 get
                 {
@@ -139,17 +129,17 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 }
             }
 
-            [JsonIgnore]
-            public int Threads => this.threads;
+            [JsonProperty("threads")]
+            public int JsonThreads { get; set; } = 1;
 
             [JsonProperty("categories")]
-            public List<string> RunCategories => this.categories;
+            public List<string> JsonRunCategories { get; set; } = new List<string>();
 
             [JsonProperty("features")]
-            public List<string> RunFeatures => this.features;
+            public List<string> JsonRunFeatures { get; set; } = new List<string>();
 
             [JsonProperty("tests")]
-            public List<string> RunTests => this.tests;
+            public List<string> JsonRunTests { get; set; } = new List<string>();
         }
     }
 }
