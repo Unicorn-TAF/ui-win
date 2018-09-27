@@ -63,7 +63,7 @@ namespace Unicorn.Toolbox
             grid.Children.Clear();
             grid.RowDefinitions.Clear();
 
-            grid.Height = items.Count * 20;
+            grid.Height = (items.Count + 2) * 20;
 
             for (int i = 0; i < items.Count + 2; i++)
             {
