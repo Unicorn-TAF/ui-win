@@ -7,10 +7,10 @@ namespace Unicorn.UnitTests.Gui
     public class CharmapApplication : Application
     {
         [Find(Using.Name, "Character Map")]
-        public WindowCharMap Window;
+        public WindowCharMap Window { get; set; }
 
         [Find(Using.Name, "asdlkjfghsdhjkfgdsfkjhfg")]
-        public WindowCharMap FakeWindow;
+        public WindowCharMap FakeWindow { get; set; }
 
         public CharmapApplication(string path, string exeName) : base(path, exeName)
         {

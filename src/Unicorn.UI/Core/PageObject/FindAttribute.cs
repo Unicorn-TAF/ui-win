@@ -3,7 +3,7 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.PageObject
 {
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class FindAttribute : Attribute
     {
         public FindAttribute(Using how, string locator)

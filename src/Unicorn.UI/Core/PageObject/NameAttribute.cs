@@ -2,7 +2,7 @@
 
 namespace Unicorn.UI.Core.PageObject
 {
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class NameAttribute : Attribute
     {
         public NameAttribute(string name)
@@ -13,7 +13,7 @@ namespace Unicorn.UI.Core.PageObject
         public string Name
         {
             get;
-
+            
             protected set;
         }
     }

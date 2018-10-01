@@ -7,32 +7,32 @@ namespace Unicorn.UnitTests.Gui
     public class WindowCharMap : Window
     {
         [Find(Using.Name, "Copy")]
-        public Button ButtonCopy;
+        public Button ButtonCopy { get; set; }
 
         [Find(Using.Name, "Font :")]
-        public Dropdown DropdownFonts;
+        public Dropdown DropdownFonts { get; set; }
 
         [Find(Using.Name, "Characters to copy :")]
-        public TextInput InputCharactersToCopy;
+        public TextInput InputCharactersToCopy { get; set; }
 
         [Find(Using.Name, "Advanced view")]
-        public Checkbox CheckboxAdvancedView;
+        public Checkbox CheckboxAdvancedView { get; set; }
 
         #region "Advanced view"
 
         [Find(Using.Name, "Character set :")]
-        public Dropdown DropdownCharacterSet;
+        public Dropdown DropdownCharacterSet { get; set; }
 
         [Find(Using.Name, "Group by :")]
-        public Dropdown DropdownGroupBy;
+        public Dropdown DropdownGroupBy { get; set; }
 
         [Find(Using.Id, "133")]
-        public Button ButtonSearch;
+        public Button ButtonSearch { get; set; }
 
         #endregion
 
         [Find(Using.Name, "Select")]
-        protected Button buttonSelect;
+        protected Button buttonSelect { get; set; }
 
         public Button SelectButton => this.buttonSelect;
 
