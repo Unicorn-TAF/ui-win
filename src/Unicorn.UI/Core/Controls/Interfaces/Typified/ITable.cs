@@ -2,10 +2,8 @@
 {
     public interface ITable
     {
-        ITableRow GetRow(string column, string cellValue);
-    }
+        bool HasColumn(string columnName);
 
-    public interface ITableRow
-    {
+        bool HasRow(string columnName, string cellValue);
     }
 }

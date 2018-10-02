@@ -104,8 +104,10 @@
     <Compile Include="Matchers\IControlMatchers\AttributeContainsMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlEnabledMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlVisibleMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\DropdownExpandedMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\TableHasColumnMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\TableHasRowMatcher.cs" />
-    <Compile Include="Matchers\TypifiedMatchers\DropdownHasSelectedValue.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\DropdownHasSelectedValueMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\CheckboxCheckedMatcher.cs" />
     <Compile Include="PageObject\ContainerFactory.cs" />
     <Compile Include="PageObject\FindAttribute.cs" />

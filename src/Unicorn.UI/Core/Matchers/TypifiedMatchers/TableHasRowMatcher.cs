@@ -24,17 +24,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            bool hasRow;
-
-            try
-            {
-                actual.GetRow(column, cellValue);
-                hasRow = true;
-            }
-            catch
-            {
-                hasRow = false;
-            }
+            bool hasRow = actual.HasRow(column, cellValue);
 
             DescribeMismatch(hasRow ? "having row" : "not having row");
             return hasRow;

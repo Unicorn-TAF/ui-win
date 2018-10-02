@@ -37,7 +37,21 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public void SendKeys(string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Input {text} to {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
+
+            var pattern = this.ValuePattern;
+
+            if (pattern.CurrentIsReadOnly != 0)
+            {
+                throw new ControlInvalidStateException("Input is disabled");
+            }
+
+            pattern.SetValue(text);
+        }
+
+        public bool SetText(string text)
+        {
+            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 
             var pattern = this.ValuePattern;
 
@@ -49,6 +63,12 @@ namespace Unicorn.UI.Win.Controls.Typified
             if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
                 pattern.SetValue(text);
+                return true;
+            }
+            else
+            {
+                Logger.Instance.Log(LogLevel.Trace, "\tNo need to set (input already has such text)");
+                return false;
             }
         }
     }

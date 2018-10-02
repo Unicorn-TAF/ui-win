@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
@@ -66,16 +67,20 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             }
         }
 
-#pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
         public void RunTestSuite(Type type)
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
             {
+                var fullSuiteName = new StringBuilder();
+
                 foreach (var parametersSet in AdapterUtilities.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
                     parameterizedSuite.Metadata.Add("Data Set", parametersSet.Name);
-                    parameterizedSuite.Name += $" [{parametersSet.Name}]";
+
+                    fullSuiteName.Clear().Append(parameterizedSuite.Name).Append($" [{parametersSet.Name}]");
+
+                    parameterizedSuite.Name = fullSuiteName.ToString();
                     ExecuteSuiteIteration(parameterizedSuite);
                 }
             }
@@ -85,7 +90,6 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 ExecuteSuiteIteration(suite);
             }
         }
-#pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
 
         private void ExecuteSuiteIteration(TestSuite testSuite)
         {

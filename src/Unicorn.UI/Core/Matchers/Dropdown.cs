@@ -4,9 +4,10 @@ namespace Unicorn.UI.Core.Matchers
 {
     public static class Dropdown
     {
-        public static DropdownHasSelectedValue HasSelectedValue(string expectedValue)
-        {
-            return new DropdownHasSelectedValue(expectedValue);
-        }
+        public static DropdownHasSelectedValueMatcher HasSelectedValue(string expectedValue)
+            => new DropdownHasSelectedValueMatcher(expectedValue);
+
+        public static DropdownExpandedMatcher Expanded()
+            => new DropdownExpandedMatcher();
     }
 }

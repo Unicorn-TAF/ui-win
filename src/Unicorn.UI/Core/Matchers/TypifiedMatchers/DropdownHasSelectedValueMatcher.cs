@@ -3,11 +3,11 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
-    public class DropdownHasSelectedValue : TypeSafeMatcher<IDropdown>
+    public class DropdownHasSelectedValueMatcher : TypeSafeMatcher<IDropdown>
     {
         private readonly string expectedValue;
 
-        public DropdownHasSelectedValue(string expectedValue)
+        public DropdownHasSelectedValueMatcher(string expectedValue)
         {
             this.expectedValue = expectedValue;
         }

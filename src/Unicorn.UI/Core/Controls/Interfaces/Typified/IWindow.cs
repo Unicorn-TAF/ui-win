@@ -10,7 +10,5 @@ namespace Unicorn.UI.Core.Controls.Interfaces.Typified
         }
 
         void Close();
-
-        void WaitForClosed(int timeout);
     }
 }

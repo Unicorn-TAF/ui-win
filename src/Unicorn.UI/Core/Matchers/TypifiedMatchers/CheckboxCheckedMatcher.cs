@@ -19,9 +19,9 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            bool @checked = actual.Checked;
-            DescribeMismatch(@checked ? "checked" : "not checked");
-            return @checked;
+            bool isChecked = actual.Checked;
+            DescribeMismatch(isChecked ? "checked" : "not checked");
+            return isChecked;
         }
     }
 }

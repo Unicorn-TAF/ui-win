@@ -87,7 +87,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Typified\DataGrid.cs" />
     <Compile Include="Controls\Typified\Text.cs" />
     <Compile Include="Controls\Typified\Hyperlink.cs" />
     <Compile Include="Controls\Typified\ListView.cs" />

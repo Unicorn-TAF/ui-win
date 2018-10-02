@@ -5,28 +5,18 @@ namespace Unicorn.UI.Core.Matchers
     public static class Control
     {
         public static HasAttribute HasAttribute(string attribute)
-        {
-            return new HasAttribute(attribute);
-        }
+            => new HasAttribute(attribute);
 
         public static ControlEnabledMatcher Enabled()
-        {
-            return new ControlEnabledMatcher();
-        }
+            => new ControlEnabledMatcher();
 
         public static ControlVisibleMatcher Visible()
-        {
-            return new ControlVisibleMatcher();
-        }
+            => new ControlVisibleMatcher();
 
         public static ControlHasTextMatcher HasText(string expectedText)
-        {
-            return new ControlHasTextMatcher(expectedText);
-        }
+            => new ControlHasTextMatcher(expectedText);
 
         public static ControlHasTextMatchesMatcher HasTextMatching(string expectedTextRegex)
-        {
-            return new ControlHasTextMatchesMatcher(expectedTextRegex);
-        }
+            => new ControlHasTextMatchesMatcher(expectedTextRegex);
     }
 }

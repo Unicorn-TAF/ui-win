@@ -8,5 +8,7 @@
         }
 
         void SendKeys(string text);
+
+        bool SetText(string text);
     }
 }
