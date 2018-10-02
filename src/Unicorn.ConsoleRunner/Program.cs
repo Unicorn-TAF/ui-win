@@ -75,7 +75,9 @@ namespace Unicorn.ConsoleRunner
                 configUri = new Uri(propertiesPath, UriKind.Relative);
             }
 
+#pragma warning disable S3885 // "Assembly.Load" should be used
             TestsRunner runner = new TestsRunner(Assembly.LoadFrom(assemblyUri.ToString()), configUri.ToString());
+#pragma warning restore S3885 // "Assembly.Load" should be used
 
             ReportHeader(assemblyPath);
 

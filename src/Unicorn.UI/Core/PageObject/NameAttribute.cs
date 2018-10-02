@@ -2,7 +2,7 @@
 
 namespace Unicorn.UI.Core.PageObject
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class NameAttribute : Attribute
     {
         public NameAttribute(string name)
