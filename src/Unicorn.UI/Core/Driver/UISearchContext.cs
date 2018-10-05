@@ -27,6 +27,12 @@ namespace Unicorn.UI.Core.Driver
             return GetWrappedControlsList<T>(locator);
         }
 
+        public bool TryGetChild<T>(ByLocator locator) where T : IControl
+        {
+            T control;
+            return TryGetChild<T>(locator, 0, out control);
+        }
+
         public bool TryGetChild<T>(ByLocator locator, int millisecondsTimeout) where T : IControl
         {
             T control;
