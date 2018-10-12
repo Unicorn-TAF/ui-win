@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserType.cs" />
+    <Compile Include="Controls\Typified\TextInput.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
     <Compile Include="PageObject\WebControlExtension.cs" />
