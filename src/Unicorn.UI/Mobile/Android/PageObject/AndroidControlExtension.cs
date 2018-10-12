@@ -9,8 +9,8 @@ namespace Unicorn.UI.Mobile.Android.PageObject
     {
         public static bool Exists(this AndroidControl control)
         {
-            var originalTimeout = AndroidDriver.Instance.ImplicitlyWait;
-            AndroidDriver.Instance.ImplicitlyWait = TimeSpan.FromSeconds(0);
+            var originalTimeout = AndroidAppDriver.Instance.ImplicitlyWait;
+            AndroidAppDriver.Instance.ImplicitlyWait = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -22,7 +22,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
             }
             finally
             {
-                AndroidDriver.Instance.ImplicitlyWait = originalTimeout;
+                AndroidAppDriver.Instance.ImplicitlyWait = originalTimeout;
             }
         }
     }

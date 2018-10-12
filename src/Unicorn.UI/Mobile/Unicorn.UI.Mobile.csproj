@@ -62,14 +62,15 @@
   <ItemGroup>
     <Compile Include="Android\Controls\AndroidContainer.cs" />
     <Compile Include="Android\Controls\AndroidControl.cs" />
-    <Compile Include="Android\PageObject\AndroidBrowser.cs" />
+    <Compile Include="Android\PageObject\AndroidWebSite.cs" />
     <Compile Include="Android\PageObject\AndroidApplication.cs" />
     <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
+    <Compile Include="Android\Driver\AndroidWebDriver.cs" />
     <Compile Include="Base\Driver\MobileSearchContext.cs" />
     <Compile Include="IOS\Controls\IOSControl.cs" />
     <Compile Include="IOS\Driver\IOSDriver.cs" />
     <Compile Include="IOS\Driver\IOSSearchContext.cs" />
-    <Compile Include="Android\Driver\AndroidDriver.cs" />
+    <Compile Include="Android\Driver\AndroidAppDriver.cs" />
     <Compile Include="Android\Driver\AndroidSearchContext.cs" />
     <Compile Include="IOS\PageObject\IOSControlExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +88,10 @@
     <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
       <Name>Unicorn.UI.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web\Unicorn.UI.Web.csproj">
+      <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
+      <Name>Unicorn.UI.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

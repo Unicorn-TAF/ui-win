@@ -21,7 +21,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
             capabilities.Add("appActivity", $"{this.AppPackage}.{this.AppActivity}");
             capabilities.Add("platformName", this.PlatformName);
 
-            AndroidDriver.Init(hubUrl, capabilities);
+            AndroidAppDriver.Init(hubUrl, capabilities);
         }
 
         public string AppPackage { get; protected set; }
@@ -39,7 +39,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
         public void Open()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Open {this.AppActivity} application");
-            AndroidDriver.Instance.ToString();
+            AndroidAppDriver.Instance.ToString();
         }
     }
 }

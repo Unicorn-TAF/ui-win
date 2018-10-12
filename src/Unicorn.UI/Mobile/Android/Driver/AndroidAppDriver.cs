@@ -8,31 +8,28 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Android.Driver
 {
-    public class AndroidDriver : AndroidSearchContext, IDriver
+    public class AndroidAppDriver : AndroidSearchContext, IDriver
     {
         private static DesiredCapabilities capabilities = null;
         private static Uri uri = null;
         private static bool needInit = false;
 
-        private static AndroidDriver instance = null;
+        private static AndroidAppDriver instance = null;
 
-        private AndroidDriver()
+        private AndroidAppDriver()
         {
             Driver = new AndroidDriver<AndroidElement>(uri, capabilities);
             this.ImplicitlyWait = this.TimeoutDefault;
         }
 
-        public static AndroidDriver Instance
+        public static AndroidAppDriver Instance
         {
             get
             {
                 if (instance == null || needInit)
                 {
-                    instance = new AndroidDriver();
-
-                    instance.SearchContext = capabilities.HasCapability("browserName") ? 
-                        Driver.FindElementByTagName("body") : 
-                        Driver.FindElementByClassName("android.widget.FrameLayout");
+                    instance = new AndroidAppDriver();
+                    Driver.FindElementByClassName("android.widget.FrameLayout");
                     needInit = false;
                     Logger.Instance.Log(LogLevel.Debug, $"AndroidDriver initialized");
                 }
@@ -82,12 +79,6 @@ namespace Unicorn.UI.Mobile.Android.Driver
                 Driver.Quit();
                 instance = null;
             }
-        }
-
-        public void Get(string path)
-        {
-            Driver.Navigate().GoToUrl(path);
-            instance.SearchContext = Driver.FindElementByTagName("body");
         }
     }
 }

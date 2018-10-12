@@ -12,7 +12,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            AndroidDriver.Instance.ImplicitlyWait = timeout;
+            AndroidAppDriver.Instance.ImplicitlyWait = timeout;
         }
 
         protected override T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator)

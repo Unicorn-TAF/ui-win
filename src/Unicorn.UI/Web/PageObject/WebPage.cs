@@ -14,6 +14,14 @@ namespace Unicorn.UI.Web.PageObject
             this.Title = title;
         }
 
+        protected WebPage(OpenQA.Selenium.ISearchContext searchContext, string url, string title)
+        {
+            this.SearchContext = searchContext;
+            ContainerFactory.InitContainer(this);
+            this.Url = url;
+            this.Title = title;
+        }
+
         public bool Opened
         {
             get
