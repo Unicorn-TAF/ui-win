@@ -85,7 +85,7 @@ namespace Unicorn.UI.Web.Controls
         public virtual void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            Actions actions = new Actions((OpenQA.Selenium.IWebDriver)this.SearchContext);
+            Actions actions = new Actions(WebDriver.Driver);
             actions.MoveToElement(this.Instance);
             actions.ContextClick();
             actions.Release().Perform();
