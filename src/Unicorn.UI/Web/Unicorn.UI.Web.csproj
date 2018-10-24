@@ -89,6 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserType.cs" />
+    <Compile Include="Controls\Typified\Radio.cs" />
+    <Compile Include="Controls\Typified\Checkbox.cs" />
     <Compile Include="Controls\Typified\TextInput.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />

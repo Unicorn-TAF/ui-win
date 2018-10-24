@@ -1,23 +1,11 @@
-﻿using System.Windows.Automation;
-using Unicorn.Core.Logging;
+﻿using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
-namespace Unicorn.UI.Desktop.Controls.Typified
+namespace Unicorn.UI.Web.Controls.Typified
 {
-    public class Checkbox : GuiControl, ICheckbox
+    public class Checkbox : WebControl, ICheckbox
     {
-        public Checkbox()
-        {
-        }
-
-        public Checkbox(AutomationElement instance)
-            : base(instance)
-        {
-        }
-
-        public override ControlType Type => ControlType.CheckBox;
-
-        public bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
+        public bool Checked => this.Instance.Selected;
 
         public bool SetCheckState(bool isChecked)
         {
@@ -33,7 +21,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<TogglePattern>().Toggle();
+            this.Click();
             Logger.Instance.Log(LogLevel.Trace, "\tChecked");
 
             return true;
@@ -48,7 +36,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<TogglePattern>().Toggle();
+            this.Click();
             Logger.Instance.Log(LogLevel.Trace, "\tUnchecked");
 
             return true;
