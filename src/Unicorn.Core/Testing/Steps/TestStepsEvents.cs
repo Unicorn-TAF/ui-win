@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using AspectInjector.Broker;
+using Unicorn.Core.Testing.Steps.Attributes;
 
 namespace Unicorn.Core.Testing.Steps
 {
@@ -19,7 +21,11 @@ namespace Unicorn.Core.Testing.Steps
         public void OnStartActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
         {
             MethodBase method = new StackFrame(1).GetMethod();
-            OnStart?.Invoke(method, arguments);
+
+            if (method.GetCustomAttributes(typeof(TestStepAttribute), true).Any())
+            {
+                OnStart?.Invoke(method, arguments);
+            }
         }
 
         [Advice(InjectionPoints.Exception, InjectionTargets.Method)]

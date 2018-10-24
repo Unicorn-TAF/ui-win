@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Collections;
+using System.Reflection;
 using Unicorn.Core.Testing.Steps.Attributes;
 
 namespace Unicorn.Core.Testing.Steps
@@ -8,33 +8,44 @@ namespace Unicorn.Core.Testing.Steps
     {
         public static string GetStepInfo(MethodBase method, object[] arguments)
         {
-            var stepDescription = new StringBuilder();
+            var attribute = method.GetCustomAttribute(typeof(TestStepAttribute), true) as TestStepAttribute;
+            return attribute == null ? string.Empty : string.Format(attribute.Description, ConvertArguments(arguments));
+        }
 
-            object[] attributes = method.GetCustomAttributes(typeof(TestStepAttribute), true);
+        private static string[] ConvertArguments(object[] arguments)
+        {
+            var convertedArguments = new string[arguments.Length];
 
-            // generate description based on method signature if TestStep attribute is not defined
-            // else if TestStep attribute is defined, use it as template for string.Format
-            if (attributes.Length == 0)
+            for (int i = 0; i < arguments.Length; i++)
             {
-                stepDescription.Append(method.Name);
-
-                if (arguments.Length > 0)
-                {
-                    stepDescription.Append(":");
-                }
-                    
-                for (int i = 0; i < arguments.Length; i++)
-                {
-                    stepDescription.Append($" '{arguments[i]}'");
-                }
-            }
-            else
-            {
-                TestStepAttribute attribute = (TestStepAttribute)attributes[0];
-                stepDescription.AppendFormat(attribute.Description, arguments);
+                convertedArguments[i] = GetArgumentValue(arguments[i]);
             }
 
-            return stepDescription.ToString();
+            return convertedArguments;
+        }
+
+        private static string GetArgumentValue(object argument)
+        {
+            if (argument == null)
+            {
+                return "<null>";
+            }
+
+            var collectionArgument = argument as ICollection;
+
+            if (collectionArgument != null)
+            {
+                var arrayList = new ArrayList();
+
+                foreach (var item in collectionArgument)
+                {
+                    arrayList.Add(item);
+                }
+
+                return $"[{string.Join("; ", arrayList.ToArray())}]";
+            }
+
+            return argument.ToString();
         }
     }
 }
