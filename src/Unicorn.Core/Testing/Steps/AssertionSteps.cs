@@ -12,15 +12,17 @@ namespace Unicorn.Core.Testing.Steps
         private Verify softAssertion = null;
 
         [TestStep("Assert that '{0}' {1}")]
-        public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher)
-        {
+        public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) => 
             Assert.That(actual, matcher);
-        }
 
         [TestStep("Assert that '{0}' {1}")]
-        public void AssertThat(object actual, Matcher matcher)
-        {
+        public void AssertThat(object actual, Matcher matcher) =>
             Assert.That(actual, matcher);
+
+        public AssertionSteps StartVerification()
+        {
+            softAssertion = new Verify();
+            return this;
         }
 
         [TestStep("Verify that '{0}' {1}")]
