@@ -38,12 +38,14 @@ namespace Unicorn.UI.Web.PageObject
 
         public string Title { get; protected set; }
 
+        [Name("Page body")]
         [Find(Using.Web_Tag, "body")]
-        public WebControl Body { get; private set; }
+        public WebControl Body { get; set; }
 
         public override string ToString()
         {
-            return string.IsNullOrEmpty(this.Title) ? base.ToString() : this.Title;
+            var name = string.IsNullOrEmpty(this.Title) ? GetType().ToString() : this.Title;
+            return $"page '{name}'";
         }
     }
 }

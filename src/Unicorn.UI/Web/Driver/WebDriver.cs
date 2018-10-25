@@ -1,51 +1,31 @@
 ﻿using System;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Web.Driver
 {
-    public class WebDriver : WebSearchContext, IDriver
+    public abstract class WebDriver : WebSearchContext, IDriver
     {
-        private static bool needInit = false;
-        private static DriverOptions options = null;
-
         private static WebDriver instance = null;
-
-        private WebDriver(bool maximize = true)
-        {
-            Driver = options == null ? GetInstance() : GetInstance(options);
-
-            if (maximize)
-            {
-                Driver.Manage().Window.Maximize();
-            }
-
-            this.ImplicitlyWait = this.TimeoutDefault;
-        }
 
         public static WebDriver Instance
         {
             get
             {
-                if (instance == null || needInit)
-                {
-                    instance = new WebDriver();
-                    instance.SearchContext = Driver;
-                    needInit = false;
-                    Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"{Browser} WebDriver initialized");
-                }
-
                 return instance;
+            }
+            set
+            {
+                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
+                instance = value;
+                instance.SearchContext = Driver;
             }
         }
 
         public static IWebDriver Driver { get; set; }
 
-        public static BrowserType Browser { get; set; } = BrowserType.Chrome;
+        public BrowserType Browser { get; protected set; }
 
         public string Url => Driver.Url;
 
@@ -62,27 +42,20 @@ namespace Unicorn.UI.Web.Driver
             }
         }
 
-        public static void Init(BrowserType browser, DriverOptions driverOptions = null)
-        {
-            needInit = true;
-            Browser = browser;
-            options = driverOptions;
-        }
-
         public static void Close()
         {
             Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, "Close driver");
 
-            if (instance != null)
+            if (Instance != null)
             {
                 Driver.Quit();
-                instance = null;
-                options = null;
+                Instance = null;
             }
         }
 
         public void Get(string url)
         {
+            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Navigate to {url} page");
             Driver.Navigate().GoToUrl(url);
         }
 
@@ -91,36 +64,6 @@ namespace Unicorn.UI.Web.Driver
             Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
             IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
             return js.ExecuteScript(script, parameters);
-        }
-
-        private IWebDriver GetInstance()
-        {
-            switch (Browser)
-            {
-                case BrowserType.Chrome:
-                    return new ChromeDriver();
-                case BrowserType.IE:
-                    return new InternetExplorerDriver();
-                case BrowserType.Firefox:
-                    return new FirefoxDriver();
-                default:
-                    return null;
-            }
-        }
-
-        private IWebDriver GetInstance(DriverOptions options)
-        {
-            switch (Browser)
-            {
-                case BrowserType.Chrome:
-                    return new ChromeDriver((ChromeOptions)options);
-                case BrowserType.IE:
-                    return new InternetExplorerDriver((InternetExplorerOptions)options);
-                case BrowserType.Firefox:
-                    return new FirefoxDriver((FirefoxOptions)options);
-                default:
-                    return null;
-            }
         }
     }
 }

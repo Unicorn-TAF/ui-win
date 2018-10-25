@@ -6,14 +6,6 @@ namespace Unicorn.UI.Web.PageObject
 {
     public abstract class WebSite
     {
-        protected virtual OpenQA.Selenium.ISearchContext Context => WebDriver.Driver;
-
-        protected WebSite(BrowserType type, string baseUrl)
-        {
-            WebDriver.Init(type);
-            this.BaseUrl = baseUrl.TrimEnd('/');
-        }
-
         protected WebSite(string baseUrl)
         {
             this.BaseUrl = baseUrl.TrimEnd('/');
@@ -29,7 +21,6 @@ namespace Unicorn.UI.Web.PageObject
         public virtual T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();
-            Logger.Instance.Log(LogLevel.Debug, $"Navigate to {page.Url} page");
             WebDriver.Instance.Get(this.BaseUrl + page.Url);
             return page;
         }

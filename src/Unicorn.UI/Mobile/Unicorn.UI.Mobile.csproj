@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Android\Controls\AndroidContainer.cs" />
     <Compile Include="Android\Controls\AndroidControl.cs" />
-    <Compile Include="Android\PageObject\AndroidWebSite.cs" />
     <Compile Include="Android\PageObject\AndroidApplication.cs" />
     <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
     <Compile Include="Android\Driver\AndroidWebDriver.cs" />
