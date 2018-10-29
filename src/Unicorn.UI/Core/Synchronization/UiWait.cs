@@ -9,8 +9,8 @@ namespace Unicorn.UI.Core.Synchronization
 {
     public class UiWait<T> : AbstractWait where T : IControl
     {
-        private readonly string attribute;
-        private readonly string value;
+        private readonly string attributeName;
+        private readonly string valueValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UiWait&lt;T&gt;"/> class.
@@ -41,8 +41,8 @@ namespace Unicorn.UI.Core.Synchronization
 
             this.Input = input;
 
-            this.attribute = attribute;
-            this.value = value;
+            this.attributeName = attribute;
+            this.valueValue = value;
         }
 
         protected T Input { get; set; }
@@ -154,7 +154,7 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType, "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{this.attribute}' {condition.Method.Name} '{this.value}' during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{this.attributeName}' {condition.Method.Name} '{this.valueValue}' during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
             var endTime = this.Clock.LaterBy(this.Timeout);
@@ -163,7 +163,7 @@ namespace Unicorn.UI.Core.Synchronization
             {
                 try
                 {
-                    var result = condition(this.Input, this.attribute, this.value);
+                    var result = condition(this.Input, this.attributeName, this.valueValue);
                     if (resultType == typeof(bool))
                     {
                         var boolResult = result as bool?;

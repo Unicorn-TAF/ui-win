@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -119,7 +120,6 @@
     <Compile Include="Controls\Interfaces\ISelectable.cs" />
     <Compile Include="Controls\Interfaces\Typified\ITable.cs" />
     <Compile Include="Controls\Interfaces\Typified\ITextInput.cs" />
-    <Compile Include="Controls\Interfaces\Typified\ITreeView.cs" />
     <Compile Include="Controls\Interfaces\Typified\IWindow.cs" />
     <Compile Include="Controls\ControlInvalidStateException.cs" />
     <Compile Include="Controls\ControlNotFoundException.cs" />
