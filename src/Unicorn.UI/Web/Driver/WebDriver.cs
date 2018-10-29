@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Web.Controls;
 
 namespace Unicorn.UI.Web.Driver
 {
@@ -64,6 +65,11 @@ namespace Unicorn.UI.Web.Driver
             Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
             IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
             return js.ExecuteScript(script, parameters);
+        }
+
+        public void ScrollTo(WebControl control)
+        {
+            this.ExecuteJS("window.scrollTo({0}, {1});", control.Location.X, control.Location.Y);
         }
     }
 }
