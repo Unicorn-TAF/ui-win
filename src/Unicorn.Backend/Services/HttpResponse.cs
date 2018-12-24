@@ -11,6 +11,9 @@ namespace Unicorn.Backend.Services
 
         public HttpResponse(HttpStatusCode status, WebHeaderCollection headers, string body)
         {
+            this.Status = status;
+            this.Headers = headers;
+            this.Body = body;
         }
 
         public TimeSpan ExecutionTime { get; set; }

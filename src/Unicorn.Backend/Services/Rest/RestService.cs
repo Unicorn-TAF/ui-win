@@ -15,20 +15,26 @@ namespace Unicorn.Backend.Services.Rest
         DELETE
     }
 
-    public class RestService : IWebService
+    public class RestService : IWebService<RestResponse>
     {
-        public RestService(string baseUrl, string serviceRelativeUrl, RestRequestType requestType)
+        public RestService(string baseUrl, string serviceRelativeUrl, RestRequestType requestType) : 
+            this(baseUrl, serviceRelativeUrl, requestType, null)
+        {
+        }
+
+        public RestService(string baseUrl, string serviceRelativeUrl, RestRequestType requestType, ISessionInfo sessionInfo)
         {
             this.BaseUrl = baseUrl.TrimEnd('/');
             this.RelativeUrl = "/" + serviceRelativeUrl.TrimStart('/');
             this.RequestType = requestType;
+            this.CurrentSession = sessionInfo;
         }
 
         public RestService()
         {
         }
 
-        public static ISessionInfo CurrentSession { get; set; } = null;
+        public ISessionInfo CurrentSession { get; set; }
 
         public string BaseUrl { get; set; }
 
@@ -36,7 +42,7 @@ namespace Unicorn.Backend.Services.Rest
 
         public RestRequestType RequestType { get; set; }
 
-        public virtual HttpResponse SendRequest(string requestBody)
+        public virtual RestResponse SendRequest(string requestBody)
         {
             var request = CreateRequestWithHeaders(CurrentSession);
 
@@ -76,7 +82,7 @@ namespace Unicorn.Backend.Services.Rest
             readStream.Close();
             timer.Stop();
 
-            var response = new HttpResponse(webResponse.StatusCode, webResponse.Headers, responseText.ToString())
+            var response = new RestResponse(webResponse.StatusCode, webResponse.Headers, responseText.ToString())
             {
                 ExecutionTime = timer.Elapsed,
                 StatusDescription = webResponse.StatusDescription
@@ -88,7 +94,7 @@ namespace Unicorn.Backend.Services.Rest
             return response;
         }
 
-        public virtual HttpResponse SendRequestAndDecompress(string requestBody)
+        public virtual RestResponse SendRequestAndDecompress(string requestBody)
         {
             var request = CreateRequestWithHeaders(CurrentSession);
             request.Accept = "application/json, text/javascript, */*; q=0.01";
@@ -136,7 +142,7 @@ namespace Unicorn.Backend.Services.Rest
                 decompressedOutput = resultStream.ToArray();
             }
 
-            var response = new HttpResponse(webResponse.StatusCode, webResponse.Headers, Encoding.UTF8.GetString(decompressedOutput))
+            var response = new RestResponse(webResponse.StatusCode, webResponse.Headers, Encoding.UTF8.GetString(decompressedOutput))
             {
                 ExecutionTime = timer.Elapsed,
                 StatusDescription = webResponse.StatusDescription

@@ -1,9 +1,9 @@
 ﻿namespace Unicorn.Backend.Services
 {
-    public interface IWebService
+    public interface IWebService<T> where T : HttpResponse
     {
-        HttpResponse SendRequest(string requestBody);
+        T SendRequest(string requestBody);
 
-        HttpResponse SendRequestAndDecompress(string requestBody);
+        T SendRequestAndDecompress(string requestBody);
     }
 }

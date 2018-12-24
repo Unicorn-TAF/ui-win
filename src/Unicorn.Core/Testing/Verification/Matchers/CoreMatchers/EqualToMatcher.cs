@@ -19,21 +19,8 @@
                 return Reverse;
             }
 
-            if (!this.objectToCompare.GetType().Equals(actual.GetType()))
-            {
-                DescribeMismatch($"not of type {this.objectToCompare.GetType()}");
-                return false;
-            }
-
-            if (!actual.Equals(this.objectToCompare))
-            {
-                DescribeMismatch(actual.ToString());
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            DescribeMismatch(actual.ToString());
+            return actual.Equals(this.objectToCompare);
         }
     }
 }

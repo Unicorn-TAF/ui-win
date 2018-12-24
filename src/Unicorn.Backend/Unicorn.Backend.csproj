@@ -35,6 +35,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,11 +47,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Matchers\Response.cs" />
+    <Compile Include="Matchers\RestMatchers\EachTokenHasChildMatcher.cs" />
+    <Compile Include="Matchers\RestMatchers\HasStatusCodeMatcher.cs" />
+    <Compile Include="Matchers\RestMatchers\HasTokenMatchingJsonPathMatcher.cs" />
+    <Compile Include="Matchers\RestMatchers\HasTokensCountMatcher.cs" />
+    <Compile Include="Matchers\RestMatchers\HasTokenWithValueMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IWebService.cs" />
     <Compile Include="Services\ISessionInfo.cs" />
-    <Compile Include="Services\BaseResponse.cs" />
+    <Compile Include="Services\HttpResponse.cs" />
+    <Compile Include="Services\Rest\RestResponse.cs" />
     <Compile Include="Services\Rest\RestService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
+      <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
+      <Name>Unicorn.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
