@@ -12,7 +12,11 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         private readonly List<Type> runnableSuites;
         private readonly Assembly testsAssembly;
 
-        public TestsRunner(Assembly ass, bool getConfigFromFile = true)
+        public TestsRunner(Assembly ass) : this (ass, true)
+        {
+        }
+
+        public TestsRunner(Assembly ass, bool getConfigFromFile)
         {
             this.testsAssembly = ass;
 
@@ -34,6 +38,18 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             this.ExecutedSuites = new List<TestSuite>();
             runnableSuites = ObserveRunnableSuites();
         }
+
+#pragma warning disable S3885 // "Assembly.Load" should be used
+        public TestsRunner(string assemblyPath, string configurationFileName)
+        {
+            this.testsAssembly = Assembly.LoadFrom(assemblyPath);
+
+            Configuration.FillFromFile(configurationFileName);
+
+            this.ExecutedSuites = new List<TestSuite>();
+            runnableSuites = ObserveRunnableSuites();
+        }
+#pragma warning restore S3885 // "Assembly.Load" should be used
 
         public List<TestSuite> ExecutedSuites { get; }
 

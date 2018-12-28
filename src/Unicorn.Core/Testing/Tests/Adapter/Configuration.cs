@@ -39,26 +39,33 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// All categories are converted in upper case. Blank categories are ignored
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
-        public static void SetTestCategories(params string[] categoriesToRun)
-        {
+        public static void SetTestCategories(params string[] categoriesToRun) =>
             categories = categoriesToRun
-                .Select(v => { return v.ToUpper().Trim(); })
+                .Select(v => { return v.ToUpper().Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
-        }
 
         /// <summary>
         /// Set features on which test suites needed to be run.
         /// All features are converted in upper case. Blank features are ignored
         /// </summary>
         /// <param name="featuresToRun">array of features</param>
-        public static void SetSuiteFeatures(params string[] featuresToRun)
-        {
+        public static void SetSuiteFeatures(params string[] featuresToRun) =>
             features = featuresToRun
                 .Select(v => { return v.ToUpper().Trim(); })
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
-        }
+
+        /// <summary>
+        /// Set features on which test suites needed to be run.
+        /// All features are converted in upper case. Blank features are ignored
+        /// </summary>
+        /// <param name="featuresToRun">array of features</param>
+        public static void SetTestsMasks(params string[] testsToRun) =>
+            tests = testsToRun
+                .Select(v => { return v.Trim(); })
+                .Where(v => !string.IsNullOrEmpty(v))
+                .ToList();
 
         /// <summary>
         /// Deserialize run configuration fro JSON file
@@ -79,6 +86,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             Threads = conf.JsonThreads;
             SetTestCategories(conf.JsonRunCategories.ToArray());
             SetSuiteFeatures(conf.JsonRunFeatures.ToArray());
+            SetTestsMasks(conf.JsonRunTests.ToArray());
         }
 
         public static string GetInfo()
@@ -87,6 +95,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
             info.AppendLine($"Features to run: {string.Join(",", RunFeatures)}")
                 .AppendLine($"Categories to run: {string.Join(",", RunCategories)}")
+                .AppendLine($"Tests filter: {string.Join(",", RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
                 .AppendLine($"Test run timeout: {TestTimeout}")
                 .AppendLine($"Suite run timeout: {SuiteTimeout}");

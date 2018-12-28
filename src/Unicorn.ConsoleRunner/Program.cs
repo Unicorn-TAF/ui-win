@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Adapter;
@@ -75,9 +74,7 @@ namespace Unicorn.ConsoleRunner
                 configUri = new Uri(propertiesPath, UriKind.Relative);
             }
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
-            TestsRunner runner = new TestsRunner(Assembly.LoadFrom(assemblyUri.ToString()), configUri.ToString());
-#pragma warning restore S3885 // "Assembly.Load" should be used
+            TestsRunner runner = new TestsRunner(assemblyUri.ToString(), configUri.ToString());
 
             ReportHeader(assemblyPath);
 

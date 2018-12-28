@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests.Adapter
@@ -33,13 +34,15 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                                 in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                                 select attribute.Category.ToUpper().Trim();
             
-            return categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count;
+            var hasCategoriesToRun = categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count;
+
+            var fullTestName = testMethod.ReflectedType.FullName + "." + testMethod.Name;
+            var matchTestsMasks = !Configuration.RunTests.Any() || Configuration.RunTests.Any(m => Regex.IsMatch(fullTestName, m));
+            return hasCategoriesToRun && matchTestsMasks;
         }
 
-        public static bool IsSuiteParameterized(Type suiteType)
-        {
-            return suiteType.GetCustomAttribute(typeof(ParameterizedAttribute), true) != null;
-        }
+        public static bool IsSuiteParameterized(Type suiteType) =>
+            suiteType.GetCustomAttribute(typeof(ParameterizedAttribute), true) != null;
 
         public static List<DataSet> GetSuiteData(Type suiteType)
         {
@@ -56,15 +59,11 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             }
         }
 
-        public static bool IsTestParameterized(MethodInfo testMethod)
-        {
-            return testMethod.GetCustomAttribute(typeof(TestDataAttribute), true) != null;
-        }
+        public static bool IsTestParameterized(MethodInfo testMethod) =>
+            testMethod.GetCustomAttribute(typeof(TestDataAttribute), true) != null;
 
-        public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance)
-        {
-            return suiteInstance.GetType().GetMethod(testDataMethod)
+        public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance) =>
+            suiteInstance.GetType().GetMethod(testDataMethod)
                 .Invoke(suiteInstance, null) as List<DataSet>;
-        }
     }
 }
