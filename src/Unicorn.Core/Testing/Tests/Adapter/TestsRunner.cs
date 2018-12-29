@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,76 +10,62 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 {
     public class TestsRunner
     {
-        private readonly List<Type> runnableSuites;
         private readonly Assembly testsAssembly;
+        private readonly string testsAssemblyPath;
 
-        public TestsRunner(Assembly ass) : this (ass, true)
+        public TestsRunner(Assembly assembly) : this (assembly, true)
         {
         }
 
-        public TestsRunner(Assembly ass, bool getConfigFromFile)
+        public TestsRunner(Assembly assembly, bool getConfigFromFile)
         {
-            this.testsAssembly = ass;
+            this.testsAssembly = assembly;
 
             if (getConfigFromFile)
             {
                 Configuration.FillFromFile();
             }
-
-            this.ExecutedSuites = new List<TestSuite>();
-            runnableSuites = ObserveRunnableSuites();
         }
 
-        public TestsRunner(Assembly ass, string configurationFileName)
+        public TestsRunner(Assembly assembly, string configurationFileName)
         {
-            this.testsAssembly = ass;
-
+            this.testsAssembly = assembly;
             Configuration.FillFromFile(configurationFileName);
-
-            this.ExecutedSuites = new List<TestSuite>();
-            runnableSuites = ObserveRunnableSuites();
         }
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
-            this.testsAssembly = Assembly.LoadFrom(assemblyPath);
-
+            this.testsAssemblyPath = assemblyPath;
             Configuration.FillFromFile(configurationFileName);
-
-            this.ExecutedSuites = new List<TestSuite>();
-            runnableSuites = ObserveRunnableSuites();
         }
-#pragma warning restore S3885 // "Assembly.Load" should be used
 
-        public List<TestSuite> ExecutedSuites { get; }
+        public List<TestSuite> ExecutedSuites { get; protected set; }
 
         public Result RunStatus { get; protected set; }
 
         public void RunTests()
         {
+            var testsDomain = CreateTestsDomain();
+
+            this.ExecutedSuites = new List<TestSuite>();
+            var runnableSuites = ObserveRunnableSuites();
+
             if (runnableSuites.Any())
             {
-                var initRun = GetRunInitCleanupMethods(typeof(RunInitializeAttribute));
-                if (initRun != null)
-                {
-                    initRun.Invoke(null, null);
-                }
+                // Execute run init action if exists in assembly.
+                GetRunInitCleanupMethod(typeof(RunInitializeAttribute))?.Invoke(null, null);
 
                 foreach (var suiteType in runnableSuites)
                 {
                     RunTestSuite(suiteType);
                 }
 
-                var finalyzeRun = GetRunInitCleanupMethods(typeof(RunFinalizeAttribute));
-                if (finalyzeRun != null)
-                {
-                    finalyzeRun.Invoke(null, null);
-                }
+                // Execute run finalize action if exists in assembly.
+                GetRunInitCleanupMethod(typeof(RunFinalizeAttribute))?.Invoke(null, null);
 
                 this.RunStatus = this.ExecutedSuites
-                    .Any(s => s.Outcome.Result.Equals(Result.Failed) || s.Outcome.Result.Equals(Result.Skipped)) ? 
-                    Result.Failed : 
+                    .Any(s => s.Outcome.Result.Equals(Result.Failed) || s.Outcome.Result.Equals(Result.Skipped)) ?
+                    Result.Failed :
                     Result.Passed;
             }
         }
@@ -113,26 +100,19 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             this.ExecutedSuites.Add(testSuite);
         }
 
-        private List<Type> ObserveRunnableSuites()
-        {
-            return TestsObserver.ObserveTestSuites(testsAssembly)
+        private List<Type> ObserveRunnableSuites() =>
+            TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s)).ToList();
-        }
 
-        private MethodInfo GetRunInitCleanupMethods(Type attributeType)
+        private MethodInfo GetRunInitCleanupMethod(Type attributeType)
         {
             var suitesWithRunInit = testsAssembly.GetTypes()
                 .Where(t => t.GetCustomAttributes(typeof(TestsAssemblyAttribute), true).Length > 0)
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 
-            if (suitesWithRunInit.Any())
-            {
-                return GetTypeStaticMethodsWithAttribute(suitesWithRunInit.First(), attributeType).First();
-            }
-            else
-            {
-                return null;
-            }
+            return suitesWithRunInit.Any() ?
+                GetTypeStaticMethodsWithAttribute(suitesWithRunInit.First(), attributeType).First() :
+                null;
         }
 
         private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType)
