@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -9,6 +10,8 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 {
     public static class AdapterUtilities
     {
+        public static AppDomain UnicornAppDomain { get; set; } = null;
+
         public static bool IsSuiteRunnable(Type suiteType)
         {
             var features = from attribute
@@ -65,5 +68,32 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance) =>
             suiteInstance.GetType().GetMethod(testDataMethod)
                 .Invoke(suiteInstance, null) as List<DataSet>;
+
+        public static void SetUpUnicornAppDomain(string assemblyPath)
+        {
+            UnloadUnicornAppDomain();
+
+            var domainSetup = AppDomain.CurrentDomain.SetupInformation;
+            var baseDir = Path.GetDirectoryName(assemblyPath);
+            domainSetup.ApplicationBase = baseDir;
+
+            UnicornAppDomain = AppDomain.CreateDomain("unicornAppDomain-" + Guid.NewGuid(), null, domainSetup);
+
+            var loadedAssemblies = UnicornAppDomain.GetAssemblies().ToList();
+            var loadedPaths = loadedAssemblies.Select(a => a.Location);
+
+            var referencedPaths = Directory.GetFiles(baseDir, "*.dll");
+            var toLoad = referencedPaths.Where(r => !loadedPaths.Contains(r, StringComparer.InvariantCultureIgnoreCase)).ToList();
+            toLoad.ForEach(path => loadedAssemblies.Add(UnicornAppDomain.Load(AssemblyName.GetAssemblyName(path))));
+        }
+
+        public static void UnloadUnicornAppDomain()
+        {
+            if (UnicornAppDomain != null)
+            {
+                AppDomain.Unload(UnicornAppDomain);
+                UnicornAppDomain = null;
+            }
+        }
     }
 }

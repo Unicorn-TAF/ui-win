@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Tests
         public static void Setup()
         {
             Configuration.SetSuiteFeatures("parameterized");
-            runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
         }
 
         [Author("Vitaliy Dobriyan")]

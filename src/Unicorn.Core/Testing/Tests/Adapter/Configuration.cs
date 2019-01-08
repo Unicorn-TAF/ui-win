@@ -71,7 +71,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
         /// Deserialize run configuration fro JSON file
         /// </summary>
         /// <param name="configPath">path to JSON config file </param>
-        public static void FillFromFile(string configPath = "")
+        public static void FillFromFile(string configPath)
         {
             if (string.IsNullOrEmpty(configPath))
             {

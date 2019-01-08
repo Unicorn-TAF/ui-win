@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,33 +9,26 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 {
     public class TestsRunner
     {
-        private readonly Assembly testsAssembly;
-        private readonly string testsAssemblyPath;
+        private readonly string testsAssemblyFile;
 
-        public TestsRunner(Assembly assembly) : this (assembly, true)
+        public TestsRunner(string assemblyPath) : this(assemblyPath, true)
         {
-        }
-
-        public TestsRunner(Assembly assembly, bool getConfigFromFile)
-        {
-            this.testsAssembly = assembly;
-
-            if (getConfigFromFile)
-            {
-                Configuration.FillFromFile();
-            }
-        }
-
-        public TestsRunner(Assembly assembly, string configurationFileName)
-        {
-            this.testsAssembly = assembly;
-            Configuration.FillFromFile(configurationFileName);
         }
 
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
-            this.testsAssemblyPath = assemblyPath;
+            this.testsAssemblyFile = assemblyPath;
             Configuration.FillFromFile(configurationFileName);
+        }
+
+        public TestsRunner(string assemblyPath, bool getConfigFromFile)
+        {
+            this.testsAssemblyFile = assemblyPath;
+
+            if (getConfigFromFile)
+            {
+                Configuration.FillFromFile(string.Empty);
+            }
         }
 
         public List<TestSuite> ExecutedSuites { get; protected set; }
@@ -45,15 +37,18 @@ namespace Unicorn.Core.Testing.Tests.Adapter
 
         public void RunTests()
         {
-            var testsDomain = CreateTestsDomain();
+            AdapterUtilities.SetUpUnicornAppDomain(this.testsAssemblyFile);
+            var testsAssembly = AdapterUtilities.UnicornAppDomain.GetAssemblies().First(a => a.FullName.Equals(AssemblyName.GetAssemblyName(this.testsAssemblyFile).FullName));
 
             this.ExecutedSuites = new List<TestSuite>();
-            var runnableSuites = ObserveRunnableSuites();
+
+            var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
+                .Where(s => AdapterUtilities.IsSuiteRunnable(s));
 
             if (runnableSuites.Any())
             {
                 // Execute run init action if exists in assembly.
-                GetRunInitCleanupMethod(typeof(RunInitializeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
 
                 foreach (var suiteType in runnableSuites)
                 {
@@ -61,13 +56,15 @@ namespace Unicorn.Core.Testing.Tests.Adapter
                 }
 
                 // Execute run finalize action if exists in assembly.
-                GetRunInitCleanupMethod(typeof(RunFinalizeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(testsAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
 
                 this.RunStatus = this.ExecutedSuites
                     .Any(s => s.Outcome.Result.Equals(Result.Failed) || s.Outcome.Result.Equals(Result.Skipped)) ?
                     Result.Failed :
                     Result.Passed;
             }
+
+            AdapterUtilities.UnloadUnicornAppDomain();
         }
 
         public void RunTestSuite(Type type)
@@ -100,13 +97,9 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             this.ExecutedSuites.Add(testSuite);
         }
 
-        private List<Type> ObserveRunnableSuites() =>
-            TestsObserver.ObserveTestSuites(testsAssembly)
-                .Where(s => AdapterUtilities.IsSuiteRunnable(s)).ToList();
-
-        private MethodInfo GetRunInitCleanupMethod(Type attributeType)
+        private MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
-            var suitesWithRunInit = testsAssembly.GetTypes()
+            var suitesWithRunInit = assembly.GetTypes()
                 .Where(t => t.GetCustomAttributes(typeof(TestsAssemblyAttribute), true).Length > 0)
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 
