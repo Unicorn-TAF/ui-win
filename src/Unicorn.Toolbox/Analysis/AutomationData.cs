@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Unicorn.Toolbox.Analysis.Filtering;
 
 namespace Unicorn.Toolbox.Analysis
 {
+    [Serializable]
     public class AutomationData
     {
         public AutomationData()

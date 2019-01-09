@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Unicorn.Toolbox.Analysis
 {
+    [Serializable]
     public struct TestInfo
     {
         public const string NoCategory = "<CATEGORY NOT SPECIFIED>";

@@ -31,20 +31,17 @@ namespace Unicorn.Toolbox
             openFileDialog.Filter = "Unicorn tests assemblies|*.dll";
             openFileDialog.ShowDialog();
 
-            string assemblyName = openFileDialog.FileName;
+            string assemblyFile = openFileDialog.FileName;
 
-            if (string.IsNullOrEmpty(assemblyName))
+            if (string.IsNullOrEmpty(assemblyFile))
             {
                 return;
             }
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
-            var testsAssembly = Assembly.LoadFrom(assemblyName);
-#pragma warning restore S3885 // "Assembly.Load" should be used
-            this.analyzer = new Analyzer(testsAssembly, assemblyName);
+            this.analyzer = new Analyzer(assemblyFile);
             this.analyzer.GetTestsStatistics();
 
-            var statusLine = $"Assembly: {this.analyzer.AssemblyFile} ({this.analyzer.AssemblyName})    |    " + this.analyzer.Data.ToString();
+            var statusLine = $"Assembly: {this.analyzer.AssemblyFileName} ({this.analyzer.TestsAssemblyName})    |    " + this.analyzer.Data.ToString();
             this.textBoxStatistics.Text = statusLine;
 
             FillFiltersFrom(analyzer.Data);

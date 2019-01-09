@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Testing\Tests\Adapter\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
