@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Unicorn.Core.Engine;
 using Unicorn.Core.Testing.Tests;
-using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Unicorn.Toolbox.Analysis
 {

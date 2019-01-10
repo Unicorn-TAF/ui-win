@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Unicorn.Core.Engine;
 using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Tests.Adapter;
 using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.Core.Testing.Tests

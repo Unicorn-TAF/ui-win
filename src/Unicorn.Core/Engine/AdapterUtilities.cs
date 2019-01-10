@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Unicorn.Core.Testing.Tests;
 using Unicorn.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.Core.Testing.Tests.Adapter
+namespace Unicorn.Core.Engine
 {
     public static class AdapterUtilities
     {

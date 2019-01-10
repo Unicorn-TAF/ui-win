@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Unicorn.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.Core.Testing.Tests.Adapter
+namespace Unicorn.Core.Engine
 {
     public static class TestsObserver
     {

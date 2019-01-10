@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using Unicorn.Core.Engine;
 using Unicorn.Core.Testing.Tests;
-using Unicorn.Core.Testing.Tests.Adapter;
 
 namespace Unicorn.ConsoleRunner
 {

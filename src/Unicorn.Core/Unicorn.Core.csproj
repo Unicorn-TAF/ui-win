@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Testing\Tests\Adapter\UnicornAppDomainIsolation.cs" />
+    <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Reporting\Screenshot.cs" />
     <Compile Include="Testing\Steps\AssertionSteps.cs" />
-    <Compile Include="Testing\Tests\Adapter\AdapterUtilities.cs" />
+    <Compile Include="Engine\AdapterUtilities.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\RunFinalyzeAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\RunInitializeAttribute.cs" />
@@ -97,9 +97,9 @@
     <Compile Include="Testing\Steps\Attributes\TestStepAttribute.cs" />
     <Compile Include="Testing\Steps\TestSteps.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
-    <Compile Include="Testing\Tests\Adapter\Configuration.cs" />
-    <Compile Include="Testing\Tests\Adapter\TestsObserver.cs" />
-    <Compile Include="Testing\Tests\Adapter\TestsRunner.cs" />
+    <Compile Include="Engine\Configuration.cs" />
+    <Compile Include="Engine\TestsObserver.cs" />
+    <Compile Include="Engine\TestsRunner.cs" />
     <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />

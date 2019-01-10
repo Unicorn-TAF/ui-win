@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Unicorn.Core.Testing.Tests.Adapter;
+using Unicorn.Core.Engine;
 
 namespace Unicorn.UnitTests.Tests
 {

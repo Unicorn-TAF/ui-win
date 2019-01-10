@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing.Tests.Adapter
+namespace Unicorn.Core.Engine
 {
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
@@ -12,6 +12,7 @@ namespace Unicorn.Core.Testing.Tests.Adapter
             var setup = new AppDomainSetup
             {
                 ShadowCopyFiles = "true",
+                ApplicationBase = assemblyDirectory
             };
 
             domain = AppDomain.CreateDomain("UnicornAppDomain:" + Guid.NewGuid(), null, setup);
