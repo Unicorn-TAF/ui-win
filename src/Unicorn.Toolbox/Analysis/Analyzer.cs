@@ -26,7 +26,7 @@ namespace Unicorn.Toolbox.Analysis
 
         public void GetTestsStatistics()
         {
-            using (var loader = new UnicornAppDomainIsolation<GetTestsStatisticsWorker>(Path.GetDirectoryName(assemblyFile)))
+            using (var loader = new UnicornAppDomainIsolation<GetTestsStatisticsWorker>(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
             {
                 this.Data = loader.Instance.GetTestsStatistics(assemblyFile);
             }
