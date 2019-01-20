@@ -38,9 +38,7 @@ namespace Unicorn.Core.Engine
 
         public void RunTests()
         {
-            AdapterUtilities.SetUpUnicornAppDomain(this.testsAssemblyFile);
-            var testsAssembly = AdapterUtilities.UnicornAppDomain.GetAssemblies().First(a => a.FullName.Equals(AssemblyName.GetAssemblyName(this.testsAssemblyFile).FullName));
-
+            var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
             this.ExecutedSuites = new List<TestSuite>();
 
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
@@ -64,8 +62,6 @@ namespace Unicorn.Core.Engine
                     Result.Failed :
                     Result.Passed;
             }
-
-            AdapterUtilities.UnloadUnicornAppDomain();
         }
 
         public void RunTestSuite(Type type)

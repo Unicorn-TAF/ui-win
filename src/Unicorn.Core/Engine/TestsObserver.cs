@@ -16,7 +16,7 @@ namespace Unicorn.Core.Engine
         public static IEnumerable<Type> ObserveTestSuites(Assembly assembly)
         {
             return assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(typeof(TestSuiteAttribute), true).Length > 0);
+                .Where(t => t.GetCustomAttributes(typeof(TestSuiteAttribute), true).Any());
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Unicorn.Core.Engine
 
             return availableTestSuites
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Where(m => m.GetCustomAttributes(typeof(TestAttribute), true).Length > 0);
+                .Where(m => m.GetCustomAttributes(typeof(TestAttribute), true).Any());
         }
     }
 }
