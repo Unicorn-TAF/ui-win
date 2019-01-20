@@ -146,7 +146,7 @@ namespace Unicorn.ReportPortalAgent
 
                         this.testFlowIds[id].Log(new AddLogItemRequest
                         {
-                            Level = ReportPortal.Client.Models.LogLevel.Error,
+                            Level = LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
                             Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
@@ -159,7 +159,7 @@ namespace Unicorn.ReportPortalAgent
                     if (test.Outcome.Result == Result.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
                         Issue issue = new Issue();
-                        issue.Type = IssueType.ProductionBug;
+                        issue.Type = "Product Bug";
                         issue.Comment = test.Outcome.OpenBugString;
 
                         finishTestRequest = new FinishTestItemRequest
@@ -218,7 +218,7 @@ namespace Unicorn.ReportPortalAgent
                 {
                     this.testFlowIds[id].Log(new AddLogItemRequest
                     {
-                        Level = ReportPortal.Client.Models.LogLevel.None,
+                        Level = LogLevel.Info,
                         Time = DateTime.UtcNow,
                         Text = "Attachment: " + name,
                         Attach = new Attach(test.Outcome.Screenshot, mime, content)

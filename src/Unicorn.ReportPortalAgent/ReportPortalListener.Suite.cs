@@ -122,7 +122,7 @@ namespace Unicorn.ReportPortalAgent
                         this.suitesFlow[id].AdditionalTasks.Add(Task.Run(() =>
                         {
                             this.suitesFlow[id].StartTask.Wait();
-                            Bridge.Service.UpdateTestItem(this.suitesFlow[id].TestId, updateSuiteRequest);
+                            Bridge.Service.UpdateTestItemAsync(this.suitesFlow[id].TestId, updateSuiteRequest);
                         }));
                     }
 

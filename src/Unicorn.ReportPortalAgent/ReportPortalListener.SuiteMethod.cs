@@ -133,7 +133,7 @@ namespace Unicorn.ReportPortalAgent
                     if (test.Outcome.Result == Result.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
                         Issue issue = new Issue();
-                        issue.Type = IssueType.ProductionBug;
+                        issue.Type = "Product Bug";
                         issue.Comment = test.Outcome.OpenBugString;
 
                         finishTestRequest = new FinishTestItemRequest

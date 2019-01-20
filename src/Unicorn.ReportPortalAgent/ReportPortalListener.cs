@@ -168,24 +168,24 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        public void ReportMergeLaunches(string descriptionSearchString)
-        {
-            if (Config.IsEnabled)
-            {
-                MergeRuns(descriptionSearchString);
-            }
-        }
+        //public void ReportMergeLaunches(string descriptionSearchString)
+        //{
+        //    if (Config.IsEnabled)
+        //    {
+        //        MergeRuns(descriptionSearchString);
+        //    }
+        //}
 
-        public string ReportGetLaunchId(string descriptionSearchString)
-        {
-            if (Config.IsEnabled)
-            {
-                return GetLaunchId(descriptionSearchString);
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //public string ReportGetLaunchId(string descriptionSearchString)
+        //{
+        //    if (Config.IsEnabled)
+        //    {
+        //        return GetLaunchId(descriptionSearchString);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }
