@@ -118,6 +118,8 @@ namespace Unicorn.Core.Testing.Tests
 
         public void Execute()
         {
+            Logger.Instance.Log(LogLevel.Info, $"==================== TEST SUITE '{this.Name}' ====================");
+
             try
             {
                 SuiteStarted?.Invoke(this);
@@ -127,34 +129,33 @@ namespace Unicorn.Core.Testing.Tests
                 this.Skip("Exception occured during SuiteStarted event invoke" + Environment.NewLine + ex);
                 return;
             }
-
-            if (!this.RunSuiteMethods(this.beforeSuites))
-            {
-                this.Skip("Before Suite failed");
-                return;
-            }
-
-            Logger.Instance.Log(LogLevel.Info, $"==================== TEST SUITE '{this.Name}' ====================");
-
+            
             this.suiteTimer.Start();
 
-            foreach (Test test in this.tests)
+            if (this.RunSuiteMethods(this.beforeSuites))
             {
-                Thread testThread = new Thread(() => this.RunTest(test));
-                testThread.Start();
-
-                if (!testThread.Join(Configuration.TestTimeout))
+                foreach (Test test in this.tests)
                 {
-                    testThread.Abort();
-                    test.Fail(new TimeoutException("Test timeout reached"), string.Empty);
-                    this.Outcome.FailedTests++;
+                    Thread testThread = new Thread(() => this.RunTest(test));
+                    testThread.Start();
+
+                    if (!testThread.Join(Configuration.TestTimeout))
+                    {
+                        testThread.Abort();
+                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)), string.Empty);
+                        this.Outcome.FailedTests++;
+                    }
                 }
+            }
+            else
+            {
+                this.Skip("Before Suite failed");
             }
 
             this.RunSuiteMethods(this.afterSuites);
+
             this.suiteTimer.Stop();
             this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
-
             Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
 
             try
@@ -183,6 +184,7 @@ namespace Unicorn.Core.Testing.Tests
             this.Outcome.TotalTests = tests.Length;
             this.Outcome.SkippedTests = tests.Length;
             this.Outcome.Result = Result.Skipped;
+            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
 
             try
             {
