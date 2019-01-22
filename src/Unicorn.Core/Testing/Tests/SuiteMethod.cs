@@ -174,7 +174,7 @@ namespace Unicorn.Core.Testing.Tests
             try
             {
                 this.TestMethod.Invoke(suiteInstance, null);
-                this.Outcome.Result = Result.Passed;
+                this.Outcome.Result = Status.Passed;
 
                 SuiteMethodPassed?.Invoke(this);
             }
@@ -221,7 +221,7 @@ namespace Unicorn.Core.Testing.Tests
             }
 
             this.Outcome.Exception = ex;
-            this.Outcome.Result = Result.Failed;
+            this.Outcome.Result = Status.Failed;
         }
     }
 }

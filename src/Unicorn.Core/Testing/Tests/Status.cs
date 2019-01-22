@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.Core.Testing.Tests
 {
-    public enum Result
+    public enum Status
     {
         Passed,
         Failed,

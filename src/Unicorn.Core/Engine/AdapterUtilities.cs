@@ -61,5 +61,8 @@ namespace Unicorn.Core.Engine
         public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance) =>
             suiteInstance.GetType().GetMethod(testDataMethod)
                 .Invoke(suiteInstance, null) as List<DataSet>;
+
+        public static string GetFullTestMethodName(MethodInfo testMethod) =>
+            testMethod.ReflectedType.FullName + "." + testMethod.Name;
     }
 }

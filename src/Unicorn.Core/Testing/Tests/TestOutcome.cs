@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Unicorn.Core.Testing.Tests
 {
+    [Serializable]
     public class TestOutcome
     {
         /// <summary>
@@ -16,9 +17,14 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
+        /// Full test method name including declaring class and it's namespace
+        /// </summary>
+        public string FullMethodName { get; set; }
+
+        /// <summary>
         /// Gets or sets Execution Result.
         /// </summary>
-        public Result Result { get; set; }
+        public Status Result { get; set; }
 
         /// <summary>
         /// Gets or sets Test execution time as TimeSpan.

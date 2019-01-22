@@ -117,7 +117,7 @@ namespace Unicorn.ReportPortalAgent
                     }
 
                     // adding failure items
-                    if (test.Outcome.Result == Result.Failed)
+                    if (test.Outcome.Result == Core.Testing.Tests.Status.Failed)
                     {
                         var failureMessage = test.Outcome.Exception.Message;
                         var failureStacktrace = test.Outcome.Exception.StackTrace;
@@ -156,7 +156,7 @@ namespace Unicorn.ReportPortalAgent
                     FinishTestItemRequest finishTestRequest = null;
 
                     // finishing test
-                    if (test.Outcome.Result == Result.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
+                    if (test.Outcome.Result == Core.Testing.Tests.Status.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
                     {
                         Issue issue = new Issue();
                         issue.Type = "Product Bug";

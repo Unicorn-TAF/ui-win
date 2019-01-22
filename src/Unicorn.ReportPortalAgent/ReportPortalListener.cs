@@ -13,7 +13,7 @@ namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        private static Dictionary<Result, Status> statusMap = new Dictionary<Result, Status>();
+        private static Dictionary<Core.Testing.Tests.Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Core.Testing.Tests.Status, ReportPortal.Client.Models.Status>();
 
         private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
         private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
@@ -36,9 +36,9 @@ namespace Unicorn.ReportPortalAgent
 
             Bridge.Service = reportPortalService;
 
-            statusMap[Result.Passed] = Status.Passed;
-            statusMap[Result.Failed] = Status.Failed;
-            statusMap[Result.Skipped] = Status.Skipped;
+            statusMap[Core.Testing.Tests.Status.Passed] = ReportPortal.Client.Models.Status.Passed;
+            statusMap[Core.Testing.Tests.Status.Failed] = ReportPortal.Client.Models.Status.Failed;
+            statusMap[Core.Testing.Tests.Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
         }
 
         public static Config Config

@@ -20,6 +20,7 @@ namespace Unicorn.Core.Engine
         {
             this.testsAssemblyFile = assemblyPath;
             Configuration.FillFromFile(configurationFileName);
+            this.Outcome = new LaunchOutcome();
         }
 
         public TestsRunner(string assemblyPath, bool getConfigFromFile)
@@ -30,16 +31,15 @@ namespace Unicorn.Core.Engine
             {
                 Configuration.FillFromFile(string.Empty);
             }
+
+            this.Outcome = new LaunchOutcome();
         }
 
-        public List<TestSuite> ExecutedSuites { get; protected set; }
-
-        public Result RunStatus { get; protected set; }
+        public LaunchOutcome Outcome { get; protected set; }
 
         public void RunTests()
         {
             var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
-            this.ExecutedSuites = new List<TestSuite>();
 
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
@@ -56,11 +56,6 @@ namespace Unicorn.Core.Engine
 
                 // Execute run finalize action if exists in assembly.
                 GetRunInitCleanupMethod(testsAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
-
-                this.RunStatus = this.ExecutedSuites
-                    .Any(s => s.Outcome.Result.Equals(Result.Failed) || s.Outcome.Result.Equals(Result.Skipped)) ?
-                    Result.Failed :
-                    Result.Passed;
             }
         }
 
@@ -91,7 +86,7 @@ namespace Unicorn.Core.Engine
         private void ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
-            this.ExecutedSuites.Add(testSuite);
+            this.Outcome.SuitesOutcomes.Add(testSuite.Outcome);
         }
 
         private MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
@@ -105,10 +100,8 @@ namespace Unicorn.Core.Engine
                 null;
         }
 
-        private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType)
-        {
-            return containerType.GetRuntimeMethods()
+        private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType) =>
+            containerType.GetRuntimeMethods()
                 .Where(m => m.GetCustomAttribute(attributeType, true) != null);
-        }
     }
 }

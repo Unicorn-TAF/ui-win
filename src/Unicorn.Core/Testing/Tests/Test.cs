@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using Unicorn.Core.Engine;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Tests.Attributes;
 
@@ -22,6 +23,7 @@ namespace Unicorn.Core.Testing.Tests
         public Test(MethodInfo testMethod) : base(testMethod)
         {
             this.dataSet = null;
+            this.Outcome.FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod);
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace Unicorn.Core.Testing.Tests
         public Test(MethodInfo testMethod, DataSet dataSet) : base(testMethod)
         {
             this.dataSet = dataSet;
+            this.Outcome.FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod);
         }
 
         /* Events section */
@@ -111,7 +114,7 @@ namespace Unicorn.Core.Testing.Tests
                     this.TestMethod.Invoke(suiteInstance, this.dataSet.Parameters.ToArray());
                 }
                 
-                this.Outcome.Result = Result.Passed;
+                this.Outcome.Result = Status.Passed;
 
                 try
                 {
@@ -156,7 +159,7 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         public void Skip()
         {
-            this.Outcome.Result = Result.Skipped;
+            this.Outcome.Result = Status.Skipped;
             this.Outcome.Bugs.Clear();
             OnSkip?.Invoke(this);
             Logger.Instance.Log(LogLevel.Info, $"TEST '{Description}' {Outcome.Result}");

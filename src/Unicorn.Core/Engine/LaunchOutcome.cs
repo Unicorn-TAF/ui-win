@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unicorn.Core.Testing.Tests;
+
+namespace Unicorn.Core.Engine
+{
+    [Serializable]
+    public class LaunchOutcome
+    {
+        public LaunchOutcome()
+        {
+            this.SuitesOutcomes = new List<SuiteOutcome>();
+        }
+
+        public List<SuiteOutcome> SuitesOutcomes { get; protected set; }
+
+        public Status RunStatus => this.SuitesOutcomes
+                .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) ?
+                Status.Failed :
+                Status.Passed;
+    }
+}

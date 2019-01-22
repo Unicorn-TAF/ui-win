@@ -46,7 +46,7 @@ namespace Unicorn.Core.Testing.Tests
             this.afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
             this.afterSuites = GetSuiteMethodsByAttribute(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
             this.Outcome = new SuiteOutcome();
-            this.Outcome.Result = Result.Passed;
+            this.Outcome.Result = Status.Passed;
             this.tests = GetTests();
         }
 
@@ -114,7 +114,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets or sets Suite outcome, contain all information on suite run and results
         /// </summary>
-        public SuiteOutcome Outcome { get; set; }
+        public SuiteOutcome Outcome { get; protected set; }
 
         public void Execute()
         {
@@ -143,8 +143,9 @@ namespace Unicorn.Core.Testing.Tests
                     {
                         testThread.Abort();
                         test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)), string.Empty);
-                        this.Outcome.FailedTests++;
                     }
+
+                    this.Outcome.TestsOutcomes.Add(test.Outcome);
                 }
             }
             else
@@ -179,11 +180,10 @@ namespace Unicorn.Core.Testing.Tests
             foreach (Test test in this.tests)
             {
                 test.Skip();
+                this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
-            this.Outcome.TotalTests = tests.Length;
-            this.Outcome.SkippedTests = tests.Length;
-            this.Outcome.Result = Result.Skipped;
+            this.Outcome.Result = Status.Skipped;
             Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
 
             try
@@ -202,30 +202,25 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="test">test instance</param>
         private void RunTest(Test test)
         {
-            this.Outcome.TotalTests++;
-
             if (this.skipTests || !test.IsRunnable)
             {
                 test.Skip();
-                this.Outcome.SkippedTests++;
                 return;
             }
 
             if (!this.RunSuiteMethods(this.beforeTests))
             {
                 test.Skip();
-                this.Outcome.SkippedTests++;
                 return;
             }
 
             test.Execute(this);
 
-            this.RunAftertests(test.Outcome.Result == Result.Failed);
+            this.RunAftertests(test.Outcome.Result == Status.Failed);
 
-            if (test.Outcome.Result == Result.Failed)
+            if (test.Outcome.Result == Status.Failed)
             {
-                this.Outcome.FailedTests++;
-                this.Outcome.Result = Result.Failed;
+                this.Outcome.Result = Status.Failed;
 
                 foreach (var bug in test.Outcome.Bugs)
                 {
@@ -247,7 +242,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 suiteMethod.Execute(this);
 
-                if (suiteMethod.Outcome.Result != Result.Passed)
+                if (suiteMethod.Outcome.Result != Status.Passed)
                 {
                     return false;
                 }
@@ -273,7 +268,7 @@ namespace Unicorn.Core.Testing.Tests
 
                 suiteMethod.Execute(this);
 
-                if (suiteMethod.Outcome.Result == Result.Failed)
+                if (suiteMethod.Outcome.Result == Status.Failed)
                 {
                     skipTests = attribute.SkipTestsOnFail && Configuration.ParallelBy != Parallelization.Test;
                 }

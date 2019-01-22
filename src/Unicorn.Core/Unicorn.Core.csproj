@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="Testing\Tests\Test.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />
-    <Compile Include="Testing\Tests\Result.cs" />
+    <Compile Include="Testing\Tests\Status.cs" />
     <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
     <Compile Include="Testing\Tests\DataSet.cs" />

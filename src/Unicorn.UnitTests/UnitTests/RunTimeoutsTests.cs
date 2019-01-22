@@ -18,7 +18,7 @@ namespace Unicorn.UnitTests.Tests
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
 
-            Assert.That(runner.ExecutedSuites[0].Outcome.FailedTests, Is.EqualTo(1));
+            Assert.That(runner.Outcome.SuitesOutcomes[0].FailedTests, Is.EqualTo(1));
         }
     }
 }
