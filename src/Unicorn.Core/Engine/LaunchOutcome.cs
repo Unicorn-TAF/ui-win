@@ -13,7 +13,7 @@ namespace Unicorn.Core.Engine
             this.SuitesOutcomes = new List<SuiteOutcome>();
         }
 
-        public List<SuiteOutcome> SuitesOutcomes { get; protected set; }
+        public List<SuiteOutcome> SuitesOutcomes { get; }
 
         public Status RunStatus => this.SuitesOutcomes
                 .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) ?

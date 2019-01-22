@@ -39,7 +39,9 @@ namespace Unicorn.Core.Engine
 
         public void RunTests()
         {
+#pragma warning disable S3885 // "Assembly.Load" should be used
             var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
+#pragma warning restore S3885 // "Assembly.Load" should be used
 
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
