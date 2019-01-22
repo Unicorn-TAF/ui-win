@@ -93,11 +93,6 @@
     <Compile Include="Controls\Typified\ListView.cs" />
     <Compile Include="Driver\GuiDriver.cs" />
     <Compile Include="Driver\GuiSearchContext.cs" />
-    <Compile Include="Input\CoordinatesExtension.cs" />
-    <Compile Include="Input\Input.cs" />
-    <Compile Include="Input\Keyboard.cs" />
-    <Compile Include="Input\Mouse.cs" />
-    <Compile Include="Input\WindowsApi.cs" />
     <Compile Include="PageObject\GuiControlExtension.cs" />
     <Compile Include="PageObject\Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -84,6 +84,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
@@ -94,6 +95,11 @@
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Driver\UISearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
+    <Compile Include="Input\CoordinatesExtension.cs" />
+    <Compile Include="Input\Input.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\WindowsApi.cs" />
     <Compile Include="Matchers\Checkbox.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatchesMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatcher.cs" />

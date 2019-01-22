@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Unicorn.UI.Desktop.Input
+namespace Unicorn.UI.Core.Input
 {
     /// <summary>
     /// Intended for White Internal use only

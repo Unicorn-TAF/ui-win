@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Unicorn.UI.Desktop.Input
+namespace Unicorn.UI.Core.Input
 {
     // BUG: KeysConverter
 

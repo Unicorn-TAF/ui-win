@@ -91,11 +91,6 @@
     <Compile Include="Controls\Typified\ListView.cs" />
     <Compile Include="Driver\WinDriver.cs" />
     <Compile Include="Driver\WinSearchContext.cs" />
-    <Compile Include="Input\CoordinatesExtension.cs" />
-    <Compile Include="Input\Input.cs" />
-    <Compile Include="Input\Keyboard.cs" />
-    <Compile Include="Input\Mouse.cs" />
-    <Compile Include="Input\WindowsApi.cs" />
     <Compile Include="PageObject\WinControlExtension.cs" />
     <Compile Include="PageObject\Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 
-namespace Unicorn.UI.Win.Input
+namespace Unicorn.UI.Core.Input
 {
     public class Mouse
     {

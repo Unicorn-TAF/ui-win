@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Unicorn.UI.Desktop.Input
+namespace Unicorn.UI.Core.Input
 {
     public static class CoordinatesExtension
     {

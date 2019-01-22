@@ -4,8 +4,8 @@ using System.Windows.Automation;
 using Unicorn.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.Input;
 using Unicorn.UI.Desktop.Driver;
-using Unicorn.UI.Desktop.Input;
 
 namespace Unicorn.UI.Desktop.Controls
 {
