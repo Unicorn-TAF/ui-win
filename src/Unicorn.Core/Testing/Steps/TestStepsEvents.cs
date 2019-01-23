@@ -11,13 +11,11 @@ namespace Unicorn.Core.Testing.Steps
     public class TestStepsEvents
     {
         public delegate void TestStepEvent(MethodBase methodBase, object[] arguments);
-
         public delegate void TestStepFailEvent(Exception exception);
 
+
         public static event TestStepEvent OnStepStart;
-
         public static event TestStepEvent OnStepFinish;
-
         public static event TestStepFailEvent OnStepFail;
 
         [Advice(InjectionPoints.Before, InjectionTargets.Method)]

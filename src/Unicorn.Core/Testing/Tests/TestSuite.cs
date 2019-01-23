@@ -12,7 +12,6 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private Stopwatch suiteTimer;
         private string name = null;
         private List<string> features = null;
         private bool skipTests = false;
@@ -53,8 +52,8 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event UnicornSuiteEvent OnSuiteStart;
         public static event UnicornSuiteEvent OnSuiteFinish;
-        public static event UnicornSuiteEvent OnSuitePass;
-        public static event UnicornSuiteEvent OnSuiteFail;
+        ////public static event UnicornSuiteEvent OnSuitePass;
+        ////public static event UnicornSuiteEvent OnSuiteFail;
         public static event UnicornSuiteEvent OnSuiteSkip;
 
         // Gets or sets Unique suite Guid
@@ -145,7 +144,7 @@ namespace Unicorn.Core.Testing.Tests
 
         private void RunSuite()
         {
-            this.suiteTimer = Stopwatch.StartNew();
+            var suiteTimer = Stopwatch.StartNew();
 
             if (this.RunSuiteMethods(this.beforeSuites))
             {
@@ -170,8 +169,8 @@ namespace Unicorn.Core.Testing.Tests
 
             this.RunSuiteMethods(this.afterSuites);
 
-            this.suiteTimer.Stop();
-            this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
+            suiteTimer.Stop();
+            this.Outcome.ExecutionTime = suiteTimer.Elapsed;
         }
 
         /// <summary>
