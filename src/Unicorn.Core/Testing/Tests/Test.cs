@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Unicorn.Core.Engine;
@@ -20,10 +21,8 @@ namespace Unicorn.Core.Testing.Tests
         /// Contains methods to execute the test and check if test should be skipped
         /// </summary>
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
-        public Test(MethodInfo testMethod) : base(testMethod)
+        public Test(MethodInfo testMethod) : this(testMethod, null)
         {
-            this.dataSet = null;
-            this.Outcome.FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod);
         }
 
         /// <summary>
@@ -42,15 +41,13 @@ namespace Unicorn.Core.Testing.Tests
         /* Events section */
         public delegate void TestEvent(Test test);
 
-        public static event TestEvent OnStart;
+        public static event TestEvent OnTestStart;
+        public static event TestEvent OnTestFinish;
+        public static event TestEvent OnTestPass;
+        public static event TestEvent OnTestFail;
+        public static event TestEvent OnTestSkip;
 
-        public static event TestEvent OnFinish;
-
-        public static event TestEvent OnPass;
-
-        public static event TestEvent OnFail;
-
-        public static event TestEvent OnSkip;
+        public static StringBuilder TestOutput { get; set; }
 
         /// <summary>
         /// Gets test categories
@@ -61,13 +58,11 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.categories == null)
                 {
-                    this.categories = new List<string>();
                     var attributes = this.TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
 
-                    foreach (var attribute in attributes)
-                    {
-                        this.categories.Add(attribute.Category.ToUpper().Trim());
-                    }
+                    this.categories = new List<string>(
+                        attributes.Select(a => a.Category.ToUpper().Trim())
+                        .Where(c => !string.IsNullOrEmpty(c)));
                 }
 
                 return this.categories;
@@ -87,82 +82,88 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            SuiteMethod.CurrentOutput = new StringBuilder();
-
-            try
-            {
-                OnStart?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStart event invoke" + Environment.NewLine + ex);
-            }
-
             Logger.Instance.Log(LogLevel.Info, $"========== TEST '{Description}' ==========");
 
-            this.TestTimer = new Stopwatch();
-            this.TestTimer.Start();
-
             try
             {
-                if (this.dataSet == null)
-                {
-                    this.TestMethod.Invoke(suiteInstance, null);
-                }
-                else
-                {
-                    this.TestMethod.Invoke(suiteInstance, this.dataSet.Parameters.ToArray());
-                }
-                
-                this.Outcome.Result = Status.Passed;
-
-                try
-                {
-                    OnPass?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnPass event invoke" + Environment.NewLine + e);
-                }
+                OnTestStart?.Invoke(this);
+                this.RunTestMethod(suiteInstance);
             }
             catch (Exception ex)
             {
-                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
-
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
+                this.Skip("OnTestStart event failed");
+            }
+            finally
+            {
                 try
                 {
-                    OnFail?.Invoke(this);
+                    OnTestFinish?.Invoke(this);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during onFinish event invoke" + Environment.NewLine + ex);
                 }
             }
-
-            this.TestTimer.Stop();
-            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
 
             Logger.Instance.Log(LogLevel.Info, $"TEST {Outcome.Result}");
-
-            try
-            {
-                OnFinish?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during onFinish event invoke" + Environment.NewLine + ex);
-            }
         }
 
         /// <summary>
         /// Skip test and invoke onSkip event
         /// </summary>
-        public void Skip()
+        public void Skip(string reason)
         {
             this.Outcome.Result = Status.Skipped;
             this.Outcome.Bugs.Clear();
-            OnSkip?.Invoke(this);
-            Logger.Instance.Log(LogLevel.Info, $"TEST '{Description}' {Outcome.Result}");
+
+            try
+            {
+                OnTestSkip?.Invoke(this);
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestSkip event invoke" + Environment.NewLine + e);
+            }
+        }
+
+        private void RunTestMethod(TestSuite suiteInstance)
+        {
+            TestOutput = new StringBuilder();
+            this.TestTimer = Stopwatch.StartNew();
+
+            try
+            {
+                this.TestMethod.Invoke(suiteInstance, this.dataSet?.Parameters.ToArray());
+                this.Outcome.Result = Status.Passed;
+
+                try
+                {
+                    OnTestPass?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestPass event invoke" + Environment.NewLine + e);
+                }
+            }
+            catch (Exception ex)
+            {
+                base.Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+
+                try
+                {
+                    OnTestFail?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestFail event invoke" + Environment.NewLine + e);
+                }
+            }
+
+            this.TestTimer.Stop();
+            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
+            this.Outcome.Output = TestOutput.ToString();
+            TestOutput.Clear();
         }
     }
 }

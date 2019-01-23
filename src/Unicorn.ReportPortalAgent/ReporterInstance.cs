@@ -28,16 +28,16 @@ namespace Unicorn.ReportPortalAgent
             this.listener = new ReportPortalListener();
             this.listener.ReportRunStarted();
 
-            Test.OnStart += ReportTestStart;
-            Test.OnFail += TakeScreenshot;
-            Test.OnFinish += ReportTestFinish;
-            Test.OnSkip += this.listener.ReportTestSkipped;
+            Test.OnTestStart += ReportTestStart;
+            Test.OnTestFail += TakeScreenshot;
+            Test.OnTestFinish += ReportTestFinish;
+            Test.OnTestSkip += this.listener.ReportTestSkipped;
 
-            SuiteMethod.SuiteMethodStarted += this.listener.ReportSuiteMethodStarted;
-            SuiteMethod.SuiteMethodFinished += this.listener.ReportSuiteMethodFinished;
+            SuiteMethod.OnSuiteMethodStart += this.listener.ReportSuiteMethodStarted;
+            SuiteMethod.OnSuiteMethodFinish += this.listener.ReportSuiteMethodFinished;
 
-            TestSuite.SuiteStarted += this.ReportSuiteStart;
-            TestSuite.SuiteFinished += this.ReportSuiteFinish;
+            TestSuite.OnSuiteStart += this.ReportSuiteStart;
+            TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
 
             TestStepsEvents.OnStart += ReportInfo;
         }

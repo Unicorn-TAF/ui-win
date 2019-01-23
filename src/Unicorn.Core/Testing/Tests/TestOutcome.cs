@@ -50,5 +50,10 @@ namespace Unicorn.Core.Testing.Tests
         /// Gets or sets string for open bug
         /// </summary>
         public string OpenBugString { get; set; }
+
+        /// <summary>
+        /// Test log output string
+        /// </summary>
+        public string Output { get; set; } = string.Empty;
     }
 }

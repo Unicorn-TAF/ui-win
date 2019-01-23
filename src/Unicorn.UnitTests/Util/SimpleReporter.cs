@@ -22,9 +22,9 @@ namespace Unicorn.UnitTests.Util
                 Directory.CreateDirectory(screenshotsDir);
             }
 
-            Test.OnStart += this.ReportTestStart;
-            Test.OnFinish += this.ReportTestFinish;
-            Test.OnFail += this.TakeScreenshot;
+            Test.OnTestStart += this.ReportTestStart;
+            Test.OnTestFinish += this.ReportTestFinish;
+            Test.OnTestFail += this.TakeScreenshot;
         }
 
         public void ReportInfo(string info)
