@@ -39,7 +39,7 @@ namespace Unicorn.ReportPortalAgent
             TestSuite.OnSuiteStart += this.ReportSuiteStart;
             TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
 
-            TestStepsEvents.OnStart += ReportInfo;
+            TestStepsEvents.OnStepStart += ReportInfo;
         }
 
         public void ReportInfo(MethodBase method, object[] arguments)
