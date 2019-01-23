@@ -102,7 +102,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during onFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestFinish event invoke" + Environment.NewLine + ex);
                 }
             }
 

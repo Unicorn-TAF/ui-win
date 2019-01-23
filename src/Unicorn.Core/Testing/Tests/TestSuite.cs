@@ -164,7 +164,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             else
             {
-                this.Skip("Before Suite failed");
+                this.Skip(string.Empty);
             }
 
             this.RunSuiteMethods(this.afterSuites);
@@ -184,7 +184,7 @@ namespace Unicorn.Core.Testing.Tests
             foreach (Test test in this.tests)
             {
                 test.Skip(reason);
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {test.Outcome.Result}");
                 this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
