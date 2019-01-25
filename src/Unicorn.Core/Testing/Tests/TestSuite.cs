@@ -12,15 +12,15 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private string name = null;
-        private List<string> features = null;
-        private bool skipTests = false;
-
         private readonly Test[] tests;
         private readonly SuiteMethod[] beforeSuites;
         private readonly SuiteMethod[] beforeTests;
         private readonly SuiteMethod[] afterTests;
         private readonly SuiteMethod[] afterSuites;
+
+        private string name = null;
+        private List<string> features = null;
+        private bool skipTests = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.
@@ -51,9 +51,13 @@ namespace Unicorn.Core.Testing.Tests
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
         public static event UnicornSuiteEvent OnSuiteStart;
+
         public static event UnicornSuiteEvent OnSuiteFinish;
+
         ////public static event UnicornSuiteEvent OnSuitePass;
+
         ////public static event UnicornSuiteEvent OnSuiteFail;
+
         public static event UnicornSuiteEvent OnSuiteSkip;
 
         // Gets or sets Unique suite Guid

@@ -15,7 +15,7 @@ namespace Unicorn.UI.Web.PageObject
             this.Title = title;
         }
 
-        protected WebPage(OpenQA.Selenium.ISearchContext searchContext) : this (searchContext, string.Empty, string.Empty)
+        protected WebPage(OpenQA.Selenium.ISearchContext searchContext) : this(searchContext, string.Empty, string.Empty)
         {
         }
 

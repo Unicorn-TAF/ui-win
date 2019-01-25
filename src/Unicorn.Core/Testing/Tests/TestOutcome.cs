@@ -17,7 +17,7 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Full test method name including declaring class and it's namespace
+        /// Gets or sets Full test method name including declaring class and it's namespace
         /// </summary>
         public string FullMethodName { get; set; }
 
@@ -52,7 +52,7 @@ namespace Unicorn.Core.Testing.Tests
         public string OpenBugString { get; set; }
 
         /// <summary>
-        /// Test log output string
+        /// Gets or sets test log output string
         /// </summary>
         public string Output { get; set; } = string.Empty;
     }

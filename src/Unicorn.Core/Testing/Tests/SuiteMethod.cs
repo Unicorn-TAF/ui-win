@@ -39,8 +39,11 @@ namespace Unicorn.Core.Testing.Tests
         public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
 
         public static event UnicornSuiteMethodEvent OnSuiteMethodStart;
+
         public static event UnicornSuiteMethodEvent OnSuiteMethodFinish;
+
         public static event UnicornSuiteMethodEvent OnSuiteMethodPass;
+
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
         public Guid Id { get; set; }

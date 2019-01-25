@@ -12,8 +12,8 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class Test : SuiteMethod
     {
-        private List<string> categories = null;
         private readonly DataSet dataSet;
+        private List<string> categories = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
@@ -42,9 +42,13 @@ namespace Unicorn.Core.Testing.Tests
         public delegate void TestEvent(Test test);
 
         public static event TestEvent OnTestStart;
+
         public static event TestEvent OnTestFinish;
+
         public static event TestEvent OnTestPass;
+
         public static event TestEvent OnTestFail;
+
         public static event TestEvent OnTestSkip;
 
         public static StringBuilder TestOutput { get; set; }
@@ -110,8 +114,9 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Skip test and invoke onSkip event
+        /// Skip test and invoke OnTestSkip event
         /// </summary>
+        /// <param name="reason">skip reason message</param>
         public void Skip(string reason)
         {
             this.Outcome.Result = Status.Skipped;
@@ -148,7 +153,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                base.Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
 
                 try
                 {

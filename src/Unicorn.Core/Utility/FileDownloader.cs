@@ -11,9 +11,9 @@ namespace Unicorn.Core.Utility
     {
         private readonly string destinationFolder;
         private readonly string downloadFileName;
-        private string[] fileNamesToExclude;
         private readonly HashSet<string> fileNamesBeforeDownload;
         private readonly TimeSpan pollingInterval = TimeSpan.FromMilliseconds(500);
+        private string[] fileNamesToExclude;
 
         public FileDownloader(string destinationFolder)
         {

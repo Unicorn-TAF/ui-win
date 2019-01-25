@@ -19,6 +19,12 @@ namespace Unicorn.UnitTests.Tests
             charmap.Start();
         }
 
+        [OneTimeTearDown]
+        public static void TearDown()
+        {
+            charmap.Close();
+        }
+
         [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that not existing controls don't brake page object initialization")]
         public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization()
@@ -85,12 +91,6 @@ namespace Unicorn.UnitTests.Tests
             {
                 GuiDriver.Instance.ImplicitlyWait = originalWait;
             }
-        }
-
-        [OneTimeTearDown]
-        public static void TearDown()
-        {
-            charmap.Close();
         }
     }
 }

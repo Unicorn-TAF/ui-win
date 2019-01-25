@@ -4,8 +4,8 @@ namespace Unicorn.Core.Engine
 {
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
-        private AppDomain domain;
         private readonly T instance;
+        private AppDomain domain;
 
         public UnicornAppDomainIsolation(string assemblyDirectory)
         {
