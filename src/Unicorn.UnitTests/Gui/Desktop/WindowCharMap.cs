@@ -31,11 +31,11 @@ namespace Unicorn.UnitTests.Gui
 
         #endregion
 
-        [Find(Using.Name, "Select")]
-        protected Button buttonSelect { get; set; }
-
-        public Button SelectButton => this.buttonSelect;
+        public Button SelectButton => this.ButtonSelect;
 
         public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+
+        [Find(Using.Name, "Select")]
+        protected Button ButtonSelect { get; set; }
     }
 }

@@ -36,18 +36,15 @@ namespace Unicorn.Core.Testing.Tests
         }
 
         /* Events section*/
-
         public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
 
-        public static event UnicornSuiteMethodEvent SuiteMethodStarted;
+        public static event UnicornSuiteMethodEvent OnSuiteMethodStart;
 
-        public static event UnicornSuiteMethodEvent SuiteMethodFinished;
+        public static event UnicornSuiteMethodEvent OnSuiteMethodFinish;
 
-        public static event UnicornSuiteMethodEvent SuiteMethodPassed;
+        public static event UnicornSuiteMethodEvent OnSuiteMethodPass;
 
-        public static event UnicornSuiteMethodEvent SuiteMethodFailed;
-
-        public static StringBuilder CurrentOutput { get; set; }
+        public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
         public Guid Id { get; set; }
 
@@ -155,48 +152,31 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            CurrentOutput = new StringBuilder();
-
-            try
-            {
-                SuiteMethodStarted?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteMethodStarted event invoke" + Environment.NewLine + ex);
-            }
-
             Logger.Instance.Log(LogLevel.Info, $"========== {this.MethodType} '{Description}' ==========");
 
-            this.TestTimer = new Stopwatch();
-            this.TestTimer.Start();
-
             try
             {
-                this.TestMethod.Invoke(suiteInstance, null);
-                this.Outcome.Result = Status.Passed;
-
-                SuiteMethodPassed?.Invoke(this);
+                OnSuiteMethodStart?.Invoke(this);
+                this.RunSuiteMethod(suiteInstance);
             }
             catch (Exception ex)
             {
-                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
-                SuiteMethodFailed?.Invoke(this);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
+                this.Fail(ex.InnerException, string.Empty);
             }
-
-            this.TestTimer.Stop();
-            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
+            finally
+            {
+                try
+                {
+                    OnSuiteMethodFinish?.Invoke(this);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
+                }
+            }
 
             Logger.Instance.Log(LogLevel.Info, $"{this.MethodType} {Outcome.Result}");
-
-            try
-            {
-                SuiteMethodFinished?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteMethodFinished event invoke" + Environment.NewLine + ex);
-            }
         }
 
         /// <summary>
@@ -222,6 +202,42 @@ namespace Unicorn.Core.Testing.Tests
 
             this.Outcome.Exception = ex;
             this.Outcome.Result = Status.Failed;
+        }
+
+        private void RunSuiteMethod(TestSuite suiteInstance)
+        {
+            this.TestTimer = Stopwatch.StartNew();
+
+            try
+            {
+                this.TestMethod.Invoke(suiteInstance, null);
+                this.Outcome.Result = Status.Passed;
+
+                try
+                {
+                    OnSuiteMethodPass?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+
+                try
+                {
+                    OnSuiteMethodFail?.Invoke(this);
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
+                }
+            }
+
+            this.TestTimer.Stop();
+            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
         }
     }
 }

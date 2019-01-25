@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using AspectInjector.Broker;
+using Unicorn.Core.Logging;
 using Unicorn.Core.Testing.Steps.Attributes;
 
 namespace Unicorn.Core.Testing.Steps
@@ -13,9 +14,11 @@ namespace Unicorn.Core.Testing.Steps
 
         public delegate void TestStepFailEvent(Exception exception);
 
-        public static event TestStepEvent OnStart;
+        public static event TestStepEvent OnStepStart;
 
-        public static event TestStepFailEvent OnFail;
+        public static event TestStepEvent OnStepFinish;
+
+        public static event TestStepFailEvent OnStepFail;
 
         [Advice(InjectionPoints.Before, InjectionTargets.Method)]
         public void OnStartActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
@@ -24,15 +27,46 @@ namespace Unicorn.Core.Testing.Steps
 
             if (method.GetCustomAttributes(typeof(TestStepAttribute), true).Any())
             {
-                OnStart?.Invoke(method, arguments);
+                try
+                {
+                    OnStepStart?.Invoke(method, arguments);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
+                }
             }
         }
 
         [Advice(InjectionPoints.Exception, InjectionTargets.Method)]
         public void OnFailActions([AdviceArgument(AdviceArgumentSource.TargetException)] Exception exception)
         {
-            ////MethodBase method = new StackFrame(1).GetMethod();
-            OnFail?.Invoke(exception);
+            try
+            {
+                OnStepFail?.Invoke(exception);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepFail event invoke" + Environment.NewLine + ex);
+            }
+        }
+
+        [Advice(InjectionPoints.After, InjectionTargets.Method)]
+        public void OnCompleteActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
+        {
+            var method = new StackFrame(1).GetMethod();
+
+            if (method.GetCustomAttributes(typeof(TestStepAttribute), true).Any())
+            {
+                try
+                {
+                    OnStepFinish?.Invoke(method, arguments);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
+                }
+            }
         }
     }
 }

@@ -5,12 +5,11 @@ using NUnit.Framework;
 using Unicorn.Core.Logging;
 using Unicorn.Core.Reporting;
 
+#pragma warning disable S2187 // TestCases should contain tests
 namespace Unicorn.UnitTests.Util
 {
-#pragma warning disable S2187 // TestCases should contain tests
     [TestFixture]
     public class NUnitTestRunner
-
     {
         [OneTimeSetUp]
         public static void ClassInit()
@@ -28,5 +27,5 @@ namespace Unicorn.UnitTests.Util
             return sb.ToString();
         }
     }
-#pragma warning restore S2187 // TestCases should contain tests
 }
+#pragma warning restore S2187 // TestCases should contain tests

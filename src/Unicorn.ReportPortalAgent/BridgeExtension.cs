@@ -1,6 +1,6 @@
-﻿////using System.Web.Script.Serialization;
-using ReportPortal.Client.Requests;
+﻿using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
+////using System.Web.Script.Serialization;
 
 namespace Unicorn.ReportPortalAgent
 {

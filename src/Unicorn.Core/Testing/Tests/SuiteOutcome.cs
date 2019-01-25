@@ -13,7 +13,7 @@ namespace Unicorn.Core.Testing.Tests
             this.TestsOutcomes = new List<TestOutcome>();
         }
 
-        public List<TestOutcome> TestsOutcomes { get; protected set; }
+        public List<TestOutcome> TestsOutcomes { get; }
 
         public Status Result { get; set; }
 

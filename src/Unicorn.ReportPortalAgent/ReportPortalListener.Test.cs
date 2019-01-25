@@ -149,7 +149,7 @@ namespace Unicorn.ReportPortalAgent
                             Level = LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
-                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
+                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.TestOutput.ToString()))
                         });
                     }
 

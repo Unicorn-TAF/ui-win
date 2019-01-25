@@ -16,6 +16,7 @@ namespace Unicorn.UI.Web.Driver
             {
                 return instance;
             }
+
             set
             {
                 Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");

@@ -12,16 +12,15 @@ namespace Unicorn.Core.Testing.Tests
 {
     public class TestSuite
     {
-        private readonly Stopwatch suiteTimer;
-        private string name = null;
-        private List<string> features = null;
-        private bool skipTests = false;
-
         private readonly Test[] tests;
         private readonly SuiteMethod[] beforeSuites;
         private readonly SuiteMethod[] beforeTests;
         private readonly SuiteMethod[] afterTests;
         private readonly SuiteMethod[] afterSuites;
+
+        private string name = null;
+        private List<string> features = null;
+        private bool skipTests = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.
@@ -40,7 +39,6 @@ namespace Unicorn.Core.Testing.Tests
                 this.Metadata.Add(attribute.Key, attribute.Value);
             }
 
-            this.suiteTimer = new Stopwatch();
             this.beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
             this.beforeTests = GetSuiteMethodsByAttribute(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
             this.afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
@@ -52,11 +50,15 @@ namespace Unicorn.Core.Testing.Tests
 
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
-        public static event UnicornSuiteEvent SuiteStarted;
+        public static event UnicornSuiteEvent OnSuiteStart;
 
-        public static event UnicornSuiteEvent SuiteFinished;
+        public static event UnicornSuiteEvent OnSuiteFinish;
 
-        public static event UnicornSuiteEvent SuiteSkipped;
+        ////public static event UnicornSuiteEvent OnSuitePass;
+
+        ////public static event UnicornSuiteEvent OnSuiteFail;
+
+        public static event UnicornSuiteEvent OnSuiteSkip;
 
         // Gets or sets Unique suite Guid
         public Guid Id { get; set; }
@@ -122,15 +124,31 @@ namespace Unicorn.Core.Testing.Tests
 
             try
             {
-                SuiteStarted?.Invoke(this);
+                OnSuiteStart?.Invoke(this);
+                this.RunSuite();
             }
             catch (Exception ex)
             {
-                this.Skip("Exception occured during SuiteStarted event invoke" + Environment.NewLine + ex);
-                return;
+                this.Skip("Exception occured during OnSuiteStart event invoke" + Environment.NewLine + ex);
             }
-            
-            this.suiteTimer.Start();
+            finally
+            {
+                try
+                {
+                    OnSuiteFinish?.Invoke(this);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
+                }
+            }
+
+            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
+        }
+
+        private void RunSuite()
+        {
+            var suiteTimer = Stopwatch.StartNew();
 
             if (this.RunSuiteMethods(this.beforeSuites))
             {
@@ -150,49 +168,39 @@ namespace Unicorn.Core.Testing.Tests
             }
             else
             {
-                this.Skip("Before Suite failed");
+                this.Skip(string.Empty);
             }
 
             this.RunSuiteMethods(this.afterSuites);
 
-            this.suiteTimer.Stop();
-            this.Outcome.ExecutionTime = this.suiteTimer.Elapsed;
-            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
-
-            try
-            {
-                SuiteFinished?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteFinished event invoke" + Environment.NewLine + ex);
-            }
+            suiteTimer.Stop();
+            this.Outcome.ExecutionTime = suiteTimer.Elapsed;
         }
 
         /// <summary>
         /// Skip test suite and invoke onSkip event
         /// </summary>
         /// <param name="reason">skip reason message</param>
-        public void Skip(string reason)
+        private void Skip(string reason)
         {
             Logger.Instance.Log(LogLevel.Info, reason);
 
             foreach (Test test in this.tests)
             {
-                test.Skip();
+                test.Skip(reason);
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {test.Outcome.Result}");
                 this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
             this.Outcome.Result = Status.Skipped;
-            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
 
             try
             {
-                SuiteSkipped?.Invoke(this);
+                OnSuiteSkip?.Invoke(this);
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during SuiteSkipped event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteSkip event invoke" + Environment.NewLine + e);
             }
         }
 
@@ -202,15 +210,23 @@ namespace Unicorn.Core.Testing.Tests
         /// <param name="test">test instance</param>
         private void RunTest(Test test)
         {
-            if (this.skipTests || !test.IsRunnable)
+            if (!test.IsRunnable)
             {
-                test.Skip();
+                test.Outcome.Result = Status.NotExecuted;
+                return;
+            }
+
+            if (this.skipTests)
+            {
+                test.Skip("Previuos test cleanup failed");
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {Outcome.Result}");
                 return;
             }
 
             if (!this.RunSuiteMethods(this.beforeTests))
             {
-                test.Skip();
+                test.Skip(string.Empty);
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {Outcome.Result}");
                 return;
             }
 
@@ -255,7 +271,7 @@ namespace Unicorn.Core.Testing.Tests
         /// Run SuiteMethods
         /// </summary>
         /// <param name="testWasFailed">array of suite methods to run</param>
-        private void RunAftertests(bool testWasFailed = false)
+        private void RunAftertests(bool testWasFailed)
         {
             foreach (var suiteMethod in this.afterTests)
             {
