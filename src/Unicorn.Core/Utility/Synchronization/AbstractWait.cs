@@ -16,14 +16,14 @@ namespace Unicorn.Core.Utility.Synchronization
         }
 
         /// <summary>
-        /// Gets or sets how long to wait for the evaluated condition to be true. The default timeout is 500 milliseconds.
+        /// Gets or sets how long to wait for the evaluated condition to be true.The default timeout is 60 seconds.
         /// </summary>
-        public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(250);
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(60);
 
         /// <summary>
-        /// Gets or sets how often the condition should be evaluated. The default timeout is 500 milliseconds.
+        /// Gets or sets how often the condition should be evaluated. The default timeout is 250 milliseconds.
         /// </summary>
-        public TimeSpan PollingInterval { get; set; } = TimeSpan.FromSeconds(60);
+        public TimeSpan PollingInterval { get; set; } = TimeSpan.FromMilliseconds(250);
 
         /// <summary>
         /// Gets or sets the message to be displayed when time expires.
