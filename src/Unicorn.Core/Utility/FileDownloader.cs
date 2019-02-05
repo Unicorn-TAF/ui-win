@@ -56,6 +56,8 @@ namespace Unicorn.Core.Utility
             };
         }
 
+        public string ExpectedFileNamePart { get; set; }
+
         /// <summary>
         /// Set list of file names or endings to exclude from allocation.
         /// </summary>
@@ -103,19 +105,23 @@ namespace Unicorn.Core.Utility
                 }
             }
 
+            if (!string.IsNullOrEmpty(this.ExpectedFileNamePart))
+            {
+                currentFiles.ExceptWith(currentFiles.Where(f => !f.Contains(this.ExpectedFileNamePart)));
+            }
+
             if (!currentFiles.Any())
             {
                 return false;
             }
-            else if (currentFiles.Count > 1)
+
+            if (currentFiles.Count > 1)
             {
                 throw new FileNotFoundException($"Unable to allocate file: {currentFiles.Count} new files found.");
             }
-            else
-            {
-                downloadFileName = currentFiles.First();
-                return true;
-            }
+
+            downloadFileName = Path.GetFileName(currentFiles.First());
+            return true;
         }
 
         private bool ExpectedFileExists() => 
