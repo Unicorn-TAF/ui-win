@@ -2,117 +2,130 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using Unicorn.Core.Logging;
+using Unicorn.Core.Utility.Synchronization;
 
 namespace Unicorn.Core.Utility
 {
     public class FileDownloader
     {
         private readonly string destinationFolder;
-        private readonly string downloadFileName;
         private readonly HashSet<string> fileNamesBeforeDownload;
         private readonly TimeSpan pollingInterval = TimeSpan.FromMilliseconds(500);
-        private string[] fileNamesToExclude;
+        private readonly DefaultWait wait;
+        private string downloadFileName;
+        private string[] fileNamesToExclude = null;
 
-        public FileDownloader(string destinationFolder)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
+        /// Used in case when file name is unknown.
+        /// </summary>
+        /// <param name="destinationFolder">folder containing downloaded file</param>
+        public FileDownloader(string destinationFolder) 
+            : this(destinationFolder, null, "File was not downloaded in time or properly allocated")
         {
-            this.destinationFolder = destinationFolder;
-            this.downloadFileName = null;
-            this.fileNamesToExclude = null;
             this.fileNamesBeforeDownload = GetFileNamesFromDestinationFolder();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
+        /// </summary>
+        /// <param name="destinationFolder">folder containing downloaded file</param>
+        /// <param name="downloadFileName">file name to wait for</param>
         public FileDownloader(string destinationFolder, string downloadFileName)
+            : this(destinationFolder, downloadFileName, $"File '{downloadFileName}' was not downloaded in time")
         {
-            this.destinationFolder = destinationFolder;
-            this.downloadFileName = downloadFileName;
-            this.fileNamesToExclude = null;
             this.fileNamesBeforeDownload = null;
         }
 
-        public void ExcludeFileNames(params string[] fileNames)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
+        /// Common constructor
+        /// </summary>
+        /// <param name="destinationFolder">folder containing downloaded file</param>
+        /// <param name="downloadFileName">file name to wait for</param>
+        /// <param name="errorMessage">error message text in case of fail</param>
+        protected FileDownloader(string destinationFolder, string downloadFileName, string errorMessage)
         {
-            this.fileNamesToExclude = fileNames;
+            this.destinationFolder = destinationFolder;
+            this.downloadFileName = downloadFileName;
+
+            this.wait = new DefaultWait
+            {
+                PollingInterval = this.pollingInterval,
+                Message = errorMessage
+            };
         }
 
+        /// <summary>
+        /// Set list of file names or endings to exclude from allocation.
+        /// </summary>
+        /// <param name="fileNames">array of file names endings</param>
+        public void ExcludeFileNames(params string[] fileNames) =>
+            this.fileNamesToExclude = fileNames;
+
+        /// <summary>
+        /// Wait for file to be downloaded.
+        /// </summary>
+        /// <param name="timeout">timeout to wait for download</param>
+        /// <returns>downloaded file name string</returns>
         public string WaitForFileToBeDownloaded(TimeSpan timeout)
         {
+            this.wait.Timeout = timeout;
+
             if (!string.IsNullOrEmpty(downloadFileName))
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Wait for '{downloadFileName}' file is downloaded to {destinationFolder} folder");
-                return WaitForExpectedFile(timeout);
+                this.wait.Until(ExpectedFileExists);
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Allocate downloading file and wait for download to {destinationFolder} folder");
-                return WaitForFileAllocation(timeout);
+                this.wait.Until(FileIsAllocated);
+                fileNamesBeforeDownload?.Clear();
             }
-        }
-
-        private string WaitForFileAllocation(TimeSpan timeout)
-        {
-            var timer = Countdown.StartNew(timeout);
-            bool downloading = true;
-            string allocatedFile = null;
-
-            do
-            {
-                var currentFiles = GetFileNamesFromDestinationFolder();
-                currentFiles.ExceptWith(fileNamesBeforeDownload);
-
-                if (fileNamesToExclude != null)
-                {
-                    var excludes = new List<string>();
-                    
-                    foreach (var file in fileNamesToExclude)
-                    {
-                        excludes.AddRange(currentFiles.Where(f => f.EndsWith(file)));
-                    }
-
-                    currentFiles.ExceptWith(excludes);
-                }
-
-                if (currentFiles.Count > 1)
-                {
-                    throw new FileNotFoundException($"Unable to allocate file as {currentFiles.Count} files found.");
-                }
-
-                if (currentFiles.Any())
-                {
-                    allocatedFile = currentFiles.First();
-                    downloading = false;
-                }
-
-                Thread.Sleep(pollingInterval);
-            }
-            while (downloading && !timer.Expired);
-
-            timer.ThrowExceptionIfExpired($"File was not downloaded in time");
-
-            return allocatedFile;
-        }
-
-        private string WaitForExpectedFile(TimeSpan timeout)
-        {
-            var timer = Countdown.StartNew(timeout);
-
-            do
-            {
-                Thread.Sleep(pollingInterval);
-            }
-            while (!File.Exists(downloadFileName) && !timer.Expired);
-
-            timer.ThrowExceptionIfExpired($"File '{downloadFileName}' was not downloaded in time");
 
             return downloadFileName;
         }
 
-        // Find all files from download.
-        private HashSet<string> GetFileNamesFromDestinationFolder()
+        private bool FileIsAllocated()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"\tGet files list from {destinationFolder} folder");
-            return new HashSet<string>(Directory.GetFiles(this.destinationFolder));
+            // Get current files list from destination folder.
+            var currentFiles = GetFileNamesFromDestinationFolder();
+
+            // Filter out files existed already before downloading.s
+            currentFiles.ExceptWith(fileNamesBeforeDownload);
+
+            // If there are files to exclude specified, 
+            // filter out all files which names end with exclusions list.
+            if (fileNamesToExclude != null)
+            {
+                foreach (var file in fileNamesToExclude)
+                {
+                    currentFiles.ExceptWith(currentFiles.Where(f => f.EndsWith(file)));
+                }
+            }
+
+            if (!currentFiles.Any())
+            {
+                return false;
+            }
+            else if (currentFiles.Count > 1)
+            {
+                throw new FileNotFoundException($"Unable to allocate file: {currentFiles.Count} new files found.");
+            }
+            else
+            {
+                downloadFileName = currentFiles.First();
+                return true;
+            }
         }
+
+        private bool ExpectedFileExists() => 
+            File.Exists(downloadFileName);
+
+        /// <summary>
+        /// Find all files in destination directory.
+        /// </summary>
+        /// <returns>set of files names</returns>
+        private HashSet<string> GetFileNamesFromDestinationFolder() =>
+            new HashSet<string>(Directory.GetFiles(this.destinationFolder));
     }
 }
