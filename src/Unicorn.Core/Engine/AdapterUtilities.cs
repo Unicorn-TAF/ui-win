@@ -14,11 +14,11 @@ namespace Unicorn.Core.Engine
 
         public static bool IsSuiteRunnable(Type suiteType)
         {
-            var features = from attribute
-                           in suiteType.GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[]
-                           select attribute.Feature.ToUpper().Trim();
+            var tags = from attribute
+                           in suiteType.GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[]
+                           select attribute.Tag.ToUpper().Trim();
 
-            if (!features.Intersect(Configuration.RunFeatures).Any() && Configuration.RunFeatures.Any())
+            if (!tags.Intersect(Configuration.RunTags).Any() && Configuration.RunTags.Any())
             {
                 return false;
             }

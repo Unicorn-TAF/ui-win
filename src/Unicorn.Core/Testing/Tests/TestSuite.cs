@@ -19,7 +19,7 @@ namespace Unicorn.Core.Testing.Tests
         private readonly SuiteMethod[] afterSuites;
 
         private string name = null;
-        private List<string> features = null;
+        private List<string> tags = null;
         private bool skipTests = false;
 
         /// <summary>
@@ -89,17 +89,17 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets test suite features. Suite could not have any feature
         /// </summary>
-        public List<string> Features
+        public List<string> Tags
         {
             get
             {
-                if (this.features == null)
+                if (this.tags == null)
                 {
-                    var attributes = GetType().GetCustomAttributes(typeof(FeatureAttribute), true) as FeatureAttribute[];
-                    this.features = (from attribute in attributes select attribute.Feature.ToUpper()).ToList();
+                    var attributes = GetType().GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[];
+                    this.tags = (from attribute in attributes select attribute.Tag.ToUpper()).ToList();
                 }
 
-                return this.features;
+                return this.tags;
             }
         }
 

@@ -18,7 +18,7 @@ namespace Unicorn.UnitTests.Tests
         [OneTimeSetUp]
         public static void Setup()
         {
-            Configuration.SetSuiteFeatures("parameterized");
+            Configuration.SetSuiteTags("parameterized");
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
         }
 

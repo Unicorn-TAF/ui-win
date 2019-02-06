@@ -6,7 +6,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Suites
 {
     [TestSuite("Parameterized test suite"), Parameterized]
-    [Feature("parameterized")]
+    [Tag("parameterized")]
     public class ParameterizedSuite : TestSuite
     {
         private readonly SampleObject so;

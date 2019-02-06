@@ -94,7 +94,7 @@ namespace Unicorn.Core.Engine
         private MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(typeof(TestsAssemblyAttribute), true).Length > 0)
+                .Where(t => t.GetCustomAttributes(typeof(TestAssemblyAttribute), true).Length > 0)
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 
             return suitesWithRunInit.Any() ?

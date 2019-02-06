@@ -92,15 +92,15 @@ namespace Unicorn.ReportPortalAgent
                 {
                     var updateSuiteRequest = new UpdateTestItemRequest();
 
-                    // adding categories to suite
-                    var categories = suite.Features;
-                    if (categories != null)
+                    // adding tags to suite
+                    var tags = suite.Tags;
+                    if (tags != null)
                     {
                         updateSuiteRequest.Tags = new List<string>();
 
-                        foreach (string category in categories)
+                        foreach (string tag in tags)
                         {
-                            updateSuiteRequest.Tags.Add(category);
+                            updateSuiteRequest.Tags.Add(tag);
                         }
                     }
 

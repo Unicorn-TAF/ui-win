@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
-    <Compile Include="Testing\Tests\Attributes\TestsAssemblyAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TestAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
@@ -107,7 +107,7 @@
     <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\FeatureAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\TagAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\DisableAttribute.cs" />
     <Compile Include="Testing\Tests\SuiteOutcome.cs" />
     <Compile Include="Testing\Tests\SuiteMethod.cs" />

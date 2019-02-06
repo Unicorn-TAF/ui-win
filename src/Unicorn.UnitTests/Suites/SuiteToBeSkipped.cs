@@ -4,7 +4,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Suites
 {
     [TestSuite("Tests (all skipped)")]
-    [Feature("Skipping")]
+    [Tag("Skipping")]
     public class SuiteToBeSkipped : BaseTestSuite
     {
         public static string Output { get; set; }

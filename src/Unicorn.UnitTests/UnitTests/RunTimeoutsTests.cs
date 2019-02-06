@@ -13,7 +13,7 @@ namespace Unicorn.UnitTests.Tests
         [TestCase(Description = "Check Test timeout")]
         public void TestTimeoutsTestTimeout()
         {
-            Configuration.SetSuiteFeatures("timeouts");
+            Configuration.SetSuiteTags("timeouts");
             Configuration.TestTimeout = TimeSpan.FromSeconds(1);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();

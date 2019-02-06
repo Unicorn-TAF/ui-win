@@ -4,7 +4,7 @@ using Unicorn.Core.Testing.Tests.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [TestSuite("Suite")]
-    [Feature("sample")]
+    [Tag("sample")]
     public class Suite : TestSuite
     {
         public static string Output { get; set; }

@@ -57,7 +57,7 @@ namespace Unicorn.UnitTests.Tests
         {
             Suite.Output = string.Empty;
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
-            Configuration.SetSuiteFeatures("sample");
+            Configuration.SetSuiteTags("sample");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
             Assert.That(Suite.Output, Is.EqualTo(expectedOutput));
@@ -69,7 +69,7 @@ namespace Unicorn.UnitTests.Tests
         {
             SuiteToBeSkipped.Output = string.Empty;
             Configuration.SetTestCategories("category");
-            Configuration.SetSuiteFeatures("reporting");
+            Configuration.SetSuiteTags("reporting");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
             Assert.That(SuiteToBeSkipped.Output, Is.EqualTo(string.Empty));
@@ -79,7 +79,7 @@ namespace Unicorn.UnitTests.Tests
         [TestCase(Description = "Test For Suite Skipping")]
         public void TestSuitesSuiteBugs()
         {
-            Configuration.SetSuiteFeatures("reporting");
+            Configuration.SetSuiteTags("reporting");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
             string[] expectedBugs = new string[] { "234", "871236" };

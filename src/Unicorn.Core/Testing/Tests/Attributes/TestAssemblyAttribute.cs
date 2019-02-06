@@ -3,7 +3,7 @@
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TestsAssemblyAttribute : Attribute
+    public class TestAssemblyAttribute : Attribute
     {
     }
 }

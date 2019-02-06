@@ -17,7 +17,7 @@ namespace Unicorn.Core.Engine
     public static class Configuration
     {
         private static List<string> categories = new List<string>();
-        private static List<string> features = new List<string>();
+        private static List<string> tags = new List<string>();
         private static List<string> tests = new List<string>();
 
         public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
@@ -30,7 +30,7 @@ namespace Unicorn.Core.Engine
 
         public static List<string> RunCategories => categories;
 
-        public static List<string> RunFeatures => features;
+        public static List<string> RunTags => tags;
 
         public static List<string> RunTests => tests;
 
@@ -46,12 +46,12 @@ namespace Unicorn.Core.Engine
                 .ToList();
 
         /// <summary>
-        /// Set features on which test suites needed to be run.
-        /// All features are converted in upper case. Blank features are ignored
+        /// Set tags on which test suites needed to be run.
+        /// All tags are converted in upper case. Blank tags are ignored
         /// </summary>
-        /// <param name="featuresToRun">array of features</param>
-        public static void SetSuiteFeatures(params string[] featuresToRun) =>
-            features = featuresToRun
+        /// <param name="tagsToRun">array of features</param>
+        public static void SetSuiteTags(params string[] tagsToRun) =>
+            tags = tagsToRun
                 .Select(v => v.ToUpper().Trim())
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
@@ -86,7 +86,7 @@ namespace Unicorn.Core.Engine
             ParallelBy = conf.JsonParallelBy;
             Threads = conf.JsonThreads;
             SetTestCategories(conf.JsonRunCategories.ToArray());
-            SetSuiteFeatures(conf.JsonRunFeatures.ToArray());
+            SetSuiteTags(conf.JsonRunTags.ToArray());
             SetTestsMasks(conf.JsonRunTests.ToArray());
         }
 
@@ -94,7 +94,7 @@ namespace Unicorn.Core.Engine
         {
             StringBuilder info = new StringBuilder();
 
-            info.AppendLine($"Features to run: {string.Join(",", RunFeatures)}")
+            info.AppendLine($"Tags to run: {string.Join(",", RunTags)}")
                 .AppendLine($"Categories to run: {string.Join(",", RunCategories)}")
                 .AppendLine($"Tests filter: {string.Join(",", RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
@@ -145,8 +145,8 @@ namespace Unicorn.Core.Engine
             [JsonProperty("categories")]
             public List<string> JsonRunCategories { get; set; } = new List<string>();
 
-            [JsonProperty("features")]
-            public List<string> JsonRunFeatures { get; set; } = new List<string>();
+            [JsonProperty("tags")]
+            public List<string> JsonRunTags { get; set; } = new List<string>();
 
             [JsonProperty("tests")]
             public List<string> JsonRunTests { get; set; } = new List<string>();

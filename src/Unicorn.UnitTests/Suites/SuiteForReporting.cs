@@ -6,7 +6,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Suites
 {
     [TestSuite("Tests for reporting")]
-    [Feature("Reporting")]
+    [Tag("Reporting")]
     public class SuiteForReporting : BaseTestSuite
     {
         [BeforeSuite]
