@@ -5,7 +5,7 @@ using Unicorn.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.UnitTests.Suites
 {
-    [TestSuite("Suite for timeouts")]
+    [Suite("Suite for timeouts")]
     [Tag("timeouts")]
     public class SuiteForTimeouts : TestSuite
     {

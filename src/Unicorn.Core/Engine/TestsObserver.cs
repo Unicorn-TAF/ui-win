@@ -16,7 +16,7 @@ namespace Unicorn.Core.Engine
         public static IEnumerable<Type> ObserveTestSuites(Assembly assembly)
         {
             return assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(typeof(TestSuiteAttribute), true).Any());
+                .Where(t => t.GetCustomAttributes(typeof(SuiteAttribute), true).Any());
         }
 
         /// <summary>

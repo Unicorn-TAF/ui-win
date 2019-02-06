@@ -3,7 +3,7 @@ using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Suites
 {
-    [TestSuite("Tests (all skipped)")]
+    [Suite("Tests (all skipped)")]
     [Tag("Skipping")]
     public class SuiteToBeSkipped : BaseTestSuite
     {

@@ -3,9 +3,9 @@
 namespace Unicorn.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TestSuiteAttribute : Attribute
+    public class SuiteAttribute : Attribute
     {
-        public TestSuiteAttribute(string name)
+        public SuiteAttribute(string name)
         {
             this.Name = name;
         }

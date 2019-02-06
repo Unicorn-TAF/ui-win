@@ -72,7 +72,7 @@ namespace Unicorn.Core.Testing.Tests
             {
                 if (this.name == null)
                 {
-                    var attribute = GetType().GetCustomAttribute(typeof(TestSuiteAttribute), true) as TestSuiteAttribute;
+                    var attribute = GetType().GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute;
 
                     this.name = attribute != null ? attribute.Name : GetType().Name.Split('.').Last();
                 }

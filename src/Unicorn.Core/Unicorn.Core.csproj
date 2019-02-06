@@ -113,7 +113,7 @@
     <Compile Include="Testing\Tests\SuiteMethod.cs" />
     <Compile Include="Testing\Tests\Test.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\TestSuiteAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\SuiteAttribute.cs" />
     <Compile Include="Testing\Tests\Status.cs" />
     <Compile Include="Testing\Tests\TestOutcome.cs" />
     <Compile Include="Testing\Tests\TestSuite.cs" />
