@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Dynamic\DefineAttribute.cs" />
-    <Compile Include="Controls\Dynamic\DynamicDropdown.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicDropdown.cs" />
     <Compile Include="Controls\Dynamic\IDynamicControl.cs" />
     <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
     <Compile Include="Controls\Interfaces\ILoadable.cs" />

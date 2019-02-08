@@ -1,6 +1,8 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using Unicorn.UI.Core.Controls.Dynamic;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Controls.Typified;
+using Unicorn.UnitTests.Gui.Desktop;
 
 namespace Unicorn.UnitTests.Gui
 {
@@ -37,5 +39,11 @@ namespace Unicorn.UnitTests.Gui
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
+
+        [Find(Using.Name, "Font :")]
+        [Define((int)DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
+        [Define((int)DropdownElement.List, Using.Class, "ComboLBox")]
+        [Define((int)DropdownElement.ListItem, Using.Class, "")]
+        public GuiDinamicDropdown Droppik;
     }
 }

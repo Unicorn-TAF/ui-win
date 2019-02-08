@@ -4,8 +4,8 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
-    public interface IDynamicControl<T> where T : IConvertible
+    public interface IDynamicControl
     {
-        void Populate(Dictionary<T, ByLocator> elementsLocators);
+        void Populate(Dictionary<int, ByLocator> elementsLocators);
     }
 }

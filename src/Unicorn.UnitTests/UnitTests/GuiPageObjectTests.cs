@@ -26,6 +26,13 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
+        [TestCase(Description = "Check dynamic dropdown selects value")]
+        public void TestGuiDynamicDropdownSelection()
+        {
+            charmap.Window.Droppik.Select("Arial");
+        }
+
+        [Author("Vitaliy Dobriyan")]
         [TestCase(Description = "Check that not existing controls don't brake page object initialization")]
         public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization()
         {
