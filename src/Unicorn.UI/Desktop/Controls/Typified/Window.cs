@@ -20,7 +20,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.Window;
+        public override ControlType UiaType => ControlType.Window;
 
         public string Title => this.Text;
 

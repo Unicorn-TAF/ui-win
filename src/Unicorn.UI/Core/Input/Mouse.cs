@@ -45,15 +45,11 @@ namespace Unicorn.UI.Core.Input
             LeftUp();
         }
 
-        public static void LeftUp()
-        {
+        public static void LeftUp() =>
             SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftUp, GetMessageExtraInfo())));
-        }
 
-        public static void LeftDown()
-        {
+        public static void LeftDown() =>
             SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftDown, GetMessageExtraInfo())));
-        }
 
         public virtual void RightClick()
         {
@@ -61,10 +57,8 @@ namespace Unicorn.UI.Core.Input
             SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFRightUp, GetMessageExtraInfo())));
         }
 
-        public virtual void ResetPosition()
-        {
+        public virtual void ResetPosition() =>
             Instance.Location = new Point(0, 0);
-        }
 
         public virtual void Click()
         {
@@ -95,10 +89,7 @@ namespace Unicorn.UI.Core.Input
             Click();
         }
 
-        public virtual void MoveOut()
-        {
-            this.Location = new Point(0, 0);
-        }
+        public virtual void MoveOut() => this.Location = new Point(0, 0);
 
         public virtual void DoubleClick(Point point)
         {
@@ -122,9 +113,7 @@ namespace Unicorn.UI.Core.Input
         [DllImport("user32.dll")]
         private static extern short GetDoubleClickTime();
 
-        private static void SendInput(Input input)
-        {
+        private static void SendInput(Input input) =>
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
-        }
     }
 }

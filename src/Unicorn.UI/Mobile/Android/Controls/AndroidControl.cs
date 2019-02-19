@@ -82,10 +82,8 @@ namespace Unicorn.UI.Mobile.Android.Controls
             throw new NotImplementedException();
         }
 
-        public string GetAttribute(string attribute)
-        {
-            return this.Instance.GetAttribute(attribute);
-        }
+        public string GetAttribute(string attribute) =>
+            this.Instance.GetAttribute(attribute);
 
         public override string ToString()
         {

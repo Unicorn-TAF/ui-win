@@ -16,7 +16,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.Edit;
+        public override ControlType UiaType => ControlType.Edit;
 
         public string Value
         {

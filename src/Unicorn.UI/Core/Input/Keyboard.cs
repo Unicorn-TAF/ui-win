@@ -59,15 +59,11 @@ namespace Unicorn.UI.Core.Input
             }
         }
 
-        public virtual KeyboardInput.SpecialKeys[] HeldKeys
-        {
-            get { return this.heldKeys.ToArray(); }
-        }
+        public virtual KeyboardInput.SpecialKeys[] HeldKeys =>
+            this.heldKeys.ToArray();
 
-        public virtual void Enter(string keysToType)
-        {
+        public virtual void Enter(string keysToType) =>
             Send(keysToType);
-        }
 
         public virtual void Send(string keysToType)
         {
@@ -94,10 +90,8 @@ namespace Unicorn.UI.Core.Input
             }
         }
 
-        public virtual void PressSpecialKey(KeyboardInput.SpecialKeys key)
-        {
+        public virtual void PressSpecialKey(KeyboardInput.SpecialKeys key) =>
             Send(key, true);
-        }
 
         public virtual void HoldKey(KeyboardInput.SpecialKeys key)
         {
@@ -111,10 +105,8 @@ namespace Unicorn.UI.Core.Input
             this.heldKeys.Remove(key);
         }
 
-        public virtual void LeaveAllKeys()
-        {
+        public virtual void LeaveAllKeys() =>
             new List<KeyboardInput.SpecialKeys>(this.heldKeys).ForEach(LeaveKey);
-        }
 
         [DllImport("user32", EntryPoint = "SendInput")]
         private static extern int SendInput(uint numberOfInputs, ref Input input, int structSize);
@@ -128,10 +120,8 @@ namespace Unicorn.UI.Core.Input
         [DllImport("user32.dll")]
         private static extern ushort GetKeyState(uint virtKey);
 
-        private static bool ShiftKeyIsNeeded(short key)
-        {
-            return ((key >> 8) & 1) == 1;
-        }
+        private static bool ShiftKeyIsNeeded(short key) =>
+            ((key >> 8) & 1) == 1;
 
         private static KeyboardInput.KeyUpDown GetSpecialKeyCode(bool specialKey, KeyboardInput.KeyUpDown key)
         {
@@ -143,15 +133,11 @@ namespace Unicorn.UI.Core.Input
             return key;
         }
 
-        private static void SendInput(Input input)
-        {
+        private static void SendInput(Input input) =>
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
-        }
 
-        private static Input GetInputFor(short character, KeyboardInput.KeyUpDown keyUpOrDown)
-        {
-            return Input.Keyboard(new KeyboardInput(character, keyUpOrDown, GetMessageExtraInfo()));
-        }
+        private static Input GetInputFor(short character, KeyboardInput.KeyUpDown keyUpOrDown) =>
+            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, GetMessageExtraInfo()));
 
         private void Press(short key, bool specialKey)
         {
@@ -159,10 +145,8 @@ namespace Unicorn.UI.Core.Input
             SendKeyUp(key, specialKey);
         }
 
-        private void Send(KeyboardInput.SpecialKeys key, bool specialKey)
-        {
+        private void Send(KeyboardInput.SpecialKeys key, bool specialKey) =>
             Press((short)key, specialKey);
-        }
 
         private void SendKeyUp(short b, bool specialKey)
         {

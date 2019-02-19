@@ -15,7 +15,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.TabItem;
+        public override ControlType UiaType => ControlType.TabItem;
 
         public bool Selected
         {

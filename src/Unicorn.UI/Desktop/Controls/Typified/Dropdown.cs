@@ -18,7 +18,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.ComboBox;
+        public override ControlType UiaType => ControlType.ComboBox;
 
         public bool Expanded => GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
 

@@ -15,14 +15,10 @@ namespace Unicorn.UI.Core.Input
         [FieldOffset(4)]
         private KeyboardInput ki;
 
-        public static Input Mouse(MouseInput mouseInput)
-        {
-            return new Input { type = WindowsConstants.InputMouse, mi = mouseInput };
-        }
+        public static Input Mouse(MouseInput mouseInput) =>
+            new Input { type = WindowsConstants.InputMouse, mi = mouseInput };
 
-        public static Input Keyboard(KeyboardInput keyboardInput)
-        {
-            return new Input { type = WindowsConstants.InputKeyboard, ki = keyboardInput };
-        }
+        public static Input Keyboard(KeyboardInput keyboardInput) =>
+            new Input { type = WindowsConstants.InputKeyboard, ki = keyboardInput };
     }
 }

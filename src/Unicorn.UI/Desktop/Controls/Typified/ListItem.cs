@@ -14,7 +14,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.ListItem;
+        public override ControlType UiaType => ControlType.ListItem;
 
         public bool Selected => GetPattern<SelectionItemPattern>().Current.IsSelected;
 

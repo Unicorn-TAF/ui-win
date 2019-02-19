@@ -13,6 +13,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.Button;
+        public override ControlType UiaType => ControlType.Button;
     }
 }

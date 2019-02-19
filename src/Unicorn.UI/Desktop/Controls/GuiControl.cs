@@ -28,7 +28,7 @@ namespace Unicorn.UI.Desktop.Controls
 
         public virtual string ClassName => null;
 
-        public abstract ControlType Type { get; }
+        public abstract ControlType UiaType { get; }
 
         public virtual AutomationElement Instance
         {
@@ -43,23 +43,11 @@ namespace Unicorn.UI.Desktop.Controls
             }
         }
 
-        public string Text
-        {
-            get
-            {
-                var name = this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
-                var id = this.Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
-                return !string.IsNullOrEmpty(name) ? name : id;
-            }
-        }
+        public string Text =>
+            this.Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
 
-        public bool Enabled
-        {
-            get
-            {
-                return (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
-            }
-        }
+        public bool Enabled =>
+            (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
 
         public bool Visible
         {
@@ -76,21 +64,11 @@ namespace Unicorn.UI.Desktop.Controls
             }
         }
 
-        public System.Drawing.Point Location
-        {
-            get
-            {
-                return new System.Drawing.Point(this.BoundingRectangle.Location.X, this.BoundingRectangle.Location.Y);
-            }
-        }
+        public System.Drawing.Point Location =>
+            new System.Drawing.Point(this.BoundingRectangle.Location.X, this.BoundingRectangle.Location.Y);
 
-        public System.Drawing.Rectangle BoundingRectangle
-        {
-            get
-            {
-                return (System.Drawing.Rectangle)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-            }
-        }
+        public System.Drawing.Rectangle BoundingRectangle =>
+            (System.Drawing.Rectangle)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
 
         public override AutomationElement SearchContext
         {
@@ -179,16 +157,11 @@ namespace Unicorn.UI.Desktop.Controls
             Mouse.Instance.RightClick(point);
         }
 
-        public AutomationElement GetParent()
-        {
-            TreeWalker treeWalker = TreeWalker.ControlViewWalker;
-            return treeWalker.GetParent(this.Instance);
-        }
+        public AutomationElement GetParent() =>
+            TreeWalker.ControlViewWalker.GetParent(this.Instance);
 
-        public override string ToString()
-        {
-            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
-        }
+        public override string ToString() => 
+            string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
 
         #region "Helpers"
 
