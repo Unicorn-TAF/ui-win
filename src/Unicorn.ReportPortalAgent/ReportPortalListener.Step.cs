@@ -8,7 +8,7 @@ namespace Unicorn.ReportPortalAgent
     {
         private SuiteMethod currentTest = null;
 
-        protected void TestOutput(string info)
+        internal void TestOutput(string info)
         {
             try
             {

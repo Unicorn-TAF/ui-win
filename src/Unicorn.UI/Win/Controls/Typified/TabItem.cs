@@ -40,7 +40,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             if (this.Selected)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (selected by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
@@ -52,11 +52,11 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tSelectionItemPattern was not found");
+                Logger.Instance.Log(LogLevel.Trace, "SelectionItemPattern was not found");
                 this.Click();
             }
 
-            Logger.Instance.Log(LogLevel.Trace, "\tSelected");
+            Logger.Instance.Log(LogLevel.Trace, "Selected");
             return true;
         }
     }

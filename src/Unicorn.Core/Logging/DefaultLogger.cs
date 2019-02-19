@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using Unicorn.Core.Testing.Tests;
+
+namespace Unicorn.Core.Logging
+{
+    public class DefaultLogger : ILogger
+    {
+        private readonly Dictionary<LogLevel, string> prefixes = new Dictionary<LogLevel, string>
+        {
+            { LogLevel.Error, $"  [Error]: " },
+            { LogLevel.Warning, $"[Warning]: " },
+            { LogLevel.Info, $"   [Info]: " },
+            { LogLevel.Debug, $"  [Debug]: \t" },
+            { LogLevel.Trace, $"  [Trace]: \t\t" },
+        };
+
+        public void Log(LogLevel level, string message)
+        {
+            if (level <= Logger.Level)
+            {
+                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff")} {prefixes[level]}{message}";
+                Test.TestOutput?.AppendLine(logString);
+                Console.WriteLine(logString);
+            }
+        }
+    }
+}

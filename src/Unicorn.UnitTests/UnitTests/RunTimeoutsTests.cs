@@ -10,7 +10,7 @@ namespace Unicorn.UnitTests.Tests
     public class RunTimeoutsTests : NUnitTestRunner
     {
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check Test timeout")]
+        [Test(Description = "Check Test timeout")]
         public void TestTimeoutsTestTimeout()
         {
             Configuration.SetSuiteTags("timeouts");

@@ -13,83 +13,65 @@ namespace Unicorn.ReportPortalAgent
 
         public void Complete()
         {
-            this.listener.ReportRunFinished();
+            if (ReportPortalListener.Config.IsEnabled)
+            {
+                this.listener.FinishRun();
+            }
         }
 
         public void Init()
         {
-            string screenshotsDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
-
-            if (!Directory.Exists(screenshotsDir))
+            if (ReportPortalListener.Config.IsEnabled)
             {
-                Directory.CreateDirectory(screenshotsDir);
+                if (!Directory.Exists(Screenshot.ScreenshotsFolder))
+                {
+                    Directory.CreateDirectory(Screenshot.ScreenshotsFolder);
+                }
+
+                this.listener = new ReportPortalListener();
+                this.listener.StartRun();
+
+                Test.OnTestStart += ReportTestStart;
+                Test.OnTestFail += TakeScreenshot;
+                Test.OnTestFinish += ReportTestFinish;
+                Test.OnTestSkip += this.listener.ReportTestSkipped;
+
+                SuiteMethod.OnSuiteMethodStart += this.listener.StartSuiteMethod;
+                SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
+                SuiteMethod.OnSuiteMethodFinish += this.listener.FinishSuiteMethod;
+
+                TestSuite.OnSuiteStart += this.ReportSuiteStart;
+                TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
+
+                TestStepsEvents.OnStepStart += ReportInfo;
             }
-
-            this.listener = new ReportPortalListener();
-            this.listener.ReportRunStarted();
-
-            Test.OnTestStart += ReportTestStart;
-            Test.OnTestFail += TakeScreenshot;
-            Test.OnTestFinish += ReportTestFinish;
-            Test.OnTestSkip += this.listener.ReportTestSkipped;
-
-            SuiteMethod.OnSuiteMethodStart += this.listener.ReportSuiteMethodStarted;
-            SuiteMethod.OnSuiteMethodFinish += this.listener.ReportSuiteMethodFinished;
-
-            TestSuite.OnSuiteStart += this.ReportSuiteStart;
-            TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
-
-            TestStepsEvents.OnStepStart += ReportInfo;
         }
 
         public void ReportInfo(MethodBase method, object[] arguments)
         {
             string info = TestSteps.GetStepInfo(method, arguments);
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
-            ////this.listener.ReportTestOutput(info);
         }
 
-        public void ReportInfo(string info)
-        {
-            this.listener.ReportTestOutput(info);
-        }
+        public void ReportInfo(string info) =>
+            this.listener.TestOutput(info);
 
-        public void ReportLoggerMessage(LogLevel level, string info)
-        {
+        public void ReportLoggerMessage(LogLevel level, string info) =>
             this.listener.ReportLoggerMessage(level, info);
-        }
 
-        public void ReportSuiteFinish(TestSuite testSuite)
-        {
-            this.listener.ReportSuiteFinished(testSuite);
-        }
+        public void ReportSuiteFinish(TestSuite testSuite) =>
+            this.listener.FinishSuite(testSuite);
 
-        public void ReportSuiteStart(TestSuite testSuite)
-        {
-            this.listener.ReportSuiteStarted(testSuite);
-        }
+        public void ReportSuiteStart(TestSuite testSuite) =>
+            this.listener.StartSuite(testSuite);
 
-        public void ReportTestFinish(Test test)
-        {
-            this.listener.ReportTestFinished(test);
-        }
+        public void ReportTestFinish(Test test) =>
+            this.listener.FinishTest(test);
 
-        public void ReportTestStart(Test test)
-        {
-            this.listener.ReportTestStarted(test);
-        }
+        public void ReportTestStart(Test test) =>
+            this.listener.StartTest(test);
 
-        private void TakeScreenshot(Test test)
-        {
-            string screenshotName = test.FullName;
-
-            if (screenshotName.Length > 150)
-            {
-                screenshotName = screenshotName.Substring(0, 150) + "~";
-            }
-
-            Screenshot.TakeScreenshot(screenshotName);
-            test.Outcome.Screenshot = screenshotName + ".Jpeg";
-        }
+        public void TakeScreenshot(SuiteMethod suiteMethod) =>
+            suiteMethod.Outcome.Screenshot = Screenshot.TakeScreenshot(suiteMethod.FullName);
     }
 }

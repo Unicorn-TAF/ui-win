@@ -23,7 +23,7 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of tests inside")]
+        [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestParameterizedSuiteCountOfTests()
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
@@ -32,35 +32,35 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
+        [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestParameterizedSuiteCountOfAfterSuite()
         {
             Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
+        [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestParameterizedSuiteCountOfBeforeSuite()
         {
             Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
+        [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestParameterizedSuiteCountOfAfterTest()
         {
             Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
+        [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestParameterizedSuiteCountOfBeforeTest()
         {
             Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check suite run")]
+        [Test(Description = "Check suite run")]
         public void TestParameterizedSuiteRunSuite()
         {
             ParameterizedSuite.Output = string.Empty;

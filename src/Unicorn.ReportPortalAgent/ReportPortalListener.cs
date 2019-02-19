@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using ReportPortal.Client;
-using ReportPortal.Client.Models;
 using ReportPortal.Shared;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.Configuration;
@@ -13,7 +12,7 @@ namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        private static Dictionary<Core.Testing.Tests.Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Core.Testing.Tests.Status, ReportPortal.Client.Models.Status>();
+        private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
         private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
         private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
@@ -21,7 +20,9 @@ namespace Unicorn.ReportPortalAgent
 
         static ReportPortalListener()
         {
-            var configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath) + "/ReportPortal.conf";
+            var configPath = Path.Combine(
+                Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath),
+                "ReportPortal.conf");
             Config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
 
             Service reportPortalService;
@@ -36,9 +37,9 @@ namespace Unicorn.ReportPortalAgent
 
             Bridge.Service = reportPortalService;
 
-            statusMap[Core.Testing.Tests.Status.Passed] = ReportPortal.Client.Models.Status.Passed;
-            statusMap[Core.Testing.Tests.Status.Failed] = ReportPortal.Client.Models.Status.Failed;
-            statusMap[Core.Testing.Tests.Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
+            statusMap[Status.Passed] = ReportPortal.Client.Models.Status.Passed;
+            statusMap[Status.Failed] = ReportPortal.Client.Models.Status.Failed;
+            statusMap[Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
         }
 
         public static Config Config
@@ -55,84 +56,12 @@ namespace Unicorn.ReportPortalAgent
             set;
         }
 
-        public void ReportRunStarted()
-        {
-            if (Config.IsEnabled)
-            {
-                StartRun();
-            }
-        }
-
-        public void ReportRunFinished()
-        {
-            if (Config.IsEnabled)
-            {
-                FinishRun();
-            }
-        }
-
-        public void ReportSuiteStarted(TestSuite suite)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuite(suite);
-            }
-        }
-
-        public void ReportSuiteFinished(TestSuite suite)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishSuite(suite);
-            }
-        }
-
-        public void ReportSuiteMethodStarted(SuiteMethod test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuiteMethod(test);
-            }
-        }
-
-        public void ReportSuiteMethodFinished(SuiteMethod test)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishSuiteMethod(test);
-            }
-        }
-
-        public void ReportTestStarted(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartTest(test);
-            }
-        }
-
-        public void ReportTestFinished(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishTest(test);
-            }
-        }
-
         public void ReportTestSkipped(Test test)
         {
             if (Config.IsEnabled)
             {
                 StartTest(test);
                 FinishTest(test);
-            }
-        }
-
-        public void ReportTestOutput(string report)
-        {
-            if (Config.IsEnabled)
-            {
-                TestOutput(report);
             }
         }
 

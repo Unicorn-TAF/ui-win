@@ -19,7 +19,7 @@ namespace Unicorn.UI.Desktop.PageObject
             this.ExeName = exeName;
         }
 
-        public override ControlType Type => ControlType.Pane;
+        public override ControlType UiaType => ControlType.Pane;
 
         public string Path { get; protected set; }
 

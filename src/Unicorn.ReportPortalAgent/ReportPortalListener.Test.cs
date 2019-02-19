@@ -5,7 +5,6 @@ using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using Unicorn.Core.Reporting;
 using Unicorn.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.EventArguments;
 
@@ -25,7 +24,7 @@ namespace Unicorn.ReportPortalAgent
 
         public static event TestFinishedHandler AfterTestFinished;
 
-        protected void StartTest(Test test)
+        internal void StartTest(Test test)
         {
             try
             {
@@ -77,7 +76,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void FinishTest(Test test)
+        internal void FinishTest(Test test)
         {
             try
             {
@@ -124,21 +123,21 @@ namespace Unicorn.ReportPortalAgent
 
                         if (!string.IsNullOrEmpty(test.Outcome.Screenshot))
                         {
-                            byte[] screenshotBytes = File.ReadAllBytes(Path.Combine(Screenshot.ScreenshotsFolder, test.Outcome.Screenshot));
+                            byte[] screenshotBytes = File.ReadAllBytes(test.Outcome.Screenshot);
 
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = ReportPortal.Client.Models.LogLevel.Error,
+                                Level = LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
-                                Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
+                                Attach = new Attach("Fail screenshot", "image/png", screenshotBytes)
                             });
                         }
                         else
                         {
                             this.testFlowIds[id].Log(new AddLogItemRequest
                             {
-                                Level = ReportPortal.Client.Models.LogLevel.Error,
+                                Level = LogLevel.Error,
                                 Time = DateTime.UtcNow,
                                 Text = failureMessage + Environment.NewLine + failureStacktrace,
                             });
@@ -149,7 +148,7 @@ namespace Unicorn.ReportPortalAgent
                             Level = LogLevel.Error,
                             Time = DateTime.UtcNow,
                             Text = "Attachment: Log file",
-                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.TestOutput.ToString()))
+                            Attach = new Attach("Execution log", "text/plain", Encoding.ASCII.GetBytes(Test.TestOutput.ToString()))
                         });
                     }
 
@@ -221,7 +220,7 @@ namespace Unicorn.ReportPortalAgent
                         Level = LogLevel.Info,
                         Time = DateTime.UtcNow,
                         Text = "Attachment: " + name,
-                        Attach = new Attach(test.Outcome.Screenshot, mime, content)
+                        Attach = new Attach(name, mime, content)
                     });
                 }
             }

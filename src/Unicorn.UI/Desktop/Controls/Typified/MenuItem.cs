@@ -13,7 +13,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.MenuItem;
+        public override ControlType UiaType => ControlType.MenuItem;
 
         public void Select()
         {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Unicorn.Core.Logging
+﻿namespace Unicorn.Core.Logging
 {
     public static class Logger
     {
@@ -12,7 +10,7 @@ namespace Unicorn.Core.Logging
             {
                 if (instance == null)
                 {
-                    instance = new ConsoleLogger();
+                    instance = new DefaultLogger();
                     instance.Log(LogLevel.Info, "Default console logger is initialized");
                 }
                     
@@ -24,5 +22,7 @@ namespace Unicorn.Core.Logging
                 instance = value;
             }
         }
+
+        public static LogLevel Level { get; set; } = LogLevel.Debug;
     }
 }

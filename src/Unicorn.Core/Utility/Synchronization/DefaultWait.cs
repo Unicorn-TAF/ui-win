@@ -26,7 +26,7 @@ namespace Unicorn.Core.Utility.Synchronization
                 {
                     if (condition.Invoke())
                     {
-                        Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {DateTime.Now - startTime}]");
+                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {DateTime.Now - startTime}]");
                         return;
                     }
                 }

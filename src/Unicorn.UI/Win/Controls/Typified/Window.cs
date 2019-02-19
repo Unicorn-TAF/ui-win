@@ -76,7 +76,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
 
-            Logger.Instance.Log(LogLevel.Trace, $"\tClosed. [Wait time = {timer.Elapsed}]");
+            Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
     }
 }

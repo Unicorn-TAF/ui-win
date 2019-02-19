@@ -46,7 +46,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             var condition = new AndCondition(
                 TreeWalker.ControlViewWalker.Condition,
-               GetControlTypeCondition(instance.Type));
+               GetControlTypeCondition(instance.UiaType));
 
             var walker = new TreeWalker(condition);
             var elementToWrap = walker.GetFirstChild(this.SearchContext);
@@ -140,7 +140,7 @@ namespace Unicorn.UI.Desktop.Driver
             GuiControl instance = (GuiControl)Activator.CreateInstance(controlType);
 
             Condition classCondition = GetClassNameCondition(instance.ClassName);
-            Condition typeCondition = GetControlTypeCondition(instance.Type);
+            Condition typeCondition = GetControlTypeCondition(instance.UiaType);
 
             return new AndCondition(classCondition, typeCondition, locatorCondition);
         }

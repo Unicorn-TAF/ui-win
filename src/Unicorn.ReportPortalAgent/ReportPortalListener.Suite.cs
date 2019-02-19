@@ -24,7 +24,7 @@ namespace Unicorn.ReportPortalAgent
 
         public static event SuiteFinishedHandler AfterSuiteFinished;
 
-        protected void StartSuite(TestSuite suite)
+        internal void StartSuite(TestSuite suite)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void FinishSuite(TestSuite suite)
+        internal void FinishSuite(TestSuite suite)
         {
             try
             {
