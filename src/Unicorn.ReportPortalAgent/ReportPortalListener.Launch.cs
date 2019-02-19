@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using ReportPortal.Client.Filtering;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
@@ -23,7 +21,7 @@ namespace Unicorn.ReportPortalAgent
 
         public static event RunFinishedHandler AfterRunFinished;
 
-        protected void StartRun()
+        internal void StartRun()
         {
             try
             {
@@ -85,7 +83,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void FinishRun()
+        internal void FinishRun()
         {
             try
             {

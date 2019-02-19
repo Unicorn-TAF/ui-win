@@ -32,12 +32,12 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
             if (this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to check (checked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
                 return false;
             }
 
             this.TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tChecked");
+            Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
         }
@@ -47,12 +47,12 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
             if (!this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to uncheck (unchecked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
                 return false;
             }
 
             this.TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tUnchecked");
+            Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;
         }

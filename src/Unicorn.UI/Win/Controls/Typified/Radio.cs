@@ -27,14 +27,14 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             if (this.Selected)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (selected by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
             var pattern = this.SelectionItemPattern;
 
             pattern.Select();
-            Logger.Instance.Log(LogLevel.Trace, "\tSelected");
+            Logger.Instance.Log(LogLevel.Trace, "Selected");
 
             return true;
         }

@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using Unicorn.Core.Logging;
 
@@ -10,7 +9,12 @@ namespace Unicorn.Core.Reporting
 {
     public static class Screenshot
     {
-        public static string ScreenshotsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Screenshots");
+        private const int MaxLength = 255;
+        private static ImageFormat format = ImageFormat.Png;
+
+        public static string ScreenshotsFolder { get; set; } = Path.Combine(
+            Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath),
+            "Screenshots");
 
         public static Bitmap GetScreenshot()
         {
@@ -39,17 +43,28 @@ namespace Unicorn.Core.Reporting
             return printScreen;
         }
 
-        public static void TakeScreenshot(string fileName)
+        public static string TakeScreenshot(string fileName)
         {
-            Bitmap printScreen = GetScreenshot();
+            var printScreen = GetScreenshot();
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Saving print screen");
-                printScreen.Save(Path.Combine(ScreenshotsFolder, fileName + "." + ImageFormat.Jpeg), ImageFormat.Jpeg);
+                var filePath = Path.Combine(ScreenshotsFolder, fileName);
+
+                if (filePath.Length > MaxLength)
+                {
+                    filePath = filePath.Substring(0, MaxLength - 1) + "~";
+                }
+
+                filePath += "." + format;
+
+                printScreen.Save(filePath, format);
+                return filePath;
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Debug, "Failed to save print screen:\n" + e);
+                Logger.Instance.Log(LogLevel.Warning, "Failed to save print screen:\n" + e);
+                return string.Empty;
             }
         }
     }

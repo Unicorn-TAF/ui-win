@@ -15,7 +15,7 @@ namespace Unicorn.UnitTests.Tests
         private readonly Suite suite = Activator.CreateInstance<Suite>();
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of tests inside")]
+        [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestSuitesCountOfTests()
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
@@ -24,35 +24,35 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
+        [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestSuitesCountOfAfterSuite()
         {
             Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
+        [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestSuitesCountOfBeforeSuite()
         {
             Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of After suite inside")]
+        [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestSuitesCountOfAfterTest()
         {
             Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check that test suite determines correct count of before suite inside")]
+        [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestSuitesCountOfBeforeTest()
         {
             Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Check suite run")]
+        [Test(Description = "Check suite run")]
         public void TestSuitesRunSuite()
         {
             Suite.Output = string.Empty;
@@ -64,7 +64,7 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
+        [Test(Description = "Test For Suite Skipping")]
         public void TestSuitesSuiteSkip()
         {
             SuiteToBeSkipped.Output = string.Empty;
@@ -76,7 +76,7 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
-        [TestCase(Description = "Test For Suite Skipping")]
+        [Test(Description = "Test For Suite Skipping")]
         public void TestSuitesSuiteBugs()
         {
             Configuration.SetSuiteTags("reporting");

@@ -89,7 +89,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {DateTime.Now - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {DateTime.Now - startTime}]");
                             return result;
                         }
                     }
@@ -97,7 +97,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {DateTime.Now - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {DateTime.Now - startTime}]");
                             return result;
                         }
                     }
@@ -169,7 +169,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }
@@ -177,7 +177,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"\twait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {endTime - startTime}]");
                             return result;
                         }
                     }

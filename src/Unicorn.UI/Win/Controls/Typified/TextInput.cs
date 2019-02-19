@@ -67,7 +67,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to set (input already has such text)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to set (input already has such text)");
                 return false;
             }
         }

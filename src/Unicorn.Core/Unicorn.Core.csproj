@@ -62,7 +62,7 @@
     <Compile Include="Testing\Tests\Attributes\TestAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
-    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
