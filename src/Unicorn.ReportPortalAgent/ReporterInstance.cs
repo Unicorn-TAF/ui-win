@@ -50,14 +50,12 @@ namespace Unicorn.ReportPortalAgent
         public void ReportInfo(MethodBase method, object[] arguments)
         {
             string info = TestSteps.GetStepInfo(method, arguments);
+            this.ReportInfo(info);
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
         }
 
         public void ReportInfo(string info) =>
-            this.listener.TestOutput(info);
-
-        public void ReportLoggerMessage(LogLevel level, string info) =>
-            this.listener.ReportLoggerMessage(level, info);
+            this.listener.ReportTestMessage(LogLevel.Info, info);
 
         public void ReportSuiteFinish(TestSuite testSuite) =>
             this.listener.FinishSuite(testSuite);
@@ -66,10 +64,10 @@ namespace Unicorn.ReportPortalAgent
             this.listener.StartSuite(testSuite);
 
         public void ReportTestFinish(Test test) =>
-            this.listener.FinishTest(test);
+            this.listener.FinishSuiteMethod(test);
 
         public void ReportTestStart(Test test) =>
-            this.listener.StartTest(test);
+            this.listener.StartSuiteMethod(test);
 
         public void TakeScreenshot(SuiteMethod suiteMethod) =>
             suiteMethod.Outcome.Screenshot = Screenshot.TakeScreenshot(suiteMethod.FullName);

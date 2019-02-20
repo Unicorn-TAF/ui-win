@@ -10,6 +10,16 @@ namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
+        private readonly Dictionary<SuiteMethodType, TestItemType> itemTypes =
+            new Dictionary<SuiteMethodType, TestItemType>
+        {
+            { SuiteMethodType.BeforeSuite, TestItemType.BeforeClass },
+            { SuiteMethodType.BeforeTest, TestItemType.BeforeMethod },
+            { SuiteMethodType.AfterTest, TestItemType.AfterMethod },
+            { SuiteMethodType.AfterSuite, TestItemType.AfterClass },
+            { SuiteMethodType.Test, TestItemType.Step },
+        };
+
         internal void StartSuiteMethod(SuiteMethod test)
         {
             try
@@ -21,35 +31,15 @@ namespace Unicorn.ReportPortalAgent
 
                 this.currentTest = test;
 
-                TestItemType itemType = TestItemType.None;
-
-                switch (test.MethodType)
-                {
-                    case SuiteMethodType.BeforeSuite:
-                        itemType = TestItemType.BeforeClass;
-                        break;
-                    case SuiteMethodType.BeforeTest:
-                        itemType = TestItemType.BeforeMethod;
-                        break;
-                    case SuiteMethodType.AfterTest:
-                        itemType = TestItemType.AfterMethod;
-                        break;
-                    case SuiteMethodType.AfterSuite:
-                        itemType = TestItemType.AfterClass;
-                        break;
-                }
-
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemType
+                    Type = itemTypes[test.MethodType]
                 };
 
                 var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
-
                 this.testFlowIds[id] = testVal;
-
                 this.testFlowNames[fullname] = testVal;
             }
             catch (Exception exception)
@@ -58,101 +48,75 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        internal void FinishSuiteMethod(SuiteMethod test)
+        internal void FinishSuiteMethod(SuiteMethod suiteMethod)
         {
             try
             {
-                var id = test.Id;
-                var result = test.Outcome.Result;
-                ////var parentId = test.ParentId;
+                var id = suiteMethod.Id;
+                var result = suiteMethod.Outcome.Result;
 
                 this.currentTest = null;
 
-                if (this.testFlowIds.ContainsKey(id))
+                if (!this.testFlowIds.ContainsKey(id))
                 {
-                    var updateTestRequest = new UpdateTestItemRequest();
+                    return;
+                }
 
-                    // adding categories to test
-                    updateTestRequest.Tags = new List<string>();
-                    updateTestRequest.Tags.Add(test.Author);
+                var updateTestRequest = new UpdateTestItemRequest();
 
-                    // adding description to test
-                    var description = test.Description;
+                // adding categories to test
+                updateTestRequest.Tags = new List<string>();
+                updateTestRequest.Tags.Add(suiteMethod.Author);
 
-                    if (description != null)
+                if(suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                {
+                    (suiteMethod as Test).Categories.ForEach(c => updateTestRequest.Tags.Add(c));
+                }
+
+                // adding description to test
+                updateTestRequest.Description = suiteMethod.Description;
+
+                this.testFlowIds[id].Update(updateTestRequest);
+
+                // adding failure items
+                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed)
+                {
+                    var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
+
+                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Screenshot))
                     {
-                        updateTestRequest.Description = description;
-                    }
-
-                    if (updateTestRequest.Description != null || updateTestRequest.Tags != null)
-                    {
-                        this.testFlowIds[id].Update(updateTestRequest);
-                    }
-
-                    // adding failure items
-                    if (test.Outcome.Result == Core.Testing.Tests.Status.Failed)
-                    {
-                        var failureMessage = test.Outcome.Exception.Message;
-                        var failureStacktrace = test.Outcome.Exception.StackTrace;
-
-                        if (!string.IsNullOrEmpty(test.Outcome.Screenshot))
-                        {
-                            byte[] screenshotBytes = File.ReadAllBytes(test.Outcome.Screenshot);
-
-                            this.testFlowIds[id].Log(new AddLogItemRequest
-                            {
-                                Level = LogLevel.Error,
-                                Time = DateTime.UtcNow,
-                                Text = failureMessage + Environment.NewLine + failureStacktrace,
-                                Attach = new Attach("Fail screenshot", "image/png", screenshotBytes)
-                            });
-                        }
-                        else
-                        {
-                            this.testFlowIds[id].Log(new AddLogItemRequest
-                            {
-                                Level = LogLevel.Error,
-                                Time = DateTime.UtcNow,
-                                Text = failureMessage + Environment.NewLine + failureStacktrace,
-                            });
-                        }
-
-                        this.testFlowIds[id].Log(new AddLogItemRequest
-                        {
-                            Level = LogLevel.Error,
-                            Time = DateTime.UtcNow,
-                            Text = "Attachment: Log file",
-                            Attach = new Attach("Execution log", "text/plain", Encoding.ASCII.GetBytes(Test.TestOutput.ToString()))
-                        });
-                    }
-
-                    FinishTestItemRequest finishTestRequest = null;
-
-                    // finishing test
-                    if (test.Outcome.Result == Core.Testing.Tests.Status.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
-                    {
-                        Issue issue = new Issue();
-                        issue.Type = "Product Bug";
-                        issue.Comment = test.Outcome.OpenBugString;
-
-                        finishTestRequest = new FinishTestItemRequest
-                        {
-                            Issue = issue,
-                            EndTime = DateTime.UtcNow,
-                            Status = statusMap[result]
-                        };
+                        byte[] screenshotBytes = File.ReadAllBytes(suiteMethod.Outcome.Screenshot);
+                        AddAttachment(id, LogLevel.Error, text, "Fail screenshot", "image/png", screenshotBytes);
                     }
                     else
                     {
-                        finishTestRequest = new FinishTestItemRequest
-                        {
-                            EndTime = DateTime.UtcNow,
-                            Status = statusMap[result]
-                        };
+                        AddLog(id, LogLevel.Error, text);
                     }
 
-                    this.testFlowIds[id].Finish(finishTestRequest);
+                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Output))
+                    {
+                        byte[] outputBytes = Encoding.ASCII.GetBytes(suiteMethod.Outcome.Output);
+                        AddAttachment(id, LogLevel.Error, string.Empty, "Execution log", "text/plain", outputBytes);
+                    }
                 }
+
+                var finishTestRequest = new FinishTestItemRequest
+                {
+                    EndTime = DateTime.UtcNow,
+                    Status = statusMap[result]
+                };
+
+                // finishing test
+                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed && !string.IsNullOrEmpty(suiteMethod.Outcome.OpenBugString))
+                {
+                    finishTestRequest.Issue = new Issue
+                    {
+                        Type = "Product Bug",
+                        Comment = suiteMethod.Outcome.OpenBugString
+                    };
+                }
+
+                this.testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)
             {
