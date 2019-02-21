@@ -160,7 +160,7 @@ namespace Unicorn.Core.Testing.Tests
                     if (!testThread.Join(Configuration.TestTimeout))
                     {
                         testThread.Abort();
-                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)), string.Empty);
+                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)));
                     }
 
                     this.Outcome.TestsOutcomes.Add(test.Outcome);
@@ -238,9 +238,9 @@ namespace Unicorn.Core.Testing.Tests
             {
                 this.Outcome.Result = Status.Failed;
 
-                foreach (var bug in test.Outcome.Bugs)
+                if (test.Outcome.Defect != null)
                 {
-                    this.Outcome.Bugs.Add(bug);
+                    this.Outcome.Bugs.Add(test.Outcome.Defect);
                 }
             }
         }

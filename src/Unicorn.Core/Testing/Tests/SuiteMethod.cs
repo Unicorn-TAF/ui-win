@@ -132,6 +132,8 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         protected Stopwatch TestTimer { get; set; }
 
+        public static StringBuilder LogOutput { get; } = new StringBuilder();
+
         /// <summary>
         /// Generates Id for the test which will be the same each time for this test
         /// </summary>
@@ -162,7 +164,7 @@ namespace Unicorn.Core.Testing.Tests
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
-                this.Fail(ex.InnerException, string.Empty);
+                this.Fail(ex.InnerException);
             }
             finally
             {
@@ -185,20 +187,9 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
         /// <param name="bugs">string of bugs test failed on current step.</param>
-        public void Fail(Exception ex, string bugs)
+        public void Fail(Exception ex)
         {
             Logger.Instance.Log(LogLevel.Error, ex.ToString());
-
-            this.Outcome.Bugs.Clear();
-
-            if (!string.IsNullOrEmpty(bugs))
-            {
-                this.Outcome.Bugs.AddRange(bugs.Split(','));
-            }
-            else
-            {
-                this.Outcome.Bugs.Add("?");
-            }
 
             this.Outcome.Exception = ex;
             this.Outcome.Result = Status.Failed;
@@ -206,6 +197,7 @@ namespace Unicorn.Core.Testing.Tests
 
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
+            LogOutput.Clear();
             this.TestTimer = Stopwatch.StartNew();
 
             try
@@ -224,7 +216,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                this.Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                this.Fail(ex.InnerException);
 
                 try
                 {
@@ -238,6 +230,8 @@ namespace Unicorn.Core.Testing.Tests
 
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
+            this.Outcome.Output = LogOutput.ToString();
+            LogOutput.Clear();
         }
     }
 }

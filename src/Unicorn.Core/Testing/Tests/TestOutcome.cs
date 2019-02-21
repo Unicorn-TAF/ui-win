@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Unicorn.Core.Testing.Tests
 {
@@ -12,8 +11,6 @@ namespace Unicorn.Core.Testing.Tests
         public TestOutcome()
         {
             this.ExecutionTime = TimeSpan.FromSeconds(0);
-            this.Bugs = new List<string>();
-            this.OpenBugString = string.Empty;
         }
 
         /// <summary>
@@ -44,12 +41,7 @@ namespace Unicorn.Core.Testing.Tests
         /// <summary>
         /// Gets Array of bugs attached to the test. Has values only when the test failed by bug.
         /// </summary>
-        public List<string> Bugs { get; }
-
-        /// <summary>
-        /// Gets or sets string for open bug
-        /// </summary>
-        public string OpenBugString { get; set; }
+        public Defect Defect { get; }
 
         /// <summary>
         /// Gets or sets test log output string

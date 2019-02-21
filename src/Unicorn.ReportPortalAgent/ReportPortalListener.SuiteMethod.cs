@@ -107,12 +107,20 @@ namespace Unicorn.ReportPortalAgent
                 };
 
                 // finishing test
-                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed && !string.IsNullOrEmpty(suiteMethod.Outcome.OpenBugString))
+                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed)
                 {
+                    var type = suiteMethod.Outcome.Defect == null
+                        ? Core.Testing.Defect.ToInvestigate
+                        : suiteMethod.Outcome.Defect.Type;
+
+                    var comment = suiteMethod.Outcome.Defect == null
+                        ? string.Empty
+                        : suiteMethod.Outcome.Defect.Comment;
+
                     finishTestRequest.Issue = new Issue
                     {
-                        Type = "Product Bug",
-                        Comment = suiteMethod.Outcome.OpenBugString
+                        Type = type,
+                        Comment = comment
                     };
                 }
 

@@ -51,8 +51,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event TestEvent OnTestSkip;
 
-        public static StringBuilder TestOutput { get; set; }
-
         /// <summary>
         /// Gets test categories
         /// </summary>
@@ -120,7 +118,6 @@ namespace Unicorn.Core.Testing.Tests
         public void Skip(string reason)
         {
             this.Outcome.Result = Status.Skipped;
-            this.Outcome.Bugs.Clear();
 
             try
             {
@@ -134,7 +131,7 @@ namespace Unicorn.Core.Testing.Tests
 
         private void RunTestMethod(TestSuite suiteInstance)
         {
-            TestOutput = new StringBuilder();
+            LogOutput.Clear();
             this.TestTimer = Stopwatch.StartNew();
 
             try
@@ -153,7 +150,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                Fail(ex.InnerException);
 
                 try
                 {
@@ -167,8 +164,8 @@ namespace Unicorn.Core.Testing.Tests
 
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
-            this.Outcome.Output = TestOutput.ToString();
-            TestOutput.Clear();
+            this.Outcome.Output = LogOutput.ToString();
+            LogOutput.Clear();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Unicorn.Core.Logging
             if (level <= Logger.Level)
             {
                 var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff")} {prefixes[level]}{message}";
-                Test.TestOutput?.AppendLine(logString);
+                SuiteMethod.LogOutput?.AppendLine(logString);
                 Console.WriteLine(logString);
             }
         }

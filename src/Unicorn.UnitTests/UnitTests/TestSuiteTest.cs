@@ -84,7 +84,8 @@ namespace Unicorn.UnitTests.Tests
             runner.RunTests();
             string[] expectedBugs = new string[] { "234", "871236" };
 
-            Assert.IsTrue(runner.Outcome.SuitesOutcomes[0].Bugs.Intersect(expectedBugs).Count() == 2);
+            Assert.Fail();
+            //Assert.IsTrue(runner.Outcome.SuitesOutcomes[0].Bugs.Intersect(expectedBugs).Count() == 2);
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)
