@@ -15,7 +15,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_RadioButtonControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_RadioButtonControlTypeId;
 
         public bool Selected => this.SelectionItemPattern.CurrentIsSelected != 0;
 

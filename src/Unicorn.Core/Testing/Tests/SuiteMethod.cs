@@ -46,6 +46,8 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
+        public static StringBuilder LogOutput { get; } = new StringBuilder();
+
         public Guid Id { get; set; }
 
         public Guid ParentId { get; set; }
@@ -132,8 +134,6 @@ namespace Unicorn.Core.Testing.Tests
         /// </summary>
         protected Stopwatch TestTimer { get; set; }
 
-        public static StringBuilder LogOutput { get; } = new StringBuilder();
-
         /// <summary>
         /// Generates Id for the test which will be the same each time for this test
         /// </summary>
@@ -186,7 +186,6 @@ namespace Unicorn.Core.Testing.Tests
         /// If test failed not by existing bug it is marked as 'To investigate'
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
-        /// <param name="bugs">string of bugs test failed on current step.</param>
         public void Fail(Exception ex)
         {
             Logger.Instance.Log(LogLevel.Error, ex.ToString());

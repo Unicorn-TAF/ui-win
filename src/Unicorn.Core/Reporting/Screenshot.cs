@@ -12,9 +12,7 @@ namespace Unicorn.Core.Reporting
         private const int MaxLength = 255;
         private static ImageFormat format = ImageFormat.Png;
 
-        public static string ScreenshotsFolder { get; set; } = Path.Combine(
-            Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath),
-            "Screenshots");
+        public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath), "Screenshots");
 
         public static Bitmap GetScreenshot()
         {

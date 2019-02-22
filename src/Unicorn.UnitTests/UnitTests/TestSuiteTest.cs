@@ -82,10 +82,10 @@ namespace Unicorn.UnitTests.Tests
             Configuration.SetSuiteTags("reporting");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
-            string[] expectedBugs = new string[] { "234", "871236" };
+            ////string[] expectedBugs = new string[] { "234", "871236" };
 
             Assert.Fail();
-            //Assert.IsTrue(runner.Outcome.SuitesOutcomes[0].Bugs.Intersect(expectedBugs).Count() == 2);
+            ////Assert.IsTrue(runner.Outcome.SuitesOutcomes[0].Bugs.Intersect(expectedBugs).Count() == 2);
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)

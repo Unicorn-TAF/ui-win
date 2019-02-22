@@ -16,9 +16,17 @@ namespace Unicorn.UI.Core.Input
         private KeyboardInput ki;
 
         public static Input Mouse(MouseInput mouseInput) =>
-            new Input { type = WindowsConstants.InputMouse, mi = mouseInput };
+            new Input
+            {
+                type = WindowsConstants.InputMouse,
+                mi = mouseInput
+            };
 
         public static Input Keyboard(KeyboardInput keyboardInput) =>
-            new Input { type = WindowsConstants.InputKeyboard, ki = keyboardInput };
+            new Input
+            {
+                type = WindowsConstants.InputKeyboard,
+                ki = keyboardInput
+            };
     }
 }

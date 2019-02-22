@@ -68,7 +68,7 @@ namespace Unicorn.ReportPortalAgent
                 updateTestRequest.Tags = new List<string>();
                 updateTestRequest.Tags.Add(suiteMethod.Author);
 
-                if(suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
                     (suiteMethod as Test).Categories.ForEach(c => updateTestRequest.Tags.Add(c));
                 }
@@ -111,7 +111,7 @@ namespace Unicorn.ReportPortalAgent
                 {
                     var type = suiteMethod.Outcome.Defect == null
                         ? Core.Testing.Defect.ToInvestigate
-                        : suiteMethod.Outcome.Defect.Type;
+                        : suiteMethod.Outcome.Defect.DefectType;
 
                     var comment = suiteMethod.Outcome.Defect == null
                         ? string.Empty

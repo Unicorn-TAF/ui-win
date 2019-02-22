@@ -5,9 +5,7 @@ namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        private SuiteMethod currentTest = null;
-
-        private readonly Dictionary<Core.Logging.LogLevel, ReportPortal.Client.Models.LogLevel> logLevels = 
+        private readonly Dictionary<Core.Logging.LogLevel, ReportPortal.Client.Models.LogLevel> logLevels =
             new Dictionary<Core.Logging.LogLevel, ReportPortal.Client.Models.LogLevel>
         {
             { Core.Logging.LogLevel.Error, ReportPortal.Client.Models.LogLevel.Error },
@@ -16,6 +14,8 @@ namespace Unicorn.ReportPortalAgent
             { Core.Logging.LogLevel.Debug, ReportPortal.Client.Models.LogLevel.Debug },
             { Core.Logging.LogLevel.Trace, ReportPortal.Client.Models.LogLevel.Trace },
         };
+
+        private SuiteMethod currentTest = null;
 
         internal void ReportTestMessage(Core.Logging.LogLevel level, string info)
         {

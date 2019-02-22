@@ -28,7 +28,7 @@ namespace Unicorn.UI.Win.Controls
 
         public virtual string ClassName => null;
 
-        public abstract int Type { get; }
+        public abstract int UiaType { get; }
 
         public virtual IUIAutomationElement Instance
         {
