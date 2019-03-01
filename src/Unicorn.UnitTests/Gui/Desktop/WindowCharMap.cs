@@ -37,5 +37,10 @@ namespace Unicorn.UnitTests.Gui
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
+
+        [Find(Using.Name, "Copy")]
+        protected Button ButtonCopyAsField;
+
+        public Button GetCopyButtonFromField() => this.ButtonCopyAsField;
     }
 }

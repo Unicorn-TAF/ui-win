@@ -93,7 +93,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
                 this.Skip("OnTestStart event failed");
             }
             finally
@@ -104,7 +104,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestFinish event invoke" + Environment.NewLine + ex);
                 }
             }
 
@@ -125,7 +125,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestSkip event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestSkip event invoke" + Environment.NewLine + e);
             }
         }
 
@@ -145,7 +145,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestPass event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
@@ -158,7 +158,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnTestFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestFail event invoke" + Environment.NewLine + e);
                 }
             }
 

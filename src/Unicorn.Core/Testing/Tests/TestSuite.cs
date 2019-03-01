@@ -139,7 +139,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
                 }
             }
 
@@ -200,7 +200,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteSkip event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteSkip event invoke" + Environment.NewLine + e);
             }
         }
 

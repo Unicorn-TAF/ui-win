@@ -22,7 +22,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         protected IUIAutomationTogglePattern TogglePattern => this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
-        public bool SetCheckState(bool isChecked)
+        public bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }

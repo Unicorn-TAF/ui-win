@@ -47,7 +47,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             pattern.SetValue(this.Value + text);
         }
 
-        public bool SetText(string text)
+        public bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 

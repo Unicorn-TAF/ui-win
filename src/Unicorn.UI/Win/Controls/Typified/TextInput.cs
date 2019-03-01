@@ -49,7 +49,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             pattern.SetValue(text);
         }
 
-        public bool SetText(string text)
+        public bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 

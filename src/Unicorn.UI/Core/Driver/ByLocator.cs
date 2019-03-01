@@ -22,39 +22,18 @@
 
         public string Locator { get; protected set; }
 
-        public static ByLocator Id(string locator)
-        {
-            return new ByLocator(Using.Id, locator);
-        }
+        public static ByLocator Id(string locator) => new ByLocator(Using.Id, locator);
 
-        public static ByLocator Name(string locator)
-        {
-            return new ByLocator(Using.Name, locator);
-        }
+        public static ByLocator Name(string locator) => new ByLocator(Using.Name, locator);
 
-        public static ByLocator Class(string locator)
-        {
-            return new ByLocator(Using.Class, locator);
-        }
+        public static ByLocator Class(string locator) => new ByLocator(Using.Class, locator);
 
-        public static ByLocator Css(string locator)
-        {
-            return new ByLocator(Using.Web_Css, locator);
-        }
+        public static ByLocator Css(string locator) => new ByLocator(Using.Web_Css, locator);
 
-        public static ByLocator Tag(string locator)
-        {
-            return new ByLocator(Using.Web_Tag, locator);
-        }
+        public static ByLocator Tag(string locator) => new ByLocator(Using.Web_Tag, locator);
 
-        public static ByLocator Xpath(string locator)
-        {
-            return new ByLocator(Using.Web_Xpath, locator);
-        }
+        public static ByLocator Xpath(string locator) => new ByLocator(Using.Web_Xpath, locator);
 
-        public override string ToString()
-        {
-            return $"{How} = {Locator}";
-        }
+        public override string ToString() => $"{How} = {Locator}";
     }
 }

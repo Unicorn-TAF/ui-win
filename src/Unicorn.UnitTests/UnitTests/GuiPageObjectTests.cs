@@ -47,6 +47,13 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check initialization of controls as class fields")]
+        public void TestGuiPageObjectInitializationOfControlsAsClassFields()
+        {
+            Assert.IsTrue(charmap.Window.GetCopyButtonFromField().Visible);
+        }
+
+        [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check for basic control search from initialized parent container")]
         public void TestGuiPageObjectBasicControlSearchFromInitializedContainer()
         {

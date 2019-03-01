@@ -163,7 +163,7 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
                 this.Fail(ex.InnerException);
             }
             finally
@@ -174,7 +174,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
                 }
             }
 
@@ -210,7 +210,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
@@ -223,7 +223,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
                 }
             }
 

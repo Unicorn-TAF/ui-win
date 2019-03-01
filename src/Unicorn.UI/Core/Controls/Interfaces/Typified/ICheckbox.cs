@@ -7,6 +7,6 @@
             get;
         }
 
-        bool SetCheckState(bool isChecked);
+        bool SetCheckedState(bool isChecked);
     }
 }
