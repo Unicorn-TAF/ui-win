@@ -1,5 +1,8 @@
-﻿namespace Unicorn.Core.Testing
+﻿using System;
+
+namespace Unicorn.Core.Testing
 {
+    [Serializable]
     public class Defect
     {
         public const string ToInvestigate = "To Investigate";
