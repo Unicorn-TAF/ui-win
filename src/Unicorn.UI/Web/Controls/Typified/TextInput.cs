@@ -15,7 +15,7 @@ namespace Unicorn.UI.Web.Controls.Typified
             this.Instance.SendKeys(text);
         }
 
-        public virtual bool SetText(string text)
+        public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 

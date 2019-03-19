@@ -46,6 +46,8 @@ namespace Unicorn.Core.Testing.Tests
 
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
+        public static StringBuilder LogOutput { get; } = new StringBuilder();
+
         public Guid Id { get; set; }
 
         public Guid ParentId { get; set; }
@@ -161,8 +163,8 @@ namespace Unicorn.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
-                this.Fail(ex.InnerException, string.Empty);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
+                this.Fail(ex.InnerException);
             }
             finally
             {
@@ -172,7 +174,7 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
                 }
             }
 
@@ -184,21 +186,9 @@ namespace Unicorn.Core.Testing.Tests
         /// If test failed not by existing bug it is marked as 'To investigate'
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
-        /// <param name="bugs">string of bugs test failed on current step.</param>
-        public void Fail(Exception ex, string bugs)
+        public void Fail(Exception ex)
         {
             Logger.Instance.Log(LogLevel.Error, ex.ToString());
-
-            this.Outcome.Bugs.Clear();
-
-            if (!string.IsNullOrEmpty(bugs))
-            {
-                this.Outcome.Bugs.AddRange(bugs.Split(','));
-            }
-            else
-            {
-                this.Outcome.Bugs.Add("?");
-            }
 
             this.Outcome.Exception = ex;
             this.Outcome.Result = Status.Failed;
@@ -206,6 +196,7 @@ namespace Unicorn.Core.Testing.Tests
 
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
+            LogOutput.Clear();
             this.TestTimer = Stopwatch.StartNew();
 
             try
@@ -219,12 +210,12 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
             {
-                this.Fail(ex.InnerException, suiteInstance.CurrentStepBug);
+                this.Fail(ex.InnerException);
 
                 try
                 {
@@ -232,12 +223,14 @@ namespace Unicorn.Core.Testing.Tests
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
                 }
             }
 
             this.TestTimer.Stop();
             this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
+            this.Outcome.Output = LogOutput.ToString();
+            LogOutput.Clear();
         }
     }
 }

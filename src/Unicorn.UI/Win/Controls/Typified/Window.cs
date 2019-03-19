@@ -20,7 +20,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_WindowControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_WindowControlTypeId;
 
         public string Title => this.Text;
 

@@ -12,9 +12,7 @@ namespace Unicorn.Core.Reporting
         private const int MaxLength = 255;
         private static ImageFormat format = ImageFormat.Png;
 
-        public static string ScreenshotsFolder { get; set; } = Path.Combine(
-            Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath),
-            "Screenshots");
+        public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath), "Screenshots");
 
         public static Bitmap GetScreenshot()
         {
@@ -43,13 +41,13 @@ namespace Unicorn.Core.Reporting
             return printScreen;
         }
 
-        public static string TakeScreenshot(string fileName)
+        public static string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Saving print screen");
-                var filePath = Path.Combine(ScreenshotsFolder, fileName);
+                var filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
                 {
@@ -67,5 +65,7 @@ namespace Unicorn.Core.Reporting
                 return string.Empty;
             }
         }
+
+        public static string TakeScreenshot(string fileName) => TakeScreenshot(ScreenshotsFolder, fileName);
     }
 }

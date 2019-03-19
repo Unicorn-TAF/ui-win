@@ -33,7 +33,7 @@ namespace Unicorn.Core.Testing.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace Unicorn.Core.Testing.Steps
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepFail event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepFail event invoke" + Environment.NewLine + ex);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Unicorn.Core.Testing.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
                 }
             }
         }

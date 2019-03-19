@@ -13,7 +13,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_MenuItemControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_MenuItemControlTypeId;
 
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 

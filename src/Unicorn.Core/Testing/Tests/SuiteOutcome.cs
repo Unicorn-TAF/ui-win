@@ -9,7 +9,7 @@ namespace Unicorn.Core.Testing.Tests
     {
         public SuiteOutcome()
         {
-            this.Bugs = new HashSet<string>();
+            this.Bugs = new HashSet<Defect>();
             this.TestsOutcomes = new List<TestOutcome>();
         }
 
@@ -27,6 +27,6 @@ namespace Unicorn.Core.Testing.Tests
 
         public int SkippedTests => TestsOutcomes.Count(o => o.Result.Equals(Status.Skipped));
 
-        public HashSet<string> Bugs { get; }
+        public HashSet<Defect> Bugs { get; }
     }
 }

@@ -16,8 +16,8 @@ namespace Unicorn.Core.Engine
 
     public static class Configuration
     {
-        private static List<string> categories = new List<string>();
         private static List<string> tags = new List<string>();
+        private static List<string> categories = new List<string>();
         private static List<string> tests = new List<string>();
 
         public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
@@ -28,22 +28,11 @@ namespace Unicorn.Core.Engine
 
         public static int Threads { get; set; } = 1;
 
-        public static List<string> RunCategories => categories;
-
         public static List<string> RunTags => tags;
 
-        public static List<string> RunTests => tests;
+        public static List<string> RunCategories => categories;
 
-        /// <summary>
-        /// Set tests categories needed to be run.
-        /// All categories are converted in upper case. Blank categories are ignored
-        /// </summary>
-        /// <param name="categoriesToRun">array of categories</param>
-        public static void SetTestCategories(params string[] categoriesToRun) =>
-            categories = categoriesToRun
-                .Select(v => v.ToUpper().Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
-                .Where(v => !string.IsNullOrEmpty(v))
-                .ToList();
+        public static List<string> RunTests => tests;
 
         /// <summary>
         /// Set tags on which test suites needed to be run.
@@ -53,6 +42,17 @@ namespace Unicorn.Core.Engine
         public static void SetSuiteTags(params string[] tagsToRun) =>
             tags = tagsToRun
                 .Select(v => v.ToUpper().Trim())
+                .Where(v => !string.IsNullOrEmpty(v))
+                .ToList();
+        
+        /// <summary>
+        /// Set tests categories needed to be run.
+        /// All categories are converted in upper case. Blank categories are ignored
+        /// </summary>
+        /// <param name="categoriesToRun">array of categories</param>
+        public static void SetTestCategories(params string[] categoriesToRun) =>
+            categories = categoriesToRun
+                .Select(v => v.ToUpper().Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
 
@@ -79,77 +79,29 @@ namespace Unicorn.Core.Engine
                 configPath = Path.GetDirectoryName(new Uri(typeof(Configuration).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
             }
 
-            JsonConf conf = JsonConvert.DeserializeObject<JsonConf>(File.ReadAllText(configPath));
+            var conf = JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(configPath));
 
             TestTimeout = conf.JsonTestTimeout;
             SuiteTimeout = conf.JsonSuiteTimeout;
             ParallelBy = conf.JsonParallelBy;
             Threads = conf.JsonThreads;
-            SetTestCategories(conf.JsonRunCategories.ToArray());
             SetSuiteTags(conf.JsonRunTags.ToArray());
+            SetTestCategories(conf.JsonRunCategories.ToArray());
             SetTestsMasks(conf.JsonRunTests.ToArray());
         }
 
         public static string GetInfo()
         {
-            StringBuilder info = new StringBuilder();
+            const string delimiter = ",";
 
-            info.AppendLine($"Tags to run: {string.Join(",", RunTags)}")
-                .AppendLine($"Categories to run: {string.Join(",", RunCategories)}")
-                .AppendLine($"Tests filter: {string.Join(",", RunTests)}")
+            return new StringBuilder()
+                .AppendLine($"Tags to run: {string.Join(delimiter, RunTags)}")
+                .AppendLine($"Categories to run: {string.Join(delimiter, RunCategories)}")
+                .AppendLine($"Tests filter: {string.Join(delimiter, RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
                 .AppendLine($"Test run timeout: {TestTimeout}")
-                .AppendLine($"Suite run timeout: {SuiteTimeout}");
-
-            return info.ToString();
-        }
-
-        internal class JsonConf
-        {
-            [JsonProperty("testTimeout")]
-            private int testTimeout = 15;
-
-            [JsonProperty("suiteTimeout")]
-            private int suiteTimeout = 60;
-
-            [JsonProperty("parallel")]
-            private string parallelBy = "assembly";
-
-            [JsonIgnore]
-            public TimeSpan JsonTestTimeout => TimeSpan.FromMinutes(this.testTimeout);
-
-            [JsonIgnore]
-            public TimeSpan JsonSuiteTimeout => TimeSpan.FromMinutes(this.suiteTimeout);
-
-            [JsonIgnore]
-            public Parallelization JsonParallelBy
-            {
-                get
-                {
-                    switch (this.parallelBy.ToLower())
-                    {
-                        case "suite":
-                            return Parallelization.Suite;
-                        case "test":
-                            return Parallelization.Test;
-                        case "assembly":
-                        default:
-                            return Parallelization.Assembly;
-                    }
-                }
-            }
-
-            [JsonProperty("threads")]
-            public int JsonThreads { get; set; } = 1;
-
-            [JsonProperty("categories")]
-            public List<string> JsonRunCategories { get; set; } = new List<string>();
-
-            [JsonProperty("tags")]
-            public List<string> JsonRunTags { get; set; } = new List<string>();
-
-            [JsonProperty("tests")]
-            public List<string> JsonRunTests { get; set; } = new List<string>();
+                .AppendLine($"Suite run timeout: {SuiteTimeout}")
+                .ToString();
         }
     }
 }

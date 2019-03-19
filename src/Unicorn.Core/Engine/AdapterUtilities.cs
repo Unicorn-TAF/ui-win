@@ -18,7 +18,10 @@ namespace Unicorn.Core.Engine
                            in suiteType.GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[]
                            select attribute.Tag.ToUpper().Trim();
 
-            if (!tags.Intersect(Configuration.RunTags).Any() && Configuration.RunTags.Any())
+            var name = (suiteType.GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute)
+                       .Name.ToUpper().Trim();
+
+            if (!tags.Intersect(Configuration.RunTags).Any() && !Configuration.RunTags.Contains(name) && Configuration.RunTags.Any())
             {
                 return false;
             }

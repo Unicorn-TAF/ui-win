@@ -40,6 +40,11 @@ namespace Unicorn.UnitTests.Gui
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
 
+        [Find(Using.Name, "Copy")]
+        protected Button ButtonCopyAsField;
+
+        public Button GetCopyButtonFromField() => this.ButtonCopyAsField;
+
         [Find(Using.Name, "Font :")]
         [Define((int)DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
         [Define((int)DropdownElement.List, Using.Class, "ComboLBox")]

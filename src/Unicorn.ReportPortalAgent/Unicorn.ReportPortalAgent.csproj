@@ -77,7 +77,7 @@
     <Compile Include="ReportPortalListener.SuiteMethod.cs" />
     <Compile Include="ReportPortalListener.Suite.cs" />
     <Compile Include="ReportPortalListener.Step.cs" />
-    <Compile Include="ReportPortalListener.Test.cs" />
+    <Compile Include="ReportPortalListener.Logging.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

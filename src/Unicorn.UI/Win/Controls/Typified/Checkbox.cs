@@ -16,13 +16,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_CheckBoxControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_CheckBoxControlTypeId;
 
         public bool Checked => this.TogglePattern.CurrentToggleState.Equals(ToggleState.ToggleState_On);
 
         protected IUIAutomationTogglePattern TogglePattern => this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
-        public bool SetCheckState(bool isChecked)
+        public bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }

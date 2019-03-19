@@ -60,8 +60,8 @@ namespace Unicorn.ReportPortalAgent
         {
             if (Config.IsEnabled)
             {
-                StartTest(test);
-                FinishTest(test);
+                StartSuiteMethod(test);
+                FinishSuiteMethod(test);
             }
         }
 
@@ -69,15 +69,15 @@ namespace Unicorn.ReportPortalAgent
         {
             if (Config.IsEnabled)
             {
-                TestOutput(level, report);
+                ReportTestMessage(level, report);
             }
         }
 
-        public void ReportAddAttachment(Test test, string name, string mime, byte[] content)
+        public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
-            if (Config.IsEnabled)
+            if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Id))
             {
-                AddAttachment(test, name, mime, content);
+                AddAttachment(test.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
         }
 

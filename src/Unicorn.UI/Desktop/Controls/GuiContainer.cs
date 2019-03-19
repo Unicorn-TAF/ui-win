@@ -64,7 +64,7 @@ namespace Unicorn.UI.Desktop.Controls
             Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
 
             Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
-            return checkbox.SetCheckState(state);
+            return checkbox.SetCheckedState(state);
         }
     }
 }

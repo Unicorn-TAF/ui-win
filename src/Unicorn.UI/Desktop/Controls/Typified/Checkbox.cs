@@ -19,7 +19,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
-        public bool SetCheckState(bool isChecked)
+        public bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }

@@ -7,7 +7,7 @@ namespace Unicorn.UI.Web.Controls.Typified
     {
         public bool Checked => this.Instance.Selected;
 
-        public bool SetCheckState(bool isChecked)
+        public bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }
