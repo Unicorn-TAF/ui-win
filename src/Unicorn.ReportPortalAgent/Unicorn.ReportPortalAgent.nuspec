@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Support of Unicorn.Core 2.0.0. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>
+    <releaseNotes>Support of Unicorn.Taf.Core 2.0.0. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation report-portal reporting</tags>
 	<dependencies>
@@ -19,7 +19,7 @@
 			<dependency id="RestSharp" version="105.2.3"/>
 		</group>
 		<group>
-			<dependency id="Unicorn.Core" version="2.0.0"/>
+			<dependency id="Unicorn.Taf.Core" version="2.0.0"/>
 		</group>
     </dependencies>
   </metadata>
