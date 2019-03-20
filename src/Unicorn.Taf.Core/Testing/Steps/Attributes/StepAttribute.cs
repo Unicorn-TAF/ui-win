@@ -3,9 +3,9 @@
 namespace Unicorn.Taf.Core.Testing.Steps.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestStepAttribute : Attribute
+    public class StepAttribute : Attribute
     {
-        public TestStepAttribute(string description)
+        public StepAttribute(string description)
         {
             this.Description = description;
         }

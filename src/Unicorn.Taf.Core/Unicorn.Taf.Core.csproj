@@ -96,8 +96,8 @@
     <Compile Include="Testing\Verification\Matchers\MiscMatchers.cs" />
     <Compile Include="Testing\Verification\Matchers\TypeSafeMatcher.cs" />
     <Compile Include="Testing\Verification\Verify.cs" />
-    <Compile Include="Testing\Steps\Attributes\TestStepAttribute.cs" />
-    <Compile Include="Testing\Steps\TestSteps.cs" />
+    <Compile Include="Testing\Steps\Attributes\StepAttribute.cs" />
+    <Compile Include="Testing\Steps\StepsUtilities.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
     <Compile Include="Engine\Configuration.cs" />
     <Compile Include="Engine\TestsObserver.cs" />

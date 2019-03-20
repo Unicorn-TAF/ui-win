@@ -4,11 +4,11 @@ using Unicorn.Taf.Core.Testing.Steps.Attributes;
 
 namespace Unicorn.Taf.Core.Testing.Steps
 {
-    public static class TestSteps
+    public static class StepsUtilities
     {
         public static string GetStepInfo(MethodBase method, object[] arguments)
         {
-            var attribute = method.GetCustomAttribute(typeof(TestStepAttribute), true) as TestStepAttribute;
+            var attribute = method.GetCustomAttribute(typeof(StepAttribute), true) as StepAttribute;
             return attribute == null ? string.Empty : string.Format(attribute.Description, ConvertArguments(arguments));
         }
 

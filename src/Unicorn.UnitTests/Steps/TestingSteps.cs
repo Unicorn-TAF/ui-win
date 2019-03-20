@@ -7,35 +7,35 @@ using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Steps
 {
-    [Aspect(typeof(TestStepsEvents))]
+    [Aspect(typeof(StepsEvents))]
     public class TestingSteps
     {
-        [TestStep("First Test Step")]
+        [Step("First Test Step")]
         public void FirstTestStep()
         {
             Logger.Instance.Log(LogLevel.Info, string.Empty);
         }
 
-        [TestStep("Say '{0}'")]
+        [Step("Say '{0}'")]
         public void Say(string value)
         {
             Logger.Instance.Log(LogLevel.Info, $"saying: '{value}'");
         }
 
-        [TestStep("Return value '{0}'")]
+        [Step("Return value '{0}'")]
         public int ReturnValue(int a)
         {
             Logger.Instance.Log(LogLevel.Info, a.ToString());
             return a;
         }
 
-        [TestStep("Process '{0}'")]
+        [Step("Process '{0}'")]
         public void ProcessTestObject(SampleObject a)
         {
             Logger.Instance.Log(LogLevel.Info, $"retrieved {a}");
         }
 
-        [TestStep("Step which always fail '{0}'")]
+        [Step("Step which always fail '{0}'")]
         public void StepWhichSouldFail(SampleObject a)
         {
             Logger.Instance.Log(LogLevel.Info, string.Empty);

@@ -43,13 +43,13 @@ namespace Unicorn.ReportPortalAgent
                 TestSuite.OnSuiteStart += this.ReportSuiteStart;
                 TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
 
-                TestStepsEvents.OnStepStart += ReportInfo;
+                StepsEvents.OnStepStart += ReportInfo;
             }
         }
 
         public void ReportInfo(MethodBase method, object[] arguments)
         {
-            string info = TestSteps.GetStepInfo(method, arguments);
+            string info = StepsUtilities.GetStepInfo(method, arguments);
             this.ReportInfo(info);
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
         }

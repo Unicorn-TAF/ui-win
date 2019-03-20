@@ -8,24 +8,24 @@ using Unicorn.Taf.Core.Testing.Steps.Attributes;
 
 namespace Unicorn.Taf.Core.Testing.Steps
 {
-    public class TestStepsEvents
+    public class StepsEvents
     {
-        public delegate void TestStepEvent(MethodBase methodBase, object[] arguments);
+        public delegate void StepEvent(MethodBase methodBase, object[] arguments);
 
-        public delegate void TestStepFailEvent(Exception exception);
+        public delegate void StepFailEvent(Exception exception);
 
-        public static event TestStepEvent OnStepStart;
+        public static event StepEvent OnStepStart;
 
-        public static event TestStepEvent OnStepFinish;
+        public static event StepEvent OnStepFinish;
 
-        public static event TestStepFailEvent OnStepFail;
+        public static event StepFailEvent OnStepFail;
 
         [Advice(InjectionPoints.Before, InjectionTargets.Method)]
         public void OnStartActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
         {
             MethodBase method = new StackFrame(1).GetMethod();
 
-            if (method.GetCustomAttributes(typeof(TestStepAttribute), true).Any())
+            if (method.GetCustomAttributes(typeof(StepAttribute), true).Any())
             {
                 try
                 {
@@ -56,7 +56,7 @@ namespace Unicorn.Taf.Core.Testing.Steps
         {
             var method = new StackFrame(1).GetMethod();
 
-            if (method.GetCustomAttributes(typeof(TestStepAttribute), true).Any())
+            if (method.GetCustomAttributes(typeof(StepAttribute), true).Any())
             {
                 try
                 {
