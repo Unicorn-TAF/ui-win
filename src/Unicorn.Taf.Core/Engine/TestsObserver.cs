@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.Core.Engine
+namespace Unicorn.Taf.Core.Engine
 {
     public static class TestsObserver
     {

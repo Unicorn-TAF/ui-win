@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing.Tests.Attributes
+namespace Unicorn.Taf.Core.Testing.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class MetadataAttribute : Attribute

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Unicorn.UI.Mobile.Android.PageObject

@@ -1,5 +1,5 @@
 ﻿using System;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Web.Controls.Typified

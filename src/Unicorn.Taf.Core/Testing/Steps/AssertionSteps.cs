@@ -1,10 +1,10 @@
 ﻿using System;
 using AspectInjector.Broker;
-using Unicorn.Core.Testing.Steps.Attributes;
-using Unicorn.Core.Testing.Verification;
-using Unicorn.Core.Testing.Verification.Matchers;
+using Unicorn.Taf.Core.Testing.Steps.Attributes;
+using Unicorn.Taf.Core.Testing.Verification;
+using Unicorn.Taf.Core.Testing.Verification.Matchers;
 
-namespace Unicorn.Core.Testing.Steps
+namespace Unicorn.Taf.Core.Testing.Steps
 {
     [Aspect(typeof(TestStepsEvents))]
     public class AssertionSteps

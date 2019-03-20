@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace Unicorn.Core.Testing.Verification
+namespace Unicorn.Taf.Core.Testing.Verification
 {
     [Serializable]
     public class AssertionException : Exception

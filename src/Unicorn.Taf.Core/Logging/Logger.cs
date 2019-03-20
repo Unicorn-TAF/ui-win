@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Logging
+﻿namespace Unicorn.Taf.Core.Logging
 {
     public static class Logger
     {

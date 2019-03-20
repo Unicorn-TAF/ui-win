@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicorn.Core.Utility.Synchronization;
+using Unicorn.Taf.Core.Utility.Synchronization;
 
-namespace Unicorn.Core.Utility
+namespace Unicorn.Taf.Core.Utility
 {
     public class FileDownloader
     {

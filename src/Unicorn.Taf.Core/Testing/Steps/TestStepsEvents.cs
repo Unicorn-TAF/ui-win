@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using AspectInjector.Broker;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Steps.Attributes;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing.Steps.Attributes;
 
-namespace Unicorn.Core.Testing.Steps
+namespace Unicorn.Taf.Core.Testing.Steps
 {
     public class TestStepsEvents
     {

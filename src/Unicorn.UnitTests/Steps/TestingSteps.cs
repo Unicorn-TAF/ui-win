@@ -1,8 +1,8 @@
 ﻿using System;
 using AspectInjector.Broker;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Steps;
-using Unicorn.Core.Testing.Steps.Attributes;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing.Steps;
+using Unicorn.Taf.Core.Testing.Steps.Attributes;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Steps

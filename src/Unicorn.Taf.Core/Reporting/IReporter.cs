@@ -1,6 +1,6 @@
-﻿using Unicorn.Core.Testing.Tests;
+﻿using Unicorn.Taf.Core.Testing.Tests;
 
-namespace Unicorn.Core.Reporting
+namespace Unicorn.Taf.Core.Reporting
 {
     public interface IReporter
     {

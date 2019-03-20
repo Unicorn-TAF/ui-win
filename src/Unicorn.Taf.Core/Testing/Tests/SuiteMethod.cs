@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.Core.Testing.Tests
+namespace Unicorn.Taf.Core.Testing.Tests
 {
     public enum SuiteMethodType
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Unicorn.Core.Engine
+namespace Unicorn.Taf.Core.Engine
 {
     internal class JsonConfig
     {

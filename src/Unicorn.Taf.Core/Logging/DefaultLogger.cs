@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests;
 
-namespace Unicorn.Core.Logging
+namespace Unicorn.Taf.Core.Logging
 {
     public class DefaultLogger : ILogger
     {

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Unicorn.Core.Testing.Verification.Matchers.CoreMatchers
+namespace Unicorn.Taf.Core.Testing.Verification.Matchers.CoreMatchers
 {
     public class TypeSafeNotMatcher<T> : TypeSafeMatcher<T>
     {

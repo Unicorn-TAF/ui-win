@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing
+namespace Unicorn.Taf.Core.Testing
 {
     [Serializable]
     public class Defect

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unicorn.Core.Testing.Tests
+namespace Unicorn.Taf.Core.Testing.Tests
 {
     public class DataSet
     {

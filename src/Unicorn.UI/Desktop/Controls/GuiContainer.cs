@@ -1,5 +1,5 @@
 ﻿using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Controls.Typified;

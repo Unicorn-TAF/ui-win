@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Utility.Synchronization
+namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     /// <summary>
     /// Uses the system clock to calculate time for timeouts.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Reporting
+namespace Unicorn.Taf.Core.Reporting
 {
     public static class Reporter
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Input;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Engine
+namespace Unicorn.Taf.Core.Engine
 {
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {

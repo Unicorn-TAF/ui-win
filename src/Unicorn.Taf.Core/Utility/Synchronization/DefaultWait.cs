@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 
-namespace Unicorn.Core.Utility.Synchronization
+namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     public class DefaultWait : AbstractWait
     {

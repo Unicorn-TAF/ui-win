@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Unicorn.Core.Engine
+namespace Unicorn.Taf.Core.Engine
 {
     public enum Parallelization
     {

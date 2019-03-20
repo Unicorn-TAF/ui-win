@@ -1,6 +1,6 @@
-﻿using Unicorn.Core.Testing.Verification.Matchers.CoreMatchers;
+﻿using Unicorn.Taf.Core.Testing.Verification.Matchers.CoreMatchers;
 
-namespace Unicorn.Core.Testing.Verification.Matchers
+namespace Unicorn.Taf.Core.Testing.Verification.Matchers
 {
     public static class Is
     {

@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Reporting;
-using Unicorn.Core.Testing.Steps;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Reporting;
+using Unicorn.Taf.Core.Testing.Steps;
+using Unicorn.Taf.Core.Testing.Tests;
 
 namespace Unicorn.ReportPortalAgent
 {

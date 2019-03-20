@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Testing.Tests.Attributes;
+﻿using Unicorn.Taf.Core.Testing.Tests.Attributes;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Suites

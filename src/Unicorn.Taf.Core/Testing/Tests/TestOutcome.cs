@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unicorn.Core.Testing.Tests
+namespace Unicorn.Taf.Core.Testing.Tests
 {
     [Serializable]
     public class TestOutcome

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unicorn.Core.Testing.Tests
+namespace Unicorn.Taf.Core.Testing.Tests
 {
     [Serializable]
     public class SuiteOutcome

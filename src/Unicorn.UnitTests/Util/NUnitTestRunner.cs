@@ -2,8 +2,8 @@
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Reporting;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Reporting;
 
 #pragma warning disable S2187 // TestCases should contain tests
 namespace Unicorn.UnitTests.Util

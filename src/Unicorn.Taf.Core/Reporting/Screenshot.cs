@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 
-namespace Unicorn.Core.Reporting
+namespace Unicorn.Taf.Core.Reporting
 {
     public static class Screenshot
     {

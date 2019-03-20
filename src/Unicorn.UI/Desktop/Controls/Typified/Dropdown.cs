@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
 

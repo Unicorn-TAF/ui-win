@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using NUnit.Framework;
-using Unicorn.Core.Engine;
+using Unicorn.Taf.Core.Engine;
 using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Tests

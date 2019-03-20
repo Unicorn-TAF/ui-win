@@ -5,7 +5,7 @@ using System.Net;
 using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Shared;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.Configuration;
 
 namespace Unicorn.ReportPortalAgent
@@ -65,7 +65,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        public void ReportLoggerMessage(Core.Logging.LogLevel level, string report)
+        public void ReportLoggerMessage(Taf.Core.Logging.LogLevel level, string report)
         {
             if (Config.IsEnabled)
             {

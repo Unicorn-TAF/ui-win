@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unicorn.Core.Utility.Synchronization
+namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     public abstract class AbstractWait
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Core.Testing.Verification.Matchers.CollectionMatchers;
+using Unicorn.Taf.Core.Testing.Verification.Matchers.CollectionMatchers;
 
-namespace Unicorn.Core.Testing.Verification.Matchers
+namespace Unicorn.Taf.Core.Testing.Verification.Matchers
 {
     public static class Collection
     {

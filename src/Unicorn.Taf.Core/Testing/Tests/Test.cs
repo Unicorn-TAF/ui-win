@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Unicorn.Core.Engine;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
-namespace Unicorn.Core.Testing.Tests
+namespace Unicorn.Taf.Core.Testing.Tests
 {
     public class Test : SuiteMethod
     {

@@ -1,4 +1,4 @@
-﻿namespace Unicorn.Core.Testing.Tests
+﻿namespace Unicorn.Taf.Core.Testing.Tests
 {
     public enum Status
     {

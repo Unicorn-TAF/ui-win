@@ -1,4 +1,4 @@
-﻿using Unicorn.Core.Logging;
+﻿using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Web.Controls.Typified
