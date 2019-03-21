@@ -1,6 +1,6 @@
 ﻿using System;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Win.Driver

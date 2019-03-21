@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -79,7 +79,7 @@ namespace Unicorn.ReportPortalAgent
                 this.testFlowIds[id].Update(updateTestRequest);
 
                 // adding failure items
-                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed)
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Tests.Status.Failed)
                 {
                     var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
 
@@ -107,10 +107,10 @@ namespace Unicorn.ReportPortalAgent
                 };
 
                 // finishing test
-                if (suiteMethod.Outcome.Result == Core.Testing.Tests.Status.Failed)
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Tests.Status.Failed)
                 {
                     var type = suiteMethod.Outcome.Defect == null
-                        ? Core.Testing.Defect.ToInvestigate
+                        ? Taf.Core.Testing.Defect.ToInvestigate
                         : suiteMethod.Outcome.Defect.DefectType;
 
                     var comment = suiteMethod.Outcome.Defect == null

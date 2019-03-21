@@ -139,9 +139,9 @@
     <Compile Include="Util\TestContextLogger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unicorn.Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
-      <Name>Unicorn.Core</Name>
+      <Name>Unicorn.Taf.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicorn.UI\Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>

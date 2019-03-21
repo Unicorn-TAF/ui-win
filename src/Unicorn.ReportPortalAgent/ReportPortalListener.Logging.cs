@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests;
 
 namespace Unicorn.ReportPortalAgent
 {

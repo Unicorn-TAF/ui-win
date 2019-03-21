@@ -13,7 +13,7 @@
     <tags>automation ui controls page-object windows desktop uia3</tags>
 	<dependencies>
 		<group>
-			<dependency id="Unicorn.Core" version="2.0.0"/>
+			<dependency id="Unicorn.Taf.Core" version="2.0.0"/>
 			<dependency id="Unicorn.UI.Core" version="2.0.0"/>
 		</group>
     </dependencies>

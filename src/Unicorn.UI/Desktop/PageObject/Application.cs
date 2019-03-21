@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Controls;
 using Unicorn.UI.Desktop.Controls.Typified;

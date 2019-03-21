@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 
 namespace Unicorn.UnitTests.Util
 {

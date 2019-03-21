@@ -1,7 +1,7 @@
 ﻿using System.Threading;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Testing.Tests;
-using Unicorn.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
 namespace Unicorn.UnitTests.Suites
 {

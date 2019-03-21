@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Unicorn.Core.Testing.Verification;
-using static Unicorn.Core.Testing.Verification.Matchers.Is;
+using Unicorn.Taf.Core.Testing.Verification;
+using static Unicorn.Taf.Core.Testing.Verification.Matchers.Is;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Tests
@@ -11,7 +11,7 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestSoftAssertion()
         {
-            NUnit.Framework.Assert.Throws<Core.Testing.Verification.AssertionException>(delegate 
+            NUnit.Framework.Assert.Throws<Taf.Core.Testing.Verification.AssertionException>(delegate 
             {
                 Verify assert = new Verify();
                 assert.VerifyThat("asd", EqualTo("asd"))
@@ -26,9 +26,9 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestAssertion()
         {
-            NUnit.Framework.Assert.Throws<Core.Testing.Verification.AssertionException>(delegate
+            NUnit.Framework.Assert.Throws<Taf.Core.Testing.Verification.AssertionException>(delegate
             {
-                Core.Testing.Verification.Assert.That("as2d", EqualTo("asd"));
+                Taf.Core.Testing.Verification.Assert.That("as2d", EqualTo("asd"));
             });
         }
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.ReportPortalAgent.EventArguments;
 
 namespace Unicorn.ReportPortalAgent

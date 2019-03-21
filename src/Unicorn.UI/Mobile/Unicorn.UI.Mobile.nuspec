@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Support of Unicorn.Core 2.0.0 and Unicorn.UI.Core 2.0.0. Improved and simplified code of Desktop controls. Added extensions, 'AndroidBrowser' and 'AndroidApplication' page objects.</releaseNotes>
+    <releaseNotes>Support of Unicorn.Taf.Core 2.0.0 and Unicorn.UI.Core 2.0.0. Improved and simplified code of Desktop controls. Added extensions, 'AndroidBrowser' and 'AndroidApplication' page objects.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object android ios mobile appium</tags>
     <dependencies>
@@ -20,7 +20,7 @@
         <dependency id="Castle.Core" version="3.3.3"/>
       </group>
       <group>
-        <dependency id="Unicorn.Core" version="2.0.0"/>
+        <dependency id="Unicorn.Taf.Core" version="2.0.0"/>
         <dependency id="Unicorn.UI.Core" version="2.0.0"/>
       </group>
     </dependencies>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading;
-using Unicorn.Core.Logging;
-using Unicorn.Core.Utility.Synchronization;
+using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Utility.Synchronization;
 using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization

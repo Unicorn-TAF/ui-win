@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
