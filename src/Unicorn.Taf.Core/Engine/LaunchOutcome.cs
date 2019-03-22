@@ -15,8 +15,10 @@ namespace Unicorn.Taf.Core.Engine
 
         public List<SuiteOutcome> SuitesOutcomes { get; }
 
+        public bool RunInitialized { get; set; } = true;
+
         public Status RunStatus => this.SuitesOutcomes
-                .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) ?
+                .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !this.RunInitialized ?
                 Status.Failed :
                 Status.Passed;
     }

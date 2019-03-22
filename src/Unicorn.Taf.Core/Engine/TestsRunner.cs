@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -46,11 +47,24 @@ namespace Unicorn.Taf.Core.Engine
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
 
-            if (runnableSuites.Any())
+            if (!runnableSuites.Any())
             {
-                // Execute run init action if exists in assembly.
-                GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
+                return;
+            }
 
+            // Execute run init action if exists in assembly.
+            try
+            {
+                GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
+            }
+            catch(Exception ex)
+            {
+                Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
+                this.Outcome.RunInitialized = false;
+            }
+
+            if (this.Outcome.RunInitialized)
+            {
                 foreach (var suiteType in runnableSuites)
                 {
                     RunTestSuite(suiteType);
