@@ -66,10 +66,6 @@
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Launch.cs" />
     <Compile Include="Configuration\Server.cs" />
-    <Compile Include="EventArguments\RunFinishedEventArgs.cs" />
-    <Compile Include="EventArguments\RunStartedEventArgs.cs" />
-    <Compile Include="EventArguments\TestItemFinishedEventArgs.cs" />
-    <Compile Include="EventArguments\TestItemStartedEventArgs.cs" />
     <Compile Include="ReporterInstance.cs" />
     <Compile Include="ReportPortalListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

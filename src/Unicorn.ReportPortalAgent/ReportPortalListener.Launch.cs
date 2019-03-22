@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
-using Unicorn.ReportPortalAgent.EventArguments;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -39,13 +38,8 @@ namespace Unicorn.ReportPortalAgent
                     Tags = Config.Launch.Tags
                 };
 
-                var eventArg = new RunStartedEventArgs(Bridge.Service, startLaunchRequest);
-
-                if (!eventArg.Canceled)
-                {
-                    Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
-                    Bridge.Context.LaunchReporter.Start(eventArg.Launch);
-                }
+                Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
+                Bridge.Context.LaunchReporter.Start(startLaunchRequest);
             }
             catch (Exception exception)
             {
@@ -77,13 +71,8 @@ namespace Unicorn.ReportPortalAgent
                     EndTime = DateTime.UtcNow,
                 };
 
-                var eventArg = new RunFinishedEventArgs(Bridge.Service, finishLaunchRequest, Bridge.Context.LaunchReporter);
-
-                if (!eventArg.Canceled)
-                {
-                    Bridge.Context.LaunchReporter.Finish(finishLaunchRequest);
-                    Bridge.Context.LaunchReporter.FinishTask.Wait();
-                }
+                Bridge.Context.LaunchReporter.Finish(finishLaunchRequest);
+                Bridge.Context.LaunchReporter.FinishTask.Wait();
             }
             catch (Exception exception)
             {
