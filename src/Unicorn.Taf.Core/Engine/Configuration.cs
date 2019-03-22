@@ -92,12 +92,12 @@ namespace Unicorn.Taf.Core.Engine
 
         public static string GetInfo()
         {
-            const string delimiter = ",";
+            const string Delimiter = ",";
 
             return new StringBuilder()
-                .AppendLine($"Tags to run: {string.Join(delimiter, RunTags)}")
-                .AppendLine($"Categories to run: {string.Join(delimiter, RunCategories)}")
-                .AppendLine($"Tests filter: {string.Join(delimiter, RunTests)}")
+                .AppendLine($"Tags to run: {string.Join(Delimiter, RunTags)}")
+                .AppendLine($"Categories to run: {string.Join(Delimiter, RunCategories)}")
+                .AppendLine($"Tests filter: {string.Join(Delimiter, RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
                 .AppendLine($"Test run timeout: {TestTimeout}")
                 .AppendLine($"Suite run timeout: {SuiteTimeout}")

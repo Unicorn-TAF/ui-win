@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Unicorn.Taf.Core.Reporting;
 using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Utility;
 
 namespace Unicorn.UnitTests.Util
 {
@@ -14,9 +15,9 @@ namespace Unicorn.UnitTests.Util
 
         public void Init()
         {
-            if (!Directory.Exists(Screenshot.ScreenshotsFolder))
+            if (!Directory.Exists(Screenshotter.ScreenshotsFolder))
             {
-                Directory.CreateDirectory(Screenshot.ScreenshotsFolder);
+                Directory.CreateDirectory(Screenshotter.ScreenshotsFolder);
             }
 
             Test.OnTestStart += this.ReportTestStart;
@@ -40,6 +41,6 @@ namespace Unicorn.UnitTests.Util
             TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
 
         private void TakeScreenshot(Test test) =>
-            test.Outcome.Screenshot = Screenshot.TakeScreenshot(test.FullName);
+            test.Outcome.Screenshot = Screenshotter.TakeScreenshot(test.FullName);
     }
 }

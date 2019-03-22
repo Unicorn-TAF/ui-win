@@ -14,27 +14,6 @@ namespace Unicorn.Taf.Core.Utility
 
         public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots");
 
-        private static Bitmap GetScreenshot()
-        {
-            try
-            {
-                Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
-                var printScreen = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
-
-                using (Graphics g = Graphics.FromImage(printScreen))
-                {
-                    g.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, printScreen.Size);
-                }
-
-                return printScreen;
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Log(LogLevel.Warning, "Failed to get print screen:\n" + e);
-                return null;
-            }
-        }
-
         public static string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
@@ -67,5 +46,26 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         public static string TakeScreenshot(string fileName) => TakeScreenshot(ScreenshotsFolder, fileName);
+
+        private static Bitmap GetScreenshot()
+        {
+            try
+            {
+                Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
+                var printScreen = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
+
+                using (Graphics g = Graphics.FromImage(printScreen))
+                {
+                    g.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, printScreen.Size);
+                }
+
+                return printScreen;
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Log(LogLevel.Warning, "Failed to get print screen:\n" + e);
+                return null;
+            }
+        }
     }
 }
