@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\IReporter.cs" />
     <Compile Include="Reporting\Reporter.cs" />
-    <Compile Include="Reporting\Screenshot.cs" />
+    <Compile Include="Utility\Screenshotter.cs" />
     <Compile Include="Testing\Steps\AssertionSteps.cs" />
     <Compile Include="Engine\AdapterUtilities.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />

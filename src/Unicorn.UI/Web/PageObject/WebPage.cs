@@ -39,7 +39,7 @@ namespace Unicorn.UI.Web.PageObject
         public string Title { get; protected set; }
 
         [Name("Page body")]
-        [Find(Using.Web_Tag, "body")]
+        [Find(Using.WebTag, "body")]
         public WebControl Body { get; set; }
 
         public override string ToString()

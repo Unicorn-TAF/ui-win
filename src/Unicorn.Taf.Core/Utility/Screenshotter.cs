@@ -5,48 +5,48 @@ using System.IO;
 using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
 
-namespace Unicorn.Taf.Core.Reporting
+namespace Unicorn.Taf.Core.Utility
 {
-    public static class Screenshot
+    public static class Screenshotter
     {
         private const int MaxLength = 255;
         private static ImageFormat format = ImageFormat.Png;
 
-        public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshot).Assembly.CodeBase).LocalPath), "Screenshots");
+        public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots");
 
-        public static Bitmap GetScreenshot()
+        private static Bitmap GetScreenshot()
         {
-            Bitmap printScreen;
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
+                var printScreen = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
 
-                int screenLeft = SystemInformation.VirtualScreen.Left;
-                int screenTop = SystemInformation.VirtualScreen.Top;
-                int screenWidth = SystemInformation.VirtualScreen.Width;
-                int screenHeight = SystemInformation.VirtualScreen.Height;
-
-                printScreen = new Bitmap(screenWidth, screenHeight);
                 using (Graphics g = Graphics.FromImage(printScreen))
                 {
-                    g.CopyFromScreen(screenLeft, screenTop, 0, 0, printScreen.Size);
+                    g.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, printScreen.Size);
                 }
+
+                return printScreen;
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Debug, "Failed to get print screen:\n" + e);
-                printScreen = new Bitmap(1, 1);
+                Logger.Instance.Log(LogLevel.Warning, "Failed to get print screen:\n" + e);
+                return null;
             }
-
-            return printScreen;
         }
 
         public static string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
+
+            if (printScreen == null)
+            {
+                return string.Empty;
+            }
+
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, "Saving print screen");
+                Logger.Instance.Log(LogLevel.Debug, "Saving print screen...");
                 var filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
