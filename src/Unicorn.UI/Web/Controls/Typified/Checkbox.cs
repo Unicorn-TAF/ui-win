@@ -5,9 +5,9 @@ namespace Unicorn.UI.Web.Controls.Typified
 {
     public class Checkbox : WebControl, ICheckbox
     {
-        public bool Checked => this.Instance.Selected;
+        public virtual bool Checked => this.Instance.Selected;
 
-        public bool SetCheckedState(bool isChecked)
+        public virtual bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }

@@ -18,7 +18,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.Edit;
 
-        public string Value
+        public virtual string Value
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public void SendKeys(string text)
+        public virtual void SendKeys(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
 
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             pattern.SetValue(this.Value + text);
         }
 
-        public bool SetValue(string text)
+        public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 

@@ -18,7 +18,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int UiaType => UIA_ControlTypeIds.UIA_EditControlTypeId;
 
-        public string Value
+        public virtual string Value
         {
             get
             {
@@ -33,9 +33,10 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+        protected IUIAutomationValuePattern ValuePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
-        public void SendKeys(string text)
+        public virtual void SendKeys(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
 
@@ -49,7 +50,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             pattern.SetValue(text);
         }
 
-        public bool SetValue(string text)
+        public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 

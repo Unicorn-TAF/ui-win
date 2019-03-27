@@ -19,9 +19,10 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int UiaType => UIA_ControlTypeIds.UIA_ComboBoxControlTypeId;
 
-        public bool Expanded => this.ExpandCollapsePattern.CurrentExpandCollapseState.Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
+        public virtual bool Expanded => 
+            this.ExpandCollapsePattern.CurrentExpandCollapseState.Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
 
-        public string SelectedValue
+        public virtual string SelectedValue
         {
             get
             {
@@ -47,13 +48,16 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 
-        protected IUIAutomationSelectionPattern SelectionPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
+        protected IUIAutomationSelectionPattern SelectionPattern => 
+            this.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
 
-        protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+        protected IUIAutomationValuePattern ValuePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
-        public bool Select(string itemName)
+        public virtual bool Select(string itemName)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
 
@@ -90,7 +94,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             return true;
         }
 
-        public bool Expand()
+        public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
             if (this.Expanded)
@@ -104,7 +108,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             return true;
         }
 
-        public bool Collapse()
+        public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");
             if (!this.Expanded)

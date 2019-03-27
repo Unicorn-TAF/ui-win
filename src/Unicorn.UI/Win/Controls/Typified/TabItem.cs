@@ -17,7 +17,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int UiaType => UIA_ControlTypeIds.UIA_TabItemControlTypeId;
 
-        public bool Selected
+        public virtual bool Selected
         {
             get
             {
@@ -32,9 +32,10 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+        protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
+            this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 
