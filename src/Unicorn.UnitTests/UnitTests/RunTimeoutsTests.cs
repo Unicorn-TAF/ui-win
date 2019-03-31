@@ -2,6 +2,7 @@
 using System.Reflection;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Tests
@@ -13,8 +14,8 @@ namespace Unicorn.UnitTests.Tests
         [Test(Description = "Check Test timeout")]
         public void TestTimeoutsTestTimeout()
         {
-            Configuration.SetSuiteTags("timeouts");
-            Configuration.TestTimeout = TimeSpan.FromSeconds(1);
+            Config.SetSuiteTags("timeouts");
+            Config.TestTimeout = TimeSpan.FromSeconds(1);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
 

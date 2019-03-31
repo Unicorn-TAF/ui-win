@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
@@ -20,7 +21,7 @@ namespace Unicorn.Taf.Core.Engine
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
             this.testsAssemblyFile = assemblyPath;
-            Configuration.FillFromFile(configurationFileName);
+            Config.FillFromFile(configurationFileName);
             this.Outcome = new LaunchOutcome();
         }
 
@@ -30,7 +31,7 @@ namespace Unicorn.Taf.Core.Engine
 
             if (getConfigFromFile)
             {
-                Configuration.FillFromFile(string.Empty);
+                Config.FillFromFile(string.Empty);
             }
 
             this.Outcome = new LaunchOutcome();

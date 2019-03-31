@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -152,10 +153,10 @@ namespace Unicorn.Taf.Core.Testing.Tests
                     Thread testThread = new Thread(() => this.RunTest(test));
                     testThread.Start();
 
-                    if (!testThread.Join(Configuration.TestTimeout))
+                    if (!testThread.Join(Config.TestTimeout))
                     {
                         testThread.Abort();
-                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)));
+                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Config.TestTimeout.TotalMinutes)));
                     }
 
                     this.Outcome.TestsOutcomes.Add(test.Outcome);
@@ -275,7 +276,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
                 if (suiteMethod.Outcome.Result == Status.Failed)
                 {
-                    skipTests = attribute.SkipTestsOnFail && Configuration.ParallelBy != Parallelization.Test;
+                    skipTests = attribute.SkipTestsOnFail && Config.ParallelBy != Parallelization.Test;
                 }
             }
         }
