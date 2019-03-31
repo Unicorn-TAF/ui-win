@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -19,10 +20,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
     public class SuiteMethod
     {
-        private string author = null;
-        private string description = null;
-        private string fullTestName = null;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SuiteMethod"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
@@ -32,7 +29,23 @@ namespace Unicorn.Taf.Core.Testing.Tests
         public SuiteMethod(MethodInfo testMethod)
         {
             this.TestMethod = testMethod;
-            this.Outcome = new TestOutcome();
+            this.Outcome = new TestOutcome
+            {
+                FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod),
+            };
+
+            var testAttribute = this.TestMethod
+                .GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute;
+
+            var authorAttribute = this.TestMethod
+                .GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
+
+            this.Outcome.Author = authorAttribute == null ? "No author" : authorAttribute.Author;
+            this.Outcome.Id = GenerateId(this.Outcome.FullMethodName);
+
+            this.Outcome.Title = string.IsNullOrEmpty(testAttribute?.Title) ?
+                this.TestMethod.Name :
+                testAttribute.Title;
         }
 
         /* Events section*/
@@ -47,75 +60,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
         public static StringBuilder LogOutput { get; } = new StringBuilder();
-
-        public Guid Id { get; set; }
-
-        public Guid ParentId { get; set; }
-
-        /// <summary>
-        /// Gets test author. If author not specified through AuthorAttribute, then return "No author"
-        /// </summary>
-        public string Author
-        {
-            get
-            {
-                if (this.author == null)
-                {
-                    var attribute = this.TestMethod.GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
-
-                    this.author = attribute != null ? attribute.Author : "No author";
-                }
-
-                return this.author;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets test description. If description not specified through TestAttribute, then return test method name
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                if (this.description == null)
-                {
-                    var attribute = this.TestMethod.GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute;
-
-                    if (attribute != null)
-                    {
-                        this.description = attribute.Description;
-                    }
-
-                    if (string.IsNullOrEmpty(this.description))
-                    {
-                        this.description = this.TestMethod.Name;
-                    }
-                }
-
-                return this.description;
-            }
-
-            set
-            {
-                this.description = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets full test name which is "{Suite Name} - {test method name}"
-        /// </summary>
-        public string FullName
-        {
-            get
-            {
-                return this.fullTestName ?? (this.fullTestName = this.TestMethod.Name);
-            }
-
-            set
-            {
-                this.fullTestName = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets Current test outcome, contains base information about execution results
@@ -135,18 +79,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
         protected Stopwatch TestTimer { get; set; }
 
         /// <summary>
-        /// Generates Id for the test which will be the same each time for this test
-        /// </summary>
-        public void GenerateId()
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(this.FullName));
-                this.Id = new Guid(hash);
-            }
-        }
-
-        /// <summary>
         /// Execute current test and fill TestOutcome
         /// Before the test List of BeforeTests is executed
         /// After the test List of AfterTests is executed
@@ -154,7 +86,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== {this.MethodType} '{Description}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== {this.MethodType} '{this.Outcome.Title}' ==========");
 
             try
             {
@@ -192,6 +124,19 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
             this.Outcome.Exception = ex;
             this.Outcome.Result = Status.Failed;
+        }
+
+        /// <summary>
+        /// Generates Id for the test which will be the same each time for this test
+        /// </summary>
+        /// <param name="fullName">full test name including data set name</param>
+        protected Guid GenerateId(string fullName)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(fullName));
+                return new Guid(hash);
+            }
         }
 
         private void RunSuiteMethod(TestSuite suiteInstance)

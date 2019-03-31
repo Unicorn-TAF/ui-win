@@ -71,6 +71,6 @@ namespace Unicorn.ReportPortalAgent
             this.listener.StartSuiteMethod(test);
 
         public void TakeScreenshot(SuiteMethod suiteMethod) =>
-            suiteMethod.Outcome.Screenshot = Screenshotter.TakeScreenshot(suiteMethod.FullName);
+            suiteMethod.Outcome.Screenshot = Screenshotter.TakeScreenshot(suiteMethod.Outcome.FullMethodName);
     }
 }

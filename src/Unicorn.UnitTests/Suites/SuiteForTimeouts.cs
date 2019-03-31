@@ -30,7 +30,7 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [Test]
-        [Disable]
+        [Disabled("")]
         public void TestToSkip()
         {
             // Method intentionally left empty.

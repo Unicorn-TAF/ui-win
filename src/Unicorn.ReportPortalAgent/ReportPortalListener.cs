@@ -16,7 +16,6 @@ namespace Unicorn.ReportPortalAgent
 
         private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
         private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
-        private Dictionary<string, TestReporter> testFlowNames = new Dictionary<string, TestReporter>();
 
         static ReportPortalListener()
         {
@@ -75,9 +74,9 @@ namespace Unicorn.ReportPortalAgent
 
         public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
-            if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Id))
+            if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
             {
-                AddAttachment(test.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
+                AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
         }
 

@@ -10,8 +10,6 @@ namespace Unicorn.Taf.Core.Engine
 {
     public static class AdapterUtilities
     {
-        public static AppDomain UnicornAppDomain { get; set; } = null;
-
         public static bool IsSuiteRunnable(Type suiteType)
         {
             var tags = from attribute
@@ -31,7 +29,7 @@ namespace Unicorn.Taf.Core.Engine
 
         public static bool IsTestRunnable(MethodInfo testMethod)
         {
-            if (testMethod.GetCustomAttribute(typeof(DisableAttribute), true) != null)
+            if (testMethod.GetCustomAttribute(typeof(DisabledAttribute), true) != null)
             {
                 return false;
             }
@@ -42,7 +40,7 @@ namespace Unicorn.Taf.Core.Engine
             
             var hasCategoriesToRun = categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count;
 
-            var fullTestName = testMethod.ReflectedType.FullName + "." + testMethod.Name;
+            var fullTestName = GetFullTestMethodName(testMethod);
             var matchTestsMasks = !Configuration.RunTests.Any() || Configuration.RunTests.Any(m => Regex.IsMatch(fullTestName, m));
             return hasCategoriesToRun && matchTestsMasks;
         }

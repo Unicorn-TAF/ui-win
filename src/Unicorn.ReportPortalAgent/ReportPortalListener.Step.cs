@@ -21,7 +21,7 @@ namespace Unicorn.ReportPortalAgent
         {
             if (this.currentTest != null)
             {
-                this.AddLog(this.currentTest.Id, logLevels[level], info);
+                this.AddLog(this.currentTest.Outcome.Id, logLevels[level], info);
             }
         }
     }

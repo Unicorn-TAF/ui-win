@@ -32,15 +32,15 @@ namespace Unicorn.UnitTests.Util
             TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' {testSuite.Outcome.Result}");
 
         public void ReportTestStart(Test test) =>
-            TestContext.WriteLine($"REPORTER: Test '{test.Description}' started");
+            TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' started");
 
         public void ReportTestFinish(Test test) =>
-            TestContext.WriteLine($"REPORTER: Test '{test.Description}' {test.Outcome.Result}");
+            TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' {test.Outcome.Result}");
 
         public void ReportSuiteStart(TestSuite testSuite) =>
             TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
 
         private void TakeScreenshot(Test test) =>
-            test.Outcome.Screenshot = Screenshotter.TakeScreenshot(test.FullName);
+            test.Outcome.Screenshot = Screenshotter.TakeScreenshot(test.Outcome.FullMethodName);
     }
 }

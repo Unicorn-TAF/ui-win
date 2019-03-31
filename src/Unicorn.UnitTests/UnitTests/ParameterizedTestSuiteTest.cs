@@ -28,7 +28,7 @@ namespace Unicorn.UnitTests.Tests
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
-            Assert.That(testsCount, Is.EqualTo(3));
+            Assert.That(testsCount, Is.EqualTo(2));
         }
 
         [Author("Vitaliy Dobriyan")]

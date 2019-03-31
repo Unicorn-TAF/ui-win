@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -21,8 +19,9 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// Contains methods to execute the test and check if test should be skipped
         /// </summary>
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
-        public Test(MethodInfo testMethod) : this(testMethod, null)
+        public Test(MethodInfo testMethod) : base(testMethod)
         {
+            this.dataSet = null;
         }
 
         /// <summary>
@@ -34,8 +33,11 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
         public Test(MethodInfo testMethod, DataSet dataSet) : base(testMethod)
         {
+            var postfix = $" [{dataSet.Name}]";
             this.dataSet = dataSet;
-            this.Outcome.FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod);
+
+            this.Outcome.Title += postfix;
+            this.Outcome.Id = GenerateId(this.Outcome.FullMethodName + postfix);
         }
 
         /* Events section */
@@ -72,11 +74,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether current test is need to be run
-        /// </summary>
-        public bool IsRunnable { get; set; } = true;
-
-        /// <summary>
         /// Execute current test and fill TestOutcome
         /// Before the test List of BeforeTests is executed
         /// After the test List of AfterTests is executed
@@ -84,7 +81,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{Description}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{this.Outcome.Title}' ==========");
 
             try
             {
