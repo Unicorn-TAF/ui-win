@@ -91,7 +91,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
-                this.Skip("OnTestStart event failed");
+                this.Skip();
             }
             finally
             {
@@ -112,7 +112,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// Skip test and invoke OnTestSkip event
         /// </summary>
         /// <param name="reason">skip reason message</param>
-        public void Skip(string reason)
+        public void Skip()
         {
             this.Outcome.Result = Status.Skipped;
 

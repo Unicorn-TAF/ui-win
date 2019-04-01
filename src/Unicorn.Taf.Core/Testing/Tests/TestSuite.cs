@@ -179,7 +179,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
             foreach (Test test in this.tests)
             {
-                test.Skip(reason);
+                test.Skip();
                 Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {test.Outcome.Result}");
                 this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
@@ -204,14 +204,14 @@ namespace Unicorn.Taf.Core.Testing.Tests
         {
             if (this.skipTests)
             {
-                test.Skip("Previuos test cleanup failed");
+                test.Skip();
                 Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
                 return;
             }
 
             if (!this.RunSuiteMethods(this.beforeTests))
             {
-                test.Skip(string.Empty);
+                test.Skip();
                 Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
                 return;
             }
@@ -331,7 +331,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// </summary>
         /// <param name="attributeType">Type of attribute</param>
         /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
-        /// <returns>array of <see=<see cref="SuiteMethod"/> with specified attribute</returns>
+        /// <returns>array of <see cref="SuiteMethod"/> with specified attribute</returns>
         private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)
         {
             var suitableMethods = new List<SuiteMethod>();

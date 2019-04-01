@@ -58,7 +58,7 @@ namespace Unicorn.Taf.Core.Engine
             {
                 GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
                 this.Outcome.RunInitialized = false;

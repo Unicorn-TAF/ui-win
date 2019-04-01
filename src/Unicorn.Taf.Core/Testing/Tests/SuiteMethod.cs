@@ -133,6 +133,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// Generates Id for the test which will be the same each time for this test
         /// </summary>
         /// <param name="fullName">full test name including data set name</param>
+        /// <returns>unique test method <see cref="Guid"/></returns>
         protected Guid GenerateId(string fullName)
         {
             using (MD5 md5 = MD5.Create())
