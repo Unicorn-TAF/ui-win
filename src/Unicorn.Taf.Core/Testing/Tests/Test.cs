@@ -147,7 +147,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
             }
             catch (Exception ex)
             {
-                Fail(ex.InnerException);
+                this.Fail(ex.InnerException);
 
                 try
                 {

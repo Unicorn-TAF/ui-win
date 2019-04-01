@@ -62,19 +62,22 @@ namespace Unicorn.Taf.Core.Testing.Tests
         public static StringBuilder LogOutput { get; } = new StringBuilder();
 
         /// <summary>
-        /// Gets or sets Current test outcome, contains base information about execution results
+        /// Gets or sets current test outcome, contains base information about execution results
         /// </summary>
         public TestOutcome Outcome { get; set; }
 
+        /// <summary>
+        /// Gets or sets current suite method type
+        /// </summary>
         public SuiteMethodType MethodType { get; set; }
 
         /// <summary>
-        /// Gets or sets Method which represents test
+        /// Gets or sets <see cref="MethodInfo"/> which represents test
         /// </summary>
         public MethodInfo TestMethod { get; set; }
 
         /// <summary>
-        /// Gets or sets Test execution timer
+        /// Gets or sets test method execution timer
         /// </summary>
         protected Stopwatch TestTimer { get; set; }
 

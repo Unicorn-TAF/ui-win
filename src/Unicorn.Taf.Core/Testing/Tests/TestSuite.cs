@@ -55,10 +55,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
         public static event UnicornSuiteEvent OnSuiteFinish;
 
-        ////public static event UnicornSuiteEvent OnSuitePass;
-
-        ////public static event UnicornSuiteEvent OnSuiteFail;
-
         public static event UnicornSuiteEvent OnSuiteSkip;
 
         // Gets or sets Unique suite Guid
@@ -203,7 +199,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <summary>
         /// Run specified Test.
         /// </summary>
-        /// <param name="test">test instance</param>
+        /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
         {
             if (this.skipTests)
@@ -285,7 +281,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// Get list of Tests from suite instance based on [Test] Attribute presence. 
         /// Determine if test should be skipped and update runnable tests count for the suite. 
         /// </summary>
-        /// <returns>list of Tests</returns>
+        /// <returns>array of <see cref="Test"/> instances</returns>
         private Test[] GetTests()
         {
             List<Test> testMethods = new List<Test>();
@@ -320,7 +316,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// </summary>
         /// <param name="method">MethodInfo instance which represents test method</param>
         /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
-        /// <returns>Test instance</returns>
+        /// <returns><see cref="Test"/> instance</returns>
         private Test GenerateTest(MethodInfo method, DataSet dataSet)
         {
             var test = dataSet == null ? new Test(method) : new Test(method, dataSet);
@@ -335,7 +331,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// </summary>
         /// <param name="attributeType">Type of attribute</param>
         /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
-        /// <returns>list of MethodInfo with specified attribute</returns>
+        /// <returns>array of <see=<see cref="SuiteMethod"/> with specified attribute</returns>
         private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)
         {
             var suitableMethods = new List<SuiteMethod>();
