@@ -81,9 +81,9 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
             var conf = JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(configPath));
 
-            TestTimeout = conf.JsonTestTimeout;
-            SuiteTimeout = conf.JsonSuiteTimeout;
-            ParallelBy = conf.JsonParallelBy;
+            TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
+            SuiteTimeout = TimeSpan.FromMinutes(conf.JsonSuiteTimeout);
+            ParallelBy = GetParallelization(conf.JsonParallelBy);
             Threads = conf.JsonThreads;
             SetSuiteTags(conf.JsonRunTags.ToArray());
             SetTestCategories(conf.JsonRunCategories.ToArray());
@@ -102,6 +102,22 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 .AppendLine($"Test run timeout: {TestTimeout}")
                 .AppendLine($"Suite run timeout: {SuiteTimeout}")
                 .ToString();
+        }
+
+        private static Parallelization GetParallelization(string jsonValue)
+        {
+            try
+            {
+                return (Parallelization)Enum.Parse(typeof(Parallelization), jsonValue, true);
+            }
+            catch
+            {
+                throw new ArgumentException(string.Format(
+                    "Parallelization method is not defined. Available methods are: {0}, {1}, {2}",
+                    Parallelization.Assembly,
+                    Parallelization.Suite,
+                    Parallelization.Test));
+            }
         }
     }
 }
