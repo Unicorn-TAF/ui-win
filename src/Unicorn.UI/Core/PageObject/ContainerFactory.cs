@@ -14,7 +14,7 @@ namespace Unicorn.UI.Core.PageObject
 
         private static void InitContainerProperties<T>(T container)
         {
-            PropertyInfo[] properties = container.GetType()
+            var properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             foreach (var property in properties)
@@ -50,10 +50,10 @@ namespace Unicorn.UI.Core.PageObject
 
         private static void InitContainerFields<T>(T container)
         {
-            FieldInfo[] fields = container.GetType()
+            var fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-            foreach (FieldInfo field in fields)
+            foreach (var field in fields)
             {
                 var findAttribute = field.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
 

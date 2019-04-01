@@ -17,22 +17,23 @@ namespace Unicorn.UI.Core.Input
         /// </summary>
         public static readonly Keyboard Instance = new Keyboard();
 
-        private static readonly List<KeyboardInput.SpecialKeys> ScanCodeDependent = new List<KeyboardInput.SpecialKeys>
-                                                                               {
-                                                                                   KeyboardInput.SpecialKeys.RIGHT_ALT,
-                                                                                   KeyboardInput.SpecialKeys.INSERT,
-                                                                                   KeyboardInput.SpecialKeys.DELETE,
-                                                                                   KeyboardInput.SpecialKeys.LEFT,
-                                                                                   KeyboardInput.SpecialKeys.HOME,
-                                                                                   KeyboardInput.SpecialKeys.END,
-                                                                                   KeyboardInput.SpecialKeys.UP,
-                                                                                   KeyboardInput.SpecialKeys.DOWN,
-                                                                                   KeyboardInput.SpecialKeys.PAGEUP,
-                                                                                   KeyboardInput.SpecialKeys.PAGEDOWN,
-                                                                                   KeyboardInput.SpecialKeys.RIGHT,
-                                                                                   KeyboardInput.SpecialKeys.LWIN,
-                                                                                   KeyboardInput.SpecialKeys.RWIN
-                                                                               };
+        private static readonly List<KeyboardInput.SpecialKeys> ScanCodeDependent = 
+            new List<KeyboardInput.SpecialKeys>
+            {
+                KeyboardInput.SpecialKeys.RIGHT_ALT,
+                KeyboardInput.SpecialKeys.INSERT,
+                KeyboardInput.SpecialKeys.DELETE,
+                KeyboardInput.SpecialKeys.LEFT,
+                KeyboardInput.SpecialKeys.HOME,
+                KeyboardInput.SpecialKeys.END,
+                KeyboardInput.SpecialKeys.UP,
+                KeyboardInput.SpecialKeys.DOWN,
+                KeyboardInput.SpecialKeys.PAGEUP,
+                KeyboardInput.SpecialKeys.PAGEDOWN,
+                KeyboardInput.SpecialKeys.RIGHT,
+                KeyboardInput.SpecialKeys.LWIN,
+                KeyboardInput.SpecialKeys.RWIN
+            };
 
         private readonly List<KeyboardInput.SpecialKeys> heldKeys = new List<KeyboardInput.SpecialKeys>();
 
@@ -68,6 +69,7 @@ namespace Unicorn.UI.Core.Input
         public virtual void Send(string keysToType)
         {
             this.CapsLockOn = false;
+
             foreach (char c in keysToType)
             {
                 short key = VkKeyScan(c);

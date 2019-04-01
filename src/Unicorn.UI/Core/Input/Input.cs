@@ -10,8 +10,10 @@ namespace Unicorn.UI.Core.Input
 
         [FieldOffset(0)]
         private int type;
+
         [FieldOffset(4)]
         private MouseInput mi;
+
         [FieldOffset(4)]
         private KeyboardInput ki;
 
