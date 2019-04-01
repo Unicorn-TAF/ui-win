@@ -63,6 +63,7 @@
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />
+    <Compile Include="Testing\Tests\Attributes\DependsOnAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TestAssemblyAttribute.cs" />
     <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileDownloader.cs" />
