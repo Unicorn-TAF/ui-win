@@ -17,7 +17,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.TabItem;
 
-        public bool Selected
+        public virtual bool Selected
         {
             get
             {
@@ -31,7 +31,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 

@@ -4,6 +4,7 @@ using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Reporting;
 using Unicorn.Taf.Core.Testing.Steps;
 using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Utility;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -23,9 +24,9 @@ namespace Unicorn.ReportPortalAgent
         {
             if (ReportPortalListener.Config.IsEnabled)
             {
-                if (!Directory.Exists(Screenshot.ScreenshotsFolder))
+                if (!Directory.Exists(Screenshotter.ScreenshotsFolder))
                 {
-                    Directory.CreateDirectory(Screenshot.ScreenshotsFolder);
+                    Directory.CreateDirectory(Screenshotter.ScreenshotsFolder);
                 }
 
                 this.listener = new ReportPortalListener();
@@ -70,6 +71,6 @@ namespace Unicorn.ReportPortalAgent
             this.listener.StartSuiteMethod(test);
 
         public void TakeScreenshot(SuiteMethod suiteMethod) =>
-            suiteMethod.Outcome.Screenshot = Screenshot.TakeScreenshot(suiteMethod.FullName);
+            suiteMethod.Outcome.Screenshot = Screenshotter.TakeScreenshot(suiteMethod.Outcome.FullMethodName);
     }
 }

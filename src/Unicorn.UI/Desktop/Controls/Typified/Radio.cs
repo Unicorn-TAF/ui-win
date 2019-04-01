@@ -17,15 +17,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.RadioButton;
 
-        public bool Selected
-        {
-            get
-            {
-                return (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern).Current.IsSelected;
-            }
-        }
+        public virtual bool Selected =>
+            (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern).Current.IsSelected;
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 

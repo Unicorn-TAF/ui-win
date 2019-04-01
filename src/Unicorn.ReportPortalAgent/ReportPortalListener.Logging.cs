@@ -47,7 +47,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = test.Id;
+                var id = test.Outcome.Id;
                 if (this.testFlowIds.ContainsKey(id))
                 {
                     var updateTestRequest = new UpdateTestItemRequest();

@@ -2,6 +2,7 @@
 using System.Reflection;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
@@ -18,7 +19,7 @@ namespace Unicorn.UnitTests.Tests
         [OneTimeSetUp]
         public static void Setup()
         {
-            Configuration.SetSuiteTags("parameterized");
+            Config.SetSuiteTags("parameterized");
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
         }
 
@@ -28,7 +29,7 @@ namespace Unicorn.UnitTests.Tests
         {
             Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
-            Assert.That(testsCount, Is.EqualTo(3));
+            Assert.That(testsCount, Is.EqualTo(2));
         }
 
         [Author("Vitaliy Dobriyan")]

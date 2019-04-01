@@ -32,7 +32,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
         protected override T GetFirstChildWrappedControl<T>()
         {
-            var elementToWrap = GetNativeControlsList(new ByLocator(Using.Web_Xpath, "./*"))[0];
+            var elementToWrap = GetNativeControlsList(new ByLocator(Using.WebXpath, "./*"))[0];
             return this.Wrap<T>(elementToWrap, null);
         }
 
@@ -65,9 +65,9 @@ namespace Unicorn.UI.Mobile.Base.Driver
         {
             switch (locator.How)
             {
-                case Using.Web_Xpath:
+                case Using.WebXpath:
                     return By.XPath(locator.Locator);
-                case Using.Web_Css:
+                case Using.WebCss:
                     return By.CssSelector(locator.Locator);
                 case Using.Id:
                     return By.Id(locator.Locator);
@@ -75,7 +75,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
                     return By.Name(locator.Locator);
                 case Using.Class:
                     return By.ClassName(locator.Locator);
-                case Using.Web_Tag:
+                case Using.WebTag:
                     return By.TagName(locator.Locator);
                 default:
                     throw new ArgumentException($"Incorrect locator type specified:  {locator.How}");

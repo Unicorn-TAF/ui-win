@@ -24,10 +24,9 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = test.Id;
-                var parentId = test.ParentId;
-                var name = test.Description;
-                var fullname = test.FullName;
+                var id = test.Outcome.Id;
+                var parentId = test.Outcome.ParentId;
+                var name = test.Outcome.Title;
 
                 this.currentTest = test;
 
@@ -40,7 +39,6 @@ namespace Unicorn.ReportPortalAgent
 
                 var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
                 this.testFlowIds[id] = testVal;
-                this.testFlowNames[fullname] = testVal;
             }
             catch (Exception exception)
             {
@@ -52,7 +50,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = suiteMethod.Id;
+                var id = suiteMethod.Outcome.Id;
                 var result = suiteMethod.Outcome.Result;
 
                 this.currentTest = null;
@@ -66,7 +64,7 @@ namespace Unicorn.ReportPortalAgent
 
                 // adding categories to test
                 updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.Add(suiteMethod.Author);
+                updateTestRequest.Tags.Add(suiteMethod.Outcome.Author);
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
@@ -74,7 +72,7 @@ namespace Unicorn.ReportPortalAgent
                 }
 
                 // adding description to test
-                updateTestRequest.Description = suiteMethod.Description;
+                updateTestRequest.Description = suiteMethod.Outcome.Title;
 
                 this.testFlowIds[id].Update(updateTestRequest);
 

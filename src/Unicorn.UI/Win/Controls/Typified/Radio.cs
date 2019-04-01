@@ -17,11 +17,11 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public override int UiaType => UIA_ControlTypeIds.UIA_RadioButtonControlTypeId;
 
-        public bool Selected => this.SelectionItemPattern.CurrentIsSelected != 0;
+        public virtual bool Selected => this.SelectionItemPattern.CurrentIsSelected != 0;
 
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 

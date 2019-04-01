@@ -5,9 +5,9 @@ namespace Unicorn.UI.Web.Controls.Typified
 {
     public class Radio : WebControl, ISelectable
     {
-        public bool Selected => this.Instance.Selected;
+        public virtual bool Selected => this.Instance.Selected;
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 

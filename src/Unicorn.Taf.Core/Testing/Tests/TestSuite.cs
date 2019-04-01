@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -109,11 +110,6 @@ namespace Unicorn.Taf.Core.Testing.Tests
         public Dictionary<string, string> Metadata { get; }
 
         /// <summary>
-        /// Gets or sets current executing step bug, used in case of TestSteps feature usage
-        /// </summary>
-        public string CurrentStepBug { get; set; } = string.Empty;
-
-        /// <summary>
         /// Gets or sets Suite outcome, contain all information on suite run and results
         /// </summary>
         public SuiteOutcome Outcome { get; protected set; }
@@ -157,10 +153,10 @@ namespace Unicorn.Taf.Core.Testing.Tests
                     Thread testThread = new Thread(() => this.RunTest(test));
                     testThread.Start();
 
-                    if (!testThread.Join(Configuration.TestTimeout))
+                    if (!testThread.Join(Config.TestTimeout))
                     {
                         testThread.Abort();
-                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Configuration.TestTimeout.TotalMinutes)));
+                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Config.TestTimeout.TotalMinutes)));
                     }
 
                     this.Outcome.TestsOutcomes.Add(test.Outcome);
@@ -188,7 +184,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
             foreach (Test test in this.tests)
             {
                 test.Skip(reason);
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {test.Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {test.Outcome.Result}");
                 this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
@@ -210,23 +206,17 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <param name="test">test instance</param>
         private void RunTest(Test test)
         {
-            if (!test.IsRunnable)
-            {
-                test.Outcome.Result = Status.NotExecuted;
-                return;
-            }
-
             if (this.skipTests)
             {
                 test.Skip("Previuos test cleanup failed");
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
                 return;
             }
 
             if (!this.RunSuiteMethods(this.beforeTests))
             {
                 test.Skip(string.Empty);
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Description}' {Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
                 return;
             }
 
@@ -286,7 +276,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
 
                 if (suiteMethod.Outcome.Result == Status.Failed)
                 {
-                    skipTests = attribute.SkipTestsOnFail && Configuration.ParallelBy != Parallelization.Test;
+                    skipTests = attribute.SkipTestsOnFail && Config.ParallelBy != Parallelization.Test;
                 }
             }
         }
@@ -301,7 +291,8 @@ namespace Unicorn.Taf.Core.Testing.Tests
             List<Test> testMethods = new List<Test>();
 
             IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods()
-                .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null);
+                .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null)
+                .Where(m => AdapterUtilities.IsTestRunnable(m));
 
             foreach (MethodInfo method in suiteMethods)
             {
@@ -332,34 +323,10 @@ namespace Unicorn.Taf.Core.Testing.Tests
         /// <returns>Test instance</returns>
         private Test GenerateTest(MethodInfo method, DataSet dataSet)
         {
-            Test test;
-
-            if (dataSet == null)
-            {
-                test = new Test(method);
-            }
-            else
-            {
-                test = new Test(method, dataSet);
-            }
+            var test = dataSet == null ? new Test(method) : new Test(method, dataSet);
              
             test.MethodType = SuiteMethodType.Test;
-            test.ParentId = this.Id;
-            test.IsRunnable = AdapterUtilities.IsTestRunnable(method);
-
-            string fullTestName = $"{Name} - {method.Name}";
-            string description = $"{test.Description}";
-
-            if (dataSet != null)
-            {
-                fullTestName += $" - {dataSet.Name}";
-                description += $" [{dataSet.Name}]";
-            }
-
-            test.FullName = fullTestName;
-            test.Description = description;
-            test.GenerateId();
-
+            test.Outcome.ParentId = this.Id;
             return test;
         }
 
@@ -381,9 +348,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
                 if (attribute != null)
                 {
                     var suiteMethod = new SuiteMethod(method);
-                    suiteMethod.ParentId = this.Id;
-                    suiteMethod.FullName = $"{this.Name} - {method.Name}";
-                    suiteMethod.GenerateId();
+                    suiteMethod.Outcome.ParentId = this.Id;
                     suiteMethod.MethodType = type;
                     suitableMethods.Add(suiteMethod);
                 }

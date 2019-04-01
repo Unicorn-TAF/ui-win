@@ -51,7 +51,7 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [Test("Test to Skip")]
-        [Disable]
+        [Disabled("")]
         public void TestToSkip()
         {
             Output += "TestToSkip>";

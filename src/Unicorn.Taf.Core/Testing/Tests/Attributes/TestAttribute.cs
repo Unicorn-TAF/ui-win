@@ -7,14 +7,14 @@ namespace Unicorn.Taf.Core.Testing.Tests.Attributes
     {
         public TestAttribute()
         {
-            this.Description = string.Empty;
+            this.Title = string.Empty;
         }
 
-        public TestAttribute(string description)
+        public TestAttribute(string title)
         {
-            this.Description = description;
+            this.Title = title;
         }
 
-        public string Description { get; protected set; }
+        public string Title { get; protected set; }
     }
 }

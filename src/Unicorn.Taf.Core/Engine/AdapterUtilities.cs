@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.Taf.Core.Testing.Tests.Attributes;
 
@@ -10,8 +11,6 @@ namespace Unicorn.Taf.Core.Engine
 {
     public static class AdapterUtilities
     {
-        public static AppDomain UnicornAppDomain { get; set; } = null;
-
         public static bool IsSuiteRunnable(Type suiteType)
         {
             var tags = from attribute
@@ -21,7 +20,7 @@ namespace Unicorn.Taf.Core.Engine
             var name = (suiteType.GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute)
                        .Name.ToUpper().Trim();
 
-            if (!tags.Intersect(Configuration.RunTags).Any() && !Configuration.RunTags.Contains(name) && Configuration.RunTags.Any())
+            if (!tags.Intersect(Config.RunTags).Any() && !Config.RunTags.Contains(name) && Config.RunTags.Any())
             {
                 return false;
             }
@@ -31,7 +30,7 @@ namespace Unicorn.Taf.Core.Engine
 
         public static bool IsTestRunnable(MethodInfo testMethod)
         {
-            if (testMethod.GetCustomAttribute(typeof(DisableAttribute), true) != null)
+            if (testMethod.GetCustomAttribute(typeof(DisabledAttribute), true) != null)
             {
                 return false;
             }
@@ -40,10 +39,10 @@ namespace Unicorn.Taf.Core.Engine
                                 in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                                 select attribute.Category.ToUpper().Trim();
             
-            var hasCategoriesToRun = categories.Intersect(Configuration.RunCategories).Count() == Configuration.RunCategories.Count;
+            var hasCategoriesToRun = categories.Intersect(Config.RunCategories).Count() == Config.RunCategories.Count;
 
-            var fullTestName = testMethod.ReflectedType.FullName + "." + testMethod.Name;
-            var matchTestsMasks = !Configuration.RunTests.Any() || Configuration.RunTests.Any(m => Regex.IsMatch(fullTestName, m));
+            var fullTestName = GetFullTestMethodName(testMethod);
+            var matchTestsMasks = !Config.RunTests.Any() || Config.RunTests.Any(m => Regex.IsMatch(fullTestName, m));
             return hasCategoriesToRun && matchTestsMasks;
         }
 

@@ -29,7 +29,7 @@ namespace Unicorn.UnitTests.Suites
             Do.Testing.FirstTestStep();
         }
 
-        [Disable]
+        [Disabled("")]
         [Test]
         public void TestToSkip()
         {
@@ -45,7 +45,7 @@ namespace Unicorn.UnitTests.Suites
             Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Disable]
+        [Disabled("")]
         [Test]
         public void Test23()
         {
@@ -61,7 +61,7 @@ namespace Unicorn.UnitTests.Suites
             Do.Testing.StepWhichSouldFail(new SampleObject());
         }
 
-        [Disable]
+        [Disabled("")]
         [Test]
         [Category("someCategory")]
         public void Test43()

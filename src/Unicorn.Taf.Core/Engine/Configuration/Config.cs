@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Unicorn.Taf.Core.Engine
+namespace Unicorn.Taf.Core.Engine.Configuration
 {
     public enum Parallelization
     {
@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Engine
         Test
     }
 
-    public static class Configuration
+    public static class Config
     {
         private static List<string> tags = new List<string>();
         private static List<string> categories = new List<string>();
@@ -76,7 +76,7 @@ namespace Unicorn.Taf.Core.Engine
         {
             if (string.IsNullOrEmpty(configPath))
             {
-                configPath = Path.GetDirectoryName(new Uri(typeof(Configuration).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
+                configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
             }
 
             var conf = JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(configPath));
@@ -92,12 +92,12 @@ namespace Unicorn.Taf.Core.Engine
 
         public static string GetInfo()
         {
-            const string delimiter = ",";
+            const string Delimiter = ",";
 
             return new StringBuilder()
-                .AppendLine($"Tags to run: {string.Join(delimiter, RunTags)}")
-                .AppendLine($"Categories to run: {string.Join(delimiter, RunCategories)}")
-                .AppendLine($"Tests filter: {string.Join(delimiter, RunTests)}")
+                .AppendLine($"Tags to run: {string.Join(Delimiter, RunTags)}")
+                .AppendLine($"Categories to run: {string.Join(Delimiter, RunCategories)}")
+                .AppendLine($"Tests filter: {string.Join(Delimiter, RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
                 .AppendLine($"Test run timeout: {TestTimeout}")
                 .AppendLine($"Suite run timeout: {SuiteTimeout}")

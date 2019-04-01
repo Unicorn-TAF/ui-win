@@ -28,7 +28,7 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [Test]
-        [Disable]
+        [Disabled("")]
         public void TestToSkip()
         {
             Do.Testing.Say("a");

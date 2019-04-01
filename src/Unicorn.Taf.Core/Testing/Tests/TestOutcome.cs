@@ -14,9 +14,29 @@ namespace Unicorn.Taf.Core.Testing.Tests
         }
 
         /// <summary>
-        /// Gets or sets Full test method name including declaring class and it's namespace
+        /// Gets or sets unique across test assembly test ID.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets unique across test assembly suite ID.
+        /// </summary>
+        public Guid ParentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets test title.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets Full test method name including declaring class and it's namespace.
         /// </summary>
         public string FullMethodName { get; set; }
+
+        /// <summary>
+        /// Gets or sets test author.
+        /// </summary>
+        public string Author { get; set; }
 
         /// <summary>
         /// Gets or sets Execution Result.

@@ -20,9 +20,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.ComboBox;
 
-        public bool Expanded => GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
+        public virtual bool Expanded => 
+            GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
 
-        public string SelectedValue
+        public virtual string SelectedValue
         {
             get
             {
@@ -48,7 +49,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public bool Select(string itemName)
+        public virtual bool Select(string itemName)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
 
@@ -85,7 +86,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             return true;
         }
 
-        public bool Expand()
+        public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
             if (this.Expanded)
@@ -99,7 +100,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             return true;
         }
 
-        public bool Collapse()
+        public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");
             if (!this.Expanded)

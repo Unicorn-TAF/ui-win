@@ -57,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\JsonConfig.cs" />
+    <Compile Include="Engine\IsolatedTestsInfoObserver.cs" />
+    <Compile Include="Engine\IsolatedTestsRunner.cs" />
+    <Compile Include="Engine\Configuration\JsonConfig.cs" />
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\IReporter.cs" />
     <Compile Include="Reporting\Reporter.cs" />
-    <Compile Include="Reporting\Screenshot.cs" />
+    <Compile Include="Utility\Screenshotter.cs" />
     <Compile Include="Testing\Steps\AssertionSteps.cs" />
     <Compile Include="Engine\AdapterUtilities.cs" />
     <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="Testing\Steps\Attributes\StepAttribute.cs" />
     <Compile Include="Testing\Steps\StepsUtilities.cs" />
     <Compile Include="Testing\Steps\TestStepsEvents.cs" />
-    <Compile Include="Engine\Configuration.cs" />
+    <Compile Include="Engine\Configuration\Config.cs" />
     <Compile Include="Engine\TestsObserver.cs" />
     <Compile Include="Engine\TestsRunner.cs" />
     <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
@@ -110,7 +112,7 @@
     <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
     <Compile Include="Testing\Tests\Attributes\TagAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\DisableAttribute.cs" />
+    <Compile Include="Testing\Tests\Attributes\DisabledAttribute.cs" />
     <Compile Include="Testing\Tests\SuiteOutcome.cs" />
     <Compile Include="Testing\Tests\SuiteMethod.cs" />
     <Compile Include="Testing\Tests\Test.cs" />

@@ -17,9 +17,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.CheckBox;
 
-        public bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
+        public virtual bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
-        public bool SetCheckedState(bool isChecked)
+        public virtual bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }

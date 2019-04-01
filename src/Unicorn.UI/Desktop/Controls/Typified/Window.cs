@@ -22,7 +22,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
         public override ControlType UiaType => ControlType.Window;
 
-        public string Title => this.Text;
+        public virtual string Title => this.Text;
 
         public virtual void Close()
         {
@@ -43,7 +43,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
-        public void WaitForClosed(int timeout = 5000)
+        public virtual void WaitForClosed(TimeSpan timeout)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
             var timer = Stopwatch.StartNew();
@@ -57,7 +57,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 {
                     Thread.Sleep(50);
                 }
-                while (this.Visible && timer.ElapsedMilliseconds < timeout);
+                while (this.Visible && timer.Elapsed < timeout);
             }
             catch (ControlNotFoundException)
             {
@@ -68,12 +68,14 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 
             GuiDriver.ImplicitlyWaitTimeout = originalTimeout;
 
-            if (timer.ElapsedMilliseconds > timeout)
+            if (timer.Elapsed > timeout)
             {
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
 
             Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
+
+        public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

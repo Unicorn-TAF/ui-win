@@ -6,24 +6,11 @@ using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
 using Unicorn.Taf.Core.Testing.Tests;
-using Unicorn.ReportPortalAgent.EventArguments;
 
 namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        public delegate void SuiteStartedHandler(object sender, TestItemStartedEventArgs e);
-
-        public delegate void SuiteFinishedHandler(object sender, TestItemFinishedEventArgs e);
-
-        public static event SuiteStartedHandler BeforeSuiteStarted;
-
-        public static event SuiteStartedHandler AfterSuiteStarted;
-
-        public static event SuiteFinishedHandler BeforeSuiteFinished;
-
-        public static event SuiteFinishedHandler AfterSuiteFinished;
-
         internal void StartSuite(TestSuite suite)
         {
             try
@@ -39,39 +26,17 @@ namespace Unicorn.ReportPortalAgent
                     Type = TestItemType.Suite
                 };
 
-                var beforeSuiteEventArg = new TestItemStartedEventArgs(Bridge.Service, startSuiteRequest);
-                try
+                TestReporter test;
+                if (parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId))
                 {
-                    BeforeSuiteStarted?.Invoke(this, beforeSuiteEventArg);
+                    test = Bridge.Context.LaunchReporter.StartNewTestNode(startSuiteRequest);
                 }
-                catch (Exception exp)
+                else
                 {
-                    Console.WriteLine("Exception was thrown in 'BeforeSuiteStarted' subscriber." + Environment.NewLine + exp);
+                    test = this.suitesFlow[parentId].StartNewTestNode(startSuiteRequest);
                 }
 
-                if (!beforeSuiteEventArg.Canceled)
-                {
-                    TestReporter test;
-                    if (parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId))
-                    {
-                        test = Bridge.Context.LaunchReporter.StartNewTestNode(startSuiteRequest);
-                    }
-                    else
-                    {
-                        test = this.suitesFlow[parentId].StartNewTestNode(startSuiteRequest);
-                    }
-
-                    this.suitesFlow[id] = test;
-
-                    try
-                    {
-                        AfterSuiteStarted?.Invoke(this, new TestItemStartedEventArgs(Bridge.Service, startSuiteRequest, test));
-                    }
-                    catch (Exception exp)
-                    {
-                        Console.WriteLine("Exception was thrown in 'AfterSuiteStarted' subscriber." + Environment.NewLine + exp);
-                    }
-                }
+                this.suitesFlow[id] = test;
             }
             catch (Exception exception)
             {
@@ -133,27 +98,7 @@ namespace Unicorn.ReportPortalAgent
                         Status = statusMap[result]
                     };
                         
-                    var eventArg = new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]);
-
-                    try
-                    {
-                        BeforeSuiteFinished?.Invoke(this, eventArg);
-                    }
-                    catch (Exception exp)
-                    {
-                        Console.WriteLine("Exception was thrown in 'BeforeSuiteFinished' subscriber." + Environment.NewLine + exp);
-                    }
-
                     this.suitesFlow[id].Finish(finishSuiteRequest);
-
-                    try
-                    {
-                        AfterSuiteFinished?.Invoke(this, new TestItemFinishedEventArgs(Bridge.Service, finishSuiteRequest, this.suitesFlow[id]));
-                    }
-                    catch (Exception exp)
-                    {
-                        Console.WriteLine("Exception was thrown in 'AfterSuiteFinished' subscriber." + Environment.NewLine + exp);
-                    }
                 }
             }
             catch (Exception exception)
