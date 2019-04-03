@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
+using Unicorn.Taf.Core.Testing.Tests;
 using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Tests
@@ -20,6 +22,8 @@ namespace Unicorn.UnitTests.Tests
             runner.RunTests();
 
             Assert.That(runner.Outcome.SuitesOutcomes[0].FailedTests, Is.EqualTo(1));
+
+            Assert.That(runner.Outcome.SuitesOutcomes[0].TestsOutcomes.First(o => o.Result.Equals(Status.Failed)).Exception.GetType(), Is.EqualTo(typeof(TimeoutException)));
         }
     }
 }

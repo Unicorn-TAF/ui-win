@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         internal int JsonThreads { get; set; } = 1;
 
         [JsonProperty("testsDependency")]
-        internal string JsonTestsDependency { get; set; } = TestsDependency.Fail.ToString();
+        internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
 
         [JsonProperty("tags")]
         internal List<string> JsonRunTags { get; set; } = new List<string>();

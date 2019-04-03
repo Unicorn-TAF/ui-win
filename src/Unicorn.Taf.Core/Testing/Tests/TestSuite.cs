@@ -146,16 +146,7 @@ namespace Unicorn.Taf.Core.Testing.Tests
             {
                 foreach (Test test in this.tests)
                 {
-                    Thread testThread = new Thread(() => this.RunTest(test));
-                    testThread.Start();
-
-                    if (!testThread.Join(Config.TestTimeout))
-                    {
-                        testThread.Abort();
-                        test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Config.TestTimeout.TotalMinutes)));
-                    }
-
-                    this.Outcome.TestsOutcomes.Add(test.Outcome);
+                    this.ProcessTest(test);
                 }
             }
             else
@@ -194,6 +185,43 @@ namespace Unicorn.Taf.Core.Testing.Tests
             {
                 Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteSkip event invoke" + Environment.NewLine + e);
             }
+        }
+
+        private void ProcessTest(Test test)
+        {
+            var dependsOnAttribute = test.TestMethod.GetCustomAttribute(typeof(DependsOnAttribute), true) as DependsOnAttribute;
+
+            if (dependsOnAttribute != null)
+            {
+                var failedMainTest = this.tests
+                    .Where(t => !t.Outcome.Result.Equals(Status.Passed) 
+                    && t.TestMethod.Name.Equals(dependsOnAttribute.TestMethod));
+
+                if (failedMainTest.Any())
+                {
+                    if (Config.DependentTests.Equals(TestsDependency.Skip))
+                    {
+                        test.Skip();
+                        this.Outcome.TestsOutcomes.Add(test.Outcome);
+                    }
+
+                    if (!Config.DependentTests.Equals(TestsDependency.Run))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            var testThread = new Thread(() => this.RunTest(test));
+            testThread.Start();
+
+            if (!testThread.Join(Config.TestTimeout))
+            {
+                testThread.Abort();
+                test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Config.TestTimeout.TotalMinutes)));
+            }
+
+            this.Outcome.TestsOutcomes.Add(test.Outcome);
         }
 
         /// <summary>

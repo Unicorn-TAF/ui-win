@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     {
         Skip,
         DoNotRun,
-        Fail
+        Run
     }
 
     public static class Config
@@ -35,7 +35,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
         public static int Threads { get; set; } = 1;
 
-        public static TestsDependency DependentTests { get; set; } = TestsDependency.Fail;
+        public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
 
         public static List<string> RunTags => tags;
 
