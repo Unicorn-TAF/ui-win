@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {

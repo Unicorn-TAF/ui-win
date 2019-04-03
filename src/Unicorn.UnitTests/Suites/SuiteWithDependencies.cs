@@ -1,5 +1,5 @@
-﻿using Unicorn.Taf.Core.Testing.Tests;
-using Unicorn.Taf.Core.Testing.Tests.Attributes;
+﻿using Unicorn.Taf.Core.Testing;
+using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.UnitTests.Suites
 {

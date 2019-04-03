@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Unicorn.Taf.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Testing.Attributes;
 
 #pragma warning disable S3885 // "Assembly.Load" should be used
 

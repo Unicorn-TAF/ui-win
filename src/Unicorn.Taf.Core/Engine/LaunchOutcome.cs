@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Engine
 {

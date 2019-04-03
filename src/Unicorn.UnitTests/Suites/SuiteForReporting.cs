@@ -1,6 +1,6 @@
 ﻿using System.Threading;
-using Unicorn.Taf.Core.Testing.Tests;
-using Unicorn.Taf.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Testing;
+using Unicorn.Taf.Core.Testing.Attributes;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Suites

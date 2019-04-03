@@ -1,5 +1,5 @@
 ﻿using System;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Steps;
 
 namespace Unicorn.UnitTests.Suites

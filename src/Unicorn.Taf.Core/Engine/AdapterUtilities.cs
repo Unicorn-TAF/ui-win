@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Unicorn.Taf.Core.Engine.Configuration;
-using Unicorn.Taf.Core.Testing.Tests;
-using Unicorn.Taf.Core.Testing.Tests.Attributes;
+using Unicorn.Taf.Core.Testing;
+using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Engine
 {

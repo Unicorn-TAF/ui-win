@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Shared;
 using Unicorn.ReportPortalAgent.Configuration;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {

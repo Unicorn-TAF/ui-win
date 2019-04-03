@@ -3,7 +3,7 @@ using System.Reflection;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
 

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Reporting;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Utility;
 
 namespace Unicorn.UnitTests.Util
