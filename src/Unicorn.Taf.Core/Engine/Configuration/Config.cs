@@ -14,6 +14,13 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         Test
     }
 
+    public enum TestsDependency
+    {
+        Skip,
+        DoNotRun,
+        Run
+    }
+
     public static class Config
     {
         private static List<string> tags = new List<string>();
@@ -27,6 +34,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         public static Parallelization ParallelBy { get; set; } = Parallelization.Assembly;
 
         public static int Threads { get; set; } = 1;
+
+        public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
 
         public static List<string> RunTags => tags;
 
@@ -83,8 +92,9 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
             TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
             SuiteTimeout = TimeSpan.FromMinutes(conf.JsonSuiteTimeout);
-            ParallelBy = GetParallelization(conf.JsonParallelBy);
+            ParallelBy = GetEnumValue<Parallelization>(conf.JsonParallelBy);
             Threads = conf.JsonThreads;
+            DependentTests = GetEnumValue<TestsDependency>(conf.JsonTestsDependency);
             SetSuiteTags(conf.JsonRunTags.ToArray());
             SetTestCategories(conf.JsonRunCategories.ToArray());
             SetTestsMasks(conf.JsonRunTests.ToArray());
@@ -99,24 +109,23 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 .AppendLine($"Categories to run: {string.Join(Delimiter, RunCategories)}")
                 .AppendLine($"Tests filter: {string.Join(Delimiter, RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
+                .AppendLine($"Dependent tests: '{DependentTests}'")
                 .AppendLine($"Test run timeout: {TestTimeout}")
                 .AppendLine($"Suite run timeout: {SuiteTimeout}")
                 .ToString();
         }
 
-        private static Parallelization GetParallelization(string jsonValue)
+        private static T GetEnumValue<T>(string jsonValue)
         {
             try
             {
-                return (Parallelization)Enum.Parse(typeof(Parallelization), jsonValue, true);
+                return (T)Enum.Parse(typeof(T), jsonValue, true);
             }
             catch
             {
-                throw new ArgumentException(string.Format(
-                    "Parallelization method is not defined. Available methods are: {0}, {1}, {2}",
-                    Parallelization.Assembly,
-                    Parallelization.Suite,
-                    Parallelization.Test));
+                throw new ArgumentException(
+                    $"{typeof(T)} is not defined. Available methods are: " +
+                    string.Join(",", Enum.GetValues(typeof(T)).Cast<T>()));
             }
         }
     }
