@@ -6,6 +6,7 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Rework of taf core. Added configurable tests adapter. Introduced new testing logic: parameterized tests and suites. Improved assertions and implemented Type safe matchers. Added bunch of utilities.</releaseNotes>
