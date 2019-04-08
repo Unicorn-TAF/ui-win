@@ -7,6 +7,7 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+	<iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Support of Unicorn.Taf.Core 2.0.0. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>

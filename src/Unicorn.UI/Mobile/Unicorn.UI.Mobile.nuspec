@@ -7,6 +7,7 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+	<iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Support of Unicorn.Taf.Core 2.0.0 and Unicorn.UI.Core 2.0.0. Improved and simplified code of Desktop controls. Added extensions, 'AndroidBrowser' and 'AndroidApplication' page objects.</releaseNotes>
