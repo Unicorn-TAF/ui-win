@@ -4,7 +4,7 @@ using Unicorn.UnitTests.Steps;
 
 namespace Unicorn.UnitTests.Suites
 {
-    public class BaseTestSuite : TestSuite
+    public class UBaseTestSuite : TestSuite
     {
         private readonly Lazy<AllSteps> steps = new Lazy<AllSteps>();
 

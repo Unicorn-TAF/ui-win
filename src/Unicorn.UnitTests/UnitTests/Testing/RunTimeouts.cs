@@ -7,10 +7,10 @@ using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.Testing
 {
     [TestFixture]
-    public class RunTimeoutsTests : NUnitTestRunner
+    public class RunTimeouts : NUnitTestRunner
     {
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Test timeout")]

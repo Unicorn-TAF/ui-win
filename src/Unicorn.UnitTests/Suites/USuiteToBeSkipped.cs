@@ -5,21 +5,17 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Tests (all skipped)")]
     [Tag("Skipping")]
-    public class SuiteToBeSkipped : BaseTestSuite
+    public class USuiteToBeSkipped : UBaseTestSuite
     {
         public static string Output { get; set; }
 
         [BeforeSuite]
-        public void BeforeSuite()
-        {
+        public void BeforeSuite() =>
             Output += "BeforeSuite";
-        }
 
         [BeforeTest]
-        public void BeforeTest()
-        {
+        public void BeforeTest() =>
             Output += "BeforeTest";
-        }
 
         [Test]
         [Category("someCategory"), Category("thirdCategory")]
@@ -72,15 +68,11 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [AfterTest]
-        public void AfterTest()
-        {
+        public void AfterTest() =>
             Output += "AfterTest";
-        }
 
         [AfterSuite]
-        public void AfterSuite()
-        {
+        public void AfterSuite() =>
             Output += "AfterSuite";
-        }
     }
 }

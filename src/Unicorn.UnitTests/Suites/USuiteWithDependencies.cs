@@ -5,21 +5,17 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite with dependencies")]
     [Tag("dependencies")]
-    public class SuiteWithDependencies : TestSuite
+    public class USuiteWithDependencies : TestSuite
     {
         public static string Output { get; set; }
 
         [Test("Test 1")]
-        public void Test1()
-        {
+        public void Test1() =>
             Output += "Test1>";
-        }
 
         [Test("Test 2")]
-        public void Test2()
-        {
+        public void Test2() =>
             Output += "Test2>";
-        }
 
         [Test("Test with fail")]
         public void TestWithFail()
@@ -29,10 +25,8 @@ namespace Unicorn.UnitTests.Suites
 
         [Test("Test 3")]
         [DependsOn("TestWithFail")]
-        public void Test3()
-        {
+        public void Test3() =>
             Output += "Test3>";
-        }
 
         [Test("Failed test depending on failed test")]
         [DependsOn("TestWithFail")]
@@ -43,9 +37,7 @@ namespace Unicorn.UnitTests.Suites
 
         [Test("Test 4")]
         [DependsOn("Test2")]
-        public void Test4()
-        {
+        public void Test4() =>
             Output += "Test4>";
-        }
     }
 }

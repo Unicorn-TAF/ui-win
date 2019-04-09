@@ -8,7 +8,7 @@ using Unicorn.UnitTests.Util;
 namespace Unicorn.UnitTests.Tests
 {
     [TestFixture]
-    public class GuiPageObjectTests : NUnitTestRunner
+    public class GuiPageObject : NUnitTestRunner
     {
         private static CharmapApplication charmap;
 

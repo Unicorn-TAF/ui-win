@@ -5,34 +5,26 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite")]
     [Tag("sample")]
-    public class Suite : TestSuite
+    public class USuite : TestSuite
     {
         public static string Output { get; set; }
 
         [BeforeSuite]
-        public void BeforeSuite()
-        {
+        public void BeforeSuite() =>
             Output += "BeforeSuite>";
-        }
 
         [BeforeTest]
-        public void BeforeTest()
-        {
+        public void BeforeTest() =>
             Output += "BeforeTest>";
-        }
 
         [Test]
-        public void Test2()
-        {
+        public void Test2() =>
             Output += "Test1>";
-        }
 
         [Test]
         [Disabled("")]
-        public void TestToSkip()
-        {
+        public void TestToSkip() =>
             Output += "TestToSkip>";
-        }
 
         [Test]
         public void Test1()
@@ -42,15 +34,11 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [AfterTest]
-        public void AfterTest()
-        {
+        public void AfterTest() =>
             Output += "AfterTest>";
-        }
 
         [AfterSuite]
-        public void AfterSuite()
-        {
+        public void AfterSuite() =>
             Output += "AfterSuite";
-        }
     }
 }

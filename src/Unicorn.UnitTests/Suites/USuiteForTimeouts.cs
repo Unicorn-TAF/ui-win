@@ -7,7 +7,7 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite for timeouts")]
     [Tag("timeouts")]
-    public class SuiteForTimeouts : TestSuite
+    public class USuiteForTimeouts : TestSuite
     {
         [BeforeSuite]
         public void BeforeSuite()
@@ -51,9 +51,7 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [AfterSuite]
-        public void AfterSuite()
-        {
+        public void AfterSuite() =>
             Thread.Sleep(500);
-        }
     }
 }

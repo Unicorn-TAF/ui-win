@@ -7,17 +7,17 @@ using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.Testing
 {
     [TestFixture]
-    public class TestsDependencyTests : NUnitTestRunner
+    public class TestsDependency : NUnitTestRunner
     {
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check dependent tests don't run on TestsDependency.DoNotRun")]
         public void TestDependentTestsDontRun()
         {
             Config.SetSuiteTags("dependencies");
-            Config.DependentTests = TestsDependency.DoNotRun;
+            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.DoNotRun;
             
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
@@ -35,7 +35,7 @@ namespace Unicorn.UnitTests.Tests
         public void TestDependentTestsSkip()
         {
             Config.SetSuiteTags("dependencies");
-            Config.DependentTests = TestsDependency.Skip;
+            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Skip;
 
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
@@ -74,7 +74,7 @@ namespace Unicorn.UnitTests.Tests
         public void TestDependentTestsRun()
         {
             Config.SetSuiteTags("dependencies");
-            Config.DependentTests = TestsDependency.Run;
+            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Run;
 
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();

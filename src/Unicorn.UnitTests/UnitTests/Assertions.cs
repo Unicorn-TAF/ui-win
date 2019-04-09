@@ -6,7 +6,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Tests
 {
     [TestFixture]
-    public class AssertionsTest
+    public class Assertions
     {
         [Test, Author("Vitaliy Dobriyan")]
         public void TestSoftAssertion()

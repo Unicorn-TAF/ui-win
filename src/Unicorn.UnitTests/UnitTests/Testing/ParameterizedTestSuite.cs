@@ -7,14 +7,14 @@ using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.Testing
 {
     [TestFixture]
-    public class TestParameterizedTestSuiteTest : NUnitTestRunner
+    public class ParameterizedTestSuite : NUnitTestRunner
     {
         private static TestsRunner runner;
 
-        private readonly ParameterizedSuite suite = Activator.CreateInstance<ParameterizedSuite>();
+        private readonly UParameterizedSuite suite = Activator.CreateInstance<UParameterizedSuite>();
         
         [OneTimeSetUp]
         public static void Setup()
@@ -27,7 +27,7 @@ namespace Unicorn.UnitTests.Tests
         [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestParameterizedSuiteCountOfTests()
         {
-            Test[] actualTests = (Test[])typeof(TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(2));
         }
@@ -64,16 +64,16 @@ namespace Unicorn.UnitTests.Tests
         [Test(Description = "Check suite run")]
         public void TestParameterizedSuiteRunSuite()
         {
-            ParameterizedSuite.Output = string.Empty;
+            UParameterizedSuite.Output = string.Empty;
             string suiteOutputSet1 = "complex object with a = 2>BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             string suiteOutputSet2 = "complex object with b = 3>BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             runner.RunTests();
-            Assert.That(ParameterizedSuite.Output, Is.EqualTo(suiteOutputSet1 + suiteOutputSet2));
+            Assert.That(UParameterizedSuite.Output, Is.EqualTo(suiteOutputSet1 + suiteOutputSet2));
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)
         {
-            object field = typeof(TestSuite)
+            object field = typeof(Taf.Core.Testing.TestSuite)
                 .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(suite);
 

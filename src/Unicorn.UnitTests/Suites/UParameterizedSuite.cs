@@ -7,15 +7,15 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Parameterized test suite"), Parameterized]
     [Tag("parameterized")]
-    public class ParameterizedSuite : TestSuite
+    public class UParameterizedSuite : TestSuite
     {
         private readonly SampleObject so;
 
-        public ParameterizedSuite()
+        public UParameterizedSuite()
         {
         }
 
-        public ParameterizedSuite(SampleObject so)
+        public UParameterizedSuite(SampleObject so)
         {
             this.so = so;
         }
@@ -39,40 +39,28 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [BeforeTest]
-        public void BeforeTest()
-        {
+        public void BeforeTest() =>
             Output += "BeforeTest>";
-        }
 
         [Test("Test 2")]
-        public void Test2()
-        {
+        public void Test2() =>
             Output += "Test1>";
-        }
 
         [Test("Test to Skip")]
         [Disabled("")]
-        public void TestToSkip()
-        {
+        public void TestToSkip() =>
             Output += "TestToSkip>";
-        }
 
         [Test("Test 1")]
-        public void Test1()
-        {
+        public void Test1() =>
             Output += "Test2>";
-        }
 
         [AfterTest]
-        public void AfterTest()
-        {
+        public void AfterTest() =>
             Output += "AfterTest>";
-        }
 
         [AfterSuite]
-        public void AfterSuite()
-        {
+        public void AfterSuite() =>
             Output += "AfterSuite";
-        }
     }
 }

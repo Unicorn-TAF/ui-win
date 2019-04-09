@@ -7,56 +7,40 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Tests for reporting")]
     [Tag("Reporting")]
-    public class SuiteForReporting : BaseTestSuite
+    public class USuiteForReporting : UBaseTestSuite
     {
         [BeforeSuite]
-        public void BeforeSuite()
-        {
+        public void BeforeSuite() =>
             Thread.Sleep(1);
-        }
 
         [BeforeTest]
-        public void BeforeTest()
-        {
+        public void BeforeTest() =>
             Thread.Sleep(1);
-        }
 
         [Test]
-        public void Test2()
-        {
+        public void Test2() =>
             Do.Testing.FirstTestStep();
-        }
 
         [Test]
         [Disabled("")]
-        public void TestToSkip()
-        {
+        public void TestToSkip() =>
             Do.Testing.Say("a");
-        }
 
         [Test]
-        public void Test1()
-        {
+        public void Test1() =>
             Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
-        }
 
         [Test]
-        public void Test23()
-        {
+        public void Test23() =>
             Bug("2343").Testing.Say("a");
-        }
 
         [Test]
-        public void Test53()
-        {
+        public void Test53() =>
             Bug("234").Testing.StepWhichSouldFail(new SampleObject());
-        }
 
         [Test]
-        public void Test33()
-        {
+        public void Test33() =>
             Do.Testing.StepWhichSouldFail(new SampleObject());
-        }
 
         [Test]
         public void Test43()
@@ -66,15 +50,11 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [AfterTest]
-        public void AfterTest()
-        {
+        public void AfterTest() =>
             Thread.Sleep(1);
-        }
 
         [AfterSuite]
-        public void AfterSuite()
-        {
+        public void AfterSuite() =>
             Thread.Sleep(1);
-        }
     }
 }

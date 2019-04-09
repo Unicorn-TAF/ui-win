@@ -7,7 +7,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Tests
 {
     [TestFixture]
-    public class MatchersTests
+    public class Matchers
     {
         private readonly List<string> hasItemsA = new List<string>() { "qwerty", "qwerty12", "qwerty123" };
         private readonly List<string> hasItemsB = new List<string>() { "qwerty", "qwerty123" };
