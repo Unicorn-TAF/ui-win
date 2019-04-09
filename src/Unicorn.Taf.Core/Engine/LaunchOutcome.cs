@@ -21,5 +21,7 @@ namespace Unicorn.Taf.Core.Engine
                 .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !this.RunInitialized ?
                 Status.Failed :
                 Status.Passed;
+
+        public Exception RunnerException { get; set; } = null;
     }
 }
