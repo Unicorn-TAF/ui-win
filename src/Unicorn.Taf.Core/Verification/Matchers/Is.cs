@@ -4,24 +4,16 @@ namespace Unicorn.Taf.Core.Verification.Matchers
 {
     public static class Is
     {
-        public static EqualToMatcher<T> EqualTo<T>(T objectToCompare)
-        {
-            return new EqualToMatcher<T>(objectToCompare);
-        }
+        public static EqualToMatcher<T> EqualTo<T>(T objectToCompare) =>
+            new EqualToMatcher<T>(objectToCompare);
 
-        public static NullMatcher Null()
-        {
-            return new NullMatcher();
-        }
+        public static NullMatcher Null() =>
+            new NullMatcher();
 
-        public static NotMatcher Not(Matcher matcher)
-        {
-            return new NotMatcher(matcher);
-        }
+        public static NotMatcher Not(TypeUnsafeMatcher matcher) =>
+            new NotMatcher(matcher);
 
-        public static TypeSafeNotMatcher<T> Not<T>(TypeSafeMatcher<T> matcher)
-        {
-            return new TypeSafeNotMatcher<T>(matcher);
-        }
+        public static TypeSafeNotMatcher<T> Not<T>(TypeSafeMatcher<T> matcher) =>
+            new TypeSafeNotMatcher<T>(matcher);
     }
 }

@@ -6,53 +6,47 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 
 namespace Unicorn.Taf.Core.Utility
 {
-    public class FileDownloader
+    public class FileAllocator
     {
         private readonly string destinationFolder;
-        private readonly HashSet<string> fileNamesBeforeDownload;
-        private readonly TimeSpan pollingInterval = TimeSpan.FromMilliseconds(500);
+        private readonly HashSet<string> fileNamesBefore = null;
         private readonly DefaultWait wait;
-        private string downloadFileName;
+        private string expectedFileName = null;
         private string[] fileNamesToExclude = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
+        /// Initializes a new instance of the <see cref="FileAllocator"/> class.
         /// Used in case when file name is unknown.
         /// </summary>
         /// <param name="destinationFolder">folder containing downloaded file</param>
-        public FileDownloader(string destinationFolder) 
-            : this(destinationFolder, null, "File was not downloaded in time or properly allocated")
-        {
-            this.fileNamesBeforeDownload = GetFileNamesFromDestinationFolder();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
-        /// </summary>
-        /// <param name="destinationFolder">folder containing downloaded file</param>
-        /// <param name="downloadFileName">file name to wait for</param>
-        public FileDownloader(string destinationFolder, string downloadFileName)
-            : this(destinationFolder, downloadFileName, $"File '{downloadFileName}' was not downloaded in time")
-        {
-            this.fileNamesBeforeDownload = null;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileDownloader"/> class.
-        /// Common constructor
-        /// </summary>
-        /// <param name="destinationFolder">folder containing downloaded file</param>
-        /// <param name="downloadFileName">file name to wait for</param>
-        /// <param name="errorMessage">error message text in case of fail</param>
-        protected FileDownloader(string destinationFolder, string downloadFileName, string errorMessage)
+        public FileAllocator(string destinationFolder) : this()
         {
             this.destinationFolder = destinationFolder;
-            this.downloadFileName = downloadFileName;
+            this.fileNamesBefore = GetFileNamesFromDestinationFolder();
+            this.wait.ErrorMessage = "File was not appeared in time or properly allocated";
+        }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileAllocator"/> class.
+        /// </summary>
+        /// <param name="destinationFolder">folder containing downloaded file</param>
+        /// <param name="expectedFileName">file name to wait for</param>
+        public FileAllocator(string destinationFolder, string expectedFileName) : this()
+        {
+            this.destinationFolder = destinationFolder;
+            this.expectedFileName = expectedFileName;
+            this.wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileAllocator"/> class.
+        /// Common constructor
+        /// </summary>
+        protected FileAllocator()
+        {
             this.wait = new DefaultWait
             {
-                PollingInterval = this.pollingInterval,
-                Message = errorMessage
+                PollingInterval = TimeSpan.FromMilliseconds(500)
             };
         }
 
@@ -74,17 +68,17 @@ namespace Unicorn.Taf.Core.Utility
         {
             this.wait.Timeout = timeout;
 
-            if (!string.IsNullOrEmpty(downloadFileName))
+            if (!string.IsNullOrEmpty(expectedFileName))
             {
                 this.wait.Until(ExpectedFileExists);
             }
             else
             {
                 this.wait.Until(FileIsAllocated);
-                fileNamesBeforeDownload?.Clear();
+                fileNamesBefore?.Clear();
             }
 
-            return downloadFileName;
+            return expectedFileName;
         }
 
         private bool FileIsAllocated()
@@ -93,7 +87,7 @@ namespace Unicorn.Taf.Core.Utility
             var currentFiles = GetFileNamesFromDestinationFolder();
 
             // Filter out files existed already before downloading.s
-            currentFiles.ExceptWith(fileNamesBeforeDownload);
+            currentFiles.ExceptWith(fileNamesBefore);
 
             // If there are files to exclude specified, 
             // filter out all files which names end with exclusions list.
@@ -120,12 +114,12 @@ namespace Unicorn.Taf.Core.Utility
                 throw new FileNotFoundException($"Unable to allocate file: {currentFiles.Count} new files found.");
             }
 
-            downloadFileName = Path.GetFileName(currentFiles.First());
+            expectedFileName = Path.GetFileName(currentFiles.First());
             return true;
         }
 
         private bool ExpectedFileExists() => 
-            File.Exists(downloadFileName);
+            File.Exists(expectedFileName);
 
         /// <summary>
         /// Find all files in destination directory.

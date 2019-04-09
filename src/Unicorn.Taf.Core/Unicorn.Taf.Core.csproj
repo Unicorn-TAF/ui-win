@@ -65,8 +65,9 @@
     <Compile Include="Testing\Defect.cs" />
     <Compile Include="Testing\Attributes\DependsOnAttribute.cs" />
     <Compile Include="Testing\Attributes\TestAssemblyAttribute.cs" />
+    <Compile Include="Verification\Matchers\AbstractMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
-    <Compile Include="Utility\FileDownloader.cs" />
+    <Compile Include="Utility\FileAllocator.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Verification\Matchers\Collection.cs" />
     <Compile Include="Verification\Matchers\Is.cs" />
-    <Compile Include="Verification\Matchers\Matcher.cs" />
+    <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
     <Compile Include="Verification\Matchers\MiscMatchers.cs" />
     <Compile Include="Verification\Matchers\TypeSafeMatcher.cs" />
-    <Compile Include="Verification\Verify.cs" />
+    <Compile Include="Verification\ChainAssert.cs" />
     <Compile Include="Steps\Attributes\StepAttribute.cs" />
     <Compile Include="Steps\StepsUtilities.cs" />
     <Compile Include="Steps\TestStepsEvents.cs" />
@@ -124,7 +125,7 @@
     <Compile Include="Testing\TestSuite.cs" />
     <Compile Include="Testing\DataSet.cs" />
     <Compile Include="Utility\Synchronization\AbstractWait.cs" />
-    <Compile Include="Utility\Synchronization\SystemClock.cs" />
+    <Compile Include="Utility\Synchronization\WaitTimer.cs" />
     <Compile Include="Utility\Synchronization\DefaultWait.cs" />
   </ItemGroup>
   <ItemGroup>

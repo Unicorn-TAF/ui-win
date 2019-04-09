@@ -1,18 +1,12 @@
-﻿using System.Reflection;
-
-namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
+﻿namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
 {
-    public class NotMatcher : Matcher
+    public class NotMatcher : TypeUnsafeMatcher
     {
-        private readonly Matcher matcher;
+        private readonly TypeUnsafeMatcher matcher;
 
-        public NotMatcher(Matcher matcher)
+        public NotMatcher(TypeUnsafeMatcher matcher)
         {
-            PropertyInfo partOfNotMatcherField = typeof(Matcher).GetProperty(
-                "Reverse",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            partOfNotMatcherField.SetValue(matcher, true);
-
+            matcher.Reverse = true;
             this.matcher = matcher;
         }
 
@@ -22,7 +16,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
         {
             if (this.matcher.Matches(actual))
             {
-                this.MatcherOutput.Append(this.matcher.MatcherOutput);
+                this.Output.Append(this.matcher.Output);
                 return false;
             }
             

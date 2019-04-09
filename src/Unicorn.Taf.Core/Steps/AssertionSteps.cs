@@ -9,61 +9,61 @@ namespace Unicorn.Taf.Core.Steps
     [Aspect(typeof(StepsEvents))]
     public class AssertionSteps
     {
-        private Verify softAssertion = null;
+        private ChainAssert chaninAssert = null;
 
         [Step("Assert that '{0}' {1}")]
         public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) => 
             Assert.That(actual, matcher);
 
         [Step("Assert that '{0}' {1}")]
-        public void AssertThat(object actual, Matcher matcher) =>
+        public void AssertThat(object actual, TypeUnsafeMatcher matcher) =>
             Assert.That(actual, matcher);
 
         public AssertionSteps StartVerification()
         {
-            softAssertion = new Verify();
+            chaninAssert = new ChainAssert();
             return this;
         }
 
         [Step("Verify that '{0}' {1}")]
         public AssertionSteps VerifyThat<T>(T actual, TypeSafeMatcher<T> matcher)
         {
-            if (softAssertion == null)
+            if (chaninAssert == null)
             {
-                softAssertion = new Verify();
+                chaninAssert = new ChainAssert();
             }
 
-            softAssertion.VerifyThat(actual, matcher);
+            chaninAssert.That(actual, matcher);
             return this;
         }
 
         [Step("Verify that '{0}' {1}")]
-        public AssertionSteps VerifyThat(object actual, Matcher matcher)
+        public AssertionSteps VerifyThat(object actual, TypeUnsafeMatcher matcher)
         {
-            if (softAssertion == null)
+            if (chaninAssert == null)
             {
-                softAssertion = new Verify();
+                chaninAssert = new ChainAssert();
             }
 
-            softAssertion.VerifyThat(actual, matcher);
+            chaninAssert.That(actual, matcher);
             return this;
         }
 
         [Step("Assert verifications chain")]
         public void AssertVerificationsChain()
         {
-            if (softAssertion == null)
+            if (chaninAssert == null)
             {
                 throw new InvalidOperationException("There were no any verifications made. Please check scenario.");
             }
 
             try
             {
-                softAssertion.AssertAll();
+                chaninAssert.AssertChain();
             }
             finally
             {
-                softAssertion = null;
+                chaninAssert = null;
             }
         }
     }

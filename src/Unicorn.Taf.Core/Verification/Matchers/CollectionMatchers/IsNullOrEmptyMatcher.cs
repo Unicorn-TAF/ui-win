@@ -2,7 +2,7 @@
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class IsNullOrEmptyMatcher : Matcher
+    public class IsNullOrEmptyMatcher : TypeUnsafeMatcher
     {
         public IsNullOrEmptyMatcher()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
 {
-    public class NullMatcher : Matcher
+    public class NullMatcher : TypeUnsafeMatcher
     {
         public NullMatcher() : base()
         {

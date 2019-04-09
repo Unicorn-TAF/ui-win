@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class HasItemsMatcher : Matcher
+    public class HasItemsMatcher : TypeUnsafeMatcher
     {
         private readonly IEnumerable<object> expectedObjects;
         

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
+﻿namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
 {
     public class TypeSafeNotMatcher<T> : TypeSafeMatcher<T>
     {
@@ -8,11 +6,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
 
         public TypeSafeNotMatcher(TypeSafeMatcher<T> matcher)
         {
-            PropertyInfo partOfNotMatcherField = typeof(TypeSafeMatcher<T>).GetProperty(
-                "Reverse",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            partOfNotMatcherField.SetValue(matcher, true);
-
+            matcher.Reverse = true;
             this.matcher = matcher;
         }
 
@@ -22,7 +16,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
         {
             if (this.matcher.Matches(actual))
             {
-                this.MatcherOutput.Append(this.matcher.MatcherOutput);
+                this.Output.Append(this.matcher.Output);
                 return false;
             }
 

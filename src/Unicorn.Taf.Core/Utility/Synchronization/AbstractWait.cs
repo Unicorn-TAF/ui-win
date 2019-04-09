@@ -11,7 +11,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// </summary>
         protected AbstractWait()
         {
-            this.Clock = new SystemClock();
+            this.Timer = new WaitTimer();
             this.IgnoredExceptions = new List<Type>();
         }
 
@@ -28,10 +28,16 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <summary>
         /// Gets or sets the message to be displayed when time expires.
         /// </summary>
-        public string Message { get; set; }
+        public string ErrorMessage { get; set; }
 
-        protected SystemClock Clock { get; set; }
+        /// <summary>
+        /// Gets or sets timer.
+        /// </summary>
+        protected WaitTimer Timer { get; set; }
 
+        /// <summary>
+        /// Gets or sets list of Exceptions types to ignore while waiting
+        /// </summary>
         protected List<Type> IgnoredExceptions { get; }
 
         /// <summary>
@@ -41,11 +47,6 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <param name="exceptionTypes">The types of exceptions to ignore.</param>
         public void IgnoreExceptionTypes(params Type[] exceptionTypes)
         {
-            if (exceptionTypes == null)
-            {
-                throw new ArgumentNullException("exceptionTypes", "exceptionTypes cannot be null");
-            }
-
             foreach (Type exceptionType in exceptionTypes)
             {
                 if (!typeof(Exception).IsAssignableFrom(exceptionType))
@@ -57,9 +58,16 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
             this.IgnoredExceptions.AddRange(exceptionTypes);
         }
 
-        protected bool IsIgnoredException(Exception exception)
-        {
-            return this.IgnoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
-        }
+        /// <summary>
+        /// Check if current exception type is in the list of ignored exceptions types
+        /// </summary>
+        /// <param name="exception">exception instance</param>
+        /// <returns><see langword="true"/> if the current exception should be ignored; otherwise, <see langword="false"/>.</returns>
+        protected bool IsIgnoredException(Exception exception) =>
+            this.IgnoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
+
+        protected string GenerateTimeoutMessage(string conditionName) =>
+            string.IsNullOrEmpty(this.ErrorMessage) ? string.Empty : $"{this.ErrorMessage}: " + 
+            string.Format("{0} expired after {1:F1} seconds", conditionName, Timeout.TotalSeconds);
     }
 }

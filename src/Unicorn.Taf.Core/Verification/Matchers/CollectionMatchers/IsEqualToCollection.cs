@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class IsEqualToCollectionMatcher : Matcher
+    public class IsEqualToCollectionMatcher : TypeUnsafeMatcher
     {
         private readonly IEnumerable<object> expectedObjects;
         private string mismatch = string.Empty;

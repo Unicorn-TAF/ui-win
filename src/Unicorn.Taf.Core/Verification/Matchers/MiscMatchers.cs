@@ -4,14 +4,10 @@ namespace Unicorn.Taf.Core.Verification
 {
     public static class MiscMatchers
     {
-        public static IsEvenMatcher IsEven()
-        {
-            return new IsEvenMatcher();
-        }
+        public static IsEvenMatcher IsEven() =>
+            new IsEvenMatcher();
 
-        public static StringContainsMatcher StringContains(string objectToCompare)
-        {
-            return new StringContainsMatcher(objectToCompare);
-        }
+        public static StringContainsMatcher StringContains(string objectToCompare) =>
+            new StringContainsMatcher(objectToCompare);
     }
 }

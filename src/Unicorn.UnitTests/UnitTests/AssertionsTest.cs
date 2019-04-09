@@ -13,13 +13,12 @@ namespace Unicorn.UnitTests.Tests
         {
             NUnit.Framework.Assert.Throws<Taf.Core.Verification.AssertionException>(delegate 
             {
-                Verify assert = new Verify();
-                assert.VerifyThat("asd", EqualTo("asd"))
-                    .VerifyThat(2, EqualTo(2))
-                    .VerifyThat(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
-                    .VerifyThat(new SampleObject(), EqualTo(new SampleObject()));
-
-                assert.AssertAll();
+                new ChainAssert()
+                    .That("asd", EqualTo("asd"))
+                    .That(2, EqualTo(2))
+                    .That(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
+                    .That(new SampleObject(), EqualTo(new SampleObject()))
+                    .AssertChain();
             });
         }
 

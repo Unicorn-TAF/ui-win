@@ -25,7 +25,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test2()
         {
             Logger.Instance.Log(LogLevel.Info, "Test2 started");
-            Thread.Sleep(1400);
+            Thread.Sleep(500);
             Logger.Instance.Log(LogLevel.Info, "Test2 finished");
         }
 
@@ -40,7 +40,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test1()
         {
             Logger.Instance.Log(LogLevel.Info, "Test1 started");
-            Thread.Sleep(900);
+            Thread.Sleep(50);
             Logger.Instance.Log(LogLevel.Info, "Test1 started");
         }
 
@@ -53,7 +53,7 @@ namespace Unicorn.UnitTests.Suites
         [AfterSuite]
         public void AfterSuite()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
         }
     }
 }

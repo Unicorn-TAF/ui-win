@@ -10,7 +10,8 @@ namespace Unicorn.Taf.Core.Utility
     public static class Screenshotter
     {
         private const int MaxLength = 255;
-        private static ImageFormat format = ImageFormat.Png;
+
+        public static ImageFormat Format { get; set; } = ImageFormat.Png;
 
         public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots");
 
@@ -33,14 +34,14 @@ namespace Unicorn.Taf.Core.Utility
                     filePath = filePath.Substring(0, MaxLength - 1) + "~";
                 }
 
-                filePath += "." + format;
+                filePath += "." + Format;
 
-                printScreen.Save(filePath, format);
+                printScreen.Save(filePath, Format);
                 return filePath;
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Failed to save print screen:\n" + e);
+                Logger.Instance.Log(LogLevel.Warning, "Failed to save print screen:" + Environment.NewLine + e);
                 return string.Empty;
             }
         }
@@ -63,7 +64,7 @@ namespace Unicorn.Taf.Core.Utility
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Failed to get print screen:\n" + e);
+                Logger.Instance.Log(LogLevel.Warning, "Failed to get print screen:" + Environment.NewLine + e);
                 return null;
             }
         }
