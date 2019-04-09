@@ -18,14 +18,14 @@ namespace Unicorn.Taf.Core.Verification
 
             if (!matcher.Matches(actual))
             {
-                var exMessage = matcher.Output.ToString();
+                var errorText = matcher.Output.ToString();
 
                 if (!string.IsNullOrEmpty(message))
                 {
-                    exMessage = message + Environment.NewLine + exMessage;
+                    errorText = message + Environment.NewLine + errorText;
                 }
 
-                throw new AssertionException(exMessage);
+                throw new AssertionException(errorText);
             }
         }
 
@@ -41,14 +41,14 @@ namespace Unicorn.Taf.Core.Verification
 
             if (!matcher.Matches(actual))
             {
-                var exMessage = matcher.Output.ToString();
+                var errorText = matcher.Output.ToString();
 
                 if (!string.IsNullOrEmpty(message))
                 {
-                    exMessage = message + Environment.NewLine + exMessage;
+                    errorText = message + Environment.NewLine + errorText;
                 }
 
-                throw new AssertionException(exMessage);
+                throw new AssertionException(errorText);
             }
         }
 

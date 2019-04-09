@@ -111,7 +111,6 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Skip test and invoke OnTestSkip event
         /// </summary>
-        /// <param name="reason">skip reason message</param>
         public void Skip()
         {
             this.Outcome.Result = Status.Skipped;

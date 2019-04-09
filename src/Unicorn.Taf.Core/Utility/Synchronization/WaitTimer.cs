@@ -28,7 +28,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// Set the date and time of timer expiration.
         /// </summary>
         /// <param name="delay">expiration timeout</param>
-        /// <returns></returns>
+        /// <returns>current <see cref="WaitTimer"/> instance</returns>
         public WaitTimer SetExpirationTimeout(TimeSpan delay)
         {
             this.expirationDateTime = DateTime.Now.Add(delay);

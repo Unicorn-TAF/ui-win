@@ -36,7 +36,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         protected WaitTimer Timer { get; set; }
 
         /// <summary>
-        /// Gets or sets list of Exceptions types to ignore while waiting
+        /// Gets list of Exceptions types to ignore while waiting
         /// </summary>
         protected List<Type> IgnoredExceptions { get; }
 

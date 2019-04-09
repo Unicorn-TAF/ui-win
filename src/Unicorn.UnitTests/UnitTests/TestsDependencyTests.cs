@@ -28,7 +28,6 @@ namespace Unicorn.UnitTests.Tests
 
             Assert.IsFalse(testOutcomes
                 .Any(o => o.Title.Equals("Failed test depending on failed test") || o.Title.Equals("Test 3")));
-
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -45,26 +44,30 @@ namespace Unicorn.UnitTests.Tests
 
             Assert.That(testOutcomes.Count, Is.EqualTo(6));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Failed test depending on failed test")).Result, 
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Failed test depending on failed test")).Result, 
                 Is.EqualTo(Status.Skipped));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 3")).Result, 
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 3")).Result, 
                 Is.EqualTo(Status.Skipped));
 
-
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test with fail")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test with fail")).Result,
                 Is.EqualTo(Status.Failed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 1")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 1")).Result,
                 Is.EqualTo(Status.Passed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 2")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 2")).Result,
                 Is.EqualTo(Status.Passed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 4")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 4")).Result,
                 Is.EqualTo(Status.Passed));
         }
-
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check dependent tests run on TestsDependency.Run")]
@@ -80,23 +83,28 @@ namespace Unicorn.UnitTests.Tests
 
             Assert.That(testOutcomes.Count, Is.EqualTo(6));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Failed test depending on failed test")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Failed test depending on failed test")).Result,
                 Is.EqualTo(Status.Failed));
 
-
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 3")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 3")).Result,
                 Is.EqualTo(Status.Passed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test with fail")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test with fail")).Result,
                 Is.EqualTo(Status.Failed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 1")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 1")).Result,
                 Is.EqualTo(Status.Passed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 2")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 2")).Result,
                 Is.EqualTo(Status.Passed));
 
-            Assert.That(testOutcomes.First(o => o.Title.Equals("Test 4")).Result,
+            Assert.That(
+                testOutcomes.First(o => o.Title.Equals("Test 4")).Result,
                 Is.EqualTo(Status.Passed));
         }
     }

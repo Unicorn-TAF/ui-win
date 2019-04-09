@@ -7,9 +7,9 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     public class DefaultWait : AbstractWait
     {
         /// <summary>
-        /// Wait intil 
+        /// Wait until specified condition is met
         /// </summary>
-        /// <param name="condition">bool func specifying condition to wait for</param>
+        /// <param name="condition">boolean function specifying condition to wait for</param>
         /// <exception cref="TimeoutException">thrown when wait condition is not met</exception> 
         public void Until(Func<bool> condition)
         {
