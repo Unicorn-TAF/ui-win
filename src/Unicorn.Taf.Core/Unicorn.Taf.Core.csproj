@@ -102,7 +102,7 @@
     <Compile Include="Verification\ChainAssert.cs" />
     <Compile Include="Steps\Attributes\StepAttribute.cs" />
     <Compile Include="Steps\StepsUtilities.cs" />
-    <Compile Include="Steps\TestStepsEvents.cs" />
+    <Compile Include="Steps\StepsEvents.cs" />
     <Compile Include="Engine\Configuration\Config.cs" />
     <Compile Include="Engine\TestsObserver.cs" />
     <Compile Include="Engine\TestsRunner.cs" />

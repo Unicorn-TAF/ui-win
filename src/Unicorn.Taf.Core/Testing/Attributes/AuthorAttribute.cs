@@ -8,7 +8,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     {
         public AuthorAttribute(string author)
         {
-            this.Author = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(author.ToLower());
+            this.Author = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(author);
         }
 
         public string Author { get; protected set; }

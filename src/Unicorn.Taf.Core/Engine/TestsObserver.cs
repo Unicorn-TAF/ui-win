@@ -13,11 +13,9 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <param name="assembly">assembly instance to search test suites for</param>
         /// <returns>collection of Type representing TestSuites</returns>
-        public static IEnumerable<Type> ObserveTestSuites(Assembly assembly)
-        {
-            return assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(typeof(SuiteAttribute), true).Any());
-        }
+        public static IEnumerable<Type> ObserveTestSuites(Assembly assembly) =>
+            assembly.GetTypes()
+            .Where(t => t.GetCustomAttributes(typeof(SuiteAttribute), true).Any());
 
         /// <summary>
         /// Search assembly for all Tests located inside

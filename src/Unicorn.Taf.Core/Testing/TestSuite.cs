@@ -230,32 +230,39 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
         {
-            if (this.skipTests)
+            try
             {
-                test.Skip();
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
-                return;
-            }
-
-            if (!this.RunSuiteMethods(this.beforeTests))
-            {
-                test.Skip();
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
-                return;
-            }
-
-            test.Execute(this);
-
-            this.RunAftertests(test.Outcome.Result == Status.Failed);
-
-            if (test.Outcome.Result == Status.Failed)
-            {
-                this.Outcome.Result = Status.Failed;
-
-                if (test.Outcome.Defect != null)
+                if (this.skipTests)
                 {
-                    this.Outcome.Bugs.Add(test.Outcome.Defect);
+                    test.Skip();
+                    Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
+                    return;
                 }
+
+                if (!this.RunSuiteMethods(this.beforeTests))
+                {
+                    test.Skip();
+                    Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
+                    return;
+                }
+
+                test.Execute(this);
+
+                this.RunAftertests(test.Outcome.Result == Status.Failed);
+
+                if (test.Outcome.Result == Status.Failed)
+                {
+                    this.Outcome.Result = Status.Failed;
+
+                    if (test.Outcome.Defect != null)
+                    {
+                        this.Outcome.Bugs.Add(test.Outcome.Defect);
+                    }
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                // In case of test fail by timeout.
             }
         }
 

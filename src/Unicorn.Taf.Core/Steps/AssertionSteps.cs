@@ -12,14 +12,22 @@ namespace Unicorn.Taf.Core.Steps
         private ChainAssert chaninAssert = null;
 
         [Step("Assert that '{0}' {1}")]
-        public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) => 
+        public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher, string errorMessage) => 
+            Assert.That(actual, matcher, errorMessage);
+
+        [Step("Assert that '{0}' {1}")]
+        public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) =>
             Assert.That(actual, matcher);
+
+        [Step("Assert that '{0}' {1}")]
+        public void AssertThat(object actual, TypeUnsafeMatcher matcher, string errorMessage) =>
+            Assert.That(actual, matcher, errorMessage);
 
         [Step("Assert that '{0}' {1}")]
         public void AssertThat(object actual, TypeUnsafeMatcher matcher) =>
             Assert.That(actual, matcher);
 
-        public AssertionSteps StartVerification()
+        public AssertionSteps StartAssertionsChain()
         {
             chaninAssert = new ChainAssert();
             return this;
@@ -50,7 +58,7 @@ namespace Unicorn.Taf.Core.Steps
         }
 
         [Step("Assert verifications chain")]
-        public void AssertVerificationsChain()
+        public void AssertChain()
         {
             if (chaninAssert == null)
             {

@@ -20,22 +20,26 @@ namespace Unicorn.ReportPortalAgent
             { SuiteMethodType.Test, TestItemType.Step },
         };
 
-        internal void StartSuiteMethod(SuiteMethod test)
+        internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {
             try
             {
-                var id = test.Outcome.Id;
-                var parentId = test.Outcome.ParentId;
-                var name = test.Outcome.Title;
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
 
-                this.currentTest = test;
+                this.currentTest = suiteMethod;
 
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemTypes[test.MethodType]
+                    Type = itemTypes[suiteMethod.MethodType]
                 };
+
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
 
                 var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
                 this.testFlowIds[id] = testVal;
@@ -64,7 +68,6 @@ namespace Unicorn.ReportPortalAgent
 
                 // adding categories to test
                 updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.Add(suiteMethod.Outcome.Author);
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
