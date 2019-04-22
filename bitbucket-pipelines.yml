@@ -1,8 +1,0 @@
-image: microsoft/dotnet:latest
-
-pipelines:
-  default:
-    - step: 
-        script:
-          - dotnet restore ./src
-          - dotnet test ./src/Unicorn.UnitTests/Unicorn.UnitTests.csproj
