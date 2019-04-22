@@ -1,14 +1,8 @@
-image: microsoft/dotnet:onbuild
+image: microsoft/dotnet:latest
+
 pipelines:
   default:
-    - step:
+    - step: 
         script:
-          # Generate build number
-          - BUILD_NUMBER=`git log --oneline | wc -l`
-          - echo "Build number':' ${BUILD_NUMBER}"
-          # Restore packages
-          - dotnet restore
-          # Build project
-          - dotnet build
-          # Run tests
-          - dotnet test
+          - dotnet restore ./src
+          - dotnet test ./src/Unicorn.UnitTests/Unicorn.UnitTests.csproj
