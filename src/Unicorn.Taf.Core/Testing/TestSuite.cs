@@ -24,10 +24,10 @@ namespace Unicorn.Taf.Core.Testing
         private bool skipTests = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestSuite"/> class.
-        /// Contains List of tests and Lists of Before and AfterSuites.
-        /// Contains list of events related to different Suite states (started, finished, skipped)
-        /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites is retrieved from the instance.
+        /// Initializes a new instance of the <see cref="TestSuite"/> class.<para/>
+        /// Contains List of tests and Lists of Before and AfterSuites.<para/>
+        /// Contains list of events related to different Suite states (started, finished, skipped)<para/>
+        /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites is retrieved from the instance.<para/>
         /// For each test is performed check for skip
         /// </summary>
         public TestSuite()
@@ -225,7 +225,7 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Run specified Test.
+        /// Run specified <see cref="Test"/>.
         /// </summary>
         /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
@@ -313,8 +313,8 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Get list of Tests from suite instance based on [Test] Attribute presence. 
-        /// Determine if test should be skipped and update runnable tests count for the suite. 
+        /// Get list of Tests from suite instance based on [Test] attribute presence. <para/>
+        /// Determine if test should be skipped and update runnable tests count for the suite. <para/>
         /// </summary>
         /// <returns>array of <see cref="Test"/> instances</returns>
         private Test[] GetTests()
@@ -349,8 +349,8 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Generate instance of <see cref="Test"/> and fill with all data
         /// </summary>
-        /// <param name="method">MethodInfo instance which represents test method</param>
-        /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
+        /// <param name="method"><see cref="MethodInfo"/> instance which represents test method</param>
+        /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; null if method does not have parameters</param>
         /// <returns><see cref="Test"/> instance</returns>
         private Test GenerateTest(MethodInfo method, DataSet dataSet)
         {
@@ -362,9 +362,9 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Get list of MethodInfo from suite instance based on specified Attribute presence
+        /// Get list of <see cref="MethodInfo"/> from suite instance based on specified attribute presence
         /// </summary>
-        /// <param name="attributeType">Type of attribute</param>
+        /// <param name="attributeType"><see cref="Type"/> of attribute</param>
         /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
         /// <returns>array of <see cref="SuiteMethod"/> with specified attribute</returns>
         private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)

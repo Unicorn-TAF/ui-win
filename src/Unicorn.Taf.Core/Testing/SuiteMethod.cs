@@ -82,8 +82,8 @@ namespace Unicorn.Taf.Core.Testing
         protected Stopwatch TestTimer { get; set; }
 
         /// <summary>
-        /// Execute current test and fill TestOutcome
-        /// Before the test List of BeforeTests is executed
+        /// Execute current test and fill <see cref="TestOutcome"/><para/>
+        /// Before the test List of BeforeTests is executed<para/>
         /// After the test List of AfterTests is executed
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
@@ -117,7 +117,7 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Fail test, fill TestOutcome exception and bugs and invoke onFail event.
+        /// Fail test, fill <see cref="TestOutcome"/> exception and bugs and invoke onFail event.<para/>
         /// If test failed not by existing bug it is marked as 'To investigate'
         /// </summary>
         /// <param name="ex">Exception caught on test execution</param>
@@ -146,6 +146,7 @@ namespace Unicorn.Taf.Core.Testing
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
             LogOutput.Clear();
+            this.Outcome.StartTime = DateTime.Now;
             this.TestTimer = Stopwatch.StartNew();
 
             try

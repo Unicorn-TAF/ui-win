@@ -14,23 +14,23 @@ namespace Unicorn.Taf.Core.Testing
         private List<string> categories = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.
-        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
-        /// Contains methods to execute the test and check if test should be skipped
+        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.<para/>
+        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)<para/>
+        /// Contains methods to execute the test and check if test should be skipped<para/>
         /// </summary>
-        /// <param name="testMethod">MethodInfo instance which represents test method</param>
+        /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
         public Test(MethodInfo testMethod) : base(testMethod)
         {
             this.dataSet = null;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite, based on specified <see cref="DataSet"/>.
-        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
-        /// Contains methods to execute the test and check if test should be skipped
+        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some <see cref="TestSuite"/>, based on specified <see cref="DataSet"/>.<para/>
+        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)<para/>
+        /// Contains methods to execute the test and check if test should be skipped<para/>
         /// </summary>
-        /// <param name="testMethod">MethodInfo instance which represents test method</param>
-        /// <param name="dataSet">DataSet to populate test method parameters; null if method does not have parameters</param>
+        /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
+        /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; null if method does not have parameters</param>
         public Test(MethodInfo testMethod, DataSet dataSet) : base(testMethod)
         {
             var postfix = $" [{dataSet.Name}]";
@@ -74,9 +74,9 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Execute current test and fill TestOutcome
-        /// Before the test List of BeforeTests is executed
-        /// After the test List of AfterTests is executed
+        /// Execute current test and fill <see cref="TestOutcome"/> <para/>
+        /// Before the test List of BeforeTests is executed <para/>
+        /// After the test List of AfterTests is executed <para/>
         /// </summary>
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
@@ -114,6 +114,8 @@ namespace Unicorn.Taf.Core.Testing
         public void Skip()
         {
             this.Outcome.Result = Status.Skipped;
+            this.Outcome.StartTime = DateTime.Now;
+            this.Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -128,6 +130,7 @@ namespace Unicorn.Taf.Core.Testing
         private void RunTestMethod(TestSuite suiteInstance)
         {
             LogOutput.Clear();
+            this.Outcome.StartTime = DateTime.Now;
             this.TestTimer = Stopwatch.StartNew();
 
             try

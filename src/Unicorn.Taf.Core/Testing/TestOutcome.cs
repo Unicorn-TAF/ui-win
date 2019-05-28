@@ -44,6 +44,11 @@ namespace Unicorn.Taf.Core.Testing
         public Status Result { get; set; }
 
         /// <summary>
+        /// Gets or sets Test start time as DateTime.
+        /// </summary>
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
         /// Gets or sets Test execution time as TimeSpan.
         /// </summary>
         public TimeSpan ExecutionTime { get; set; }
