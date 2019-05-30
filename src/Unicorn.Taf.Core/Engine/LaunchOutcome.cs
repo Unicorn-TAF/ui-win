@@ -13,6 +13,8 @@ namespace Unicorn.Taf.Core.Engine
             this.SuitesOutcomes = new List<SuiteOutcome>();
         }
 
+        public DateTime StartTime { get; set; }
+
         public List<SuiteOutcome> SuitesOutcomes { get; }
 
         public bool RunInitialized { get; set; } = true;

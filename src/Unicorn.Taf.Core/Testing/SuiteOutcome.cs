@@ -13,6 +13,10 @@ namespace Unicorn.Taf.Core.Testing
             this.TestsOutcomes = new List<TestOutcome>();
         }
 
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
         public List<TestOutcome> TestsOutcomes { get; }
 
         public Status Result { get; set; }

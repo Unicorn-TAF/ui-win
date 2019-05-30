@@ -53,6 +53,8 @@ namespace Unicorn.Taf.Core.Engine
                 return;
             }
 
+            this.Outcome.StartTime = DateTime.Now;
+
             // Execute run init action if exists in assembly.
             try
             {
@@ -77,7 +79,7 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
-        public void RunTestSuite(Type type)
+        private void RunTestSuite(Type type)
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
             {

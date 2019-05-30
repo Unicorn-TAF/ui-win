@@ -32,7 +32,6 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public TestSuite()
         {
-            this.Id = Guid.NewGuid();
             this.Metadata = new Dictionary<string, string>();
 
             foreach (var attribute in GetType().GetCustomAttributes(typeof(MetadataAttribute), true) as MetadataAttribute[])
@@ -40,12 +39,14 @@ namespace Unicorn.Taf.Core.Testing
                 this.Metadata.Add(attribute.Key, attribute.Value);
             }
 
+            this.Outcome = new SuiteOutcome();
+            this.Outcome.Id = Guid.NewGuid();
+            this.Outcome.Result = Status.Passed;
+
             this.beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
             this.beforeTests = GetSuiteMethodsByAttribute(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
             this.afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
             this.afterSuites = GetSuiteMethodsByAttribute(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
-            this.Outcome = new SuiteOutcome();
-            this.Outcome.Result = Status.Passed;
             this.tests = GetTests();
         }
 
@@ -56,9 +57,6 @@ namespace Unicorn.Taf.Core.Testing
         public static event UnicornSuiteEvent OnSuiteFinish;
 
         public static event UnicornSuiteEvent OnSuiteSkip;
-
-        // Gets or sets Unique suite Guid
-        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets test suite name. If name not specified through TestSuiteAttribute, then return suite class name
@@ -114,6 +112,7 @@ namespace Unicorn.Taf.Core.Testing
         {
             Logger.Instance.Log(LogLevel.Info, $"==================== TEST SUITE '{this.Name}' ====================");
 
+            this.Outcome.Name = this.Name;
             try
             {
                 OnSuiteStart?.Invoke(this);
@@ -357,7 +356,7 @@ namespace Unicorn.Taf.Core.Testing
             var test = dataSet == null ? new Test(method) : new Test(method, dataSet);
              
             test.MethodType = SuiteMethodType.Test;
-            test.Outcome.ParentId = this.Id;
+            test.Outcome.ParentId = this.Outcome.Id;
             return test;
         }
 
@@ -379,7 +378,7 @@ namespace Unicorn.Taf.Core.Testing
                 if (attribute != null)
                 {
                     var suiteMethod = new SuiteMethod(method);
-                    suiteMethod.Outcome.ParentId = this.Id;
+                    suiteMethod.Outcome.ParentId = this.Outcome.Id;
                     suiteMethod.MethodType = type;
                     suitableMethods.Add(suiteMethod);
                 }
