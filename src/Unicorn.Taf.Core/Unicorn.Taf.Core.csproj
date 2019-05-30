@@ -61,7 +61,7 @@
     <Compile Include="Engine\IsolatedTestsRunner.cs" />
     <Compile Include="Engine\Configuration\JsonConfig.cs" />
     <Compile Include="Engine\LaunchOutcome.cs" />
-    <Compile Include="Engine\TrxCreator.cs" />
+    <Compile Include="Utility\TrxCreator.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />
     <Compile Include="Testing\Attributes\DependsOnAttribute.cs" />

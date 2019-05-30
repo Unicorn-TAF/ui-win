@@ -15,7 +15,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = suite.Id;
+                var id = suite.Outcome.Id;
                 var parentId = Guid.Empty;
                 var name = suite.Name;
 
@@ -48,7 +48,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = suite.Id;
+                var id = suite.Outcome.Id;
                 var result = suite.Outcome.Result;
                 var parentId = Guid.Empty;
 
@@ -111,7 +111,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                var id = suite.Id;
+                var id = suite.Outcome.Id;
                 if (this.suitesFlow.ContainsKey(id))
                 {
                     var updateTestRequest = new UpdateTestItemRequest();

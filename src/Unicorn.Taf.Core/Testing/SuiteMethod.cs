@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
@@ -41,7 +40,7 @@ namespace Unicorn.Taf.Core.Testing
                 .GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
 
             this.Outcome.Author = authorAttribute == null ? "No author" : authorAttribute.Author;
-            this.Outcome.Id = GenerateId(this.Outcome.FullMethodName);
+            this.Outcome.Id = AdapterUtilities.GuidFromString(this.Outcome.FullMethodName);
 
             this.Outcome.Title = string.IsNullOrEmpty(testAttribute?.Title) ?
                 this.TestMethod.Name :
@@ -127,20 +126,6 @@ namespace Unicorn.Taf.Core.Testing
 
             this.Outcome.Exception = ex;
             this.Outcome.Result = Status.Failed;
-        }
-
-        /// <summary>
-        /// Generates Id for the test which will be the same each time for this test
-        /// </summary>
-        /// <param name="fullName">full test name including data set name</param>
-        /// <returns>unique test method <see cref="Guid"/></returns>
-        protected Guid GenerateId(string fullName)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] hash = md5.ComputeHash(Encoding.Default.GetBytes(fullName));
-                return new Guid(hash);
-            }
         }
 
         private void RunSuiteMethod(TestSuite suiteInstance)

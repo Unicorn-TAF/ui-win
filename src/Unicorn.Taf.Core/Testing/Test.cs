@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -37,7 +38,7 @@ namespace Unicorn.Taf.Core.Testing
             this.dataSet = dataSet;
 
             this.Outcome.Title += postfix;
-            this.Outcome.Id = GenerateId(this.Outcome.FullMethodName + postfix);
+            this.Outcome.Id = AdapterUtilities.GuidFromString(this.Outcome.FullMethodName + postfix);
         }
 
         /* Events section */
