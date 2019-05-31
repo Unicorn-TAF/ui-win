@@ -7,7 +7,7 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Utility
 {
-    internal class TrxCreator
+    public class TrxCreator
     {
         private const string Adapter = "Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
         private const string DtFormat = "yyyy-MM-ddTHH:mm:ss.fffffffK";
