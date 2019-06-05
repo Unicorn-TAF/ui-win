@@ -12,7 +12,6 @@ namespace Unicorn.ReportPortalAgent
 
         public ReportPortalReporterInstance() : this(null)
         {
-
         }
 
         public ReportPortalReporterInstance(string existingLaunchId)

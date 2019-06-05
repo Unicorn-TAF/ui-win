@@ -18,7 +18,6 @@ namespace Unicorn.Taf.Core.Utility
         public Screenshotter()
             : this(Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots"), ImageFormat.Png)
         {
-
         }
 
         public Screenshotter(string screenshotsDir, ImageFormat format)

@@ -12,6 +12,7 @@ namespace Unicorn.UnitTests.Util
     public class NUnitTestRunner
     {
         public static SimpleReporter Reporter { get; set; }
+
         public static Screenshotter Screenshot { get; set; }
 
         [OneTimeSetUp]
