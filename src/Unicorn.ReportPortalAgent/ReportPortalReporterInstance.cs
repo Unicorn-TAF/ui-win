@@ -6,15 +6,26 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
-    public sealed class ReporterInstance : IDisposable
+    public sealed class ReportPortalReporterInstance : IDisposable
     {
         private readonly ReportPortalListener listener;
 
-        public ReporterInstance()
+        public ReportPortalReporterInstance() : this(null)
+        {
+
+        }
+
+        public ReportPortalReporterInstance(string existingLaunchId)
         {
             if (ReportPortalListener.Config.IsEnabled)
             {
                 this.listener = new ReportPortalListener();
+
+                if (!string.IsNullOrEmpty(existingLaunchId))
+                {
+                    this.listener.ExistingLaunchId = existingLaunchId;
+                }
+
                 this.listener.StartRun();
 
                 Test.OnTestStart += ReportTestStart;
