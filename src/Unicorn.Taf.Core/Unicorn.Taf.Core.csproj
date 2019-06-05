@@ -73,8 +73,6 @@
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\IReporter.cs" />
-    <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Utility\Screenshotter.cs" />
     <Compile Include="Steps\AssertionSteps.cs" />
     <Compile Include="Engine\AdapterUtilities.cs" />

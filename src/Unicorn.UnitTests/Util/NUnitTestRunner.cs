@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Logging;
-using Unicorn.Taf.Core.Reporting;
+using Unicorn.Taf.Core.Utility;
 
 #pragma warning disable S2187 // TestCases should contain tests
 namespace Unicorn.UnitTests.Util
@@ -11,12 +11,22 @@ namespace Unicorn.UnitTests.Util
     [TestFixture]
     public class NUnitTestRunner
     {
+        public static SimpleReporter Reporter { get; set; }
+        public static Screenshotter Screenshot { get; set; }
+
         [OneTimeSetUp]
         public static void ClassInit()
         {
             Logger.Instance = new TestContextLogger();
-            Reporter.Instance = new SimpleReporter();
-            Reporter.Instance.Init();
+            Screenshot = new Screenshotter();
+            Reporter = new SimpleReporter();
+        }
+
+        [OneTimeTearDown]
+        public static void ClassCleanup()
+        {
+            Screenshot = null;
+            Reporter = null;
         }
 
         protected string GetTestContextOut()

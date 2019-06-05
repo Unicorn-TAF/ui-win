@@ -4,18 +4,38 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Utility
 {
-    public static class Screenshotter
+    public class Screenshotter
     {
         private const int MaxLength = 255;
 
-        public static ImageFormat Format { get; set; } = ImageFormat.Png;
+        private readonly ImageFormat format;
+        private readonly string screenshotsDir;
 
-        public static string ScreenshotsFolder { get; set; } = Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots");
+        public Screenshotter()
+            : this(Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots"), ImageFormat.Png)
+        {
 
-        public static string TakeScreenshot(string folder, string fileName)
+        }
+
+        public Screenshotter(string screenshotsDir, ImageFormat format)
+        {
+            this.format = format;
+            this.screenshotsDir = screenshotsDir;
+
+            if (!Directory.Exists(screenshotsDir))
+            {
+                Directory.CreateDirectory(screenshotsDir);
+            }
+
+            Test.OnTestFail += TakeScreenshot;
+            SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
+        }
+
+        public string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
 
@@ -34,9 +54,9 @@ namespace Unicorn.Taf.Core.Utility
                     filePath = filePath.Substring(0, MaxLength - 1) + "~";
                 }
 
-                filePath += "." + Format;
+                filePath += "." + format;
 
-                printScreen.Save(filePath, Format);
+                printScreen.Save(filePath, format);
                 return filePath;
             }
             catch (Exception e)
@@ -46,9 +66,9 @@ namespace Unicorn.Taf.Core.Utility
             }
         }
 
-        public static string TakeScreenshot(string fileName) => TakeScreenshot(ScreenshotsFolder, fileName);
+        public string TakeScreenshot(string fileName) => TakeScreenshot(screenshotsDir, fileName);
 
-        private static Bitmap GetScreenshot()
+        private Bitmap GetScreenshot()
         {
             try
             {
@@ -68,5 +88,8 @@ namespace Unicorn.Taf.Core.Utility
                 return null;
             }
         }
+
+        private void TakeScreenshot(SuiteMethod suiteMethod) =>
+            suiteMethod.Outcome.Screenshot = this.TakeScreenshot(suiteMethod.Outcome.FullMethodName);
     }
 }
