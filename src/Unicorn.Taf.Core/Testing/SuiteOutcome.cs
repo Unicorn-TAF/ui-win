@@ -9,7 +9,6 @@ namespace Unicorn.Taf.Core.Testing
     {
         public SuiteOutcome()
         {
-            this.Bugs = new HashSet<Defect>();
             this.TestsOutcomes = new List<TestOutcome>();
         }
 
@@ -30,7 +29,5 @@ namespace Unicorn.Taf.Core.Testing
         public int FailedTests => TestsOutcomes.Count(o => o.Result.Equals(Status.Failed));
 
         public int SkippedTests => TestsOutcomes.Count(o => o.Result.Equals(Status.Skipped));
-
-        public HashSet<Defect> Bugs { get; }
     }
 }

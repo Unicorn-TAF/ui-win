@@ -107,24 +107,17 @@ namespace Unicorn.ReportPortalAgent
                     Status = statusMap[result]
                 };
 
-                // finishing test
-                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed)
+                // adding issue to finish test if failed test has a defect
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed && suiteMethod.Outcome.Defect != null)
                 {
-                    var type = suiteMethod.Outcome.Defect == null
-                        ? Taf.Core.Testing.Defect.ToInvestigate
-                        : suiteMethod.Outcome.Defect.DefectType;
-
-                    var comment = suiteMethod.Outcome.Defect == null
-                        ? string.Empty
-                        : suiteMethod.Outcome.Defect.Comment;
-
                     finishTestRequest.Issue = new Issue
                     {
-                        Type = type,
-                        Comment = comment
+                        Type = suiteMethod.Outcome.Defect.DefectType,
+                        Comment = suiteMethod.Outcome.Defect.Comment
                     };
                 }
 
+                // finishing test
                 this.testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)

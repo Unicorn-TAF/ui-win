@@ -252,11 +252,6 @@ namespace Unicorn.Taf.Core.Testing
                 if (test.Outcome.Result == Status.Failed)
                 {
                     this.Outcome.Result = Status.Failed;
-
-                    if (test.Outcome.Defect != null)
-                    {
-                        this.Outcome.Bugs.Add(test.Outcome.Defect);
-                    }
                 }
             }
             catch (ThreadAbortException)

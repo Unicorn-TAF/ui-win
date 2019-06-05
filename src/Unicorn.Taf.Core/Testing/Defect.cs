@@ -5,14 +5,6 @@ namespace Unicorn.Taf.Core.Testing
     [Serializable]
     public class Defect
     {
-        public const string ToInvestigate = "To Investigate";
-        public const string ProductBug = "Product Bug";
-        public const string SystemIssue = "System Issue";
-
-        public Defect(string id) : this(id, ToInvestigate, string.Empty)
-        {
-        }
-
         public Defect(string id, string type) : this(id, type, string.Empty)
         {
         }
