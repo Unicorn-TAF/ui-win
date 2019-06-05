@@ -75,7 +75,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="data">string value</param>
         /// <returns>unique test method <see cref="Guid"/></returns>
         internal static Guid GuidFromString(string data) =>
-            new Guid(new SHA1CryptoServiceProvider()
+            new Guid(new MD5CryptoServiceProvider()
                 .ComputeHash(Encoding.Unicode.GetBytes(data)));
     }
 }
