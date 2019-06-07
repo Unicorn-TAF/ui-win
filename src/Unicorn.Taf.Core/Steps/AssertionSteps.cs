@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using AspectInjector.Broker;
 using Unicorn.Taf.Core.Steps.Attributes;
 using Unicorn.Taf.Core.Verification;
 using Unicorn.Taf.Core.Verification.Matchers;
+using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 
 namespace Unicorn.Taf.Core.Steps
 {
@@ -18,6 +20,12 @@ namespace Unicorn.Taf.Core.Steps
         [Step("Assert that '{0}' {1}")]
         public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) =>
             Assert.That(actual, matcher);
+
+        public void AssertThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string errorMessage) =>
+            ReportedCollectionAssertThat(typeof(T).Name, matcher, actual, errorMessage);
+
+        public void AssertThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) =>
+            ReportedCollectionAssertThat(typeof(T).Name, matcher, actual);
 
         [Step("Assert that '{0}' {1}")]
         public void AssertThat(object actual, TypeUnsafeMatcher matcher, string errorMessage) =>
@@ -74,5 +82,13 @@ namespace Unicorn.Taf.Core.Steps
                 chaninAssert = null;
             }
         }
+
+        [Step("Assert that collection of <{0}> {1}")]
+        private void ReportedCollectionAssertThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual, string errorMessage) =>
+            Assert.That(actual, matcher, errorMessage);
+
+        [Step("Assert that collection of <{0}> {1}")]
+        private void ReportedCollectionAssertThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
+            Assert.That(actual, matcher);
     }
 }
