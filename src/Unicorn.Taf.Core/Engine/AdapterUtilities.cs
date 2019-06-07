@@ -15,9 +15,10 @@ namespace Unicorn.Taf.Core.Engine
     {
         public static bool IsSuiteRunnable(Type suiteType)
         {
-            var tags = from attribute
-                           in suiteType.GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[]
-                           select attribute.Tag.ToUpper().Trim();
+            var tags = 
+                from attribute
+                in suiteType.GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[]
+                select attribute.Tag.ToUpper().Trim();
 
             var name = (suiteType.GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute)
                        .Name.ToUpper().Trim();
@@ -37,9 +38,10 @@ namespace Unicorn.Taf.Core.Engine
                 return false;
             }
 
-            var categories = from attribute
-                                in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
-                                select attribute.Category.ToUpper().Trim();
+            var categories = 
+                from attribute
+                in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
+                select attribute.Category.ToUpper().Trim();
             
             var hasCategoriesToRun = categories.Intersect(Config.RunCategories).Count() == Config.RunCategories.Count;
 
@@ -56,7 +58,9 @@ namespace Unicorn.Taf.Core.Engine
             var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 .FirstOrDefault(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null);
 
-            return suiteDataMethod == null ? new List<DataSet>() : suiteDataMethod.Invoke(null, null) as List<DataSet>;
+            return suiteDataMethod == null ? 
+                new List<DataSet>() : 
+                suiteDataMethod.Invoke(null, null) as List<DataSet>;
         }
 
         public static bool IsTestParameterized(MethodInfo testMethod) =>

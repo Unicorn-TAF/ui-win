@@ -8,11 +8,16 @@ using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 
+#pragma warning disable S3885 // "Assembly.Load" should be used
 namespace Unicorn.Taf.Core.Engine
 {
     public class TestsRunner
     {
         private readonly string testsAssemblyFile;
+
+        protected TestsRunner()
+        {
+        }
 
         public TestsRunner(string assemblyPath) : this(assemblyPath, true)
         {
@@ -39,11 +44,9 @@ namespace Unicorn.Taf.Core.Engine
 
         public LaunchOutcome Outcome { get; protected set; }
 
-        public void RunTests()
+        public virtual void RunTests()
         {
-#pragma warning disable S3885 // "Assembly.Load" should be used
             var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
-#pragma warning restore S3885 // "Assembly.Load" should be used
 
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
@@ -79,7 +82,7 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
-        private void RunTestSuite(Type type)
+        protected void RunTestSuite(Type type)
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
             {
@@ -103,13 +106,13 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
-        private void ExecuteSuiteIteration(TestSuite testSuite)
+        protected void ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
             this.Outcome.SuitesOutcomes.Add(testSuite.Outcome);
         }
 
-        private MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
+        protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
                 .Where(t => t.GetCustomAttributes(typeof(TestAssemblyAttribute), true).Length > 0)
@@ -125,3 +128,4 @@ namespace Unicorn.Taf.Core.Engine
                 .Where(m => m.GetCustomAttribute(attributeType, true) != null);
     }
 }
+#pragma warning restore S3885 // "Assembly.Load" should be used
