@@ -61,7 +61,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// <param name="categoriesToRun">array of categories</param>
         public static void SetTestCategories(params string[] categoriesToRun) =>
             categories = categoriesToRun
-                .Select(v => v.ToUpper().Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
+                .Select(v => v.ToUpper().Trim())
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
 
@@ -73,7 +73,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// <param name="testsToRun">tests masks</param>
         public static void SetTestsMasks(params string[] testsToRun) =>
             tests = testsToRun
-                .Select(v => v.Trim())
+                .Select(v => v.Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
                 .Where(v => !string.IsNullOrEmpty(v))
                 .ToList();
 
