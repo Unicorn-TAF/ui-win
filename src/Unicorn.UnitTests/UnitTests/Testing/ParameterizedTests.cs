@@ -41,5 +41,11 @@ namespace Unicorn.UnitTests.Testing
             runner.RunTests();
             Assert.That(USuiteWithParameterizedTests.Output, Is.EqualTo(suiteOutputSet1));
         }
+
+        [OneTimeTearDown]
+        public static void Cleanup()
+        {
+            runner = null;
+        }
     }
 }

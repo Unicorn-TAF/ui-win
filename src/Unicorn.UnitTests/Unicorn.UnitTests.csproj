@@ -121,6 +121,9 @@
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\UBaseTestSuite.cs" />
+    <Compile Include="Suites\USuiteOrdered1.cs" />
+    <Compile Include="Suites\USuiteOrdered3.cs" />
+    <Compile Include="Suites\USuiteOrdered2.cs" />
     <Compile Include="Suites\USuiteWithParameterizedTests.cs" />
     <Compile Include="Suites\UParameterizedSuite.cs" />
     <Compile Include="Suites\USuiteWithDependencies.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="UnitTests\Testing\ParameterizedTests.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuite.cs" />
     <Compile Include="UnitTests\GuiPageObject.cs" />
+    <Compile Include="UnitTests\Testing\TestsOrderingAndTargeting.cs" />
     <Compile Include="UnitTests\Testing\TestsDependency.cs" />
     <Compile Include="UnitTests\Testing\TestsObserver.cs" />
     <Compile Include="UnitTests\Testing\RunTimeouts.cs" />
