@@ -9,7 +9,7 @@
             this.objectToCompare = objectToCompare;
         }
 
-        public override string CheckDescription => "Contains " + this.objectToCompare;
+        public override string CheckDescription => $"Contains substring '{this.objectToCompare}'";
 
         public override bool Matches(string actual)
         {
@@ -19,15 +19,8 @@
                 return Reverse;
             }
 
-            if (actual.Contains(this.objectToCompare))
-            {
-                return true;
-            }
-            else
-            {
-                this.DescribeMismatch(actual);
-                return false;
-            }
+            this.DescribeMismatch(actual);
+            return actual.Contains(this.objectToCompare);
         }
     }
 }

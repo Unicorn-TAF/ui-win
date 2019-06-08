@@ -14,15 +14,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         {
             ICollection collection = (ICollection)actual;
 
-            if (collection == null || collection.Count == 0)
+            if (collection == null)
             {
+                DescribeMismatch("null");
                 return true;
             }
-            else
-            {
-                this.DescribeMismatch($"of length = {collection.Count}");
-                return false;
-            }
+
+            this.DescribeMismatch($"of length = {collection.Count}");
+            return collection.Count == 0;
         }
     }
 }

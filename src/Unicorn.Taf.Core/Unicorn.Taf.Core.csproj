@@ -70,6 +70,7 @@
     <Compile Include="Verification\Matchers\AbstractMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\AnyMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\EachMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\TypeSafeCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
     <Compile Include="Utility\FileAllocator.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Verification\Matchers\Collection.cs" />
     <Compile Include="Verification\Matchers\Is.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\IsPositiveMatcher.cs" />
     <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
-    <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />

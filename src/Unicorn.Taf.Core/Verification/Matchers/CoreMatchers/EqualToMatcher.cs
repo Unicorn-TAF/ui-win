@@ -25,15 +25,8 @@
                 return false;
             }
 
-            if (!actual.Equals(this.objectToCompare))
-            {
-                DescribeMismatch(actual.ToString());
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            DescribeMismatch(actual.ToString());
+            return actual.Equals(this.objectToCompare);
         }
     }
 }

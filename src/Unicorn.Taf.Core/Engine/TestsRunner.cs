@@ -15,10 +15,6 @@ namespace Unicorn.Taf.Core.Engine
     {
         private readonly string testsAssemblyFile;
 
-        protected TestsRunner()
-        {
-        }
-
         public TestsRunner(string assemblyPath) : this(assemblyPath, true)
         {
         }
@@ -40,6 +36,10 @@ namespace Unicorn.Taf.Core.Engine
             }
 
             this.Outcome = new LaunchOutcome();
+        }
+
+        protected TestsRunner()
+        {
         }
 
         public LaunchOutcome Outcome { get; protected set; }

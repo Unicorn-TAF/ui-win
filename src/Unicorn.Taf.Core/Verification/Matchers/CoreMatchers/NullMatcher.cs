@@ -12,6 +12,7 @@
         {
             if (actual == null)
             {
+                DescribeMismatch("null");
                 return true;
             }
             else

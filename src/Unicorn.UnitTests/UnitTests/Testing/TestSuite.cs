@@ -12,7 +12,17 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class TestSuite : NUnitTestRunner
     {
-        private readonly USuite suite = Activator.CreateInstance<USuite>();
+        private static USuite suite;
+
+        [OneTimeSetUp]
+        public static void SetUp()
+        {
+            Config.SetTestCategories();
+            suite = Activator.CreateInstance<USuite>();
+        }
+
+        public static void TearDown() =>
+            suite = null;
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of tests inside")]

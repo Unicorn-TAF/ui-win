@@ -25,6 +25,13 @@ namespace Unicorn.UnitTests.Testing
             runner.RunTests();
         }
 
+        [OneTimeTearDown]
+        public static void Cleanup()
+        {
+            runner = null;
+            filters = null;
+        }
+
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check ordered targeted runner runs suites in specified order")]
         public void TestOrderedTargetedRunnerRunsSuitesInSpecifiedOrder()
@@ -45,13 +52,6 @@ namespace Unicorn.UnitTests.Testing
             Assert.That(runner.Outcome.SuitesOutcomes[1].Name, Is.EqualTo("Ordered suite 1"));
             Assert.That(runner.Outcome.SuitesOutcomes[1].TestsOutcomes.Count, Is.EqualTo(1));
             Assert.That(runner.Outcome.SuitesOutcomes[1].TestsOutcomes[0].Title, Is.EqualTo("Test1-1"));
-        }
-
-        [OneTimeTearDown]
-        public static void Cleanup()
-        {
-            runner = null;
-            filters = null;
         }
     }
 }
