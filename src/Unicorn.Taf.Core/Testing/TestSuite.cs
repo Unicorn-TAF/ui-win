@@ -20,7 +20,7 @@ namespace Unicorn.Taf.Core.Testing
         private readonly SuiteMethod[] afterSuites;
 
         private string name = null;
-        private List<string> tags = null;
+        private HashSet<string> tags = null;
         private bool skipTests = false;
 
         /// <summary>
@@ -84,14 +84,14 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Gets test suite features. Suite could not have any feature
         /// </summary>
-        public List<string> Tags
+        public HashSet<string> Tags
         {
             get
             {
                 if (this.tags == null)
                 {
                     var attributes = GetType().GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[];
-                    this.tags = (from attribute in attributes select attribute.Tag.ToUpper()).ToList();
+                    this.tags = new HashSet<string>(from attribute in attributes select attribute.Tag.ToUpper());
                 }
 
                 return this.tags;

@@ -23,9 +23,9 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
     public static class Config
     {
-        private static List<string> tags = new List<string>();
-        private static List<string> categories = new List<string>();
-        private static List<string> tests = new List<string>();
+        private static HashSet<string> tags = new HashSet<string>();
+        private static HashSet<string> categories = new HashSet<string>();
+        private static HashSet<string> tests = new HashSet<string>();
 
         public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
 
@@ -37,11 +37,11 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
         public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
 
-        public static List<string> RunTags => tags;
+        public static HashSet<string> RunTags => tags;
 
-        public static List<string> RunCategories => categories;
+        public static HashSet<string> RunCategories => categories;
 
-        public static List<string> RunTests => tests;
+        public static HashSet<string> RunTests => tests;
 
         /// <summary>
         /// Set tags on which test suites needed to be run.
@@ -49,10 +49,10 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="tagsToRun">array of features</param>
         public static void SetSuiteTags(params string[] tagsToRun) =>
-            tags = tagsToRun
+            tags = new HashSet<string>(
+                tagsToRun
                 .Select(v => v.ToUpper().Trim())
-                .Where(v => !string.IsNullOrEmpty(v))
-                .ToList();
+                .Where(v => !string.IsNullOrEmpty(v)));
         
         /// <summary>
         /// Set tests categories needed to be run.
@@ -60,10 +60,10 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
         public static void SetTestCategories(params string[] categoriesToRun) =>
-            categories = categoriesToRun
+            categories = new HashSet<string>(
+                categoriesToRun
                 .Select(v => v.ToUpper().Trim())
-                .Where(v => !string.IsNullOrEmpty(v))
-                .ToList();
+                .Where(v => !string.IsNullOrEmpty(v)));
 
         /// <summary>
         /// Set masks which filter tests to run.
@@ -72,10 +72,10 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="testsToRun">tests masks</param>
         public static void SetTestsMasks(params string[] testsToRun) =>
-            tests = testsToRun
+            tests = new HashSet<string>(
+                testsToRun
                 .Select(v => v.Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
-                .Where(v => !string.IsNullOrEmpty(v))
-                .ToList();
+                .Where(v => !string.IsNullOrEmpty(v)));
 
         /// <summary>
         /// Deserialize run configuration fro JSON file

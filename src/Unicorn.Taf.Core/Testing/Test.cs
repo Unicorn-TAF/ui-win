@@ -12,7 +12,7 @@ namespace Unicorn.Taf.Core.Testing
     public class Test : SuiteMethod
     {
         private readonly DataSet dataSet;
-        private List<string> categories = null;
+        private HashSet<string> categories = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.<para/>
@@ -57,7 +57,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Gets test categories
         /// </summary>
-        public List<string> Categories
+        public HashSet<string> Categories
         {
             get
             {
@@ -65,7 +65,7 @@ namespace Unicorn.Taf.Core.Testing
                 {
                     var attributes = this.TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
 
-                    this.categories = new List<string>(
+                    this.categories = new HashSet<string>(
                         attributes.Select(a => a.Category.ToUpper().Trim())
                         .Where(c => !string.IsNullOrEmpty(c)));
                 }

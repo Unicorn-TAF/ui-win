@@ -71,7 +71,7 @@ namespace Unicorn.ReportPortalAgent
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
-                    (suiteMethod as Test).Categories.ForEach(c => updateTestRequest.Tags.Add(c));
+                    updateTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
                 }
 
                 // adding description to test
