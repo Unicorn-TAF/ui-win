@@ -1,8 +1,10 @@
-﻿namespace Unicorn.UI.Core.Controls.Interfaces
+﻿using System.Collections.Generic;
+
+namespace Unicorn.UI.Core.Controls.Interfaces
 {
     public interface IMultiItemSelectable
     {
-        string[] SelectedValues
+        List<string> SelectedValues
         {
             get;
         }

@@ -2,22 +2,34 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using Unicorn.UI.Core.UserInput.WindowsApi;
 
-namespace Unicorn.UI.Core.Input
+namespace Unicorn.UI.Core.UserInput
 {
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
-        private static Mouse instance = new Mouse();
+        private static Mouse instance = null;
         private readonly short doubleClickTime = GetDoubleClickTime();
         private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
 
-        private Mouse()
+        protected Mouse()
         {
         }
 
-        public static Mouse Instance => instance;
+        public static Mouse Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Mouse();
+                }
+
+                return instance;
+            }
+        }
 
         public virtual Point Location
         {
@@ -25,36 +37,24 @@ namespace Unicorn.UI.Core.Input
             {
                 var point = new System.Drawing.Point();
                 GetCursorPos(ref point);
-                return point.ConvertToWindowsPoint();
+                return new Point(point.X, point.Y);
             }
 
             set
             {
-                if (value.IsInvalid())
+                if (PointIsInvalid(value))
                 {
                     throw new InvalidOperationException(string.Format("Trying to set location outside the screen. {0}", value));
                 }
 
-                SetCursorPos(value.ToDrawingPoint());
+                SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
             }
         }
 
-        public static void MouseLeftButtonUpAndDown()
-        {
-            LeftDown();
-            LeftUp();
-        }
-
-        public static void LeftUp() =>
-            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftUp, GetMessageExtraInfo())));
-
-        public static void LeftDown() =>
-            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFLeftDown, GetMessageExtraInfo())));
-
         public virtual void RightClick()
         {
-            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFRightDown, GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(WindowsConstants.MouseEventFRightUp, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, GetMessageExtraInfo())));
         }
 
         public virtual void ResetPosition() =>
@@ -98,6 +98,26 @@ namespace Unicorn.UI.Core.Input
             MouseLeftButtonUpAndDown();
         }
 
+        private void MouseLeftButtonUpAndDown()
+        {
+            LeftDown();
+            LeftUp();
+        }
+
+        private void LeftUp() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+
+        private void LeftDown() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
+
+        private static int SendInput(Input input) =>
+            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+
+        private bool PointIsInvalid(Point p) =>
+           double.IsNaN(p.X) || double.IsNaN(p.Y) ||
+            p.X == double.PositiveInfinity || p.X == double.NegativeInfinity ||
+            p.Y == double.PositiveInfinity || p.Y == double.NegativeInfinity;
+
         [DllImport("user32", EntryPoint = "SendInput")]
         private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
 
@@ -112,8 +132,5 @@ namespace Unicorn.UI.Core.Input
 
         [DllImport("user32.dll")]
         private static extern short GetDoubleClickTime();
-
-        private static void SendInput(Input input) =>
-            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
     }
 }
