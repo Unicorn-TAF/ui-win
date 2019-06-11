@@ -90,7 +90,7 @@ namespace Unicorn.Taf.Core.Engine
                 in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                 select attribute.Category.ToUpper().Trim();
 
-            return categories.Contains(category.ToUpper());
+            return string.IsNullOrEmpty(category) || categories.Contains(category.ToUpper());
         }
 
         private string GetSuiteName(Type suiteType) =>
