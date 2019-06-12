@@ -17,7 +17,7 @@ namespace Unicorn.ReportPortalAgent
             {
                 var id = suite.Outcome.Id;
                 var parentId = Guid.Empty;
-                var name = suite.Name;
+                var name = suite.Outcome.Name;
 
                 var startSuiteRequest = new StartTestItemRequest
                 {
@@ -58,15 +58,9 @@ namespace Unicorn.ReportPortalAgent
                     var updateSuiteRequest = new UpdateTestItemRequest();
 
                     // adding tags to suite
-                    var tags = suite.Tags;
-                    if (tags != null)
+                    if (suite.Tags != null)
                     {
-                        updateSuiteRequest.Tags = new List<string>();
-
-                        foreach (string tag in tags)
-                        {
-                            updateSuiteRequest.Tags.Add(tag);
-                        }
+                        updateSuiteRequest.Tags = new List<string>(suite.Tags);
                     }
 
                     // adding description to suite
@@ -74,7 +68,13 @@ namespace Unicorn.ReportPortalAgent
 
                     foreach (var key in suite.Metadata.Keys)
                     {
-                        description.Append($"{key}: {suite.Metadata[key]}\n");
+                        var value = suite.Metadata[key];
+                        var appendString = 
+                            value.StartsWith("http", StringComparison.InvariantCultureIgnoreCase) ?
+                            $"[{key}]({value})" : 
+                            $"{key}: {value}";
+                        
+                        description.AppendLine(appendString);
                     }
 
                     if (description.Length != 0)
