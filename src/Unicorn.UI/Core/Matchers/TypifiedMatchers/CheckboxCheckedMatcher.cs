@@ -9,7 +9,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
         {
         }
 
-        public override string CheckDescription => "checked";
+        public override string CheckDescription => "is checked";
 
         public override bool Matches(ICheckbox actual)
         {

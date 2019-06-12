@@ -2,7 +2,7 @@
 {
     public class IsEvenMatcher : TypeSafeMatcher<int>
     {
-        public override string CheckDescription => "An Even number";
+        public override string CheckDescription => "Is even number";
 
         public override bool Matches(int actual)
         {

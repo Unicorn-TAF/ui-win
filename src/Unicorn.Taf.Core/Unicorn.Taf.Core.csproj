@@ -91,7 +91,9 @@
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Verification\Matchers\Collection.cs" />
     <Compile Include="Verification\Matchers\Is.cs" />
+    <Compile Include="Verification\Matchers\Number.cs" />
     <Compile Include="Verification\Matchers\MiscMatchers\IsPositiveMatcher.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
     <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
@@ -100,8 +102,8 @@
     <Compile Include="Verification\Matchers\CoreMatchers\NullMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\NotMatcher.cs" />
     <Compile Include="Verification\Matchers\MiscMatchers\IsEvenMatcher.cs" />
-    <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
-    <Compile Include="Verification\Matchers\MiscMatchers.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\StringMatchesRegexMatcher.cs" />
+    <Compile Include="Verification\Matchers\Text.cs" />
     <Compile Include="Verification\Matchers\TypeSafeMatcher.cs" />
     <Compile Include="Verification\ChainAssert.cs" />
     <Compile Include="Steps\Attributes\StepAttribute.cs" />

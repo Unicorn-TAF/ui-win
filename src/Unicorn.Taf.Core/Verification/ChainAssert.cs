@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Unicorn.Taf.Core.Verification.Matchers;
+using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 
 namespace Unicorn.Taf.Core.Verification
 {
@@ -67,6 +69,30 @@ namespace Unicorn.Taf.Core.Verification
         }
 
         public ChainAssert That<T>(T actual, TypeSafeMatcher<T> matcher) => That<T>(actual, matcher, string.Empty);
+
+        public ChainAssert That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string message)
+        {
+            matcher.Output
+                .Append(Expected)
+                .Append(matcher.CheckDescription)
+                .AppendLine()
+                .Append(But);
+
+            if (!matcher.Matches(actual))
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    message += Environment.NewLine;
+                }
+
+                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                this.isSomethingFailed = true;
+            }
+
+            return this;
+        }
+
+        public ChainAssert That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That<T>(actual, matcher, string.Empty);
 
         public void AssertChain()
         {

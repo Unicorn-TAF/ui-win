@@ -65,6 +65,17 @@ namespace Unicorn.Taf.Core.Steps
             return this;
         }
 
+        public AssertionSteps VerifyThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher)
+        {
+            if (chaninAssert == null)
+            {
+                chaninAssert = new ChainAssert();
+            }
+
+            ReportedCollectionVerifyThat(typeof(T).Name, matcher, actual);
+            return this;
+        }
+
         [Step("Assert verifications chain")]
         public void AssertChain()
         {
@@ -90,5 +101,9 @@ namespace Unicorn.Taf.Core.Steps
         [Step("Assert that collection of <{0}> {1}")]
         private void ReportedCollectionAssertThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
             Assert.That(actual, matcher);
+
+        [Step("Assert that collection of <{0}> {1}")]
+        private void ReportedCollectionVerifyThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
+            chaninAssert.That(actual, matcher);
     }
 }

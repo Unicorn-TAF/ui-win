@@ -22,10 +22,9 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            string selectedValue = actual.SelectedValue;
-            bool hasValue = selectedValue.Equals(this.expectedValue);
+            var selectedValue = actual.SelectedValue;
             DescribeMismatch($"having value '{selectedValue}'");
-            return hasValue;
+            return selectedValue.Equals(this.expectedValue);
         }
     }
 }
