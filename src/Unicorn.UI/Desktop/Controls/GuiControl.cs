@@ -44,7 +44,7 @@ namespace Unicorn.UI.Desktop.Controls
         }
 
         public string Text =>
-            this.Instance.GetCurrentPropertyValue(AutomationElement.AutomationIdProperty) as string;
+            this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
 
         public bool Enabled =>
             (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);

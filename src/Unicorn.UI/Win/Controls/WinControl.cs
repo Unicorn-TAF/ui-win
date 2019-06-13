@@ -43,15 +43,8 @@ namespace Unicorn.UI.Win.Controls
             }
         }
 
-        public string Text
-        {
-            get
-            {
-                var name = this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
-                var id = this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_AutomationIdPropertyId) as string;
-                return !string.IsNullOrEmpty(name) ? name : id;
-            }
-        }
+        public string Text =>
+            this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
 
         public bool Enabled => (bool)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_IsEnabledPropertyId);
 
