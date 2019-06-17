@@ -64,14 +64,6 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        public void ReportLoggerMessage(Taf.Core.Logging.LogLevel level, string report)
-        {
-            if (Config.IsEnabled)
-            {
-                ReportTestMessage(level, report);
-            }
-        }
-
         public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
             if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
@@ -95,25 +87,5 @@ namespace Unicorn.ReportPortalAgent
                 AddSuiteTags(suite, tags);
             }
         }
-
-        ////public void ReportMergeLaunches(string descriptionSearchString)
-        ////{
-        ////    if (Config.IsEnabled)
-        ////    {
-        ////        MergeRuns(descriptionSearchString);
-        ////    }
-        ////}
-
-        ////public string ReportGetLaunchId(string descriptionSearchString)
-        ////{
-        ////    if (Config.IsEnabled)
-        ////    {
-        ////        return GetLaunchId(descriptionSearchString);
-        ////    }
-        ////    else
-        ////    {
-        ////        return null;
-        ////    }
-        ////}
     }
 }

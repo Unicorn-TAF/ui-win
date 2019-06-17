@@ -27,15 +27,15 @@ namespace Unicorn.ReportPortalAgent
 
                 this.listener.StartRun();
 
-                Test.OnTestStart += ReportTestStart;
-                Test.OnTestFinish += ReportTestFinish;
+                Test.OnTestStart += this.listener.StartSuiteMethod;
+                Test.OnTestFinish += this.listener.FinishSuiteMethod;
                 Test.OnTestSkip += this.listener.ReportTestSkipped;
 
                 SuiteMethod.OnSuiteMethodStart += this.listener.StartSuiteMethod;
                 SuiteMethod.OnSuiteMethodFinish += this.listener.FinishSuiteMethod;
 
-                TestSuite.OnSuiteStart += this.ReportSuiteStart;
-                TestSuite.OnSuiteFinish += this.ReportSuiteFinish;
+                TestSuite.OnSuiteStart += this.listener.StartSuite;
+                TestSuite.OnSuiteFinish += this.listener.FinishSuite;
 
                 StepsEvents.OnStepStart += ReportInfo;
             }
@@ -48,20 +48,8 @@ namespace Unicorn.ReportPortalAgent
             Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
         }
 
-        public void ReportInfo(string info) =>
+        private void ReportInfo(string info) =>
             this.listener.ReportTestMessage(LogLevel.Info, info);
-
-        public void ReportSuiteFinish(TestSuite testSuite) =>
-            this.listener.FinishSuite(testSuite);
-
-        public void ReportSuiteStart(TestSuite testSuite) =>
-            this.listener.StartSuite(testSuite);
-
-        public void ReportTestFinish(Test test) =>
-            this.listener.FinishSuiteMethod(test);
-
-        public void ReportTestStart(Test test) =>
-            this.listener.StartSuiteMethod(test);
 
         public void Dispose()
         {
@@ -69,15 +57,15 @@ namespace Unicorn.ReportPortalAgent
             {
                 this.listener.FinishRun();
 
-                Test.OnTestStart -= ReportTestStart;
-                Test.OnTestFinish -= ReportTestFinish;
+                Test.OnTestStart -= this.listener.StartSuiteMethod;
+                Test.OnTestFinish -= this.listener.FinishSuiteMethod;
                 Test.OnTestSkip -= this.listener.ReportTestSkipped;
 
                 SuiteMethod.OnSuiteMethodStart -= this.listener.StartSuiteMethod;
                 SuiteMethod.OnSuiteMethodFinish -= this.listener.FinishSuiteMethod;
 
-                TestSuite.OnSuiteStart -= this.ReportSuiteStart;
-                TestSuite.OnSuiteFinish -= this.ReportSuiteFinish;
+                TestSuite.OnSuiteStart -= this.listener.StartSuite;
+                TestSuite.OnSuiteFinish -= this.listener.FinishSuite;
 
                 StepsEvents.OnStepStart -= ReportInfo;
             }
