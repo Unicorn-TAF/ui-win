@@ -66,7 +66,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Gets Array of bugs attached to the test. Has values only when the test failed by bug.
         /// </summary>
-        public Defect Defect { get; }
+        public Defect Defect { get; set; }
 
         /// <summary>
         /// Gets or sets test log output string
