@@ -8,7 +8,7 @@ using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 
 namespace Unicorn.Taf.Core.Steps
 {
-    [Aspect(typeof(StepsEvents))]
+    [Inject(typeof(StepsEvents))]
     public class AssertionSteps
     {
         private ChainAssert chaninAssert = null;

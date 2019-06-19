@@ -8,6 +8,7 @@ using Unicorn.Taf.Core.Steps.Attributes;
 
 namespace Unicorn.Taf.Core.Steps
 {
+    [Aspect(Aspect.Scope.Global)]
     public class StepsEvents
     {
         public delegate void StepEvent(MethodBase methodBase, object[] arguments);
@@ -18,12 +19,10 @@ namespace Unicorn.Taf.Core.Steps
 
         public static event StepEvent OnStepFinish;
 
-        public static event StepFailEvent OnStepFail;
-
-        [Advice(InjectionPoints.Before, InjectionTargets.Method)]
-        public void OnStartActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
+        [Advice(Advice.Type.Before, Advice.Target.Method)]
+        public void BeforeStep([Advice.Argument(Advice.Argument.Source.Arguments)] object[] arguments)
         {
-            MethodBase method = new StackFrame(1).GetMethod();
+            var method = new StackFrame(1).GetMethod();
 
             if (method.GetCustomAttributes(typeof(StepAttribute), true).Any())
             {
@@ -33,26 +32,15 @@ namespace Unicorn.Taf.Core.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(
+                        LogLevel.Warning,
+                        "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
                 }
             }
         }
 
-        [Advice(InjectionPoints.Exception, InjectionTargets.Method)]
-        public void OnFailActions([AdviceArgument(AdviceArgumentSource.TargetException)] Exception exception)
-        {
-            try
-            {
-                OnStepFail?.Invoke(exception);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepFail event invoke" + Environment.NewLine + ex);
-            }
-        }
-
-        [Advice(InjectionPoints.After, InjectionTargets.Method)]
-        public void OnCompleteActions([AdviceArgument(AdviceArgumentSource.TargetArguments)] object[] arguments)
+        [Advice(Advice.Type.After, Advice.Target.Method)]
+        public void AfterStep([Advice.Argument(Advice.Argument.Source.Arguments)] object[] arguments)
         {
             var method = new StackFrame(1).GetMethod();
 
@@ -64,7 +52,9 @@ namespace Unicorn.Taf.Core.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(
+                        LogLevel.Warning,
+                        "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
                 }
             }
         }
