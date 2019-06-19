@@ -19,7 +19,6 @@ namespace Unicorn.Taf.Core.Testing
         private readonly SuiteMethod[] afterTests;
         private readonly SuiteMethod[] afterSuites;
 
-        private string name = null;
         private HashSet<string> tags = null;
         private bool skipTests = false;
 
@@ -39,7 +38,10 @@ namespace Unicorn.Taf.Core.Testing
                 this.Metadata.Add(attribute.Key, attribute.Value);
             }
 
+            var suiteAttribute = GetType().GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute;
+
             this.Outcome = new SuiteOutcome();
+            this.Outcome.Name = suiteAttribute != null ? suiteAttribute.Name : GetType().Name.Split('.').Last();
             this.Outcome.Id = Guid.NewGuid();
             this.Outcome.Result = Status.Passed;
 
@@ -57,29 +59,6 @@ namespace Unicorn.Taf.Core.Testing
         public static event UnicornSuiteEvent OnSuiteFinish;
 
         public static event UnicornSuiteEvent OnSuiteSkip;
-
-        /// <summary>
-        /// Gets or sets test suite name. If name not specified through TestSuiteAttribute, then return suite class name
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                if (this.name == null)
-                {
-                    var attribute = GetType().GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute;
-
-                    this.name = attribute != null ? attribute.Name : GetType().Name.Split('.').Last();
-                }
-
-                return this.name;
-            }
-
-            set
-            {
-                this.name = value;
-            }
-        }
 
         /// <summary>
         /// Gets test suite features. Suite could not have any feature
@@ -103,6 +82,8 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public Dictionary<string, string> Metadata { get; }
 
+        public string Name => this.Outcome.Name;
+
         /// <summary>
         /// Gets or sets Suite outcome, contain all information on suite run and results
         /// </summary>
@@ -110,9 +91,15 @@ namespace Unicorn.Taf.Core.Testing
 
         public void Execute()
         {
-            Logger.Instance.Log(LogLevel.Info, $"==================== TEST SUITE '{this.Name}' ====================");
+            var fullName = this.Outcome.Name;
 
-            this.Outcome.Name = this.Name;
+            if (!string.IsNullOrEmpty(this.Outcome.DataSetName))
+            {
+                fullName += "[" + this.Outcome.DataSetName + "]";
+            }
+
+            Logger.Instance.Log(LogLevel.Info, $"==================== SUITE '{fullName}' ====================");
+
             try
             {
                 OnSuiteStart?.Invoke(this);
@@ -134,7 +121,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"TEST SUITE {this.Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"SUITE {this.Outcome.Result}");
         }
 
         private void RunSuite()

@@ -14,6 +14,14 @@ namespace Unicorn.Taf.Core.Testing
 
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets test suite data set name.
+        /// </summary>
+        public string DataSetName { get; set; }
+
+        /// <summary>
+        /// Gets or sets test suite name.
+        /// </summary>
         public string Name { get; set; }
 
         public List<TestOutcome> TestsOutcomes { get; }

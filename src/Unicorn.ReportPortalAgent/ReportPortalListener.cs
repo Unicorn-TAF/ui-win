@@ -55,15 +55,6 @@ namespace Unicorn.ReportPortalAgent
             set;
         }
 
-        public void ReportTestSkipped(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuiteMethod(test);
-                FinishSuiteMethod(test);
-            }
-        }
-
         public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
             if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))

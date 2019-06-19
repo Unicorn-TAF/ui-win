@@ -234,7 +234,15 @@ namespace Unicorn.Taf.Core.Utility
             var testList = trx.CreateElement(string.Empty, "TestList", string.Empty);
 
             var name = trx.CreateAttribute("name");
-            name.Value = outcome.Name;
+
+            var nameValue = outcome.Name;
+
+            if (!string.IsNullOrEmpty(outcome.DataSetName))
+            {
+                nameValue += "[" + outcome.DataSetName + "]";
+            }
+
+            name.Value = nameValue;
 
             var id = trx.CreateAttribute("id");
             id.Value = outcome.Id.ToString();

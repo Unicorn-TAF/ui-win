@@ -29,7 +29,7 @@ namespace Unicorn.ReportPortalAgent
 
                 Test.OnTestStart += this.listener.StartSuiteMethod;
                 Test.OnTestFinish += this.listener.FinishSuiteMethod;
-                Test.OnTestSkip += this.listener.ReportTestSkipped;
+                Test.OnTestSkip += this.listener.SkipSuiteMethod;
 
                 SuiteMethod.OnSuiteMethodStart += this.listener.StartSuiteMethod;
                 SuiteMethod.OnSuiteMethodFinish += this.listener.FinishSuiteMethod;
@@ -59,7 +59,7 @@ namespace Unicorn.ReportPortalAgent
 
                 Test.OnTestStart -= this.listener.StartSuiteMethod;
                 Test.OnTestFinish -= this.listener.FinishSuiteMethod;
-                Test.OnTestSkip -= this.listener.ReportTestSkipped;
+                Test.OnTestSkip -= this.listener.SkipSuiteMethod;
 
                 SuiteMethod.OnSuiteMethodStart -= this.listener.StartSuiteMethod;
                 SuiteMethod.OnSuiteMethodFinish -= this.listener.FinishSuiteMethod;

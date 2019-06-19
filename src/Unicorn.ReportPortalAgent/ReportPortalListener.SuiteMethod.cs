@@ -68,6 +68,8 @@ namespace Unicorn.ReportPortalAgent
 
                 // adding categories to test
                 updateTestRequest.Tags = new List<string>();
+                updateTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                updateTestRequest.Tags.Add(Environment.MachineName);
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
@@ -75,7 +77,10 @@ namespace Unicorn.ReportPortalAgent
                 }
 
                 // adding description to test
-                updateTestRequest.Description = suiteMethod.Outcome.Title;
+                updateTestRequest.Description =
+                    suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed ?
+                    suiteMethod.Outcome.Exception.Message :
+                    string.Empty;
 
                 this.testFlowIds[id].Update(updateTestRequest);
 
@@ -116,6 +121,54 @@ namespace Unicorn.ReportPortalAgent
                         Comment = suiteMethod.Outcome.Defect.Comment
                     };
                 }
+
+                // finishing test
+                this.testFlowIds[id].Finish(finishTestRequest);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+        }
+
+        internal void SkipSuiteMethod(SuiteMethod suiteMethod)
+        {
+            try
+            {
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
+                var result = suiteMethod.Outcome.Result;
+
+                var startTestRequest = new StartTestItemRequest
+                {
+                    StartTime = DateTime.UtcNow,
+                    Name = name,
+                    Type = itemTypes[suiteMethod.MethodType]
+                };
+
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
+
+                if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                {
+                    startTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
+                }
+
+                var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                this.testFlowIds[id] = testVal;
+
+                var finishTestRequest = new FinishTestItemRequest
+                {
+                    EndTime = DateTime.UtcNow,
+                    Status = statusMap[result],
+                    Issue = new Issue
+                    {
+                        Type = "ND001",
+                        Comment = "The test is skipped, check if dependent test or before suite failed"
+                    }
+                };
 
                 // finishing test
                 this.testFlowIds[id].Finish(finishTestRequest);

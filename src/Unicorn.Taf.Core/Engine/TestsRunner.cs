@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
@@ -86,16 +85,11 @@ namespace Unicorn.Taf.Core.Engine
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
             {
-                var fullSuiteName = new StringBuilder();
-
                 foreach (var parametersSet in AdapterUtilities.GetSuiteData(type))
                 {
                     var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
                     parameterizedSuite.Metadata.Add("Data Set", parametersSet.Name);
-
-                    fullSuiteName.Clear().Append(parameterizedSuite.Name).Append($" [{parametersSet.Name}]");
-
-                    parameterizedSuite.Name = fullSuiteName.ToString();
+                    parameterizedSuite.Outcome.DataSetName = parametersSet.Name;
                     ExecuteSuiteIteration(parameterizedSuite);
                 }
             }

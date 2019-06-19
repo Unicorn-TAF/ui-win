@@ -15,7 +15,7 @@ namespace Unicorn.UnitTests.Util
             TestContext.WriteLine($"REPORTER: {info}");
 
         public void ReportSuiteFinish(TestSuite testSuite) =>
-            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' {testSuite.Outcome.Result}");
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Outcome.Name}' {testSuite.Outcome.Result}");
 
         public void ReportTestStart(Test test) =>
             TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' started");
@@ -24,6 +24,6 @@ namespace Unicorn.UnitTests.Util
             TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' {test.Outcome.Result}");
 
         public void ReportSuiteStart(TestSuite testSuite) =>
-            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Outcome.Name}' started");
     }
 }

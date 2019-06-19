@@ -19,12 +19,20 @@ namespace Unicorn.ReportPortalAgent
                 var parentId = Guid.Empty;
                 var name = suite.Outcome.Name;
 
+                if (!string.IsNullOrEmpty(suite.Outcome.DataSetName))
+                {
+                    name += "[" + suite.Outcome.DataSetName + "]";
+                }
+
                 var startSuiteRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
                     Type = TestItemType.Suite
                 };
+
+                startSuiteRequest.Tags = new List<string>();
+                startSuiteRequest.Tags.Add(Environment.MachineName);
 
                 TestReporter test;
                 if (parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId))
@@ -57,10 +65,13 @@ namespace Unicorn.ReportPortalAgent
                 {
                     var updateSuiteRequest = new UpdateTestItemRequest();
 
+                    updateSuiteRequest.Tags = new List<string>();
+                    updateSuiteRequest.Tags.Add(Environment.MachineName);
+
                     // adding tags to suite
                     if (suite.Tags != null)
                     {
-                        updateSuiteRequest.Tags = new List<string>(suite.Tags);
+                        updateSuiteRequest.Tags.AddRange(suite.Tags);
                     }
 
                     // adding description to suite
