@@ -106,7 +106,7 @@ namespace Unicorn.ReportPortalAgent
                     var finishSuiteRequest = new FinishTestItemRequest
                     {
                         EndTime = DateTime.UtcNow,
-                        Status = statusMap[result]
+                        Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : statusMap[result]
                     };
                         
                     this.suitesFlow[id].Finish(finishSuiteRequest);

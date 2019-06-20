@@ -100,26 +100,32 @@ namespace Unicorn.Taf.Core.Testing
 
             Logger.Instance.Log(LogLevel.Info, $"==================== SUITE '{fullName}' ====================");
 
+            var onSuiteStartPassed = false;
+
             try
             {
                 OnSuiteStart?.Invoke(this);
-                this.RunSuite();
+                onSuiteStartPassed = true;
             }
             catch (Exception ex)
             {
                 this.Skip("Exception occured during OnSuiteStart event invoke" + Environment.NewLine + ex);
             }
-            finally
+
+            if (onSuiteStartPassed)
             {
-                try
-                {
-                    OnSuiteFinish?.Invoke(this);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
-                }
+                this.RunSuite();
             }
+
+            try
+            {
+                OnSuiteFinish?.Invoke(this);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
+            }
+
 
             Logger.Instance.Log(LogLevel.Info, $"SUITE {this.Outcome.Result}");
         }
@@ -157,7 +163,7 @@ namespace Unicorn.Taf.Core.Testing
             foreach (Test test in this.tests)
             {
                 test.Skip();
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {test.Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Warning, $"TEST '{test.Outcome.Title}' {test.Outcome.Result}");
                 this.Outcome.TestsOutcomes.Add(test.Outcome);
             }
 

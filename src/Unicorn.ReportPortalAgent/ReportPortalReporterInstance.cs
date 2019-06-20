@@ -41,15 +41,10 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        public void ReportInfo(MethodBase method, object[] arguments)
-        {
-            string info = StepsUtilities.GetStepInfo(method, arguments);
-            this.ReportInfo(info);
-            Logger.Instance.Log(LogLevel.Info, "STEP: " + info);
-        }
-
-        private void ReportInfo(string info) =>
-            this.listener.ReportTestMessage(LogLevel.Info, info);
+        public void ReportInfo(MethodBase method, object[] arguments) =>
+            this.listener.ReportTestMessage(
+                LogLevel.Info, 
+                StepsUtilities.GetStepInfo(method, arguments));
 
         public void Dispose()
         {
