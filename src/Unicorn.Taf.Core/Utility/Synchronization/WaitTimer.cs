@@ -12,7 +12,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <summary>
         /// Gets a value indicating if timer was expired or not
         /// </summary>
-        public bool Expired => DateTime.Now < expirationDateTime;
+        public bool Expired => DateTime.Now > expirationDateTime;
 
         /// <summary>
         /// Gets or sets time when timer was started.
