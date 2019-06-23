@@ -100,6 +100,21 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             SetTestsMasks(conf.JsonRunTests.ToArray());
         }
 
+        /// <summary>
+        /// Reset engine config to default state
+        /// </summary>
+        public static void Reset()
+        {
+            tags.Clear();
+            categories.Clear();
+            tests.Clear();
+            TestTimeout = TimeSpan.FromMinutes(15);
+            SuiteTimeout = TimeSpan.FromMinutes(60);
+            ParallelBy = Parallelization.Assembly;
+            Threads = 1;
+            DependentTests = TestsDependency.Run;
+        }
+
         public static string GetInfo()
         {
             const string Delimiter = ",";
