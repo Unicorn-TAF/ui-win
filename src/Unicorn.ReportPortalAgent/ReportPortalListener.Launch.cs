@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
+using ReportPortal.Shared.Reporter;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -12,22 +12,8 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                if (!string.IsNullOrEmpty(this.ExistingLaunchId))
-                {
-                    Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
-                    Bridge.Context.LaunchReporter.StartTask = Task.Run(() => { Bridge.Context.LaunchReporter.LaunchId = ExistingLaunchId; });
-                    return;
-                }
-
-                LaunchMode launchMode;
-                if (Config.Launch.IsDebugMode)
-                {
-                    launchMode = LaunchMode.Debug;
-                }
-                else
-                {
-                    launchMode = LaunchMode.Default;
-                }
+                LaunchMode launchMode = 
+                    Config.Launch.IsDebugMode ? LaunchMode.Debug : LaunchMode.Default;
 
                 var startLaunchRequest = new StartLaunchRequest
                 {
@@ -38,7 +24,11 @@ namespace Unicorn.ReportPortalAgent
                     Tags = Config.Launch.Tags
                 };
 
-                Bridge.Context.LaunchReporter = new LaunchReporter(Bridge.Service);
+                Bridge.Context.LaunchReporter =
+                    string.IsNullOrEmpty(this.ExistingLaunchId) ?
+                    new LaunchReporter(Bridge.Service) :
+                    new LaunchReporter(Bridge.Service, this.ExistingLaunchId);
+
                 Bridge.Context.LaunchReporter.Start(startLaunchRequest);
             }
             catch (Exception exception)
@@ -51,21 +41,6 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                if (!string.IsNullOrEmpty(this.ExistingLaunchId))
-                {
-                    Bridge.Context.LaunchReporter.FinishTask = Task.Run(() =>
-                    {
-                        Bridge.Context.LaunchReporter.StartTask.Wait();
-
-                        foreach (var testNode in Bridge.Context.LaunchReporter.TestNodes)
-                        {
-                            testNode.FinishTask.Wait();
-                        }
-                    });
-                    Bridge.Context.LaunchReporter.FinishTask.Wait();
-                    return;
-                }
-
                 var finishLaunchRequest = new FinishLaunchRequest
                 {
                     EndTime = DateTime.UtcNow,

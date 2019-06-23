@@ -43,24 +43,5 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void AddTestTags(Test test, params string[] tags)
-        {
-            try
-            {
-                var id = test.Outcome.Id;
-                if (this.testFlowIds.ContainsKey(id))
-                {
-                    var updateTestRequest = new UpdateTestItemRequest();
-                    updateTestRequest.Tags = new List<string>();
-                    updateTestRequest.Tags.AddRange(tags);
-
-                    this.testFlowIds[id].Update(updateTestRequest);
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
-            }
-        }
     }
 }

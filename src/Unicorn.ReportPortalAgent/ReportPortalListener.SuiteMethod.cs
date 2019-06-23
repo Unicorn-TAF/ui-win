@@ -41,7 +41,7 @@ namespace Unicorn.ReportPortalAgent
                 startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
                 startTestRequest.Tags.Add(Environment.MachineName);
 
-                var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
                 this.testFlowIds[id] = testVal;
             }
             catch (Exception exception)
@@ -64,25 +64,21 @@ namespace Unicorn.ReportPortalAgent
                     return;
                 }
 
-                var updateTestRequest = new UpdateTestItemRequest();
-
                 // adding categories to test
-                updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.Add(suiteMethod.Outcome.Author);
-                updateTestRequest.Tags.Add(Environment.MachineName);
+                var tags = new List<string>();
+                tags.Add(suiteMethod.Outcome.Author);
+                tags.Add(Environment.MachineName);
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
-                    updateTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
+                    tags.AddRange((suiteMethod as Test).Categories);
                 }
 
                 // adding description to test
-                updateTestRequest.Description =
+                var description =
                     suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed ?
                     suiteMethod.Outcome.Exception.Message :
                     string.Empty;
-
-                this.testFlowIds[id].Update(updateTestRequest);
 
                 // adding failure items
                 if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed)
@@ -109,6 +105,8 @@ namespace Unicorn.ReportPortalAgent
                 var finishTestRequest = new FinishTestItemRequest
                 {
                     EndTime = DateTime.UtcNow,
+                    Description = description,
+                    Tags = tags,
                     Status = statusMap[result]
                 };
 
@@ -156,7 +154,7 @@ namespace Unicorn.ReportPortalAgent
                     startTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
                 }
 
-                var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
                 this.testFlowIds[id] = testVal;
 
                 var finishTestRequest = new FinishTestItemRequest

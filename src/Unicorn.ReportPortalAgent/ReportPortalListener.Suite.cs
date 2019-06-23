@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
 using ReportPortal.Shared;
@@ -34,15 +33,10 @@ namespace Unicorn.ReportPortalAgent
                 startSuiteRequest.Tags = new List<string>();
                 startSuiteRequest.Tags.Add(Environment.MachineName);
 
-                TestReporter test;
-                if (parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId))
-                {
-                    test = Bridge.Context.LaunchReporter.StartNewTestNode(startSuiteRequest);
-                }
-                else
-                {
-                    test = this.suitesFlow[parentId].StartNewTestNode(startSuiteRequest);
-                }
+                var test = 
+                    parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId) ?
+                    Bridge.Context.LaunchReporter.StartChildTestReporter(startSuiteRequest) :
+                    this.suitesFlow[parentId].StartChildTestReporter(startSuiteRequest);
 
                 this.suitesFlow[id] = test;
             }
@@ -63,15 +57,13 @@ namespace Unicorn.ReportPortalAgent
                 // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
                 if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
                 {
-                    var updateSuiteRequest = new UpdateTestItemRequest();
-
-                    updateSuiteRequest.Tags = new List<string>();
-                    updateSuiteRequest.Tags.Add(Environment.MachineName);
+                    var tags = new List<string>();
+                    tags.Add(Environment.MachineName);
 
                     // adding tags to suite
                     if (suite.Tags != null)
                     {
-                        updateSuiteRequest.Tags.AddRange(suite.Tags);
+                        tags.AddRange(suite.Tags);
                     }
 
                     // adding description to suite
@@ -88,48 +80,16 @@ namespace Unicorn.ReportPortalAgent
                         description.AppendLine(appendString);
                     }
 
-                    if (description.Length != 0)
-                    {
-                        updateSuiteRequest.Description = description.ToString();
-                    }
-
-                    if (updateSuiteRequest.Description != null || updateSuiteRequest.Tags != null)
-                    {
-                        this.suitesFlow[id].AdditionalTasks.Add(Task.Run(() =>
-                        {
-                            this.suitesFlow[id].StartTask.Wait();
-                            Bridge.Service.UpdateTestItemAsync(this.suitesFlow[id].TestId, updateSuiteRequest);
-                        }));
-                    }
-
                     // finishing suite
                     var finishSuiteRequest = new FinishTestItemRequest
                     {
                         EndTime = DateTime.UtcNow,
+                        Description = description.ToString(),
+                        Tags = tags,
                         Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : statusMap[result]
                     };
                         
                     this.suitesFlow[id].Finish(finishSuiteRequest);
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
-            }
-        }
-
-        protected void AddSuiteTags(TestSuite suite, params string[] tags)
-        {
-            try
-            {
-                var id = suite.Outcome.Id;
-                if (this.suitesFlow.ContainsKey(id))
-                {
-                    var updateTestRequest = new UpdateTestItemRequest();
-                    updateTestRequest.Tags = new List<string>();
-                    updateTestRequest.Tags.AddRange(tags);
-
-                    this.suitesFlow[id].Update(updateTestRequest);
                 }
             }
             catch (Exception exception)

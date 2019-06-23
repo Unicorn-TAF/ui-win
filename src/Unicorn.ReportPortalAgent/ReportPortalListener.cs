@@ -5,6 +5,7 @@ using System.Net;
 using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Shared;
+using ReportPortal.Shared.Reporter;
 using Unicorn.ReportPortalAgent.Configuration;
 using Unicorn.Taf.Core.Testing;
 
@@ -14,8 +15,8 @@ namespace Unicorn.ReportPortalAgent
     {
         private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
-        private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
-        private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
+        private Dictionary<Guid, ITestReporter> suitesFlow = new Dictionary<Guid, ITestReporter>();
+        private Dictionary<Guid, ITestReporter> testFlowIds = new Dictionary<Guid, ITestReporter>();
 
         static ReportPortalListener()
         {
@@ -60,22 +61,6 @@ namespace Unicorn.ReportPortalAgent
             if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
             {
                 AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
-            }
-        }
-
-        public void ReportAddTestTags(Test test, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddTestTags(test, tags);
-            }
-        }
-
-        public void ReportAddSuiteTags(TestSuite suite, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddSuiteTags(suite, tags);
             }
         }
     }
