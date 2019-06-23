@@ -10,18 +10,18 @@
 	<iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.0.0. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>
+    <releaseNotes>Support of Unicorn.Taf.Core 2.1.0. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation report-portal reporting</tags>
 	<dependencies>
 		<group targetFramework="net45">
 			<dependency id="Newtonsoft.Json" version="10.0.1"/>
-			<dependency id="ReportPortal.Client" version="2.0.1"/>
-			<dependency id="ReportPortal.Shared" version="2.0.0"/>
+			<dependency id="ReportPortal.Client" version="2.1.9"/>
+			<dependency id="ReportPortal.Shared" version="2.1.7"/>
 			<dependency id="RestSharp" version="105.2.3"/>
 		</group>
 		<group>
-			<dependency id="Unicorn.Taf.Core" version="2.0.0"/>
+			<dependency id="Unicorn.Taf.Core" version="2.1.0"/>
 		</group>
     </dependencies>
   </metadata>
