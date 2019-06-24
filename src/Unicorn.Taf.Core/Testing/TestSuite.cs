@@ -11,6 +11,12 @@ using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Testing
 {
+    /// <summary>
+    /// Represents class container of <see cref="Test"/> and <see cref="SuiteMethod"/><para/>
+    /// Contains list of events related to different Suite states (started, finished, skipped)<para/>
+    /// Could have <see cref="ParameterizedAttribute"/> (the class should contain parameterized constructor with corresponding parameters)<para/>
+    /// Each class with tests should be inherited from <see cref="TestSuite"/>
+    /// </summary>
     public class TestSuite
     {
         private readonly Test[] tests;
@@ -24,8 +30,6 @@ namespace Unicorn.Taf.Core.Testing
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.<para/>
-        /// Contains List of tests and Lists of Before and AfterSuites.<para/>
-        /// Contains list of events related to different Suite states (started, finished, skipped)<para/>
         /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites is retrieved from the instance.<para/>
         /// For each test is performed check for skip
         /// </summary>
@@ -52,12 +56,25 @@ namespace Unicorn.Taf.Core.Testing
             this.tests = GetTests();
         }
 
+        /// <summary>
+        /// Delegate used for suite events invocation
+        /// </summary>
+        /// <param name="testSuite">current <see cref="TestSuite"/> instance</param>
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
+        /// <summary>
+        /// Event is invoked before suite execution
+        /// </summary>
         public static event UnicornSuiteEvent OnSuiteStart;
 
+        /// <summary>
+        /// Event is invoked after suite execution
+        /// </summary>
         public static event UnicornSuiteEvent OnSuiteFinish;
 
+        /// <summary>
+        /// Event is invoked if suite is skipped
+        /// </summary>
         public static event UnicornSuiteEvent OnSuiteSkip;
 
         /// <summary>
@@ -82,6 +99,9 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public Dictionary<string, string> Metadata { get; }
 
+        /// <summary>
+        /// Gets suite name (if parameterized data set name ignored)
+        /// </summary>
         public string Name => this.Outcome.Name;
 
         /// <summary>
@@ -89,7 +109,7 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public SuiteOutcome Outcome { get; protected set; }
 
-        public void Execute()
+        internal void Execute()
         {
             var fullName = this.Outcome.Name;
 
@@ -125,7 +145,6 @@ namespace Unicorn.Taf.Core.Testing
             {
                 Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
             }
-
 
             Logger.Instance.Log(LogLevel.Info, $"SUITE {this.Outcome.Result}");
         }

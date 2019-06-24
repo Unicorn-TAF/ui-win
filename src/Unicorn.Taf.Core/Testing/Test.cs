@@ -9,15 +9,19 @@ using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Testing
 {
+    /// <summary>
+    /// Represents the test itself.
+    /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)<para/>
+    /// Contains methods to execute the test and check if test should be skipped<para/>
+    /// </summary>
     public class Test : SuiteMethod
     {
         private readonly DataSet dataSet;
         private HashSet<string> categories = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some TestSuite.<para/>
-        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)<para/>
-        /// Contains methods to execute the test and check if test should be skipped<para/>
+        /// Initializes a new instance of the <see cref="Test"/> class 
+        /// based on actual <see cref="MethodInfo"/> with test body
         /// </summary>
         /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
         public Test(MethodInfo testMethod) : base(testMethod)
@@ -26,9 +30,8 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class, which is part of some <see cref="TestSuite"/>, based on specified <see cref="DataSet"/>.<para/>
-        /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)<para/>
-        /// Contains methods to execute the test and check if test should be skipped<para/>
+        /// Initializes a new instance of the <see cref="Test"/> class 
+        /// based on actual <see cref="MethodInfo"/> with test body and specified <see cref="DataSet"/>.
         /// </summary>
         /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
         /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; null if method does not have parameters</param>
@@ -41,17 +44,35 @@ namespace Unicorn.Taf.Core.Testing
             this.Outcome.Id = AdapterUtilities.GuidFromString(this.Outcome.FullMethodName + postfix);
         }
 
-        /* Events section */
+        /// <summary>
+        /// Delegate used for test events invocation
+        /// </summary>
+        /// <param name="test">current <see cref="Test"/> instance</param>
         public delegate void TestEvent(Test test);
 
+        /// <summary>
+        /// Event is invoked before test execution
+        /// </summary>
         public static event TestEvent OnTestStart;
 
+        /// <summary>
+        /// Event is invoked after test execution
+        /// </summary>
         public static event TestEvent OnTestFinish;
 
+        /// <summary>
+        /// Event is invoked on test pass (OnTestFinish will be invoked anyway)
+        /// </summary>
         public static event TestEvent OnTestPass;
 
+        /// <summary>
+        /// Event is invoked on test fail (OnTestFinish will be invoked anyway)
+        /// </summary>
         public static event TestEvent OnTestFail;
 
+        /// <summary>
+        /// Event is invoked on test skip
+        /// </summary>
         public static event TestEvent OnTestSkip;
 
         /// <summary>

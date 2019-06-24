@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        protected void AddAttachment(Guid id, LogLevel level, string text, string attachmantName, string mime, byte[] content)
+        internal void AddAttachment(Guid id, LogLevel level, string text, string attachmantName, string mime, byte[] content)
         {
             try
             {
@@ -26,7 +24,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void AddLog(Guid id, LogLevel level, string text)
+        internal void AddLog(Guid id, LogLevel level, string text)
         {
             try
             {
@@ -42,6 +40,5 @@ namespace Unicorn.ReportPortalAgent
                 Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
             }
         }
-
     }
 }

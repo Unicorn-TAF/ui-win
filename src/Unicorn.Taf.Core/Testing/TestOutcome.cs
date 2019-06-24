@@ -2,11 +2,16 @@
 
 namespace Unicorn.Taf.Core.Testing
 {
+    /// <summary>
+    /// Represents outcome of executed <see cref="Test"/> or <see cref="SuiteMethod"/>Contains next info:<para/>
+    /// Required info: ID; Suite ID; Title; Full method name; Author; Execution result; Start time; Duration;<para/>
+    /// Optional info (if failed): Exception; Screenshot; Defect reference
+    /// </summary>
     [Serializable]
     public class TestOutcome
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestOutcome"/> class. Initializes with zero execution time and empty bugs array
+        /// Initializes a new instance of the <see cref="TestOutcome"/> class.
         /// </summary>
         public TestOutcome()
         {
@@ -64,7 +69,7 @@ namespace Unicorn.Taf.Core.Testing
         public string Screenshot { get; set; }
 
         /// <summary>
-        /// Gets Array of bugs attached to the test. Has values only when the test failed by bug.
+        /// Gets or sets Array of bugs attached to the test. Has values only when the test failed by bug.
         /// </summary>
         public Defect Defect { get; set; }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Unicorn.UI.Core.UserInput.WindowsApi;
 
@@ -19,7 +18,7 @@ namespace Unicorn.UI.Core.UserInput
         /// </summary>
         private static Keyboard instance;
 
-        private readonly List<SpecialKeys> ScanCodeDependent = 
+        private readonly List<SpecialKeys> scanCodeDependent = 
             new List<SpecialKeys>
             {
                 SpecialKeys.RightAlt,
@@ -43,6 +42,55 @@ namespace Unicorn.UI.Core.UserInput
 
         protected Keyboard()
         {
+        }
+
+        /// <summary>
+        /// See <a href="http://pinvoke.net/default.aspx/user32/SendInput.html">SendInput usage (user32)</a><para/>
+        /// See <a href="http://delphi.about.com/od/objectpascalide/l/blvkc.htm">Virtual key codes</a>
+        /// </summary>
+        public enum SpecialKeys
+        {
+            Backspace = 0x08,
+            Tab = 0x09,
+            Enter = 0x0D,
+            Shift = 0x10,
+            Control = 0x11,
+            Alt = 0x12,
+            Pause = 0x13,
+            CapsLock = 0x14,
+            Escape = 0x1B,
+            Space = 0x20,
+            PageUp = 0x21,
+            PageDown = 0x22,
+            End = 0x23,
+            Home = 0x24,
+            Left = 0x25,
+            Up = 0x26,
+            Right = 0x27,
+            Down = 0x28,
+            Print = 0x2A,
+            PrintScreen = 0x2C,
+            Insert = 0x2D,
+            Delete = 0x2E,
+            LeftWin = 0x5B,
+            RightWin = 0x5C,
+            ContextMenu = 0x5D,
+            F1 = 0x70,
+            F2 = 0x71,
+            F3 = 0x72,
+            F4 = 0x73,
+            F5 = 0x74,
+            F6 = 0x75,
+            F7 = 0x76,
+            F8 = 0x77,
+            F9 = 0x78,
+            F10 = 0x79,
+            F11 = 0x7A,
+            F12 = 0x7B,
+            NumLock = 0x90,
+            ScrollLock = 0x91,
+            LeftAlt = 0xA4,
+            RightAlt = 0xA5
         }
 
         public static Keyboard Instance
@@ -141,7 +189,7 @@ namespace Unicorn.UI.Core.UserInput
 
         private KeyUpDown GetSpecialKeyCode(bool specialKey, KeyUpDown key)
         {
-            if (specialKey && ScanCodeDependent.Contains((SpecialKeys)key))
+            if (specialKey && scanCodeDependent.Contains((SpecialKeys)key))
             {
                 key |= KeyUpDown.KEYEVENTF_EXTENDEDKEY;
             }
@@ -186,55 +234,6 @@ namespace Unicorn.UI.Core.UserInput
             this.keysHeld.Add(b);
             KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYDOWN);
             SendInput(GetInputFor(b, keyUpDown));
-        }
-
-        /// <summary>
-        /// http://pinvoke.net/default.aspx/user32/SendInput.html <para/>
-        /// http://delphi.about.com/od/objectpascalide/l/blvkc.htm
-        /// </summary>
-        public enum SpecialKeys
-        {
-            Backspace = 0x08,
-            Tab = 0x09,
-            Enter = 0x0D,
-            Shift = 0x10,
-            Control = 0x11,
-            Alt = 0x12,
-            Pause = 0x13,
-            CapsLock = 0x14,
-            Escape = 0x1B,
-            Space = 0x20,
-            PageUp = 0x21,
-            PageDown = 0x22,
-            End = 0x23,
-            Home = 0x24,
-            Left = 0x25,
-            Up = 0x26,
-            Right = 0x27,
-            Down = 0x28,
-            Print = 0x2A,
-            PrintScreen = 0x2C,
-            Insert = 0x2D,
-            Delete = 0x2E,
-            LeftWin = 0x5B,
-            RightWin = 0x5C,
-            ContextMenu = 0x5D,
-            F1 = 0x70,
-            F2 = 0x71,
-            F3 = 0x72,
-            F4 = 0x73,
-            F5 = 0x74,
-            F6 = 0x75,
-            F7 = 0x76,
-            F8 = 0x77,
-            F9 = 0x78,
-            F10 = 0x79,
-            F11 = 0x7A,
-            F12 = 0x7B,
-            NumLock = 0x90,
-            ScrollLock = 0x91,
-            LeftAlt = 0xA4,
-            RightAlt = 0xA5
         }
     }
 }

@@ -98,25 +98,8 @@ namespace Unicorn.UI.Core.UserInput
             MouseLeftButtonUpAndDown();
         }
 
-        private void MouseLeftButtonUpAndDown()
-        {
-            LeftDown();
-            LeftUp();
-        }
-
-        private void LeftUp() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
-
-        private void LeftDown() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
-
         private static int SendInput(Input input) =>
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
-
-        private bool PointIsInvalid(Point p) =>
-           double.IsNaN(p.X) || double.IsNaN(p.Y) ||
-            p.X == double.PositiveInfinity || p.X == double.NegativeInfinity ||
-            p.Y == double.PositiveInfinity || p.Y == double.NegativeInfinity;
 
         [DllImport("user32", EntryPoint = "SendInput")]
         private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
@@ -132,5 +115,22 @@ namespace Unicorn.UI.Core.UserInput
 
         [DllImport("user32.dll")]
         private static extern short GetDoubleClickTime();
+
+        private void MouseLeftButtonUpAndDown()
+        {
+            LeftDown();
+            LeftUp();
+        }
+
+        private void LeftUp() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+
+        private void LeftDown() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
+
+        private bool PointIsInvalid(Point p) =>
+            double.IsNaN(p.X) || double.IsNaN(p.Y) ||
+            p.X == double.PositiveInfinity || p.X == double.NegativeInfinity ||
+            p.Y == double.PositiveInfinity || p.Y == double.NegativeInfinity;
     }
 }
