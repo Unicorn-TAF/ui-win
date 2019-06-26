@@ -39,7 +39,10 @@ namespace Unicorn.Taf.Core.Testing
 
             foreach (var attribute in GetType().GetCustomAttributes(typeof(MetadataAttribute), true) as MetadataAttribute[])
             {
-                this.Metadata.Add(attribute.Key, attribute.Value);
+                if (!this.Metadata.ContainsKey(attribute.Key))
+                {
+                    this.Metadata.Add(attribute.Key, attribute.Value);
+                }
             }
 
             var suiteAttribute = GetType().GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute;
