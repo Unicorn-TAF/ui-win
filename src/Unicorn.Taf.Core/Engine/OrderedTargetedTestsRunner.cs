@@ -78,16 +78,16 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
-        private bool IsTestRunnable(MethodInfo testMethod, string category)
+        private bool IsTestRunnable(MethodInfo method, string category)
         {
-            if (testMethod.GetCustomAttribute(typeof(DisabledAttribute), true) != null)
+            if (method.GetCustomAttribute<TestAttribute>(true) == null || method.GetCustomAttribute<DisabledAttribute>(true) != null)
             {
                 return false;
             }
 
             var categories = 
                 from attribute
-                in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
+                in method.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                 select attribute.Category.ToUpper().Trim();
 
             return string.IsNullOrEmpty(category) || categories.Contains(category.ToUpper());

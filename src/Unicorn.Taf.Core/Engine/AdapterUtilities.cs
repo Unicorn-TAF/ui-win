@@ -31,21 +31,21 @@ namespace Unicorn.Taf.Core.Engine
             return suiteType.GetRuntimeMethods().Any(t => IsTestRunnable(t));
         }
 
-        public static bool IsTestRunnable(MethodInfo testMethod)
+        public static bool IsTestRunnable(MethodInfo method)
         {
-            if (testMethod.GetCustomAttribute(typeof(DisabledAttribute), true) != null)
+            if (method.GetCustomAttribute<TestAttribute>(true) == null || method.GetCustomAttribute<DisabledAttribute>(true) != null)
             {
                 return false;
             }
 
             var categories = 
                 from attribute
-                in testMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
+                in method.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
                 select attribute.Category.ToUpper().Trim();
             
             var hasCategoriesToRun = categories.Intersect(Config.RunCategories).Count() == Config.RunCategories.Count;
 
-            var fullTestName = GetFullTestMethodName(testMethod);
+            var fullTestName = GetFullTestMethodName(method);
             var matchTestsMasks = !Config.RunTests.Any() || Config.RunTests.Any(m => Regex.IsMatch(fullTestName, m));
             return hasCategoriesToRun && matchTestsMasks;
         }
