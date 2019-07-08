@@ -44,7 +44,7 @@ namespace Unicorn.UI.Core.UserInput
             {
                 if (PointIsInvalid(value))
                 {
-                    throw new InvalidOperationException(string.Format("Trying to set location outside the screen. {0}", value));
+                    throw new InvalidOperationException($"Trying to set location outside the screen. {value}");
                 }
 
                 SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
@@ -98,7 +98,7 @@ namespace Unicorn.UI.Core.UserInput
             MouseLeftButtonUpAndDown();
         }
 
-        private static int SendInput(Input input) =>
+        internal int SendInput(Input input) =>
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         [DllImport("user32", EntryPoint = "SendInput")]
@@ -118,15 +118,9 @@ namespace Unicorn.UI.Core.UserInput
 
         private void MouseLeftButtonUpAndDown()
         {
-            LeftDown();
-            LeftUp();
-        }
-
-        private void LeftUp() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
-
-        private void LeftDown() =>
             SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+        }
 
         private bool PointIsInvalid(Point p) =>
             double.IsNaN(p.X) || double.IsNaN(p.Y) ||

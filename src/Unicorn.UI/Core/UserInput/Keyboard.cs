@@ -125,10 +125,7 @@ namespace Unicorn.UI.Core.UserInput
 
         public virtual List<SpecialKeys> HeldKeys => this.heldKeys;
 
-        public virtual void Enter(string keysToType) =>
-            Send(keysToType);
-
-        public virtual void Send(string keysToType)
+        public virtual Keyboard Type(string keysToType)
         {
             this.CapsLockOn = false;
 
@@ -152,25 +149,35 @@ namespace Unicorn.UI.Core.UserInput
                     SendKeyUp((short)SpecialKeys.Shift, false);
                 }
             }
+
+            return this;
         }
 
-        public virtual void PressSpecialKey(SpecialKeys key) =>
+        public virtual Keyboard PressSpecialKey(SpecialKeys key)
+        {
             Send(key, true);
+            return this;
+        }
 
-        public virtual void HoldKey(SpecialKeys key)
+        public virtual Keyboard HoldKey(SpecialKeys key)
         {
             SendKeyDown((short)key, true);
             this.heldKeys.Add(key);
+            return this;
         }
 
-        public virtual void LeaveKey(SpecialKeys key)
+        public virtual Keyboard LeaveKey(SpecialKeys key)
         {
             SendKeyUp((short)key, true);
             this.heldKeys.Remove(key);
+            return this;
         }
 
-        public virtual void LeaveAllKeys() =>
-            new List<SpecialKeys>(this.heldKeys).ForEach(LeaveKey);
+        public virtual Keyboard LeaveAllKeys()
+        {
+            new List<SpecialKeys>(this.heldKeys).ForEach(LeaveSingleKey);
+            return this;
+        }
 
         [DllImport("user32", EntryPoint = "SendInput")]
         private static extern int SendInput(uint numberOfInputs, ref Input input, int structSize);
@@ -186,6 +193,12 @@ namespace Unicorn.UI.Core.UserInput
 
         private static bool ShiftKeyIsNeeded(short key) =>
             ((key >> 8) & 1) == 1;
+
+        private void LeaveSingleKey(SpecialKeys key)
+        {
+            SendKeyUp((short)key, true);
+            this.heldKeys.Remove(key);
+        }
 
         private KeyUpDown GetSpecialKeyCode(bool specialKey, KeyUpDown key)
         {
@@ -216,7 +229,7 @@ namespace Unicorn.UI.Core.UserInput
         {
             if (!this.keysHeld.Contains(b))
             {
-                throw new InvalidOperationException(string.Format("Cannot press the key {0} as its already pressed", b));
+                throw new InvalidOperationException($"Cannot press the key {b} as its already pressed");
             }
 
             this.keysHeld.Remove(b);
@@ -228,7 +241,7 @@ namespace Unicorn.UI.Core.UserInput
         {
             if (this.keysHeld.Contains(b))
             {
-                throw new InvalidOperationException(string.Format("Cannot press the key {0} as its already pressed", b));
+                throw new InvalidOperationException($"Cannot press the key {b} as its already pressed");
             }
 
             this.keysHeld.Add(b);
