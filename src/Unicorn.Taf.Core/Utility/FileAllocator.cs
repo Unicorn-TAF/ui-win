@@ -93,15 +93,20 @@ namespace Unicorn.Taf.Core.Utility
             // filter out all files which names end with exclusions list.
             if (fileNamesToExclude != null)
             {
+                var listToExclude = new List<string>();
+
                 foreach (var file in fileNamesToExclude)
                 {
-                    currentFiles.ExceptWith(currentFiles.Where(f => f.EndsWith(file)));
+                    listToExclude.AddRange(currentFiles.Where(f => f.EndsWith(file)));
                 }
+
+                currentFiles.ExceptWith(listToExclude);
             }
 
             if (!string.IsNullOrEmpty(this.ExpectedFileNamePart))
             {
-                currentFiles.ExceptWith(currentFiles.Where(f => !f.Contains(this.ExpectedFileNamePart)));
+                var notMatchingFiles = currentFiles.Where(f => !f.Contains(this.ExpectedFileNamePart));
+                currentFiles.ExceptWith(notMatchingFiles);
             }
 
             if (!currentFiles.Any())
