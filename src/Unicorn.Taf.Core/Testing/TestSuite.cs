@@ -226,12 +226,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            var testTask = Task.Run(() => { this.RunTest(test); });
-
-            if (!testTask.Wait(Config.TestTimeout))
-            {
-                test.Fail(new TimeoutException($"Test timeout ({Config.TestTimeout}) reached"));
-            }
+            this.RunTest(test);
 
             this.Outcome.TestsOutcomes.Add(test.Outcome);
         }
