@@ -25,7 +25,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test2()
         {
             Logger.Instance.Log(LogLevel.Info, "Test2 started");
-            Thread.Sleep(500);
+            Thread.Sleep(2500);
             Logger.Instance.Log(LogLevel.Info, "Test2 finished");
         }
 

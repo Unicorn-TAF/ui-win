@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
+using System.Threading.Tasks;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
@@ -226,13 +226,11 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            var testThread = new Thread(() => this.RunTest(test));
-            testThread.Start();
+            var testTask = Task.Run(() => { this.RunTest(test); });
 
-            if (!testThread.Join(Config.TestTimeout))
+            if (!testTask.Wait(Config.TestTimeout))
             {
-                testThread.Abort();
-                test.Fail(new TimeoutException(string.Format("Test timeout ({0:F1} minutes) reached", Config.TestTimeout.TotalMinutes)));
+                test.Fail(new TimeoutException($"Test timeout ({Config.TestTimeout}) reached"));
             }
 
             this.Outcome.TestsOutcomes.Add(test.Outcome);
@@ -244,34 +242,27 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
         {
-            try
+            if (this.skipTests)
             {
-                if (this.skipTests)
-                {
-                    test.Skip();
-                    Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
-                    return;
-                }
-
-                if (!this.RunSuiteMethods(this.beforeTests))
-                {
-                    test.Skip();
-                    Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
-                    return;
-                }
-
-                test.Execute(this);
-
-                this.RunAftertests(test.Outcome.Result == Status.Failed);
-
-                if (test.Outcome.Result == Status.Failed)
-                {
-                    this.Outcome.Result = Status.Failed;
-                }
+                test.Skip();
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
+                return;
             }
-            catch (ThreadAbortException)
+
+            if (!this.RunSuiteMethods(this.beforeTests))
             {
-                // In case of test fail by timeout.
+                test.Skip();
+                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
+                return;
+            }
+
+            test.Execute(this);
+
+            this.RunAftertests(test.Outcome.Result == Status.Failed);
+
+            if (test.Outcome.Result == Status.Failed)
+            {
+                this.Outcome.Result = Status.Failed;
             }
         }
 

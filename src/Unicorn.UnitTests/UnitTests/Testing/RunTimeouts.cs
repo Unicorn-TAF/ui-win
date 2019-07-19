@@ -16,8 +16,9 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check Test timeout")]
         public void TestTimeoutsTestTimeout()
         {
+            Config.Reset();
             Config.SetSuiteTags("timeouts");
-            Config.TestTimeout = TimeSpan.FromMilliseconds(400);
+            Config.TestTimeout = TimeSpan.FromSeconds(1);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
 
