@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -136,7 +138,16 @@ namespace Unicorn.Taf.Core.Testing
 
             try
             {
-                this.TestMethod.Invoke(suiteInstance, null);
+                var testTask = Task.Run(() =>
+                {
+                    this.TestMethod.Invoke(suiteInstance, null);
+                });
+
+                if (!testTask.Wait(Config.TestTimeout))
+                {
+                    throw new TestTimeoutException($"{this.MethodType} timeout ({Config.TestTimeout}) reached");
+                }
+                
                 this.Outcome.Result = Status.Passed;
 
                 try
@@ -150,7 +161,7 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                this.Fail(ex.InnerException);
+                this.Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
 
                 try
                 {

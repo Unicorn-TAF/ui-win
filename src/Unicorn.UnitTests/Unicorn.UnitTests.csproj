@@ -121,13 +121,15 @@
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\UBaseTestSuite.cs" />
+    <Compile Include="Suites\USuiteForTimeouts3.cs" />
+    <Compile Include="Suites\USuiteForTimeouts2.cs" />
     <Compile Include="Suites\USuiteOrdered1.cs" />
     <Compile Include="Suites\USuiteOrdered3.cs" />
     <Compile Include="Suites\USuiteOrdered2.cs" />
     <Compile Include="Suites\USuiteWithParameterizedTests.cs" />
     <Compile Include="Suites\UParameterizedSuite.cs" />
     <Compile Include="Suites\USuiteWithDependencies.cs" />
-    <Compile Include="Suites\USuiteForTimeouts.cs" />
+    <Compile Include="Suites\USuiteForTimeouts1.cs" />
     <Compile Include="Suites\USuite.cs" />
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
