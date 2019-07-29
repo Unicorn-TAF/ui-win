@@ -8,6 +8,9 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Utility
 {
+    /// <summary>
+    /// Provides ability to take screenshots.
+    /// </summary>
     public class Screenshotter
     {
         private const int MaxLength = 255;
@@ -15,12 +18,34 @@ namespace Unicorn.Taf.Core.Utility
         private readonly ImageFormat format;
         private readonly string screenshotsDir;
 
-        public Screenshotter()
-            : this(Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots"), ImageFormat.Png)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Screenshotter"/> with default directory.<para/>
+        /// Default dir is ".\Screenshots"
+        /// </summary>
+        public Screenshotter() 
+            : this(
+                  Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots"), 
+                  ImageFormat.Png, 
+                  false)
         {
         }
 
-        public Screenshotter(string screenshotsDir, ImageFormat format)
+        /// <summary>
+        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// </summary>
+        /// <param name="screenshotsDir">directory to save screenshots to</param>
+        /// <param name="format">screenshot image format</param>
+        public Screenshotter(string screenshotsDir, ImageFormat format) : this(screenshotsDir, format, false)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// </summary>
+        /// <param name="screenshotsDir">directory to save screenshots to</param>
+        /// <param name="format">screenshot image format</param>
+        /// <param name="subscribeToEvents">true - if need to subscribe to unicorn events; otherwise - false</param>
+        public Screenshotter(string screenshotsDir, ImageFormat format, bool subscribeToEvents)
         {
             this.format = format;
             this.screenshotsDir = screenshotsDir;
@@ -30,10 +55,19 @@ namespace Unicorn.Taf.Core.Utility
                 Directory.CreateDirectory(screenshotsDir);
             }
 
-            Test.OnTestFail += TakeScreenshot;
-            SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
+            if (subscribeToEvents)
+            {
+                Test.OnTestFail += TakeScreenshot;
+                SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
+            }
         }
 
+        /// <summary>
+        /// Take screenshot with specified name and save to specified directory.
+        /// </summary>
+        /// <param name="folder">folder to save screenshot to</param>
+        /// <param name="fileName">screenshot file name without extension</param>
+        /// <returns></returns>
         public string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
@@ -65,7 +99,21 @@ namespace Unicorn.Taf.Core.Utility
             }
         }
 
+        /// <summary>
+        /// Take screenshot with specified name and save to screenshots directory.
+        /// </summary>
+        /// <param name="fileName">screenshot file name without extension</param>
+        /// <returns></returns>
         public string TakeScreenshot(string fileName) => TakeScreenshot(screenshotsDir, fileName);
+
+        /// <summary>
+        /// Unsubscribe from Unicorn events.
+        /// </summary>
+        public void Unsubscribe()
+        {
+            Test.OnTestFail -= TakeScreenshot;
+            SuiteMethod.OnSuiteMethodFail -= TakeScreenshot;
+        }
 
         private Bitmap GetScreenshot()
         {
