@@ -10,6 +10,9 @@ using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Testing
 {
+    /// <summary>
+    /// Represents suite method type
+    /// </summary>
     public enum SuiteMethodType
     {
         BeforeSuite,
@@ -19,6 +22,11 @@ namespace Unicorn.Taf.Core.Testing
         Test
     }
 
+    /// <summary>
+    /// Represents the suite method itself (which is also base for <see cref="Test"/>).
+    /// Contains list of events related to different suite method states (started, finished, skipped, passed, failed)<para/>
+    /// Contains methods to execute the suite method and base methods for all types of suite methods<para/>
+    /// </summary>
     public class SuiteMethod
     {
         /// <summary>
@@ -49,17 +57,35 @@ namespace Unicorn.Taf.Core.Testing
                 testAttribute.Title;
         }
 
-        /* Events section*/
+        /// <summary>
+        /// Delegate used for suite method events invocation
+        /// </summary>
+        /// <param name="suiteMethod">current <see cref="SuiteMethod"/> instance</param>
         public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
 
+        /// <summary>
+        /// Event is invoked before suite method execution
+        /// </summary>
         public static event UnicornSuiteMethodEvent OnSuiteMethodStart;
 
+        /// <summary>
+        /// Event is invoked after suite method execution
+        /// </summary>
         public static event UnicornSuiteMethodEvent OnSuiteMethodFinish;
 
+        /// <summary>
+        /// Event is invoked on suite method pass (<see cref="OnSuiteMethodFinish"/> OnTestFinish will be invoked anyway)
+        /// </summary>
         public static event UnicornSuiteMethodEvent OnSuiteMethodPass;
 
+        /// <summary>
+        /// Event is invoked on suite method fail (<see cref="OnSuiteMethodFinish"/> will be invoked anyway)
+        /// </summary>
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
+        /// <summary>
+        /// Gets current log in for of <see cref="StringBuilder"/>
+        /// </summary>
         public static StringBuilder LogOutput { get; } = new StringBuilder();
 
         /// <summary>

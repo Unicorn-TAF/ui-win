@@ -3,7 +3,7 @@
 namespace Unicorn.Taf.Core.Testing
 {
     /// <summary>
-    /// Represents outcome of executed <see cref="Test"/> or <see cref="SuiteMethod"/>Contains next info:<para/>
+    /// Represents outcome of executed <see cref="Test"/> or <see cref="SuiteMethod"/>. Contains next info:<para/>
     /// Required info: ID; Suite ID; Title; Full method name; Author; Execution result; Start time; Duration;<para/>
     /// Optional info (if failed): Exception; Screenshot; Defect reference
     /// </summary>

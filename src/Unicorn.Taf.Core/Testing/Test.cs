@@ -22,7 +22,7 @@ namespace Unicorn.Taf.Core.Testing
         private HashSet<string> categories = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> class 
+        /// Initializes a new instance of the <see cref="Test"/> 
         /// based on actual <see cref="MethodInfo"/> with test body
         /// </summary>
         /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
@@ -63,12 +63,12 @@ namespace Unicorn.Taf.Core.Testing
         public static event TestEvent OnTestFinish;
 
         /// <summary>
-        /// Event is invoked on test pass (OnTestFinish will be invoked anyway)
+        /// Event is invoked on test pass (<see cref="OnTestFinish"/> will be invoked anyway)
         /// </summary>
         public static event TestEvent OnTestPass;
 
         /// <summary>
-        /// Event is invoked on test fail (OnTestFinish will be invoked anyway)
+        /// Event is invoked on test fail (<see cref="OnTestFinish"/> will be invoked anyway)
         /// </summary>
         public static event TestEvent OnTestFail;
 

@@ -9,15 +9,17 @@ using Unicorn.Taf.Core.Testing.Attributes;
 #pragma warning disable S3885 // "Assembly.Load" should be used
 namespace Unicorn.Taf.Core.Engine
 {
+    /// <summary>
+    /// Provides ability to run tests in specified order and with specified per suite categories.
+    /// It is parameterized by dictionary where key is suite name and value is category
+    /// </summary>
     public class OrderedTargetedTestsRunner : TestsRunner
     {
         private readonly string testsAssemblyFile;
         private readonly Dictionary<string, string> filters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> class.<para/>
-        /// The runner executes ordered list of suites specified by name. 
-        /// Suites could have different categories specified
+        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> for specified assembly and with specified filters.
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
@@ -28,6 +30,9 @@ namespace Unicorn.Taf.Core.Engine
             this.filters = filters;
         }
 
+        /// <summary>
+        /// Run all observed tests matching selection criteria
+        /// </summary>
         public override void RunTests()
         {
             var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);

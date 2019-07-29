@@ -10,14 +10,26 @@ using Unicorn.Taf.Core.Testing.Attributes;
 #pragma warning disable S3885 // "Assembly.Load" should be used
 namespace Unicorn.Taf.Core.Engine
 {
+    /// <summary>
+    /// Provides ability to run tests which are filtered based on <see cref="Config"/>.
+    /// </summary>
     public class TestsRunner
     {
         private readonly string testsAssemblyFile;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly
+        /// </summary>
+        /// <param name="assemblyPath">path to tests assembly file</param>
         public TestsRunner(string assemblyPath) : this(assemblyPath, true)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly based on specified configuration file
+        /// </summary>
+        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="configurationFileName">path to configuration file</param>
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
             this.testsAssemblyFile = assemblyPath;
@@ -25,6 +37,11 @@ namespace Unicorn.Taf.Core.Engine
             this.Outcome = new LaunchOutcome();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly with ability to specify if need to load file from default config
+        /// </summary>
+        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="getConfigFromFile">true - if need to load config from default file (.\unicorn.conf); false if use default values from <see cref="Config"/></param>
         public TestsRunner(string assemblyPath, bool getConfigFromFile)
         {
             this.testsAssemblyFile = assemblyPath;
@@ -37,12 +54,21 @@ namespace Unicorn.Taf.Core.Engine
             this.Outcome = new LaunchOutcome();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestsRunner"/>.
+        /// </summary>
         protected TestsRunner()
         {
         }
 
+        /// <summary>
+        /// Gets or sets launch outcome
+        /// </summary>
         public LaunchOutcome Outcome { get; protected set; }
 
+        /// <summary>
+        /// Run all observed tests matching selection criteria
+        /// </summary>
         public virtual void RunTests()
         {
             var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
@@ -81,6 +107,10 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
+        /// <summary>
+        /// Run test suite of specified <see cref="Type"/>
+        /// </summary>
+        /// <param name="type">suite <see cref="Type"/></param>
         protected void RunTestSuite(Type type)
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
@@ -100,12 +130,22 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
 
+        /// <summary>
+        /// Execute suite iteration (the suite itself for non-parameterized, suite instance for current data set)
+        /// </summary>
+        /// <param name="testSuite">suite instance</param>
         protected void ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
             this.Outcome.SuitesOutcomes.Add(testSuite.Outcome);
         }
 
+        /// <summary>
+        /// Get <see cref="MethodInfo"/> representing run init / cleanup
+        /// </summary>
+        /// <param name="assembly">assembly to search within</param>
+        /// <param name="attributeType">Type of atribute class should be marked with</param>
+        /// <returns></returns>
         protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
