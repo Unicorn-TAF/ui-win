@@ -6,6 +6,9 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 
 namespace Unicorn.Taf.Core.Utility
 {
+    /// <summary>
+    /// Provides with ability to wait for and allocate files in filesystem.
+    /// </summary>
     public class FileAllocator
     {
         private readonly string destinationFolder;
@@ -50,6 +53,9 @@ namespace Unicorn.Taf.Core.Utility
             };
         }
 
+        /// <summary>
+        /// Gets or sets value for expected file name part to simplify allocation process (optional).
+        /// </summary>
         public string ExpectedFileNamePart { get; set; }
 
         /// <summary>

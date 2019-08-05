@@ -7,6 +7,9 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Utility
 {
+    /// <summary>
+    /// Provides with ability to generate trx file based on <see cref="LaunchOutcome"/>
+    /// </summary>
     public class TrxCreator
     {
         private const string Adapter = "Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
@@ -37,6 +40,9 @@ namespace Unicorn.Taf.Core.Utility
         private int notExecuted = 0;
         private int completed = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrxCreator"/>.
+        /// </summary>
         public TrxCreator()
         {
             this.trx = new XmlDocument();
@@ -50,6 +56,11 @@ namespace Unicorn.Taf.Core.Utility
             results = trx.CreateElement(string.Empty, "Results", string.Empty);
         }
 
+        /// <summary>
+        /// Generates trx file for <see cref="LaunchOutcome"/> and saves it by specified path
+        /// </summary>
+        /// <param name="outcome">tests run outcome</param>
+        /// <param name="trxPath">resulting trx full file name</param>
         public void GenerateTrxFile(LaunchOutcome outcome, string trxPath)
         {
             if (!outcome.SuitesOutcomes.Any())
@@ -133,7 +144,7 @@ namespace Unicorn.Taf.Core.Utility
             return testRun;
         }
 
-        private XmlElement GetUnitTest(TestOutcome outcome, string executionIdValue)
+        private XmlElement GetUnitTest(TestOutcome outcome, string executionIdValue, Guid idValue)
         {
             var unitTest = trx.CreateElement(string.Empty, "UnitTest", string.Empty);
 
@@ -144,7 +155,8 @@ namespace Unicorn.Taf.Core.Utility
             storage.Value = string.Empty; ////TODO: Path.GetFileName(outcome.testMethodInfo.DeclaringType.Assembly.Location));
 
             var id = trx.CreateAttribute("id");
-            id.Value = outcome.Id.ToString();
+
+            id.Value = idValue.ToString();
 
             unitTest.Attributes.Append(name);
             unitTest.Attributes.Append(storage);
@@ -219,9 +231,13 @@ namespace Unicorn.Taf.Core.Utility
 
                 var executionIdValue = AdapterUtilities.GuidFromString(testOutcome.StartTime.ToString(DtFormat)).ToString();
 
-                var unitTest = GetUnitTest(testOutcome, executionIdValue);
-                var testEntry = GetTestEntry(testOutcome, executionIdValue);
-                var unitTestResult = GetUnitTestResult(testOutcome, executionIdValue);
+                var testId = string.IsNullOrEmpty(outcome.DataSetName) ?
+                    testOutcome.Id :
+                    AdapterUtilities.GuidFromString(testOutcome.FullMethodName + $"[{outcome.DataSetName}]");
+
+                var unitTest = GetUnitTest(testOutcome, executionIdValue, testId);
+                var testEntry = GetTestEntry(testOutcome, executionIdValue, testId);
+                var unitTestResult = GetUnitTestResult(testOutcome, executionIdValue, testId);
 
                 testDefinitions.AppendChild(unitTest);
                 testEntries.AppendChild(testEntry);
@@ -239,7 +255,7 @@ namespace Unicorn.Taf.Core.Utility
 
             if (!string.IsNullOrEmpty(outcome.DataSetName))
             {
-                nameValue += "[" + outcome.DataSetName + "]";
+                nameValue += $"[{outcome.DataSetName}]";
             }
 
             name.Value = nameValue;
@@ -253,7 +269,7 @@ namespace Unicorn.Taf.Core.Utility
             return testList;
         }
 
-        private XmlElement GetUnitTestResult(TestOutcome outcome, string executionIdValue)
+        private XmlElement GetUnitTestResult(TestOutcome outcome, string executionIdValue, Guid idValue)
         {
             var unitTestResult = trx.CreateElement(string.Empty, "UnitTestResult", string.Empty);
 
@@ -261,7 +277,8 @@ namespace Unicorn.Taf.Core.Utility
             executionId.Value = executionIdValue;
 
             var testId = trx.CreateAttribute("testId");
-            testId.Value = outcome.Id.ToString();
+
+            testId.Value = idValue.ToString();
 
             var testName = trx.CreateAttribute("testName");
             testName.Value = outcome.FullMethodName;
@@ -336,12 +353,13 @@ namespace Unicorn.Taf.Core.Utility
             return unitTestResult;
         }
 
-        private XmlElement GetTestEntry(TestOutcome outcome, string executionIdValue)
+        private XmlElement GetTestEntry(TestOutcome outcome, string executionIdValue, Guid idValue)
         {
             var testEntry = trx.CreateElement(string.Empty, "TestEntry", string.Empty);
 
             var testId = trx.CreateAttribute("testId");
-            testId.Value = outcome.Id.ToString();
+
+            testId.Value = idValue.ToString();
 
             var executionId = trx.CreateAttribute("executionId");
             executionId.Value = executionIdValue;

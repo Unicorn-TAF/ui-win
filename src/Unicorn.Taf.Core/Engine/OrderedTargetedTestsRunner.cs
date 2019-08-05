@@ -10,7 +10,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.Taf.Core.Engine
 {
     /// <summary>
-    /// Provides ability to run tests in specified order and with specified per suite categories.
+    /// Provides with ability to run tests in specified order and with specified per suite categories.
     /// It is parameterized by dictionary where key is suite name and value is category
     /// </summary>
     public class OrderedTargetedTestsRunner : TestsRunner
