@@ -1,9 +1,15 @@
 ﻿namespace Unicorn.Taf.Core.Logging
 {
+    /// <summary>
+    /// Entry point of framework logger.
+    /// </summary>
     public static class Logger
     {
         private static ILogger instance;
 
+        /// <summary>
+        /// Gets framework logger instance (default logger is <see cref="DefaultLogger"/>).
+        /// </summary>
         public static ILogger Instance
         {
             get
@@ -23,6 +29,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets value to filter out log messages by severity (default is Debug).
+        /// </summary>
         public static LogLevel Level { get; set; } = LogLevel.Debug;
     }
 }

@@ -8,6 +8,13 @@ using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 
 namespace Unicorn.Taf.Core.Steps
 {
+    /// <summary>
+    /// From the box implementation of steps for different kind of assertions:<para/>
+    /// - typified/non-typified object checks<para/>
+    /// - typified/non-typified objects collection checks<para/>
+    /// - chain assertions on typified/non-typified objects<para/>
+    /// - chain assertions on typified/non-typified objects collection<para/>
+    /// </summary>
     [Inject(typeof(StepsEvents))]
     public class AssertionSteps
     {

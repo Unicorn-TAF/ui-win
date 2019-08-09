@@ -4,8 +4,17 @@ using Unicorn.Taf.Core.Steps.Attributes;
 
 namespace Unicorn.Taf.Core.Steps
 {
+    /// <summary>
+    /// Provides test steps with additional functionality.
+    /// </summary>
     public static class StepsUtilities
     {
+        /// <summary>
+        /// Get text description of test step based on title provided in <see cref="StepAttribute"/> and method argument.
+        /// </summary>
+        /// <param name="method"><see cref="MethodBase"/> representing test step</param>
+        /// <param name="arguments">test step method arguments array</param>
+        /// <returns></returns>
         public static string GetStepInfo(MethodBase method, object[] arguments)
         {
             var attribute = method.GetCustomAttribute(typeof(StepAttribute), true) as StepAttribute;
