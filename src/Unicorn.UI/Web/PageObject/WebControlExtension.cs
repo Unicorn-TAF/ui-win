@@ -5,8 +5,16 @@ using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Desktop.PageObject
 {
+    /// <summary>
+    /// Extension for WebControl
+    /// </summary>
     public static class WebControlExtension
     {
+        /// <summary>
+        /// Check if page object exists it the moment ignoring implicitly wait
+        /// </summary>
+        /// <param name="control">Control instance</param>
+        /// <returns></returns>
         public static bool Exists(this WebControl control)
         {
             var originalTimeout = WebDriver.Instance.ImplicitlyWait;
