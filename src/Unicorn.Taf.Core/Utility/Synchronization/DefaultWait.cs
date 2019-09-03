@@ -6,6 +6,16 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     public class DefaultWait : AbstractWait
     {
+        public DefaultWait() : base()
+        {
+        }
+
+        public DefaultWait(TimeSpan timeout, TimeSpan pollingInterval)
+        {
+            this.Timeout = timeout;
+            this.PollingInterval = pollingInterval;
+        }
+
         /// <summary>
         /// Wait until specified condition is met
         /// </summary>
