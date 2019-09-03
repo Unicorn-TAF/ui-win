@@ -47,6 +47,13 @@ namespace Unicorn.UnitTests.Tests
         }
 
         [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check typified locators work")]
+        public void TestTypifiedLocators()
+        {
+            Assert.IsTrue(charmap.Window.ButtonSelectLocatedByName.Visible);
+        }
+
+        [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check initialization of controls as class fields")]
         public void TestGuiPageObjectInitializationOfControlsAsClassFields()
         {

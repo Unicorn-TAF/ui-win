@@ -97,6 +97,9 @@
     <Compile Include="Driver\ByLocator.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SortedMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SelectedMatcher.cs" />
+    <Compile Include="PageObject\By\ByIdAttribute.cs" />
+    <Compile Include="PageObject\By\ByClassAttribute.cs" />
+    <Compile Include="PageObject\By\ByNameAttribute.cs" />
     <Compile Include="UserInput\Constants.cs" />
     <Compile Include="UserInput\WindowsApi\Input.cs" />
     <Compile Include="UserInput\Keyboard.cs" />
