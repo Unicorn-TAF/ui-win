@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Remote;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.IOS.Driver

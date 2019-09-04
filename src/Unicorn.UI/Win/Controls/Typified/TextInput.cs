@@ -1,6 +1,6 @@
 ﻿using System;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
@@ -16,9 +16,9 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_EditControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_EditControlTypeId;
 
-        public string Value
+        public virtual string Value
         {
             get
             {
@@ -33,9 +33,10 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        protected IUIAutomationValuePattern ValuePattern => this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+        protected IUIAutomationValuePattern ValuePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
-        public void SendKeys(string text)
+        public virtual void SendKeys(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
 
@@ -49,7 +50,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             pattern.SetValue(text);
         }
 
-        public bool SetText(string text)
+        public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 
@@ -67,7 +68,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to set (input already has such text)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to set (input already has such text)");
                 return false;
             }
         }

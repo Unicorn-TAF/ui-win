@@ -1,17 +1,41 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace Unicorn.UI.Core.Controls
 {
+    /// <summary>
+    /// Thrown in case when UI control has not expected state.
+    /// </summary>
+    [Serializable]
     public class ControlInvalidStateException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ControlInvalidStateException"/>.
+        /// </summary>
         public ControlInvalidStateException()
             : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ControlInvalidStateException"/> with specified message.
+        /// </summary>
+        /// <param name="exception">exception message</param>
         public ControlInvalidStateException(string exception)
             : base(exception)
         {
+        }
+
+        protected ControlInvalidStateException(SerializationInfo info, StreamingContext context) 
+            : base(info, context)
+        {
+        }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
         }
     }
 }

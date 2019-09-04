@@ -1,5 +1,5 @@
 ﻿using System;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Web.Controls.Typified
@@ -15,7 +15,7 @@ namespace Unicorn.UI.Web.Controls.Typified
             this.Instance.SendKeys(text);
         }
 
-        public virtual bool SetText(string text)
+        public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
 
@@ -27,7 +27,7 @@ namespace Unicorn.UI.Web.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to set (input already has such text)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to set (input already has such text)");
                 return false;
             }
         }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.UserInput;
 using Unicorn.UI.Win.Driver;
-using Unicorn.UI.Win.Input;
 
 namespace Unicorn.UI.Win.Controls
 {
@@ -28,7 +28,7 @@ namespace Unicorn.UI.Win.Controls
 
         public virtual string ClassName => null;
 
-        public abstract int Type { get; }
+        public abstract int UiaType { get; }
 
         public virtual IUIAutomationElement Instance
         {
@@ -43,15 +43,8 @@ namespace Unicorn.UI.Win.Controls
             }
         }
 
-        public string Text
-        {
-            get
-            {
-                var name = this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
-                var id = this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_AutomationIdPropertyId) as string;
-                return !string.IsNullOrEmpty(name) ? name : id;
-            }
-        }
+        public string Text =>
+            this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
 
         public bool Enabled => (bool)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_IsEnabledPropertyId);
 

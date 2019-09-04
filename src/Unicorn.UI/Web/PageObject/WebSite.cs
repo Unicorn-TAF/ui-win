@@ -1,5 +1,5 @@
 ﻿using System;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.PageObject

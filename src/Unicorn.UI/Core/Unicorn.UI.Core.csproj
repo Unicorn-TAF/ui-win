@@ -84,6 +84,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
@@ -94,6 +95,18 @@
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Driver\UISearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\SortedMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\SelectedMatcher.cs" />
+    <Compile Include="PageObject\By\ByIdAttribute.cs" />
+    <Compile Include="PageObject\By\ByClassAttribute.cs" />
+    <Compile Include="PageObject\By\ByNameAttribute.cs" />
+    <Compile Include="UserInput\Constants.cs" />
+    <Compile Include="UserInput\WindowsApi\Input.cs" />
+    <Compile Include="UserInput\Keyboard.cs" />
+    <Compile Include="UserInput\Mouse.cs" />
+    <Compile Include="UserInput\WindowsApi\KeyboardInput.cs" />
+    <Compile Include="UserInput\WindowsApi\MouseInput.cs" />
+    <Compile Include="UserInput\WindowsApi\HardwareInput.cs" />
     <Compile Include="Matchers\Checkbox.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatchesMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatcher.cs" />
@@ -134,9 +147,9 @@
     <None Include="Unicorn.UI.Core.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Unicorn.Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
-      <Name>Unicorn.Core</Name>
+      <Name>Unicorn.Taf.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

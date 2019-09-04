@@ -9,6 +9,6 @@
 
         void SendKeys(string text);
 
-        bool SetText(string text);
+        bool SetValue(string text);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Win.Controls.Typified
@@ -15,9 +15,9 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_TabItemControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_TabItemControlTypeId;
 
-        public bool Selected
+        public virtual bool Selected
         {
             get
             {
@@ -32,15 +32,16 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+        protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
+            this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
-        public bool Select()
+        public virtual bool Select()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
 
             if (this.Selected)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (selected by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
@@ -52,11 +53,11 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tSelectionItemPattern was not found");
+                Logger.Instance.Log(LogLevel.Trace, "SelectionItemPattern was not found");
                 this.Click();
             }
 
-            Logger.Instance.Log(LogLevel.Trace, "\tSelected");
+            Logger.Instance.Log(LogLevel.Trace, "Selected");
             return true;
         }
     }

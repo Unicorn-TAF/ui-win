@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using OpenQA.Selenium.Appium;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Driver;
@@ -82,10 +82,8 @@ namespace Unicorn.UI.Mobile.Android.Controls
             throw new NotImplementedException();
         }
 
-        public string GetAttribute(string attribute)
-        {
-            return this.Instance.GetAttribute(attribute);
-        }
+        public string GetAttribute(string attribute) =>
+            this.Instance.GetAttribute(attribute);
 
         public override string ToString()
         {

@@ -33,6 +33,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\Unicorn.UI.Web.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -109,9 +110,9 @@
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Unicorn.Core\Unicorn.Core.csproj">
+    <ProjectReference Include="..\..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
       <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
-      <Name>Unicorn.Core</Name>
+      <Name>Unicorn.Taf.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj">
       <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>

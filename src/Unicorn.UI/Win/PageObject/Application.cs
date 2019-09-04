@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
@@ -19,7 +19,7 @@ namespace Unicorn.UI.Win.PageObject
             this.ExeName = exeName;
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_PaneControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_PaneControlTypeId;
 
         public string Path { get; protected set; }
 

@@ -13,15 +13,18 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_MenuItemControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_MenuItemControlTypeId;
 
-        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+        protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 
-        protected IUIAutomationTogglePattern TogglePattern => this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+        protected IUIAutomationTogglePattern TogglePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
-        protected IUIAutomationInvokePattern InvokePattern => this.GetPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
+        protected IUIAutomationInvokePattern InvokePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
 
-        public void Select()
+        public virtual void Select()
         {
             var expandCollapsePattern = this.ExpandCollapsePattern;
 

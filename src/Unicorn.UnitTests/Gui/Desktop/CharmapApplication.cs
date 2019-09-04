@@ -6,14 +6,14 @@ namespace Unicorn.UnitTests.Gui
 {
     public class CharmapApplication : Application
     {
+        public CharmapApplication(string path, string exeName) : base(path, exeName)
+        {
+        }
+
         [Find(Using.Name, "Character Map")]
         public WindowCharMap Window { get; set; }
 
         [Find(Using.Name, "asdlkjfghsdhjkfgdsfkjhfg")]
         public WindowCharMap FakeWindow { get; set; }
-
-        public CharmapApplication(string path, string exeName) : base(path, exeName)
-        {
-        }
     }
 }

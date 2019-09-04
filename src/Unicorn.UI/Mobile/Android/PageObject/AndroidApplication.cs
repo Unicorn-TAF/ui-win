@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Unicorn.UI.Mobile.Android.PageObject
@@ -39,7 +39,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
         public void Open()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Open {this.AppActivity} application");
-            AndroidAppDriver.Instance.ToString();
+            AndroidAppDriver.Instance.ToString(); // need to call for initialization
         }
     }
 }

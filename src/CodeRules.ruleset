@@ -9,6 +9,7 @@
     <Rule Id="CA1034" Action="Warning" />
     <Rule Id="CA1040" Action="Error" />
     <Rule Id="CA1041" Action="Warning" />
+    <Rule Id="CA1060" Action="None" />
     <Rule Id="CA1064" Action="Error" />
     <Rule Id="CA1302" Action="Error" />
     <Rule Id="CA1303" Action="None" />
@@ -17,10 +18,10 @@
     <Rule Id="CA1502" Action="Warning" />
     <Rule Id="CA1504" Action="Warning" />
     <Rule Id="CA1505" Action="Warning" />
-    <Rule Id="CA1704" Action="Warning" />
     <Rule Id="CA1721" Action="Warning" />
     <Rule Id="CA1801" Action="Warning" />
     <Rule Id="CA1823" Action="Warning" />
+    <Rule Id="CA2214" Action="None" />
     <Rule Id="CA2233" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.NativeCodeAnalysis" RuleNamespace="Microsoft.Rules.Native">

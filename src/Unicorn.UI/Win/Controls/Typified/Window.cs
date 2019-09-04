@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using UIAutomationClient;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Win.Driver;
@@ -20,7 +20,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_WindowControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_WindowControlTypeId;
 
         public string Title => this.Text;
 
@@ -45,7 +45,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
-        public void WaitForClosed(int timeout = 5000)
+        public void WaitForClosed(TimeSpan timeout)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
             Stopwatch timer = new Stopwatch();
@@ -60,7 +60,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 {
                     Thread.Sleep(50);
                 }
-                while (this.Visible && timer.ElapsedMilliseconds < timeout);
+                while (this.Visible && timer.Elapsed < timeout);
             }
             catch (ControlNotFoundException)
             {
@@ -71,12 +71,14 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             WinDriver.ImplicitlyWaitTimeout = originalTimeout;
 
-            if (timer.ElapsedMilliseconds > timeout)
+            if (timer.Elapsed > timeout)
             {
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
 
-            Logger.Instance.Log(LogLevel.Trace, $"\tClosed. [Wait time = {timer.Elapsed}]");
+            Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
+
+        public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

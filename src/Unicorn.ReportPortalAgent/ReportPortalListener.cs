@@ -4,24 +4,25 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using ReportPortal.Client;
-using ReportPortal.Client.Models;
 using ReportPortal.Shared;
-using Unicorn.Core.Testing.Tests;
+using ReportPortal.Shared.Reporter;
 using Unicorn.ReportPortalAgent.Configuration;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        private static Dictionary<Result, Status> statusMap = new Dictionary<Result, Status>();
+        private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
-        private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
-        private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
-        private Dictionary<string, TestReporter> testFlowNames = new Dictionary<string, TestReporter>();
+        private Dictionary<Guid, ITestReporter> suitesFlow = new Dictionary<Guid, ITestReporter>();
+        private Dictionary<Guid, ITestReporter> testFlowIds = new Dictionary<Guid, ITestReporter>();
 
         static ReportPortalListener()
         {
-            var configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath) + "/ReportPortal.conf";
+            var configPath = Path.Combine(
+                Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath),
+                "ReportPortal.conf");
             Config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
 
             Service reportPortalService;
@@ -36,11 +37,14 @@ namespace Unicorn.ReportPortalAgent
 
             Bridge.Service = reportPortalService;
 
-            statusMap[Result.Passed] = Status.Passed;
-            statusMap[Result.Failed] = Status.Failed;
-            statusMap[Result.Skipped] = Status.Skipped;
+            statusMap[Status.Passed] = ReportPortal.Client.Models.Status.Passed;
+            statusMap[Status.Failed] = ReportPortal.Client.Models.Status.Failed;
+            statusMap[Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
         }
 
+        /// <summary>
+        /// Gets or sets Report Portal configuration
+        /// </summary>
         public static Config Config
         {
             get;
@@ -48,6 +52,9 @@ namespace Unicorn.ReportPortalAgent
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets id of existing Report Portal launch
+        /// </summary>
         public string ExistingLaunchId
         {
             get;
@@ -55,136 +62,19 @@ namespace Unicorn.ReportPortalAgent
             set;
         }
 
-        public void ReportRunStarted()
+        /// <summary>
+        /// Add attachment to test
+        /// </summary>
+        /// <param name="test"><see cref="Test"/> instance</param>
+        /// <param name="text"></param>
+        /// <param name="attachmentName">attachment name</param>
+        /// <param name="mime">mime type</param>
+        /// <param name="content">content in bytes</param>
+        public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
-            if (Config.IsEnabled)
+            if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
             {
-                StartRun();
-            }
-        }
-
-        public void ReportRunFinished()
-        {
-            if (Config.IsEnabled)
-            {
-                FinishRun();
-            }
-        }
-
-        public void ReportSuiteStarted(TestSuite suite)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuite(suite);
-            }
-        }
-
-        public void ReportSuiteFinished(TestSuite suite)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishSuite(suite);
-            }
-        }
-
-        public void ReportSuiteMethodStarted(SuiteMethod test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuiteMethod(test);
-            }
-        }
-
-        public void ReportSuiteMethodFinished(SuiteMethod test)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishSuiteMethod(test);
-            }
-        }
-
-        public void ReportTestStarted(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartTest(test);
-            }
-        }
-
-        public void ReportTestFinished(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                FinishTest(test);
-            }
-        }
-
-        public void ReportTestSkipped(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartTest(test);
-                FinishTest(test);
-            }
-        }
-
-        public void ReportTestOutput(string report)
-        {
-            if (Config.IsEnabled)
-            {
-                TestOutput(report);
-            }
-        }
-
-        public void ReportLoggerMessage(Core.Logging.LogLevel level, string report)
-        {
-            if (Config.IsEnabled)
-            {
-                TestOutput(level, report);
-            }
-        }
-
-        public void ReportAddAttachment(Test test, string name, string mime, byte[] content)
-        {
-            if (Config.IsEnabled)
-            {
-                AddAttachment(test, name, mime, content);
-            }
-        }
-
-        public void ReportAddTestTags(Test test, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddTestTags(test, tags);
-            }
-        }
-
-        public void ReportAddSuiteTags(TestSuite suite, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddSuiteTags(suite, tags);
-            }
-        }
-
-        public void ReportMergeLaunches(string descriptionSearchString)
-        {
-            if (Config.IsEnabled)
-            {
-                MergeRuns(descriptionSearchString);
-            }
-        }
-
-        public string ReportGetLaunchId(string descriptionSearchString)
-        {
-            if (Config.IsEnabled)
-            {
-                return GetLaunchId(descriptionSearchString);
-            }
-            else
-            {
-                return null;
+                AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
         }
     }

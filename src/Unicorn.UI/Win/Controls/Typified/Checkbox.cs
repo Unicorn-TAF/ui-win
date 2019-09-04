@@ -1,6 +1,5 @@
-﻿using System;
-using UIAutomationClient;
-using Unicorn.Core.Logging;
+﻿using UIAutomationClient;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Win.Controls.Typified
@@ -16,13 +15,14 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
         }
 
-        public override int Type => UIA_ControlTypeIds.UIA_CheckBoxControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_CheckBoxControlTypeId;
 
-        public bool Checked => this.TogglePattern.CurrentToggleState.Equals(ToggleState.ToggleState_On);
+        public virtual bool Checked => this.TogglePattern.CurrentToggleState.Equals(ToggleState.ToggleState_On);
 
-        protected IUIAutomationTogglePattern TogglePattern => this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+        protected IUIAutomationTogglePattern TogglePattern => 
+            this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
-        public bool SetCheckState(bool isChecked)
+        public virtual bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }
@@ -32,12 +32,12 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
             if (this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to check (checked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
                 return false;
             }
 
             this.TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tChecked");
+            Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
         }
@@ -47,12 +47,12 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
             if (!this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to uncheck (unchecked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
                 return false;
             }
 
             this.TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tUnchecked");
+            Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;
         }

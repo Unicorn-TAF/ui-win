@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using OpenQA.Selenium.Interactions;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Driver;
@@ -65,10 +65,8 @@ namespace Unicorn.UI.Web.Controls
             }
         }
 
-        public string GetAttribute(string attribute)
-        {
-            return this.Instance.GetAttribute(attribute);
-        }
+        public string GetAttribute(string attribute) =>
+            this.Instance.GetAttribute(attribute);
 
         public virtual void Click()
         {
@@ -91,9 +89,7 @@ namespace Unicorn.UI.Web.Controls
             actions.Release().Perform();
         }
 
-        public override string ToString()
-        {
-            return string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
-        }
+        public override string ToString() =>
+            string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
     }
 }

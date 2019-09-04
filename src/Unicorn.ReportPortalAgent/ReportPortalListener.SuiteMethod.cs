@@ -4,54 +4,45 @@ using System.IO;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Core.Reporting;
-using Unicorn.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
     public partial class ReportPortalListener
     {
-        protected void StartSuiteMethod(SuiteMethod test)
+        private readonly Dictionary<SuiteMethodType, TestItemType> itemTypes =
+            new Dictionary<SuiteMethodType, TestItemType>
+        {
+            { SuiteMethodType.BeforeSuite, TestItemType.BeforeClass },
+            { SuiteMethodType.BeforeTest, TestItemType.BeforeMethod },
+            { SuiteMethodType.AfterTest, TestItemType.AfterMethod },
+            { SuiteMethodType.AfterSuite, TestItemType.AfterClass },
+            { SuiteMethodType.Test, TestItemType.Step },
+        };
+
+        internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {
             try
             {
-                var id = test.Id;
-                var parentId = test.ParentId;
-                var name = test.Description;
-                var fullname = test.FullName;
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
 
-                this.currentTest = test;
-
-                TestItemType itemType = TestItemType.None;
-
-                switch (test.MethodType)
-                {
-                    case SuiteMethodType.BeforeSuite:
-                        itemType = TestItemType.BeforeClass;
-                        break;
-                    case SuiteMethodType.BeforeTest:
-                        itemType = TestItemType.BeforeMethod;
-                        break;
-                    case SuiteMethodType.AfterTest:
-                        itemType = TestItemType.AfterMethod;
-                        break;
-                    case SuiteMethodType.AfterSuite:
-                        itemType = TestItemType.AfterClass;
-                        break;
-                }
+                this.currentTest = suiteMethod;
 
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemType
+                    Type = itemTypes[suiteMethod.MethodType]
                 };
 
-                var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
 
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
                 this.testFlowIds[id] = testVal;
-
-                this.testFlowNames[fullname] = testVal;
             }
             catch (Exception exception)
             {
@@ -59,101 +50,126 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        protected void FinishSuiteMethod(SuiteMethod test)
+        internal void FinishSuiteMethod(SuiteMethod suiteMethod)
         {
             try
             {
-                var id = test.Id;
-                var result = test.Outcome.Result;
-                ////var parentId = test.ParentId;
+                var id = suiteMethod.Outcome.Id;
+                var result = suiteMethod.Outcome.Result;
 
                 this.currentTest = null;
 
-                if (this.testFlowIds.ContainsKey(id))
+                if (!this.testFlowIds.ContainsKey(id))
                 {
-                    var updateTestRequest = new UpdateTestItemRequest();
+                    return;
+                }
 
-                    // adding categories to test
-                    updateTestRequest.Tags = new List<string>();
-                    updateTestRequest.Tags.Add(test.Author);
+                // adding categories to test
+                var tags = new List<string>();
+                tags.Add(suiteMethod.Outcome.Author);
+                tags.Add(Environment.MachineName);
 
-                    // adding description to test
-                    var description = test.Description;
+                if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                {
+                    tags.AddRange((suiteMethod as Test).Categories);
+                }
 
-                    if (description != null)
+                // adding description to test
+                var description =
+                    suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed ?
+                    suiteMethod.Outcome.Exception.Message :
+                    string.Empty;
+
+                // adding failure items
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed)
+                {
+                    var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
+
+                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Screenshot))
                     {
-                        updateTestRequest.Description = description;
-                    }
-
-                    if (updateTestRequest.Description != null || updateTestRequest.Tags != null)
-                    {
-                        this.testFlowIds[id].Update(updateTestRequest);
-                    }
-
-                    // adding failure items
-                    if (test.Outcome.Result == Result.Failed)
-                    {
-                        var failureMessage = test.Outcome.Exception.Message;
-                        var failureStacktrace = test.Outcome.Exception.StackTrace;
-
-                        if (!string.IsNullOrEmpty(test.Outcome.Screenshot))
-                        {
-                            byte[] screenshotBytes = File.ReadAllBytes(Path.Combine(Screenshot.ScreenshotsFolder, test.Outcome.Screenshot));
-
-                            this.testFlowIds[id].Log(new AddLogItemRequest
-                            {
-                                Level = ReportPortal.Client.Models.LogLevel.Error,
-                                Time = DateTime.UtcNow,
-                                Text = failureMessage + Environment.NewLine + failureStacktrace,
-                                Attach = new Attach(test.Outcome.Screenshot, "image/jpeg", screenshotBytes)
-                            });
-                        }
-                        else
-                        {
-                            this.testFlowIds[id].Log(new AddLogItemRequest
-                            {
-                                Level = ReportPortal.Client.Models.LogLevel.Error,
-                                Time = DateTime.UtcNow,
-                                Text = failureMessage + Environment.NewLine + failureStacktrace,
-                            });
-                        }
-
-                        this.testFlowIds[id].Log(new AddLogItemRequest
-                        {
-                            Level = ReportPortal.Client.Models.LogLevel.Error,
-                            Time = DateTime.UtcNow,
-                            Text = "Attachment: Log file",
-                            Attach = new Attach(test.Outcome.Screenshot, "text/plain", Encoding.ASCII.GetBytes(Test.CurrentOutput.ToString()))
-                        });
-                    }
-
-                    FinishTestItemRequest finishTestRequest = null;
-
-                    // finishing test
-                    if (test.Outcome.Result == Result.Failed && !string.IsNullOrEmpty(test.Outcome.OpenBugString))
-                    {
-                        Issue issue = new Issue();
-                        issue.Type = IssueType.ProductionBug;
-                        issue.Comment = test.Outcome.OpenBugString;
-
-                        finishTestRequest = new FinishTestItemRequest
-                        {
-                            Issue = issue,
-                            EndTime = DateTime.UtcNow,
-                            Status = statusMap[result]
-                        };
+                        byte[] screenshotBytes = File.ReadAllBytes(suiteMethod.Outcome.Screenshot);
+                        AddAttachment(id, LogLevel.Error, text, "Fail screenshot", "image/png", screenshotBytes);
                     }
                     else
                     {
-                        finishTestRequest = new FinishTestItemRequest
-                        {
-                            EndTime = DateTime.UtcNow,
-                            Status = statusMap[result]
-                        };
+                        AddLog(id, LogLevel.Error, text);
                     }
 
-                    this.testFlowIds[id].Finish(finishTestRequest);
+                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Output))
+                    {
+                        byte[] outputBytes = Encoding.ASCII.GetBytes(suiteMethod.Outcome.Output);
+                        AddAttachment(id, LogLevel.Error, string.Empty, "Execution log", "text/plain", outputBytes);
+                    }
                 }
+
+                var finishTestRequest = new FinishTestItemRequest
+                {
+                    EndTime = DateTime.UtcNow,
+                    Description = description,
+                    Tags = tags,
+                    Status = statusMap[result]
+                };
+
+                // adding issue to finish test if failed test has a defect
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed && suiteMethod.Outcome.Defect != null)
+                {
+                    finishTestRequest.Issue = new Issue
+                    {
+                        Type = suiteMethod.Outcome.Defect.DefectType,
+                        Comment = suiteMethod.Outcome.Defect.Comment
+                    };
+                }
+
+                // finishing test
+                this.testFlowIds[id].Finish(finishTestRequest);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+        }
+
+        internal void SkipSuiteMethod(SuiteMethod suiteMethod)
+        {
+            try
+            {
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
+                var result = suiteMethod.Outcome.Result;
+
+                var startTestRequest = new StartTestItemRequest
+                {
+                    StartTime = DateTime.UtcNow,
+                    Name = name,
+                    Type = itemTypes[suiteMethod.MethodType]
+                };
+
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
+
+                if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                {
+                    startTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
+                }
+
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
+                this.testFlowIds[id] = testVal;
+
+                var finishTestRequest = new FinishTestItemRequest
+                {
+                    EndTime = DateTime.UtcNow,
+                    Status = statusMap[result],
+                    Issue = new Issue
+                    {
+                        Type = "ND001",
+                        Comment = "The test is skipped, check if dependent test or before suite failed"
+                    }
+                };
+
+                // finishing test
+                this.testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)
             {

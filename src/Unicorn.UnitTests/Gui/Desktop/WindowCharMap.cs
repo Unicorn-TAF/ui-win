@@ -1,11 +1,15 @@
 ﻿using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
+using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace Unicorn.UnitTests.Gui
 {
     public class WindowCharMap : Window
     {
+        [Find(Using.Name, "Copy")]
+        private Button buttonCopyAsField;
+
         [Find(Using.Name, "Copy")]
         public Button ButtonCopy { get; set; }
 
@@ -31,11 +35,16 @@ namespace Unicorn.UnitTests.Gui
 
         #endregion
 
-        [Find(Using.Name, "Select")]
-        protected Button buttonSelect { get; set; }
+        [ByName("Select")] 
+        public Button ButtonSelectLocatedByName { get; set; }
 
-        public Button SelectButton => this.buttonSelect;
+        public Button SelectButton => this.ButtonSelect;
 
         public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+
+        [Find(Using.Name, "Select")]
+        protected Button ButtonSelect { get; set; }
+
+        public Button GetCopyButtonFromField() => this.buttonCopyAsField;
     }
 }

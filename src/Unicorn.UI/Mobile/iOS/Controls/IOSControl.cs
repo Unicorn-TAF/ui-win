@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using OpenQA.Selenium.Appium;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.IOS.Driver;
@@ -28,45 +29,15 @@ namespace Unicorn.UI.Mobile.IOS.Controls
             }
         }
 
-        public bool Visible
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Visible => this.Instance.Displayed;
 
-        public bool Enabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool Enabled => this.Instance.Enabled;
 
-        public string Text
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Text => this.Instance.Text;
 
-        public Point Location
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Point Location => this.Instance.Location;
 
-        public Rectangle BoundingRectangle
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Rectangle BoundingRectangle => new Rectangle(this.Location, this.Instance.Size);
 
         protected override AppiumWebElement SearchContext
         {
@@ -93,6 +64,7 @@ namespace Unicorn.UI.Mobile.IOS.Controls
 
         public void Click()
         {
+            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
             this.Instance.Click();
         }
 
@@ -101,9 +73,10 @@ namespace Unicorn.UI.Mobile.IOS.Controls
             throw new NotImplementedException();
         }
 
-        public string GetAttribute(string attribute)
-        {
-            throw new NotImplementedException();
-        }
+        public string GetAttribute(string attribute) =>
+            this.Instance.GetAttribute(attribute);
+
+        public override string ToString() =>
+            string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
     }
 }

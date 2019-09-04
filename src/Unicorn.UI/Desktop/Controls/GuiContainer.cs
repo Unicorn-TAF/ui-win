@@ -1,5 +1,5 @@
 ﻿using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.Controls.Typified;
@@ -64,7 +64,7 @@ namespace Unicorn.UI.Desktop.Controls
             Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
 
             Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
-            return checkbox.SetCheckState(state);
+            return checkbox.SetCheckedState(state);
         }
     }
 }

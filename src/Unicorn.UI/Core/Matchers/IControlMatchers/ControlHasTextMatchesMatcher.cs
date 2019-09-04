@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Unicorn.Core.Testing.Verification.Matchers;
+using Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Matchers.IControlMatchers

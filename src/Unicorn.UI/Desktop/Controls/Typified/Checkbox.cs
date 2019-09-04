@@ -1,5 +1,5 @@
 ﻿using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
@@ -15,11 +15,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
         }
 
-        public override ControlType Type => ControlType.CheckBox;
+        public override ControlType UiaType => ControlType.CheckBox;
 
-        public bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
+        public virtual bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
-        public bool SetCheckState(bool isChecked)
+        public virtual bool SetCheckedState(bool isChecked)
         {
             return isChecked ? Check() : Uncheck();
         }
@@ -29,12 +29,12 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
             if (this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to check (checked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
                 return false;
             }
 
             GetPattern<TogglePattern>().Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tChecked");
+            Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
         }
@@ -44,12 +44,12 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
             if (!this.Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to uncheck (unchecked by default)");
+                Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
                 return false;
             }
 
             GetPattern<TogglePattern>().Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "\tUnchecked");
+            Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;
         }

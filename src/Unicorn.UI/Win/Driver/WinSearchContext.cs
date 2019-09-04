@@ -46,7 +46,7 @@ namespace Unicorn.UI.Win.Driver
 
             var condition = WinDriver.Driver.CreateAndCondition(
                WinDriver.Driver.ControlViewCondition,
-               GetControlTypeCondition(instance.Type));
+               GetControlTypeCondition(instance.UiaType));
 
             var walker = WinDriver.Driver.CreateTreeWalker(condition);
             var elementToWrap = walker.GetFirstChildElement(this.SearchContext);
@@ -142,7 +142,7 @@ namespace Unicorn.UI.Win.Driver
             WinControl instance = (WinControl)Activator.CreateInstance(controlType);
 
             IUIAutomationCondition classCondition = GetClassNameCondition(instance.ClassName);
-            IUIAutomationCondition typeCondition = GetControlTypeCondition(instance.Type);
+            IUIAutomationCondition typeCondition = GetControlTypeCondition(instance.UiaType);
 
             var baseAndCondition = WinDriver.Driver.CreateAndCondition(classCondition, typeCondition);
             return WinDriver.Driver.CreateAndCondition(baseAndCondition, locatorCondition);

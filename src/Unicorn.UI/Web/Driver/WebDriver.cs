@@ -1,6 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web.Controls;
 
@@ -16,9 +16,10 @@ namespace Unicorn.UI.Web.Driver
             {
                 return instance;
             }
+
             set
             {
-                Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
+                Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
                 instance = value;
                 instance.SearchContext = Driver;
             }
@@ -45,7 +46,7 @@ namespace Unicorn.UI.Web.Driver
 
         public static void Close()
         {
-            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, "Close driver");
+            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, "Close driver");
 
             if (Instance != null)
             {
@@ -56,13 +57,13 @@ namespace Unicorn.UI.Web.Driver
 
         public void Get(string url)
         {
-            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Navigate to {url} page");
+            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"Navigate to {url} page");
             Driver.Navigate().GoToUrl(url);
         }
 
         public object ExecuteJS(string script, params object[] parameters)
         {
-            Logger.Instance.Log(Unicorn.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
+            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"Executing JS: {script}");
             IJavaScriptExecutor js = Driver as IJavaScriptExecutor;
             return js.ExecuteScript(script, parameters);
         }
