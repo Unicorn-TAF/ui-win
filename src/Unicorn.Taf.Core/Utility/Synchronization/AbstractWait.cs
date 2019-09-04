@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Utility.Synchronization
 {
+    /// <summary>
+    /// Provides base for implementation of waiters
+    /// </summary>
     public abstract class AbstractWait
     {
         /// <summary>
@@ -66,6 +69,11 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         protected bool IsIgnoredException(Exception exception) =>
             this.IgnoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
 
+        /// <summary>
+        /// Construct message to use in <see cref="TimeoutException"/> of waiter.
+        /// </summary>
+        /// <param name="conditionName">name of wait condition to report</param>
+        /// <returns>message string</returns>
         protected string GenerateTimeoutMessage(string conditionName) =>
             string.IsNullOrEmpty(this.ErrorMessage) ? string.Empty : $"{this.ErrorMessage}: " + 
             string.Format("{0} expired after {1:F1} seconds", conditionName, Timeout.TotalSeconds);

@@ -4,12 +4,23 @@ using Unicorn.Taf.Core.Logging;
 
 namespace Unicorn.Taf.Core.Utility.Synchronization
 {
+    /// <summary>
+    /// Basic realization of simple wait for some boolean condition durind specified timeout and with polling interval.
+    /// </summary>
     public class DefaultWait : AbstractWait
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultWait"/> with default timeout and polling interval.
+        /// </summary>
         public DefaultWait() : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultWait"/> with specified timeout and polling interval.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <param name="pollingInterval"></param>
         public DefaultWait(TimeSpan timeout, TimeSpan pollingInterval)
         {
             this.Timeout = timeout;

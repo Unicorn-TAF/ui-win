@@ -70,6 +70,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="timeout">timeout to wait for download</param>
         /// <returns>downloaded file name string</returns>
+        /// <exception cref="FileNotFoundException">thrown if more than one file matches search criteria</exception> 
         public string WaitForFileToBeDownloaded(TimeSpan timeout)
         {
             this.wait.Timeout = timeout;
