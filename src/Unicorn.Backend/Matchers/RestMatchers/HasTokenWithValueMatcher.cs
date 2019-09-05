@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
 using Unicorn.Backend.Services.Rest;
-using Unicorn.Core.Testing.Verification.Matchers;
+using Unicorn.Taf.Core.Verification.Matchers;
 
 namespace Unicorn.Backend.Matchers.RestMatchers
 {
