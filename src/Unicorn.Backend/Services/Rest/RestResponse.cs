@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Newtonsoft.Json.Linq;
 
 namespace Unicorn.Backend.Services.Rest

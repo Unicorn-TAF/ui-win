@@ -6,66 +6,60 @@ using System.Text;
 
 namespace Unicorn.Backend.Services.Rest
 {
-    public enum RestRequestType
+    public enum RestAction
     {
-        POST,
-        GET,
-        PUT,
-        PATCH,
-        DELETE
+        Post,
+        Get,
+        Put,
+        Patch,
+        Delete
     }
 
-    public class RestService : IWebService<RestResponse>
+    public class RestService
     {
-        public RestService(string baseUrl, string serviceRelativeUrl, RestRequestType requestType) : 
-            this(baseUrl, serviceRelativeUrl, requestType, null)
+        public RestService(string baseUrl) : 
+            this(baseUrl, null)
         {
         }
 
-        public RestService(string baseUrl, string serviceRelativeUrl, RestRequestType requestType, ISessionInfo sessionInfo)
+        public RestService(string baseUrl, ISessionInfo sessionInfo)
         {
             this.BaseUrl = baseUrl.TrimEnd('/');
-            this.RelativeUrl = "/" + serviceRelativeUrl.TrimStart('/');
-            this.RequestType = requestType;
-            this.CurrentSession = sessionInfo;
+            this.Session = sessionInfo;
         }
 
         public RestService()
         {
         }
 
-        public ISessionInfo CurrentSession { get; set; }
+        public ISessionInfo Session { get; set; }
 
         public string BaseUrl { get; set; }
 
-        public string RelativeUrl { get; set; }
-
-        public RestRequestType RequestType { get; set; }
-
-        public virtual RestResponse SendRequest(string requestBody)
+        public virtual RestResponse SendRequest(string endpoint, RestAction action, string requestBody)
         {
-            var request = CreateRequestWithHeaders(CurrentSession);
+            var request = CreateRequestWithHeaders(Session, endpoint, action);
 
             var responseText = new StringBuilder();
 
-            if (!this.RequestType.Equals(RestRequestType.GET))
+            if (!action.Equals(RestAction.Get))
             {
-                byte[] bodyData = Encoding.UTF8.GetBytes(requestBody);
+                var bodyData = Encoding.UTF8.GetBytes(requestBody);
                 request.ContentLength = bodyData.Length;
 
-                Stream requestStream = request.GetRequestStream();
+                var requestStream = request.GetRequestStream();
                 requestStream.Write(bodyData, 0, bodyData.Length);
                 requestStream.Close();
             }
 
             var timer = Stopwatch.StartNew();
 
-            HttpWebResponse webResponse = request.GetResponse() as HttpWebResponse;
-            Stream responseStream = webResponse.GetResponseStream();
-            Encoding encode = Encoding.GetEncoding("utf-8");
+            var webResponse = request.GetResponse() as HttpWebResponse;
+            var responseStream = webResponse.GetResponseStream();
+            var encode = Encoding.GetEncoding("utf-8");
 
             // Pipe the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(responseStream, encode);
+            var readStream = new StreamReader(responseStream, encode);
             var read = new char[256];
 
             // Read 256 charcters at a time.    
@@ -94,31 +88,31 @@ namespace Unicorn.Backend.Services.Rest
             return response;
         }
 
-        public virtual RestResponse SendRequestAndDecompress(string requestBody)
+        public virtual RestResponse SendRequestAndDecompress(string endpoint, RestAction action, string requestBody)
         {
-            var request = CreateRequestWithHeaders(CurrentSession);
+            var request = CreateRequestWithHeaders(Session, endpoint, action);
             request.Accept = "application/json, text/javascript, */*; q=0.01";
             request.Headers.Add("Accept-Encoding", "gzip, deflate, br");
 
-            if (!this.RequestType.Equals(RestRequestType.GET))
+            if (!action.Equals(RestAction.Get))
             {
-                byte[] bodyData = Encoding.UTF8.GetBytes(requestBody);
+                var bodyData = Encoding.UTF8.GetBytes(requestBody);
                 request.ContentLength = bodyData.Length;
 
-                Stream requestStream = request.GetRequestStream();
+                var requestStream = request.GetRequestStream();
                 requestStream.Write(bodyData, 0, bodyData.Length);
                 requestStream.Close();
             }
 
             var timer = Stopwatch.StartNew();
 
-            HttpWebResponse webResponse = request.GetResponse() as HttpWebResponse;
-            Stream responseStream = webResponse.GetResponseStream();
+            var webResponse = request.GetResponse() as HttpWebResponse;
+            var responseStream = webResponse.GetResponseStream();
 
             byte[] output;
-            byte[] buffer = new byte[16 * 1024];
+            var buffer = new byte[16 * 1024];
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 int read;
 
@@ -154,11 +148,11 @@ namespace Unicorn.Backend.Services.Rest
             return response;
         }
 
-        private HttpWebRequest CreateRequestWithHeaders(ISessionInfo session)
+        private HttpWebRequest CreateRequestWithHeaders(ISessionInfo session, string endpoint, RestAction action)
         {
-            var request = (HttpWebRequest)WebRequest.Create(this.BaseUrl + this.RelativeUrl);
+            var request = (HttpWebRequest)WebRequest.Create(this.BaseUrl + "/" + endpoint.TrimStart('/'));
 
-            request.Method = this.RequestType.ToString();
+            request.Method = action.ToString().ToUpper();
             request.ContentType = "application/json";
             request.AllowAutoRedirect = false;
             session?.UpdateRequestWithSessionInfo(ref request);
