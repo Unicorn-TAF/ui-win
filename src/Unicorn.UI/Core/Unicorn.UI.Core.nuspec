@@ -6,17 +6,31 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
-	<iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
+    <license type="file">LICENSE.txt</license>
+    <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
+    <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
+    <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.0. Improved UI core code. Added more typified controls interfaces. Added set of common UI controls matchers and common IControl extensions.</releaseNotes>
+    <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests realizations of specific UI extensions or develop custom ones.</summary>
+    <description>
+      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI realizations.
+
+      This package includes UI core of unicorn automation framework.
+
+      Supported platforms:
+      - .NET Framework 4.5.2+
+    </description>
+    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1. Improved UI core code. Added more typified controls interfaces. Added set of common UI controls matchers and common IControl extensions.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation</tags>
-	<dependencies>
-		<group>
-			<dependency id="Unicorn.Taf.Core" version="2.1.0"/>
-		</group>
+    <dependencies>
+      <group>
+        <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
+      </group>
     </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\..\LICENSE.txt" />
+    <file src="bin\Release\Unicorn.UI.Core.pdb" target="lib\net452"/>
+  </files>
 </package>
