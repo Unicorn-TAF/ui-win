@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Unicorn.Backend.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
