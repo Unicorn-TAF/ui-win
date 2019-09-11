@@ -6,7 +6,7 @@
     public interface IExpandable
     {
         /// <summary>
-        /// Gets value indicating if control is expanded.
+        /// Gets a value indicating whether control is expanded.
         /// </summary>
         bool Expanded
         {

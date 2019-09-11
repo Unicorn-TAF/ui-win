@@ -15,14 +15,14 @@ namespace Unicorn.ReportPortalAgent
         private readonly bool externalLaunch = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReportPortalReporterInstance"/> 
+        /// Initializes a new instance of the <see cref="ReportPortalReporterInstance"/> class.
         /// </summary>
         public ReportPortalReporterInstance() : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReportPortalReporterInstance"/> based on existing launch ID.
+        /// Initializes a new instance of the <see cref="ReportPortalReporterInstance"/> class based on existing launch ID.
         /// If ID is null, then starts new launch on RP.
         /// </summary>
         /// <param name="existingLaunchId">existing launch ID</param>
@@ -65,7 +65,7 @@ namespace Unicorn.ReportPortalAgent
                 StepsUtilities.GetStepInfo(method, arguments));
 
         /// <summary>
-        /// Usubscribe from events and finish launch if it is not external
+        /// Unsubscribe from events and finish launch if it is not external
         /// </summary>
         public void Dispose()
         {

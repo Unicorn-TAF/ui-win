@@ -12,9 +12,9 @@ namespace Unicorn.Taf.Core.Engine
         private AppDomain domain;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> based on specified tests assembly directory.
+        /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on specified tests assembly directory.
         /// </summary>
-        /// <param name="assemblyDirectory">path to tests assemly directory</param>
+        /// <param name="assemblyDirectory">path to tests assembly directory</param>
         public UnicornAppDomainIsolation(string assemblyDirectory)
         {
             var setup = new AppDomainSetup

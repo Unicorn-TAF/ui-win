@@ -19,7 +19,7 @@ namespace Unicorn.Taf.Core.Utility
         private readonly string screenshotsDir;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> with default directory.<para/>
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
         /// Default dir is ".\Screenshots"
         /// </summary>
         public Screenshotter() 
@@ -31,7 +31,7 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
@@ -40,7 +40,7 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>

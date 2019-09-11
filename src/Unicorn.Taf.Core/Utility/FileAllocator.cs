@@ -7,7 +7,7 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 namespace Unicorn.Taf.Core.Utility
 {
     /// <summary>
-    /// Provides with ability to wait for and allocate files in filesystem.
+    /// Provides with ability to wait for and allocate files in file system.
     /// </summary>
     public class FileAllocator
     {

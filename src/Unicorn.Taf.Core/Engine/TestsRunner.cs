@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Engine
         private readonly string testsAssemblyFile;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         public TestsRunner(string assemblyPath) : this(assemblyPath, true)
@@ -26,7 +26,7 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly based on specified configuration file
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly based on specified configuration file
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="configurationFileName">path to configuration file</param>
@@ -38,7 +38,7 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> for specified assembly with ability to specify if need to load file from default config
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly with ability to specify if need to load file from default config
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="getConfigFromFile">true - if need to load config from default file (.\unicorn.conf); false if use default values from <see cref="Config"/></param>
@@ -55,7 +55,7 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/>.
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class.
         /// </summary>
         protected TestsRunner()
         {
@@ -141,10 +141,10 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Get <see cref="MethodInfo"/> representing run init / cleanup
+        /// Get <see cref="MethodInfo"/> representing run initialization / cleanup
         /// </summary>
         /// <param name="assembly">assembly to search within</param>
-        /// <param name="attributeType">Type of atribute class should be marked with</param>
+        /// <param name="attributeType">Type of attribute class should be marked with</param>
         /// <returns></returns>
         protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {

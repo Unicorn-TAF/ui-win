@@ -8,7 +8,7 @@
         private static ILogger instance;
 
         /// <summary>
-        /// Gets framework logger instance (default logger is <see cref="DefaultLogger"/>).
+        /// Gets or sets framework logger instance (default logger is <see cref="DefaultLogger"/>).
         /// </summary>
         public static ILogger Instance
         {

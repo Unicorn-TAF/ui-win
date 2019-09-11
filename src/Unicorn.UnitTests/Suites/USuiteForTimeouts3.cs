@@ -9,7 +9,7 @@ namespace Unicorn.UnitTests.Suites
     [Tag("timeouts")]
     public class USuiteForTimeouts3 : TestSuite
     {
-        bool needToWait = true;
+        private bool needToWait = true;
 
         [BeforeSuite]
         public void BeforeSuite()

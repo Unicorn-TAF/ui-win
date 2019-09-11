@@ -32,7 +32,7 @@
         /// <summary>
         /// Get value indicating if data is sorted with specified direction.
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="direction">sort direction</param>
         /// <returns>true - if sorted in correct direction; otherwise - false</returns>
         bool IsSorted(SortDirection direction);
     }

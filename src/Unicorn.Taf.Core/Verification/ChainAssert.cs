@@ -8,7 +8,7 @@ namespace Unicorn.Taf.Core.Verification
 {
     /// <summary>
     /// Provides mechanism of soft chain assertions which allows 
-    /// to perform multiple chacks and make final assertion after all checks.<para/>
+    /// to perform multiple checks and make final assertion after all checks.<para/>
     /// Final result combines all failed soft checks.
     /// </summary>
     public class ChainAssert
@@ -37,6 +37,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
         /// <param name="message">message thrown on fail</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That(object actual, TypeUnsafeMatcher matcher, string message)
         {
             matcher.Output
@@ -65,6 +66,7 @@ namespace Unicorn.Taf.Core.Verification
         /// </summary>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, string.Empty);
 
         /// <summary>
@@ -76,6 +78,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
         /// <param name="message">message thrown on fail</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That<T>(T actual, TypeSafeMatcher<T> matcher, string message)
         {
             matcher.Output
@@ -105,6 +108,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That<T>(T actual, TypeSafeMatcher<T> matcher) => That<T>(actual, matcher, string.Empty);
 
         /// <summary>
@@ -116,6 +120,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
         /// <param name="message">message thrown on fail</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string message)
         {
             matcher.Output
@@ -145,6 +150,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <returns>current <see cref="ChainAssert"/> instance</returns>
         public ChainAssert That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That<T>(actual, matcher, string.Empty);
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace Unicorn.ReportPortalAgent
         }
 
         /// <summary>
-        /// Gets or sets Report Portal configuration
+        /// Gets Report Portal configuration
         /// </summary>
         public static Config Config
         {
@@ -66,7 +66,7 @@ namespace Unicorn.ReportPortalAgent
         /// Add attachment to test
         /// </summary>
         /// <param name="test"><see cref="Test"/> instance</param>
-        /// <param name="text"></param>
+        /// <param name="text">attachment text</param>
         /// <param name="attachmentName">attachment name</param>
         /// <param name="mime">mime type</param>
         /// <param name="content">content in bytes</param>

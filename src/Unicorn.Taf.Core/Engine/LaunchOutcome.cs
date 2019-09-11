@@ -20,7 +20,7 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Gets of sets value of launch start time.
+        /// Gets or sets value of launch start time.
         /// </summary>
         public DateTime StartTime { get; set; }
 
@@ -30,7 +30,7 @@ namespace Unicorn.Taf.Core.Engine
         public List<SuiteOutcome> SuitesOutcomes { get; }
 
         /// <summary>
-        /// Gets or sets value indicating if launch was initialized without errors (assembly init was executed).
+        /// Gets or sets a value indicating whether launch was initialized without errors (assembly initialization was executed).
         /// </summary>
         public bool RunInitialized { get; set; } = true;
 
@@ -43,7 +43,7 @@ namespace Unicorn.Taf.Core.Engine
                 Status.Passed;
 
         /// <summary>
-        /// Gets value representing runner exeption in case when assembly initialization was failed.
+        /// Gets or sets value representing runner exception in case when assembly initialization was failed.
         /// </summary>
         public Exception RunnerException { get; set; } = null;
     }

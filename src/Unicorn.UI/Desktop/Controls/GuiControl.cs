@@ -15,14 +15,14 @@ namespace Unicorn.UI.Desktop.Controls
     public abstract class GuiControl : GuiSearchContext, IControl
     {
         /// <summary>
-        /// Initializes new instance of <see cref="GuiControl"/>
+        /// Initializes a new instance of the <see cref="GuiControl"/> class.
         /// </summary>
         protected GuiControl()
         {
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="GuiControl"/> with wraps specific <see cref="AutomationElement"/>
+        /// Initializes a new instance of the <see cref="GuiControl"/> class with wraps specific <see cref="AutomationElement"/>
         /// </summary>
         /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         protected GuiControl(AutomationElement instance)
@@ -31,7 +31,7 @@ namespace Unicorn.UI.Desktop.Controls
         }
 
         /// <summary>
-        /// Gets or sets value indicating if need to cache the control.
+        /// Gets or sets a value indicating whether need to cache the control.
         /// Cached control is not searched for on each next call. Not cached control is searched each time (as PageObject control).
         /// </summary>
         public bool Cached { get; set; } = true;
@@ -57,7 +57,7 @@ namespace Unicorn.UI.Desktop.Controls
         public abstract ControlType UiaType { get; }
 
         /// <summary>
-        /// Gets or sests control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
+        /// Gets or sets control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
         /// </summary>
         public virtual AutomationElement Instance
         {
@@ -79,13 +79,13 @@ namespace Unicorn.UI.Desktop.Controls
             this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
 
         /// <summary>
-        /// Gets value indicating if control is enabled in UI.
+        /// Gets a value indicating whether control is enabled in UI.
         /// </summary>
         public bool Enabled =>
             (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
 
         /// <summary>
-        /// Gets value indicating if control is visible (not is Offscreen)
+        /// Gets a value indicating whether control is visible (not is Off-screen)
         /// </summary>
         public bool Visible
         {

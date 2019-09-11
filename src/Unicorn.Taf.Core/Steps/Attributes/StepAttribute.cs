@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Steps.Attributes
     public class StepAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StepAttribute"/> with specific title.
+        /// Initializes a new instance of the <see cref="StepAttribute"/> class with specific title.
         /// </summary>
         /// <param name="description">test step title</param>
         public StepAttribute(string description)

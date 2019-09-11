@@ -6,7 +6,7 @@
     public interface ICheckbox
     {
         /// <summary>
-        /// Gets value indicating if checkbox is checked.
+        /// Gets a value indicating whether checkbox is checked.
         /// </summary>
         bool Checked
         {

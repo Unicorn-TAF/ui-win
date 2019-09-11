@@ -13,14 +13,14 @@ namespace Unicorn.UI.Desktop.Controls
     public abstract class GuiContainer : GuiControl, IContainer
     {
         /// <summary>
-        /// Initializes new instance of <see cref="GuiContainer"/>
+        /// Initializes a new instance of the <see cref="GuiContainer"/> class.
         /// </summary>
         protected GuiContainer() : base()
         {
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="GuiContainer"/> with wraps specific <see cref="AutomationElement"/>
+        /// Initializes a new instance of the <see cref="GuiContainer"/> class with wraps specific <see cref="AutomationElement"/>
         /// </summary>
         /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         protected GuiContainer(AutomationElement instance) : base(instance)
@@ -28,7 +28,7 @@ namespace Unicorn.UI.Desktop.Controls
         }
 
         /// <summary>
-        /// Gets or sests control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
+        /// Gets or sets control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
         /// When search context was set this container is initialized by <see cref="ContainerFactory"/>
         /// </summary>
         public override AutomationElement Instance

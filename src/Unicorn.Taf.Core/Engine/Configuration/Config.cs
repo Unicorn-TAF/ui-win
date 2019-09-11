@@ -16,10 +16,12 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Parallel by assembly
         /// </summary>
         Assembly,
+
         /// <summary>
         /// Parallel by suite
         /// </summary>
         Suite,
+
         /// <summary>
         /// Parallel by tests within suite
         /// </summary>
@@ -35,10 +37,12 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Skip dependent tests if main test s failed
         /// </summary>
         Skip,
+        
         /// <summary>
         /// Do not execute tests if main test s failed
         /// </summary>
         DoNotRun,
+        
         /// <summary>
         /// Run tests anyway if main test s failed
         /// </summary>
@@ -55,27 +59,27 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         private static HashSet<string> tests = new HashSet<string>();
 
         /// <summary>
-        /// Gets value indicating timeout to fail test if it reached the timeout (default - 15 minutes).
+        /// Gets or sets value indicating timeout to fail test if it reached the timeout (default - 15 minutes).
         /// </summary>
         public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
 
         /// <summary>
-        /// Gets value indicating timeout to fail suite if it reached the timeout (default - 60 minutes).
+        /// Gets or sets value indicating timeout to fail suite if it reached the timeout (default - 60 minutes).
         /// </summary>
         public static TimeSpan SuiteTimeout { get; set; } = TimeSpan.FromMinutes(60);
 
         /// <summary>
-        /// Gets value indicating method of parallelization of tests (default - Parallel by tests assembly).
+        /// Gets or sets value indicating method of parallelization of tests (default - Parallel by tests assembly).
         /// </summary>
         public static Parallelization ParallelBy { get; set; } = Parallelization.Assembly;
 
         /// <summary>
-        /// Gets value indicating number of threads to parallel on (default - 1).
+        /// Gets or sets value indicating number of threads to parallel on (default - 1).
         /// </summary>
         public static int Threads { get; set; } = 1;
 
         /// <summary>
-        /// Gets value indicating behavior of dependent tests if main test is failed (default - run dependent tests).
+        /// Gets or sets value indicating behavior of dependent tests if main test is failed (default - run dependent tests).
         /// </summary>
         public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
 

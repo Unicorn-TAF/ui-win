@@ -15,7 +15,7 @@ namespace Unicorn.UI.Desktop.PageObject
     public abstract class Application : GuiContainer
     {
         /// <summary>
-        /// Initializas new instance of <see cref="Application"/> located in specified directory and with specified exe name.
+        /// Initializes a new instance of the <see cref="Application"/> class located in specified directory and with specified exe name.
         /// </summary>
         /// <param name="path">path to application</param>
         /// <param name="exeName">.exe file name</param>

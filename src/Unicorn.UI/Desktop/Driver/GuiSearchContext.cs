@@ -109,7 +109,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// <summary>
         /// Set current implicitly wait timeout value.
         /// </summary>
-        /// <param name="timeout"></param>
+        /// <param name="timeout">new implicit timeout value</param>
         protected override void SetImplicitlyWait(TimeSpan timeout) =>
             ImplicitlyWaitTimeout = timeout;
 

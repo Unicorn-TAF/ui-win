@@ -41,7 +41,7 @@ namespace Unicorn.Taf.Core.Utility
         private int completed = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TrxCreator"/>.
+        /// Initializes a new instance of the <see cref="TrxCreator"/> class.
         /// </summary>
         public TrxCreator()
         {

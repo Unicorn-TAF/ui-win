@@ -1,7 +1,7 @@
 ﻿namespace Unicorn.Taf.Core.Logging
 {
     /// <summary>
-    /// Represents severity levels for framewortk logger.
+    /// Represents severity levels for framework logger.
     /// </summary>
     public enum LogLevel
     {
@@ -13,7 +13,7 @@
     }
 
     /// <summary>
-    /// Interface of framework logger. Provides an ability to log message with spoecified severity <see cref="LogLevel"/>
+    /// Interface of framework logger. Provides an ability to log message with specified severity <see cref="LogLevel"/>
     /// </summary>
     public interface ILogger
     {

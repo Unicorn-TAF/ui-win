@@ -6,7 +6,7 @@
     public interface ISelectable
     {
         /// <summary>
-        /// Get value indicating if control is selected.
+        /// Gets a value indicating whether control is selected.
         /// </summary>
         bool Selected
         {
@@ -14,7 +14,7 @@
         }
 
         /// <summary>
-        /// Peform selection.
+        /// Perform selection.
         /// </summary>
         /// <returns>true - if selection was made; false - if already selected</returns>
         bool Select();

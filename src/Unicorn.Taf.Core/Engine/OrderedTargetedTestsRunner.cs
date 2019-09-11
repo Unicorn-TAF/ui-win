@@ -19,7 +19,7 @@ namespace Unicorn.Taf.Core.Engine
         private readonly Dictionary<string, string> filters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> for specified assembly and with specified filters.
+        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> class for specified assembly and with specified filters.
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>

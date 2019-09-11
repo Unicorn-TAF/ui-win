@@ -22,7 +22,7 @@ namespace Unicorn.Taf.Core.Testing
         private HashSet<string> categories = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> 
+        /// Initializes a new instance of the <see cref="Test"/> class
         /// based on actual <see cref="MethodInfo"/> with test body
         /// </summary>
         /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
