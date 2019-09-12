@@ -57,9 +57,7 @@ namespace Unicorn.UI.Desktop.Controls
         public virtual void ClickButton(string locator)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Click '{locator}' button");
-
-            Button button = Find<Button>(ByLocator.Name(locator));
-            button.Click();
+            this.Find<Button>(ByLocator.Name(locator)).Click();
         }
 
         /// <summary>
@@ -70,9 +68,7 @@ namespace Unicorn.UI.Desktop.Controls
         public virtual void InputText(string locator, string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{locator}' field");
-
-            TextInput edit = Find<TextInput>(ByLocator.Name(locator));
-            edit.SendKeys(text);
+            this.Find<TextInput>(ByLocator.Name(locator)).SetValue(text);
         }
 
         /// <summary>
@@ -83,9 +79,7 @@ namespace Unicorn.UI.Desktop.Controls
         public virtual bool SelectRadio(string locator)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{locator}' radio button");
-
-            Radio radio = Find<Radio>(ByLocator.Name(locator));
-            return radio.Select();
+            return this.Find<Radio>(ByLocator.Name(locator)).Select();
         }
 
         /// <summary>
@@ -97,9 +91,7 @@ namespace Unicorn.UI.Desktop.Controls
         public virtual bool SetCheckbox(string locator, bool state)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
-
-            Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
-            return checkbox.SetCheckedState(state);
+            return this.Find<Checkbox>(ByLocator.Name(locator)).SetCheckedState(state);
         }
     }
 }

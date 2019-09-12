@@ -234,7 +234,9 @@ namespace Unicorn.UI.Desktop.Controls
         /// </summary>
         /// <returns>control description as string</returns>
         public override string ToString() => 
-            string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
+            string.IsNullOrEmpty(this.Name) ? 
+            $"{this.GetType().Name} [{this.Locator?.ToString()}]" : 
+            this.Name;
 
         #region "Helpers"
 

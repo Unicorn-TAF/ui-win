@@ -6,7 +6,7 @@ using Unicorn.UI.Win.Driver;
 namespace Unicorn.UI.Win.PageObject
 {
     /// <summary>
-    /// Extension for WinControl
+    /// Extension for <see cref="WinControl"/>
     /// </summary>
     public static class WinControlExtension
     {
