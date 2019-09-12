@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Automation;
-using Unicorn.Core.Logging;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
@@ -43,7 +43,7 @@ namespace Unicorn.UnitTests.Gui.Desktop
 
         public virtual string SelectedValue => this.Input?.Value;
 
-        public override ControlType Type => ControlType.ComboBox;
+        public override ControlType UiaType => ControlType.ComboBox;
 
         public void Populate(Dictionary<int, ByLocator> elementsLocators)
         {
