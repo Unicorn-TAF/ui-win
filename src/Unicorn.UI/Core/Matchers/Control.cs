@@ -1,4 +1,6 @@
-﻿using Unicorn.UI.Core.Matchers.IControlMatchers;
+﻿using Unicorn.UI.Core.Controls.Interfaces;
+using Unicorn.UI.Core.Matchers.IControlMatchers;
+using Unicorn.UI.Core.Matchers.TypifiedMatchers;
 
 namespace Unicorn.UI.Core.Matchers
 {
@@ -12,6 +14,12 @@ namespace Unicorn.UI.Core.Matchers
 
         public static ControlVisibleMatcher Visible()
             => new ControlVisibleMatcher();
+
+        public static SelectedMatcher Selected()
+            => new SelectedMatcher();
+
+        public static SortedMatcher Sorted(SortDirection direction)
+            => new SortedMatcher(direction);
 
         public static ControlHasTextMatcher HasText(string expectedText)
             => new ControlHasTextMatcher(expectedText);

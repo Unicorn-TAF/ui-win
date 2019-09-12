@@ -1,4 +1,4 @@
-﻿using Unicorn.Taf.Core.Testing.Verification.Matchers;
+﻿using Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
@@ -22,10 +22,9 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            string selectedValue = actual.SelectedValue;
-            bool hasValue = selectedValue.Equals(this.expectedValue);
+            var selectedValue = actual.SelectedValue;
             DescribeMismatch($"having value '{selectedValue}'");
-            return hasValue;
+            return selectedValue.Equals(this.expectedValue);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -20,24 +20,28 @@ namespace Unicorn.ReportPortalAgent
             { SuiteMethodType.Test, TestItemType.Step },
         };
 
-        internal void StartSuiteMethod(SuiteMethod test)
+        internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {
             try
             {
-                var id = test.Outcome.Id;
-                var parentId = test.Outcome.ParentId;
-                var name = test.Outcome.Title;
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
 
-                this.currentTest = test;
+                this.currentTest = suiteMethod;
 
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemTypes[test.MethodType]
+                    Type = itemTypes[suiteMethod.MethodType]
                 };
 
-                var testVal = this.suitesFlow[parentId].StartNewTestNode(startTestRequest);
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
+
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
                 this.testFlowIds[id] = testVal;
             }
             catch (Exception exception)
@@ -60,24 +64,24 @@ namespace Unicorn.ReportPortalAgent
                     return;
                 }
 
-                var updateTestRequest = new UpdateTestItemRequest();
-
                 // adding categories to test
-                updateTestRequest.Tags = new List<string>();
-                updateTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                var tags = new List<string>();
+                tags.Add(suiteMethod.Outcome.Author);
+                tags.Add(Environment.MachineName);
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
-                    (suiteMethod as Test).Categories.ForEach(c => updateTestRequest.Tags.Add(c));
+                    tags.AddRange((suiteMethod as Test).Categories);
                 }
 
                 // adding description to test
-                updateTestRequest.Description = suiteMethod.Outcome.Title;
-
-                this.testFlowIds[id].Update(updateTestRequest);
+                var description =
+                    suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed ?
+                    suiteMethod.Outcome.Exception.Message :
+                    string.Empty;
 
                 // adding failure items
-                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Tests.Status.Failed)
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed)
                 {
                     var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
 
@@ -101,27 +105,70 @@ namespace Unicorn.ReportPortalAgent
                 var finishTestRequest = new FinishTestItemRequest
                 {
                     EndTime = DateTime.UtcNow,
+                    Description = description,
+                    Tags = tags,
                     Status = statusMap[result]
                 };
 
-                // finishing test
-                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Tests.Status.Failed)
+                // adding issue to finish test if failed test has a defect
+                if (suiteMethod.Outcome.Result == Taf.Core.Testing.Status.Failed && suiteMethod.Outcome.Defect != null)
                 {
-                    var type = suiteMethod.Outcome.Defect == null
-                        ? Taf.Core.Testing.Defect.ToInvestigate
-                        : suiteMethod.Outcome.Defect.DefectType;
-
-                    var comment = suiteMethod.Outcome.Defect == null
-                        ? string.Empty
-                        : suiteMethod.Outcome.Defect.Comment;
-
                     finishTestRequest.Issue = new Issue
                     {
-                        Type = type,
-                        Comment = comment
+                        Type = suiteMethod.Outcome.Defect.DefectType,
+                        Comment = suiteMethod.Outcome.Defect.Comment
                     };
                 }
 
+                // finishing test
+                this.testFlowIds[id].Finish(finishTestRequest);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("ReportPortal exception was thrown." + Environment.NewLine + exception);
+            }
+        }
+
+        internal void SkipSuiteMethod(SuiteMethod suiteMethod)
+        {
+            try
+            {
+                var id = suiteMethod.Outcome.Id;
+                var parentId = suiteMethod.Outcome.ParentId;
+                var name = suiteMethod.Outcome.Title;
+                var result = suiteMethod.Outcome.Result;
+
+                var startTestRequest = new StartTestItemRequest
+                {
+                    StartTime = DateTime.UtcNow,
+                    Name = name,
+                    Type = itemTypes[suiteMethod.MethodType]
+                };
+
+                startTestRequest.Tags = new List<string>();
+                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
+                startTestRequest.Tags.Add(Environment.MachineName);
+
+                if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
+                {
+                    startTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
+                }
+
+                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
+                this.testFlowIds[id] = testVal;
+
+                var finishTestRequest = new FinishTestItemRequest
+                {
+                    EndTime = DateTime.UtcNow,
+                    Status = statusMap[result],
+                    Issue = new Issue
+                    {
+                        Type = "ND001",
+                        Comment = "The test is skipped, check if dependent test or before suite failed"
+                    }
+                };
+
+                // finishing test
                 this.testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)

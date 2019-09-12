@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\AspectInjector.0.9.44\build\AspectInjector.props" Condition="Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
@@ -37,10 +36,11 @@
     <CodeAnalysisRuleSet>..\CodeRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <DocumentationFile>bin\Release\Unicorn.Taf.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AspectInjector.Broker, Version=0.9.44.0, Culture=neutral, PublicKeyToken=a29e12442a3d3609, processorArchitecture=MSIL">
-      <HintPath>..\packages\AspectInjector.0.9.44\lib\AspectInjector.Broker.dll</HintPath>
+    <Reference Include="AspectInjector.Broker, Version=0.0.0.0, Culture=neutral, PublicKeyToken=a29e12442a3d3609, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspectInjector.1.0.2\lib\net45\AspectInjector.Broker.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
@@ -61,69 +61,78 @@
     <Compile Include="Engine\IsolatedTestsRunner.cs" />
     <Compile Include="Engine\Configuration\JsonConfig.cs" />
     <Compile Include="Engine\LaunchOutcome.cs" />
+    <Compile Include="Engine\OrderedTargetedTestsRunner.cs" />
+    <Compile Include="Testing\TestTimeoutException.cs" />
+    <Compile Include="Utility\TrxCreator.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />
-    <Compile Include="Testing\Tests\Attributes\TestAssemblyAttribute.cs" />
-    <Compile Include="Testing\Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
-    <Compile Include="Utility\FileDownloader.cs" />
+    <Compile Include="Testing\Attributes\DependsOnAttribute.cs" />
+    <Compile Include="Testing\Attributes\TestAssemblyAttribute.cs" />
+    <Compile Include="Verification\Matchers\AbstractMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\AnyMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\EachMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\TypeSafeCollectionMatcher.cs" />
+    <Compile Include="Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
+    <Compile Include="Utility\FileAllocator.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\IReporter.cs" />
-    <Compile Include="Reporting\Reporter.cs" />
     <Compile Include="Utility\Screenshotter.cs" />
-    <Compile Include="Testing\Steps\AssertionSteps.cs" />
+    <Compile Include="Steps\AssertionSteps.cs" />
     <Compile Include="Engine\AdapterUtilities.cs" />
-    <Compile Include="Testing\Tests\Attributes\ParameterizedAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\RunFinalyzeAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\RunInitializeAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\SuiteMetadataAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\TestDataAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\SuiteDataAttribute.cs" />
-    <Compile Include="Testing\Verification\Assert.cs" />
-    <Compile Include="Testing\Verification\AssertionException.cs" />
-    <Compile Include="Testing\Verification\Matchers\Collection.cs" />
-    <Compile Include="Testing\Verification\Matchers\Is.cs" />
-    <Compile Include="Testing\Verification\Matchers\Matcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
-    <Compile Include="Testing\Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CoreMatchers\NullMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\CoreMatchers\NotMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\MiscMatchers\IsEvenMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
-    <Compile Include="Testing\Verification\Matchers\MiscMatchers.cs" />
-    <Compile Include="Testing\Verification\Matchers\TypeSafeMatcher.cs" />
-    <Compile Include="Testing\Verification\Verify.cs" />
-    <Compile Include="Testing\Steps\Attributes\StepAttribute.cs" />
-    <Compile Include="Testing\Steps\StepsUtilities.cs" />
-    <Compile Include="Testing\Steps\TestStepsEvents.cs" />
+    <Compile Include="Testing\Attributes\ParameterizedAttribute.cs" />
+    <Compile Include="Testing\Attributes\RunFinalyzeAttribute.cs" />
+    <Compile Include="Testing\Attributes\RunInitializeAttribute.cs" />
+    <Compile Include="Testing\Attributes\SuiteMetadataAttribute.cs" />
+    <Compile Include="Testing\Attributes\TestDataAttribute.cs" />
+    <Compile Include="Testing\Attributes\SuiteDataAttribute.cs" />
+    <Compile Include="Verification\Assert.cs" />
+    <Compile Include="Verification\AssertionException.cs" />
+    <Compile Include="Verification\Matchers\Collection.cs" />
+    <Compile Include="Verification\Matchers\Is.cs" />
+    <Compile Include="Verification\Matchers\Number.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\IsPositiveMatcher.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
+    <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollection.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
+    <Compile Include="Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
+    <Compile Include="Verification\Matchers\CoreMatchers\NullMatcher.cs" />
+    <Compile Include="Verification\Matchers\CoreMatchers\NotMatcher.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\IsEvenMatcher.cs" />
+    <Compile Include="Verification\Matchers\MiscMatchers\StringMatchesRegexMatcher.cs" />
+    <Compile Include="Verification\Matchers\Text.cs" />
+    <Compile Include="Verification\Matchers\TypeSafeMatcher.cs" />
+    <Compile Include="Verification\ChainAssert.cs" />
+    <Compile Include="Steps\Attributes\StepAttribute.cs" />
+    <Compile Include="Steps\StepsUtilities.cs" />
+    <Compile Include="Steps\StepsEvents.cs" />
     <Compile Include="Engine\Configuration\Config.cs" />
     <Compile Include="Engine\TestsObserver.cs" />
     <Compile Include="Engine\TestsRunner.cs" />
-    <Compile Include="Testing\Tests\Attributes\AuthorAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\BeforeSuiteAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\AfterSuiteAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\AfterTestAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\BeforeTestAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\BugAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\CategoryAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\TagAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\DisabledAttribute.cs" />
-    <Compile Include="Testing\Tests\SuiteOutcome.cs" />
-    <Compile Include="Testing\Tests\SuiteMethod.cs" />
-    <Compile Include="Testing\Tests\Test.cs" />
-    <Compile Include="Testing\Tests\Attributes\TestAttribute.cs" />
-    <Compile Include="Testing\Tests\Attributes\SuiteAttribute.cs" />
-    <Compile Include="Testing\Tests\Status.cs" />
-    <Compile Include="Testing\Tests\TestOutcome.cs" />
-    <Compile Include="Testing\Tests\TestSuite.cs" />
-    <Compile Include="Testing\Tests\DataSet.cs" />
+    <Compile Include="Testing\Attributes\AuthorAttribute.cs" />
+    <Compile Include="Testing\Attributes\BeforeSuiteAttribute.cs" />
+    <Compile Include="Testing\Attributes\AfterSuiteAttribute.cs" />
+    <Compile Include="Testing\Attributes\AfterTestAttribute.cs" />
+    <Compile Include="Testing\Attributes\BeforeTestAttribute.cs" />
+    <Compile Include="Testing\Attributes\BugAttribute.cs" />
+    <Compile Include="Testing\Attributes\CategoryAttribute.cs" />
+    <Compile Include="Testing\Attributes\TagAttribute.cs" />
+    <Compile Include="Testing\Attributes\DisabledAttribute.cs" />
+    <Compile Include="Testing\SuiteOutcome.cs" />
+    <Compile Include="Testing\SuiteMethod.cs" />
+    <Compile Include="Testing\Test.cs" />
+    <Compile Include="Testing\Attributes\TestAttribute.cs" />
+    <Compile Include="Testing\Attributes\SuiteAttribute.cs" />
+    <Compile Include="Testing\Status.cs" />
+    <Compile Include="Testing\TestOutcome.cs" />
+    <Compile Include="Testing\TestSuite.cs" />
+    <Compile Include="Testing\DataSet.cs" />
     <Compile Include="Utility\Synchronization\AbstractWait.cs" />
-    <Compile Include="Utility\Synchronization\SystemClock.cs" />
+    <Compile Include="Utility\Synchronization\WaitTimer.cs" />
     <Compile Include="Utility\Synchronization\DefaultWait.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,14 +147,13 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AspectInjector.1.0.2\build\AspectInjector.targets" Condition="Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.0.9.44\build\AspectInjector.props'))" />
-    <Error Condition="!Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.0.9.44\build\AspectInjector.targets'))" />
+    <Error Condition="!Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.1.0.2\build\AspectInjector.targets'))" />
   </Target>
-  <Import Project="..\packages\AspectInjector.0.9.44\build\AspectInjector.targets" Condition="Exists('..\packages\AspectInjector.0.9.44\build\AspectInjector.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

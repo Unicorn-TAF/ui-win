@@ -77,8 +77,10 @@ namespace Unicorn.UI.Core.Synchronization
             Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} {condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
-            var endTime = this.Clock.LaterBy(this.Timeout);
-            var startTime = DateTime.Now;
+            this.Timer
+                .SetExpirationTimeout(this.Timeout)
+                .Start();
+
             while (true)
             {
                 try
@@ -89,7 +91,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {DateTime.Now - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {this.Timer.Elapsed}]");
                             return result;
                         }
                     }
@@ -97,7 +99,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {DateTime.Now - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {this.Timer.Elapsed}]");
                             return result;
                         }
                     }
@@ -112,15 +114,10 @@ namespace Unicorn.UI.Core.Synchronization
                     lastException = ex;
                 }
 
-                // Check the timeout after evaluating the function to ensure conditions
-                // with a zero timeout can succeed.
-                if (!this.Clock.IsNowBefore(endTime))
+                // throw TimeoutException if conditions are not met before timer expiration
+                if (this.Timer.Expired)
                 {
-                    var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
-                        string.Format("{0} expired after {1} seconds", condition, Timeout.TotalSeconds) :
-                        string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds: {1}", this.Timeout.TotalSeconds, this.Message);
-
-                    throw new TimeoutException(timeoutMessage, lastException);
+                    throw new TimeoutException(this.GenerateTimeoutMessage(condition.Method.Name), lastException);
                 }
 
                 Thread.Sleep(this.PollingInterval);
@@ -157,8 +154,10 @@ namespace Unicorn.UI.Core.Synchronization
             Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{this.attributeName}' {condition.Method.Name} '{this.valueValue}' during {this.Timeout} with polling interval {this.PollingInterval}");
 
             Exception lastException = null;
-            var endTime = this.Clock.LaterBy(this.Timeout);
-            var startTime = DateTime.Now;
+            this.Timer
+                .SetExpirationTimeout(this.Timeout)
+                .Start();
+
             while (true)
             {
                 try
@@ -169,7 +168,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {this.Timer.Elapsed}]");
                             return result;
                         }
                     }
@@ -177,7 +176,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {endTime - startTime}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {this.Timer.Elapsed}]");
                             return result;
                         }
                     }
@@ -192,15 +191,10 @@ namespace Unicorn.UI.Core.Synchronization
                     lastException = ex;
                 }
 
-                // Check the timeout after evaluating the function to ensure conditions
-                // with a zero timeout can succeed.
-                if (!this.Clock.IsNowBefore(endTime))
+                // throw TimeoutException if conditions are not met before timer expiration
+                if (this.Timer.Expired)
                 {
-                    var timeoutMessage = string.IsNullOrEmpty(this.Message) ?
-                        string.Format("{0} expired after {1} seconds", condition.Method.Name, Timeout.TotalSeconds) :
-                        string.Format(CultureInfo.InvariantCulture, "Timed out after {0} seconds: {1}", this.Timeout.TotalSeconds, this.Message);
-
-                    throw new TimeoutException(timeoutMessage, lastException);
+                    throw new TimeoutException(this.GenerateTimeoutMessage(condition.Method.Name), lastException);
                 }
 
                 Thread.Sleep(this.PollingInterval);

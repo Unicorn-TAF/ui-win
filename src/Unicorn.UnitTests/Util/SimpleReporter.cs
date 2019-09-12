@@ -1,35 +1,21 @@
-﻿using System.IO;
-using NUnit.Framework;
-using Unicorn.Taf.Core.Reporting;
-using Unicorn.Taf.Core.Testing.Tests;
-using Unicorn.Taf.Core.Utility;
+﻿using NUnit.Framework;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.UnitTests.Util
 {
-    public class SimpleReporter : IReporter
+    public class SimpleReporter
     {
-        public void Complete()
+        public SimpleReporter()
         {
-            ////throw new NotImplementedException();
-        }
-
-        public void Init()
-        {
-            if (!Directory.Exists(Screenshotter.ScreenshotsFolder))
-            {
-                Directory.CreateDirectory(Screenshotter.ScreenshotsFolder);
-            }
-
             Test.OnTestStart += this.ReportTestStart;
             Test.OnTestFinish += this.ReportTestFinish;
-            Test.OnTestFail += this.TakeScreenshot;
         }
 
         public void ReportInfo(string info) =>
             TestContext.WriteLine($"REPORTER: {info}");
 
         public void ReportSuiteFinish(TestSuite testSuite) =>
-            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' {testSuite.Outcome.Result}");
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Outcome.Name}' {testSuite.Outcome.Result}");
 
         public void ReportTestStart(Test test) =>
             TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' started");
@@ -38,9 +24,6 @@ namespace Unicorn.UnitTests.Util
             TestContext.WriteLine($"REPORTER: Test '{test.Outcome.Title}' {test.Outcome.Result}");
 
         public void ReportSuiteStart(TestSuite testSuite) =>
-            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Name}' started");
-
-        private void TakeScreenshot(Test test) =>
-            test.Outcome.Screenshot = Screenshotter.TakeScreenshot(test.Outcome.FullMethodName);
+            TestContext.WriteLine($"REPORTER: Suite '{testSuite.Outcome.Name}' started");
     }
 }

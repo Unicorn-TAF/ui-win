@@ -17,7 +17,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control)
             {
-                Message = message,
+                ErrorMessage = message,
                 PollingInterval = pollingInterval,
                 Timeout = commandTimeout,
             };
@@ -44,7 +44,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control)
             {
-                Message = message,
+                ErrorMessage = message,
                 PollingInterval = pollingInterval,
                 Timeout = commandTimeout
             };
@@ -67,7 +67,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control)
             {
-                Message = message,
+                ErrorMessage = message,
                 Timeout = commandTimeout
             };
 
@@ -87,7 +87,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control)
             {
-                Message = message,
+                ErrorMessage = message,
             };
 
             return wait.Until(command);
@@ -114,7 +114,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control, attribute, value)
             {
-                Message = message,
+                ErrorMessage = message,
                 PollingInterval = pollingInterval,
                 Timeout = commandTimeout,
             };
@@ -145,7 +145,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control, attribute, value)
             {
-                Message = message,
+                ErrorMessage = message,
                 PollingInterval = pollingInterval,
                 Timeout = commandTimeout
             };
@@ -172,7 +172,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control, attribute, value)
             {
-                Message = message,
+                ErrorMessage = message,
                 Timeout = commandTimeout
             };
 
@@ -196,7 +196,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             var wait = new UiWait<TTarget>(control, attribute, value)
             {
-                Message = message,
+                ErrorMessage = message,
             };
 
             return wait.UntilAttribute(command);

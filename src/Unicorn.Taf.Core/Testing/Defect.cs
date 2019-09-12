@@ -2,21 +2,27 @@
 
 namespace Unicorn.Taf.Core.Testing
 {
+    /// <summary>
+    /// Represents object describing some defect which could be tied with fail
+    /// </summary>
     [Serializable]
     public class Defect
     {
-        public const string ToInvestigate = "To Investigate";
-        public const string ProductBug = "Product Bug";
-        public const string SystemIssue = "System Issue";
-
-        public Defect(string id) : this(id, ToInvestigate, string.Empty)
-        {
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Defect"/> class with specified ID and type
+        /// </summary>
+        /// <param name="id">defect ID (for example id in BTS)</param>
+        /// <param name="type">defect type</param>
         public Defect(string id, string type) : this(id, type, string.Empty)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Defect"/> class with specified ID and type and having some comment
+        /// </summary>
+        /// <param name="id">defect ID (for example id in BTS)</param>
+        /// <param name="type">defect type</param>
+        /// <param name="comment">comment to defect</param>
         public Defect(string id, string type, string comment)
         {
             this.Id = id;
@@ -24,10 +30,19 @@ namespace Unicorn.Taf.Core.Testing
             this.Comment = comment;
         }
 
+        /// <summary>
+        /// Gets or sets defect id as string
+        /// </summary>
         public string Id { get; protected set; }
         
+        /// <summary>
+        /// Gets or sets defect type as string
+        /// </summary>
         public string DefectType { get; set; }
 
+        /// <summary>
+        /// Gets or sets comment to defect
+        /// </summary>
         public string Comment { get; set; }
     }
 }

@@ -5,8 +5,9 @@ using System.Net;
 using Newtonsoft.Json;
 using ReportPortal.Client;
 using ReportPortal.Shared;
+using ReportPortal.Shared.Reporter;
 using Unicorn.ReportPortalAgent.Configuration;
-using Unicorn.Taf.Core.Testing.Tests;
+using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
@@ -14,8 +15,8 @@ namespace Unicorn.ReportPortalAgent
     {
         private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
-        private Dictionary<Guid, TestReporter> suitesFlow = new Dictionary<Guid, TestReporter>();
-        private Dictionary<Guid, TestReporter> testFlowIds = new Dictionary<Guid, TestReporter>();
+        private Dictionary<Guid, ITestReporter> suitesFlow = new Dictionary<Guid, ITestReporter>();
+        private Dictionary<Guid, ITestReporter> testFlowIds = new Dictionary<Guid, ITestReporter>();
 
         static ReportPortalListener()
         {
@@ -41,6 +42,9 @@ namespace Unicorn.ReportPortalAgent
             statusMap[Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
         }
 
+        /// <summary>
+        /// Gets Report Portal configuration
+        /// </summary>
         public static Config Config
         {
             get;
@@ -48,6 +52,9 @@ namespace Unicorn.ReportPortalAgent
             private set;
         }
 
+        /// <summary>
+        /// Gets or sets id of existing Report Portal launch
+        /// </summary>
         public string ExistingLaunchId
         {
             get;
@@ -55,23 +62,14 @@ namespace Unicorn.ReportPortalAgent
             set;
         }
 
-        public void ReportTestSkipped(Test test)
-        {
-            if (Config.IsEnabled)
-            {
-                StartSuiteMethod(test);
-                FinishSuiteMethod(test);
-            }
-        }
-
-        public void ReportLoggerMessage(Taf.Core.Logging.LogLevel level, string report)
-        {
-            if (Config.IsEnabled)
-            {
-                ReportTestMessage(level, report);
-            }
-        }
-
+        /// <summary>
+        /// Add attachment to test
+        /// </summary>
+        /// <param name="test"><see cref="Test"/> instance</param>
+        /// <param name="text">attachment text</param>
+        /// <param name="attachmentName">attachment name</param>
+        /// <param name="mime">mime type</param>
+        /// <param name="content">content in bytes</param>
         public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
             if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
@@ -79,41 +77,5 @@ namespace Unicorn.ReportPortalAgent
                 AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
         }
-
-        public void ReportAddTestTags(Test test, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddTestTags(test, tags);
-            }
-        }
-
-        public void ReportAddSuiteTags(TestSuite suite, params string[] tags)
-        {
-            if (Config.IsEnabled)
-            {
-                AddSuiteTags(suite, tags);
-            }
-        }
-
-        ////public void ReportMergeLaunches(string descriptionSearchString)
-        ////{
-        ////    if (Config.IsEnabled)
-        ////    {
-        ////        MergeRuns(descriptionSearchString);
-        ////    }
-        ////}
-
-        ////public string ReportGetLaunchId(string descriptionSearchString)
-        ////{
-        ////    if (Config.IsEnabled)
-        ////    {
-        ////        return GetLaunchId(descriptionSearchString);
-        ////    }
-        ////    else
-        ////    {
-        ////        return null;
-        ////    }
-        ////}
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
+using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Desktop.Controls.Typified;
 using Unicorn.UnitTests.Gui.Desktop;
 
@@ -35,6 +36,9 @@ namespace Unicorn.UnitTests.Gui
         public Button ButtonSearch { get; set; }
 
         #endregion
+
+        [ByName("Select")] 
+        public Button ButtonSelectLocatedByName { get; set; }
 
         public Button SelectButton => this.ButtonSelect;
 
