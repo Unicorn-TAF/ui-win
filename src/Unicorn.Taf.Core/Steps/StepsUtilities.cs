@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Steps
         /// </summary>
         /// <param name="method"><see cref="MethodBase"/> representing test step</param>
         /// <param name="arguments">test step method arguments array</param>
-        /// <returns></returns>
+        /// <returns>step description as string</returns>
         public static string GetStepInfo(MethodBase method, object[] arguments)
         {
             var attribute = method.GetCustomAttribute(typeof(StepAttribute), true) as StepAttribute;

@@ -20,7 +20,7 @@ namespace Unicorn.Taf.Core.Utility
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
-        /// Default dir is ".\Screenshots"
+        /// Default directory is ".\Screenshots"
         /// </summary>
         public Screenshotter() 
             : this(
@@ -67,7 +67,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="folder">folder to save screenshot to</param>
         /// <param name="fileName">screenshot file name without extension</param>
-        /// <returns></returns>
+        /// <returns>path to the screenshot file</returns>
         public string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
@@ -103,7 +103,7 @@ namespace Unicorn.Taf.Core.Utility
         /// Take screenshot with specified name and save to screenshots directory.
         /// </summary>
         /// <param name="fileName">screenshot file name without extension</param>
-        /// <returns></returns>
+        /// <returns>path to the screenshot file</returns>
         public string TakeScreenshot(string fileName) => TakeScreenshot(screenshotsDir, fileName);
 
         /// <summary>

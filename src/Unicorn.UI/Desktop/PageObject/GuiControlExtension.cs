@@ -6,7 +6,7 @@ using Unicorn.UI.Desktop.Driver;
 namespace Unicorn.UI.Desktop.PageObject
 {
     /// <summary>
-    /// Extension for GuiControl
+    /// Extension for <see cref="GuiControl"/>
     /// </summary>
     public static class GuiControlExtension
     {
@@ -14,7 +14,7 @@ namespace Unicorn.UI.Desktop.PageObject
         /// Check if page object exists it the moment ignoring implicitly wait
         /// </summary>
         /// <param name="control">Control instance</param>
-        /// <returns></returns>
+        /// <returns>true - if control exists; otherwise - false</returns>
         public static bool Exists(this GuiControl control)
         {
             var originalTimeout = GuiDriver.Instance.ImplicitlyWait;

@@ -14,7 +14,7 @@
         }
 
         /// <summary>
-        /// Set specified state of checkbox bool value.
+        /// Set specified state of checkbox.
         /// </summary>
         /// <param name="isChecked">true - to check the checkbox; false - to uncheck</param>
         /// <returns>true - if state was changed; false - if already in specified state</returns>

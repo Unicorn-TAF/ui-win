@@ -10,7 +10,7 @@ using Unicorn.UI.Desktop.Controls;
 namespace Unicorn.UI.Desktop.Driver
 {
     /// <summary>
-    /// Describes search context for desktop gui controls. Contains variety of methods to search and wait for controls of specified type from current context.
+    /// Describes search context for windows controls. Contains variety of methods to search and wait for controls of specified type from current context.
     /// </summary>
     public abstract class GuiSearchContext : UISearchContext<GuiSearchContext>
     {
@@ -38,7 +38,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns>wrapped control instance</returns>
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             var elementToWrap = GetNativeControl<T>(locator);
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns>wrapped controls list</returns>
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
             var elementsToWrap = GetNativeControlsList<T>(locator);
@@ -68,7 +68,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// Get first child from current context which has specified control type ignoring implicitly wait timeout.
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
-        /// <returns></returns>
+        /// <returns>wrapped control instance</returns>
         protected override T GetFirstChildWrappedControl<T>()
         {
             GuiControl instance = (GuiControl)Activator.CreateInstance(typeof(T));
@@ -93,7 +93,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns><see cref="AutomationElement"/> instance</returns>
         protected AutomationElement GetNativeControl<T>(ByLocator locator) =>
             GetNativeControlFromContext(locator, typeof(T), this.SearchContext);
 
@@ -102,7 +102,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <param name="locator">locator to search by</param>
         /// <param name="type">control type</param>
-        /// <returns></returns>
+        /// <returns><see cref="AutomationElement"/> instance</returns>
         protected AutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type) =>
             GetNativeControlFromContext(locator, type, this.ParentSearchContext.SearchContext);
 

@@ -140,7 +140,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// Gets control attribute value as <see cref="string"/>
         /// </summary>
         /// <param name="attribute">attribute name</param>
-        /// <returns></returns>
+        /// <returns>control attribute value as string</returns>
         public string GetAttribute(string attribute)
         {
             switch (attribute.ToLower())
@@ -225,14 +225,14 @@ namespace Unicorn.UI.Desktop.Controls
         /// <summary>
         /// Gets parent control as <see cref="AutomationElement"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>parent of the control as <see cref="AutomationElement"/></returns>
         public AutomationElement GetParent() =>
             TreeWalker.ControlViewWalker.GetParent(this.Instance);
 
         /// <summary>
         /// Gets string description of the control.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>control description as string</returns>
         public override string ToString() => 
             string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
 
@@ -242,7 +242,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// Get pattern of the specified type from the control.
         /// </summary>
         /// <typeparam name="T">pattern type</typeparam>
-        /// <returns></returns>
+        /// <returns>pattern instance</returns>
         protected T GetPattern<T>() where T : BasePattern
         {
             var pattern = (AutomationPattern)typeof(T).GetField("Pattern").GetValue(null);

@@ -79,7 +79,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// Selects specified radio button within the container.
         /// </summary>
         /// <param name="locator">radio button name</param>
-        /// <returns></returns>
+        /// <returns>true - if selection was made; false - if already selected</returns>
         public virtual bool SelectRadio(string locator)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{locator}' radio button");
@@ -93,7 +93,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// </summary>
         /// <param name="locator">checkbox name</param>
         /// <param name="state">state to set for checkbox</param>
-        /// <returns></returns>
+        /// <returns>true - if state was changed; false - if already in desired state</returns>
         public virtual bool SetCheckbox(string locator, bool state)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");

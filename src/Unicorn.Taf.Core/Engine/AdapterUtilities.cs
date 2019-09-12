@@ -103,7 +103,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <param name="testDataMethod">string with short name of <see cref="MethodInfo"/> returning test data</param>
         /// <param name="suiteInstance">instance of parent <see cref="TestSuite"/></param>
-        /// <returns></returns>
+        /// <returns>list of data sets attached to the test</returns>
         public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance) =>
             suiteInstance.GetType().GetMethod(testDataMethod)
                 .Invoke(suiteInstance, null) as List<DataSet>;

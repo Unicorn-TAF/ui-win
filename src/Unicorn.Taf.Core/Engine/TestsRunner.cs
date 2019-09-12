@@ -145,7 +145,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <param name="assembly">assembly to search within</param>
         /// <param name="attributeType">Type of attribute class should be marked with</param>
-        /// <returns></returns>
+        /// <returns><see cref="MethodInfo"/> instance</returns>
         protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
