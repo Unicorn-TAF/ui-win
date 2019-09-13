@@ -42,10 +42,7 @@ namespace Unicorn.UI.Web.PageObject
         [Find(Using.WebTag, "body")]
         public WebControl Body { get; set; }
 
-        public override string ToString()
-        {
-            var name = string.IsNullOrEmpty(this.Title) ? GetType().ToString() : this.Title;
-            return $"page '{name}'";
-        }
+        public override string ToString() =>
+            $"page '{(string.IsNullOrEmpty(this.Title) ? GetType().ToString() : this.Title)}'";
     }
 }

@@ -11,7 +11,6 @@ namespace Unicorn.UI.Web.Controls.Typified
         public virtual void SendKeys(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
-
             this.Instance.SendKeys(text);
         }
 
