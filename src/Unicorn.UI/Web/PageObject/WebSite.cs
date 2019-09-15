@@ -13,7 +13,7 @@ namespace Unicorn.UI.Web.PageObject
         private readonly Dictionary<Type, WebPage> pagesCache;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebSite"/> with specified base url.
+        /// Initializes a new instance of the <see cref="WebSite"/> class with specified base url.
         /// </summary>
         /// <param name="baseUrl">site base url</param>
         protected WebSite(string baseUrl)
@@ -62,10 +62,13 @@ namespace Unicorn.UI.Web.PageObject
         public virtual T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();
-            WebDriver.Instance.Get(this.BaseUrl + "/" + page.Url.TrimStart('/'));
+            WebDriver.Instance.Get($"{this.BaseUrl}/{page.Url.TrimStart('/')}");
             return page;
         }
 
+        /// <summary>
+        /// Reset pages cache (commonly in case when driver context was changed)
+        /// </summary>
         public void ResetPagesCache() =>
             this.pagesCache.Clear();
     }
