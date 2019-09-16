@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Unicorn.Taf.Core.Verification;
-using static Unicorn.Taf.Core.Verification.Matchers.Is;
 using Unicorn.UnitTests.BO;
+using Uv = Unicorn.Taf.Core.Verification;
+using Um = Unicorn.Taf.Core.Verification.Matchers;
 
 namespace Unicorn.UnitTests.Tests
 {
@@ -11,13 +11,13 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestSoftAssertion()
         {
-            NUnit.Framework.Assert.Throws<Taf.Core.Verification.AssertionException>(delegate 
+            Assert.Throws<Uv.AssertionException>(delegate 
             {
-                new ChainAssert()
-                    .That("asd", EqualTo("asd"))
-                    .That(2, EqualTo(2))
-                    .That(new SampleObject(), EqualTo(new SampleObject("ds", 234)))
-                    .That(new SampleObject(), EqualTo(new SampleObject()))
+                new Uv.ChainAssert()
+                    .That("asd", Um.Is.EqualTo("asd"))
+                    .That(2, Um.Is.EqualTo(2))
+                    .That(new SampleObject(), Um.Is.EqualTo(new SampleObject("ds", 234)))
+                    .That(new SampleObject(), Um.Is.EqualTo(new SampleObject()))
                     .AssertChain();
             });
         }
@@ -25,9 +25,9 @@ namespace Unicorn.UnitTests.Tests
         [Test, Author("Vitaliy Dobriyan")]
         public void TestAssertion()
         {
-            NUnit.Framework.Assert.Throws<Taf.Core.Verification.AssertionException>(delegate
+            Assert.Throws<Uv.AssertionException>(delegate
             {
-                Taf.Core.Verification.Assert.That("as2d", EqualTo("asd"));
+                Uv.Assert.That("as2d", Um.Is.EqualTo("asd"));
             });
         }
     }
