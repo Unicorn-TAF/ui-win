@@ -7,14 +7,13 @@ namespace Unicorn.UI.Web.Controls.Typified
     {
         public virtual bool Checked => this.Instance.Selected;
 
-        public virtual bool SetCheckedState(bool isChecked)
-        {
-            return isChecked ? Check() : Uncheck();
-        }
+        public virtual bool SetCheckedState(bool isChecked) =>
+            isChecked ? Check() : Uncheck();
 
         private bool Check()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
+
             if (this.Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
@@ -22,6 +21,7 @@ namespace Unicorn.UI.Web.Controls.Typified
             }
 
             this.Click();
+
             Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
@@ -30,6 +30,7 @@ namespace Unicorn.UI.Web.Controls.Typified
         private bool Uncheck()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
+
             if (!this.Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
