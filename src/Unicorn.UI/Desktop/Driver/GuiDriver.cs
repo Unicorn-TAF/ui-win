@@ -5,10 +5,17 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Desktop.Driver
 {
+    /// <summary>
+    /// Represents Driver for Windows GUI and allows to perform search of elements in UI Automation tree.
+    /// </summary>
     public class GuiDriver : GuiSearchContext, IDriver
     {
         private static GuiDriver instance = null;
 
+        /// <summary>
+        /// Gets instance of Desktop driver.
+        /// Initialized with default implicitly wait timeout.
+        /// </summary>
         public static GuiDriver Instance
         {
             get
@@ -25,6 +32,9 @@ namespace Unicorn.UI.Desktop.Driver
             }
         }
 
+        /// <summary>
+        /// Gets or sets implicit timeout of waiting for specified element to be existed in elements tree.
+        /// </summary>
         public TimeSpan ImplicitlyWait
         {
             get

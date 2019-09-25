@@ -79,11 +79,8 @@ namespace Unicorn.UI.Win.Controls.Typified
                 Thread.Sleep(500);
                 var itemEl = Find<ListItem>(ByLocator.Name(itemName));
 
-                if (itemEl != null)
-                {
-                    Logger.Instance.Log(LogLevel.Trace, "Item was found. Selecting...");
-                    itemEl.Select();
-                }
+                Logger.Instance.Log(LogLevel.Trace, "Item was found. Selecting...");
+                itemEl.Select();
                     
                 Collapse();
                 Thread.Sleep(500);

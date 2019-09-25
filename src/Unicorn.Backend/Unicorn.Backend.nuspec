@@ -11,27 +11,25 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Win is Unicorn test automation framework extension which provides ready for use realization of interaction with Windows GUI with extended capabilities.</summary>
+    <summary>Unicorn.Backend is test automation framework extension which provides ready for use realization of interaction with backend.</summary>
     <description>
-      Unicorn Desktop features: Ready for use realizations of common controls, extended page object features.
-
-      This package includes realization of desktop GUI interaction which is based on UIA3 library.
+      Unicorn Backend features: Ready for use realization of interaction with backend, corresponding matchers.
 
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Implementation of Desktop controls UI library based on UIA3.</releaseNotes>
+    <releaseNotes>Implemented module for REST services interaction, added base matchers.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>automation ui controls page-object windows desktop uia3</tags>
+    <tags>automation matchers web-services rest</tags>
     <dependencies>
-      <group>
+      <group targetFramework="net45">
         <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
-        <dependency id="Unicorn.UI.Core" version="2.1.1"/>
+        <dependency id="Newtonsoft.Json" version="10.0.1"/>
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Win.pdb" target="lib\net452"/>
+    <file src="..\..\LICENSE.txt" />
+    <file src="bin\Release\Unicorn.Backend.pdb" target="lib\net452"/>
   </files>
 </package>
