@@ -1,7 +1,7 @@
 ﻿namespace Unicorn.UI.Core.Controls.Interfaces
 {
     /// <summary>
-    /// Interface for controls which expand/collapse functionality.
+    /// Interface for controls which have expand/collapse functionality.
     /// </summary>
     public interface IExpandable
     {
