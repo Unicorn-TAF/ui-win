@@ -15,28 +15,28 @@ namespace Unicorn.Backend.Services.Rest
         Delete
     }
 
-    public class RestService
+    public class RestWebService
     {
-        public RestService(string baseUrl) : 
+        public RestWebService(string baseUrl) : 
             this(baseUrl, null)
         {
         }
 
-        public RestService(string baseUrl, ISessionInfo sessionInfo)
+        public RestWebService(string baseUrl, ISession sessionInfo)
         {
-            this.BaseUrl = baseUrl.TrimEnd('/');
+            this.BaseUrl = baseUrl;
             this.Session = sessionInfo;
         }
 
-        public RestService()
+        public RestWebService()
         {
         }
 
-        public ISessionInfo Session { get; set; }
+        public ISession Session { get; set; }
 
         public string BaseUrl { get; set; }
 
-        public virtual RestResponse SendRequest(string endpoint, RestAction action, string requestBody)
+        public virtual RestResponse Send(RestAction action, string endpoint, string requestBody)
         {
             var request = CreateRequestWithHeaders(Session, endpoint, action);
 
@@ -88,7 +88,7 @@ namespace Unicorn.Backend.Services.Rest
             return response;
         }
 
-        public virtual RestResponse SendRequestAndDecompress(string endpoint, RestAction action, string requestBody)
+        public virtual RestResponse SendAndDecompressResponse(RestAction action, string endpoint, string requestBody)
         {
             var request = CreateRequestWithHeaders(Session, endpoint, action);
             request.Accept = "application/json, text/javascript, */*; q=0.01";
@@ -148,14 +148,14 @@ namespace Unicorn.Backend.Services.Rest
             return response;
         }
 
-        private HttpWebRequest CreateRequestWithHeaders(ISessionInfo session, string endpoint, RestAction action)
+        private HttpWebRequest CreateRequestWithHeaders(ISession session, string endpoint, RestAction action)
         {
-            var request = (HttpWebRequest)WebRequest.Create(this.BaseUrl + "/" + endpoint.TrimStart('/'));
+            var request = (HttpWebRequest)WebRequest.Create(this.BaseUrl.TrimEnd('/') + "/" + endpoint.TrimStart('/'));
 
             request.Method = action.ToString().ToUpper();
             request.ContentType = "application/json";
             request.AllowAutoRedirect = false;
-            session?.UpdateRequestWithSessionInfo(ref request);
+            session?.UpdateRequestWithSessionData(ref request);
             return request;
         }
     }
