@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Uv = Unicorn.Taf.Core.Verification;
-using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.UnitTests.BO;
+using Um = Unicorn.Taf.Core.Verification.Matchers;
+using Uv = Unicorn.Taf.Core.Verification;
 
 namespace Unicorn.UnitTests.Tests
 {

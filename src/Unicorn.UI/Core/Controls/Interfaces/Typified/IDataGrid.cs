@@ -83,6 +83,12 @@
     /// </summary>
     public interface IDataGridRow
     {
+        /// <summary>
+        /// Get cell with specified index.
+        /// </summary>
+        /// <param name="index">cell index</param>
+        /// <returns>cell instance</returns>
+        IDataGridCell GetCell(int index);
     }
 
     /// <summary>
@@ -90,5 +96,9 @@
     /// </summary>
     public interface IDataGridCell
     {
+        /// <summary>
+        /// Gets cell data
+        /// </summary>
+        string Data { get; }
     }
 }

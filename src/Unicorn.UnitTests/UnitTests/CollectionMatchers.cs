@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Uv = Unicorn.Taf.Core.Verification;
-using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.Taf.Core.Verification.Matchers;
+using Um = Unicorn.Taf.Core.Verification.Matchers;
+using Uv = Unicorn.Taf.Core.Verification;
 
 namespace Unicorn.UnitTests.Tests
 {
@@ -14,6 +14,27 @@ namespace Unicorn.UnitTests.Tests
         private readonly List<string> hasItemsC = new List<string>() { "qwerty3", "qwerty1234" };
         private readonly List<string> hasItemsD = new List<string>() { "qwerty", "qwerty1234" };
 
+        private readonly string[] expected1 = new[]
+            {
+                "qwerty"
+            };
+
+        private readonly string[] expected2 = new[]
+            {
+                "qwerty6"
+            };
+
+        private readonly string[] expected3 = new[]
+            {
+                "qwert12y"
+            };
+
+        private readonly int[] actual1 = new[]
+            {
+                2,
+                3
+            };
+
         #region "HasItems"
 
         [Test, Author("Vitaliy Dobriyan")]
@@ -22,7 +43,7 @@ namespace Unicorn.UnitTests.Tests
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsPositive2() =>
-            Uv.Assert.That(hasItemsA, Collection.HasItems(new[] { "qwerty" }));
+            Uv.Assert.That(hasItemsA, Collection.HasItems(expected1));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsPositive3() =>
@@ -34,7 +55,7 @@ namespace Unicorn.UnitTests.Tests
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsWithNotPositive2() =>
-            Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItems(new[] { "qwerty6" })));
+            Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItems(expected2)));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherHasItemsNegative1() =>
@@ -47,7 +68,7 @@ namespace Unicorn.UnitTests.Tests
         public void TestMatcherHasItemsNegative2() =>
             Assert.Throws<Uv.AssertionException>(delegate 
             {
-                Uv.Assert.That(hasItemsA, Collection.HasItems(new[] { "qwert12y" }));
+                Uv.Assert.That(hasItemsA, Collection.HasItems(expected3));
             });
 
         [Test, Author("Vitaliy Dobriyan")]
@@ -68,7 +89,7 @@ namespace Unicorn.UnitTests.Tests
         public void TestMatcherHasItemsWithNotNegative2() =>
             Assert.Throws<Uv.AssertionException>(delegate 
             {
-                Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItems(new[] { "qwerty" })));
+                Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItems(expected1)));
             });
 
         [Test, Author("Vitaliy Dobriyan")]
@@ -161,7 +182,7 @@ namespace Unicorn.UnitTests.Tests
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotPositive2() =>
-            Uv.Assert.That(new int[2] { 2, 3 }, Um.Is.Not(Collection.IsNullOrEmpty()));
+            Uv.Assert.That(actual1, Um.Is.Not(Collection.IsNullOrEmpty()));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotNegative1() =>

@@ -3,12 +3,12 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Mobile.IOS.Controls;
 using Unicorn.UI.Mobile.IOS.Driver;
 
-namespace Unicorn.UI.Mobile.iOS.PageObject
+namespace Unicorn.UI.Mobile.IOS.PageObject
 {
     /// <summary>
-    /// Extension for IOSControl
+    /// Extension for iOS Control
     /// </summary>
-    public static class IOSControlExtension
+    public static class IosControlExtension
     {
         /// <summary>
         /// Check if page object exists it the moment ignoring implicitly wait

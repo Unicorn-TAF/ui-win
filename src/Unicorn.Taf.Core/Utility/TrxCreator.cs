@@ -8,7 +8,7 @@ using Unicorn.Taf.Core.Testing;
 namespace Unicorn.Taf.Core.Utility
 {
     /// <summary>
-    /// Provides with ability to generate trx file based on <see cref="LaunchOutcome"/>
+    /// Provides with ability to generate TRX file based on <see cref="LaunchOutcome"/>
     /// </summary>
     public class TrxCreator
     {
@@ -57,10 +57,10 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Generates trx file for <see cref="LaunchOutcome"/> and saves it by specified path
+        /// Generates TRX file for <see cref="LaunchOutcome"/> and saves it by specified path
         /// </summary>
         /// <param name="outcome">tests run outcome</param>
-        /// <param name="trxPath">resulting trx full file name</param>
+        /// <param name="trxPath">resulting TRX full file name</param>
         public void GenerateTrxFile(LaunchOutcome outcome, string trxPath)
         {
             if (!outcome.SuitesOutcomes.Any())
