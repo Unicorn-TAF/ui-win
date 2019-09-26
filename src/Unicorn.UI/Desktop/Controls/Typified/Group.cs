@@ -4,7 +4,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Group : GuiContainer
     {
-        public Group() { }
+        public Group()
+        {
+        }
 
         public Group(AutomationElement instance)
             : base(instance)

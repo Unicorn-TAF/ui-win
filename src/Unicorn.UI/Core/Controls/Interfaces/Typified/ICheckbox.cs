@@ -1,7 +1,8 @@
 ﻿namespace Unicorn.UI.Core.Controls.Interfaces.Typified
 {
     /// <summary>
-    /// Interface for checkboxes implementation.
+    /// Interface for checkboxes implementation. 
+    /// Has definitions of of basic methods and properties.
     /// </summary>
     public interface ICheckbox
     {

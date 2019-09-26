@@ -4,7 +4,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
 {
     public class Custom : GuiContainer
     {
-        public Custom() { }
+        public Custom()
+        {
+        }
 
         public Custom(AutomationElement instance)
             : base(instance)

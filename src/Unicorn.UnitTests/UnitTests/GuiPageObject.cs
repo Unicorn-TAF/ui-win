@@ -15,71 +15,53 @@ namespace Unicorn.UnitTests.Tests
         [OneTimeSetUp]
         public static void Setup()
         {
-            charmap = new CharmapApplication(@"C:\Windows\System32\", "charmap.exe");
+            charmap = new CharmapApplication(@"C:\Windows\System32", "charmap.exe");
             charmap.Start();
         }
 
         [OneTimeTearDown]
-        public static void TearDown()
-        {
+        public static void TearDown() =>
             charmap.Close();
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that not existing controls don't brake page object initialization")]
-        public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization()
-        {
+        public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization() =>
             Assert.IsTrue(charmap.Window.Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check nested controls initialization")]
-        public void TestGuiPageObjectNestedControlsInitialization()
-        {
+        public void TestGuiPageObjectNestedControlsInitialization() =>
             Assert.IsTrue(charmap.Window.ButtonCopy.Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check non public controls initialization")]
-        public void TestGuiPageObjectNonPublicControlsInitialization()
-        {
+        public void TestGuiPageObjectNonPublicControlsInitialization() =>
             Assert.IsTrue(charmap.Window.SelectButton.Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check typified locators work")]
-        public void TestTypifiedLocators()
-        {
+        public void TestTypifiedLocators() =>
             Assert.IsTrue(charmap.Window.ButtonSelectLocatedByName.Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check initialization of controls as class fields")]
-        public void TestGuiPageObjectInitializationOfControlsAsClassFields()
-        {
+        public void TestGuiPageObjectInitializationOfControlsAsClassFields() =>
             Assert.IsTrue(charmap.Window.GetCopyButtonFromField().Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check for basic control search from initialized parent container")]
-        public void TestGuiPageObjectBasicControlSearchFromInitializedContainer()
-        {
+        public void TestGuiPageObjectBasicControlSearchFromInitializedContainer() =>
             Assert.IsTrue(charmap.Window.ButtonHelp.Visible);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that page object initialized controls are cached")]
-        public void TestGuiPageObjectInitializedControlsAreNotCached()
-        {
+        public void TestGuiPageObjectInitializedControlsAreNotCached() =>
             Assert.IsFalse(charmap.Window.ButtonCopy.Cached);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that controls found by base search are cached")]
-        public void TestGuiPageObjectBaseSearchedControlsAreCached()
-        {
+        public void TestGuiPageObjectBaseSearchedControlsAreCached() =>
             Assert.IsTrue(charmap.Window.ButtonHelp.Cached);
-        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Call for not existing control")]

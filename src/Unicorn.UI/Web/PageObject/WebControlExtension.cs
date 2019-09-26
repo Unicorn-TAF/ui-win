@@ -6,7 +6,7 @@ using Unicorn.UI.Web.Driver;
 namespace Unicorn.UI.Desktop.PageObject
 {
     /// <summary>
-    /// Extension for WebControl
+    /// Extension for <see cref="WebControl"/>
     /// </summary>
     public static class WebControlExtension
     {

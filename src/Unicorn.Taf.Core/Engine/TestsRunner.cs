@@ -41,7 +41,7 @@ namespace Unicorn.Taf.Core.Engine
         /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly with ability to specify if need to load file from default config
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
-        /// <param name="getConfigFromFile">true - if need to load config from default file (.\unicorn.conf); false if use default values from <see cref="Config"/></param>
+        /// <param name="getConfigFromFile">true - if need to load config from default file <c>(.\unicorn.conf)</c>; false if use default values from <see cref="Config"/></param>
         public TestsRunner(string assemblyPath, bool getConfigFromFile)
         {
             this.testsAssemblyFile = assemblyPath;

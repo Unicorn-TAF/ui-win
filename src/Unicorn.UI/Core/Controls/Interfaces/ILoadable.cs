@@ -8,10 +8,10 @@ namespace Unicorn.UI.Core.Controls.Interfaces
     public interface ILoadable
     {
         /// <summary>
-        /// Wait for control is loaded during specified timeout.
+        /// Wait until control is loaded during specified timeout.
         /// </summary>
-        /// <param name="timeout">load wait timeout</param>
+        /// <param name="timeout">loading wait timeout</param>
         /// <returns>true - if control is loaded before timeout; false - if timed out while waiting for control be loaded</returns>
-        bool WaitForLoad(TimeSpan timeout);
+        bool WaitForLoading(TimeSpan timeout);
     }
 }

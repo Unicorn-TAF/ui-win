@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Utility.Synchronization;
