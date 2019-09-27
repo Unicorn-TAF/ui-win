@@ -75,7 +75,7 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets control text.
         /// </summary>
-        public string Text =>
+        public virtual string Text =>
             this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
 
         /// <summary>

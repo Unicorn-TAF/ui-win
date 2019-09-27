@@ -75,7 +75,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// <summary>
         /// Gets control text.
         /// </summary>
-        public string Text =>
+        public virtual string Text =>
             this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
 
         /// <summary>

@@ -89,6 +89,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Typified\Pane.cs" />
+    <Compile Include="Controls\Typified\ProgressBar.cs" />
+    <Compile Include="Controls\Typified\Image.cs" />
+    <Compile Include="Controls\Typified\Document.cs" />
     <Compile Include="Controls\Typified\Custom.cs" />
     <Compile Include="Controls\Typified\Group.cs" />
     <Compile Include="Controls\Typified\Text.cs" />
