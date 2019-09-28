@@ -2,7 +2,7 @@
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
-    public class ListView : GuiControl
+    public class ListView : GuiContainer
     {
         public ListView()
         {
