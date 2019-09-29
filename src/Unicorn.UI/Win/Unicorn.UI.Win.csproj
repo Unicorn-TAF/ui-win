@@ -88,6 +88,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Typified\Group.cs" />
+    <Compile Include="Controls\Typified\TreeItem.cs" />
+    <Compile Include="Controls\Typified\TreeView.cs" />
     <Compile Include="Controls\Typified\ProgressBar.cs" />
     <Compile Include="Controls\Typified\Image.cs" />
     <Compile Include="Controls\Typified\Document.cs" />

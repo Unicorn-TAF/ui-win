@@ -1,23 +1,25 @@
-﻿using System.Windows.Automation;
+﻿using UIAutomationClient;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces;
 
-namespace Unicorn.UI.Desktop.Controls.Typified
+namespace Unicorn.UI.Win.Controls.Typified
 {
-    public class TreeViewItem : GuiControl, ISelectable
+    public class TreeItem : WinControl, ISelectable
     {
-        public TreeViewItem()
+        public TreeItem()
         {
         }
 
-        public TreeViewItem(AutomationElement instance)
+        public TreeItem(IUIAutomationElement instance)
             : base(instance)
         {
         }
 
-        public override ControlType UiaType => ControlType.TreeItem;
+        public override int UiaType => UIA_ControlTypeIds.UIA_ListItemControlTypeId;
 
-        public virtual bool Selected => GetPattern<SelectionItemPattern>().Current.IsSelected;
+        public virtual bool Selected => this.SelectionItemPattern.CurrentIsSelected != 0;
+
+        protected IUIAutomationSelectionItemPattern SelectionItemPattern => this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         public virtual bool Select()
         {
@@ -29,7 +31,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var pattern = GetPattern<SelectionItemPattern>();
+            var pattern = this.SelectionItemPattern;
 
             if (pattern != null)
             {

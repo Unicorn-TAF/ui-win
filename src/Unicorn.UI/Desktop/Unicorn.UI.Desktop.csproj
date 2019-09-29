@@ -89,7 +89,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Typified\TreeViewItem.cs" />
+    <Compile Include="Controls\Typified\TreeItem.cs" />
     <Compile Include="Controls\Typified\TreeView.cs" />
     <Compile Include="Controls\Typified\Pane.cs" />
     <Compile Include="Controls\Typified\ProgressBar.cs" />

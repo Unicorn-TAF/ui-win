@@ -5,49 +5,77 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
+    /// <summary>
+    /// Describes base tree view control.
+    /// </summary>
     public class TreeView : GuiContainer
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeView"/> class.
+        /// </summary>
         public TreeView()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeView"/> class with wraps specific <see cref="AutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         public TreeView(AutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA tree view control type.
+        /// </summary>
         public override ControlType UiaType => ControlType.Tree;
 
+        /// <summary>
+        /// Selects specified tree item.
+        /// </summary>
+        /// <param name="itemName">item name to select</param>
+        /// <returns>true - if selection was made; false - if the item is already selected</returns>
         public virtual bool SelectItem(string itemName) =>
             GetTreeViewItem(itemName).Select();
 
-        public virtual bool SelectItemInHierarhy(params string[] hierarhy)
+        /// <summary>
+        /// Selects specified tree item specified by hierarchy.
+        /// </summary>
+        /// <param name="hierarchy">list of items by hierarchy</param>
+        /// <returns>true - if selection was made; false - if the item is already selected</returns>
+        public virtual bool SelectItemInHierarhy(params string[] hierarchy)
         {
-            if (hierarhy.Length == 0)
+            if (hierarchy.Length == 0)
             {
                 throw new ArgumentException("Nothing to select, please specify at least one item");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Select hierarhy '{string.Join(" > ", hierarhy)}'");
+            Logger.Instance.Log(LogLevel.Debug, $"Select hierarhy '{string.Join(" > ", hierarchy)}'");
 
             GuiControl parent = this;
 
-            for (var i = 0; i <  hierarhy.Length - 1; i++)
+            for (var i = 0; i < hierarchy.Length - 1; i++)
             {
-                var treeItem = parent.Find<TreeViewItem>(ByLocator.Name(hierarhy[i]));
+                var treeItem = parent.Find<TreeItem>(ByLocator.Name(hierarchy[i]));
                 ExpandParentNode(treeItem);
                 parent = treeItem;
             }
 
             return parent
-                .Find<TreeViewItem>(ByLocator.Name(hierarhy[hierarhy.Length - 1]))
+                .Find<TreeItem>(ByLocator.Name(hierarchy[hierarchy.Length - 1]))
                 .Select();
         }
 
-        protected virtual TreeViewItem GetTreeViewItem(string itemName) =>
-            this.Find<TreeViewItem>(ByLocator.Name(itemName));
+        /// <summary>
+        /// Gets child tree item by name.
+        /// </summary>
+        /// <param name="itemName">tree item name</param>
+        /// <returns>tree item instance</returns>
+        protected virtual TreeItem GetTreeViewItem(string itemName) =>
+            this.Find<TreeItem>(ByLocator.Name(itemName));
 
-        private void ExpandParentNode(TreeViewItem parentNode)
+        private void ExpandParentNode(TreeItem parentNode)
         {
             object patternObject;
 

@@ -6,12 +6,12 @@
     public interface IScrollable
     {
         /// <summary>
-        /// Gets current horizontal scroll amount in percents.
+        /// Gets current horizontal scroll amount percentage.
         /// </summary>
         int CurrentHorizontalScrollAmount { get; }
 
         /// <summary>
-        /// Gets current vertical scroll amount in percents.
+        /// Gets current vertical scroll amount percentage.
         /// </summary>
         int CurrentVerticalScrollAmount { get; }
 

@@ -1,4 +1,5 @@
 ﻿using UIAutomationClient;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Win.Controls.Typified
@@ -22,8 +23,11 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         public virtual bool Select()
         {
+            Logger.Instance.Log(LogLevel.Debug, $"Selecting {this.ToString()}");
+
             if (this.Selected)
             {
+                Logger.Instance.Log(LogLevel.Trace, "No need to select (already selected)");
                 return false;
             }
 
@@ -38,6 +42,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 this.Click();
             }
 
+            Logger.Instance.Log(LogLevel.Trace, "Selected");
             return true;
         }
     }
