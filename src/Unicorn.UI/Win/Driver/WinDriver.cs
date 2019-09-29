@@ -33,6 +33,9 @@ namespace Unicorn.UI.Win.Driver
             }
         }
 
+        /// <summary>
+        /// UI Automation driver instance.
+        /// </summary>
         public static CUIAutomation Driver { get; set; }
 
         /// <summary>

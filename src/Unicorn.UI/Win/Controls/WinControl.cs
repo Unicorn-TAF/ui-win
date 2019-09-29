@@ -259,11 +259,13 @@ namespace Unicorn.UI.Win.Controls
 
         #region "Helpers"
 
-        protected object GetPattern(int patternId)
-        {
-            var pattern = Instance.GetCurrentPattern(patternId);
-            return pattern;
-        }
+        /// <summary>
+        /// Get specified pattern from the control.
+        /// </summary>
+        /// <param name="patternId">pattern ID</param>
+        /// <returns>pattern instance</returns>
+        protected object GetPattern(int patternId) =>
+            this.Instance.GetCurrentPattern(patternId);
 
         #endregion
     }
