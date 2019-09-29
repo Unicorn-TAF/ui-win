@@ -6,22 +6,43 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Win.Controls.Typified
 {
+    /// <summary>
+    /// Describes base dropdown control.
+    /// </summary>
     public class Dropdown : WinControl, IDropdown
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dropdown"/> class.
+        /// </summary>
         public Dropdown()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dropdown"/> class with wraps specific <see cref="IUIAutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="IUIAutomationElement"/> instance to wrap</param>
         public Dropdown(IUIAutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA combo box control type.
+        /// </summary>
         public override int UiaType => UIA_ControlTypeIds.UIA_ComboBoxControlTypeId;
 
+        /// <summary>
+        /// Gets a value indicating whether dropdown is expanded.
+        /// </summary>
         public virtual bool Expanded => 
-            this.ExpandCollapsePattern.CurrentExpandCollapseState.Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
+            this.ExpandCollapsePattern
+            .CurrentExpandCollapseState
+            .Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
 
+        /// <summary>
+        /// Gets dropdown current selected value.
+        /// </summary>
         public virtual string SelectedValue
         {
             get
@@ -33,7 +54,8 @@ namespace Unicorn.UI.Win.Controls.Typified
 
                     if (items.Length > 1)
                     {
-                        return items.GetElement(0).GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
+                        return items.GetElement(0)
+                            .GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
                     }
                 }
 
@@ -48,15 +70,29 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
+        /// <summary>
+        /// Gets expand/collapse pattern instance.
+        /// </summary>
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
             this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 
+        /// <summary>
+        /// Gets selection pattern instance.
+        /// </summary>
         protected IUIAutomationSelectionPattern SelectionPattern => 
             this.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
 
+        /// <summary>
+        /// Gets value pattern instance.
+        /// </summary>
         protected IUIAutomationValuePattern ValuePattern => 
             this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
+        /// <summary>
+        /// Selects specified item from dropdown.
+        /// </summary>
+        /// <param name="itemName">item to select</param>
+        /// <returns>true - if item was selected; false - if specified item is already selected</returns>
         public virtual bool Select(string itemName)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
@@ -91,6 +127,10 @@ namespace Unicorn.UI.Win.Controls.Typified
             return true;
         }
 
+        /// <summary>
+        /// Expands the dropdown.
+        /// </summary>
+        /// <returns>true - if expanding was performed; false - if already expanded</returns>
         public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
@@ -105,6 +145,10 @@ namespace Unicorn.UI.Win.Controls.Typified
             return true;
         }
 
+        /// <summary>
+        /// Collapses the dropdown.
+        /// </summary>
+        /// <returns>true - if collapsing was performed; false - if already collapsed</returns>
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");

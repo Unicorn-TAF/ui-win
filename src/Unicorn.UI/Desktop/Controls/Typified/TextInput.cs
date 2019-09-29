@@ -40,23 +40,13 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets text input value
         /// </summary>
-        public virtual string Value
-        {
-            get
-            {
-                if (IsPasswordType)
-                {
-                    return "The field is of PasswordBox type. Unable to get value";
-                }
-                else
-                {
-                    return GetPattern<ValuePattern>().Current.Value;
-                }
-            }
-        }
+        public virtual string Value =>
+            IsPasswordType ?
+            "The field is of PasswordBox type. Unable to get value" :
+            this.GetPattern<ValuePattern>().Current.Value;
 
         /// <summary>
-        /// Sends text to already existing input value.
+        /// Adds text to already existing input value.
         /// </summary>
         /// <param name="text">text to send</param>
         public virtual void SendKeys(string text)

@@ -5,7 +5,7 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
     /// <summary>
-    /// Describe base checkbox control.
+    /// Describes base checkbox control.
     /// </summary>
     public class Checkbox : GuiControl, ICheckbox
     {
@@ -33,7 +33,8 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets a value indicating whether checkbox is checked.
         /// </summary>
-        public virtual bool Checked => GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
+        public virtual bool Checked => 
+            this.GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
         /// <summary>
         /// Sets checkbox checked state

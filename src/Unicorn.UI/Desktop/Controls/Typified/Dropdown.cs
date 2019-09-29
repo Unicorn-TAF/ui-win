@@ -8,7 +8,7 @@ using Unicorn.UI.Core.Driver;
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
     /// <summary>
-    /// Describe base button control.
+    /// Describes base dropdown control.
     /// </summary>
     public class Dropdown : GuiControl, IDropdown
     {
@@ -37,7 +37,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether dropdown is expanded.
         /// </summary>
         public virtual bool Expanded => 
-            GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
+            this.GetPattern<ExpandCollapsePattern>()
+            .Current
+            .ExpandCollapseState
+            .Equals(ExpandCollapseState.Expanded);
 
         /// <summary>
         /// Gets dropdown current selected value.

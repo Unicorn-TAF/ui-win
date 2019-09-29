@@ -44,7 +44,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// </summary>
         /// <param name="hierarchy">list of items by hierarchy</param>
         /// <returns>true - if selection was made; false - if the item is already selected</returns>
-        public virtual bool SelectItemInHierarhy(params string[] hierarchy)
+        public virtual bool SelectItemInHierarchy(params string[] hierarchy)
         {
             if (hierarchy.Length == 0)
             {

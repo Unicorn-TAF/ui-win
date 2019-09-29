@@ -3,7 +3,7 @@
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
     /// <summary>
-    /// Describe base custom control.
+    /// Describes base custom control.
     /// </summary>
     public class Custom : GuiContainer
     {

@@ -34,7 +34,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether radio is selected.
         /// </summary>
         public virtual bool Selected =>
-            (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern).Current.IsSelected;
+            (Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern)
+            .Current
+            .IsSelected;
 
         /// <summary>
         /// Selects the radio button.

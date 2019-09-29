@@ -3,7 +3,7 @@
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
     /// <summary>
-    /// Describe base group control.
+    /// Describes base group control.
     /// </summary>
     public class Group : GuiContainer
     {

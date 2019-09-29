@@ -33,7 +33,8 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets a value indicating whether item is selected.
         /// </summary>
-        public virtual bool Selected => GetPattern<SelectionItemPattern>().Current.IsSelected;
+        public virtual bool Selected => 
+            this.GetPattern<SelectionItemPattern>().Current.IsSelected;
 
         /// <summary>
         /// Selects the list item.

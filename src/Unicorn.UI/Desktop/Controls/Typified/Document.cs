@@ -3,7 +3,7 @@
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
     /// <summary>
-    /// Describe base document control.
+    /// Describes base document control.
     /// </summary>
     public class Document : GuiControl
     {

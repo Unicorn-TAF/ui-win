@@ -34,7 +34,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether tree item is selected.
         /// </summary>
         public virtual bool Selected => 
-            GetPattern<SelectionItemPattern>().Current.IsSelected;
+            this.GetPattern<SelectionItemPattern>().Current.IsSelected;
 
         /// <summary>
         /// Selects the tree item.
