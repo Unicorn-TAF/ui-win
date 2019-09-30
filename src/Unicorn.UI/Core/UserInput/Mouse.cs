@@ -58,7 +58,7 @@ namespace Unicorn.UI.Core.UserInput
         }
 
         public virtual void ResetPosition() =>
-            Instance.Location = new Point(0, 0);
+            this.Location = new Point(0, 0);
 
         public virtual void Click()
         {
@@ -88,8 +88,6 @@ namespace Unicorn.UI.Core.UserInput
             this.Location = point;
             Click();
         }
-
-        public virtual void MoveOut() => this.Location = new Point(0, 0);
 
         public virtual void DoubleClick(Point point)
         {
