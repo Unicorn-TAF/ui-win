@@ -70,5 +70,19 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Trace, "Selected");
             return true;
         }
+
+        /// <summary>
+        /// Scrolls view to list item position.
+        /// </summary>
+        public virtual void ScrollToItem()
+        {
+            var pattern = this.GetPattern(UIA_PatternIds.UIA_ScrollItemPatternId)
+                as IUIAutomationScrollItemPattern;
+
+            if (pattern != null)
+            {
+                pattern.ScrollIntoView();
+            }
+        }
     }
 }

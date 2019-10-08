@@ -64,5 +64,18 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             Logger.Instance.Log(LogLevel.Trace, "Selected");
             return true;
         }
+
+        /// <summary>
+        /// Scrolls view to tree item position.
+        /// </summary>
+        public virtual void ScrollToItem()
+        {
+            var pattern = GetPattern<ScrollItemPattern>();
+
+            if (pattern != null)
+            {
+                pattern.ScrollIntoView();
+            }
+        }
     }
 }
