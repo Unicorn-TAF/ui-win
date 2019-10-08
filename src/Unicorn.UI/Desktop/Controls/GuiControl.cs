@@ -147,12 +147,6 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 case "class":
                     return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.ClassNameProperty);
-                case "text":
-                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty);
-                case "enabled":
-                    return this.Enabled.ToString();
-                case "visible":
-                    return this.Visible.ToString();
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
@@ -239,6 +233,11 @@ namespace Unicorn.UI.Desktop.Controls
 
         private Point GetClickablePoint()
         {
+            if (!this.Visible)
+            {
+                throw new ControlInvalidStateException("Control is not visible, other control will receive the mouse click.");
+            }
+
             Point point;
 
             if (!this.Instance.TryGetClickablePoint(out point))
