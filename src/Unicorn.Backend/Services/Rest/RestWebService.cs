@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
+using Unicorn.Taf.Core.Logging;
 
 namespace Unicorn.Backend.Services.Rest
 {
@@ -24,7 +26,7 @@ namespace Unicorn.Backend.Services.Rest
 
         public RestWebService(string baseUrl, ISession sessionInfo)
         {
-            this.BaseUrl = baseUrl;
+            this.BaseUrl = new Uri(baseUrl);
             this.Session = sessionInfo;
         }
 
@@ -34,10 +36,13 @@ namespace Unicorn.Backend.Services.Rest
 
         public ISession Session { get; set; }
 
-        public string BaseUrl { get; set; }
+        public Uri BaseUrl { get; set; }
+
+        protected virtual string ContentType { get; } = "application/json";
 
         public virtual RestResponse Send(RestAction action, string endpoint, string requestBody)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var request = CreateRequestWithHeaders(Session, endpoint, action);
 
             var responseText = new StringBuilder();
@@ -52,8 +57,9 @@ namespace Unicorn.Backend.Services.Rest
                 requestStream.Close();
             }
 
-            var timer = Stopwatch.StartNew();
+            Logger.Instance.Log(LogLevel.Trace, $"Sending {action} request to {request.Address}\n\tHeaders: {request.Headers}");
 
+            var timer = Stopwatch.StartNew();
             var webResponse = request.GetResponse() as HttpWebResponse;
             var responseStream = webResponse.GetResponseStream();
             var encode = Encoding.GetEncoding("utf-8");
@@ -63,12 +69,13 @@ namespace Unicorn.Backend.Services.Rest
             var read = new char[256];
 
             // Read 256 charcters at a time.    
-            int count = readStream.Read(read, 0, 256);
+            var count = readStream.Read(read, 0, 256);
 
             while (count > 0)
             {
                 // Dump the 256 characters on a string and display the string onto the console.
-                responseText.Append(read);
+                var str = new string(read, 0, count);
+                responseText.Append(str);
                 count = readStream.Read(read, 0, 256);
             }
 
@@ -90,6 +97,8 @@ namespace Unicorn.Backend.Services.Rest
 
         public virtual RestResponse SendAndDecompressResponse(RestAction action, string endpoint, string requestBody)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            
             var request = CreateRequestWithHeaders(Session, endpoint, action);
             request.Accept = "application/json, text/javascript, */*; q=0.01";
             request.Headers.Add("Accept-Encoding", "gzip, deflate, br");
@@ -104,8 +113,9 @@ namespace Unicorn.Backend.Services.Rest
                 requestStream.Close();
             }
 
-            var timer = Stopwatch.StartNew();
+            Logger.Instance.Log(LogLevel.Trace, $"Sending {action} request to {request.Address}\n\tHeaders: {request.Headers}");
 
+            var timer = Stopwatch.StartNew();
             var webResponse = request.GetResponse() as HttpWebResponse;
             var responseStream = webResponse.GetResponseStream();
 
@@ -129,11 +139,15 @@ namespace Unicorn.Backend.Services.Rest
             byte[] decompressedOutput;
 
             using (var compressedStream = new MemoryStream(output))
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-            using (var resultStream = new MemoryStream())
             {
-                zipStream.CopyTo(resultStream);
-                decompressedOutput = resultStream.ToArray();
+                using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+                {
+                    using (var resultStream = new MemoryStream())
+                    {
+                        zipStream.CopyTo(resultStream);
+                        decompressedOutput = resultStream.ToArray();
+                    }
+                }
             }
 
             var response = new RestResponse(webResponse.StatusCode, webResponse.Headers, Encoding.UTF8.GetString(decompressedOutput))
@@ -150,10 +164,11 @@ namespace Unicorn.Backend.Services.Rest
 
         private HttpWebRequest CreateRequestWithHeaders(ISession session, string endpoint, RestAction action)
         {
-            var request = (HttpWebRequest)WebRequest.Create(this.BaseUrl.TrimEnd('/') + "/" + endpoint.TrimStart('/'));
+            var uri = new Uri(this.BaseUrl, endpoint);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
 
             request.Method = action.ToString().ToUpper();
-            request.ContentType = "application/json";
+            request.ContentType = ContentType;
             request.AllowAutoRedirect = false;
             session?.UpdateRequestWithSessionData(ref request);
             return request;
