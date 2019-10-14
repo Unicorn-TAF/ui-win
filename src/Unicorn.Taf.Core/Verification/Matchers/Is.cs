@@ -1,4 +1,5 @@
-﻿using Unicorn.Taf.Core.Verification.Matchers.CoreMatchers;
+﻿using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
+using Unicorn.Taf.Core.Verification.Matchers.CoreMatchers;
 
 namespace Unicorn.Taf.Core.Verification.Matchers
 {
@@ -15,5 +16,8 @@ namespace Unicorn.Taf.Core.Verification.Matchers
 
         public static TypeSafeNotMatcher<T> Not<T>(TypeSafeMatcher<T> matcher) =>
             new TypeSafeNotMatcher<T>(matcher);
+
+        public static TypeSafeCollectionNotMatcher<T> Not<T>(TypeSafeCollectionMatcher<T> matcher) =>
+            new TypeSafeCollectionNotMatcher<T>(matcher);
     }
 }

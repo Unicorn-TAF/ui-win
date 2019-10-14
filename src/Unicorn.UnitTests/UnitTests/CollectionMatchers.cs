@@ -9,10 +9,26 @@ namespace Unicorn.UnitTests.Tests
     [TestFixture]
     public class CollectionMatchers
     {
-        private readonly List<string> hasItemsA = new List<string>() { "qwerty", "qwerty12", "qwerty123" };
-        private readonly List<string> hasItemsB = new List<string>() { "qwerty", "qwerty123" };
-        private readonly List<string> hasItemsC = new List<string>() { "qwerty3", "qwerty1234" };
-        private readonly List<string> hasItemsD = new List<string>() { "qwerty", "qwerty1234" };
+        #region Data
+        private readonly string[] hasItemsA = new [] 
+        {
+            "qwerty", "qwerty12", "qwerty123"
+        };
+
+        private readonly string[] hasItemsB = new [] 
+        {
+            "qwerty", "qwerty123"
+        };
+
+        private readonly string[] hasItemsC = new [] 
+        {
+            "qwerty3", "qwerty1234"
+        };
+
+        private readonly string[] hasItemsD = new [] 
+        {
+            "qwerty", "qwerty1234"
+        };
 
         private readonly string[] expected1 = new[]
             {
@@ -34,6 +50,8 @@ namespace Unicorn.UnitTests.Tests
                 2,
                 3
             };
+
+        #endregion
 
         #region "HasItems"
 

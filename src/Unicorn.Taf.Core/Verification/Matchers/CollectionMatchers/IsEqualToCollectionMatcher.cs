@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class IsEqualToCollectionMatcher : TypeUnsafeMatcher
+    public class IsEqualToCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly IEnumerable<object> expectedObjects;
+        private readonly IEnumerable<T> expectedObjects;
         private string mismatch = string.Empty;
 
-        public IsEqualToCollectionMatcher(IEnumerable<object> expectedObjects)
+        public IsEqualToCollectionMatcher(IEnumerable<T> expectedObjects)
         {
             this.expectedObjects = expectedObjects;
         }
@@ -28,7 +28,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             }
         }
 
-        public override bool Matches(object actual)
+        public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)
             {
@@ -37,19 +37,18 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             }
 
             bool result;
-            IEnumerable<object> collection = (IEnumerable<object>)actual;
 
             if (this.Reverse)
             {
                 this.mismatch = "Collections are equal";
-                result = this.expectedObjects.Count() != collection.Count();
-                result |= collection.Intersect(this.expectedObjects).Count() != this.expectedObjects.Count();
+                result = this.expectedObjects.Count() != actual.Count();
+                result |= actual.Intersect(this.expectedObjects).Count() != this.expectedObjects.Count();
             }
             else
             {
                 this.mismatch = "Collections are not equal";
-                result = this.expectedObjects.Count() == collection.Count();
-                result &= collection.Intersect(this.expectedObjects).Count() == this.expectedObjects.Count();
+                result = this.expectedObjects.Count() == actual.Count();
+                result &= actual.Intersect(this.expectedObjects).Count() == this.expectedObjects.Count();
             }
 
             if (!result)

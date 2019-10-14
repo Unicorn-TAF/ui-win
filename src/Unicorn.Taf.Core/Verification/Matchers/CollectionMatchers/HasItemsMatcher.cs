@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class HasItemsMatcher : TypeUnsafeMatcher
+    public class HasItemsMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly IEnumerable<object> expectedObjects;
+        private readonly IEnumerable<T> expectedObjects;
         
-        public HasItemsMatcher(IEnumerable<object> expectedObjects)
+        public HasItemsMatcher(IEnumerable<T> expectedObjects)
         {
             this.expectedObjects = expectedObjects;
         }
@@ -27,7 +27,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             }
         }
 
-        public override bool Matches(object actual)
+        public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)
             {
@@ -35,19 +35,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            IEnumerable<object> collection = (IEnumerable<object>)actual;
+            var mismatchItems = this.Reverse ?
+                actual.Where(i => expectedObjects.Contains(i)) :
+                expectedObjects.Where(i => !actual.Contains(i));
 
-            IEnumerable<object> mismatchItems = this.Reverse ?
-                collection.Where(i => expectedObjects.Contains(i)) :
-                expectedObjects.Where(i => !collection.Contains(i));
+            DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(", ", mismatchItems)}");
 
-            if (mismatchItems.Any())
-            {
-                DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(", ", mismatchItems)}");
-                return Reverse;
-            }
-
-            return !this.Reverse;
+            return mismatchItems.Any() ? Reverse : !Reverse;
         }
     }
 }

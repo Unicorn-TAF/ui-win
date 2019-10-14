@@ -8,14 +8,17 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         public static IsNullOrEmptyMatcher IsNullOrEmpty() =>
             new IsNullOrEmptyMatcher();
 
-        public static HasItemMatcher HasItem(object expectedObject) =>
-            new HasItemMatcher(expectedObject);
+        public static HasItemMatcher<T> HasItem<T>(T expectedObject) =>
+            new HasItemMatcher<T>(expectedObject);
 
-        public static HasItemsMatcher HasItems(IEnumerable<object> expectedObjects) =>
-            new HasItemsMatcher(expectedObjects);
+        public static HasItemsMatcher<T> HasItems<T>(IEnumerable<T> expectedObjects) =>
+            new HasItemsMatcher<T>(expectedObjects);
 
-        public static IsEqualToCollectionMatcher IsEqualToCollection(IEnumerable<object> expectedObjects) =>
-            new IsEqualToCollectionMatcher(expectedObjects);
+        public static IsEqualToCollectionMatcher<T> IsEqualTo<T>(IEnumerable<T> expectedObjects) =>
+            new IsEqualToCollectionMatcher<T>(expectedObjects);
+
+        public static IsSequenceEqualToCollectionMatcher<T> IsSequenceEqualTo<T>(IEnumerable<T> expectedObjects) =>
+            new IsSequenceEqualToCollectionMatcher<T>(expectedObjects);
 
         public static EachMatcher<T> Each<T>(TypeSafeMatcher<T> matcher) =>
             new EachMatcher<T>(matcher);
