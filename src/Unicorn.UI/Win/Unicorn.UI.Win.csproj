@@ -87,6 +87,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Typified\SplitButton.cs" />
     <Compile Include="Controls\Typified\ToolTip.cs" />
     <Compile Include="Controls\Typified\StatusBar.cs" />
     <Compile Include="Controls\Typified\Group.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="Controls\Typified\Text.cs" />
     <Compile Include="Controls\Typified\Hyperlink.cs" />
     <Compile Include="Controls\Typified\ListView.cs" />
+    <Compile Include="Controls\WindowsBase\SaveFileDialog.cs" />
+    <Compile Include="Controls\WindowsBase\OpenFileDialog.cs" />
     <Compile Include="Driver\WinDriver.cs" />
     <Compile Include="Driver\WinSearchContext.cs" />
     <Compile Include="PageObject\WinControlExtension.cs" />
