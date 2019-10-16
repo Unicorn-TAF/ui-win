@@ -119,6 +119,7 @@
     <Compile Include="Controls\Typified\Window.cs" />
     <Compile Include="Controls\WinContainer.cs" />
     <Compile Include="Controls\WinControl.cs" />
+    <Compile Include="UiActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
