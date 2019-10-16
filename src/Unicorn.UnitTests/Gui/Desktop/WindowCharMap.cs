@@ -48,10 +48,10 @@ namespace Unicorn.UnitTests.Gui
         protected Button ButtonSelect { get; set; }
 
         [Find(Using.Name, "Font :")]
-        [Define((int)DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
-        [Define((int)DropdownElement.List, Using.Class, "ComboLBox")]
-        [Define((int)DropdownElement.ListItem, Using.Class, "")]
-        public GuiDinamicDropdown Droppik;
+        [DefineDropdown(DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
+        [DefineDropdown(DropdownElement.List, Using.Class, "ComboLBox")]
+        [DefineDropdown(DropdownElement.ListItem, Using.Class, "")]
+        public DynamicDropdown Droppik;
 
         public Button GetCopyButtonFromField() => this.buttonCopyAsField;
     }

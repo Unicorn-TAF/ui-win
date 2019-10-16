@@ -91,7 +91,7 @@
   <ItemGroup>
     <Compile Include="Controls\Typified\Custom.cs" />
     <Compile Include="Controls\Typified\Group.cs" />
-    <Compile Include="Controls\Dynamic\GuiDinamicDropdown.cs" />
+    <Compile Include="Controls\Dynamic\DynamicDropdown.cs" />
     <Compile Include="Controls\Typified\Text.cs" />
     <Compile Include="Controls\Typified\Hyperlink.cs" />
     <Compile Include="Controls\Typified\ListView.cs" />

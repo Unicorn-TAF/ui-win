@@ -11,7 +11,7 @@ using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace Unicorn.UnitTests.Gui.Desktop
 {
-    public class GuiDinamicDropdown : GuiControl, IDynamicDropdown
+    public class DynamicDropdown : GuiControl, IDynamicDropdown
     {
         protected Dictionary<DropdownElement, ByLocator> locators = new Dictionary<DropdownElement, ByLocator>
         {
