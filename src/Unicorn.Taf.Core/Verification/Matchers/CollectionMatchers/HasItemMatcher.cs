@@ -3,18 +3,18 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class HasItemMatcher : TypeUnsafeMatcher
+    public class HasItemMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly object expectedObject;
+        private readonly T expectedObject;
 
-        public HasItemMatcher(object expectedObject)
+        public HasItemMatcher(T expectedObject)
         {
             this.expectedObject = expectedObject;
         }
 
         public override string CheckDescription => $"Collection has item {this.expectedObject}";
 
-        public override bool Matches(object actual)
+        public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)
             {
@@ -22,15 +22,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            if (((IEnumerable<object>)actual).Contains(this.expectedObject))
-            {
-                return true;
-            }
-            else
-            {
-                DescribeMismatch(this.Reverse ? "was contains the value" : "was not contain the value");
-                return false;
-            }
+            DescribeMismatch(this.Reverse ? "containing the item" : "not containing the item");
+
+            return actual.Contains(this.expectedObject);
         }
     }
 }
