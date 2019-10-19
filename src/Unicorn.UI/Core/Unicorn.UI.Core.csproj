@@ -87,6 +87,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Interfaces\IScrollable.cs" />
     <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
     <Compile Include="Controls\Interfaces\ILoadable.cs" />
     <Compile Include="Controls\Interfaces\ISortable.cs" />

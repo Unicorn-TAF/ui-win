@@ -75,7 +75,7 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets control text.
         /// </summary>
-        public string Text =>
+        public virtual string Text =>
             this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
 
         /// <summary>
@@ -150,12 +150,6 @@ namespace Unicorn.UI.Win.Controls
             {
                 case "class":
                     return (string)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_ClassNamePropertyId);
-                case "text":
-                    return (string)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId);
-                case "enabled":
-                    return this.Enabled.ToString();
-                case "visible":
-                    return this.Visible.ToString();
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
@@ -196,22 +190,8 @@ namespace Unicorn.UI.Win.Controls
         public void MouseClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
-            Point clickPoint;
-            tagPOINT point;
-            if (this.Instance.GetClickablePoint(out point) == 0)
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_BoundingRectanglePropertyId);
-
-                clickPoint = new Point(rect.TopLeft.X, rect.TopLeft.Y);
-                clickPoint.Offset(pt.X, pt.Y);
-            }
-            else
-            {
-                clickPoint = new Point(point.x, point.y);
-            }
-
-            Mouse.Instance.Click(clickPoint);
+            var point = GetClickablePoint();
+            Mouse.Instance.Click(point);
         }
 
         /// <summary>
@@ -220,22 +200,8 @@ namespace Unicorn.UI.Win.Controls
         public void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            Point clickPoint; 
-            tagPOINT point;
-            if (this.Instance.GetClickablePoint(out point) == 0)
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_BoundingRectanglePropertyId);
-
-                clickPoint = new Point(rect.TopLeft.X, rect.TopLeft.Y);
-                clickPoint.Offset(pt.X, pt.Y);
-            }
-            else
-            {
-                clickPoint = new Point(point.x, point.y);
-            }
-
-            Mouse.Instance.RightClick(clickPoint);
+            var point = GetClickablePoint();
+            Mouse.Instance.RightClick(point);
         }
 
         /// <summary>
@@ -259,10 +225,38 @@ namespace Unicorn.UI.Win.Controls
 
         #region "Helpers"
 
-        protected object GetPattern(int patternId)
+        /// <summary>
+        /// Get specified pattern from the control.
+        /// </summary>
+        /// <param name="patternId">pattern ID</param>
+        /// <returns>pattern instance</returns>
+        protected object GetPattern(int patternId) =>
+            this.Instance.GetCurrentPattern(patternId);
+
+        private Point GetClickablePoint()
         {
-            var pattern = Instance.GetCurrentPattern(patternId);
-            return pattern;
+            if (!this.Visible)
+            {
+                throw new ControlInvalidStateException("Control is not visible, other control will receive the mouse click.");
+            }
+
+            Point point;
+            tagPOINT tagPoint;
+
+            if (this.Instance.GetClickablePoint(out tagPoint) == 0)
+            {
+                Logger.Instance.Log(LogLevel.Trace, "Clickable point is not found, clicking on center of control...");
+
+                var rect = this.BoundingRectangle;
+                point = new Point(rect.Left, rect.Top);
+                point.Offset(rect.Width / 2d, rect.Height / 2d);
+            }
+            else
+            {
+                point = new Point(tagPoint.x, tagPoint.y);
+            }
+
+            return point;
         }
 
         #endregion

@@ -9,27 +9,49 @@ using Unicorn.UI.Desktop.Driver;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
+    /// <summary>
+    /// Describes base window control.
+    /// </summary>
     public class Window : GuiContainer, IWindow
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
         public Window()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class with wraps specific <see cref="AutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         public Window(AutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA window control type.
+        /// </summary>
         public override ControlType UiaType => ControlType.Window;
 
+        /// <summary>
+        /// Gets window title text.
+        /// </summary>
         public virtual string Title => this.Text;
 
+        /// <summary>
+        /// Closes window.
+        /// </summary>
         public virtual void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
             GetPattern<WindowPattern>().Close();
         }
 
+        /// <summary>
+        /// Focuses on the window.
+        /// </summary>
         public void Focus()
         {
             try
@@ -43,6 +65,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
+        /// <summary>
+        /// Wait until window is closed during specified timeout.
+        /// </summary>
+        /// <param name="timeout">timeout to wait</param>
         public virtual void WaitForClosed(TimeSpan timeout)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
@@ -76,6 +102,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
 
+        /// <summary>
+        /// Wait until window is closed during 30 seconds.
+        /// </summary>
         public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

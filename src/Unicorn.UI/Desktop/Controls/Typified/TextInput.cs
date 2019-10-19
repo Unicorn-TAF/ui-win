@@ -6,33 +6,49 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
+    /// <summary>
+    /// Describes base text input control.
+    /// </summary>
     public class TextInput : GuiControl, ITextInput
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextInput"/> class.
+        /// </summary>
         public TextInput()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextInput"/> class with wraps specific <see cref="AutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         public TextInput(AutomationElement instance) : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA text input control type.
+        /// </summary>
         public override ControlType UiaType => ControlType.Edit;
 
-        public virtual string Value
-        {
-            get
-            {
-                if (Instance.Current.ClassName.Equals("PasswordBox"))
-                {
-                    return "The field is of PasswordBox type. Unable to get value";
-                }
-                else
-                {
-                    return GetPattern<ValuePattern>().Current.Value;
-                }
-            }
-        }
+        /// <summary>
+        /// Gets a value indicating whether input is password input.
+        /// </summary>
+        public bool IsPasswordType =>
+            Instance.Current.ClassName.Equals("PasswordBox");
 
+        /// <summary>
+        /// Gets text input value
+        /// </summary>
+        public virtual string Value =>
+            IsPasswordType ?
+            "The field is of PasswordBox type. Unable to get value" :
+            this.GetPattern<ValuePattern>().Current.Value;
+
+        /// <summary>
+        /// Adds text to already existing input value.
+        /// </summary>
+        /// <param name="text">text to send</param>
         public virtual void SendKeys(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
@@ -47,6 +63,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             pattern.SetValue(this.Value + text);
         }
 
+        /// <summary>
+        /// Set text input value (overwriting existing one)
+        /// </summary>
+        /// <param name="text">text to send</param>
+        /// <returns>true - if value was set; false - if input already has specified value</returns>
         public virtual bool SetValue(string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");

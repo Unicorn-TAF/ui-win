@@ -9,29 +9,55 @@ using Unicorn.UI.Win.Driver;
 
 namespace Unicorn.UI.Win.Controls.Typified
 {
+    /// <summary>
+    /// Describes base window control.
+    /// </summary>
     public class Window : WinContainer, IWindow
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
         public Window()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class with wraps specific <see cref="IUIAutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="IUIAutomationElement"/> instance to wrap</param>
         public Window(IUIAutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA window control type.
+        /// </summary>
         public override int UiaType => UIA_ControlTypeIds.UIA_WindowControlTypeId;
 
+        /// <summary>
+        /// Gets window title text.
+        /// </summary>
         public string Title => this.Text;
 
-        protected IUIAutomationWindowPattern WindowPattern => this.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
+        /// <summary>
+        /// Gets window pattern instance.
+        /// </summary>
+        protected IUIAutomationWindowPattern WindowPattern => 
+            this.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
 
+        /// <summary>
+        /// Closes window.
+        /// </summary>
         public virtual void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
             WindowPattern.Close();
         }
 
+        /// <summary>
+        /// Focuses on the window.
+        /// </summary>
         public void Focus()
         {
             try
@@ -45,11 +71,14 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
+        /// <summary>
+        /// Wait until window is closed during specified timeout.
+        /// </summary>
+        /// <param name="timeout">timeout to wait</param>
         public void WaitForClosed(TimeSpan timeout)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
+            var timer = Stopwatch.StartNew();
 
             var originalTimeout = WinDriver.ImplicitlyWaitTimeout;
             WinDriver.ImplicitlyWaitTimeout = TimeSpan.FromSeconds(0);
@@ -79,6 +108,9 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
 
+        /// <summary>
+        /// Wait until window is closed during 30 seconds.
+        /// </summary>
         public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

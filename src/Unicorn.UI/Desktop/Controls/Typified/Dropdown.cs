@@ -7,22 +7,44 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Desktop.Controls.Typified
 {
+    /// <summary>
+    /// Describes base dropdown control.
+    /// </summary>
     public class Dropdown : GuiControl, IDropdown
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dropdown"/> class.
+        /// </summary>
         public Dropdown()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dropdown"/> class with wraps specific <see cref="AutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         public Dropdown(AutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA combo box control type.
+        /// </summary>
         public override ControlType UiaType => ControlType.ComboBox;
 
+        /// <summary>
+        /// Gets a value indicating whether dropdown is expanded.
+        /// </summary>
         public virtual bool Expanded => 
-            GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
+            this.GetPattern<ExpandCollapsePattern>()
+            .Current
+            .ExpandCollapseState
+            .Equals(ExpandCollapseState.Expanded);
 
+        /// <summary>
+        /// Gets dropdown current selected value.
+        /// </summary>
         public virtual string SelectedValue
         {
             get
@@ -49,6 +71,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
         }
 
+        /// <summary>
+        /// Selects specified item from dropdown.
+        /// </summary>
+        /// <param name="itemName">item to select</param>
+        /// <returns>true - if item was selected; false - if specified item is already selected</returns>
         public virtual bool Select(string itemName)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
@@ -83,6 +110,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             return true;
         }
 
+        /// <summary>
+        /// Expands the dropdown.
+        /// </summary>
+        /// <returns>true - if expanding was performed; false - if already expanded</returns>
         public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
@@ -97,6 +128,10 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             return true;
         }
 
+        /// <summary>
+        /// Collapses the dropdown.
+        /// </summary>
+        /// <returns>true - if collapsing was performed; false - if already collapsed</returns>
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");

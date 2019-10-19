@@ -6,6 +6,9 @@ using Unicorn.UI.Core.UserInput.WindowsApi;
 
 namespace Unicorn.UI.Core.UserInput
 {
+    /// <summary>
+    /// Mouse.
+    /// </summary>
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
@@ -14,10 +17,16 @@ namespace Unicorn.UI.Core.UserInput
         private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mouse"/> class.
+        /// </summary>
         protected Mouse()
         {
         }
 
+        /// <summary>
+        /// Gets mouse instance.
+        /// </summary>
         public static Mouse Instance
         {
             get
@@ -31,7 +40,10 @@ namespace Unicorn.UI.Core.UserInput
             }
         }
 
-        public virtual Point Location
+        /// <summary>
+        /// Gets or sets mouse current location as <see cref="Point"/>.
+        /// </summary>
+        public Point Location
         {
             get
             {
@@ -51,16 +63,25 @@ namespace Unicorn.UI.Core.UserInput
             }
         }
 
-        public virtual void RightClick()
+        /// <summary>
+        /// Performs right mouse click on current pointer location.
+        /// </summary>
+        public void RightClick()
         {
             SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, GetMessageExtraInfo())));
             SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, GetMessageExtraInfo())));
         }
 
-        public virtual void ResetPosition() =>
-            Instance.Location = new Point(0, 0);
+        /// <summary>
+        /// Moves mouse pointer to left upper screen corner.
+        /// </summary>
+        public void ResetPosition() =>
+            this.Location = new Point(0, 0);
 
-        public virtual void Click()
+        /// <summary>
+        /// Performs left mouse click on current pointer location.
+        /// </summary>
+        public void Click()
         {
             Point clickLocation = this.Location;
             if (this.lastClickLocation.Equals(clickLocation))
@@ -77,26 +98,48 @@ namespace Unicorn.UI.Core.UserInput
             this.lastClickLocation = this.Location;
         }
 
-        public virtual void RightClick(Point point)
+        /// <summary>
+        /// Performs right mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to right click on</param>
+        public void RightClick(Point point)
         {
             this.Location = point;
             RightClick();
         }
 
-        public virtual void Click(Point point)
+        /// <summary>
+        /// Performs left mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to left click on</param>
+        public void Click(Point point)
         {
             this.Location = point;
             Click();
         }
 
-        public virtual void MoveOut() => this.Location = new Point(0, 0);
-
-        public virtual void DoubleClick(Point point)
+        /// <summary>
+        /// Performs double left mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to left click on</param>
+        public void DoubleClick(Point point)
         {
             this.Location = point;
             MouseLeftButtonUpAndDown();
             MouseLeftButtonUpAndDown();
         }
+
+        /// <summary>
+        /// Performs left button down action on current mouse position.
+        /// </summary>
+        public void LeftButtonDown() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
+
+        /// <summary>
+        /// Performs left button up action on current mouse position.
+        /// </summary>
+        public void LeftButtonUp() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
 
         internal int SendInput(Input input) =>
             SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
@@ -118,8 +161,8 @@ namespace Unicorn.UI.Core.UserInput
 
         private void MouseLeftButtonUpAndDown()
         {
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+            LeftButtonDown();
+            LeftButtonUp();
         }
 
         private bool PointIsInvalid(Point p) =>

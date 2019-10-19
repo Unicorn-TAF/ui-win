@@ -75,7 +75,7 @@ namespace Unicorn.UI.Desktop.Controls
         /// <summary>
         /// Gets control text.
         /// </summary>
-        public string Text =>
+        public virtual string Text =>
             this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
 
         /// <summary>
@@ -147,12 +147,6 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 case "class":
                     return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.ClassNameProperty);
-                case "text":
-                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty);
-                case "enabled":
-                    return this.Enabled.ToString();
-                case "visible":
-                    return this.Visible.ToString();
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
@@ -187,38 +181,22 @@ namespace Unicorn.UI.Desktop.Controls
         }
 
         /// <summary>
-        /// Performs mouse click on the control by it's coordinates on screen.
+        /// Performs mouse click on the control on its clickable coordinates. If no such, click on center of control.
         /// </summary>
         public void MouseClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
-            Point point;
-            if (!this.Instance.TryGetClickablePoint(out point))
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                point = rect.TopLeft;
-                point.Offset(pt.X, pt.Y);
-            }
-
+            var point = GetClickablePoint();
             Mouse.Instance.Click(point);
         }
 
         /// <summary>
-        /// Performs right click by mouse on the control by it's coordinates on screen.
+        /// Performs right click by mouse on the control on its clickable coordinates. If no such, click on center of control..
         /// </summary>
         public void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            Point point;
-            if (!this.Instance.TryGetClickablePoint(out point))
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                point = rect.TopLeft;
-                point.Offset(pt.X, pt.Y);
-            }
-
+            var point = GetClickablePoint();
             Mouse.Instance.RightClick(point);
         }
 
@@ -251,6 +229,27 @@ namespace Unicorn.UI.Desktop.Controls
             object patternObject;
             this.Instance.TryGetCurrentPattern(pattern, out patternObject);
             return patternObject as T;
+        }
+
+        private Point GetClickablePoint()
+        {
+            if (!this.Visible)
+            {
+                throw new ControlInvalidStateException("Control is not visible, other control will receive the mouse click.");
+            }
+
+            Point point;
+
+            if (!this.Instance.TryGetClickablePoint(out point))
+            {
+                Logger.Instance.Log(LogLevel.Trace, "Clickable point is not found, clicking on center of control...");
+
+                var rect = this.BoundingRectangle;
+                point = new Point(rect.Left, rect.Top);
+                point.Offset(rect.Width / 2d, rect.Height / 2d);
+            }
+
+            return point;
         }
 
         #endregion

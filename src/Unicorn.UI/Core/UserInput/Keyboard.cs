@@ -40,6 +40,9 @@ namespace Unicorn.UI.Core.UserInput
 
         private readonly List<int> keysHeld = new List<int>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Keyboard"/> class.
+        /// </summary>
         protected Keyboard()
         {
         }
@@ -93,6 +96,9 @@ namespace Unicorn.UI.Core.UserInput
             RightAlt = 0xA5
         }
 
+        /// <summary>
+        /// Gets keyboard instance.
+        /// </summary>
         public static Keyboard Instance
         {
             get
@@ -106,7 +112,10 @@ namespace Unicorn.UI.Core.UserInput
             }
         }
 
-        public virtual bool CapsLockOn
+        /// <summary>
+        /// Gets or sets a value indicating whether Caps Lock mode is ON
+        /// </summary>
+        public bool CapsLockOn
         {
             get
             {
@@ -123,9 +132,17 @@ namespace Unicorn.UI.Core.UserInput
             }
         }
 
-        public virtual List<SpecialKeys> HeldKeys => this.heldKeys;
+        /// <summary>
+        /// Gets help special keys.
+        /// </summary>
+        public List<SpecialKeys> HeldKeys => this.heldKeys;
 
-        public virtual Keyboard Type(string keysToType)
+        /// <summary>
+        /// press sequence of keys
+        /// </summary>
+        /// <param name="keysToType">keys to type</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard Type(string keysToType)
         {
             this.CapsLockOn = false;
 
@@ -153,27 +170,46 @@ namespace Unicorn.UI.Core.UserInput
             return this;
         }
 
-        public virtual Keyboard PressSpecialKey(SpecialKeys key)
+        /// <summary>
+        /// Presses one of <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to press</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard PressSpecialKey(SpecialKeys key)
         {
             Send(key, true);
             return this;
         }
 
-        public virtual Keyboard HoldKey(SpecialKeys key)
+        /// <summary>
+        /// Holds one of <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to hold</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard HoldKey(SpecialKeys key)
         {
             SendKeyDown((short)key, true);
             this.heldKeys.Add(key);
             return this;
         }
 
-        public virtual Keyboard LeaveKey(SpecialKeys key)
+        /// <summary>
+        /// Leaves specific <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to leave</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard LeaveKey(SpecialKeys key)
         {
             SendKeyUp((short)key, true);
             this.heldKeys.Remove(key);
             return this;
         }
 
-        public virtual Keyboard LeaveAllKeys()
+        /// <summary>
+        /// Leaves all <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <returns>keyboard instance</returns>
+        public Keyboard LeaveAllKeys()
         {
             new List<SpecialKeys>(this.heldKeys).ForEach(LeaveSingleKey);
             return this;

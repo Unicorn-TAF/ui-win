@@ -9,24 +9,48 @@ using Unicorn.UI.Win.Controls;
 
 namespace Unicorn.UI.Win.Driver
 {
+    /// <summary>
+    /// Describes search context for windows controls. Contains variety of methods to search and wait for controls of specified type from current context.
+    /// </summary>
     public abstract class WinSearchContext : UISearchContext<WinSearchContext>
     {
         private const int SearchDelay = 50;
 
+        /// <summary>
+        /// Gets or sets Current search context as <see cref="IUIAutomationElement"/>
+        /// </summary>
         public virtual IUIAutomationElement SearchContext { get; set; }
 
+        /// <summary>
+        /// Gets or sets implicitly wait timeout
+        /// </summary>
         protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
 
+        /// <summary>
+        /// Gets or sets base <see cref="Type"/> for all desktop controls (by default is <see cref="WinControl"/>)
+        /// </summary>
         protected override Type ControlsBaseType => typeof(WinControl);
 
         #region "Helpers"
 
+        /// <summary>
+        /// Wait for typified control by specified locator during implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="WinControl"/></typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>wrapped control instance</returns>
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             var elementToWrap = GetNativeControl<T>(locator);
             return this.Wrap<T>(elementToWrap, locator);
         }
 
+        /// <summary>
+        /// Wait for typified controls list by specified locator during implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="WinControl"/></typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>wrapped controls list</returns>
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
             var elementsToWrap = GetNativeControlsList<T>(locator);
@@ -40,6 +64,11 @@ namespace Unicorn.UI.Win.Driver
             return controlsList;
         }
 
+        /// <summary>
+        /// Get first child from current context which has specified control type ignoring implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="WinControl"/></typeparam>
+        /// <returns>wrapped control instance</returns>
         protected override T GetFirstChildWrappedControl<T>()
         {
             WinControl instance = (WinControl)Activator.CreateInstance(typeof(T));
@@ -59,20 +88,30 @@ namespace Unicorn.UI.Win.Driver
             return this.Wrap<T>(elementToWrap, null);
         }
 
-        protected IUIAutomationElement GetNativeControl<T>(ByLocator locator)
-        {
-            return GetNativeControlFromContext(locator, typeof(T), this.SearchContext);
-        }
+        /// <summary>
+        /// Get control instance from current context as UIA <see cref="IUIAutomationElement"/>.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="WinControl"/></typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns><see cref="IUIAutomationElement"/> instance</returns>
+        protected IUIAutomationElement GetNativeControl<T>(ByLocator locator) =>
+            GetNativeControlFromContext(locator, typeof(T), this.SearchContext);
 
-        protected IUIAutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type)
-        {
-            return GetNativeControlFromContext(locator, type, this.ParentSearchContext.SearchContext);
-        }
+        /// <summary>
+        /// Get control instance from parent context as UIA <see cref="IUIAutomationElement"/>.
+        /// </summary>
+        /// <param name="locator">locator to search by</param>
+        /// <param name="type">control type</param>
+        /// <returns><see cref="IUIAutomationElement"/> instance</returns>
+        protected IUIAutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type) =>
+            GetNativeControlFromContext(locator, type, this.ParentSearchContext.SearchContext);
 
-        protected override void SetImplicitlyWait(TimeSpan timeout)
-        {
+        /// <summary>
+        /// Set current implicitly wait timeout value.
+        /// </summary>
+        /// <param name="timeout">new implicit timeout value</param>
+        protected override void SetImplicitlyWait(TimeSpan timeout) =>
             ImplicitlyWaitTimeout = timeout;
-        }
 
         private IUIAutomationElement GetNativeControlFromContext(ByLocator locator, Type type, IUIAutomationElement context)
         {
