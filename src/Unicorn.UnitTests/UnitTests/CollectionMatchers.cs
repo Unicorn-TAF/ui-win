@@ -210,5 +210,69 @@ namespace Unicorn.UnitTests.Tests
             });
 
         #endregion
+
+        #region "Each"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.Each(Um.Is.EqualTo("a")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullNegative2() =>
+           Assert.Throws<Uv.AssertionException>(delegate
+           {
+               Uv.Assert.That(hasItemsA, Collection.Each(Um.Is.EqualTo("a")));
+           });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullWithNotNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.Each(Um.Is.EqualTo("a"))));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullWithNotNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(expected1, Um.Is.Not(Collection.Each(Um.Is.EqualTo("qwerty"))));
+            });
+
+        #endregion
+
+        #region "Any"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.Any(Um.Is.EqualTo("a")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Collection.Any(Um.Is.EqualTo("a")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullWithNotPositive1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.Any(Um.Is.EqualTo("a"))));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullWithNotPositive2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.Any(Um.Is.EqualTo("qwerty"))));
+            });
+
+        #endregion
     }
 }

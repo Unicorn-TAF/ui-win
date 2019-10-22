@@ -13,6 +13,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
             this.matcher = matcher;
         }
 
+        /// <summary>
+        /// Gets check description
+        /// </summary>
         public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
         public override bool Matches(IEnumerable<T> actual)

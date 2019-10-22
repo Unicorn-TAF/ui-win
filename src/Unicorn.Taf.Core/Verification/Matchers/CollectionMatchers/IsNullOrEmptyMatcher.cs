@@ -8,6 +8,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         {
         }
 
+        /// <summary>
+        /// Gets check description
+        /// </summary>
         public override string CheckDescription => "Is empty";
 
         public override bool Matches(object actual)

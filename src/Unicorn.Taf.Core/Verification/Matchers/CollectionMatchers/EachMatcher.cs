@@ -12,10 +12,19 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             this.matcher = matcher;
         }
 
+        /// <summary>
+        /// Gets check description
+        /// </summary>
         public override string CheckDescription => $"Each element {this.matcher.CheckDescription}";
 
         public override bool Matches(IEnumerable<T> actual)
         {
+            if (actual == null)
+            {
+                DescribeMismatch("null");
+                return Reverse;
+            }
+
             var matches = true;
 
             for (var i = 0; i < actual.Count(); i++)

@@ -13,6 +13,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             this.expectedObjects = expectedObjects;
         }
 
+        /// <summary>
+        /// Gets check description
+        /// </summary>
         public override string CheckDescription
         {
             get

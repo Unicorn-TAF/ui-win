@@ -12,6 +12,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             this.expectedObject = expectedObject;
         }
 
+        /// <summary>
+        /// Gets check description
+        /// </summary>
         public override string CheckDescription => $"Collection has item {this.expectedObject}";
 
         public override bool Matches(IEnumerable<T> actual)
