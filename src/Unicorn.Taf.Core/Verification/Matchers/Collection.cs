@@ -4,7 +4,7 @@ using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 namespace Unicorn.Taf.Core.Verification.Matchers
 {
     /// <summary>
-    /// Matchers for collections.
+    /// Entry point for collections matchers.
     /// </summary>
     public static class Collection
     {

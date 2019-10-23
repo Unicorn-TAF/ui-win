@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
+    /// <summary>
+    /// Matcher to check if collection is sequence equal to another one. 
+    /// </summary>
+    /// <typeparam name="T">check items type</typeparam>
     public class IsSequenceEqualToCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly IEnumerable<T> expected;

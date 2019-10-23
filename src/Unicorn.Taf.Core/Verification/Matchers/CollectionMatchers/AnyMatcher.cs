@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
+    /// <summary>
+    /// Matcher to check if collection has at least one element matches specified matcher. 
+    /// </summary>
+    /// <typeparam name="T">check items type</typeparam>
     public class AnyMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly TypeSafeMatcher<T> matcher;

@@ -1,14 +1,25 @@
 ﻿namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
 {
+    /// <summary>
+    /// Matcher to check if object is equal to expected one. 
+    /// </summary>
+    /// <typeparam name="T">check items type</typeparam>
     public class EqualToMatcher<T> : TypeSafeMatcher<T>
     {
         private readonly T objectToCompare;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EqualToMatcher{T}"/> class for specified expected object.
+        /// </summary>
+        /// <param name="objectToCompare">expected object</param>
         public EqualToMatcher(T objectToCompare)
         {
             this.objectToCompare = objectToCompare;
         }
 
+        /// <summary>
+        /// Gets check description.
+        /// </summary>
         public override string CheckDescription => "Is equal to " + this.objectToCompare;
 
         public override bool Matches(T actual)

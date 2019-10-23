@@ -2,6 +2,9 @@
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
+    /// <summary>
+    /// Matcher to check if collection is null or empty. 
+    /// </summary>
     public class IsNullOrEmptyMatcher : TypeUnsafeMatcher
     {
         public IsNullOrEmptyMatcher()

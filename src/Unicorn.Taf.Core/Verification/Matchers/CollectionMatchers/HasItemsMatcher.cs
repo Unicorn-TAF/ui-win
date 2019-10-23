@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
+    /// <summary>
+    /// Matcher to check if collection has specified items array. 
+    /// </summary>
+    /// <typeparam name="T">check items type</typeparam>
     public class HasItemsMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly IEnumerable<T> expectedObjects;
