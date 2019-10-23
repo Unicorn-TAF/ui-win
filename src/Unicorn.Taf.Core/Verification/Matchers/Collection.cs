@@ -38,9 +38,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         /// </summary>
         /// <typeparam name="T">items type</typeparam>
         /// <param name="expectedObjects">expected collection</param>
-        /// <returns><see cref="IsEqualToCollectionMatcher{T}"/> instance</returns>
-        public static IsEqualToCollectionMatcher<T> IsTheSameAs<T>(IEnumerable<T> expectedObjects) =>
-            new IsEqualToCollectionMatcher<T>(expectedObjects);
+        /// <returns><see cref="IsTheSameAsCollectionMatcher{T}"/> instance</returns>
+        public static IsTheSameAsCollectionMatcher<T> IsTheSameAs<T>(IEnumerable<T> expectedObjects) =>
+            new IsTheSameAsCollectionMatcher<T>(expectedObjects);
 
         /// <summary>
         /// Matcher to check if collection is sequence equal to expected.

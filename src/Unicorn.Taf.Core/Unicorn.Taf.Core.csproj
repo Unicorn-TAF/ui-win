@@ -99,7 +99,7 @@
     <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
     <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
-    <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollectionMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\IsTheSameAsCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\NullMatcher.cs" />

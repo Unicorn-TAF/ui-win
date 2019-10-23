@@ -19,20 +19,8 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <summary>
         /// Gets check description
         /// </summary>
-        public override string CheckDescription
-        {
-            get
-            {
-                string itemsList = string.Join(", ", this.expected);
-
-                if (itemsList.Length > 200)
-                {
-                    itemsList = itemsList.Substring(0, 200) + " etc . . .";
-                }
-
-                return "Is sequence equal to collection: [" + itemsList + "]";
-            }
-        }
+        public override string CheckDescription =>
+            "Is sequence equal to collection: [" + DescribeCollection(this.expected) + "]";
 
         public override bool Matches(IEnumerable<T> actual)
         {
@@ -42,7 +30,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return this.Reverse;
             }
 
-            DescribeMismatch(string.Join(", ", actual));
+            DescribeMismatch(DescribeCollection(actual));
             return actual.SequenceEqual(expected);
         }
     }

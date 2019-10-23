@@ -1,6 +1,6 @@
 ﻿using Unicorn.Taf.Core.Verification.Matchers.MiscMatchers;
 
-namespace Unicorn.Taf.Core.Verification
+namespace Unicorn.Taf.Core.Verification.Matchers
 {
     /// <summary>
     /// Entry point for strings matchers.
