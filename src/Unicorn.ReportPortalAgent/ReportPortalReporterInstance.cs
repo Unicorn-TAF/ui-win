@@ -65,6 +65,13 @@ namespace Unicorn.ReportPortalAgent
                 StepsUtilities.GetStepInfo(method, arguments));
 
         /// <summary>
+        /// Sets list of tags which are common for all suites and specific for the run
+        /// </summary>
+        /// <param name="tags">list of tags</param>
+        public void SetCommonSuitesTags(params string[] tags) =>
+            this.listener.SetCommonSuitesTags(tags);
+
+        /// <summary>
         /// Unsubscribe from events and finish launch if it is not external
         /// </summary>
         public void Dispose()

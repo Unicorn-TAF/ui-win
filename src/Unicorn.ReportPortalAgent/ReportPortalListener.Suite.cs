@@ -30,8 +30,15 @@ namespace Unicorn.ReportPortalAgent
                     Type = TestItemType.Suite
                 };
 
-                startSuiteRequest.Tags = new List<string>();
-                startSuiteRequest.Tags.Add(Environment.MachineName);
+                startSuiteRequest.Tags = new List<string>
+                {
+                    Environment.MachineName
+                };
+
+                if (commonSuitesTags != null)
+                {
+                    startSuiteRequest.Tags.AddRange(commonSuitesTags);
+                }
 
                 var test = 
                     parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId) ?
@@ -57,13 +64,20 @@ namespace Unicorn.ReportPortalAgent
                 // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
                 if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
                 {
-                    var tags = new List<string>();
-                    tags.Add(Environment.MachineName);
+                    var tags = new List<string>
+                    {
+                        Environment.MachineName
+                    };
 
                     // adding tags to suite
                     if (suite.Tags != null)
                     {
                         tags.AddRange(suite.Tags);
+                    }
+
+                    if (commonSuitesTags != null)
+                    {
+                        tags.AddRange(commonSuitesTags);
                     }
 
                     // adding description to suite

@@ -17,6 +17,7 @@ namespace Unicorn.ReportPortalAgent
 
         private Dictionary<Guid, ITestReporter> suitesFlow = new Dictionary<Guid, ITestReporter>();
         private Dictionary<Guid, ITestReporter> testFlowIds = new Dictionary<Guid, ITestReporter>();
+        private string[] commonSuitesTags = null;
 
         static ReportPortalListener()
         {
@@ -77,5 +78,12 @@ namespace Unicorn.ReportPortalAgent
                 AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
         }
+
+        /// <summary>
+        /// Sets list of tags which are common for all suites and specific for the run
+        /// </summary>
+        /// <param name="tags">list of tags</param>
+        public void SetCommonSuitesTags(params string[] tags) =>
+            this.commonSuitesTags = tags;
     }
 }
