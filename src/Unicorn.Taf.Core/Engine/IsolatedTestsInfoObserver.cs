@@ -18,12 +18,24 @@ namespace Unicorn.Taf.Core.Engine
             this.ClassName = className;
         }
 
+        /// <summary>
+        /// Gets test full name (reflected type full name and test method name.
+        /// </summary>
         public string FullName { get; private set; }
 
+        /// <summary>
+        /// Gets test display name
+        /// </summary>
         public string DisplayName { get; private set; }
 
+        /// <summary>
+        /// Gets test class name
+        /// </summary>
         public string ClassName { get; private set; }
 
+        /// <summary>
+        /// Gets Test method name
+        /// </summary>
         public string MethodName { get; private set; }
     }
 

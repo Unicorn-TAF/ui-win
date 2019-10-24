@@ -4,7 +4,7 @@ using System.Linq;
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
     /// <summary>
-    /// Matcher to check if aech collection element matches specified matcher. 
+    /// Matcher to check if each collection element matches specified matcher. 
     /// </summary>
     /// <typeparam name="T">check items type</typeparam>
     public class EachMatcher<T> : TypeSafeCollectionMatcher<T>

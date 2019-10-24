@@ -10,7 +10,6 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     public class IsTheSameAsCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly IEnumerable<T> expectedObjects;
-        private string mismatch = string.Empty;
 
         public IsTheSameAsCollectionMatcher(IEnumerable<T> expectedObjects)
         {
@@ -31,10 +30,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return this.Reverse;
             }
 
-            bool result;
-
-            this.mismatch = "Collections are not equal";
-            result = this.expectedObjects.Count() == actual.Count();
+            var result = this.expectedObjects.Count() == actual.Count();
             result &= actual.Intersect(this.expectedObjects).Count() == this.expectedObjects.Count();
 
             DescribeMismatch(DescribeCollection(actual));

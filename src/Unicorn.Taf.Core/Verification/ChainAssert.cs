@@ -102,7 +102,7 @@ namespace Unicorn.Taf.Core.Verification
         }
 
         /// <summary>
-        /// Perform soft check on object of any type using matcher 
+        /// Perform soft check on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>

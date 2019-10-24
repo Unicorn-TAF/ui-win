@@ -50,7 +50,7 @@ namespace Unicorn.Taf.Core.Verification
         public static void That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, string.Empty);
 
         /// <summary>
-        /// Perform assertion on object of any type using matcher 
+        /// Perform assertion on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// and with specified message on fail
         /// </summary>
@@ -80,7 +80,7 @@ namespace Unicorn.Taf.Core.Verification
         }
 
         /// <summary>
-        /// Perform assertion on object of any type using matcher 
+        /// Perform assertion on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>

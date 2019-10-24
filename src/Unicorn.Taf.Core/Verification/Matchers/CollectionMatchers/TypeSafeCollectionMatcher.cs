@@ -14,7 +14,6 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 
         public abstract bool Matches(IEnumerable<T> actual);
 
-        
         protected string DescribeCollection(IEnumerable<T> collection)
         {
             string itemsList = string.Join(", ", collection);

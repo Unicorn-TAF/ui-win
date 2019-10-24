@@ -6,6 +6,9 @@ using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Engine
 {
+    /// <summary>
+    /// Provides with functionality of tests observation in specified assembly.
+    /// </summary>
     public static class TestsObserver
     {
         /// <summary>
