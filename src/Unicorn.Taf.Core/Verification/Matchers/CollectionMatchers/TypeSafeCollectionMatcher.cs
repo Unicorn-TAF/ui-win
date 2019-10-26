@@ -8,12 +8,25 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// <typeparam name="T">type of object under assertion</typeparam>
     public abstract class TypeSafeCollectionMatcher<T> : AbstractMatcher
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeSafeCollectionMatcher{T}"/> class.
+        /// </summary>
         protected TypeSafeCollectionMatcher() : base()
         {
         }
 
+        /// <summary>
+        /// Checks if target objects collection matches condition corresponding to specific matcher realization.
+        /// </summary>
+        /// <param name="actual">objects collection under assertion</param>
+        /// <returns>true - if objects collection matches specific condition; otherwise - false</returns>
         public abstract bool Matches(IEnumerable<T> actual);
 
+        /// <summary>
+        /// Gets truncated to 200 chars version of collection ToString
+        /// </summary>
+        /// <param name="collection">collection instance</param>
+        /// <returns>collection description string</returns>
         protected string DescribeCollection(IEnumerable<T> collection)
         {
             string itemsList = string.Join(", ", collection);

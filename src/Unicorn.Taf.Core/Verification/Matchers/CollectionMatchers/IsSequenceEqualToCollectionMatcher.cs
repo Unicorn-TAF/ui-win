@@ -11,6 +11,10 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     {
         private readonly IEnumerable<T> expected;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IsSequenceEqualToCollectionMatcher{T}"/> class with specified expected collection.
+        /// </summary>
+        /// <param name="expected">expected collection</param>
         public IsSequenceEqualToCollectionMatcher(IEnumerable<T> expected)
         {
             this.expected = expected;
@@ -22,6 +26,11 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         public override string CheckDescription =>
             "Is sequence equal to collection: [" + DescribeCollection(this.expected) + "]";
 
+        /// <summary>
+        /// Checks if collection is sequence equal to another one
+        /// </summary>
+        /// <param name="actual">objects collection under check</param>
+        /// <returns>true - if collection is sequence equal to another one; otherwise - false</returns>
         public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)

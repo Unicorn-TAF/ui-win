@@ -22,6 +22,11 @@
         /// </summary>
         public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
 
+        /// <summary>
+        /// Negates main matcher check.
+        /// </summary>
+        /// <param name="actual">object under check</param>
+        /// <returns>true - if main matching was failed; otherwise - false</returns>
         public override bool Matches(object actual)
         {
             if (this.matcher.Matches(actual))

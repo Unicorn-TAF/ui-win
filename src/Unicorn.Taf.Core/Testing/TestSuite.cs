@@ -62,6 +62,7 @@ namespace Unicorn.Taf.Core.Testing
         /// Delegate used for suite events invocation
         /// </summary>
         /// <param name="testSuite">current <see cref="TestSuite"/> instance</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
         /// <summary>

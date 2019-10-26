@@ -22,6 +22,11 @@
         /// </summary>
         public override string CheckDescription => "Is equal to " + this.objectToCompare;
 
+        /// <summary>
+        /// Checks if object is equal to expected one.
+        /// </summary>
+        /// <param name="actual">object under check</param>
+        /// <returns>true - if actual object is equal to expected one; otherwise - false</returns>
         public override bool Matches(T actual)
         {
             if (actual == null)

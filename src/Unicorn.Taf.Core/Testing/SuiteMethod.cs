@@ -15,10 +15,29 @@ namespace Unicorn.Taf.Core.Testing
     /// </summary>
     public enum SuiteMethodType
     {
+        /// <summary>
+        /// Method executed before all suite tests.
+        /// </summary>
         BeforeSuite,
+
+        /// <summary>
+        /// Method executed before each suite test.
+        /// </summary>
         BeforeTest,
+
+        /// <summary>
+        /// Method executed after each suite test.
+        /// </summary>
         AfterTest,
+
+        /// <summary>
+        /// Method executed after all suite tests.
+        /// </summary>
         AfterSuite,
+
+        /// <summary>
+        /// Test itself.
+        /// </summary>
         Test
     }
 
@@ -61,6 +80,7 @@ namespace Unicorn.Taf.Core.Testing
         /// Delegate used for suite method events invocation
         /// </summary>
         /// <param name="suiteMethod">current <see cref="SuiteMethod"/> instance</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
 
         /// <summary>

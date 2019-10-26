@@ -11,6 +11,10 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     {
         private readonly TypeSafeMatcher<T> matcher;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnyMatcher{T}"/> class with specified main matcher instance.
+        /// </summary>
+        /// <param name="matcher">instance of collection matcher with specified check</param>
         public AnyMatcher(TypeSafeMatcher<T> matcher)
         {
             this.matcher = matcher;
@@ -21,6 +25,11 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// </summary>
         public override string CheckDescription => $"Any of elements {this.matcher.CheckDescription}";
 
+        /// <summary>
+        /// Checks if any collection item satisfies main matcher check.
+        /// </summary>
+        /// <param name="actual">objects collection under check</param>
+        /// <returns>true - if any collection item satisfies main matcher check; otherwise - false</returns>
         public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)

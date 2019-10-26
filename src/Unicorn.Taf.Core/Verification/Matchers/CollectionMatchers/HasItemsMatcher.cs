@@ -10,7 +10,11 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     public class HasItemsMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly IEnumerable<T> expectedObjects;
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasItemsMatcher{T}"/> class with specified expected objects.
+        /// </summary>
+        /// <param name="expectedObjects">expected objects</param>
         public HasItemsMatcher(IEnumerable<T> expectedObjects)
         {
             this.expectedObjects = expectedObjects;
@@ -19,21 +23,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <summary>
         /// Gets check description
         /// </summary>
-        public override string CheckDescription
-        {
-            get
-            {
-                string itemsList = string.Join(", ", this.expectedObjects);
+        public override string CheckDescription =>
+            "Collection has items: " + DescribeCollection(this.expectedObjects);
 
-                if (itemsList.Length > 200)
-                {
-                    itemsList = itemsList.Substring(0, 200) + " etc . . .";
-                }
-
-                return "Collection has items: " + itemsList;
-            }
-        }
-
+        /// <summary>
+        /// Checks if collection contains specified items.
+        /// </summary>
+        /// <param name="actual">objects collection under check</param>
+        /// <returns>true - if collection contains specific items; otherwise - false</returns>
         public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)

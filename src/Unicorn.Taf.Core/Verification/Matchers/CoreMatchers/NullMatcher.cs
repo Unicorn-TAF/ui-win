@@ -17,6 +17,11 @@
         /// </summary>
         public override string CheckDescription => "Is null";
 
+        /// <summary>
+        /// Checks if object is null.
+        /// </summary>
+        /// <param name="actual">object under check</param>
+        /// <returns>true - if object is null; otherwise - false</returns>
         public override bool Matches(object actual)
         {
             if (actual == null)

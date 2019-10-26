@@ -7,9 +7,19 @@ using Unicorn.Taf.Core.Testing.Attributes;
 
 namespace Unicorn.Taf.Core.Engine
 {
+    /// <summary>
+    /// Represents serializable test information object for cross domain usage.
+    /// </summary>
     [Serializable]
     public struct TestInfo
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestInfo"/> struct.
+        /// </summary>
+        /// <param name="fullName">full test name (reflected type + test method name)</param>
+        /// <param name="displayName">test display name</param>
+        /// <param name="methodName">test method name</param>
+        /// <param name="className">test class name</param>
         public TestInfo(string fullName, string displayName, string methodName, string className)
         {
             this.FullName = fullName;
@@ -19,7 +29,7 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
-        /// Gets test full name (reflected type full name and test method name.
+        /// Gets test full name (reflected type full name and test method name).
         /// </summary>
         public string FullName { get; private set; }
 
@@ -39,8 +49,16 @@ namespace Unicorn.Taf.Core.Engine
         public string MethodName { get; private set; }
     }
 
+    /// <summary>
+    /// Provides with ability to get <see cref="TestInfo"/> data from specified assembly in separate AppDomain.
+    /// </summary>
     public class IsolatedTestsInfoObserver : MarshalByRefObject
     {
+        /// <summary>
+        /// Gets list of <see cref="TestInfo"/> from specified assembly in separate AppDomain.
+        /// </summary>
+        /// <param name="assembly">test assembly file</param>
+        /// <returns>test info list</returns>
         public List<TestInfo> GetTests(string assembly)
         {
             var testsAssembly = Assembly.LoadFrom(assembly);

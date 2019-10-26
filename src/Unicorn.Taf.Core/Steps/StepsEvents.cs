@@ -19,12 +19,14 @@ namespace Unicorn.Taf.Core.Steps
         /// </summary>
         /// <param name="methodBase"><see cref="MethodBase"/> representing test step</param>
         /// <param name="arguments">test step method arguments array</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void StepEvent(MethodBase methodBase, object[] arguments);
 
         /// <summary>
         /// Delegate for test step fail event.
         /// </summary>
         /// <param name="exception">exception test step failed with</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void StepFailEvent(Exception exception);
 
         /// <summary>

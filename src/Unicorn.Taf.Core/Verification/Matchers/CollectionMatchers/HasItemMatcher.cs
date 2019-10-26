@@ -11,16 +11,25 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     {
         private readonly T expectedObject;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasItemMatcher{T}"/> class with specified expected object.
+        /// </summary>
+        /// <param name="expectedObject">expected item</param>
         public HasItemMatcher(T expectedObject)
         {
             this.expectedObject = expectedObject;
         }
 
         /// <summary>
-        /// Gets check description
+        /// Gets check description.
         /// </summary>
         public override string CheckDescription => $"Collection has item {this.expectedObject}";
 
+        /// <summary>
+        /// Checks if collection contains specified item.
+        /// </summary>
+        /// <param name="actual">objects collection under check</param>
+        /// <returns>true - if collection contains specific item; otherwise - false</returns>
         public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)
