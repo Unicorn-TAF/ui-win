@@ -4,8 +4,16 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.PageObject
 {
+    /// <summary>
+    /// Provides with ability to initialize classes which represent UI controls containers.
+    /// </summary>
     public static class ContainerFactory
     {
+        /// <summary>
+        /// Initialize container with child controls.
+        /// </summary>
+        /// <typeparam name="T">specific contaiter class type</typeparam>
+        /// <param name="container">container instance</param>
         public static void InitContainer<T>(T container)
         {
             InitContainerProperties(container);

@@ -4,6 +4,9 @@ using Unicorn.UI.Core.Matchers.TypifiedMatchers;
 
 namespace Unicorn.UI.Core.Matchers
 {
+    /// <summary>
+    /// Entry point for general control matchers.
+    /// </summary>
     public static class Control
     {
         public static HasAttribute HasAttribute(string attribute)

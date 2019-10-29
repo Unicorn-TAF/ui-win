@@ -3,6 +3,9 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.Controls
 {
+    /// <summary>
+    /// Interface for UI control.
+    /// </summary>
     public interface IControl
     {
         /// <summary>

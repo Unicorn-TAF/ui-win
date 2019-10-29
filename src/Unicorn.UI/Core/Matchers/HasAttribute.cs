@@ -2,10 +2,17 @@
 
 namespace Unicorn.UI.Core.Matchers
 {
+    /// <summary>
+    /// Entry point for attribute matchers.
+    /// </summary>
     public class HasAttribute
     {
         private readonly string attribute;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasAttribute"/> class with specified attribute name.
+        /// </summary>
+        /// <param name="attribute"></param>
         public HasAttribute(string attribute)
         {
             this.attribute = attribute;
