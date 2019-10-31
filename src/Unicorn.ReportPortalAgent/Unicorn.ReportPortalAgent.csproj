@@ -62,7 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BridgeExtension.cs" />
     <Compile Include="Configuration\Authentication.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\Launch.cs" />
