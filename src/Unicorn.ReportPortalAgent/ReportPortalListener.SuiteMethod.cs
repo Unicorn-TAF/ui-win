@@ -8,6 +8,9 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         private readonly Dictionary<SuiteMethodType, TestItemType> itemTypes =
@@ -19,6 +22,8 @@ namespace Unicorn.ReportPortalAgent
             { SuiteMethodType.AfterSuite, TestItemType.AfterClass },
             { SuiteMethodType.Test, TestItemType.Step },
         };
+
+        internal string SkippedTestDefectType { get; set; } = "ND001";
 
         internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {
@@ -163,7 +168,7 @@ namespace Unicorn.ReportPortalAgent
                     Status = statusMap[result],
                     Issue = new Issue
                     {
-                        Type = "ND001",
+                        Type = SkippedTestDefectType,
                         Comment = "The test is skipped, check if dependent test or before suite failed"
                     }
                 };
