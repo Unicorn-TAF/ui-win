@@ -3,6 +3,9 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         private readonly Dictionary<Taf.Core.Logging.LogLevel, ReportPortal.Client.Models.LogLevel> logLevels =

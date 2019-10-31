@@ -61,7 +61,6 @@ namespace Unicorn.ReportPortalAgent
                 var result = suite.Outcome.Result;
                 var parentId = Guid.Empty;
 
-                // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
                 if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
                 {
                     var tags = new List<string>

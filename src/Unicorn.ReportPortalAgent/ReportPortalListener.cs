@@ -11,6 +11,9 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();

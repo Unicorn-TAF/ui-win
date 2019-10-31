@@ -72,6 +72,13 @@ namespace Unicorn.ReportPortalAgent
             this.listener.SetCommonSuitesTags(tags);
 
         /// <summary>
+        /// Sets defect type to set for skipped tests in report portal.
+        /// </summary>
+        /// <param name="defectType">report portal defect type ID</param>
+        public void SetSkippedTestsDefectType(string defectType) =>
+            listener.SkippedTestDefectType = defectType;
+
+        /// <summary>
         /// Unsubscribe from events and finish launch if it is not external
         /// </summary>
         public void Dispose()

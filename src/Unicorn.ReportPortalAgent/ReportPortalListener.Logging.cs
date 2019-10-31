@@ -4,6 +4,9 @@ using ReportPortal.Client.Requests;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         internal void AddAttachment(Guid id, LogLevel level, string text, string attachmantName, string mime, byte[] content)

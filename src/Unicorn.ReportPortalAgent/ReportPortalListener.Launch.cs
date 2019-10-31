@@ -6,6 +6,9 @@ using ReportPortal.Shared.Reporter;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         internal void StartRun()
