@@ -28,7 +28,15 @@ namespace Unicorn.UI.Win.Controls.WindowsBase
         /// </summary>
         /// <returns><see cref="OpenFileDialog"/> instance</returns>
         public static OpenFileDialog GetDialog() =>
-            WinDriver.Instance.Find<OpenFileDialog>(ByLocator.Name("Open"));
+            GetDialog("Open");
+
+        /// <summary>
+        /// Gets instance of open file dialog with specified name.
+        /// </summary>
+        /// <param name="dialogTitle">open file dialog title</param>
+        /// <returns><see cref="OpenFileDialog"/> instance</returns>
+        public static OpenFileDialog GetDialog(string dialogTitle) =>
+            WinDriver.Instance.Find<OpenFileDialog>(ByLocator.Name(dialogTitle));
 
         /// <summary>
         /// Opens specified file
