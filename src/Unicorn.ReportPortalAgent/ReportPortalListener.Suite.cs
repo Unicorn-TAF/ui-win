@@ -35,17 +35,17 @@ namespace Unicorn.ReportPortalAgent
                     Environment.MachineName
                 };
 
-                if (commonSuitesTags != null)
+                if (_commonSuitesTags != null)
                 {
-                    startSuiteRequest.Tags.AddRange(commonSuitesTags);
+                    startSuiteRequest.Tags.AddRange(_commonSuitesTags);
                 }
 
                 var test = 
-                    parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId) ?
+                    parentId.Equals(Guid.Empty) || !_suitesFlow.ContainsKey(parentId) ?
                     Bridge.Context.LaunchReporter.StartChildTestReporter(startSuiteRequest) :
-                    this.suitesFlow[parentId].StartChildTestReporter(startSuiteRequest);
+                    _suitesFlow[parentId].StartChildTestReporter(startSuiteRequest);
 
-                this.suitesFlow[id] = test;
+                _suitesFlow[id] = test;
             }
             catch (Exception exception)
             {
@@ -61,7 +61,7 @@ namespace Unicorn.ReportPortalAgent
                 var result = suite.Outcome.Result;
                 var parentId = Guid.Empty;
 
-                if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
+                if (parentId.Equals(Guid.Empty) && _suitesFlow.ContainsKey(id))
                 {
                     var tags = new List<string>
                     {
@@ -74,9 +74,9 @@ namespace Unicorn.ReportPortalAgent
                         tags.AddRange(suite.Tags);
                     }
 
-                    if (commonSuitesTags != null)
+                    if (_commonSuitesTags != null)
                     {
-                        tags.AddRange(commonSuitesTags);
+                        tags.AddRange(_commonSuitesTags);
                     }
 
                     // adding description to suite
@@ -99,10 +99,10 @@ namespace Unicorn.ReportPortalAgent
                         EndTime = DateTime.UtcNow,
                         Description = description.ToString(),
                         Tags = tags,
-                        Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : statusMap[result]
+                        Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : _statusMap[result]
                     };
                         
-                    this.suitesFlow[id].Finish(finishSuiteRequest);
+                    _suitesFlow[id].Finish(finishSuiteRequest);
                 }
             }
             catch (Exception exception)

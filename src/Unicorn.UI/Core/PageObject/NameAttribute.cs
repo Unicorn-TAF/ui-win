@@ -14,7 +14,7 @@ namespace Unicorn.UI.Core.PageObject
         /// <param name="name">control name</param>
         public NameAttribute(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Steps.Attributes
         /// <param name="description">test step title</param>
         public StepAttribute(string description)
         {
-            this.Description = description;
+            Description = description;
         }
 
         /// <summary>

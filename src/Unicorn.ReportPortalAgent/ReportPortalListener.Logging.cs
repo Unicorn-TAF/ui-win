@@ -13,7 +13,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                this.testFlowIds[id].Log(new AddLogItemRequest
+                _testFlowIds[id].Log(new AddLogItemRequest
                 {
                     Level = level,
                     Time = DateTime.UtcNow,
@@ -31,7 +31,7 @@ namespace Unicorn.ReportPortalAgent
         {
             try
             {
-                this.testFlowIds[id].Log(new AddLogItemRequest
+                _testFlowIds[id].Log(new AddLogItemRequest
                 {
                     Level = level,
                     Time = DateTime.UtcNow,

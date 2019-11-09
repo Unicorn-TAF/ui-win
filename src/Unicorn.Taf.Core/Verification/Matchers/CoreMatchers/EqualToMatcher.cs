@@ -6,7 +6,7 @@
     /// <typeparam name="T">check items type</typeparam>
     public class EqualToMatcher<T> : TypeSafeMatcher<T>
     {
-        private readonly T objectToCompare;
+        private readonly T _objectToCompare;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EqualToMatcher{T}"/> class for specified expected object.
@@ -14,13 +14,13 @@
         /// <param name="objectToCompare">expected object</param>
         public EqualToMatcher(T objectToCompare)
         {
-            this.objectToCompare = objectToCompare;
+            _objectToCompare = objectToCompare;
         }
 
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => "Is equal to " + this.objectToCompare;
+        public override string CheckDescription => "Is equal to " + _objectToCompare;
 
         /// <summary>
         /// Checks if object is equal to expected one.
@@ -35,14 +35,14 @@
                 return Reverse;
             }
 
-            if (!this.objectToCompare.GetType().Equals(actual.GetType()))
+            if (!_objectToCompare.GetType().Equals(actual.GetType()))
             {
-                DescribeMismatch($"not of type {this.objectToCompare.GetType()}");
+                DescribeMismatch($"not of type {_objectToCompare.GetType()}");
                 return false;
             }
 
             DescribeMismatch(actual.ToString());
-            return actual.Equals(this.objectToCompare);
+            return actual.Equals(_objectToCompare);
         }
     }
 }

@@ -43,13 +43,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         public virtual string Value =>
             IsPasswordType ?
             "The field is of PasswordBox type. Unable to get value" :
-            this.ValuePattern.CurrentValue;
+            ValuePattern.CurrentValue;
 
         /// <summary>
         /// Gets value pattern instance.
         /// </summary>
         protected IUIAutomationValuePattern ValuePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+            GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
         /// <summary>
         /// Adds text to already existing input value.
@@ -57,9 +57,9 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <param name="text">text to send</param>
         public virtual void SendKeys(string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
 
-            var pattern = this.ValuePattern;
+            var pattern = ValuePattern;
 
             if (pattern.CurrentIsReadOnly != 0)
             {
@@ -76,16 +76,16 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if value was set; false - if input already has specified value</returns>
         public virtual bool SetValue(string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
 
-            var pattern = this.ValuePattern;
+            var pattern = ValuePattern;
 
             if (pattern.CurrentIsReadOnly != 0)
             {
                 throw new ControlInvalidStateException("Input is disabled");
             }
 
-            if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+            if (!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
                 pattern.SetValue(text);
                 return true;

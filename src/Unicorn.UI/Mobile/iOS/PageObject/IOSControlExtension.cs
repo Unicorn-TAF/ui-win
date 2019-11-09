@@ -1,9 +1,9 @@
 ﻿using System;
 using Unicorn.UI.Core.Controls;
-using Unicorn.UI.Mobile.IOS.Controls;
-using Unicorn.UI.Mobile.IOS.Driver;
+using Unicorn.UI.Mobile.Ios.Controls;
+using Unicorn.UI.Mobile.Ios.Driver;
 
-namespace Unicorn.UI.Mobile.IOS.PageObject
+namespace Unicorn.UI.Mobile.Ios.PageObject
 {
     /// <summary>
     /// Extension for iOS Control
@@ -15,10 +15,10 @@ namespace Unicorn.UI.Mobile.IOS.PageObject
         /// </summary>
         /// <param name="control">Control instance</param>
         /// <returns>true - if control exists; otherwise - false</returns>
-        public static bool Exists(this IOSControl control)
+        public static bool Exists(this IosControl control)
         {
-            var originalTimeout = IOSDriver.Instance.ImplicitlyWait;
-            IOSDriver.Instance.ImplicitlyWait = TimeSpan.FromSeconds(0);
+            var originalTimeout = IosDriver.Instance.ImplicitlyWait;
+            IosDriver.Instance.ImplicitlyWait = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -30,7 +30,7 @@ namespace Unicorn.UI.Mobile.IOS.PageObject
             }
             finally
             {
-                IOSDriver.Instance.ImplicitlyWait = originalTimeout;
+                IosDriver.Instance.ImplicitlyWait = originalTimeout;
             }
         }
     }

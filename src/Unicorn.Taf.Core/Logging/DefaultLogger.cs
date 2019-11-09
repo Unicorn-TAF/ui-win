@@ -10,7 +10,7 @@ namespace Unicorn.Taf.Core.Logging
     /// </summary>
     public class DefaultLogger : ILogger
     {
-        private readonly Dictionary<LogLevel, string> prefixes = new Dictionary<LogLevel, string>
+        private readonly Dictionary<LogLevel, string> _prefixes = new Dictionary<LogLevel, string>
         {
             { LogLevel.Error, $"  [Error]: " },
             { LogLevel.Warning, $"[Warning]: " },
@@ -28,7 +28,7 @@ namespace Unicorn.Taf.Core.Logging
         {
             if (level <= Logger.Level)
             {
-                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff")} {prefixes[level]}{message}";
+                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff")} {_prefixes[level]}{message}";
                 SuiteMethod.LogOutput?.AppendLine(logString);
                 Console.WriteLine(logString);
             }

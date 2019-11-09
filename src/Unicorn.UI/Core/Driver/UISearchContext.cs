@@ -55,7 +55,7 @@ namespace Unicorn.UI.Core.Driver
                 isPresented = false;
             }
 
-            SetImplicitlyWait(this.TimeoutDefault);
+            SetImplicitlyWait(TimeoutDefault);
 
             return isPresented;
         }
@@ -77,7 +77,7 @@ namespace Unicorn.UI.Core.Driver
         protected void CheckForControlType<T>()
         {
             Type targetControlType = typeof(T);
-            if (!this.ControlsBaseType.IsAssignableFrom(targetControlType))
+            if (!ControlsBaseType.IsAssignableFrom(targetControlType))
             {
                 throw new ArgumentException($"Illegal type of control: {targetControlType}");
             }

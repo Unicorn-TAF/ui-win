@@ -34,7 +34,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets a value indicating whether checkbox is checked.
         /// </summary>
         public virtual bool Checked => 
-            this.TogglePattern
+            TogglePattern
             .CurrentToggleState
             .Equals(ToggleState.ToggleState_On);
 
@@ -42,7 +42,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets toggle patterns instance
         /// </summary>
         protected IUIAutomationTogglePattern TogglePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+            GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
         /// <summary>
         /// Sets checkbox checked state
@@ -54,14 +54,14 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         private bool Check()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
-            if (this.Checked)
+            Logger.Instance.Log(LogLevel.Debug, $"Check {ToString()}");
+            if (Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
                 return false;
             }
 
-            this.TogglePattern.Toggle();
+            TogglePattern.Toggle();
             Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
@@ -69,14 +69,14 @@ namespace Unicorn.UI.Win.Controls.Typified
 
         private bool Uncheck()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
-            if (!this.Checked)
+            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {ToString()}");
+            if (!Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
                 return false;
             }
 
-            this.TogglePattern.Toggle();
+            TogglePattern.Toggle();
             Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;

@@ -5,14 +5,14 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class DropdownHasSelectedValueMatcher : TypeSafeMatcher<IDropdown>
     {
-        private readonly string expectedValue;
+        private readonly string _expectedValue;
 
         public DropdownHasSelectedValueMatcher(string expectedValue)
         {
-            this.expectedValue = expectedValue;
+            _expectedValue = expectedValue;
         }
 
-        public override string CheckDescription => $"has selected value '{this.expectedValue}'";
+        public override string CheckDescription => $"has selected value '{_expectedValue}'";
 
         public override bool Matches(IDropdown actual)
         {
@@ -24,7 +24,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 
             var selectedValue = actual.SelectedValue;
             DescribeMismatch($"having value '{selectedValue}'");
-            return selectedValue.Equals(this.expectedValue);
+            return selectedValue.Equals(_expectedValue);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.MiscMatchers
     /// </summary>
     public class StringMatchesRegexMatcher : TypeSafeMatcher<string>
     {
-        private readonly string regex;
+        private readonly string _regex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringMatchesRegexMatcher"/> class for specified regex.
@@ -15,13 +15,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.MiscMatchers
         /// <param name="regex">regex to match against</param>
         public StringMatchesRegexMatcher(string regex)
         {
-            this.regex = regex;
+            _regex = regex;
         }
 
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => $"Matches regex '{this.regex}'";
+        public override string CheckDescription => $"Matches regex '{_regex}'";
 
         /// <summary>
         /// Checks if target string matches specified regex.
@@ -36,8 +36,8 @@ namespace Unicorn.Taf.Core.Verification.Matchers.MiscMatchers
                 return Reverse;
             }
 
-            this.DescribeMismatch(actual);
-            return Regex.IsMatch(actual, this.regex);
+            DescribeMismatch(actual);
+            return Regex.IsMatch(actual, _regex);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// <typeparam name="T">check items type</typeparam>
     public class AnyMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly TypeSafeMatcher<T> matcher;
+        private readonly TypeSafeMatcher<T> _matcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnyMatcher{T}"/> class with specified main matcher instance.
@@ -17,13 +17,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <param name="matcher">instance of collection matcher with specified check</param>
         public AnyMatcher(TypeSafeMatcher<T> matcher)
         {
-            this.matcher = matcher;
+            _matcher = matcher;
         }
 
         /// <summary>
         /// Gets check description
         /// </summary>
-        public override string CheckDescription => $"Any of elements {this.matcher.CheckDescription}";
+        public override string CheckDescription => $"Any of elements {_matcher.CheckDescription}";
 
         /// <summary>
         /// Checks if any collection item satisfies main matcher check.
@@ -38,7 +38,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            if (!actual.Any(a => this.matcher.Matches(a)))
+            if (!actual.Any(a => _matcher.Matches(a)))
             {
                 DescribeMismatch("not having such element");
                 return false;

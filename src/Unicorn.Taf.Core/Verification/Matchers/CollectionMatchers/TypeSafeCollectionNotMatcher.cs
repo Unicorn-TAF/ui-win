@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
     /// <typeparam name="T">check items type</typeparam>
     public class TypeSafeCollectionNotMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly TypeSafeCollectionMatcher<T> matcher;
+        private readonly TypeSafeCollectionMatcher<T> _matcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeSafeCollectionNotMatcher{T}"/> class for specified matcher.
@@ -18,13 +18,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
         public TypeSafeCollectionNotMatcher(TypeSafeCollectionMatcher<T> matcher)
         {
             matcher.Reverse = true;
-            this.matcher = matcher;
+            _matcher = matcher;
         }
 
         /// <summary>
         /// Gets check description
         /// </summary>
-        public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
+        public override string CheckDescription => $"Not {_matcher.CheckDescription}";
 
         /// <summary>
         /// Negates main matcher check.
@@ -33,9 +33,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CoreMatchers
         /// <returns>true - if main matching was failed; otherwise - false</returns>
         public override bool Matches(IEnumerable<T> actual)
         {
-            if (this.matcher.Matches(actual))
+            if (_matcher.Matches(actual))
             {
-                this.Output.Append(this.matcher.Output);
+                Output.Append(_matcher.Output);
                 return false;
             }
 

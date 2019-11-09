@@ -2,27 +2,27 @@
 using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Base.Driver;
-using Unicorn.UI.Mobile.IOS.Controls;
+using Unicorn.UI.Mobile.Ios.Controls;
 
-namespace Unicorn.UI.Mobile.IOS.Driver
+namespace Unicorn.UI.Mobile.Ios.Driver
 {
-    public class IOSSearchContext : MobileSearchContext
+    public class IosSearchContext : MobileSearchContext
     {
-        protected override Type ControlsBaseType => typeof(IOSControl);
+        protected override Type ControlsBaseType => typeof(IosControl);
 
         #region "Helpers"
 
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            IOSDriver.Instance.ImplicitlyWait = timeout;
+            IosDriver.Instance.ImplicitlyWait = timeout;
         }
 
         protected override T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator)
         {
             T wrapper = Activator.CreateInstance<T>();
-            ((IOSControl)(object)wrapper).Instance = elementToWrap;
-            ((IOSControl)(object)wrapper).ParentSearchContext = this;
-            ((IOSControl)(object)wrapper).Locator = locator;
+            ((IosControl)(object)wrapper).Instance = elementToWrap;
+            ((IosControl)(object)wrapper).ParentSearchContext = this;
+            ((IosControl)(object)wrapper).Locator = locator;
             return wrapper;
         }
 

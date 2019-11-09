@@ -43,7 +43,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public virtual string Value =>
             IsPasswordType ?
             "The field is of PasswordBox type. Unable to get value" :
-            this.GetPattern<ValuePattern>().Current.Value;
+            GetPattern<ValuePattern>().Current.Value;
 
         /// <summary>
         /// Adds text to already existing input value.
@@ -51,7 +51,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <param name="text">text to send</param>
         public virtual void SendKeys(string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
 
             var pattern = GetPattern<ValuePattern>();
 
@@ -60,7 +60,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 throw new ControlInvalidStateException("Input is disabled");
             }
 
-            pattern.SetValue(this.Value + text);
+            pattern.SetValue(Value + text);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if value was set; false - if input already has specified value</returns>
         public virtual bool SetValue(string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
 
             var pattern = GetPattern<ValuePattern>();
 
@@ -79,7 +79,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 throw new ControlInvalidStateException("Input is disabled");
             }
 
-            if (!this.Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+            if (!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
                 pattern.SetValue(text);
                 return true;

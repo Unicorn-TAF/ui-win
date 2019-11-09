@@ -35,17 +35,17 @@ namespace Unicorn.UI.Win.Controls
         {
             get
             {
-                if (!this.Cached)
+                if (!Cached)
                 {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator, this.GetType());
+                    SearchContext = GetNativeControlFromParentContext(Locator, GetType());
                 }
 
-                return this.SearchContext;
+                return SearchContext;
             }
 
             set
             {
-                this.SearchContext = value;
+                SearchContext = value;
                 ContainerFactory.InitContainer(this);
             }
         }
@@ -57,7 +57,7 @@ namespace Unicorn.UI.Win.Controls
         public virtual void ClickButton(string locator)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Click '{locator}' button");
-            this.Find<Button>(ByLocator.Name(locator)).Click();
+            Find<Button>(ByLocator.Name(locator)).Click();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Unicorn.UI.Win.Controls
         public virtual void InputText(string locator, string text)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{locator}' field");
-            this.Find<TextInput>(ByLocator.Name(locator)).SetValue(text);
+            Find<TextInput>(ByLocator.Name(locator)).SetValue(text);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Unicorn.UI.Win.Controls
         public virtual bool SelectRadio(string locator)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Select '{locator}' radio button");
-            return this.Find<Radio>(ByLocator.Name(locator)).Select();
+            return Find<Radio>(ByLocator.Name(locator)).Select();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Unicorn.UI.Win.Controls
         public virtual bool SetCheckbox(string locator, bool state)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
-            return this.Find<Checkbox>(ByLocator.Name(locator)).SetCheckedState(state);
+            return Find<Checkbox>(ByLocator.Name(locator)).SetCheckedState(state);
         }
     }
 }

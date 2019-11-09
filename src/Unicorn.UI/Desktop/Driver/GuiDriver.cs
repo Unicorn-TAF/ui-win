@@ -10,7 +10,7 @@ namespace Unicorn.UI.Desktop.Driver
     /// </summary>
     public class GuiDriver : GuiSearchContext, IDriver
     {
-        private static GuiDriver instance = null;
+        private static GuiDriver _instance = null;
 
         /// <summary>
         /// Gets instance of Desktop driver.
@@ -20,15 +20,15 @@ namespace Unicorn.UI.Desktop.Driver
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new GuiDriver();
-                    instance.SearchContext = AutomationElement.RootElement;
-                    instance.ImplicitlyWait = instance.TimeoutDefault;
+                    _instance = new GuiDriver();
+                    _instance.SearchContext = AutomationElement.RootElement;
+                    _instance.ImplicitlyWait = _instance.TimeoutDefault;
                     Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
                 }
 
-                return instance;
+                return _instance;
             }
         }
 

@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="testMethod">test method name</param>
         public DependsOnAttribute(string testMethod)
         {
-            this.TestMethod = testMethod;
+            TestMethod = testMethod;
         }
 
         /// <summary>

@@ -8,8 +8,7 @@ namespace Unicorn.Taf.Core.Engine
     /// <typeparam name="T"><see cref="Type"/> of worker on tests assembly</typeparam>
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
-        private readonly T instance;
-        private AppDomain domain;
+        private AppDomain _domain;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on specified tests assembly directory.
@@ -23,26 +22,26 @@ namespace Unicorn.Taf.Core.Engine
                 ApplicationBase = assemblyDirectory
             };
 
-            domain = AppDomain.CreateDomain("UnicornAppDomain:" + Guid.NewGuid(), null, setup);
+            _domain = AppDomain.CreateDomain("UnicornAppDomain:" + Guid.NewGuid(), null, setup);
 
             var type = typeof(T);
-            instance = (T)domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+            Instance = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
         }
 
         /// <summary>
         /// Gets assembly worker instance
         /// </summary>
-        public T Instance => this.instance;
+        public T Instance { get; private set; }
 
         /// <summary>
         /// Unloads current <see cref="AppDomain"/>
         /// </summary>
         public void Dispose()
         {
-            if (domain != null)
+            if (_domain != null)
             {
-                AppDomain.Unload(domain);
-                domain = null;
+                AppDomain.Unload(_domain);
+                _domain = null;
             }
         }
     }

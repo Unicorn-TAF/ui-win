@@ -5,7 +5,7 @@
     /// </summary>
     public class NotMatcher : TypeUnsafeMatcher
     {
-        private readonly TypeUnsafeMatcher matcher;
+        private readonly TypeUnsafeMatcher _matcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotMatcher"/> class for specified matcher.
@@ -14,13 +14,13 @@
         public NotMatcher(TypeUnsafeMatcher matcher)
         {
             matcher.Reverse = true;
-            this.matcher = matcher;
+            _matcher = matcher;
         }
 
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => $"Not {this.matcher.CheckDescription}";
+        public override string CheckDescription => $"Not {_matcher.CheckDescription}";
 
         /// <summary>
         /// Negates main matcher check.
@@ -29,9 +29,9 @@
         /// <returns>true - if main matching was failed; otherwise - false</returns>
         public override bool Matches(object actual)
         {
-            if (this.matcher.Matches(actual))
+            if (_matcher.Matches(actual))
             {
-                this.Output.Append(this.matcher.Output);
+                Output.Append(_matcher.Output);
                 return false;
             }
             

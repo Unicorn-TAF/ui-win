@@ -34,13 +34,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets a value indicating whether tree item is selected.
         /// </summary>
         public virtual bool Selected => 
-            this.SelectionItemPattern.CurrentIsSelected != 0;
+            SelectionItemPattern.CurrentIsSelected != 0;
 
         /// <summary>
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
-            this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+            GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         /// <summary>
         /// Selects the tree item.
@@ -48,15 +48,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if selection was made; false - if the item is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Selecting {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Selecting {ToString()}");
 
-            if (this.Selected)
+            if (Selected)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (already selected)");
                 return false;
             }
 
-            var pattern = this.SelectionItemPattern;
+            var pattern = SelectionItemPattern;
 
             if (pattern != null)
             {
@@ -64,7 +64,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                this.Click();
+                Click();
             }
 
             Logger.Instance.Log(LogLevel.Trace, "Selected");
@@ -76,7 +76,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// </summary>
         public virtual void ScrollToItem()
         {
-            var pattern = this.GetPattern(UIA_PatternIds.UIA_ScrollItemPatternId) 
+            var pattern = GetPattern(UIA_PatternIds.UIA_ScrollItemPatternId) 
                 as IUIAutomationScrollItemPattern;
 
             if (pattern != null)

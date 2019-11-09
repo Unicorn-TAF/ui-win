@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="bug">bug id or reference</param>
         public BugAttribute(string bug)
         {
-            this.Bug = bug;
+            Bug = bug;
         }
 
         /// <summary>

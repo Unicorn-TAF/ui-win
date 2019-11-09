@@ -16,12 +16,17 @@ namespace Unicorn.UI.Core.PageObject
         /// <param name="locator">locator to search by</param>
         public FindAttribute(Using how, string locator)
         {
-            this.Locator = new ByLocator(how, locator);
+            Locator = new ByLocator(how, locator);
         }
 
         /// <summary>
         /// Gets or sets control locator.
         /// </summary>
-        public ByLocator Locator { get; protected set; }
+        public ByLocator Locator 
+        { 
+            get; 
+
+            protected set; 
+        }
     }
 }

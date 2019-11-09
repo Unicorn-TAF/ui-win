@@ -10,7 +10,7 @@ namespace Unicorn.UI.Web.PageObject
     /// </summary>
     public abstract class WebSite
     {
-        private readonly Dictionary<Type, WebPage> pagesCache;
+        private readonly Dictionary<Type, WebPage> _pagesCache;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebSite"/> class with specified base url.
@@ -18,8 +18,8 @@ namespace Unicorn.UI.Web.PageObject
         /// <param name="baseUrl">site base url</param>
         protected WebSite(string baseUrl)
         {
-            this.BaseUrl = baseUrl.TrimEnd('/');
-            this.pagesCache = new Dictionary<Type, WebPage>();
+            BaseUrl = baseUrl.TrimEnd('/');
+            _pagesCache = new Dictionary<Type, WebPage>();
         }
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace Unicorn.UI.Web.PageObject
         /// </summary>
         public virtual void Open()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {this.BaseUrl} site");
-            WebDriver.Instance.Get(this.BaseUrl);
+            Logger.Instance.Log(LogLevel.Debug, $"Open {BaseUrl} site");
+            WebDriver.Instance.Get(BaseUrl);
         }
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace Unicorn.UI.Web.PageObject
         {
             var type = typeof(T);
 
-            if (!pagesCache.ContainsKey(type))
+            if (!_pagesCache.ContainsKey(type))
             {
                 var page = Activator.CreateInstance<T>();
-                pagesCache.Add(type, page);
+                _pagesCache.Add(type, page);
             }
 
-            return pagesCache[type] as T;
+            return _pagesCache[type] as T;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Unicorn.UI.Web.PageObject
         public virtual T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();
-            WebDriver.Instance.Get($"{this.BaseUrl}/{page.Url.TrimStart('/')}");
+            WebDriver.Instance.Get($"{BaseUrl}/{page.Url.TrimStart('/')}");
             return page;
         }
 
@@ -70,6 +70,6 @@ namespace Unicorn.UI.Web.PageObject
         /// Reset pages cache (commonly in case when driver context was changed)
         /// </summary>
         public void ResetPagesCache() =>
-            this.pagesCache.Clear();
+            _pagesCache.Clear();
     }
 }

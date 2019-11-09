@@ -34,7 +34,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether tree item is selected.
         /// </summary>
         public virtual bool Selected => 
-            this.GetPattern<SelectionItemPattern>().Current.IsSelected;
+            GetPattern<SelectionItemPattern>().Current.IsSelected;
 
         /// <summary>
         /// Selects the tree item.
@@ -42,9 +42,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if selection was made; false - if the item is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Selecting {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Selecting {ToString()}");
 
-            if (this.Selected)
+            if (Selected)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (already selected)");
                 return false;
@@ -58,7 +58,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
             }
             else
             {
-                this.Click();
+                Click();
             }
 
             Logger.Instance.Log(LogLevel.Trace, "Selected");

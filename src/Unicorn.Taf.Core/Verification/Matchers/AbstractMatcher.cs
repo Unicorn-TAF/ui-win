@@ -12,7 +12,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         /// </summary>
         protected AbstractMatcher()
         {
-            this.Output = new StringBuilder();
+            Output = new StringBuilder();
         }
 
         /// <summary>
@@ -36,13 +36,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         /// </summary>
         /// <param name="mismatch">mismatch description</param>
         public virtual void DescribeMismatch(string mismatch) =>
-            this.Output.Append("was ").Append(mismatch);
+            Output.Append("was ").Append(mismatch);
 
         /// <summary>
         /// Gets check description.
         /// </summary>
         /// <returns>description string</returns>
         public override string ToString() =>
-            this.CheckDescription;
+            CheckDescription;
     }
 }

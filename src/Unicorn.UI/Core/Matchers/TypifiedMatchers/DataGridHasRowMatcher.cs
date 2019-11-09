@@ -5,16 +5,16 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class DataGridHasRowMatcher : TypeSafeMatcher<IDataGrid>
     {
-        private readonly string column;
-        private readonly string cellValue;
+        private readonly string _column;
+        private readonly string _cellValue;
 
         public DataGridHasRowMatcher(string column, string cellValue)
         {
-            this.column = column;
-            this.cellValue = cellValue;
+            _column = column;
+            _cellValue = cellValue;
         }
 
-        public override string CheckDescription => $"has row where column '{this.column}' has value '{this.cellValue}'";
+        public override string CheckDescription => $"has row where column '{_column}' has value '{_cellValue}'";
 
         public override bool Matches(IDataGrid actual)
         {
@@ -24,7 +24,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            bool hasRow = actual.HasRow(column, cellValue);
+            bool hasRow = actual.HasRow(_column, _cellValue);
 
             DescribeMismatch(hasRow ? "having row" : "not having row");
             return hasRow;

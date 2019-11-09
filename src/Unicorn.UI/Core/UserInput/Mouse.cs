@@ -12,10 +12,10 @@ namespace Unicorn.UI.Core.UserInput
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
-        private static Mouse instance = null;
-        private readonly short doubleClickTime = GetDoubleClickTime();
-        private DateTime lastClickTime = DateTime.Now;
-        private Point lastClickLocation;
+        private static Mouse _instance = null;
+        private readonly short _doubleClickTime = GetDoubleClickTime();
+        private DateTime _lastClickTime = DateTime.Now;
+        private Point _lastClickLocation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mouse"/> class.
@@ -31,12 +31,12 @@ namespace Unicorn.UI.Core.UserInput
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new Mouse();
+                    _instance = new Mouse();
                 }
 
-                return instance;
+                return _instance;
             }
         }
 
@@ -76,17 +76,17 @@ namespace Unicorn.UI.Core.UserInput
         /// Moves mouse pointer to left upper screen corner.
         /// </summary>
         public void ResetPosition() =>
-            this.Location = new Point(0, 0);
+            Location = new Point(0, 0);
 
         /// <summary>
         /// Performs left mouse click on current pointer location.
         /// </summary>
         public void Click()
         {
-            Point clickLocation = this.Location;
-            if (this.lastClickLocation.Equals(clickLocation))
+            Point clickLocation = Location;
+            if (_lastClickLocation.Equals(clickLocation))
             {
-                int timeout = this.doubleClickTime - DateTime.Now.Subtract(this.lastClickTime).Milliseconds;
+                int timeout = _doubleClickTime - DateTime.Now.Subtract(_lastClickTime).Milliseconds;
                 if (timeout > 0)
                 {
                     Thread.Sleep(timeout + ExtraMillisecondsBecauseOfBugInWindows);
@@ -94,8 +94,8 @@ namespace Unicorn.UI.Core.UserInput
             }
 
             MouseLeftButtonUpAndDown();
-            this.lastClickTime = DateTime.Now;
-            this.lastClickLocation = this.Location;
+            _lastClickTime = DateTime.Now;
+            _lastClickLocation = Location;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Unicorn.UI.Core.UserInput
         /// <param name="point">point on screen to right click on</param>
         public void RightClick(Point point)
         {
-            this.Location = point;
+            Location = point;
             RightClick();
         }
 
@@ -114,7 +114,7 @@ namespace Unicorn.UI.Core.UserInput
         /// <param name="point">point on screen to left click on</param>
         public void Click(Point point)
         {
-            this.Location = point;
+            Location = point;
             Click();
         }
 
@@ -124,7 +124,7 @@ namespace Unicorn.UI.Core.UserInput
         /// <param name="point">point on screen to left click on</param>
         public void DoubleClick(Point point)
         {
-            this.Location = point;
+            Location = point;
             MouseLeftButtonUpAndDown();
             MouseLeftButtonUpAndDown();
         }

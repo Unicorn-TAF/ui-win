@@ -38,20 +38,20 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <summary>
         /// Gets window title text.
         /// </summary>
-        public string Title => this.Text;
+        public string Title => Text;
 
         /// <summary>
         /// Gets window pattern instance.
         /// </summary>
         protected IUIAutomationWindowPattern WindowPattern => 
-            this.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
+            GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
 
         /// <summary>
         /// Closes window.
         /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Close {ToString()}");
             WindowPattern.Close();
         }
 
@@ -62,7 +62,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Focusing {this.ToString()}");
+                Logger.Instance.Log(LogLevel.Debug, $"Focusing {ToString()}");
                 Instance.SetFocus();
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <param name="timeout">timeout to wait</param>
         public void WaitForClosed(TimeSpan timeout)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
+            Logger.Instance.Log(LogLevel.Debug, $"Wait for {ToString()} closing");
             var timer = Stopwatch.StartNew();
 
             var originalTimeout = WinDriver.ImplicitlyWaitTimeout;
@@ -89,7 +89,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 {
                     Thread.Sleep(50);
                 }
-                while (this.Visible && timer.Elapsed < timeout);
+                while (Visible && timer.Elapsed < timeout);
             }
             catch (ControlNotFoundException)
             {
@@ -111,6 +111,6 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <summary>
         /// Wait until window is closed during 30 seconds.
         /// </summary>
-        public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
+        public void WaitForClosed() => WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

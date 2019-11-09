@@ -16,7 +16,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         public LaunchOutcome()
         {
-            this.SuitesOutcomes = new List<SuiteOutcome>();
+            SuitesOutcomes = new List<SuiteOutcome>();
         }
 
         /// <summary>
@@ -37,10 +37,11 @@ namespace Unicorn.Taf.Core.Engine
         /// <summary>
         /// Gets value indicating overall tests run status
         /// </summary>
-        public Status RunStatus => this.SuitesOutcomes
-                .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !this.RunInitialized ?
-                Status.Failed :
-                Status.Passed;
+        public Status RunStatus => 
+            SuitesOutcomes
+            .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !RunInitialized ?
+            Status.Failed :
+            Status.Passed;
 
         /// <summary>
         /// Gets or sets value representing runner exception in case when assembly initialization was failed.

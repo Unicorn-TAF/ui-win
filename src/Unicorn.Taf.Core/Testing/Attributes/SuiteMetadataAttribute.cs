@@ -15,8 +15,8 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="value">metadata value</param>
         public MetadataAttribute(string key, string value)
         {
-            this.Key = key;
-            this.Value = value;
+            Key = key;
+            Value = value;
         }
 
         /// <summary>

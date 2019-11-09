@@ -15,8 +15,8 @@ namespace Unicorn.Taf.Core.Utility
     {
         private const int MaxLength = 255;
 
-        private readonly ImageFormat format;
-        private readonly string screenshotsDir;
+        private readonly ImageFormat _format;
+        private readonly string _screenshotsDir;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
@@ -47,8 +47,8 @@ namespace Unicorn.Taf.Core.Utility
         /// <param name="subscribeToEvents">true - if need to subscribe to unicorn events; otherwise - false</param>
         public Screenshotter(string screenshotsDir, ImageFormat format, bool subscribeToEvents)
         {
-            this.format = format;
-            this.screenshotsDir = screenshotsDir;
+            _format = format;
+            _screenshotsDir = screenshotsDir;
 
             if (!Directory.Exists(screenshotsDir))
             {
@@ -87,9 +87,9 @@ namespace Unicorn.Taf.Core.Utility
                     filePath = filePath.Substring(0, MaxLength - 1) + "~";
                 }
 
-                filePath += "." + format;
+                filePath += "." + _format;
 
-                printScreen.Save(filePath, format);
+                printScreen.Save(filePath, _format);
                 return filePath;
             }
             catch (Exception e)
@@ -104,7 +104,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="fileName">screenshot file name without extension</param>
         /// <returns>path to the screenshot file</returns>
-        public string TakeScreenshot(string fileName) => TakeScreenshot(screenshotsDir, fileName);
+        public string TakeScreenshot(string fileName) => TakeScreenshot(_screenshotsDir, fileName);
 
         /// <summary>
         /// Unsubscribe from Unicorn events.
@@ -137,6 +137,6 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         private void TakeScreenshot(SuiteMethod suiteMethod) =>
-            suiteMethod.Outcome.Screenshot = this.TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+            suiteMethod.Outcome.Screenshot = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
     }
 }

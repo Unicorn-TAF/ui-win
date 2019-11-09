@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// <typeparam name="T">check items type</typeparam>
     public class IsSequenceEqualToCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly IEnumerable<T> expected;
+        private readonly IEnumerable<T> _expected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IsSequenceEqualToCollectionMatcher{T}"/> class with specified expected collection.
@@ -17,14 +17,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <param name="expected">expected collection</param>
         public IsSequenceEqualToCollectionMatcher(IEnumerable<T> expected)
         {
-            this.expected = expected;
+            _expected = expected;
         }
 
         /// <summary>
         /// Gets check description
         /// </summary>
         public override string CheckDescription =>
-            "Is sequence equal to collection: [" + DescribeCollection(this.expected) + "]";
+            "Is sequence equal to collection: [" + DescribeCollection(_expected) + "]";
 
         /// <summary>
         /// Checks if collection is sequence equal to another one
@@ -36,11 +36,11 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             if (actual == null)
             {
                 DescribeMismatch("null");
-                return this.Reverse;
+                return Reverse;
             }
 
             DescribeMismatch(DescribeCollection(actual));
-            return actual.SequenceEqual(expected);
+            return actual.SequenceEqual(_expected);
         }
     }
 }

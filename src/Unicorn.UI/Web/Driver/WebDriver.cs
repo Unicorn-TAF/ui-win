@@ -11,7 +11,7 @@ namespace Unicorn.UI.Web.Driver
     /// </summary>
     public abstract class WebDriver : WebSearchContext, IDriver
     {
-        private static WebDriver instance = null;
+        private static WebDriver _instance = null;
 
         /// <summary>
         /// Gets or sets instance of Web driver.
@@ -21,14 +21,14 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return instance;
+                return _instance;
             }
 
             set
             {
                 Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
-                instance = value;
-                instance.SearchContext = Driver;
+                _instance = value;
+                _instance.SearchContext = Driver;
             }
         }
 
@@ -105,6 +105,6 @@ namespace Unicorn.UI.Web.Driver
         /// </summary>
         /// <param name="control">control instance</param>
         public void ScrollTo(WebControl control) =>
-            this.ExecuteJS("window.scrollTo({0}, {1});", control.Location.X, control.Location.Y);
+            ExecuteJS("window.scrollTo({0}, {1});", control.Location.X, control.Location.Y);
     }
 }

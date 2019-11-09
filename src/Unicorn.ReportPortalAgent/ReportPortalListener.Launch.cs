@@ -28,9 +28,9 @@ namespace Unicorn.ReportPortalAgent
                 };
 
                 Bridge.Context.LaunchReporter =
-                    string.IsNullOrEmpty(this.ExistingLaunchId) ?
+                    string.IsNullOrEmpty(ExistingLaunchId) ?
                     new LaunchReporter(Bridge.Service) :
-                    new LaunchReporter(Bridge.Service, this.ExistingLaunchId);
+                    new LaunchReporter(Bridge.Service, ExistingLaunchId);
 
                 Bridge.Context.LaunchReporter.Start(startLaunchRequest);
             }

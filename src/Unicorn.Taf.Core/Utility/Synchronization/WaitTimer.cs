@@ -7,12 +7,12 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     /// </summary>
     public class WaitTimer
     {
-        private DateTime expirationDateTime;
+        private DateTime _expirationDateTime;
 
         /// <summary>
         /// Gets a value indicating if timer was expired or not
         /// </summary>
-        public bool Expired => DateTime.Now > expirationDateTime;
+        public bool Expired => DateTime.Now > _expirationDateTime;
 
         /// <summary>
         /// Gets or sets time when timer was started.
@@ -22,7 +22,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <summary>
         /// Gets a value indicating elapsed time
         /// </summary>
-        public TimeSpan Elapsed => DateTime.Now - this.StartTime;
+        public TimeSpan Elapsed => DateTime.Now - StartTime;
 
         /// <summary>
         /// Set the date and time of timer expiration.
@@ -31,7 +31,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <returns>current <see cref="WaitTimer"/> instance</returns>
         public WaitTimer SetExpirationTimeout(TimeSpan delay)
         {
-            this.expirationDateTime = DateTime.Now.Add(delay);
+            _expirationDateTime = DateTime.Now.Add(delay);
             return this;
         }
             
@@ -41,7 +41,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <returns>current <see cref="WaitTimer"/> instance</returns>
         public WaitTimer Start()
         {
-            this.StartTime = DateTime.Now;
+            StartTime = DateTime.Now;
             return this;
         }
     }

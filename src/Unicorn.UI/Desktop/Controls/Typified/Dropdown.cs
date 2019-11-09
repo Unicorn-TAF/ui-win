@@ -37,7 +37,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether dropdown is expanded.
         /// </summary>
         public virtual bool Expanded => 
-            this.GetPattern<ExpandCollapsePattern>()
+            GetPattern<ExpandCollapsePattern>()
             .Current
             .ExpandCollapseState
             .Equals(ExpandCollapseState.Expanded);
@@ -78,9 +78,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if item was selected; false - if specified item is already selected</returns>
         public virtual bool Select(string itemName)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
 
-            if (itemName.Equals(this.SelectedValue))
+            if (itemName.Equals(SelectedValue))
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (the item is selected by default)");
                 return false;
@@ -117,7 +117,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
-            if (this.Expanded)
+            if (Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to expand (expanded by default)");
                 return false;
@@ -135,7 +135,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");
-            if (!this.Expanded)
+            if (!Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to collapse (collapsed by default)");
                 return false;

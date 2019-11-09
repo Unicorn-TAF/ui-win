@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="reason">disabling reason</param>
         public DisabledAttribute(string reason)
         {
-            this.Reason = reason;
+            Reason = reason;
         }
 
         /// <summary>

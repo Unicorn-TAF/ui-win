@@ -18,10 +18,10 @@ namespace Unicorn.UI.Web.PageObject
         /// <param name="title">page title</param>
         protected WebPage(OpenQA.Selenium.ISearchContext searchContext, string url, string title)
         {
-            this.SearchContext = searchContext;
+            SearchContext = searchContext;
             ContainerFactory.InitContainer(this);
-            this.Url = url;
-            this.Title = title;
+            Url = url;
+            Title = title;
         }
 
         /// <summary>
@@ -36,11 +36,11 @@ namespace Unicorn.UI.Web.PageObject
         {
             get
             {
-                bool opened = WebDriver.Instance.Url.EndsWith(this.Url);
+                bool opened = WebDriver.Instance.Url.EndsWith(Url);
 
-                if (!string.IsNullOrEmpty(this.Title))
+                if (!string.IsNullOrEmpty(Title))
                 {
-                    opened &= WebDriver.Driver.Title.Equals(this.Title);
+                    opened &= WebDriver.Driver.Title.Equals(Title);
                 }
 
                 return opened;
@@ -69,6 +69,6 @@ namespace Unicorn.UI.Web.PageObject
         /// </summary>
         /// <returns>page description as string</returns>
         public override string ToString() =>
-            $"page '{(string.IsNullOrEmpty(this.Title) ? GetType().ToString() : this.Title)}'";
+            $"page '{(string.IsNullOrEmpty(Title) ? GetType().ToString() : Title)}'";
     }
 }

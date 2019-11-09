@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="method">test data provider method name</param>
         public TestDataAttribute(string method)
         {
-            this.Method = method;
+            Method = method;
         }
 
         /// <summary>

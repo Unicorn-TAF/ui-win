@@ -5,22 +5,22 @@ namespace Unicorn.UI.Web.Controls.Typified
 {
     public class Checkbox : WebControl, ICheckbox
     {
-        public virtual bool Checked => this.Instance.Selected;
+        public virtual bool Checked => Instance.Selected;
 
         public virtual bool SetCheckedState(bool isChecked) =>
             isChecked ? Check() : Uncheck();
 
         private bool Check()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Check {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Check {ToString()}");
 
-            if (this.Checked)
+            if (Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
                 return false;
             }
 
-            this.Click();
+            Click();
 
             Logger.Instance.Log(LogLevel.Trace, "Checked");
 
@@ -29,15 +29,15 @@ namespace Unicorn.UI.Web.Controls.Typified
 
         private bool Uncheck()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {ToString()}");
 
-            if (!this.Checked)
+            if (!Checked)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
                 return false;
             }
 
-            this.Click();
+            Click();
             Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;

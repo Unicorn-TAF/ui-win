@@ -5,7 +5,7 @@
     /// </summary>
     public class StringContainsMatcher : TypeSafeMatcher<string>
     {
-        private readonly string objectToCompare;
+        private readonly string _objectToCompare;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringContainsMatcher"/> class for specified sub-string.
@@ -13,13 +13,13 @@
         /// <param name="objectToCompare">expected sub-string</param>
         public StringContainsMatcher(string objectToCompare)
         {
-            this.objectToCompare = objectToCompare;
+            _objectToCompare = objectToCompare;
         }
 
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => $"Contains substring '{this.objectToCompare}'";
+        public override string CheckDescription => $"Contains substring '{_objectToCompare}'";
 
         /// <summary>
         /// Checks if target string contains specified sub-string.
@@ -34,8 +34,8 @@
                 return Reverse;
             }
 
-            this.DescribeMismatch(actual);
-            return actual.Contains(this.objectToCompare);
+            DescribeMismatch(actual);
+            return actual.Contains(_objectToCompare);
         }
     }
 }

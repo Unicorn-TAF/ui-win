@@ -25,9 +25,9 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="comment">comment to defect</param>
         public Defect(string id, string type, string comment)
         {
-            this.Id = id;
-            this.DefectType = type;
-            this.Comment = comment;
+            Id = id;
+            DefectType = type;
+            Comment = comment;
         }
 
         /// <summary>

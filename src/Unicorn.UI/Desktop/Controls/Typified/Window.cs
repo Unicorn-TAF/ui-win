@@ -38,14 +38,14 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets window title text.
         /// </summary>
-        public virtual string Title => this.Text;
+        public virtual string Title => Text;
 
         /// <summary>
         /// Closes window.
         /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Close {ToString()}");
             GetPattern<WindowPattern>().Close();
         }
 
@@ -56,7 +56,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Focusing {this.ToString()}");
+                Logger.Instance.Log(LogLevel.Debug, $"Focusing {ToString()}");
                 Instance.SetFocus();
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <param name="timeout">timeout to wait</param>
         public virtual void WaitForClosed(TimeSpan timeout)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
+            Logger.Instance.Log(LogLevel.Debug, $"Wait for {ToString()} closing");
             var timer = Stopwatch.StartNew();
 
             var originalTimeout = GuiDriver.ImplicitlyWaitTimeout;
@@ -83,7 +83,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 {
                     Thread.Sleep(50);
                 }
-                while (this.Visible && timer.Elapsed < timeout);
+                while (Visible && timer.Elapsed < timeout);
             }
             catch (ControlNotFoundException)
             {
@@ -105,6 +105,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Wait until window is closed during 30 seconds.
         /// </summary>
-        public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
+        public void WaitForClosed() => WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }

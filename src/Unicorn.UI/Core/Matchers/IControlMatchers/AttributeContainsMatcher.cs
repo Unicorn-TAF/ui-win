@@ -5,16 +5,16 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
     public class AttributeContainsMatcher : TypeSafeMatcher<IControl>
     {
-        private readonly string attribute;
-        private readonly string value;
+        private readonly string _attribute;
+        private readonly string _value;
 
         public AttributeContainsMatcher(string attribute, string value)
         {
-            this.attribute = attribute;
-            this.value = value;
+            _attribute = attribute;
+            _value = value;
         }
 
-        public override string CheckDescription => $"has attribute '{this.attribute}' contains '{this.value}'";
+        public override string CheckDescription => $"has attribute '{_attribute}' contains '{_value}'";
 
         public override bool Matches(IControl actual)
         {
@@ -24,11 +24,11 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
                 return Reverse;
             }
 
-            string actualValue = actual.GetAttribute(this.attribute);
+            string actualValue = actual.GetAttribute(_attribute);
 
-            DescribeMismatch($"having '{attribute}' = '{actualValue}'");
+            DescribeMismatch($"having '{_attribute}' = '{actualValue}'");
 
-            return actualValue.Contains(this.value);
+            return actualValue.Contains(_value);
         }
     }
 }

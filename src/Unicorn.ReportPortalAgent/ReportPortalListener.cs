@@ -16,11 +16,11 @@ namespace Unicorn.ReportPortalAgent
     /// </summary>
     public partial class ReportPortalListener
     {
-        private static Dictionary<Status, ReportPortal.Client.Models.Status> statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
+        private static Dictionary<Status, ReportPortal.Client.Models.Status> _statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
-        private Dictionary<Guid, ITestReporter> suitesFlow = new Dictionary<Guid, ITestReporter>();
-        private Dictionary<Guid, ITestReporter> testFlowIds = new Dictionary<Guid, ITestReporter>();
-        private string[] commonSuitesTags = null;
+        private Dictionary<Guid, ITestReporter> _suitesFlow = new Dictionary<Guid, ITestReporter>();
+        private Dictionary<Guid, ITestReporter> _testFlowIds = new Dictionary<Guid, ITestReporter>();
+        private string[] _commonSuitesTags = null;
 
         static ReportPortalListener()
         {
@@ -41,9 +41,9 @@ namespace Unicorn.ReportPortalAgent
 
             Bridge.Service = reportPortalService;
 
-            statusMap[Status.Passed] = ReportPortal.Client.Models.Status.Passed;
-            statusMap[Status.Failed] = ReportPortal.Client.Models.Status.Failed;
-            statusMap[Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
+            _statusMap[Status.Passed] = ReportPortal.Client.Models.Status.Passed;
+            _statusMap[Status.Failed] = ReportPortal.Client.Models.Status.Failed;
+            _statusMap[Status.Skipped] = ReportPortal.Client.Models.Status.Skipped;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Unicorn.ReportPortalAgent
         /// <param name="content">content in bytes</param>
         public void ReportAddAttachment(Test test, string text, string attachmentName, string mime, byte[] content)
         {
-            if (Config.IsEnabled && this.testFlowIds.ContainsKey(test.Outcome.Id))
+            if (Config.IsEnabled && _testFlowIds.ContainsKey(test.Outcome.Id))
             {
                 AddAttachment(test.Outcome.Id, ReportPortal.Client.Models.LogLevel.Info, text, attachmentName, mime, content);
             }
@@ -87,6 +87,6 @@ namespace Unicorn.ReportPortalAgent
         /// </summary>
         /// <param name="tags">list of tags</param>
         public void SetCommonSuitesTags(params string[] tags) =>
-            this.commonSuitesTags = tags;
+            _commonSuitesTags = tags;
     }
 }

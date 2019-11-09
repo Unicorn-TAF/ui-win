@@ -11,7 +11,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         public AndroidWebDriver(string hubUrl, DesiredCapabilities desiredCapabilities)
         {
             Driver = new AndroidDriver<IWebElement>(new Uri(hubUrl), desiredCapabilities);
-            this.ImplicitlyWait = this.TimeoutDefault;
+            ImplicitlyWait = TimeoutDefault;
         }
 
         public AndroidWebDriver(string hubUrl, string deviceName, string browserName, string platformVersion)
@@ -23,7 +23,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             capabilities.SetCapability("platformName", "Android");
 
             Driver = new AndroidDriver<IWebElement>(new Uri(hubUrl), capabilities);
-            this.ImplicitlyWait = this.TimeoutDefault;
+            ImplicitlyWait = TimeoutDefault;
         }
     }
 }

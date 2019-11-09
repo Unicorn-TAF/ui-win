@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// <typeparam name="T">check items type</typeparam>
     public class HasItemsMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly IEnumerable<T> expectedObjects;
+        private readonly IEnumerable<T> _expectedObjects;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HasItemsMatcher{T}"/> class with specified expected objects.
@@ -17,14 +17,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <param name="expectedObjects">expected objects</param>
         public HasItemsMatcher(IEnumerable<T> expectedObjects)
         {
-            this.expectedObjects = expectedObjects;
+            _expectedObjects = expectedObjects;
         }
 
         /// <summary>
         /// Gets check description
         /// </summary>
         public override string CheckDescription =>
-            "Collection has items: " + DescribeCollection(this.expectedObjects);
+            "Collection has items: " + DescribeCollection(_expectedObjects);
 
         /// <summary>
         /// Checks if collection contains specified items.
@@ -39,11 +39,11 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            var mismatchItems = this.Reverse ?
-                actual.Where(i => expectedObjects.Contains(i)) :
-                expectedObjects.Where(i => !actual.Contains(i));
+            var mismatchItems = Reverse ?
+                actual.Where(i => _expectedObjects.Contains(i)) :
+                _expectedObjects.Where(i => !actual.Contains(i));
 
-            DescribeMismatch($"items {(this.Reverse ? "" : "not ")}presented: {string.Join(", ", mismatchItems)}");
+            DescribeMismatch($"items {(Reverse ? "" : "not ")}presented: {string.Join(", ", mismatchItems)}");
 
             return mismatchItems.Any() ? Reverse : !Reverse;
         }

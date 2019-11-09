@@ -15,7 +15,7 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public TestOutcome()
         {
-            this.ExecutionTime = TimeSpan.FromSeconds(0);
+            ExecutionTime = TimeSpan.FromSeconds(0);
         }
 
         /// <summary>

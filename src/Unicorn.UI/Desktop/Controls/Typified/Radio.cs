@@ -44,15 +44,15 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if selection was made; false - if radio is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select {ToString()}");
 
-            if (this.Selected)
+            if (Selected)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
-            var pattern = this.Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
+            var pattern = Instance.GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
 
             pattern.Select();
             Logger.Instance.Log(LogLevel.Trace, "Selected");

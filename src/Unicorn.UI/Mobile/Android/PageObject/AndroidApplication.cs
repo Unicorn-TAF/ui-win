@@ -8,18 +8,18 @@ namespace Unicorn.UI.Mobile.Android.PageObject
     {
         protected AndroidApplication(string appPackage, string appActivity, string platformVersion, string deviceName, string hubUrl)
         {
-            this.DeviceName = deviceName;
-            this.PlatformVersion = platformVersion;
-            this.AppPackage = appPackage;
-            this.AppActivity = appActivity;
-            this.HubUrl = hubUrl;
+            DeviceName = deviceName;
+            PlatformVersion = platformVersion;
+            AppPackage = appPackage;
+            AppActivity = appActivity;
+            HubUrl = hubUrl;
 
             var capabilities = new Dictionary<string, string>();
-            capabilities.Add("deviceName", this.DeviceName);
-            capabilities.Add("platformVersion", this.PlatformVersion);
-            capabilities.Add("appPackage", this.AppPackage);
-            capabilities.Add("appActivity", $"{this.AppPackage}.{this.AppActivity}");
-            capabilities.Add("platformName", this.PlatformName);
+            capabilities.Add("deviceName", DeviceName);
+            capabilities.Add("platformVersion", PlatformVersion);
+            capabilities.Add("appPackage", AppPackage);
+            capabilities.Add("appActivity", $"{AppPackage}.{AppActivity}");
+            capabilities.Add("platformName", PlatformName);
 
             AndroidAppDriver.Init(hubUrl, capabilities);
         }
@@ -38,7 +38,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
 
         public void Open()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {this.AppActivity} application");
+            Logger.Instance.Log(LogLevel.Debug, $"Open {AppActivity} application");
             AndroidAppDriver.Instance.ToString(); // need to call for initialization
         }
     }

@@ -32,8 +32,8 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="skipTestsOnFail">option to skip following tests if AfterTest was failed</param>
         public AfterTestAttribute(bool runAlways, bool skipTestsOnFail)
         {
-            this.RunAlways = runAlways;
-            this.SkipTestsOnFail = skipTestsOnFail;
+            RunAlways = runAlways;
+            SkipTestsOnFail = skipTestsOnFail;
         }
 
         /// <summary>

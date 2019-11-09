@@ -32,38 +32,38 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets expand/collapse pattern instance.
         /// </summary>
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+            GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 
         /// <summary>
         /// Gets toggle pattern instance.
         /// </summary>
         protected IUIAutomationTogglePattern TogglePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+            GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
 
         /// <summary>
         /// Gets invoke pattern instance.
         /// </summary>
         protected IUIAutomationInvokePattern InvokePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
+            GetPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
 
         /// <summary>
         /// Selects menu item, if menu item is parent item it is expanded.
         /// </summary>
         public virtual void Select()
         {
-            var expandCollapsePattern = this.ExpandCollapsePattern;
+            var expandCollapsePattern = ExpandCollapsePattern;
 
             if (expandCollapsePattern != null)
             {
                 expandCollapsePattern.Expand();
             }
-            else if (this.TogglePattern != null)
+            else if (TogglePattern != null)
             {
-                this.TogglePattern.Toggle();
+                TogglePattern.Toggle();
             }
             else
             {
-                this.InvokePattern.Invoke();
+                InvokePattern.Invoke();
             }
         }
     }

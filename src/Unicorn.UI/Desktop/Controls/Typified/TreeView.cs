@@ -73,7 +73,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <param name="itemName">tree item name</param>
         /// <returns>tree item instance</returns>
         protected virtual TreeItem GetTreeViewItem(string itemName) =>
-            this.Find<TreeItem>(ByLocator.Name(itemName));
+            Find<TreeItem>(ByLocator.Name(itemName));
 
         private void ExpandParentNode(TreeItem parentNode)
         {

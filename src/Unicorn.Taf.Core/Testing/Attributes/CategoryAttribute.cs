@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="category">category name</param>
         public CategoryAttribute(string category)
         {
-            this.Category = category;
+            Category = category;
         }
 
         /// <summary>

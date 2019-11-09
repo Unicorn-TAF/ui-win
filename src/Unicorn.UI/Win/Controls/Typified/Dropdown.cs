@@ -36,7 +36,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets a value indicating whether dropdown is expanded.
         /// </summary>
         public virtual bool Expanded => 
-            this.ExpandCollapsePattern
+            ExpandCollapsePattern
             .CurrentExpandCollapseState
             .Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
 
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
             get
             {
-                var selection = this.SelectionPattern;
+                var selection = SelectionPattern;
                 if (selection != null)
                 {
                     var items = selection.GetCurrentSelection();
@@ -59,7 +59,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                     }
                 }
 
-                var value = this.ValuePattern;
+                var value = ValuePattern;
 
                 if (value != null)
                 {
@@ -74,19 +74,19 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets expand/collapse pattern instance.
         /// </summary>
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+            GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
 
         /// <summary>
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionPattern SelectionPattern => 
-            this.GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
+            GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
 
         /// <summary>
         /// Gets value pattern instance.
         /// </summary>
         protected IUIAutomationValuePattern ValuePattern => 
-            this.GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+            GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
 
         /// <summary>
         /// Selects specified item from dropdown.
@@ -95,15 +95,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if item was selected; false - if specified item is already selected</returns>
         public virtual bool Select(string itemName)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
 
-            if (itemName.Equals(this.SelectedValue))
+            if (itemName.Equals(SelectedValue))
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (the item is selected by default)");
                 return false;
             }
 
-            var value = this.ValuePattern;
+            var value = ValuePattern;
 
             if (value != null)
             {
@@ -134,13 +134,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         public virtual bool Expand()
         {
             Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
-            if (this.Expanded)
+            if (Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to expand (expanded by default)");
                 return false;
             }
 
-            this.ExpandCollapsePattern.Expand();
+            ExpandCollapsePattern.Expand();
             Logger.Instance.Log(LogLevel.Trace, "Expanded");
             return true;
         }
@@ -152,13 +152,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");
-            if (!this.Expanded)
+            if (!Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to collapse (collapsed by default)");
                 return false;
             }
 
-            this.ExpandCollapsePattern.Collapse();
+            ExpandCollapsePattern.Collapse();
             Logger.Instance.Log(LogLevel.Trace, "Collapsed");
             return true;
         }

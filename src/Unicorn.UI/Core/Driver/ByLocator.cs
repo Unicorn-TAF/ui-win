@@ -48,8 +48,8 @@
         /// <param name="locator">locator to search by</param>
         public ByLocator(Using how, string locator)
         {
-            this.How = how;
-            this.Locator = locator;
+            How = how;
+            Locator = locator;
         }
 
         /// <summary>

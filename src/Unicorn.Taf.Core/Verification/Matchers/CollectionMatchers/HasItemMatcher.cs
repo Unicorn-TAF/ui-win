@@ -9,7 +9,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// <typeparam name="T">check items type</typeparam>
     public class HasItemMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly T expectedObject;
+        private readonly T _expectedObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HasItemMatcher{T}"/> class with specified expected object.
@@ -17,13 +17,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// <param name="expectedObject">expected item</param>
         public HasItemMatcher(T expectedObject)
         {
-            this.expectedObject = expectedObject;
+            _expectedObject = expectedObject;
         }
 
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => $"Collection has item {this.expectedObject}";
+        public override string CheckDescription => $"Collection has item {_expectedObject}";
 
         /// <summary>
         /// Checks if collection contains specified item.
@@ -38,9 +38,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            DescribeMismatch(this.Reverse ? "containing the item" : "not containing the item");
+            DescribeMismatch(Reverse ? "containing the item" : "not containing the item");
 
-            return actual.Contains(this.expectedObject);
+            return actual.Contains(_expectedObject);
         }
     }
 }

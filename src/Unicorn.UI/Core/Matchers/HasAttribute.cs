@@ -7,7 +7,7 @@ namespace Unicorn.UI.Core.Matchers
     /// </summary>
     public class HasAttribute
     {
-        private readonly string attribute;
+        private readonly string _attribute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HasAttribute"/> class with specified attribute name.
@@ -15,7 +15,7 @@ namespace Unicorn.UI.Core.Matchers
         /// <param name="attribute"></param>
         public HasAttribute(string attribute)
         {
-            this.attribute = attribute;
+            _attribute = attribute;
         }
 
         public static AttributeContainsMatcher HasAttributeContains(string attribute, string expectedValue)
@@ -25,9 +25,9 @@ namespace Unicorn.UI.Core.Matchers
             => new AttributeIsEqualToMatcher(attribute, expectedValue);
 
         public AttributeContainsMatcher Contains(string expectedValue)
-            => new AttributeContainsMatcher(this.attribute, expectedValue);
+            => new AttributeContainsMatcher(_attribute, expectedValue);
 
         public AttributeIsEqualToMatcher IsEqualTo(string expectedValue)
-            => new AttributeIsEqualToMatcher(this.attribute, expectedValue);
+            => new AttributeIsEqualToMatcher(_attribute, expectedValue);
     }
 }

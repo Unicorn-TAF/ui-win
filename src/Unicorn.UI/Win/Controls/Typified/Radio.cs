@@ -35,13 +35,13 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets a value indicating whether radio is selected.
         /// </summary>
         public virtual bool Selected => 
-            this.SelectionItemPattern.CurrentIsSelected != 0;
+            SelectionItemPattern.CurrentIsSelected != 0;
 
         /// <summary>
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
-            this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+            GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         /// <summary>
         /// Selects the radio button.
@@ -49,15 +49,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if selection was made; false - if radio is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select {ToString()}");
 
-            if (this.Selected)
+            if (Selected)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
-            var pattern = this.SelectionItemPattern;
+            var pattern = SelectionItemPattern;
 
             pattern.Select();
             Logger.Instance.Log(LogLevel.Trace, "Selected");

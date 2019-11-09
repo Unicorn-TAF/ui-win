@@ -9,7 +9,7 @@ namespace Unicorn.UI.Web.Driver
     {
         public DesktopWebDriver(BrowserType browser, DriverOptions driverOptions, bool maximize)
         {
-            this.Browser = browser;
+            Browser = browser;
 
             Driver = driverOptions == null ? GetInstance() : GetInstance(driverOptions);
 
@@ -18,7 +18,7 @@ namespace Unicorn.UI.Web.Driver
                 Driver.Manage().Window.Maximize();
             }
 
-            this.ImplicitlyWait = this.TimeoutDefault;
+            ImplicitlyWait = TimeoutDefault;
         }
 
         public DesktopWebDriver(BrowserType browser, bool maximize) : this(browser, null, maximize)

@@ -5,14 +5,14 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class SortedMatcher : TypeSafeMatcher<ISortable>
     {
-        private readonly SortDirection sortDirection;
+        private readonly SortDirection _sortDirection;
 
         public SortedMatcher(SortDirection sortDirection)
         {
-            this.sortDirection = sortDirection;
+            _sortDirection = sortDirection;
         }
 
-        public override string CheckDescription => $"is sorted {this.sortDirection}";
+        public override string CheckDescription => $"is sorted {_sortDirection}";
 
         public override bool Matches(ISortable actual)
         {
@@ -23,7 +23,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
             }
 
             DescribeMismatch("not sorted correctly");
-            return actual.IsSorted(this.sortDirection);
+            return actual.IsSorted(_sortDirection);
         }
     }
 }

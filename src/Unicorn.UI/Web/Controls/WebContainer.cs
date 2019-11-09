@@ -33,17 +33,17 @@ namespace Unicorn.UI.Web.Controls
         {
             get
             {
-                if (!this.Cached)
+                if (!Cached)
                 {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator);
+                    SearchContext = GetNativeControlFromParentContext(Locator);
                 }
 
-                return (IWebElement)this.SearchContext;
+                return (IWebElement)SearchContext;
             }
 
             set
             {
-                this.SearchContext = value;
+                SearchContext = value;
                 ContainerFactory.InitContainer(this);
             }
         }

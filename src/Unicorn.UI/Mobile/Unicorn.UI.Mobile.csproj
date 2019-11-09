@@ -69,12 +69,12 @@
     <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
     <Compile Include="Android\Driver\AndroidWebDriver.cs" />
     <Compile Include="Base\Driver\MobileSearchContext.cs" />
-    <Compile Include="IOS\Controls\IOSControl.cs" />
-    <Compile Include="IOS\Driver\IOSDriver.cs" />
-    <Compile Include="IOS\Driver\IOSSearchContext.cs" />
+    <Compile Include="Ios\Controls\IosControl.cs" />
+    <Compile Include="Ios\Driver\IosDriver.cs" />
+    <Compile Include="Ios\Driver\IosSearchContext.cs" />
     <Compile Include="Android\Driver\AndroidAppDriver.cs" />
     <Compile Include="Android\Driver\AndroidSearchContext.cs" />
-    <Compile Include="IOS\PageObject\IOSControlExtension.cs" />
+    <Compile Include="Ios\PageObject\IosControlExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

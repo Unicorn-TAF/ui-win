@@ -11,9 +11,8 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Initializes a new instance of the <see cref="TestAttribute"/> class without title.
         /// </summary>
-        public TestAttribute()
+        public TestAttribute() : this(string.Empty)
         {
-            this.Title = string.Empty;
         }
 
         /// <summary>
@@ -22,7 +21,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="title">test title</param>
         public TestAttribute(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         /// <summary>

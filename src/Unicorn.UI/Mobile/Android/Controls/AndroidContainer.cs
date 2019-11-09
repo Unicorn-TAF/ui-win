@@ -18,17 +18,17 @@ namespace Unicorn.UI.Mobile.Android.Controls
         {
             get
             {
-                if (!this.Cached)
+                if (!Cached)
                 {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator);
+                    SearchContext = GetNativeControlFromParentContext(Locator);
                 }
 
-                return this.SearchContext;
+                return SearchContext;
             }
 
             set
             {
-                this.SearchContext = value;
+                SearchContext = value;
                 ContainerFactory.InitContainer(this);
             }
         }

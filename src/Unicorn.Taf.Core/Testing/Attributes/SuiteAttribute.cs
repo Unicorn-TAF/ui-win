@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="name">test suite name</param>
         public SuiteAttribute(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>

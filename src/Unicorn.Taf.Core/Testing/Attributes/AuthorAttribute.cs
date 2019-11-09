@@ -15,7 +15,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="author">test author</param>
         public AuthorAttribute(string author)
         {
-            this.Author = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(author);
+            Author = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(author);
         }
 
         /// <summary>

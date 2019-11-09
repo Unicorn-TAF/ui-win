@@ -14,7 +14,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <param name="tag">tag name</param>
         public TagAttribute(string tag)
         {
-            this.Tag = tag;
+            Tag = tag;
         }
 
         /// <summary>

@@ -5,14 +5,14 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 {
     public class ControlHasTextMatcher : TypeSafeMatcher<IControl>
     {
-        private readonly string expectedText;
+        private readonly string _expectedText;
 
         public ControlHasTextMatcher(string expectedText)
         {
-            this.expectedText = expectedText;
+            _expectedText = expectedText;
         }
 
-        public override string CheckDescription => $"has text = '{this.expectedText}'";
+        public override string CheckDescription => $"has text = '{_expectedText}'";
 
         public override bool Matches(IControl actual)
         {
@@ -26,7 +26,7 @@ namespace Unicorn.UI.Core.Matchers.IControlMatchers
 
             DescribeMismatch($"having text = '{actualText}'");
 
-            return actualText.Equals(this.expectedText);
+            return actualText.Equals(_expectedText);
         }
     }
 }

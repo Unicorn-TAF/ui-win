@@ -37,7 +37,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
             get
             {
-                var selectionItem = this.SelectionItemPattern;
+                var selectionItem = SelectionItemPattern;
 
                 if (selectionItem != null)
                 {
@@ -52,7 +52,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
-            this.GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+            GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
 
         /// <summary>
         /// Selects the tab item.
@@ -60,15 +60,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if selection was made; false - if it is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select {ToString()}");
 
-            if (this.Selected)
+            if (Selected)
             {
                 Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
                 return false;
             }
 
-            var selectionItem = this.SelectionItemPattern;
+            var selectionItem = SelectionItemPattern;
 
             if (selectionItem != null)
             {
@@ -77,7 +77,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             else
             {
                 Logger.Instance.Log(LogLevel.Trace, "SelectionItemPattern was not found");
-                this.Click();
+                Click();
             }
 
             Logger.Instance.Log(LogLevel.Trace, "Selected");

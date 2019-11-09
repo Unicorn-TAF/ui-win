@@ -5,14 +5,14 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
     public class DataGridHasColumnMatcher : TypeSafeMatcher<IDataGrid>
     {
-        private readonly string columnName;
+        private readonly string _columnName;
 
         public DataGridHasColumnMatcher(string columnName)
         {
-            this.columnName = columnName;
+            _columnName = columnName;
         }
 
-        public override string CheckDescription => $"has column '{this.columnName}'";
+        public override string CheckDescription => $"has column '{_columnName}'";
 
         public override bool Matches(IDataGrid actual)
         {
@@ -22,7 +22,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
                 return Reverse;
             }
 
-            bool hasColumn = actual.HasColumn(this.columnName);
+            bool hasColumn = actual.HasColumn(_columnName);
 
             DescribeMismatch(hasColumn ? "having column" : "not having column");
             return hasColumn;
