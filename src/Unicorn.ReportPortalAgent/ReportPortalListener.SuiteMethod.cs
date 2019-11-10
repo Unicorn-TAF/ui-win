@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
@@ -42,9 +42,11 @@ namespace Unicorn.ReportPortalAgent
                     Type = _itemTypes[suiteMethod.MethodType]
                 };
 
-                startTestRequest.Tags = new List<string>();
-                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
-                startTestRequest.Tags.Add(Environment.MachineName);
+                startTestRequest.Tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
                 var testVal = _suitesFlow[parentId].StartChildTestReporter(startTestRequest);
                 _testFlowIds[id] = testVal;
@@ -70,9 +72,11 @@ namespace Unicorn.ReportPortalAgent
                 }
 
                 // adding categories to test
-                var tags = new List<string>();
-                tags.Add(suiteMethod.Outcome.Author);
-                tags.Add(Environment.MachineName);
+                var tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
@@ -90,20 +94,19 @@ namespace Unicorn.ReportPortalAgent
                 {
                     var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
 
-                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Screenshot))
-                    {
-                        byte[] screenshotBytes = File.ReadAllBytes(suiteMethod.Outcome.Screenshot);
-                        AddAttachment(id, LogLevel.Error, text, "Fail screenshot", "image/png", screenshotBytes);
-                    }
-                    else
-                    {
-                        AddLog(id, LogLevel.Error, text);
-                    }
+                    AddLog(id, LogLevel.Error, text);
 
                     if (!string.IsNullOrEmpty(suiteMethod.Outcome.Output))
                     {
                         byte[] outputBytes = Encoding.ASCII.GetBytes(suiteMethod.Outcome.Output);
                         AddAttachment(id, LogLevel.Error, string.Empty, "Execution log", "text/plain", outputBytes);
+                    }
+
+                    if (suiteMethod.Outcome.Attachments.Any())
+                    {
+                        suiteMethod.Outcome.Attachments
+                            .ForEach(a => 
+                            AddAttachment(id, LogLevel.Error, string.Empty, a.Name, a.MimeType, a.GetBytes()));
                     }
                 }
 
@@ -150,9 +153,11 @@ namespace Unicorn.ReportPortalAgent
                     Type = _itemTypes[suiteMethod.MethodType]
                 };
 
-                startTestRequest.Tags = new List<string>();
-                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
-                startTestRequest.Tags.Add(Environment.MachineName);
+                startTestRequest.Tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {

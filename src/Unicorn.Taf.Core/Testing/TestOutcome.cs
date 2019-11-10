@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Unicorn.Taf.Core.Testing
 {
@@ -16,6 +17,7 @@ namespace Unicorn.Taf.Core.Testing
         public TestOutcome()
         {
             ExecutionTime = TimeSpan.FromSeconds(0);
+            Attachments = new List<Attachment>();
         }
 
         /// <summary>
@@ -64,9 +66,9 @@ namespace Unicorn.Taf.Core.Testing
         public Exception Exception { get; set; }
 
         /// <summary>
-        /// Gets or sets Screenshot of fail.
+        /// Gets list of test attachments.
         /// </summary>
-        public string Screenshot { get; set; }
+        public List<Attachment> Attachments { get; }
 
         /// <summary>
         /// Gets or sets Array of bugs attached to the test. Has values only when the test failed by bug.
