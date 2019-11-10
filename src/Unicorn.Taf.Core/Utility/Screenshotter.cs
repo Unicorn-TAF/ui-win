@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
@@ -136,7 +137,13 @@ namespace Unicorn.Taf.Core.Utility
             }
         }
 
-        private void TakeScreenshot(SuiteMethod suiteMethod) =>
-            suiteMethod.Outcome.Screenshot = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+        private void TakeScreenshot(SuiteMethod suiteMethod)
+        {
+            var mime = "image/" + _format.ToString().ToLower(CultureInfo.InvariantCulture);
+            var screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+
+            suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
+        }
+            
     }
 }

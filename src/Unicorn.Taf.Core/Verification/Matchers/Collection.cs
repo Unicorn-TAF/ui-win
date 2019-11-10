@@ -38,18 +38,18 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         /// </summary>
         /// <typeparam name="T">items type</typeparam>
         /// <param name="expectedObjects">expected collection</param>
-        /// <returns><see cref="IsTheSameAsCollectionMatcher{T}"/> instance</returns>
-        public static IsTheSameAsCollectionMatcher<T> IsTheSameAs<T>(IEnumerable<T> expectedObjects) =>
-            new IsTheSameAsCollectionMatcher<T>(expectedObjects);
+        /// <returns><see cref="TheSameAsCollectionMatcher{T}"/> instance</returns>
+        public static TheSameAsCollectionMatcher<T> IsTheSameAs<T>(IEnumerable<T> expectedObjects) =>
+            new TheSameAsCollectionMatcher<T>(expectedObjects);
 
         /// <summary>
         /// Matcher to check if collection is sequence equal to expected.
         /// </summary>
         /// <typeparam name="T">items type</typeparam>
         /// <param name="expectedObjects">expected collection</param>
-        /// <returns><see cref="IsSequenceEqualToCollectionMatcher{T}"/> instance</returns>
-        public static IsSequenceEqualToCollectionMatcher<T> IsSequenceEqualTo<T>(IEnumerable<T> expectedObjects) =>
-            new IsSequenceEqualToCollectionMatcher<T>(expectedObjects);
+        /// <returns><see cref="SequenceEqualToCollectionMatcher{T}"/> instance</returns>
+        public static SequenceEqualToCollectionMatcher<T> IsSequenceEqualTo<T>(IEnumerable<T> expectedObjects) =>
+            new SequenceEqualToCollectionMatcher<T>(expectedObjects);
 
         /// <summary>
         /// Matcher to check if each collection item satisfies specified matcher.

@@ -7,15 +7,15 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// Matcher to check if collection is sequence equal to another one. 
     /// </summary>
     /// <typeparam name="T">check items type</typeparam>
-    public class IsSequenceEqualToCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
+    public class SequenceEqualToCollectionMatcher<T> : TypeSafeCollectionMatcher<T>
     {
         private readonly IEnumerable<T> _expected;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IsSequenceEqualToCollectionMatcher{T}"/> class with specified expected collection.
+        /// Initializes a new instance of the <see cref="SequenceEqualToCollectionMatcher{T}"/> class with specified expected collection.
         /// </summary>
         /// <param name="expected">expected collection</param>
-        public IsSequenceEqualToCollectionMatcher(IEnumerable<T> expected)
+        public SequenceEqualToCollectionMatcher(IEnumerable<T> expected)
         {
             _expected = expected;
         }
