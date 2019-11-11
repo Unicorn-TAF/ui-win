@@ -32,6 +32,11 @@ namespace Unicorn.UI.Web.PageObject
         {
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the page is opened based on:<para/> 
+        ///  - current opened Url (should end with page url)<para/> 
+        ///  - Page title (if any specified for the page)
+        /// </summary>
         public bool Opened
         {
             get

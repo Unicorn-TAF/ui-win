@@ -5,8 +5,14 @@ using OpenQA.Selenium.IE;
 
 namespace Unicorn.UI.Web.Driver
 {
+    /// <summary>
+    /// Represents Driver for Desktop version of bworser and allows to perform search of elements in web pages.
+    /// </summary>
     public class DesktopWebDriver : WebDriver
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DesktopWebDriver"/> class with specified browser type, driver options and window maximize state.
+        /// </summary>
         public DesktopWebDriver(BrowserType browser, DriverOptions driverOptions, bool maximize)
         {
             Browser = browser;
@@ -21,15 +27,20 @@ namespace Unicorn.UI.Web.Driver
             ImplicitlyWait = TimeoutDefault;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DesktopWebDriver"/> class with specified browser type and window maximize state and without driver options.
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="maximize"></param>
         public DesktopWebDriver(BrowserType browser, bool maximize) : this(browser, null, maximize)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DesktopWebDriver"/> class with specified browser type and maximized window.
+        /// </summary>
+        /// <param name="browser"></param>
         public DesktopWebDriver(BrowserType browser) : this(browser, false)
-        {
-        }
-
-        public DesktopWebDriver() : this(BrowserType.Chrome)
         {
         }
 
