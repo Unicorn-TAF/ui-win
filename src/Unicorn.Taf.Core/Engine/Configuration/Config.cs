@@ -16,16 +16,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Parallel by assembly
         /// </summary>
         Assembly,
-
-        /// <summary>
-        /// Parallel by suite
-        /// </summary>
-        Suite,
-
-        /// <summary>
-        /// Parallel by tests within suite
-        /// </summary>
-        Test
+        ////Suite,
+        ////Test
     }
 
     /// <summary>
