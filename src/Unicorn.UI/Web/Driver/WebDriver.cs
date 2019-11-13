@@ -26,9 +26,16 @@ namespace Unicorn.UI.Web.Driver
 
             set
             {
-                Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
-                _instance = value;
-                _instance.SearchContext = Driver;
+                if (value != null)
+                {
+                    Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
+                    _instance = value;
+                    _instance.SearchContext = Driver;
+                }
+                else
+                {
+                    _instance = null;
+                }
             }
         }
 
