@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Unicorn.Taf.Core.Testing
 {
     /// <summary>
     /// Represents test attachment based on some file in file system.
     /// </summary>
+    [Serializable]
     public class Attachment
     {
         /// <summary>
