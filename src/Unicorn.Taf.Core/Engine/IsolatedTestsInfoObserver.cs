@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Unicorn.Taf.Core.Testing.Attributes;
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
-
 namespace Unicorn.Taf.Core.Engine
 {
     /// <summary>
@@ -61,7 +59,9 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns>test info list</returns>
         public List<TestInfo> GetTests(string assembly)
         {
+#pragma warning disable S3885 // "Assembly.Load" should be used
             var testsAssembly = Assembly.LoadFrom(assembly);
+#pragma warning restore S3885 // "Assembly.Load" should be used
             var tests = TestsObserver.ObserveTests(testsAssembly);
             var infos = new List<TestInfo>();
 
@@ -85,4 +85,3 @@ namespace Unicorn.Taf.Core.Engine
         }
     }
 }
-#pragma warning restore S3885 // "Assembly.Load" should be used

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 
 namespace Unicorn.Taf.Core.Engine
 {
@@ -6,8 +8,10 @@ namespace Unicorn.Taf.Core.Engine
     /// Provides with ability to manipulate with Unicorn test assembly in dedicated <see cref="AppDomain"/>
     /// </summary>
     /// <typeparam name="T"><see cref="Type"/> of worker on tests assembly</typeparam>
+    [Serializable]
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
+        private readonly string _assemblyDirectory;
         private AppDomain _domain;
 
         /// <summary>
@@ -16,6 +20,8 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="assemblyDirectory">path to tests assembly directory</param>
         public UnicornAppDomainIsolation(string assemblyDirectory)
         {
+            _assemblyDirectory = assemblyDirectory;
+
             var setup = new AppDomainSetup
             {
                 ShadowCopyFiles = "true",
@@ -23,6 +29,8 @@ namespace Unicorn.Taf.Core.Engine
             };
 
             _domain = AppDomain.CreateDomain("UnicornAppDomain:" + Guid.NewGuid(), null, setup);
+
+            _domain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             var type = typeof(T);
             Instance = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
@@ -42,6 +50,24 @@ namespace Unicorn.Taf.Core.Engine
             {
                 AppDomain.Unload(_domain);
                 _domain = null;
+            }
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var shortAssemblyName = args.Name.Substring(0, args.Name.IndexOf(','));
+            var fileName = Path.Combine(_assemblyDirectory, shortAssemblyName + ".dll");
+
+            if (File.Exists(fileName))
+            {
+#pragma warning disable S3885 // "Assembly.Load" should be used
+                Assembly result = Assembly.LoadFrom(fileName);
+#pragma warning restore S3885 // "Assembly.Load" should be used
+                return result;
+            }
+            else
+            {
+                return Assembly.GetExecutingAssembly().FullName == args.Name ? Assembly.GetExecutingAssembly() : null;
             }
         }
     }
