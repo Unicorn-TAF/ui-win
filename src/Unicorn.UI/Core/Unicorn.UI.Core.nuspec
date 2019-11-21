@@ -31,6 +31,5 @@
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Core.pdb" target="lib\net452"/>
   </files>
 </package>
