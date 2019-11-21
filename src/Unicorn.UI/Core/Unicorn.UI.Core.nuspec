@@ -9,7 +9,7 @@
     <license type="file">LICENSE.txt</license>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
-    <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
+    <icon>icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests realizations of specific UI extensions or develop custom ones.</summary>
     <description>
@@ -31,5 +31,6 @@
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
+    <file src="..\..\icon.png" target="" />
   </files>
 </package>
