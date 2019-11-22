@@ -139,7 +139,7 @@ namespace Unicorn.Taf.Core.Utility
 
         private void TakeScreenshot(SuiteMethod suiteMethod)
         {
-            var mime = "image/" + _format.ToString().ToLower(CultureInfo.InvariantCulture);
+            var mime = "image/" + _format.ToString().ToLowerInvariant();
             var screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
 
             suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
