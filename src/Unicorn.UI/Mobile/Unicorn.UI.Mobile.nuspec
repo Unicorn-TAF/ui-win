@@ -9,7 +9,7 @@
     <license type="file">LICENSE.txt</license>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
-    <icon>icon.png</icon>
+    <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Unicorn.UI.Mobile is Unicorn test automation framework extension which provides ready for use realization of interaction with UI in Mobile with extended capabilities.</summary>
     <description>
@@ -39,6 +39,5 @@
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="..\..\icon.png" target="" />
   </files>
 </package>
