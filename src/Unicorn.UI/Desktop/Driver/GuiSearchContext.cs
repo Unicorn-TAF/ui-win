@@ -134,7 +134,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             if (control == null)
             {
-                throw new ControlNotFoundException($"Unable to find control by {locator}");
+                throw new ControlNotFoundException($"Unable to find control with type='{type}', locator='{locator}'");
             }
 
             return control;
