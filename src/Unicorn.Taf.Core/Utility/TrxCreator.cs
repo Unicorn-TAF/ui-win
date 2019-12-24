@@ -40,6 +40,8 @@ namespace Unicorn.Taf.Core.Utility
         private int _notExecuted = 0;
         private int _completed = 0;
 
+        private readonly string[] xmlInvalidSymbols = { "&#x0" };
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TrxCreator"/> class.
         /// </summary>
@@ -339,7 +341,7 @@ namespace Unicorn.Taf.Core.Utility
 
                 message.InnerText = outcome.Exception.Message;
                 stackTrace.InnerText = outcome.Exception.StackTrace;
-                stdOut.InnerText = outcome.Output;
+                stdOut.InnerText = RemoveXmlInvalidSymbolsFromString(outcome.Output);
 
                 errorInfo.AppendChild(message);
                 errorInfo.AppendChild(stackTrace);
@@ -447,6 +449,18 @@ namespace Unicorn.Taf.Core.Utility
             resultSummary.AppendChild(counters);
 
             return resultSummary;
+        }
+
+        private string RemoveXmlInvalidSymbolsFromString(string input)
+        {
+            StringBuilder sb = new StringBuilder(input);
+
+            foreach (var invalidSymbol in xmlInvalidSymbols)
+            {
+                sb.Replace(invalidSymbol, string.Empty);
+            }
+
+            return sb.ToString().ToLower();
         }
     }
 }
