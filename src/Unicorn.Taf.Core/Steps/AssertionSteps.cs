@@ -99,6 +99,10 @@ namespace Unicorn.Taf.Core.Steps
             return this;
         }
 
+        /// <summary>
+        /// Initializes assertions chain.
+        /// </summary>
+        /// <returns>current assertion steps instance</returns>
         public AssertionSteps StartAssertionsChain() => StartAssertionsChain(string.Empty);
 
         /// <summary>
