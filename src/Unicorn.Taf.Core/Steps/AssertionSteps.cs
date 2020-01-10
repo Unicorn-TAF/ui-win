@@ -91,11 +91,19 @@ namespace Unicorn.Taf.Core.Steps
         /// Initializes assertions chain.
         /// </summary>
         /// <returns>current assertion steps instance</returns>
-        public AssertionSteps StartAssertionsChain()
+        /// <param name="description">description for following assertions</param>
+        [Step("{0}")]
+        public AssertionSteps StartAssertionsChain(string description)
         {
             _chaninAssert = new ChainAssert();
             return this;
         }
+
+        /// <summary>
+        /// Initializes assertions chain.
+        /// </summary>
+        /// <returns>current assertion steps instance</returns>
+        public AssertionSteps StartAssertionsChain() => StartAssertionsChain(string.Empty);
 
         /// <summary>
         /// Step which performs soft check on object of any type using type specific matcher 

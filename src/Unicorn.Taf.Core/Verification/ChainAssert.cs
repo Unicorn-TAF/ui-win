@@ -15,19 +15,31 @@ namespace Unicorn.Taf.Core.Verification
     {
         private const string But = "But: ";
         private const string Expected = "Expected: ";
+        private const string FailedMessage = " failed with next errors";
+        private const string DefaultDescription = "Chain assertion";
 
+        private readonly string _errorMessage;
         private readonly StringBuilder _errors;
         private bool _isSomethingFailed;
         private int _errorCounter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChainAssert"/> class 
+        /// Initializes a new instance of the <see cref="ChainAssert"/> class. 
         /// </summary>
-        public ChainAssert()
+        public ChainAssert() : this(DefaultDescription)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChainAssert"/> class with specified description.
+        /// </summary>
+        /// <param name="description">check description</param>
+        public ChainAssert(string description)
         {
             _errors = new StringBuilder();
             _isSomethingFailed = false;
             _errorCounter = 1;
+            _errorMessage = description + FailedMessage;
         }
 
         /// <summary>
@@ -160,7 +172,7 @@ namespace Unicorn.Taf.Core.Verification
         {
             if (_isSomethingFailed)
             {
-                throw new AssertionException("Chain assertion failed with next errors" + _errors.ToString().Trim());
+                throw new AssertionException(_errorMessage + Environment.NewLine + _errors.ToString().Trim());
             }
         }
     }
