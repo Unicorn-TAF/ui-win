@@ -40,8 +40,19 @@ namespace Unicorn.UI.Web.Driver
         /// Initializes a new instance of the <see cref="DesktopWebDriver"/> class with specified browser type and maximized window.
         /// </summary>
         /// <param name="browser"></param>
-        public DesktopWebDriver(BrowserType browser) : this(browser, false)
+        public DesktopWebDriver(BrowserType browser) : this(browser, null, false)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DesktopWebDriver"/> class based on existing instance of <see cref="IWebDriver"/>.
+        /// </summary>
+        /// <param name="webDriverInstance">IWebDriver instance</param>
+        public DesktopWebDriver(IWebDriver webDriverInstance)
+        {
+            Driver = webDriverInstance;
+
+            ImplicitlyWait = TimeoutDefault;
         }
 
         private IWebDriver GetInstance()
