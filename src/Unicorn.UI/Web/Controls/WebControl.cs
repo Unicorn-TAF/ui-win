@@ -139,7 +139,7 @@ namespace Unicorn.UI.Web.Controls
         public virtual void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            var actions = new Actions(WebDriver.Driver);
+            var actions = new Actions(WebDriver.Instance.SeleniumDriver);
             actions.MoveToElement(Instance);
             actions.ContextClick();
             actions.Release().Perform();

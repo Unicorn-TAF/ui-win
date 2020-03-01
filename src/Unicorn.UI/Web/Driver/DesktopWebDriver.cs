@@ -17,11 +17,11 @@ namespace Unicorn.UI.Web.Driver
         {
             Browser = browser;
 
-            Driver = driverOptions == null ? GetInstance() : GetInstance(driverOptions);
+            SeleniumDriver = driverOptions == null ? GetInstance() : GetInstance(driverOptions);
 
             if (maximize)
             {
-                Driver.Manage().Window.Maximize();
+                SeleniumDriver.Manage().Window.Maximize();
             }
 
             ImplicitlyWait = TimeoutDefault;
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Web.Driver
         /// <param name="webDriverInstance">IWebDriver instance</param>
         public DesktopWebDriver(IWebDriver webDriverInstance)
         {
-            Driver = webDriverInstance;
+            SeleniumDriver = webDriverInstance;
 
             ImplicitlyWait = TimeoutDefault;
         }

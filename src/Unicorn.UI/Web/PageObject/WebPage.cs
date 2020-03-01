@@ -45,7 +45,7 @@ namespace Unicorn.UI.Web.PageObject
 
                 if (!string.IsNullOrEmpty(Title))
                 {
-                    opened &= WebDriver.Driver.Title.Equals(Title);
+                    opened &= WebDriver.Instance.SeleniumDriver.Title.Equals(Title);
                 }
 
                 return opened;
