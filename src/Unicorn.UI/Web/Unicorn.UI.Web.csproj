@@ -97,6 +97,7 @@
     <Compile Include="Driver\DesktopWebDriver.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
+    <Compile Include="PageObject\Attributes\PageInfoAttribute.cs" />
     <Compile Include="PageObject\WebControlExtension.cs" />
     <Compile Include="PageObject\WebPage.cs" />
     <Compile Include="PageObject\WebSite.cs" />

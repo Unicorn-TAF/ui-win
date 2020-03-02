@@ -1,7 +1,9 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using System.Linq;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Controls;
 using Unicorn.UI.Web.Driver;
+using Unicorn.UI.Web.PageObject.Attributes;
 
 namespace Unicorn.UI.Web.PageObject
 {
@@ -25,11 +27,18 @@ namespace Unicorn.UI.Web.PageObject
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebPage"/> class with specified root search context, empty sub-url and empty title.
+        /// Initializes a new instance of the <see cref="WebPage"/> class with specified root search context.
         /// </summary>
         /// <param name="searchContext">root search context (usually <see cref="OpenQA.Selenium.IWebDriver"/> instance)</param>
-        protected WebPage(OpenQA.Selenium.ISearchContext searchContext) : this(searchContext, string.Empty, string.Empty)
+        protected WebPage(OpenQA.Selenium.ISearchContext searchContext)
         {
+            SearchContext = searchContext;
+            ContainerFactory.InitContainer(this);
+            var relativeUrlAttributes = GetType().GetCustomAttributes(typeof(PageInfoAttribute), true) as PageInfoAttribute[];
+            
+            Url = relativeUrlAttributes.FirstOrDefault()?.RelativeUrl;
+            Title = relativeUrlAttributes.FirstOrDefault()?.Title;
+
         }
 
         /// <summary>
