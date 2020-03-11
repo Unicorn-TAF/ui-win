@@ -8,7 +8,7 @@ namespace Demo.Celestia.Ui.Pages
 {
     public abstract class BasePage : WebPage
     {
-        public BasePage(string subUrl, string title) : base(WebDriver.Driver, subUrl, title)
+        public BasePage(string subUrl, string title) : base(WebDriver.Instance.SeleniumDriver, subUrl, title)
         {
         }
 
