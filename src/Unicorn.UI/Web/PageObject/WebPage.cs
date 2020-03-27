@@ -43,14 +43,20 @@ namespace Unicorn.UI.Web.PageObject
 
         /// <summary>
         /// Gets or sets a value indicating whether the page is opened based on:<para/> 
-        ///  - current opened Url (should end with page url)<para/> 
-        ///  - Page title (if any specified for the page)
+        ///  - current opened Url (should end with page url if any specified for the page)<para/> 
+        ///  - page title (if any specified for the page)<para/> 
+        ///  If url and title were not set, page is considered to be opened.
         /// </summary>
         public bool Opened
         {
             get
             {
-                bool opened = WebDriver.Instance.Url.EndsWith(Url);
+                bool opened = true;
+
+                if (!string.IsNullOrEmpty(Title))
+                {
+                    opened &= WebDriver.Instance.Url.EndsWith(Url);
+                }
 
                 if (!string.IsNullOrEmpty(Title))
                 {
