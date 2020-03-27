@@ -13,6 +13,8 @@ namespace Unicorn.UI.Web.Driver
     {
         private static WebDriver _instance = null;
 
+        private TimeSpan currentImplicitlyWait;
+
         /// <summary>
         /// Gets or sets instance of Web driver.
         /// Initialized with default implicitly wait timeout.
@@ -61,11 +63,12 @@ namespace Unicorn.UI.Web.Driver
         {
             get
             {
-                return SeleniumDriver.Manage().Timeouts().ImplicitWait;
+                return currentImplicitlyWait;
             }
 
             set
             {
+                currentImplicitlyWait = value;
                 SeleniumDriver.Manage().Timeouts().ImplicitWait = value;
             }
         }
