@@ -114,7 +114,14 @@ namespace Unicorn.UI.Web.Driver
         /// Scroll view to specified control position.
         /// </summary>
         /// <param name="control">control instance</param>
-        public void ScrollTo(WebControl control) =>
-            ExecuteJS("window.scrollTo({0}, {1});", control.Location.X, control.Location.Y);
+        public void ScrollTo(WebControl control)
+        {
+            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, "Scroll to " + control);
+
+            IJavaScriptExecutor js = SeleniumDriver as IJavaScriptExecutor;
+            js.ExecuteScript(
+                "arguments[0].scrollIntoView(true); window.scrollTo(0, arguments[0].getBoundingClientRect().top + window.pageYOffset - (window.innerHeight / 2));", 
+                control.Instance);
+        }
     }
 }
