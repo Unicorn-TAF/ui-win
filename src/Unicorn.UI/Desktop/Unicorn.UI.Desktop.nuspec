@@ -20,18 +20,17 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1 and Unicorn.UI.Core 2.1.1. Improved and simplified code of Desktop controls. Added extensions and 'Application' page object.</releaseNotes>
+    <releaseNotes>Support of Unicorn.UI.Core 2.2.0. Extended base controls collection. Implemented base windows complex controls. Implemented base UI actions.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object windows desktop uia2</tags>
     <dependencies>
       <group>
         <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
-        <dependency id="Unicorn.UI.Core" version="2.1.1"/>
+        <dependency id="Unicorn.UI.Core" version="2.2.0"/>
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Desktop.pdb" target="lib\net452"/>
   </files>
 </package>

@@ -35,6 +35,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <param name="itemName">item name to select</param>
         /// <returns>true - if selection was made; false - if specified item was already selected</returns>
         public virtual bool SelectItem(string itemName) =>
-            Find<TreeItem>(ByLocator.Name(itemName)).Select();
+            Find<ListItem>(ByLocator.Name(itemName)).Select();
     }
 }

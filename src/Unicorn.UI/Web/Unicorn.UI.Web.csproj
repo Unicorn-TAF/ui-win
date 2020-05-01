@@ -88,15 +88,20 @@
       <HintPath>..\..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebDriver.Support, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Selenium.Support.3.5.0\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserType.cs" />
+    <Compile Include="Controls\Typified\Dropdown.cs" />
     <Compile Include="Controls\Typified\Radio.cs" />
     <Compile Include="Controls\Typified\Checkbox.cs" />
     <Compile Include="Controls\Typified\TextInput.cs" />
     <Compile Include="Driver\DesktopWebDriver.cs" />
     <Compile Include="Driver\WebDriver.cs" />
     <Compile Include="Driver\WebSearchContext.cs" />
+    <Compile Include="PageObject\Attributes\PageInfoAttribute.cs" />
     <Compile Include="PageObject\WebControlExtension.cs" />
     <Compile Include="PageObject\WebPage.cs" />
     <Compile Include="PageObject\WebSite.cs" />

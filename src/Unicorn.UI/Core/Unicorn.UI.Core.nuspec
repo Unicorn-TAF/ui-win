@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1. Improved UI core code. Added more typified controls interfaces. Added set of common UI controls matchers and common IControl extensions.</releaseNotes>
+    <releaseNotes>Extended UI interfaces. Extended UI matchers collection. Added typified controls locators attributes. Extended UI Synchronization conditions.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation</tags>
     <dependencies>
@@ -31,6 +31,5 @@
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Core.pdb" target="lib\net452"/>
   </files>
 </package>
