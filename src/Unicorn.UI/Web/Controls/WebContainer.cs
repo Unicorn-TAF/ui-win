@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Web.Controls
@@ -52,10 +53,9 @@ namespace Unicorn.UI.Web.Controls
         /// Clicks button with specified name within the container.
         /// </summary>
         /// <param name="locator">button name</param>
-        public virtual void ClickButton(string locator)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void ClickButton(string locator) =>
+            Find<WebControl>(ByLocator.Xpath($".//button[. = {locator}]"))
+            .Click();
 
         /// <summary>
         /// Sets specified text into specified text input within the container.
