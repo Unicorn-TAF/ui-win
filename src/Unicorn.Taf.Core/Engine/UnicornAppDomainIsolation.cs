@@ -11,8 +11,9 @@ namespace Unicorn.Taf.Core.Engine
     [Serializable]
     public sealed class UnicornAppDomainIsolation<T> : IDisposable where T : MarshalByRefObject
     {
-        private readonly string _assemblyDirectory;
+        [NonSerialized]
         private AppDomain _domain;
+        private readonly string _assemblyDirectory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on specified tests assembly directory.

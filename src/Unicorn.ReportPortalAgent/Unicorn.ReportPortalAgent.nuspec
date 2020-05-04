@@ -18,7 +18,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1. Support of EPAM Report Portal libs with TLS 1.2. Minor improvements: added reporting of test suite metadata, ability to report logs of different severity, ReporterInstance from box (just assign new Instance to Reporter.Instance)</releaseNotes>
+    <releaseNotes>Support of Unicorn.Taf.Core 2.2.0. Added ability to set launch specific tags to suites. Added customization of defect type reported for skipped tests. Ability to report more than one test attachment.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation report-portal reporting</tags>
     <dependencies>
@@ -29,12 +29,11 @@
         <dependency id="RestSharp" version="105.2.3"/>
       </group>
       <group>
-        <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
+        <dependency id="Unicorn.Taf.Core" version="2.2.0"/>
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.ReportPortalAgent.pdb" target="lib\net452"/>
   </files>
 </package>
