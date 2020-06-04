@@ -12,6 +12,7 @@ namespace Unicorn.Taf.Core.Verification
     {
         private const string But = "But: ";
         private const string Expected = "Expected: ";
+        private const string DefaultFailMessage = "Assertion failed.";
 
         /// <summary>
         /// Perform assertion on object of any type using matcher 
@@ -47,7 +48,7 @@ namespace Unicorn.Taf.Core.Verification
         /// </summary>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
-        public static void That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, string.Empty);
+        public static void That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, DefaultFailMessage);
 
         /// <summary>
         /// Perform assertion on object of any type using type specific matcher 
@@ -86,7 +87,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        public static void That<T>(T actual, TypeSafeMatcher<T> matcher) => That(actual, matcher, string.Empty);
+        public static void That<T>(T actual, TypeSafeMatcher<T> matcher) => That(actual, matcher, DefaultFailMessage);
 
         /// <summary>
         /// Perform assertion on collection of objects of same type using matcher 
@@ -125,6 +126,6 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That(actual, matcher, string.Empty);
+        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That(actual, matcher, DefaultFailMessage);
     }
 }
