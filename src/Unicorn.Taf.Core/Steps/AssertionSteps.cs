@@ -95,7 +95,7 @@ namespace Unicorn.Taf.Core.Steps
         [Step("{0}")]
         public AssertionSteps StartAssertionsChain(string description)
         {
-            _chaninAssert = new ChainAssert();
+            _chaninAssert = new ChainAssert(description);
             return this;
         }
 
