@@ -50,11 +50,11 @@ namespace Unicorn.UI.Web.Controls
         }
 
         /// <summary>
-        /// Clicks button with specified name within the container.
+        /// Clicks button with specified text within the container.
         /// </summary>
-        /// <param name="locator">button name</param>
+        /// <param name="locator">button text</param>
         public virtual void ClickButton(string locator) =>
-            Find<WebControl>(ByLocator.Xpath($".//button[. = {locator}]"))
+            Find<WebControl>(ByLocator.Xpath($".//button[. = '{locator}']"))
             .Click();
 
         /// <summary>
