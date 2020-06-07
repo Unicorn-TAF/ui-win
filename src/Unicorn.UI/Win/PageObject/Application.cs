@@ -64,7 +64,7 @@ namespace Unicorn.UI.Win.PageObject
             Logger.Instance.Log(LogLevel.Debug, $"Close {ExeName} application");
             try
             {
-                new Window(WinDriver.Driver.ElementFromHandle(Process.MainWindowHandle)).Close();
+                new Window(WinDriver.Instance.Driver.ElementFromHandle(Process.MainWindowHandle)).Close();
             }
             catch (Exception ex)
             {

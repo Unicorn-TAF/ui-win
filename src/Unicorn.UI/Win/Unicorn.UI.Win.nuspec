@@ -29,8 +29,14 @@
         <dependency id="Unicorn.UI.Core" version="2.2.0"/>
       </group>
     </dependencies>
+    <references>
+      <reference file="Interop.UIAutomationClient.dll" />
+      <reference file="Unicorn.UI.Win.dll" />
+    </references>
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
+    <file src="lib\Interop.UIAutomationClient.dll" target="lib\net452"/>
+    <file src="tools\install.ps1" target="tools" />
   </files>
 </package>
