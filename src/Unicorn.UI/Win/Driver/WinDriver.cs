@@ -22,9 +22,9 @@ namespace Unicorn.UI.Win.Driver
             {
                 if (_instance == null)
                 {
-                    Driver = new CUIAutomation();
                     _instance = new WinDriver();
-                    _instance.SearchContext = Driver.GetRootElement();
+                    _instance.Driver = new CUIAutomation();
+                    _instance.SearchContext = _instance.Driver.GetRootElement();
                     _instance.ImplicitlyWait = _instance.TimeoutDefault;
                     Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
                 }
@@ -36,7 +36,7 @@ namespace Unicorn.UI.Win.Driver
         /// <summary>
         /// UI Automation driver instance.
         /// </summary>
-        public static CUIAutomation Driver { get; set; }
+        public CUIAutomation Driver { get; set; }
 
         /// <summary>
         /// Gets or sets implicit timeout of waiting for specified element to be existed in elements tree.
