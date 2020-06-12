@@ -4,6 +4,7 @@ using OpenQA.Selenium.Appium;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Unicorn.UI.Mobile.Android.Controls
@@ -35,6 +36,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
             set
             {
                 SearchContext = value;
+                ContainerFactory.InitContainer(this);
             }
         }
 
