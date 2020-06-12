@@ -3,7 +3,7 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Web.Controls;
 using Unicorn.UI.Web.Driver;
 
-namespace Unicorn.UI.Desktop.PageObject
+namespace Unicorn.UI.Web.PageObject
 {
     /// <summary>
     /// Extension for <see cref="WebControl"/>
