@@ -28,29 +28,6 @@ namespace Unicorn.UI.Win.Controls
         }
 
         /// <summary>
-        /// Gets or sets control wrapped instance as <see cref="IUIAutomationElement"/> which is also current search context.
-        /// When search context was set this container is initialized by <see cref="ContainerFactory"/>
-        /// </summary>
-        public override IUIAutomationElement Instance
-        {
-            get
-            {
-                if (!Cached)
-                {
-                    SearchContext = GetNativeControlFromParentContext(Locator, GetType());
-                }
-
-                return SearchContext;
-            }
-
-            set
-            {
-                SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
-        }
-
-        /// <summary>
         /// Clicks button with specified name within the container.
         /// </summary>
         /// <param name="locator">button name</param>

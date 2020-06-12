@@ -14,25 +14,6 @@ namespace Unicorn.UI.Mobile.Android.Controls
         {
         }
 
-        public override AppiumWebElement Instance
-        {
-            get
-            {
-                if (!Cached)
-                {
-                    SearchContext = GetNativeControlFromParentContext(Locator);
-                }
-
-                return SearchContext;
-            }
-
-            set
-            {
-                SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
-        }
-
         public void ClickButton(string locator)
         {
             throw new NotImplementedException();
