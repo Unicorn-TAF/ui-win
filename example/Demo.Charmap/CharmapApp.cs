@@ -1,7 +1,7 @@
 ﻿using Demo.Charmap.Gui;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
-using Unicorn.UI.Desktop.PageObject;
+using Unicorn.UI.Win.PageObject;
 
 namespace Demo.Charmap
 {
