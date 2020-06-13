@@ -84,6 +84,11 @@
     <Reference Include="AspectInjector.Broker">
       <HintPath>..\packages\AspectInjector.0.9.44\lib\AspectInjector.Broker.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\Unicorn.UI\Win\lib\Interop.UIAutomationClient.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.Engine.3.5.0\lib\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
@@ -122,8 +127,9 @@
     <Compile Include="BO\SampleObject.cs" />
     <Compile Include="Gui\Desktop\CharmapApplication.cs" />
     <Compile Include="Gui\Desktop\WindowCharMap.cs" />
-    <Compile Include="Gui\Win\WinCharmapApplication.cs" />
-    <Compile Include="Gui\Win\WinWindowCharMap.cs" />
+    <Compile Include="Gui\Win\CopyButtonWithDefaultLocator.cs" />
+    <Compile Include="Gui\Win\CharmapApplication.cs" />
+    <Compile Include="Gui\Win\WindowCharMap.cs" />
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\UBaseTestSuite.cs" />
@@ -141,12 +147,13 @@
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\Assertions.cs" />
     <Compile Include="UnitTests\CollectionMatchers.cs" />
-    <Compile Include="UnitTests\GuiControls.cs" />
+    <Compile Include="UnitTests\UI\GuiControls.cs" />
+    <Compile Include="UnitTests\UI\WinPageObject.cs" />
     <Compile Include="UnitTests\Matchers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTests.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuite.cs" />
-    <Compile Include="UnitTests\GuiPageObject.cs" />
+    <Compile Include="UnitTests\UI\GuiPageObject.cs" />
     <Compile Include="UnitTests\Testing\TestsOrderingAndTargeting.cs" />
     <Compile Include="UnitTests\Testing\TestsDependency.cs" />
     <Compile Include="UnitTests\Testing\TestsObserver.cs" />
