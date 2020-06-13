@@ -6,7 +6,7 @@ namespace Unicorn.UI.Core.PageObject
     /// <summary>
     /// Provides with ability to specify search condition for UI control PageObject
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = false)]
     public class FindAttribute : Attribute
     {
         /// <summary>

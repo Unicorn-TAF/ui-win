@@ -5,7 +5,7 @@ using Unicorn.UI.Desktop.Driver;
 using Unicorn.UnitTests.Gui;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
     public class GuiPageObject : NUnitTestRunner

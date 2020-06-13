@@ -2,10 +2,12 @@
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls.Typified;
 
-namespace Unicorn.UnitTests.Gui
+namespace Unicorn.UnitTests.Gui.Win
 {
-    public class WinWindowCharMap : Window
+    public class WindowCharMap : Window
     {
+        private CopyButtonWithDefaultLocator buttonCopyDefaultLocator;
+
         [Find(Using.Name, "Help")]
         public Button ButtonHelp { get; set; }
 
@@ -23,6 +25,10 @@ namespace Unicorn.UnitTests.Gui
 
         [Find(Using.Name, "Advanced view")]
         public Checkbox CheckboxAdvancedView { get; set; }
+
+        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocator { get; set; }
+
+        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocatorGetter => buttonCopyDefaultLocator;
 
         #region "Advanced view"
 
