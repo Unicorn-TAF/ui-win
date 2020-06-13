@@ -113,8 +113,15 @@ namespace Unicorn.UI.Desktop.Controls
         /// <summary>
         /// Gets control bounding rectangle as <see cref="System.Drawing.Rectangle"/>
         /// </summary>
-        public System.Drawing.Rectangle BoundingRectangle =>
-            (System.Drawing.Rectangle)Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+        public System.Drawing.Rectangle BoundingRectangle
+        {
+            get
+            {
+                var rect = Instance.Current.BoundingRectangle;
+                return new System.Drawing.Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+            }
+        }
+            
 
         /// <summary>
         /// Gets or sets control search context. 
