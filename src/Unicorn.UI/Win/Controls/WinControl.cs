@@ -4,6 +4,7 @@ using UIAutomationClient;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.UserInput;
 using Unicorn.UI.Win.Driver;
 
@@ -69,6 +70,7 @@ namespace Unicorn.UI.Win.Controls
             set
             {
                 SearchContext = value;
+                ContainerFactory.InitContainer(this);
             }
         }
 
@@ -114,8 +116,14 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets control bounding rectangle as <see cref="System.Drawing.Rectangle"/>
         /// </summary>
-        public System.Drawing.Rectangle BoundingRectangle =>
-            (System.Drawing.Rectangle)Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_BoundingRectanglePropertyId);
+        public System.Drawing.Rectangle BoundingRectangle
+        {
+            get
+            {
+                var rect = Instance.CurrentBoundingRectangle;
+                return new System.Drawing.Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+            }
+        }
 
         /// <summary>
         /// Gets or sets control search context. 
