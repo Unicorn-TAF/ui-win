@@ -210,7 +210,7 @@ namespace Unicorn.UI.Win.Controls
         /// <returns>parent of the control as <see cref="IUIAutomationElement"/></returns>
         public IUIAutomationElement GetParent()
         {
-            var treeWalker = WinDriver.Driver.CreateTreeWalker(WinDriver.Driver.ControlViewCondition);
+            var treeWalker = WinDriver.Instance.Driver.CreateTreeWalker(WinDriver.Instance.Driver.ControlViewCondition);
             return treeWalker.GetParentElement(Instance);
         }
 

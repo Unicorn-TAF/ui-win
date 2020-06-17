@@ -46,7 +46,7 @@ namespace Demo.Tests.Desktop
         public void TestAbilityToSelectChars()
         {
             Do.UI.CharMap.SelectCurrentSymbol();
-            Do.Assertion.AssertThat(Charmap.Window.InputCharactersToCopy, Is.Not(Control.HasAttribute("text").IsEqualTo("")));
+            Do.Assertion.AssertThat(Charmap.Window.InputCharactersToCopy, Is.Not(Control.HasText(string.Empty)));
         }
 
         [AfterTest]

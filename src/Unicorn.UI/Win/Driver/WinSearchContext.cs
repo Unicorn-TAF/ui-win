@@ -73,11 +73,11 @@ namespace Unicorn.UI.Win.Driver
         {
             WinControl instance = (WinControl)Activator.CreateInstance(typeof(T));
 
-            var condition = WinDriver.Driver.CreateAndCondition(
-               WinDriver.Driver.ControlViewCondition,
+            var condition = WinDriver.Instance.Driver.CreateAndCondition(
+               WinDriver.Instance.Driver.ControlViewCondition,
                GetControlTypeCondition(instance.UiaType));
 
-            var walker = WinDriver.Driver.CreateTreeWalker(condition);
+            var walker = WinDriver.Instance.Driver.CreateTreeWalker(condition);
             var elementToWrap = walker.GetFirstChildElement(SearchContext);
 
             if (elementToWrap == null)
@@ -150,13 +150,13 @@ namespace Unicorn.UI.Win.Driver
         private IUIAutomationCondition GetClassNameCondition(string className)
         {
             return !string.IsNullOrEmpty(className) ? 
-                WinDriver.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ClassNamePropertyId, className) : 
-                WinDriver.Driver.CreateTrueCondition();
+                WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ClassNamePropertyId, className) : 
+                WinDriver.Instance.Driver.CreateTrueCondition();
         }
 
         private IUIAutomationCondition GetControlTypeCondition(int type)
         {
-            return WinDriver.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ControlTypePropertyId, type);
+            return WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ControlTypePropertyId, type);
         }
 
         private IUIAutomationCondition GetNativeLocator(ByLocator locator, Type controlType)
@@ -166,13 +166,13 @@ namespace Unicorn.UI.Win.Driver
             switch (locator.How)
             {
                 case Using.Id:
-                    locatorCondition = WinDriver.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_AutomationIdPropertyId, locator.Locator);
+                    locatorCondition = WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_AutomationIdPropertyId, locator.Locator);
                     break;
                 case Using.Class:
-                    locatorCondition = WinDriver.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ClassNamePropertyId, locator.Locator);
+                    locatorCondition = WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ClassNamePropertyId, locator.Locator);
                     break;
                 case Using.Name:
-                    locatorCondition = WinDriver.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_NamePropertyId, locator.Locator);
+                    locatorCondition = WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_NamePropertyId, locator.Locator);
                     break;
                 default:
                     throw new ArgumentException($"Incorrect locator type specified: {locator.How}");
@@ -183,8 +183,8 @@ namespace Unicorn.UI.Win.Driver
             IUIAutomationCondition classCondition = GetClassNameCondition(instance.ClassName);
             IUIAutomationCondition typeCondition = GetControlTypeCondition(instance.UiaType);
 
-            var baseAndCondition = WinDriver.Driver.CreateAndCondition(classCondition, typeCondition);
-            return WinDriver.Driver.CreateAndCondition(baseAndCondition, locatorCondition);
+            var baseAndCondition = WinDriver.Instance.Driver.CreateAndCondition(classCondition, typeCondition);
+            return WinDriver.Instance.Driver.CreateAndCondition(baseAndCondition, locatorCondition);
         }
 
         private T Wrap<T>(IUIAutomationElement elementToWrap, ByLocator locator)
