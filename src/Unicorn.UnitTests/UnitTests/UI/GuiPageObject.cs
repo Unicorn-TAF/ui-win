@@ -3,9 +3,10 @@ using NUnit.Framework;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Desktop.Driver;
 using Unicorn.UnitTests.Gui;
+using Unicorn.UnitTests.Gui.Desktop;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
     public class GuiPageObject : NUnitTestRunner
@@ -88,5 +89,15 @@ namespace Unicorn.UnitTests.Tests
                 GuiDriver.Instance.ImplicitlyWait = originalWait;
             }
         }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check private control field with default locator")]
+        public void TestPrivateControlFieldWithDefaultLocator() =>
+            Assert.IsTrue(charmap.Window.ButtonCopyDefaultLocatorGetter.Visible);
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check public control property with default locator")]
+        public void TestPublicControlPropertyWithDefaultLocator() =>
+            Assert.IsTrue(charmap.Window.ButtonCopyDefaultLocator.Visible);
     }
 }
