@@ -27,29 +27,6 @@ namespace Unicorn.UI.Web.Controls
         }
 
         /// <summary>
-        /// Gets or sets control wrapped instance as <see cref="IWebElement"/> which is also current search context.
-        /// When search context was set this container is initialized by <see cref="ContainerFactory"/>
-        /// </summary>
-        public override IWebElement Instance
-        {
-            get
-            {
-                if (!Cached)
-                {
-                    SearchContext = GetNativeControlFromParentContext(Locator);
-                }
-
-                return (IWebElement)SearchContext;
-            }
-
-            set
-            {
-                SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
-        }
-
-        /// <summary>
         /// Clicks button with specified text within the container.
         /// </summary>
         /// <param name="locator">button text</param>

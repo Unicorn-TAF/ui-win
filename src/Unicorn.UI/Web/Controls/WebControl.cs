@@ -3,6 +3,7 @@ using OpenQA.Selenium.Interactions;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.Controls
@@ -57,6 +58,7 @@ namespace Unicorn.UI.Web.Controls
             set
             {
                 SearchContext = value;
+                ContainerFactory.InitContainer(this);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Unicorn.UI.Core.Controls;
 
@@ -9,6 +10,9 @@ namespace Unicorn.UI.Core.PageObject
     /// </summary>
     public static class ContainerFactory
     {
+        private const string ParentContext = "ParentSearchContext";
+        private static Type iControlType = typeof(IControl);
+
         /// <summary>
         /// Initialize container with child controls.
         /// </summary>
@@ -23,7 +27,8 @@ namespace Unicorn.UI.Core.PageObject
         private static void InitContainerProperties<T>(T container)
         {
             var properties = container.GetType()
-                .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .Where(p => p.PropertyType.GetInterfaces().Contains(iControlType));
 
             foreach (var property in properties)
             {
@@ -33,23 +38,22 @@ namespace Unicorn.UI.Core.PageObject
                 {
                     Type controlType = property.PropertyType;
                     var control = Activator.CreateInstance(controlType);
-                    ((IControl)control).Locator = findAttribute.Locator;
-                    ((IControl)control).Cached = false;
+                    
+                    var iControl = ((IControl)control);
+                    iControl.Locator = findAttribute.Locator;
+                    iControl.Cached = false;
 
-                    var contextField = control.GetType().GetProperty("ParentSearchContext", BindingFlags.Public | BindingFlags.Instance);
+                    var contextField = control.GetType().GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
                     contextField.SetValue(control, container);
 
                     var nameAttribute = property.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
 
                     if (nameAttribute != null)
                     {
-                        ((IControl)control).Name = nameAttribute.Name;
+                        iControl.Name = nameAttribute.Name;
                     }
 
-                    if (control is IContainer)
-                    {
-                        InitContainer(control);
-                    }
+                    InitContainer(control);
 
                     property.SetValue(container, control);
                 }
@@ -59,7 +63,8 @@ namespace Unicorn.UI.Core.PageObject
         private static void InitContainerFields<T>(T container)
         {
             var fields = container.GetType()
-                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .Where(p => p.FieldType.GetInterfaces().Contains(iControlType));
 
             foreach (var field in fields)
             {
@@ -69,23 +74,22 @@ namespace Unicorn.UI.Core.PageObject
                 {
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
-                    ((IControl)control).Locator = findAttribute.Locator;
-                    ((IControl)control).Cached = false;
 
-                    var contextField = control.GetType().GetProperty("ParentSearchContext", BindingFlags.Public | BindingFlags.Instance);
+                    var iControl = ((IControl)control);
+                    iControl.Locator = findAttribute.Locator;
+                    iControl.Cached = false;
+
+                    var contextField = control.GetType().GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
                     contextField.SetValue(control, container);
 
                     var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
 
                     if (nameAttribute != null)
                     {
-                        ((IControl)control).Name = nameAttribute.Name;
+                        iControl.Name = nameAttribute.Name;
                     }
 
-                    if (control is IContainer)
-                    {
-                        InitContainer(control);
-                    }
+                    InitContainer(control);
 
                     field.SetValue(container, control);
                 }
