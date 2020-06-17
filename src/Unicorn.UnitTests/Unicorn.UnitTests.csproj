@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
     <Compile Include="Gui\Desktop\CharmapApplication.cs" />
+    <Compile Include="Gui\Desktop\CopyButtonWithDefaultLocator.cs" />
     <Compile Include="Gui\Desktop\WindowCharMap.cs" />
     <Compile Include="Gui\Win\CopyButtonWithDefaultLocator.cs" />
     <Compile Include="Gui\Win\CharmapApplication.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\Assertions.cs" />
     <Compile Include="UnitTests\CollectionMatchers.cs" />
+    <Compile Include="UnitTests\UI\WinControls.cs" />
     <Compile Include="UnitTests\UI\GuiControls.cs" />
     <Compile Include="UnitTests\UI\WinPageObject.cs" />
     <Compile Include="UnitTests\Matchers.cs" />
