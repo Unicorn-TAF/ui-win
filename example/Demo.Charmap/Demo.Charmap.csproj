@@ -37,6 +37,10 @@
       <HintPath>..\packages\AspectInjector.1.0.2\lib\net45\AspectInjector.Broker.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Win.2.2.0\lib\net452\Interop.UIAutomationClient.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,8 +55,8 @@
     <Reference Include="Unicorn.UI.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.UI.Core.2.2.0\lib\net452\Unicorn.UI.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Desktop, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Desktop.2.2.0\lib\net452\Unicorn.UI.Desktop.dll</HintPath>
+    <Reference Include="Unicorn.UI.Win, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Win.2.2.0\lib\net452\Unicorn.UI.Win.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

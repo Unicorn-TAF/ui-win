@@ -79,7 +79,7 @@
     <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>Lib\Interop.UIAutomationClient.dll</HintPath>
+      <HintPath>lib\Interop.UIAutomationClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="tools\install.ps1" />
     <None Include="Unicorn.UI.Win.nuspec" />
   </ItemGroup>
   <ItemGroup>
@@ -146,14 +147,8 @@
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lib\Interop.UIAutomationClient.dll" />
+    <None Include="lib\Interop.UIAutomationClient.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
