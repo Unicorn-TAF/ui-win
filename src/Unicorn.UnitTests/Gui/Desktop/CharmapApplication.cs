@@ -2,7 +2,7 @@
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Desktop.PageObject;
 
-namespace Unicorn.UnitTests.Gui
+namespace Unicorn.UnitTests.Gui.Desktop
 {
     public class CharmapApplication : Application
     {

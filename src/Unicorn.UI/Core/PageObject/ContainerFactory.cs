@@ -11,7 +11,7 @@ namespace Unicorn.UI.Core.PageObject
     public static class ContainerFactory
     {
         private const string ParentContext = "ParentSearchContext";
-        private static Type iControlType = typeof(IControl);
+        private static readonly Type _iControlType = typeof(IControl);
 
         /// <summary>
         /// Initialize container with child controls.
@@ -28,11 +28,16 @@ namespace Unicorn.UI.Core.PageObject
         {
             var properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.PropertyType.GetInterfaces().Contains(iControlType));
+                .Where(p => p.PropertyType.GetInterfaces().Contains(_iControlType) && p.CanWrite);
 
             foreach (var property in properties)
             {
                 var findAttribute = property.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+
+                if (findAttribute == null)
+                {
+                    findAttribute = property.PropertyType.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                }
 
                 if (findAttribute != null)
                 {
@@ -64,11 +69,16 @@ namespace Unicorn.UI.Core.PageObject
         {
             var fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.FieldType.GetInterfaces().Contains(iControlType));
+                .Where(p => p.FieldType.GetInterfaces().Contains(_iControlType));
 
             foreach (var field in fields)
             {
                 var findAttribute = field.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+
+                if (findAttribute == null)
+                {
+                    findAttribute = field.FieldType.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                }
 
                 if (findAttribute != null)
                 {
