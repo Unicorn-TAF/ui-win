@@ -39,12 +39,33 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            var result = _expectedObjects.Count() == actual.Count();
-            result &= actual.Intersect(_expectedObjects).Count() == _expectedObjects.Count();
+            var counts = _expectedObjects
+                .GroupBy(v => v)
+                .ToDictionary(g => g.Key, g => g.Count());
+            var ok = true;
 
-            DescribeMismatch(DescribeCollection(actual));
+            foreach (var n in actual)
+            {
+                int c;
+                if (counts.TryGetValue(n, out c))
+                {
+                    counts[n] = c - 1;
+                }
+                else
+                {
+                    ok = false;
+                    break;
+                }
+            }
 
-            return result;
+            var areEqual = ok && counts.Values.All(c => c == 0);
+
+            if (areEqual == Reverse)
+            {
+                DescribeMismatch(DescribeCollection(actual));
+            }
+
+            return areEqual;
         }
     }
 }
