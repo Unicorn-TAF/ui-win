@@ -342,6 +342,21 @@ namespace Unicorn.UnitTests.Tests
                 Uv.Assert.That(null, Um.Is.Not(Collection.IsTheSameAs(hasItemsB)));
             });
 
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesPositive1() =>
+            Uv.Assert.That(new int[] { 1, 1, 2 }, Collection.IsTheSameAs(new int[] { 1, 2, 1 }));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesReversePositive1() =>
+            Uv.Assert.That(new int[] { 1, 1, 2 }, Um.Is.Not(Collection.IsTheSameAs(new int[] { 1, 2, 2 })));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(new int[] { 1, 1, 2 }, Collection.IsTheSameAs(new int[] { 1, 2, 2 }));
+            });
+
         #endregion
 
     }
