@@ -52,7 +52,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 {
                     var items = selection.GetCurrentSelection();
 
-                    if (items.Length > 1)
+                    if (items.Length > 0)
                     {
                         return items.GetElement(0)
                             .GetCurrentPropertyValue(UIA_PropertyIds.UIA_NamePropertyId) as string;
