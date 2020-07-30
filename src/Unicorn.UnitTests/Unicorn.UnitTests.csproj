@@ -148,6 +148,7 @@
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\Assertions.cs" />
     <Compile Include="UnitTests\CollectionMatchers.cs" />
+    <Compile Include="UnitTests\UI\WinWindowsBaseControls.cs" />
     <Compile Include="UnitTests\UI\WinControls.cs" />
     <Compile Include="UnitTests\UI\GuiControls.cs" />
     <Compile Include="UnitTests\UI\WinPageObject.cs" />

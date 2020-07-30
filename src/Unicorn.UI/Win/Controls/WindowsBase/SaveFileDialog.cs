@@ -1,4 +1,6 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using System;
+using Unicorn.Taf.Core.Utility.Synchronization;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
@@ -44,7 +46,8 @@ namespace Unicorn.UI.Win.Controls.WindowsBase
             FileNameInput.SetValue(fileName);
 
             SaveButton.Click();
-            WaitForClosed();
+
+            WaitForDialogClosing();
         }
 
         /// <summary>
@@ -58,7 +61,17 @@ namespace Unicorn.UI.Win.Controls.WindowsBase
             FileNameInput.SetValue(fileName);
 
             SaveButton.Click();
-            WaitForClosed();
+
+            WaitForDialogClosing();
         }
+
+        private void WaitForDialogClosing() =>
+            new DefaultWait
+            {
+                Timeout = TimeSpan.FromSeconds(5),
+                PollingInterval = TimeSpan.FromMilliseconds(250),
+                ErrorMessage = "Failed to wait for window is closed!"
+            }
+            .Until(() => !WinDriver.Instance.TryGetChild<SaveFileDialog>(Locator, 0));
     }
 }
