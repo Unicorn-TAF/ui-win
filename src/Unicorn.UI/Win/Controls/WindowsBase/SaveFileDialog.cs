@@ -72,6 +72,6 @@ namespace Unicorn.UI.Win.Controls.WindowsBase
                 PollingInterval = TimeSpan.FromMilliseconds(250),
                 ErrorMessage = "Failed to wait for window is closed!"
             }
-            .Until(() => !WinDriver.Instance.TryGetChild<SaveFileDialog>(Locator, 0));
+            .Until(() => string.IsNullOrEmpty(Instance.CurrentName));
     }
 }
