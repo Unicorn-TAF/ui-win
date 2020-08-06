@@ -16,10 +16,10 @@ namespace Unicorn.ReportPortalAgent
     /// </summary>
     public partial class ReportPortalListener
     {
-        private static Dictionary<Status, ReportPortal.Client.Models.Status> _statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
+        private static readonly Dictionary<Status, ReportPortal.Client.Models.Status> _statusMap = new Dictionary<Status, ReportPortal.Client.Models.Status>();
 
-        private Dictionary<Guid, ITestReporter> _suitesFlow = new Dictionary<Guid, ITestReporter>();
-        private Dictionary<Guid, ITestReporter> _testFlowIds = new Dictionary<Guid, ITestReporter>();
+        private readonly Dictionary<Guid, ITestReporter> _suitesFlow = new Dictionary<Guid, ITestReporter>();
+        private readonly Dictionary<Guid, ITestReporter> _testFlowIds = new Dictionary<Guid, ITestReporter>();
         private string[] _commonSuitesTags = null;
 
         static ReportPortalListener()

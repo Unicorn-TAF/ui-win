@@ -12,12 +12,6 @@ namespace Unicorn.UI.Core.UserInput
     /// </summary>
     public class Keyboard
     {
-        /// <summary>
-        /// Use Window.Keyboard method to get handle to the Keyboard. Keyboard instance got using this method would not wait while the application
-        /// is busy.
-        /// </summary>
-        private static Keyboard _instance;
-
         private readonly List<SpecialKeys> _scanCodeDependent = 
             new List<SpecialKeys>
             {
@@ -41,7 +35,7 @@ namespace Unicorn.UI.Core.UserInput
         /// <summary>
         /// Initializes a new instance of the <see cref="Keyboard"/> class.
         /// </summary>
-        protected Keyboard()
+        private Keyboard()
         {
         }
 
@@ -96,19 +90,10 @@ namespace Unicorn.UI.Core.UserInput
 
         /// <summary>
         /// Gets keyboard instance.
+        /// Use Window.Keyboard method to get handle to the Keyboard. Keyboard instance got using this method would not wait while the application
+        /// is busy.
         /// </summary>
-        public static Keyboard Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new Keyboard();
-                }
-
-                return _instance;
-            }
-        }
+        public static Keyboard Instance = new Keyboard();
 
         /// <summary>
         /// Gets or sets a value indicating whether Caps Lock mode is ON

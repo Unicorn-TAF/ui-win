@@ -6,9 +6,9 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
     [StructLayout(LayoutKind.Sequential)]
     internal struct HardwareInput
     {
-        private int msg;
-        private short paramL;
-        private short paramH;
+        private readonly int _msg;
+        private readonly short _paramL;
+        private readonly short _paramH;
     }
 }
 #pragma warning restore S1144 // Unused private types or members should be removed
