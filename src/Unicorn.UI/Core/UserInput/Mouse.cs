@@ -12,33 +12,21 @@ namespace Unicorn.UI.Core.UserInput
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
-        private static Mouse _instance = null;
         private readonly short _doubleClickTime = GetDoubleClickTime();
-        private DateTime _lastClickTime = DateTime.Now;
-        private Point _lastClickLocation;
+        private DateTime lastClickTime = DateTime.Now;
+        private Point lastClickLocation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mouse"/> class.
         /// </summary>
-        protected Mouse()
+        private Mouse()
         {
         }
 
         /// <summary>
         /// Gets mouse instance.
         /// </summary>
-        public static Mouse Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new Mouse();
-                }
-
-                return _instance;
-            }
-        }
+        public static Mouse Instance = new Mouse();
 
         /// <summary>
         /// Gets or sets mouse current location as <see cref="Point"/>.
@@ -84,9 +72,9 @@ namespace Unicorn.UI.Core.UserInput
         public void Click()
         {
             Point clickLocation = Location;
-            if (_lastClickLocation.Equals(clickLocation))
+            if (lastClickLocation.Equals(clickLocation))
             {
-                int timeout = _doubleClickTime - DateTime.Now.Subtract(_lastClickTime).Milliseconds;
+                int timeout = _doubleClickTime - DateTime.Now.Subtract(lastClickTime).Milliseconds;
                 if (timeout > 0)
                 {
                     Thread.Sleep(timeout + ExtraMillisecondsBecauseOfBugInWindows);
@@ -94,8 +82,8 @@ namespace Unicorn.UI.Core.UserInput
             }
 
             MouseLeftButtonUpAndDown();
-            _lastClickTime = DateTime.Now;
-            _lastClickLocation = Location;
+            lastClickTime = DateTime.Now;
+            lastClickLocation = Location;
         }
 
         /// <summary>
@@ -167,7 +155,6 @@ namespace Unicorn.UI.Core.UserInput
 
         private bool PointIsInvalid(Point p) =>
             double.IsNaN(p.X) || double.IsNaN(p.Y) ||
-            p.X == double.PositiveInfinity || p.X == double.NegativeInfinity ||
-            p.Y == double.PositiveInfinity || p.Y == double.NegativeInfinity;
+            double.IsInfinity(p.X) || double.IsInfinity(p.Y);
     }
 }

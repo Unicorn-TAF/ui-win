@@ -10,28 +10,22 @@ namespace Unicorn.UI.Win.Driver
     /// </summary>
     public class WinDriver : WinSearchContext, IDriver
     {
-        private static WinDriver _instance = null;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WinDriver"/> with default implicit timeout.
+        /// </summary>
+        private WinDriver()
+        {
+            Driver = new CUIAutomation();
+            SearchContext = Driver.GetRootElement();
+            ImplicitlyWait = TimeoutDefault;
+            Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
+        }
 
         /// <summary>
         /// Gets instance of Windows driver.
         /// Initialized with default implicitly wait timeout.
         /// </summary>
-        public static WinDriver Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new WinDriver();
-                    _instance.Driver = new CUIAutomation();
-                    _instance.SearchContext = _instance.Driver.GetRootElement();
-                    _instance.ImplicitlyWait = _instance.TimeoutDefault;
-                    Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
-                }
-
-                return _instance;
-            }
-        }
+        public static WinDriver Instance { get; } = new WinDriver();
 
         /// <summary>
         /// UI Automation driver instance.
