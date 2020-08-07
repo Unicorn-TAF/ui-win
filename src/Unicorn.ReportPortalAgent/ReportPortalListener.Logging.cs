@@ -9,7 +9,7 @@ namespace Unicorn.ReportPortalAgent
     /// </summary>
     public partial class ReportPortalListener
     {
-        internal void AddAttachment(Guid id, LogLevel level, string text, string attachmentName, string mime, byte[] content)
+        private void AddAttachment(Guid id, LogLevel level, string text, string attachmentName, string mime, byte[] content)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        internal void AddLog(Guid id, LogLevel level, string text)
+        private void AddLog(Guid id, LogLevel level, string text)
         {
             try
             {

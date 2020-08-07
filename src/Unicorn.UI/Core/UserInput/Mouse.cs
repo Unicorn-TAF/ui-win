@@ -129,7 +129,7 @@ namespace Unicorn.UI.Core.UserInput
         public void LeftButtonUp() =>
             SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, NativeMethods.GetMessageExtraInfo())));
 
-        internal int SendInput(Input input) =>
+        private int SendInput(Input input) =>
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         private void MouseLeftButtonUpAndDown()

@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// methods for launch initialization and finalization.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class TestAssemblyAttribute : Attribute
+    public sealed class TestAssemblyAttribute : Attribute
     {
     }
 }

@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to mark specified suite classes as parameterized.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ParameterizedAttribute : Attribute
+    public sealed class ParameterizedAttribute : Attribute
     {
     }
 }

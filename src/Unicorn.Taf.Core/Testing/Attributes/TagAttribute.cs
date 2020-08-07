@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to add tags to test suites.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class TagAttribute : Attribute
+    public sealed class TagAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagAttribute"/> class with specified tag name.

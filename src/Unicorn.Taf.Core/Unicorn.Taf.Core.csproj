@@ -87,7 +87,7 @@
     <Compile Include="Testing\Attributes\ParameterizedAttribute.cs" />
     <Compile Include="Testing\Attributes\RunFinalyzeAttribute.cs" />
     <Compile Include="Testing\Attributes\RunInitializeAttribute.cs" />
-    <Compile Include="Testing\Attributes\SuiteMetadataAttribute.cs" />
+    <Compile Include="Testing\Attributes\MetadataAttribute.cs" />
     <Compile Include="Testing\Attributes\TestDataAttribute.cs" />
     <Compile Include="Testing\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Verification\Assert.cs" />

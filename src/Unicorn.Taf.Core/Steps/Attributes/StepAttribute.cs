@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Steps.Attributes
     /// Used to mark specific method within class as test step to use framework test step feature and additional capabilities.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class StepAttribute : Attribute
+    public sealed class StepAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StepAttribute"/> class with specific title.
