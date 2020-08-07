@@ -4,7 +4,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Driver
 {
-    public abstract class UISearchContext<U> : ISearchContext where U : UISearchContext<U>
+    public abstract class BaseSearchContext<U> : ISearchContext where U : BaseSearchContext<U>
     {
         public U ParentSearchContext { get; set; }
 

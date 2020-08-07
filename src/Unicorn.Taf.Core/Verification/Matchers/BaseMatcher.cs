@@ -5,12 +5,12 @@ namespace Unicorn.Taf.Core.Verification.Matchers
     /// <summary>
     /// Provides implementation of abstract self-describing check.
     /// </summary>
-    public abstract class AbstractMatcher
+    public abstract class BaseMatcher
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractMatcher"/> class.
+        /// Initializes a new instance of the <see cref="BaseMatcher"/> class.
         /// </summary>
-        protected AbstractMatcher()
+        protected BaseMatcher()
         {
             Output = new StringBuilder();
         }

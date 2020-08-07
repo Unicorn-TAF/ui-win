@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
     /// Base matcher for type specific collection matchers realizations.
     /// </summary>
     /// <typeparam name="T">type of object under assertion</typeparam>
-    public abstract class TypeSafeCollectionMatcher<T> : AbstractMatcher
+    public abstract class TypeSafeCollectionMatcher<T> : BaseMatcher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeSafeCollectionMatcher{T}"/> class.

@@ -6,7 +6,7 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization
 {
-    public class UiWait<T> : AbstractWait where T : IControl
+    public class UiWait<T> : BaseWait where T : IControl
     {
         private readonly string _attributeName;
         private readonly string _valueValue;

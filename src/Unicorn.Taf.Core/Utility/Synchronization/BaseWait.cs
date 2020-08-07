@@ -7,12 +7,12 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     /// <summary>
     /// Provides base for implementation of waiters
     /// </summary>
-    public abstract class AbstractWait
+    public abstract class BaseWait
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractWait"/> class.
+        /// Initializes a new instance of the <see cref="BaseWait"/> class.
         /// </summary>
-        protected AbstractWait()
+        protected BaseWait()
         {
             Timer = new WaitTimer();
             IgnoredExceptions = new List<Type>();

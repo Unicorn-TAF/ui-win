@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     /// <summary>
     /// Basic realization of simple wait for some boolean condition during specified timeout and with polling interval.
     /// </summary>
-    public class DefaultWait : AbstractWait
+    public class DefaultWait : BaseWait
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait"/> class with default timeout and polling interval.

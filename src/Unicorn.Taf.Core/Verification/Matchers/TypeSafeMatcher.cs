@@ -4,7 +4,7 @@
     /// Base matcher for type specific realizations.
     /// </summary>
     /// <typeparam name="T">type of object under assertion</typeparam>
-    public abstract class TypeSafeMatcher<T> : AbstractMatcher
+    public abstract class TypeSafeMatcher<T> : BaseMatcher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeSafeMatcher{T}"/> class.
