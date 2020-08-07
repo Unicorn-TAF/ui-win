@@ -12,7 +12,7 @@ namespace Unicorn.UI.Core.UserInput
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
-        private readonly short _doubleClickTime = GetDoubleClickTime();
+        private readonly short _doubleClickTime = NativeMethods.GetDoubleClickTime();
         private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
 
@@ -36,7 +36,7 @@ namespace Unicorn.UI.Core.UserInput
             get
             {
                 var point = new System.Drawing.Point();
-                GetCursorPos(ref point);
+                NativeMethods.GetCursorPos(ref point);
                 return new Point(point.X, point.Y);
             }
 
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Core.UserInput
                     throw new InvalidOperationException($"Trying to set location outside the screen. {value}");
                 }
 
-                SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
+                NativeMethods.SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
             }
         }
 
@@ -56,8 +56,8 @@ namespace Unicorn.UI.Core.UserInput
         /// </summary>
         public void RightClick()
         {
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, NativeMethods.GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, NativeMethods.GetMessageExtraInfo())));
         }
 
         /// <summary>
@@ -121,31 +121,16 @@ namespace Unicorn.UI.Core.UserInput
         /// Performs left button down action on current mouse position.
         /// </summary>
         public void LeftButtonDown() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, NativeMethods.GetMessageExtraInfo())));
 
         /// <summary>
         /// Performs left button up action on current mouse position.
         /// </summary>
         public void LeftButtonUp() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, NativeMethods.GetMessageExtraInfo())));
 
         internal int SendInput(Input input) =>
-            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
-
-        [DllImport("user32", EntryPoint = "SendInput")]
-        private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetMessageExtraInfo();
-
-        [DllImport("user32.dll")]
-        private static extern bool GetCursorPos(ref System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern short GetDoubleClickTime();
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         private void MouseLeftButtonUpAndDown()
         {
