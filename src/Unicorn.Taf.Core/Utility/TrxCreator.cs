@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -121,16 +122,16 @@ namespace Unicorn.Taf.Core.Utility
             var times = _trx.CreateElement(string.Empty, "Times", string.Empty);
 
             var creation = _trx.CreateAttribute("creation");
-            creation.Value = startTime.AddMilliseconds(-20).ToString(DtFormat);
+            creation.Value = startTime.AddMilliseconds(-20).ToString(DtFormat, CultureInfo.InvariantCulture);
 
             var queuing = _trx.CreateAttribute("queuing");
-            queuing.Value = startTime.AddMilliseconds(-10).ToString(DtFormat);
+            queuing.Value = startTime.AddMilliseconds(-10).ToString(DtFormat, CultureInfo.InvariantCulture);
 
             var start = _trx.CreateAttribute("start");
-            start.Value = startTime.ToString(DtFormat);
+            start.Value = startTime.ToString(DtFormat, CultureInfo.InvariantCulture);
 
             var finish = _trx.CreateAttribute("finish");
-            finish.Value = DateTime.Now.ToString(DtFormat);
+            finish.Value = DateTime.Now.ToString(DtFormat, CultureInfo.InvariantCulture);
 
             times.Attributes.Append(creation);
             times.Attributes.Append(queuing);
@@ -231,7 +232,7 @@ namespace Unicorn.Taf.Core.Utility
                     _failed++;
                 }
 
-                var executionIdValue = AdapterUtilities.GuidFromString(testOutcome.StartTime.ToString(DtFormat)).ToString();
+                var executionIdValue = AdapterUtilities.GuidFromString(testOutcome.StartTime.ToString(DtFormat, CultureInfo.InvariantCulture)).ToString();
 
                 var testId = string.IsNullOrEmpty(outcome.DataSetName) ?
                     testOutcome.Id :
@@ -292,10 +293,10 @@ namespace Unicorn.Taf.Core.Utility
             duration.Value = string.Format("{0:hh\\:mm\\:ss\\.fffffff}", outcome.ExecutionTime);
 
             var startTime = _trx.CreateAttribute("startTime");
-            startTime.Value = outcome.StartTime.ToString(DtFormat);
+            startTime.Value = outcome.StartTime.ToString(DtFormat, CultureInfo.InvariantCulture);
 
             var endTime = _trx.CreateAttribute("endTime");
-            endTime.Value = outcome.StartTime.Add(outcome.ExecutionTime).ToString(DtFormat);
+            endTime.Value = outcome.StartTime.Add(outcome.ExecutionTime).ToString(DtFormat, CultureInfo.InvariantCulture);
 
             var testType = _trx.CreateAttribute("testType");
             testType.Value = "13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b";

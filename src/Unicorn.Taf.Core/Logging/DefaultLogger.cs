@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Logging
@@ -28,7 +29,7 @@ namespace Unicorn.Taf.Core.Logging
         {
             if (level <= Logger.Level)
             {
-                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff")} {_prefixes[level]}{message}";
+                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff", CultureInfo.InvariantCulture)} {_prefixes[level]}{message}";
                 SuiteMethod.LogOutput?.AppendLine(logString);
                 Console.WriteLine(logString);
             }
