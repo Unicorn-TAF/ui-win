@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to mark specified test as dependent on some other tests within the same suite.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class DependsOnAttribute : Attribute
+    public sealed class DependsOnAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DependsOnAttribute"/> class with specified test method name.

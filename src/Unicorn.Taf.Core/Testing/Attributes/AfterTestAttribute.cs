@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to mark specified methods as executable after each test in suite.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class AfterTestAttribute : Attribute
+    public sealed class AfterTestAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AfterTestAttribute"/> class.

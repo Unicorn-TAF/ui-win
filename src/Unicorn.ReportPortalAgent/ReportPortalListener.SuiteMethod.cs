@@ -23,7 +23,7 @@ namespace Unicorn.ReportPortalAgent
             { SuiteMethodType.Test, TestItemType.Step },
         };
 
-        internal string SkippedTestDefectType { get; set; } = "ND001";
+        private string SkippedTestDefectType { get; set; } = "ND001";
 
         internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {

@@ -7,7 +7,7 @@ namespace Unicorn.UI.Core.PageObject.By
     /// Provides with ability to specify search condition by 'Id' for UI control PageObject
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class ByIdAttribute : FindAttribute
+    public sealed class ByIdAttribute : FindAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ByNameAttribute"/> class with specified locator.

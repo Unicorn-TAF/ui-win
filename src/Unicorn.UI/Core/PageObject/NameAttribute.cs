@@ -6,7 +6,7 @@ namespace Unicorn.UI.Core.PageObject
     /// Provides with ability to assign readable name to controls
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class NameAttribute : Attribute
+    public sealed class NameAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NameAttribute"/> class with specified name.

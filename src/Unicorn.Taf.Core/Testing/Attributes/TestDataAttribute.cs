@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to make test parameterized by data sets.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestDataAttribute : Attribute
+    public sealed class TestDataAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestDataAttribute"/> class with specified test data provider method.

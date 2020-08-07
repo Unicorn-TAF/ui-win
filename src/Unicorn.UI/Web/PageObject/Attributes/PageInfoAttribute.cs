@@ -6,7 +6,7 @@ namespace Unicorn.UI.Web.PageObject.Attributes
     /// Provides with ability to specify web page additional information.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class PageInfoAttribute : Attribute
+    public sealed class PageInfoAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PageInfoAttribute"/> class with specified test relative url and title.

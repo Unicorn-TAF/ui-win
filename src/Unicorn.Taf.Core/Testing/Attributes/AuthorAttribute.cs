@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to assign an author to test.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class AuthorAttribute : Attribute
+    public sealed class AuthorAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorAttribute"/> class with specified author.

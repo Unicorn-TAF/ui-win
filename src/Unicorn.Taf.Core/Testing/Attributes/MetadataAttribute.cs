@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to add some metadata to test suite.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class MetadataAttribute : Attribute
+    public sealed class MetadataAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MetadataAttribute"/> class with specified key and value.
