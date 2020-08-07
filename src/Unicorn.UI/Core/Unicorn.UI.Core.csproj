@@ -142,6 +142,7 @@
     <Compile Include="Synchronization\ControlWaits.cs" />
     <Compile Include="Synchronization\UiWait.cs" />
     <Compile Include="Synchronization\Conditions\Until.cs" />
+    <Compile Include="UserInput\NativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -15,7 +15,7 @@ namespace Unicorn.UnitTests.UI
         [Test(Description = "Check Mouse movement")]
         public void TestMouseMovement()
         {
-            var coordinate = 150;
+            var coordinate = 50;
             Mouse.Instance.Location = new System.Windows.Point(coordinate, coordinate);
             Assert.AreEqual(new System.Drawing.Point(coordinate, coordinate), Cursor.Position);
         }

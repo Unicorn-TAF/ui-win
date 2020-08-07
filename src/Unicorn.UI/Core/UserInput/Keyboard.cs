@@ -102,7 +102,7 @@ namespace Unicorn.UI.Core.UserInput
         {
             get
             {
-                ushort state = GetKeyState((uint)SpecialKeys.CapsLock);
+                ushort state = NativeMethods.GetKeyState((uint)SpecialKeys.CapsLock);
                 return state != 0;
             }
 
@@ -131,7 +131,7 @@ namespace Unicorn.UI.Core.UserInput
 
             foreach (char c in keysToType)
             {
-                short key = VkKeyScan(c);
+                short key = NativeMethods.VkKeyScan(c);
                 if (c.Equals('\r'))
                 {
                     continue;
@@ -198,18 +198,6 @@ namespace Unicorn.UI.Core.UserInput
             return this;
         }
 
-        [DllImport("user32", EntryPoint = "SendInput")]
-        private static extern int SendInput(uint numberOfInputs, ref Input input, int structSize);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetMessageExtraInfo();
-
-        [DllImport("user32.dll")]
-        private static extern short VkKeyScan(char ch);
-
-        [DllImport("user32.dll")]
-        private static extern ushort GetKeyState(uint virtKey);
-
         private static bool ShiftKeyIsNeeded(short key) =>
             ((key >> 8) & 1) == 1;
 
@@ -230,10 +218,10 @@ namespace Unicorn.UI.Core.UserInput
         }
 
         private void SendInput(Input input) =>
-            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         private Input GetInputFor(short character, KeyUpDown keyUpOrDown) =>
-            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, GetMessageExtraInfo()));
+            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, NativeMethods.GetMessageExtraInfo()));
 
         private void Press(short key, bool specialKey)
         {
