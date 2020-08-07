@@ -3,12 +3,11 @@ using System.Windows.Forms;
 using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
-using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
-    public class WinControls : NUnitTestRunner
+    public class WinControls
     {
         private static WinControl control;
 

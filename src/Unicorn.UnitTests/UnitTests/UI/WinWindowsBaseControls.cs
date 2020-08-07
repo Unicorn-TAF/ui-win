@@ -2,12 +2,11 @@
 using System.Reflection;
 using System.Threading;
 using Unicorn.UI.Win.Controls.WindowsBase;
-using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.UnitTests.UI
+namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
-    public class WinWindowsBaseControls : NUnitTestRunner
+    public class WinWindowsBaseControls
     {
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Open file dialog 'Open File' functionality")]

@@ -108,7 +108,6 @@
     <Compile Include="UserInput\Mouse.cs" />
     <Compile Include="UserInput\WindowsApi\KeyboardInput.cs" />
     <Compile Include="UserInput\WindowsApi\MouseInput.cs" />
-    <Compile Include="UserInput\WindowsApi\HardwareInput.cs" />
     <Compile Include="Matchers\Checkbox.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatchesMatcher.cs" />
     <Compile Include="Matchers\IControlMatchers\ControlHasTextMatcher.cs" />
