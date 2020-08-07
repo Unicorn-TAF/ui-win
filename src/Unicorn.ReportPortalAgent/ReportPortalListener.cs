@@ -25,9 +25,9 @@ namespace Unicorn.ReportPortalAgent
         static ReportPortalListener()
         {
             var configPath = Path.Combine(
-                Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath),
+                Path.GetDirectoryName(new Uri(typeof(RpConfig).Assembly.CodeBase).LocalPath),
                 "ReportPortal.conf");
-            Config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configPath));
+            Config = JsonConvert.DeserializeObject<RpConfig>(File.ReadAllText(configPath));
 
             Service reportPortalService;
             if (Config.Server.Proxy != null)
@@ -49,7 +49,7 @@ namespace Unicorn.ReportPortalAgent
         /// <summary>
         /// Gets Report Portal configuration
         /// </summary>
-        public static Config Config
+        public static RpConfig Config
         {
             get;
 

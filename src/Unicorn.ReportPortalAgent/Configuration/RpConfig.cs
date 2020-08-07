@@ -5,7 +5,7 @@ namespace Unicorn.ReportPortalAgent.Configuration
     /// <summary>
     /// Report portal agent configuration.
     /// </summary>
-    public class Config
+    public class RpConfig
     {
         /// <summary>
         /// Gets or sets a value indicating whether need to report to RP.
