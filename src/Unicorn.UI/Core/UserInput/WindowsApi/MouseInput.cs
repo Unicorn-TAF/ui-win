@@ -14,7 +14,7 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
         private readonly int _time;
         private readonly IntPtr _extraInfo;
 
-        public MouseInput(int flags, IntPtr extraInfo)
+        internal MouseInput(int flags, IntPtr extraInfo)
         {
             _flags = flags;
             _extraInfo = extraInfo;

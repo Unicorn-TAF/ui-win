@@ -20,7 +20,7 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
         private readonly int _time;
         private readonly IntPtr _extraInfo;
 
-        public KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
+        internal KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
         {
             _vk = wVk;
             _scan = 0;
