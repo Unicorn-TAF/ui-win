@@ -26,7 +26,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
 
         public string Name { get; set; }
 
-        public virtual AppiumWebElement Instance
+        public AppiumWebElement Instance
         {
             get
             {

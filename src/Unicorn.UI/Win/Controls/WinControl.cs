@@ -60,7 +60,7 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets or sets control wrapped instance as <see cref="IUIAutomationElement"/> which is also current search context.
         /// </summary>
-        public virtual IUIAutomationElement Instance
+        public IUIAutomationElement Instance
         {
             get
             {

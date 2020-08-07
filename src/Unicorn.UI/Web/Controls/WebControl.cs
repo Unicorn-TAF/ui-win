@@ -48,7 +48,7 @@ namespace Unicorn.UI.Web.Controls
         /// <summary>
         /// Gets or sets control wrapped instance as <see cref="OpenQA.Selenium.IWebElement"/> which is also current search context.
         /// </summary>
-        public virtual OpenQA.Selenium.IWebElement Instance
+        public OpenQA.Selenium.IWebElement Instance
         {
             get
             {
