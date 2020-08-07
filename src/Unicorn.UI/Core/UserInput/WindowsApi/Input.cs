@@ -21,14 +21,14 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
         [FieldOffset(4)]
         private KeyboardInput keyboardInput;
 
-        public static Input Mouse(MouseInput input) =>
+        internal static Input Mouse(MouseInput input) =>
             new Input
             {
                 type = Constants.InputMouse,
                 mouseInput = input
             };
 
-        public static Input Keyboard(KeyboardInput input) =>
+        internal static Input Keyboard(KeyboardInput input) =>
             new Input
             {
                 type = Constants.InputKeyboard,
