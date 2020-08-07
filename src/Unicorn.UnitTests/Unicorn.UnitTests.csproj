@@ -114,6 +114,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationClient" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -148,6 +149,7 @@
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\Assertions.cs" />
     <Compile Include="UnitTests\CollectionMatchers.cs" />
+    <Compile Include="UnitTests\UI\UserInput.cs" />
     <Compile Include="UnitTests\UI\WinWindowsBaseControls.cs" />
     <Compile Include="UnitTests\UI\WinControls.cs" />
     <Compile Include="UnitTests\UI\GuiControls.cs" />

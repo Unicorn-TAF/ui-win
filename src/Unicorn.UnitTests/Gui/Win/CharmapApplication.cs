@@ -12,5 +12,8 @@ namespace Unicorn.UnitTests.Gui.Win
 
         [Find(Using.Name, "Character Map")]
         public WindowCharMap Window { get; set; }
+
+        [Find(Using.Name, "asdlkjfghsdhjkfgdsfkjhfg")]
+        public WindowCharMap FakeWindow { get; set; }
     }
 }

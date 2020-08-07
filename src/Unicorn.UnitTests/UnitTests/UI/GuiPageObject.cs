@@ -1,15 +1,13 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Desktop.Driver;
-using Unicorn.UnitTests.Gui;
 using Unicorn.UnitTests.Gui.Desktop;
-using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
-    public class GuiPageObject : NUnitTestRunner
+    public class GuiPageObject
     {
         private static CharmapApplication charmap;
 
@@ -73,16 +71,16 @@ namespace Unicorn.UnitTests.UI
 
             try
             {
-                var visible = charmap.FakeWindow.Visible;
-                Assert.Fail($"windows is visible ({visible})");
+                var enabled = charmap.FakeWindow.Enabled;
+                Assert.Fail($"windows is enabled ({enabled})");
             }
             catch (ControlNotFoundException)
             {
                 // this is positive scenario, nothing to do
             }
-            catch
+            catch (AssertionException)
             {
-                Assert.Fail();
+                Assert.Fail("Fake windows was found");
             }
             finally
             {

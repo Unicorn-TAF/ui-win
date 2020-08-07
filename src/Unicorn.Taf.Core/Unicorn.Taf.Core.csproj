@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Engine\IsolatedTestsInfoObserver.cs" />
     <Compile Include="Engine\IsolatedTestsRunner.cs" />
-    <Compile Include="Engine\Configuration\JsonConfig.cs" />
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\OrderedTargetedTestsRunner.cs" />
     <Compile Include="Testing\Attachment.cs" />
