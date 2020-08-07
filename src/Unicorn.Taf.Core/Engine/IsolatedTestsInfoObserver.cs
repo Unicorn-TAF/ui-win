@@ -20,31 +20,31 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="className">test class name</param>
         public TestInfo(string fullName, string displayName, string methodName, string className)
         {
-            this.FullName = fullName;
-            this.DisplayName = displayName;
-            this.MethodName = methodName;
-            this.ClassName = className;
+            FullName = fullName;
+            DisplayName = displayName;
+            MethodName = methodName;
+            ClassName = className;
         }
 
         /// <summary>
         /// Gets test full name (reflected type full name and test method name).
         /// </summary>
-        public string FullName { get; private set; }
+        public string FullName { get; }
 
         /// <summary>
         /// Gets test display name
         /// </summary>
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// Gets test class name
         /// </summary>
-        public string ClassName { get; private set; }
+        public string ClassName { get; }
 
         /// <summary>
         /// Gets Test method name
         /// </summary>
-        public string MethodName { get; private set; }
+        public string MethodName { get; }
     }
 
     /// <summary>
