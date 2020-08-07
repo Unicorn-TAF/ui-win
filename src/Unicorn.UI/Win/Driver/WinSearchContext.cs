@@ -12,7 +12,7 @@ namespace Unicorn.UI.Win.Driver
     /// <summary>
     /// Describes search context for windows controls. Contains variety of methods to search and wait for controls of specified type from current context.
     /// </summary>
-    public abstract class WinSearchContext : UISearchContext<WinSearchContext>
+    public abstract class WinSearchContext : BaseSearchContext<WinSearchContext>
     {
         private const int SearchDelay = 50;
 

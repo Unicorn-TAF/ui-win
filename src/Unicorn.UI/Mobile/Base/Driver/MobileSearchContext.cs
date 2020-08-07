@@ -7,7 +7,7 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Base.Driver
 {
-    public abstract class MobileSearchContext : UISearchContext<MobileSearchContext>
+    public abstract class MobileSearchContext : BaseSearchContext<MobileSearchContext>
     {
         protected virtual AppiumWebElement SearchContext { get; set; }
 

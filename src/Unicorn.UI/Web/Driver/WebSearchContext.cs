@@ -10,7 +10,7 @@ namespace Unicorn.UI.Web.Driver
     /// <summary>
     /// Describes search context for web controls. Contains variety of methods to search and wait for controls of specified type from current context.
     /// </summary>
-    public abstract class WebSearchContext : UISearchContext<WebSearchContext>
+    public abstract class WebSearchContext : BaseSearchContext<WebSearchContext>
     {
         /// <summary>
         /// Gets or sets Current search context as <see cref="OpenQA.Selenium.ISearchContext"/>

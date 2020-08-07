@@ -3,7 +3,7 @@
     /// <summary>
     /// Base matcher for objects without type parameterization.
     /// </summary>
-    public abstract class TypeUnsafeMatcher : AbstractMatcher
+    public abstract class TypeUnsafeMatcher : BaseMatcher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeUnsafeMatcher"/> class.
