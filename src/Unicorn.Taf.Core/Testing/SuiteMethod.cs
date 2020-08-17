@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -106,11 +105,6 @@ namespace Unicorn.Taf.Core.Testing
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
 
         /// <summary>
-        /// Gets current log in for of <see cref="StringBuilder"/>
-        /// </summary>
-        public static StringBuilder LogOutput { get; } = new StringBuilder();
-
-        /// <summary>
         /// Gets or sets current test outcome, contains base information about execution results
         /// </summary>
         public TestOutcome Outcome { get; set; }
@@ -180,7 +174,6 @@ namespace Unicorn.Taf.Core.Testing
 
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
-            LogOutput.Clear();
             Outcome.StartTime = DateTime.Now;
             TestTimer = Stopwatch.StartNew();
 
@@ -223,8 +216,6 @@ namespace Unicorn.Taf.Core.Testing
 
             TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
-            Outcome.Output = LogOutput.ToString();
-            LogOutput.Clear();
         }
     }
 }

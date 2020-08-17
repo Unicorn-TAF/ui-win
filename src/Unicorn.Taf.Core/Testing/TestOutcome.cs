@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Unicorn.Taf.Core.Testing
 {
@@ -11,6 +12,8 @@ namespace Unicorn.Taf.Core.Testing
     [Serializable]
     public class TestOutcome
     {
+        private readonly StringBuilder _output;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TestOutcome"/> class.
         /// </summary>
@@ -18,6 +21,7 @@ namespace Unicorn.Taf.Core.Testing
         {
             ExecutionTime = TimeSpan.FromSeconds(0);
             Attachments = new List<Attachment>();
+            _output = new StringBuilder();
         }
 
         /// <summary>
@@ -78,6 +82,13 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Gets or sets test log output string
         /// </summary>
-        public string Output { get; set; } = string.Empty;
+        public string Output => _output.ToString();
+
+        /// <summary>
+        /// Adds new line with specified text to test output.
+        /// </summary>
+        /// <param name="text">text to add</param>
+        public void AppendOutput(string text) =>
+            _output.AppendLine(text);
     }
 }
