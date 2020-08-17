@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Logging
 {
     /// <summary>
     /// Provides default implementation of framework logger (used if no other loggers were assigned).
-    /// Output: console and test context.
+    /// Output: console.
     /// </summary>
     public class DefaultLogger : ILogger
     {
@@ -30,7 +29,6 @@ namespace Unicorn.Taf.Core.Logging
             if (level <= Logger.Level)
             {
                 var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff", CultureInfo.InvariantCulture)} {_prefixes[level]}{message}";
-                SuiteMethod.LogOutput?.AppendLine(logString);
                 Console.WriteLine(logString);
             }
         }

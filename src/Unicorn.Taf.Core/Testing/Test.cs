@@ -154,7 +154,6 @@ namespace Unicorn.Taf.Core.Testing
 
         private void RunTestMethod(TestSuite suiteInstance)
         {
-            LogOutput.Clear();
             Outcome.StartTime = DateTime.Now;
             TestTimer = Stopwatch.StartNew();
 
@@ -197,8 +196,6 @@ namespace Unicorn.Taf.Core.Testing
 
             TestTimer.Stop();
             Outcome.ExecutionTime = TestTimer.Elapsed;
-            Outcome.Output = LogOutput.ToString();
-            LogOutput.Clear();
         }
     }
 }
