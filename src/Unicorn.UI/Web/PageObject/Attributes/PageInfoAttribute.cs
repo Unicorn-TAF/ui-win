@@ -30,12 +30,12 @@ namespace Unicorn.UI.Web.PageObject.Attributes
         /// <summary>
         /// Gets or sets page relative url
         /// </summary>
-        public string RelativeUrl { get; protected set; }
+        public string RelativeUrl { get; }
 
         /// <summary>
         /// Gets or sets page title
         /// </summary>
-        public string Title { get; protected set; }
+        public string Title { get; }
 
     }
 }

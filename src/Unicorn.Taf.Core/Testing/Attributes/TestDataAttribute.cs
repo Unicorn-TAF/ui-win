@@ -20,6 +20,6 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Gets or sets test data provider method name.
         /// </summary>
-        public string Method { get; protected set; }
+        public string Method { get; }
     }
 }
