@@ -38,7 +38,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Win.2.2.0\lib\net452\Interop.UIAutomationClient.dll</HintPath>
+      <HintPath>..\packages\Unicorn.UI.Win.2.2.1\lib\net452\Interop.UIAutomationClient.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -49,14 +49,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unicorn.Taf.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.Taf.Core.2.2.0\lib\net452\Unicorn.Taf.Core.dll</HintPath>
+    <Reference Include="Unicorn.Taf.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.Taf.Core.2.2.1\lib\net452\Unicorn.Taf.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Core.2.2.0\lib\net452\Unicorn.UI.Core.dll</HintPath>
+    <Reference Include="Unicorn.UI.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Core.2.2.1\lib\net452\Unicorn.UI.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Win, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Win.2.2.0\lib\net452\Unicorn.UI.Win.dll</HintPath>
+    <Reference Include="Unicorn.UI.Win, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Win.2.2.1\lib\net452\Unicorn.UI.Win.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

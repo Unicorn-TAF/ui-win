@@ -69,23 +69,23 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unicorn.ReportPortalAgent, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.ReportPortalAgent.2.2.0\lib\net452\Unicorn.ReportPortalAgent.dll</HintPath>
+    <Reference Include="Unicorn.ReportPortalAgent, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.ReportPortalAgent.2.2.1\lib\net452\Unicorn.ReportPortalAgent.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.Taf.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.Taf.Core.2.2.0\lib\net452\Unicorn.Taf.Core.dll</HintPath>
+    <Reference Include="Unicorn.Taf.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.Taf.Core.2.2.1\lib\net452\Unicorn.Taf.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Core.2.2.0\lib\net452\Unicorn.UI.Core.dll</HintPath>
+    <Reference Include="Unicorn.UI.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Core.2.2.1\lib\net452\Unicorn.UI.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Mobile, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Mobile.2.1.1\lib\net452\Unicorn.UI.Mobile.dll</HintPath>
+    <Reference Include="Unicorn.UI.Mobile, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Mobile.2.1.2\lib\net452\Unicorn.UI.Mobile.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Web, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Web.2.2.0\lib\net452\Unicorn.UI.Web.dll</HintPath>
+    <Reference Include="Unicorn.UI.Web, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Web.2.2.1\lib\net452\Unicorn.UI.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.UI.Win, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.UI.Win.2.2.0\lib\net452\Unicorn.UI.Win.dll</HintPath>
+    <Reference Include="Unicorn.UI.Win, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.UI.Win.2.2.1\lib\net452\Unicorn.UI.Win.dll</HintPath>
     </Reference>
     <Reference Include="WebDriver, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
