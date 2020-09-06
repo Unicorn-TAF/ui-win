@@ -20,11 +20,6 @@ namespace Unicorn.UI.Core.PageObject
         /// <summary>
         /// Gets or sets control name.
         /// </summary>
-        public string Name
-        {
-            get;
-            
-            protected set;
-        }
+        public string Name { get; }
     }
 }

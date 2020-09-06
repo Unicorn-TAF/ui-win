@@ -27,6 +27,6 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Gets or sets test title.
         /// </summary>
-        public string Title { get; protected set; }
+        public string Title { get; }
     }
 }

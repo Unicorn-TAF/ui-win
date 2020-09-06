@@ -21,6 +21,6 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Gets or sets test author.
         /// </summary>
-        public string Author { get; protected set; }
+        public string Author { get; }
     }
 }
