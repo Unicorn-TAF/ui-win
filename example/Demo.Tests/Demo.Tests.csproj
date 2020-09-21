@@ -75,6 +75,9 @@
     <Reference Include="Unicorn.Taf.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.Taf.Core.2.2.1\lib\net452\Unicorn.Taf.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Unicorn.TestAdapter, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.TestAdapter.2.2.1\lib\net452\Unicorn.TestAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="Unicorn.UI.Core, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.UI.Core.2.2.1\lib\net452\Unicorn.UI.Core.dll</HintPath>
     </Reference>
@@ -147,11 +150,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.1.0.2\build\AspectInjector.targets'))" />
     <Error Condition="!Exists('..\packages\ReportPortal.Client.2.1.9\build\ReportPortal.Client.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ReportPortal.Client.2.1.9\build\ReportPortal.Client.targets'))" />
     <Error Condition="!Exists('..\packages\ReportPortal.Shared.2.1.7\build\ReportPortal.Shared.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ReportPortal.Shared.2.1.7\build\ReportPortal.Shared.targets'))" />
   </Target>
-  <Import Project="..\packages\AspectInjector.1.0.2\build\AspectInjector.targets" Condition="Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" />
   <Import Project="..\packages\ReportPortal.Client.2.1.9\build\ReportPortal.Client.targets" Condition="Exists('..\packages\ReportPortal.Client.2.1.9\build\ReportPortal.Client.targets')" />
   <Import Project="..\packages\ReportPortal.Shared.2.1.7\build\ReportPortal.Shared.targets" Condition="Exists('..\packages\ReportPortal.Shared.2.1.7\build\ReportPortal.Shared.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
