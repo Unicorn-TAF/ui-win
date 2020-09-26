@@ -13,7 +13,12 @@
         /// <summary>
         /// Descending sort direction.
         /// </summary>
-        Descending
+        Descending,
+
+        /// <summary>
+        /// Not sorted.
+        /// </summary>
+        NotSorted
     }
 
     /// <summary>
