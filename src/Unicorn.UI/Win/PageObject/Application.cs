@@ -12,7 +12,7 @@ namespace Unicorn.UI.Win.PageObject
     /// <summary>
     /// Represents base of windows application. Contains fields related to paths, process, methods for starting and closing the application.
     /// </summary>
-    public abstract class Application : WinContainer
+    public abstract class Application : WinControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Application"/> class located in specified directory and with specified exe name.
