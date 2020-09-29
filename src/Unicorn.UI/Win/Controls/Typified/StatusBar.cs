@@ -5,7 +5,7 @@ namespace Unicorn.UI.Win.Controls.Typified
     /// <summary>
     /// Describes base status bar control.
     /// </summary>
-    public class StatusBar : WinContainer
+    public class StatusBar : WinControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StatusBar"/> class.

@@ -6,7 +6,7 @@ namespace Unicorn.UI.Win.Controls.Typified
     /// <summary>
     /// Describes base list view control.
     /// </summary>
-    public class ListView : WinContainer
+    public class ListView : WinControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListView"/> class.

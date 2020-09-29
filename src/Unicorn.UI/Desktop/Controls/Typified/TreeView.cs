@@ -8,7 +8,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
     /// <summary>
     /// Describes base tree view control.
     /// </summary>
-    public class TreeView : GuiContainer
+    public class TreeView : GuiControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TreeView"/> class.

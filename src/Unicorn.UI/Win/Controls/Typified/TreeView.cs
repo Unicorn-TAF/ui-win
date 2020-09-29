@@ -8,7 +8,7 @@ namespace Unicorn.UI.Win.Controls.Typified
     /// <summary>
     /// Describes base tree view control.
     /// </summary>
-    public class TreeView : WinContainer
+    public class TreeView : WinControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TreeView"/> class.

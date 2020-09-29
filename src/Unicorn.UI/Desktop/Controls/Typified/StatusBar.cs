@@ -5,7 +5,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
     /// <summary>
     /// Describes base status bar control.
     /// </summary>
-    public class StatusBar : GuiContainer
+    public class StatusBar : GuiControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StatusBar"/> class.

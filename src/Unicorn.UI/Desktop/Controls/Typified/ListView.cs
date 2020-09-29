@@ -6,7 +6,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
     /// <summary>
     /// Describes base list view control.
     /// </summary>
-    public class ListView : GuiContainer
+    public class ListView : GuiControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListView"/> class.
