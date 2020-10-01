@@ -227,19 +227,6 @@ namespace Unicorn.UI.Desktop.Controls
 
         #region "Helpers"
 
-        /// <summary>
-        /// Get pattern of the specified type from the control.
-        /// </summary>
-        /// <typeparam name="T">pattern type</typeparam>
-        /// <returns>pattern instance</returns>
-        protected T GetPattern<T>() where T : BasePattern
-        {
-            var pattern = (AutomationPattern)typeof(T).GetField("Pattern").GetValue(null);
-            object patternObject;
-            Instance.TryGetCurrentPattern(pattern, out patternObject);
-            return patternObject as T;
-        }
-
         private Point GetClickablePoint()
         {
             if (!Visible)

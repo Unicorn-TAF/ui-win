@@ -43,7 +43,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public virtual string Value =>
             IsPasswordType ?
             "The field is of PasswordBox type. Unable to get value" :
-            GetPattern<ValuePattern>().Current.Value;
+            Instance.GetPattern<ValuePattern>().Current.Value;
 
         /// <summary>
         /// Adds text to already existing input value.
@@ -53,7 +53,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
 
-            var pattern = GetPattern<ValuePattern>();
+            var pattern = Instance.GetPattern<ValuePattern>();
 
             if (pattern.Current.IsReadOnly)
             {
@@ -72,7 +72,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
 
-            var pattern = GetPattern<ValuePattern>();
+            var pattern = Instance.GetPattern<ValuePattern>();
 
             if (pattern.Current.IsReadOnly)
             {

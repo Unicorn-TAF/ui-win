@@ -52,7 +52,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
-            GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+            Instance.GetPattern<IUIAutomationSelectionItemPattern>();
 
         /// <summary>
         /// Selects the tab item.

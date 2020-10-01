@@ -42,7 +42,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets toggle patterns instance
         /// </summary>
         protected IUIAutomationTogglePattern TogglePattern => 
-            GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+            Instance.GetPattern<IUIAutomationTogglePattern>();
 
         /// <summary>
         /// Sets checkbox checked state

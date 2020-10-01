@@ -49,7 +49,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets value pattern instance.
         /// </summary>
         protected IUIAutomationValuePattern ValuePattern => 
-            GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+            Instance.GetPattern<IUIAutomationValuePattern>();
 
         /// <summary>
         /// Adds text to already existing input value.

@@ -34,7 +34,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// Gets a value indicating whether checkbox is checked.
         /// </summary>
         public virtual bool Checked => 
-            GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
+            Instance.GetPattern<TogglePattern>().Current.ToggleState == ToggleState.On;
 
         /// <summary>
         /// Sets checkbox checked state
@@ -53,7 +53,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<TogglePattern>().Toggle();
+            Instance.GetPattern<TogglePattern>().Toggle();
             Logger.Instance.Log(LogLevel.Trace, "Checked");
 
             return true;
@@ -68,7 +68,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<TogglePattern>().Toggle();
+            Instance.GetPattern<TogglePattern>().Toggle();
             Logger.Instance.Log(LogLevel.Trace, "Unchecked");
 
             return true;
