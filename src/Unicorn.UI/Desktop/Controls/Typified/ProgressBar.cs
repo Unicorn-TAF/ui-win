@@ -31,6 +31,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets current progress percentage as <see cref="double"/>
         /// </summary>
-        public double CurrentProgress => GetPattern<RangeValuePattern>().Current.Value;
+        public double CurrentProgress => Instance.GetPattern<RangeValuePattern>().Current.Value;
     }
 }

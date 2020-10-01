@@ -37,6 +37,6 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets value pattern instance.
         /// </summary>
         protected IUIAutomationRangeValuePattern ValuePattern =>
-            GetPattern(UIA_PatternIds.UIA_RangeValuePatternId) as IUIAutomationRangeValuePattern;
+            Instance.GetPattern<IUIAutomationRangeValuePattern>();
     }
 }

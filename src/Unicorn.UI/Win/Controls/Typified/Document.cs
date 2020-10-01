@@ -37,6 +37,6 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets text pattern instance.
         /// </summary>
         protected IUIAutomationTextPattern TextPattern =>
-            GetPattern(UIA_PatternIds.UIA_TextPatternId) as IUIAutomationTextPattern;
+            Instance.GetPattern<IUIAutomationTextPattern>();
     }
 }

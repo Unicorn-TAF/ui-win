@@ -44,7 +44,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets window pattern instance.
         /// </summary>
         protected IUIAutomationWindowPattern WindowPattern => 
-            GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
+            Instance.GetPattern<IUIAutomationWindowPattern>();
 
         /// <summary>
         /// Closes window.

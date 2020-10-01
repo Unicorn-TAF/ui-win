@@ -46,7 +46,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         public virtual void Close()
         {
             Logger.Instance.Log(LogLevel.Debug, $"Close {ToString()}");
-            GetPattern<WindowPattern>().Close();
+            Instance.GetPattern<WindowPattern>().Close();
         }
 
         /// <summary>

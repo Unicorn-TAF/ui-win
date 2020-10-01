@@ -31,6 +31,6 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets document text.
         /// </summary>
-        public override string Text => GetPattern<TextPattern>()?.DocumentRange.GetText(int.MaxValue);
+        public override string Text => Instance.GetPattern<TextPattern>()?.DocumentRange.GetText(int.MaxValue);
     }
 }

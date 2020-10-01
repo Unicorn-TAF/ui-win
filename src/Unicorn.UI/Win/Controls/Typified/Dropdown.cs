@@ -74,19 +74,19 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets expand/collapse pattern instance.
         /// </summary>
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
-            GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+            Instance.GetPattern<IUIAutomationExpandCollapsePattern>();
 
         /// <summary>
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionPattern SelectionPattern => 
-            GetPattern(UIA_PatternIds.UIA_SelectionPatternId) as IUIAutomationSelectionPattern;
+            Instance.GetPattern<IUIAutomationSelectionPattern>();
 
         /// <summary>
         /// Gets value pattern instance.
         /// </summary>
         protected IUIAutomationValuePattern ValuePattern => 
-            GetPattern(UIA_PatternIds.UIA_ValuePatternId) as IUIAutomationValuePattern;
+            Instance.GetPattern<IUIAutomationValuePattern>();
 
         /// <summary>
         /// Selects specified item from dropdown.

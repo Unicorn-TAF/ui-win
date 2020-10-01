@@ -175,15 +175,15 @@ namespace Unicorn.UI.Win.Controls
 
             try
             {
-                var pattern = GetPattern(UIA_PatternIds.UIA_InvokePatternId);
+                var pattern = Instance.GetPattern<IUIAutomationInvokePattern>();
 
                 if (pattern != null)
                 {
-                    ((IUIAutomationInvokePattern)pattern).Invoke();
+                    pattern.Invoke();
                 }
                 else
                 {
-                    ((IUIAutomationTogglePattern)GetPattern(UIA_PatternIds.UIA_TogglePatternId)).Toggle();
+                    Instance.GetPattern<IUIAutomationTogglePattern>().Toggle();
                 }
             }
             catch
@@ -232,14 +232,6 @@ namespace Unicorn.UI.Win.Controls
             Name;
 
         #region "Helpers"
-
-        /// <summary>
-        /// Get specified pattern from the control.
-        /// </summary>
-        /// <param name="patternId">pattern ID</param>
-        /// <returns>pattern instance</returns>
-        protected object GetPattern(int patternId) =>
-            Instance.GetCurrentPattern(patternId);
 
         private Point GetClickablePoint()
         {

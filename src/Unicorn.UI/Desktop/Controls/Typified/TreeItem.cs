@@ -33,8 +33,8 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets a value indicating whether tree item is selected.
         /// </summary>
-        public virtual bool Selected => 
-            GetPattern<SelectionItemPattern>().Current.IsSelected;
+        public virtual bool Selected =>
+            Instance.GetPattern<SelectionItemPattern>().Current.IsSelected;
 
         /// <summary>
         /// Selects the tree item.
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var pattern = GetPattern<SelectionItemPattern>();
+            var pattern = Instance.GetPattern<SelectionItemPattern>();
 
             if (pattern != null)
             {
@@ -70,7 +70,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// </summary>
         public virtual void ScrollToItem()
         {
-            var pattern = GetPattern<ScrollItemPattern>();
+            var pattern = Instance.GetPattern<ScrollItemPattern>();
 
             if (pattern != null)
             {

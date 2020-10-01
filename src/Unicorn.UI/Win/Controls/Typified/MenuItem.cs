@@ -32,19 +32,19 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets expand/collapse pattern instance.
         /// </summary>
         protected IUIAutomationExpandCollapsePattern ExpandCollapsePattern => 
-            GetPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId) as IUIAutomationExpandCollapsePattern;
+            Instance.GetPattern<IUIAutomationExpandCollapsePattern>();
 
         /// <summary>
         /// Gets toggle pattern instance.
         /// </summary>
         protected IUIAutomationTogglePattern TogglePattern => 
-            GetPattern(UIA_PatternIds.UIA_TogglePatternId) as IUIAutomationTogglePattern;
+            Instance.GetPattern<IUIAutomationTogglePattern>();
 
         /// <summary>
         /// Gets invoke pattern instance.
         /// </summary>
         protected IUIAutomationInvokePattern InvokePattern => 
-            GetPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
+            Instance.GetPattern<IUIAutomationInvokePattern>();
 
         /// <summary>
         /// Selects menu item, if menu item is parent item it is expanded.

@@ -40,7 +40,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// Gets selection pattern instance.
         /// </summary>
         protected IUIAutomationSelectionItemPattern SelectionItemPattern => 
-            GetPattern(UIA_PatternIds.UIA_SelectionItemPatternId) as IUIAutomationSelectionItemPattern;
+            Instance.GetPattern<IUIAutomationSelectionItemPattern>();
 
         /// <summary>
         /// Selects the tree item.
@@ -76,8 +76,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// </summary>
         public virtual void ScrollToItem()
         {
-            var pattern = GetPattern(UIA_PatternIds.UIA_ScrollItemPatternId) 
-                as IUIAutomationScrollItemPattern;
+            var pattern = Instance.GetPattern<IUIAutomationScrollItemPattern>();
 
             if (pattern != null)
             {

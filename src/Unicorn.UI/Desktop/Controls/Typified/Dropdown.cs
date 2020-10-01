@@ -36,8 +36,9 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <summary>
         /// Gets a value indicating whether dropdown is expanded.
         /// </summary>
-        public virtual bool Expanded => 
-            GetPattern<ExpandCollapsePattern>()
+        public virtual bool Expanded =>
+            Instance
+            .GetPattern<ExpandCollapsePattern>()
             .Current
             .ExpandCollapseState
             .Equals(ExpandCollapseState.Expanded);
@@ -49,7 +50,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             get
             {
-                var selection = GetPattern<SelectionPattern>();
+                var selection = Instance.GetPattern<SelectionPattern>();
                 if (selection != null)
                 {
                     var item = selection.Current.GetSelection().FirstOrDefault();
@@ -60,7 +61,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                     }
                 }
 
-                var value = GetPattern<ValuePattern>();
+                var value = Instance.GetPattern<ValuePattern>();
 
                 if (value != null)
                 {
@@ -86,7 +87,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var valuePattern = GetPattern<ValuePattern>();
+            var valuePattern = Instance.GetPattern<ValuePattern>();
 
             if (valuePattern != null)
             {
@@ -123,7 +124,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<ExpandCollapsePattern>().Expand();
+            Instance.GetPattern<ExpandCollapsePattern>().Expand();
             Logger.Instance.Log(LogLevel.Trace, "Expanded");
             return true;
         }
@@ -141,7 +142,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            GetPattern<ExpandCollapsePattern>().Collapse();
+            Instance.GetPattern<ExpandCollapsePattern>().Collapse();
             Logger.Instance.Log(LogLevel.Trace, "Collapsed");
             return true;
         }

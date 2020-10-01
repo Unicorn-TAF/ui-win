@@ -37,7 +37,7 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         {
             get
             {
-                var selectionItem = GetPattern<SelectionItemPattern>();
+                var selectionItem = Instance.GetPattern<SelectionItemPattern>();
                 if (selectionItem != null)
                 {
                     return selectionItem.Current.IsSelected;
@@ -61,14 +61,14 @@ namespace Unicorn.UI.Desktop.Controls.Typified
                 return false;
             }
 
-            var selectionItem = GetPattern<SelectionItemPattern>();
+            var selectionItem = Instance.GetPattern<SelectionItemPattern>();
             if (selectionItem != null)
             {
                 selectionItem.Select();
             }
             else
             {
-                var invoke = GetPattern<InvokePattern>();
+                var invoke = Instance.GetPattern<InvokePattern>();
                 if (invoke != null)
                 {
                     Logger.Instance.Log(LogLevel.Trace, "SelectionItemPattern was not found, trying to call Invoke");
