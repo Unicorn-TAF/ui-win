@@ -15,6 +15,44 @@ namespace Unicorn.Taf.Core.Verification
         private const string DefaultFailMessage = "Assertion failed.";
 
         /// <summary>
+        /// Perform assertion on condition if it's true
+        /// </summary>
+        /// <param name="condition">condition to check if it's true</param>
+        /// <param name="message">message thrown on fail</param>
+        public static void IsTrue(bool condition, string message)
+        {
+            if (!condition)
+            {
+                throw new AssertionException(message);
+            }
+        }
+
+        /// <summary>
+        /// Perform assertion on condition if it's true
+        /// </summary>
+        /// <param name="condition">condition to check if it's true</param>
+        public static void IsTrue(bool condition) => IsTrue(condition, DefaultFailMessage);
+
+        /// <summary>
+        /// Perform assertion on condition if it's false
+        /// </summary>
+        /// <param name="condition">condition to check if it's false</param>
+        /// <param name="message">message thrown on fail</param>
+        public static void IsFalse(bool condition, string message)
+        {
+            if (condition)
+            {
+                throw new AssertionException(message);
+            }
+        }
+
+        /// <summary>
+        /// Perform assertion on condition if it's false
+        /// </summary>
+        /// <param name="condition">condition to check if it's false</param>
+        public static void IsFalse(bool condition) => IsFalse(condition, DefaultFailMessage);
+
+        /// <summary>
         /// Perform assertion on object of any type using matcher 
         /// which is not specified by type and with specified message on fail
         /// </summary>
