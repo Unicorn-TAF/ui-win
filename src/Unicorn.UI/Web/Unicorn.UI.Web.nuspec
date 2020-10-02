@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.UI.Core 2.2.0. Implemented pages cache mechanism, page attributes, small bugfixes</releaseNotes>
+    <releaseNotes>Support of Unicorn.UI.Core 2.2.1, bugfixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object web webdriver</tags>
     <dependencies>

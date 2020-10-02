@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Added ability to add many attachments to the test. Implemented auto assembly resolving mechanism in unicorn AppDomain isolation. Extended collection matchers. Documented source code</releaseNotes>
+    <releaseNotes>Bugfixes, code rules fixes, added asserts IsTrue/IsFalse, removed SuiteMethod.LogOutput.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation taf core tests steps verification matchers</tags>
     <dependencies>

@@ -18,7 +18,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.2.0. Added ability to set launch specific tags to suites. Added customization of defect type reported for skipped tests. Ability to report more than one test attachment.</releaseNotes>
+    <releaseNotes>Code rules fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation report-portal reporting</tags>
     <dependencies>

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Vitaliy Dobriyan")]
 [assembly: AssemblyProduct("Unicorn TAF UI Core")]
-[assembly: AssemblyCopyright("Copyright © 2019 Vitaliy Dobriyan")]
+[assembly: AssemblyCopyright("Copyright © 2020 Vitaliy Dobriyan")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
