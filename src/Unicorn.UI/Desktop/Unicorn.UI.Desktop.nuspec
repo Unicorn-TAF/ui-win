@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.UI.Core 2.2.0. Extended base controls collection. Implemented base windows complex controls. Implemented base UI actions.</releaseNotes>
+    <releaseNotes>Support of Unicorn.UI.Core 2.2.1, small fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object windows desktop uia2</tags>
     <dependencies>

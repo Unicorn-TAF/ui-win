@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Extended UI interfaces. Extended UI matchers collection. Added typified controls locators attributes. Extended UI Synchronization conditions.</releaseNotes>
+    <releaseNotes>Code rules fixes, any control is controls container, default locators for custom controls, NotSorted value for SortDirection enum.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation</tags>
     <dependencies>
