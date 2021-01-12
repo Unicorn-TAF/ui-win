@@ -28,7 +28,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <summary>
         /// Gets UIA tree item control type.
         /// </summary>
-        public override int UiaType => UIA_ControlTypeIds.UIA_ListItemControlTypeId;
+        public override int UiaType => UIA_ControlTypeIds.UIA_TreeItemControlTypeId;
 
         /// <summary>
         /// Gets a value indicating whether tree item is selected.
