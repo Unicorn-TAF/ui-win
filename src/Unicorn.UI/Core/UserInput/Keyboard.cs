@@ -12,13 +12,7 @@ namespace Unicorn.UI.Core.UserInput
     /// </summary>
     public class Keyboard
     {
-        /// <summary>
-        /// Use Window.Keyboard method to get handle to the Keyboard. Keyboard instance got using this method would not wait while the application
-        /// is busy.
-        /// </summary>
-        private static Keyboard instance;
-
-        private readonly List<SpecialKeys> scanCodeDependent = 
+        private readonly List<SpecialKeys> _scanCodeDependent = 
             new List<SpecialKeys>
             {
                 SpecialKeys.RightAlt,
@@ -36,11 +30,12 @@ namespace Unicorn.UI.Core.UserInput
                 SpecialKeys.RightWin
             };
 
-        private readonly List<SpecialKeys> heldKeys = new List<SpecialKeys>();
+        private readonly List<int> _keysHeld = new List<int>();
 
-        private readonly List<int> keysHeld = new List<int>();
-
-        protected Keyboard()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Keyboard"/> class.
+        /// </summary>
+        private Keyboard()
         {
         }
 
@@ -93,45 +88,50 @@ namespace Unicorn.UI.Core.UserInput
             RightAlt = 0xA5
         }
 
-        public static Keyboard Instance
+        /// <summary>
+        /// Gets keyboard instance.
+        /// Use Window.Keyboard method to get handle to the Keyboard. Keyboard instance got using this method would not wait while the application
+        /// is busy.
+        /// </summary>
+        public static Keyboard Instance = new Keyboard();
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Caps Lock mode is ON
+        /// </summary>
+        public bool CapsLockOn
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new Keyboard();
-                }
-
-                return instance;
-            }
-        }
-
-        public virtual bool CapsLockOn
-        {
-            get
-            {
-                ushort state = GetKeyState((uint)SpecialKeys.CapsLock);
+                ushort state = NativeMethods.GetKeyState((uint)SpecialKeys.CapsLock);
                 return state != 0;
             }
 
             set
             {
-                if (this.CapsLockOn != value)
+                if (CapsLockOn != value)
                 {
                     Send(SpecialKeys.CapsLock, true);
                 }
             }
         }
 
-        public virtual List<SpecialKeys> HeldKeys => this.heldKeys;
+        /// <summary>
+        /// Gets help special keys.
+        /// </summary>
+        public List<SpecialKeys> HeldKeys { get; private set; } = new List<SpecialKeys>();
 
-        public virtual Keyboard Type(string keysToType)
+        /// <summary>
+        /// press sequence of keys
+        /// </summary>
+        /// <param name="keysToType">keys to type</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard Type(string keysToType)
         {
-            this.CapsLockOn = false;
+            CapsLockOn = false;
 
             foreach (char c in keysToType)
             {
-                short key = VkKeyScan(c);
+                short key = NativeMethods.VkKeyScan(c);
                 if (c.Equals('\r'))
                 {
                     continue;
@@ -153,43 +153,50 @@ namespace Unicorn.UI.Core.UserInput
             return this;
         }
 
-        public virtual Keyboard PressSpecialKey(SpecialKeys key)
+        /// <summary>
+        /// Presses one of <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to press</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard PressSpecialKey(SpecialKeys key)
         {
             Send(key, true);
             return this;
         }
 
-        public virtual Keyboard HoldKey(SpecialKeys key)
+        /// <summary>
+        /// Holds one of <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to hold</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard HoldKey(SpecialKeys key)
         {
             SendKeyDown((short)key, true);
-            this.heldKeys.Add(key);
+            HeldKeys.Add(key);
             return this;
         }
 
-        public virtual Keyboard LeaveKey(SpecialKeys key)
+        /// <summary>
+        /// Leaves specific <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <param name="key">special key to leave</param>
+        /// <returns>keyboard instance</returns>
+        public Keyboard LeaveKey(SpecialKeys key)
         {
             SendKeyUp((short)key, true);
-            this.heldKeys.Remove(key);
+            HeldKeys.Remove(key);
             return this;
         }
 
-        public virtual Keyboard LeaveAllKeys()
+        /// <summary>
+        /// Leaves all <see cref="SpecialKeys"/>
+        /// </summary>
+        /// <returns>keyboard instance</returns>
+        public Keyboard LeaveAllKeys()
         {
-            new List<SpecialKeys>(this.heldKeys).ForEach(LeaveSingleKey);
+            new List<SpecialKeys>(HeldKeys).ForEach(LeaveSingleKey);
             return this;
         }
-
-        [DllImport("user32", EntryPoint = "SendInput")]
-        private static extern int SendInput(uint numberOfInputs, ref Input input, int structSize);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetMessageExtraInfo();
-
-        [DllImport("user32.dll")]
-        private static extern short VkKeyScan(char ch);
-
-        [DllImport("user32.dll")]
-        private static extern ushort GetKeyState(uint virtKey);
 
         private static bool ShiftKeyIsNeeded(short key) =>
             ((key >> 8) & 1) == 1;
@@ -197,12 +204,12 @@ namespace Unicorn.UI.Core.UserInput
         private void LeaveSingleKey(SpecialKeys key)
         {
             SendKeyUp((short)key, true);
-            this.heldKeys.Remove(key);
+            HeldKeys.Remove(key);
         }
 
         private KeyUpDown GetSpecialKeyCode(bool specialKey, KeyUpDown key)
         {
-            if (specialKey && scanCodeDependent.Contains((SpecialKeys)key))
+            if (specialKey && _scanCodeDependent.Contains((SpecialKeys)key))
             {
                 key |= KeyUpDown.KEYEVENTF_EXTENDEDKEY;
             }
@@ -211,10 +218,10 @@ namespace Unicorn.UI.Core.UserInput
         }
 
         private void SendInput(Input input) =>
-            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         private Input GetInputFor(short character, KeyUpDown keyUpOrDown) =>
-            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, GetMessageExtraInfo()));
+            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, NativeMethods.GetMessageExtraInfo()));
 
         private void Press(short key, bool specialKey)
         {
@@ -227,24 +234,24 @@ namespace Unicorn.UI.Core.UserInput
 
         private void SendKeyUp(short b, bool specialKey)
         {
-            if (!this.keysHeld.Contains(b))
+            if (!_keysHeld.Contains(b))
             {
                 throw new InvalidOperationException($"Cannot press the key {b} as its already pressed");
             }
 
-            this.keysHeld.Remove(b);
+            _keysHeld.Remove(b);
             KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYUP);
             SendInput(GetInputFor(b, keyUpDown));
         }
 
         private void SendKeyDown(short b, bool specialKey)
         {
-            if (this.keysHeld.Contains(b))
+            if (_keysHeld.Contains(b))
             {
                 throw new InvalidOperationException($"Cannot press the key {b} as its already pressed");
             }
 
-            this.keysHeld.Add(b);
+            _keysHeld.Add(b);
             KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYDOWN);
             SendInput(GetInputFor(b, keyUpDown));
         }

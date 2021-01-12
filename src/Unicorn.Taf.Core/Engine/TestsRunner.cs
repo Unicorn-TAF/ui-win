@@ -15,7 +15,7 @@ namespace Unicorn.Taf.Core.Engine
     /// </summary>
     public class TestsRunner
     {
-        private readonly string testsAssemblyFile;
+        private readonly string _testsAssemblyFile;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly
@@ -32,9 +32,9 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="configurationFileName">path to configuration file</param>
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
-            this.testsAssemblyFile = assemblyPath;
+            _testsAssemblyFile = assemblyPath;
             Config.FillFromFile(configurationFileName);
-            this.Outcome = new LaunchOutcome();
+            Outcome = new LaunchOutcome();
         }
 
         /// <summary>
@@ -44,14 +44,14 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="getConfigFromFile">true - if need to load config from default file <c>(.\unicorn.conf)</c>; false if use default values from <see cref="Config"/></param>
         public TestsRunner(string assemblyPath, bool getConfigFromFile)
         {
-            this.testsAssemblyFile = assemblyPath;
+            _testsAssemblyFile = assemblyPath;
 
             if (getConfigFromFile)
             {
                 Config.FillFromFile(string.Empty);
             }
 
-            this.Outcome = new LaunchOutcome();
+            Outcome = new LaunchOutcome();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         public virtual void RunTests()
         {
-            var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
+            var testsAssembly = Assembly.LoadFrom(_testsAssemblyFile);
 
             var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
@@ -81,7 +81,7 @@ namespace Unicorn.Taf.Core.Engine
                 return;
             }
 
-            this.Outcome.StartTime = DateTime.Now;
+            Outcome.StartTime = DateTime.Now;
 
             // Execute run init action if exists in assembly.
             try
@@ -91,11 +91,11 @@ namespace Unicorn.Taf.Core.Engine
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
-                this.Outcome.RunInitialized = false;
-                this.Outcome.RunnerException = ex.InnerException;
+                Outcome.RunInitialized = false;
+                Outcome.RunnerException = ex.InnerException;
             }
 
-            if (this.Outcome.RunInitialized)
+            if (Outcome.RunInitialized)
             {
                 foreach (var suiteType in runnableSuites)
                 {
@@ -137,7 +137,7 @@ namespace Unicorn.Taf.Core.Engine
         protected void ExecuteSuiteIteration(TestSuite testSuite)
         {
             testSuite.Execute();
-            this.Outcome.SuitesOutcomes.Add(testSuite.Outcome);
+            Outcome.SuitesOutcomes.Add(testSuite.Outcome);
         }
 
         /// <summary>

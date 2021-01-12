@@ -6,37 +6,37 @@ using Unicorn.UI.Core.UserInput.WindowsApi;
 
 namespace Unicorn.UI.Core.UserInput
 {
+    /// <summary>
+    /// Mouse.
+    /// </summary>
     public class Mouse
     {
         private const int ExtraMillisecondsBecauseOfBugInWindows = 13;
-        private static Mouse instance = null;
-        private readonly short doubleClickTime = GetDoubleClickTime();
+        private readonly short _doubleClickTime = NativeMethods.GetDoubleClickTime();
         private DateTime lastClickTime = DateTime.Now;
         private Point lastClickLocation;
 
-        protected Mouse()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mouse"/> class.
+        /// </summary>
+        private Mouse()
         {
         }
 
-        public static Mouse Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Mouse();
-                }
+        /// <summary>
+        /// Gets mouse instance.
+        /// </summary>
+        public static Mouse Instance = new Mouse();
 
-                return instance;
-            }
-        }
-
-        public virtual Point Location
+        /// <summary>
+        /// Gets or sets mouse current location as <see cref="Point"/>.
+        /// </summary>
+        public Point Location
         {
             get
             {
                 var point = new System.Drawing.Point();
-                GetCursorPos(ref point);
+                NativeMethods.GetCursorPos(ref point);
                 return new Point(point.X, point.Y);
             }
 
@@ -47,25 +47,34 @@ namespace Unicorn.UI.Core.UserInput
                     throw new InvalidOperationException($"Trying to set location outside the screen. {value}");
                 }
 
-                SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
+                NativeMethods.SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
             }
         }
 
-        public virtual void RightClick()
+        /// <summary>
+        /// Performs right mouse click on current pointer location.
+        /// </summary>
+        public void RightClick()
         {
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, NativeMethods.GetMessageExtraInfo())));
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, NativeMethods.GetMessageExtraInfo())));
         }
 
-        public virtual void ResetPosition() =>
-            Instance.Location = new Point(0, 0);
+        /// <summary>
+        /// Moves mouse pointer to left upper screen corner.
+        /// </summary>
+        public void ResetPosition() =>
+            Location = new Point(0, 0);
 
-        public virtual void Click()
+        /// <summary>
+        /// Performs left mouse click on current pointer location.
+        /// </summary>
+        public void Click()
         {
-            Point clickLocation = this.Location;
-            if (this.lastClickLocation.Equals(clickLocation))
+            Point clickLocation = Location;
+            if (lastClickLocation.Equals(clickLocation))
             {
-                int timeout = this.doubleClickTime - DateTime.Now.Subtract(this.lastClickTime).Milliseconds;
+                int timeout = _doubleClickTime - DateTime.Now.Subtract(lastClickTime).Milliseconds;
                 if (timeout > 0)
                 {
                     Thread.Sleep(timeout + ExtraMillisecondsBecauseOfBugInWindows);
@@ -73,58 +82,64 @@ namespace Unicorn.UI.Core.UserInput
             }
 
             MouseLeftButtonUpAndDown();
-            this.lastClickTime = DateTime.Now;
-            this.lastClickLocation = this.Location;
+            lastClickTime = DateTime.Now;
+            lastClickLocation = Location;
         }
 
-        public virtual void RightClick(Point point)
+        /// <summary>
+        /// Performs right mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to right click on</param>
+        public void RightClick(Point point)
         {
-            this.Location = point;
+            Location = point;
             RightClick();
         }
 
-        public virtual void Click(Point point)
+        /// <summary>
+        /// Performs left mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to left click on</param>
+        public void Click(Point point)
         {
-            this.Location = point;
+            Location = point;
             Click();
         }
 
-        public virtual void MoveOut() => this.Location = new Point(0, 0);
-
-        public virtual void DoubleClick(Point point)
+        /// <summary>
+        /// Performs double left mouse click on specified pointer location.
+        /// </summary>
+        /// <param name="point">point on screen to left click on</param>
+        public void DoubleClick(Point point)
         {
-            this.Location = point;
+            Location = point;
             MouseLeftButtonUpAndDown();
             MouseLeftButtonUpAndDown();
         }
 
-        internal int SendInput(Input input) =>
-            SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+        /// <summary>
+        /// Performs left button down action on current mouse position.
+        /// </summary>
+        public void LeftButtonDown() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, NativeMethods.GetMessageExtraInfo())));
 
-        [DllImport("user32", EntryPoint = "SendInput")]
-        private static extern int SendInput(int numberOfInputs, ref Input input, int structSize);
+        /// <summary>
+        /// Performs left button up action on current mouse position.
+        /// </summary>
+        public void LeftButtonUp() =>
+            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, NativeMethods.GetMessageExtraInfo())));
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetMessageExtraInfo();
-
-        [DllImport("user32.dll")]
-        private static extern bool GetCursorPos(ref System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern bool SetCursorPos(System.Drawing.Point cursorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern short GetDoubleClickTime();
+        private int SendInput(Input input) =>
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
         private void MouseLeftButtonUpAndDown()
         {
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, GetMessageExtraInfo())));
+            LeftButtonDown();
+            LeftButtonUp();
         }
 
         private bool PointIsInvalid(Point p) =>
             double.IsNaN(p.X) || double.IsNaN(p.Y) ||
-            p.X == double.PositiveInfinity || p.X == double.NegativeInfinity ||
-            p.Y == double.PositiveInfinity || p.Y == double.NegativeInfinity;
+            double.IsInfinity(p.X) || double.IsInfinity(p.Y);
     }
 }

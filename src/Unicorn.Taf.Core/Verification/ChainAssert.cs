@@ -15,19 +15,31 @@ namespace Unicorn.Taf.Core.Verification
     {
         private const string But = "But: ";
         private const string Expected = "Expected: ";
+        private const string FailedMessage = " failed with next errors";
+        private const string DefaultDescription = "Chain assertion";
 
-        private readonly StringBuilder errors;
-        private bool isSomethingFailed;
-        private int errorCounter;
+        private readonly string _errorMessage;
+        private readonly StringBuilder _errors;
+        private bool _isSomethingFailed;
+        private int _errorCounter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChainAssert"/> class 
+        /// Initializes a new instance of the <see cref="ChainAssert"/> class. 
         /// </summary>
-        public ChainAssert()
+        public ChainAssert() : this(DefaultDescription)
         {
-            this.errors = new StringBuilder();
-            this.isSomethingFailed = false;
-            this.errorCounter = 1;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChainAssert"/> class with specified description.
+        /// </summary>
+        /// <param name="description">check description</param>
+        public ChainAssert(string description)
+        {
+            _errors = new StringBuilder();
+            _isSomethingFailed = false;
+            _errorCounter = 1;
+            _errorMessage = description + FailedMessage;
         }
 
         /// <summary>
@@ -53,8 +65,8 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                this.isSomethingFailed = true;
+                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                _isSomethingFailed = true;
             }
 
             return this;
@@ -94,15 +106,15 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                this.isSomethingFailed = true;
+                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                _isSomethingFailed = true;
             }
 
             return this;
         }
 
         /// <summary>
-        /// Perform soft check on object of any type using matcher 
+        /// Perform soft check on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>
@@ -136,8 +148,8 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                this.errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                this.isSomethingFailed = true;
+                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                _isSomethingFailed = true;
             }
 
             return this;
@@ -158,9 +170,9 @@ namespace Unicorn.Taf.Core.Verification
         /// </summary>
         public void AssertChain()
         {
-            if (this.isSomethingFailed)
+            if (_isSomethingFailed)
             {
-                throw new AssertionException("Chain assertion failed with next errors" + this.errors.ToString().Trim());
+                throw new AssertionException(_errorMessage + Environment.NewLine + _errors.ToString().Trim());
             }
         }
     }

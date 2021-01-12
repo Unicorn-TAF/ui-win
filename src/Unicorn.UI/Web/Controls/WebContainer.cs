@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 
 namespace Unicorn.UI.Web.Controls
@@ -26,36 +27,12 @@ namespace Unicorn.UI.Web.Controls
         }
 
         /// <summary>
-        /// Gets or sets control wrapped instance as <see cref="IWebElement"/> which is also current search context.
-        /// When search context was set this container is initialized by <see cref="ContainerFactory"/>
+        /// Clicks button with specified text within the container.
         /// </summary>
-        public override IWebElement Instance
-        {
-            get
-            {
-                if (!this.Cached)
-                {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator);
-                }
-
-                return (IWebElement)this.SearchContext;
-            }
-
-            set
-            {
-                this.SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
-        }
-
-        /// <summary>
-        /// Clicks button with specified name within the container.
-        /// </summary>
-        /// <param name="locator">button name</param>
-        public virtual void ClickButton(string locator)
-        {
-            throw new NotImplementedException();
-        }
+        /// <param name="locator">button text</param>
+        public virtual void ClickButton(string locator) =>
+            Find<WebControl>(ByLocator.Xpath($".//button[. = '{locator}']"))
+            .Click();
 
         /// <summary>
         /// Sets specified text into specified text input within the container.

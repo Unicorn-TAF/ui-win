@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     /// <summary>
     /// Basic realization of simple wait for some boolean condition during specified timeout and with polling interval.
     /// </summary>
-    public class DefaultWait : AbstractWait
+    public class DefaultWait : BaseWait
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait"/> class with default timeout and polling interval.
@@ -23,8 +23,8 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <param name="pollingInterval">check polling interval</param>
         public DefaultWait(TimeSpan timeout, TimeSpan pollingInterval)
         {
-            this.Timeout = timeout;
-            this.PollingInterval = pollingInterval;
+            Timeout = timeout;
+            PollingInterval = pollingInterval;
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 throw new ArgumentNullException("condition", "Wait condition is not defined.");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for '{condition.Method.Name} during {this.Timeout} with polling interval {this.PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for '{condition.Method.Name} during {Timeout} with polling interval {PollingInterval}");
 
             Exception lastException = null;
-            this.Timer
-                .SetExpirationTimeout(this.Timeout)
+            Timer
+                .SetExpirationTimeout(Timeout)
                 .Start();
 
             while (true)
@@ -52,13 +52,13 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 {
                     if (condition.Invoke())
                     {
-                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {this.Timer.Elapsed}]");
+                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
-                    if (!this.IsIgnoredException(ex))
+                    if (!IsIgnoredException(ex))
                     {
                         throw;
                     }
@@ -67,12 +67,12 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 }
 
                 // throw TimeoutException if conditions are not met before timer expiration
-                if (this.Timer.Expired)
+                if (Timer.Expired)
                 {
-                    throw new TimeoutException(this.GenerateTimeoutMessage(condition.Method.Name), lastException);
+                    throw new TimeoutException(GenerateTimeoutMessage(condition.Method.Name), lastException);
                 }
 
-                Thread.Sleep(this.PollingInterval);
+                Thread.Sleep(PollingInterval);
             }
         }
     }

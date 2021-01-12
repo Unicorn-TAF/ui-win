@@ -16,16 +16,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Parallel by assembly
         /// </summary>
         Assembly,
-
-        /// <summary>
-        /// Parallel by suite
-        /// </summary>
-        Suite,
-
-        /// <summary>
-        /// Parallel by tests within suite
-        /// </summary>
-        Test
+        ////Suite,
+        ////Test
     }
 
     /// <summary>
@@ -54,10 +46,6 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     /// </summary>
     public static class Config
     {
-        private static HashSet<string> tags = new HashSet<string>();
-        private static HashSet<string> categories = new HashSet<string>();
-        private static HashSet<string> tests = new HashSet<string>();
-
         /// <summary>
         /// Gets or sets value indicating timeout to fail test if it reached the timeout (default - 15 minutes).
         /// </summary>
@@ -86,17 +74,17 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// <summary>
         /// Gets list of suite tags to be run (default - empty list [all suites]).
         /// </summary>
-        public static HashSet<string> RunTags => tags;
+        public static HashSet<string> RunTags { get; private set; } = new HashSet<string>();
 
         /// <summary>
         /// Gets list of test categories to be run (default - empty list [all categories]).
         /// </summary>
-        public static HashSet<string> RunCategories => categories;
+        public static HashSet<string> RunCategories { get; private set; } = new HashSet<string>();
 
         /// <summary>
         /// Gets list of test masks to search for tests to be run (default - empty list [all tests]).
         /// </summary>
-        public static HashSet<string> RunTests => tests;
+        public static HashSet<string> RunTests { get; private set; } = new HashSet<string>();
 
         /// <summary>
         /// Set tags on which test suites needed to be run.
@@ -104,7 +92,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="tagsToRun">array of features</param>
         public static void SetSuiteTags(params string[] tagsToRun) =>
-            tags = new HashSet<string>(
+            RunTags = new HashSet<string>(
                 tagsToRun
                 .Select(v => v.ToUpper().Trim())
                 .Where(v => !string.IsNullOrEmpty(v)));
@@ -115,7 +103,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
         public static void SetTestCategories(params string[] categoriesToRun) =>
-            categories = new HashSet<string>(
+            RunCategories = new HashSet<string>(
                 categoriesToRun
                 .Select(v => v.ToUpper().Trim())
                 .Where(v => !string.IsNullOrEmpty(v)));
@@ -127,7 +115,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         /// <param name="testsToRun">tests masks</param>
         public static void SetTestsMasks(params string[] testsToRun) =>
-            tests = new HashSet<string>(
+            RunTests = new HashSet<string>(
                 testsToRun
                 .Select(v => v.Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
                 .Where(v => !string.IsNullOrEmpty(v)));
@@ -160,9 +148,9 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         public static void Reset()
         {
-            tags.Clear();
-            categories.Clear();
-            tests.Clear();
+            RunTags.Clear();
+            RunCategories.Clear();
+            RunTests.Clear();
             TestTimeout = TimeSpan.FromMinutes(15);
             SuiteTimeout = TimeSpan.FromMinutes(60);
             ParallelBy = Parallelization.Assembly;
@@ -201,6 +189,33 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                     $"{typeof(T)} is not defined. Available methods are: " +
                     string.Join(",", Enum.GetValues(typeof(T)).Cast<T>()));
             }
+        }
+
+        private class JsonConfig
+        {
+            [JsonProperty("testTimeout")]
+            internal int JsonTestTimeout { get; set; } = 15;
+
+            [JsonProperty("suiteTimeout")]
+            internal int JsonSuiteTimeout { get; set; } = 60;
+
+            [JsonProperty("parallel")]
+            internal string JsonParallelBy { get; set; } = Parallelization.Assembly.ToString();
+
+            [JsonProperty("threads")]
+            internal int JsonThreads { get; set; } = 1;
+
+            [JsonProperty("testsDependency")]
+            internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
+
+            [JsonProperty("tags")]
+            internal List<string> JsonRunTags { get; set; } = new List<string>();
+
+            [JsonProperty("categories")]
+            internal List<string> JsonRunCategories { get; set; } = new List<string>();
+
+            [JsonProperty("tests")]
+            internal List<string> JsonRunTests { get; set; } = new List<string>();
         }
     }
 }

@@ -10,27 +10,21 @@ namespace Unicorn.UI.Desktop.Driver
     /// </summary>
     public class GuiDriver : GuiSearchContext, IDriver
     {
-        private static GuiDriver instance = null;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuiDriver"/> with default implicit timeout.
+        /// </summary>
+        private GuiDriver()
+        {
+            SearchContext = AutomationElement.RootElement;
+            ImplicitlyWait = TimeoutDefault;
+            Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
+        }
 
         /// <summary>
         /// Gets instance of Desktop driver.
         /// Initialized with default implicitly wait timeout.
         /// </summary>
-        public static GuiDriver Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new GuiDriver();
-                    instance.SearchContext = AutomationElement.RootElement;
-                    instance.ImplicitlyWait = instance.TimeoutDefault;
-                    Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
-                }
-
-                return instance;
-            }
-        }
+        public static GuiDriver Instance { get; } = new GuiDriver();
 
         /// <summary>
         /// Gets or sets implicit timeout of waiting for specified element to be existed in elements tree.

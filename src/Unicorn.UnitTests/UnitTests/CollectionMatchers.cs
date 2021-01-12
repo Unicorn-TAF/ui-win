@@ -45,10 +45,23 @@ namespace Unicorn.UnitTests.Tests
                 "qwert12y"
             };
 
-        private readonly int[] actual1 = new[]
+        private readonly int[] intArray1 = new[]
             {
                 2,
                 3
+            };
+
+        private readonly int[] intArray2 = new[]
+            {
+                2,
+                4,
+                6
+            };
+
+        private readonly List<int> intList1 = new List<int>
+            {
+                3,
+                2
             };
 
         #endregion
@@ -200,7 +213,7 @@ namespace Unicorn.UnitTests.Tests
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotPositive2() =>
-            Uv.Assert.That(actual1, Um.Is.Not(Collection.IsNullOrEmpty()));
+            Uv.Assert.That(intArray1, Um.Is.Not(Collection.IsNullOrEmpty()));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestMatcherIsNullOrEmptyWithNotNegative1() =>
@@ -210,5 +223,141 @@ namespace Unicorn.UnitTests.Tests
             });
 
         #endregion
+
+        #region "Each"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachPositive() =>
+            Uv.Assert.That(intArray2, Collection.Each(Number.IsEven()));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachWithNotPositive2() =>
+            Uv.Assert.That(intArray1, Um.Is.Not(Collection.Each(Number.IsEven())));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.Each(Um.Is.EqualTo("a")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNegative() =>
+           Assert.Throws<Uv.AssertionException>(delegate
+           {
+               Uv.Assert.That(hasItemsA, Collection.Each(Um.Is.EqualTo("a")));
+           });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachNullWithNotNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.Each(Um.Is.EqualTo("a"))));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherEachWithNotNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(expected1, Um.Is.Not(Collection.Each(Um.Is.EqualTo("qwerty"))));
+            });
+
+        #endregion
+
+        #region "Any"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyPositive() =>
+            Uv.Assert.That(hasItemsA, Collection.Any(Um.Is.EqualTo("qwerty123")));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullWithNotPositive2() =>
+            Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.Any(Um.Is.EqualTo("qwerty4"))));
+        
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.Any(Um.Is.EqualTo("a")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Collection.Any(Um.Is.EqualTo("")));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyNullWithNotNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.Any(Um.Is.EqualTo("a"))));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherAnyWithNotNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.Any(Um.Is.EqualTo("qwerty"))));
+            });
+
+        #endregion
+
+        #region "IsTheSameAs"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsPositive1() =>
+            Uv.Assert.That(intArray1, Collection.IsTheSameAs(intList1));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithNotPositive1() =>
+            Uv.Assert.That(intArray1, Um.Is.Not(Collection.IsTheSameAs(intArray2)));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(intArray1, Collection.IsTheSameAs(intArray2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.IsTheSameAs(expected1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithNotNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(intArray1, Um.Is.Not(Collection.IsTheSameAs(intArray1)));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithNotNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.IsTheSameAs(hasItemsB)));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesPositive1() =>
+            Uv.Assert.That(new int[] { 1, 1, 2 }, Collection.IsTheSameAs(new int[] { 1, 2, 1 }));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesReversePositive1() =>
+            Uv.Assert.That(new int[] { 1, 1, 2 }, Um.Is.Not(Collection.IsTheSameAs(new int[] { 1, 2, 2 })));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsTheSameAsWithDuplicatesNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(new int[] { 1, 1, 2 }, Collection.IsTheSameAs(new int[] { 1, 2, 2 }));
+            });
+
+        #endregion
+
     }
 }

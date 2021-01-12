@@ -16,7 +16,7 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public SuiteOutcome()
         {
-            this.TestsOutcomes = new List<TestOutcome>();
+            TestsOutcomes = new List<TestOutcome>();
         }
 
         /// <summary>

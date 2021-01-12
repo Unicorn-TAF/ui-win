@@ -12,6 +12,45 @@ namespace Unicorn.Taf.Core.Verification
     {
         private const string But = "But: ";
         private const string Expected = "Expected: ";
+        private const string DefaultFailMessage = "Assertion failed.";
+
+        /// <summary>
+        /// Perform assertion on condition if it's true
+        /// </summary>
+        /// <param name="condition">condition to check if it's true</param>
+        /// <param name="message">message thrown on fail</param>
+        public static void IsTrue(bool condition, string message)
+        {
+            if (!condition)
+            {
+                throw new AssertionException(message);
+            }
+        }
+
+        /// <summary>
+        /// Perform assertion on condition if it's true
+        /// </summary>
+        /// <param name="condition">condition to check if it's true</param>
+        public static void IsTrue(bool condition) => IsTrue(condition, DefaultFailMessage);
+
+        /// <summary>
+        /// Perform assertion on condition if it's false
+        /// </summary>
+        /// <param name="condition">condition to check if it's false</param>
+        /// <param name="message">message thrown on fail</param>
+        public static void IsFalse(bool condition, string message)
+        {
+            if (condition)
+            {
+                throw new AssertionException(message);
+            }
+        }
+
+        /// <summary>
+        /// Perform assertion on condition if it's false
+        /// </summary>
+        /// <param name="condition">condition to check if it's false</param>
+        public static void IsFalse(bool condition) => IsFalse(condition, DefaultFailMessage);
 
         /// <summary>
         /// Perform assertion on object of any type using matcher 
@@ -47,10 +86,10 @@ namespace Unicorn.Taf.Core.Verification
         /// </summary>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
-        public static void That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, string.Empty);
+        public static void That(object actual, TypeUnsafeMatcher matcher) => That(actual, matcher, DefaultFailMessage);
 
         /// <summary>
-        /// Perform assertion on object of any type using matcher 
+        /// Perform assertion on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// and with specified message on fail
         /// </summary>
@@ -80,13 +119,13 @@ namespace Unicorn.Taf.Core.Verification
         }
 
         /// <summary>
-        /// Perform assertion on object of any type using matcher 
+        /// Perform assertion on object of any type using type specific matcher 
         /// which is suitable for specified actual object type
         /// </summary>
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        public static void That<T>(T actual, TypeSafeMatcher<T> matcher) => That(actual, matcher, string.Empty);
+        public static void That<T>(T actual, TypeSafeMatcher<T> matcher) => That(actual, matcher, DefaultFailMessage);
 
         /// <summary>
         /// Perform assertion on collection of objects of same type using matcher 
@@ -125,6 +164,6 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That(actual, matcher, string.Empty);
+        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That(actual, matcher, DefaultFailMessage);
     }
 }

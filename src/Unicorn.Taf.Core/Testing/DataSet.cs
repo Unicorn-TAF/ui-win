@@ -15,8 +15,8 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="parameters">array of objects</param>
         public DataSet(string name, params object[] parameters)
         {
-            this.Name = name;
-            this.Parameters = new List<object>(parameters);
+            Name = name;
+            Parameters = new List<object>(parameters);
         }
 
         /// <summary>

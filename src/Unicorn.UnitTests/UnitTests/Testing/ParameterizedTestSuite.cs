@@ -27,7 +27,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestParameterizedSuiteCountOfTests()
         {
-            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(2));
         }
@@ -36,28 +36,28 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestParameterizedSuiteCountOfAfterSuite()
         {
-            Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_afterSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestParameterizedSuiteCountOfBeforeSuite()
         {
-            Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_beforeSuites").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestParameterizedSuiteCountOfAfterTest()
         {
-            Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_afterTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestParameterizedSuiteCountOfBeforeTest()
         {
-            Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_beforeTests").Length, Is.EqualTo(1));
         }
 
         [Author("Vitaliy Dobriyan")]

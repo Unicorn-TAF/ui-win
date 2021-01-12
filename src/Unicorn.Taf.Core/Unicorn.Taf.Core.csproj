@@ -59,20 +59,20 @@
   <ItemGroup>
     <Compile Include="Engine\IsolatedTestsInfoObserver.cs" />
     <Compile Include="Engine\IsolatedTestsRunner.cs" />
-    <Compile Include="Engine\Configuration\JsonConfig.cs" />
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\OrderedTargetedTestsRunner.cs" />
+    <Compile Include="Testing\Attachment.cs" />
     <Compile Include="Testing\TestTimeoutException.cs" />
     <Compile Include="Utility\TrxCreator.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />
     <Compile Include="Testing\Attributes\DependsOnAttribute.cs" />
     <Compile Include="Testing\Attributes\TestAssemblyAttribute.cs" />
-    <Compile Include="Verification\Matchers\AbstractMatcher.cs" />
+    <Compile Include="Verification\Matchers\BaseMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\AnyMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\EachMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
-    <Compile Include="Verification\Matchers\CollectionMatchers\IsSequenceEqualToCollectionMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\SequenceEqualToCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\TypeSafeCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\TypeSafeCollectionNotMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\TypeSafeNotMatcher.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Testing\Attributes\ParameterizedAttribute.cs" />
     <Compile Include="Testing\Attributes\RunFinalyzeAttribute.cs" />
     <Compile Include="Testing\Attributes\RunInitializeAttribute.cs" />
-    <Compile Include="Testing\Attributes\SuiteMetadataAttribute.cs" />
+    <Compile Include="Testing\Attributes\MetadataAttribute.cs" />
     <Compile Include="Testing\Attributes\TestDataAttribute.cs" />
     <Compile Include="Testing\Attributes\SuiteDataAttribute.cs" />
     <Compile Include="Verification\Assert.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="Verification\Matchers\MiscMatchers\StringContainsMatcher.cs" />
     <Compile Include="Verification\Matchers\TypeUnsafeMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsMatcher.cs" />
-    <Compile Include="Verification\Matchers\CollectionMatchers\IsEqualToCollectionMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\TheSameAsCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\IsNullOrEmptyMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\EqualToMatcher.cs" />
     <Compile Include="Verification\Matchers\CoreMatchers\NullMatcher.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Testing\TestOutcome.cs" />
     <Compile Include="Testing\TestSuite.cs" />
     <Compile Include="Testing\DataSet.cs" />
-    <Compile Include="Utility\Synchronization\AbstractWait.cs" />
+    <Compile Include="Utility\Synchronization\BaseWait.cs" />
     <Compile Include="Utility\Synchronization\WaitTimer.cs" />
     <Compile Include="Utility\Synchronization\DefaultWait.cs" />
   </ItemGroup>

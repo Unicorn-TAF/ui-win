@@ -6,6 +6,9 @@ using ReportPortal.Shared.Reporter;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
         internal void StartRun()
@@ -25,9 +28,9 @@ namespace Unicorn.ReportPortalAgent
                 };
 
                 Bridge.Context.LaunchReporter =
-                    string.IsNullOrEmpty(this.ExistingLaunchId) ?
+                    string.IsNullOrEmpty(ExistingLaunchId) ?
                     new LaunchReporter(Bridge.Service) :
-                    new LaunchReporter(Bridge.Service, this.ExistingLaunchId);
+                    new LaunchReporter(Bridge.Service, ExistingLaunchId);
 
                 Bridge.Context.LaunchReporter.Start(startLaunchRequest);
             }

@@ -4,18 +4,21 @@ using ReportPortal.Client.Requests;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
-        internal void AddAttachment(Guid id, LogLevel level, string text, string attachmantName, string mime, byte[] content)
+        private void AddAttachment(Guid id, LogLevel level, string text, string attachmentName, string mime, byte[] content)
         {
             try
             {
-                this.testFlowIds[id].Log(new AddLogItemRequest
+                _testFlowIds[id].Log(new AddLogItemRequest
                 {
                     Level = level,
                     Time = DateTime.UtcNow,
                     Text = text,
-                    Attach = new Attach(attachmantName, mime, content)
+                    Attach = new Attach(attachmentName, mime, content)
                 });
             }
             catch (Exception exception)
@@ -24,11 +27,11 @@ namespace Unicorn.ReportPortalAgent
             }
         }
 
-        internal void AddLog(Guid id, LogLevel level, string text)
+        private void AddLog(Guid id, LogLevel level, string text)
         {
             try
             {
-                this.testFlowIds[id].Log(new AddLogItemRequest
+                _testFlowIds[id].Log(new AddLogItemRequest
                 {
                     Level = level,
                     Time = DateTime.UtcNow,

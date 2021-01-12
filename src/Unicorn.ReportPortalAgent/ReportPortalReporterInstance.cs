@@ -11,8 +11,8 @@ namespace Unicorn.ReportPortalAgent
     /// </summary>
     public sealed class ReportPortalReporterInstance : IDisposable
     {
-        private readonly ReportPortalListener listener;
-        private readonly bool externalLaunch = false;
+        private readonly ReportPortalListener _listener;
+        private readonly bool _externalLaunch = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReportPortalReporterInstance"/> class.
@@ -30,25 +30,25 @@ namespace Unicorn.ReportPortalAgent
         {
             if (ReportPortalListener.Config.IsEnabled)
             {
-                this.listener = new ReportPortalListener();
+                _listener = new ReportPortalListener();
 
                 if (!string.IsNullOrEmpty(existingLaunchId))
                 {
-                    externalLaunch = true;
-                    this.listener.ExistingLaunchId = existingLaunchId;
+                    _externalLaunch = true;
+                    _listener.ExistingLaunchId = existingLaunchId;
                 }
 
-                this.listener.StartRun();
+                _listener.StartRun();
 
-                Test.OnTestStart += this.listener.StartSuiteMethod;
-                Test.OnTestFinish += this.listener.FinishSuiteMethod;
-                Test.OnTestSkip += this.listener.SkipSuiteMethod;
+                Test.OnTestStart += _listener.StartSuiteMethod;
+                Test.OnTestFinish += _listener.FinishSuiteMethod;
+                Test.OnTestSkip += _listener.SkipSuiteMethod;
 
-                SuiteMethod.OnSuiteMethodStart += this.listener.StartSuiteMethod;
-                SuiteMethod.OnSuiteMethodFinish += this.listener.FinishSuiteMethod;
+                SuiteMethod.OnSuiteMethodStart += _listener.StartSuiteMethod;
+                SuiteMethod.OnSuiteMethodFinish += _listener.FinishSuiteMethod;
 
-                TestSuite.OnSuiteStart += this.listener.StartSuite;
-                TestSuite.OnSuiteFinish += this.listener.FinishSuite;
+                TestSuite.OnSuiteStart += _listener.StartSuite;
+                TestSuite.OnSuiteFinish += _listener.FinishSuite;
 
                 StepsEvents.OnStepStart += ReportInfo;
             }
@@ -60,9 +60,23 @@ namespace Unicorn.ReportPortalAgent
         /// <param name="method">method itself</param>
         /// <param name="arguments">method arguments</param>
         public void ReportInfo(MethodBase method, object[] arguments) =>
-            this.listener.ReportTestMessage(
+            _listener.ReportTestMessage(
                 LogLevel.Info, 
                 StepsUtilities.GetStepInfo(method, arguments));
+
+        /// <summary>
+        /// Sets list of tags which are common for all suites and specific for the run
+        /// </summary>
+        /// <param name="tags">list of tags</param>
+        public void SetCommonSuitesTags(params string[] tags) =>
+            _listener.SetCommonSuitesTags(tags);
+
+        /// <summary>
+        /// Sets defect type to set for skipped tests in report portal.
+        /// </summary>
+        /// <param name="defectType">report portal defect type ID</param>
+        public void SetSkippedTestsDefectType(string defectType) =>
+            _listener.SkippedTestDefectType = defectType;
 
         /// <summary>
         /// Unsubscribe from events and finish launch if it is not external
@@ -71,20 +85,20 @@ namespace Unicorn.ReportPortalAgent
         {
             if (ReportPortalListener.Config.IsEnabled)
             {
-                if (!externalLaunch)
+                if (!_externalLaunch)
                 {
-                    this.listener.FinishRun();
+                    _listener.FinishRun();
                 }
 
-                Test.OnTestStart -= this.listener.StartSuiteMethod;
-                Test.OnTestFinish -= this.listener.FinishSuiteMethod;
-                Test.OnTestSkip -= this.listener.SkipSuiteMethod;
+                Test.OnTestStart -= _listener.StartSuiteMethod;
+                Test.OnTestFinish -= _listener.FinishSuiteMethod;
+                Test.OnTestSkip -= _listener.SkipSuiteMethod;
 
-                SuiteMethod.OnSuiteMethodStart -= this.listener.StartSuiteMethod;
-                SuiteMethod.OnSuiteMethodFinish -= this.listener.FinishSuiteMethod;
+                SuiteMethod.OnSuiteMethodStart -= _listener.StartSuiteMethod;
+                SuiteMethod.OnSuiteMethodFinish -= _listener.FinishSuiteMethod;
 
-                TestSuite.OnSuiteStart -= this.listener.StartSuite;
-                TestSuite.OnSuiteFinish -= this.listener.FinishSuite;
+                TestSuite.OnSuiteStart -= _listener.StartSuite;
+                TestSuite.OnSuiteFinish -= _listener.FinishSuite;
 
                 StepsEvents.OnStepStart -= ReportInfo;
             }

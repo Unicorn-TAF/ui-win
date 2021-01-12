@@ -10,7 +10,7 @@ namespace Unicorn.UI.Web.Driver
     /// <summary>
     /// Describes search context for web controls. Contains variety of methods to search and wait for controls of specified type from current context.
     /// </summary>
-    public abstract class WebSearchContext : UISearchContext<WebSearchContext>
+    public abstract class WebSearchContext : BaseSearchContext<WebSearchContext>
     {
         /// <summary>
         /// Gets or sets Current search context as <see cref="OpenQA.Selenium.ISearchContext"/>
@@ -33,7 +33,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             IWebElement elementToWrap = GetNativeControl(locator);
-            return this.Wrap<T>(elementToWrap, locator);
+            return Wrap<T>(elementToWrap, locator);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Unicorn.UI.Web.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap, null));
+                controlsList.Add(Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -63,7 +63,7 @@ namespace Unicorn.UI.Web.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.WebXpath, "./*"))[0];
-            return this.Wrap<T>(elementToWrap, null);
+            return Wrap<T>(elementToWrap, null);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Unicorn.UI.Web.Driver
         /// <param name="locator">locator to search by</param>
         /// <returns><see cref="IWebElement"/> instance</returns>
         protected IWebElement GetNativeControl(ByLocator locator) =>
-            GetNativeControlFromContext(locator, this.SearchContext);
+            GetNativeControlFromContext(locator, SearchContext);
 
         /// <summary>
         /// Get control instance from parent context as <see cref="IWebElement"/>.
@@ -80,7 +80,7 @@ namespace Unicorn.UI.Web.Driver
         /// <param name="locator">locator to search by</param>
         /// <returns><see cref="IWebElement"/> instance</returns>
         protected IWebElement GetNativeControlFromParentContext(ByLocator locator) =>
-            GetNativeControlFromContext(locator, this.ParentSearchContext.SearchContext);
+            GetNativeControlFromContext(locator, ParentSearchContext.SearchContext);
 
         /// <summary>
         /// Set current implicitly wait timeout value.
@@ -109,7 +109,7 @@ namespace Unicorn.UI.Web.Driver
             
             try
             {
-                IList<IWebElement> nativeControls = this.SearchContext.FindElements(by);
+                IList<IWebElement> nativeControls = SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)

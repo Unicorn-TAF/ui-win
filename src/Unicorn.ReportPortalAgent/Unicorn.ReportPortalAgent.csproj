@@ -62,9 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BridgeExtension.cs" />
     <Compile Include="Configuration\Authentication.cs" />
-    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\RpConfig.cs" />
     <Compile Include="Configuration\Launch.cs" />
     <Compile Include="Configuration\Server.cs" />
     <Compile Include="ReportPortalReporterInstance.cs" />

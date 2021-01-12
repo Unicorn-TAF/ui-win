@@ -14,19 +14,19 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
     [StructLayout(LayoutKind.Sequential)]
     internal struct KeyboardInput
     {
-        private readonly short vk;
-        private readonly short scan;
-        private readonly KeyUpDown flags;
-        private readonly int time;
-        private readonly IntPtr extraInfo;
+        private readonly short _vk;
+        private readonly short _scan;
+        private readonly KeyUpDown _flags;
+        private readonly int _time;
+        private readonly IntPtr _extraInfo;
 
-        public KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
+        internal KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
         {
-            this.vk = wVk;
-            this.scan = 0;
-            this.flags = flags;
-            this.time = 0;
-            this.extraInfo = extraInfo;
+            _vk = wVk;
+            _scan = 0;
+            _flags = flags;
+            _time = 0;
+            _extraInfo = extraInfo;
         }
     }
 }

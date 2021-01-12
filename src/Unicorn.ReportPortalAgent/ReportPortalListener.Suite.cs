@@ -30,15 +30,22 @@ namespace Unicorn.ReportPortalAgent
                     Type = TestItemType.Suite
                 };
 
-                startSuiteRequest.Tags = new List<string>();
-                startSuiteRequest.Tags.Add(Environment.MachineName);
+                startSuiteRequest.Tags = new List<string>
+                {
+                    Environment.MachineName
+                };
+
+                if (_commonSuitesTags != null)
+                {
+                    startSuiteRequest.Tags.AddRange(_commonSuitesTags);
+                }
 
                 var test = 
-                    parentId.Equals(Guid.Empty) || !this.suitesFlow.ContainsKey(parentId) ?
+                    parentId.Equals(Guid.Empty) || !_suitesFlow.ContainsKey(parentId) ?
                     Bridge.Context.LaunchReporter.StartChildTestReporter(startSuiteRequest) :
-                    this.suitesFlow[parentId].StartChildTestReporter(startSuiteRequest);
+                    _suitesFlow[parentId].StartChildTestReporter(startSuiteRequest);
 
-                this.suitesFlow[id] = test;
+                _suitesFlow[id] = test;
             }
             catch (Exception exception)
             {
@@ -54,16 +61,22 @@ namespace Unicorn.ReportPortalAgent
                 var result = suite.Outcome.Result;
                 var parentId = Guid.Empty;
 
-                // at the end of execution nunit raises 2 the same events, we need only that which has 'parentId' xml tag
-                if (parentId.Equals(Guid.Empty) && this.suitesFlow.ContainsKey(id))
+                if (parentId.Equals(Guid.Empty) && _suitesFlow.ContainsKey(id))
                 {
-                    var tags = new List<string>();
-                    tags.Add(Environment.MachineName);
+                    var tags = new List<string>
+                    {
+                        Environment.MachineName
+                    };
 
                     // adding tags to suite
                     if (suite.Tags != null)
                     {
                         tags.AddRange(suite.Tags);
+                    }
+
+                    if (_commonSuitesTags != null)
+                    {
+                        tags.AddRange(_commonSuitesTags);
                     }
 
                     // adding description to suite
@@ -86,10 +99,10 @@ namespace Unicorn.ReportPortalAgent
                         EndTime = DateTime.UtcNow,
                         Description = description.ToString(),
                         Tags = tags,
-                        Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : statusMap[result]
+                        Status = result.Equals(Taf.Core.Testing.Status.Skipped) ? ReportPortal.Client.Models.Status.Failed : _statusMap[result]
                     };
                         
-                    this.suitesFlow[id].Finish(finishSuiteRequest);
+                    _suitesFlow[id].Finish(finishSuiteRequest);
                 }
             }
             catch (Exception exception)

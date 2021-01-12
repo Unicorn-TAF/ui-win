@@ -9,34 +9,60 @@ using Unicorn.UI.Win.Driver;
 
 namespace Unicorn.UI.Win.Controls.Typified
 {
+    /// <summary>
+    /// Describes base window control.
+    /// </summary>
     public class Window : WinContainer, IWindow
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class.
+        /// </summary>
         public Window()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class with wraps specific <see cref="IUIAutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="IUIAutomationElement"/> instance to wrap</param>
         public Window(IUIAutomationElement instance)
             : base(instance)
         {
         }
 
+        /// <summary>
+        /// Gets UIA window control type.
+        /// </summary>
         public override int UiaType => UIA_ControlTypeIds.UIA_WindowControlTypeId;
 
-        public string Title => this.Text;
+        /// <summary>
+        /// Gets window title text.
+        /// </summary>
+        public string Title => Text;
 
-        protected IUIAutomationWindowPattern WindowPattern => this.GetPattern(UIA_PatternIds.UIA_WindowPatternId) as IUIAutomationWindowPattern;
+        /// <summary>
+        /// Gets window pattern instance.
+        /// </summary>
+        protected IUIAutomationWindowPattern WindowPattern => 
+            Instance.GetPattern<IUIAutomationWindowPattern>();
 
+        /// <summary>
+        /// Closes window.
+        /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {this.ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Close {ToString()}");
             WindowPattern.Close();
         }
 
+        /// <summary>
+        /// Focuses on the window.
+        /// </summary>
         public void Focus()
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Focusing {this.ToString()}");
+                Logger.Instance.Log(LogLevel.Debug, $"Focusing {ToString()}");
                 Instance.SetFocus();
             }
             catch (Exception ex)
@@ -45,11 +71,14 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
         }
 
+        /// <summary>
+        /// Wait until window is closed during specified timeout.
+        /// </summary>
+        /// <param name="timeout">timeout to wait</param>
         public void WaitForClosed(TimeSpan timeout)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Wait for {this.ToString()} closing");
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
+            Logger.Instance.Log(LogLevel.Debug, $"Wait for {ToString()} closing");
+            var timer = Stopwatch.StartNew();
 
             var originalTimeout = WinDriver.ImplicitlyWaitTimeout;
             WinDriver.ImplicitlyWaitTimeout = TimeSpan.FromSeconds(0);
@@ -60,7 +89,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 {
                     Thread.Sleep(50);
                 }
-                while (this.Visible && timer.Elapsed < timeout);
+                while (Visible && timer.Elapsed < timeout);
             }
             catch (ControlNotFoundException)
             {
@@ -79,6 +108,9 @@ namespace Unicorn.UI.Win.Controls.Typified
             Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
         }
 
-        public void WaitForClosed() => this.WaitForClosed(TimeSpan.FromSeconds(30));
+        /// <summary>
+        /// Wait until window is closed during 30 seconds.
+        /// </summary>
+        public void WaitForClosed() => WaitForClosed(TimeSpan.FromSeconds(30));
     }
 }
