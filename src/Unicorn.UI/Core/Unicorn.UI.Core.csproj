@@ -106,6 +106,8 @@
     <Compile Include="PageObject\By\ByIdAttribute.cs" />
     <Compile Include="PageObject\By\ByClassAttribute.cs" />
     <Compile Include="PageObject\By\ByNameAttribute.cs" />
+    <Compile Include="Synchronization\LoaderHandler.cs" />
+    <Compile Include="Synchronization\LoaderTimeoutException.cs" />
     <Compile Include="UserInput\Constants.cs" />
     <Compile Include="UserInput\WindowsApi\Input.cs" />
     <Compile Include="UserInput\Keyboard.cs" />
