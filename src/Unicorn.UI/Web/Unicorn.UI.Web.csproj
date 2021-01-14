@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserType.cs" />
+    <Compile Include="Controls\Dynamic\DynamicDropdown.cs" />
     <Compile Include="Controls\Typified\Dropdown.cs" />
     <Compile Include="Controls\Typified\Radio.cs" />
     <Compile Include="Controls\Typified\Checkbox.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Automation;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
@@ -9,14 +8,14 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
-using Unicorn.UI.Desktop.Controls.Typified;
+using Unicorn.UI.Web.Controls.Typified;
 
-namespace Unicorn.UI.Desktop.Controls.Dynamic
+namespace Unicorn.UI.Web.Controls.Dynamic
 {
     /// <summary>
     /// Describes dynamically defined dropdown (each sub-control could be defined using attribute).
     /// </summary>
-    public class DynamicDropdown : GuiControl, IDynamicDropdown
+    public class DynamicDropdown : WebControl, IDynamicDropdown
     {
         /// <summary>
         /// Gets dictionary of dd elements locators.
@@ -27,7 +26,7 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         /// Gets or sets control for expand/collapse trigger.
         /// </summary>
         public virtual IControl ExpandCollapse => locators.ContainsKey(DropdownElement.ExpandCollapse) ?
-            Find<Button>(locators[DropdownElement.ExpandCollapse]) :
+            Find<WebControl>(locators[DropdownElement.ExpandCollapse]) :
             throw new ControlNotFoundException($"{nameof(ExpandCollapse)} dropdown sub-control locator is not specified.");
 
         /// <summary>
@@ -41,24 +40,39 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         /// Gets or sets control of dropdown options frame.
         /// </summary>
         public virtual IControl OptionsFrame => locators.ContainsKey(DropdownElement.OptionsFrame) ?
-            Find<ListView>(locators[DropdownElement.OptionsFrame]) :
+            Find<WebControl>(locators[DropdownElement.OptionsFrame]) :
             throw new ControlNotFoundException($"{nameof(OptionsFrame)} dropdown sub-control locator is not specified.");
 
         /// <summary>
         /// Gets a value indicating whether dropdown is expanded or not (options list is displayed).
         /// </summary>
         public virtual bool Expanded => 
-            Instance.GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
+            locators.ContainsKey(DropdownElement.OptionsFrame) && 
+            TryGetChild(locators[DropdownElement.OptionsFrame], 0, out WebControl container) && 
+            container.Visible;
 
         /// <summary>
         /// Gets dropdown selected value.
         /// </summary>
-        public virtual string SelectedValue => ValueInput?.Value;
+        public virtual string SelectedValue
+        {
+            get
+            {
+                if (locators.ContainsKey(DropdownElement.ValueInput))
+                {
+                    var value = ValueInput.Value;
 
-        /// <summary>
-        /// Gets UIA control type.
-        /// </summary>
-        public override ControlType UiaType => ControlType.ComboBox;
+                    if (value == null)
+                    {
+                        value = (ValueInput as TextInput).Text;
+                    }
+
+                    return value;
+                }
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Populates sub-elements locators from input dictionary.
@@ -104,7 +118,6 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
             }
 
             WaitForLoading(TimeSpan.FromSeconds(60));
-
             Logger.Instance.Log(LogLevel.Trace, "\t\tExpanded");
             return true;
         }
@@ -116,7 +129,7 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "\tCollapsing dropdown");
-            
+
             if (!Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to collapse (collapsed by default)");
@@ -132,7 +145,7 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         /// Gets list of controls for dropdown options.
         /// </summary>
         public virtual IList<IControl> GetOptions() =>
-            FindList<ListItem>(locators[DropdownElement.Option]).Cast<IControl>().ToList();
+            FindList<WebControl>(locators[DropdownElement.Option]).Cast<IControl>().ToList();
 
         /// <summary>
         /// Get dropdown option its name.
@@ -164,8 +177,18 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
             }
 
             Expand();
+            var option = GetOption(itemName);
 
-            GetOption(itemName).Click();
+            try
+            {
+                option.Click();
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException)
+            {
+                Logger.Instance.Log(LogLevel.Warning, "Got StaleElementReferenceException. Retrying...");
+                option = GetOption(itemName);
+                (option as WebControl).JsClick();
+            }
 
             Collapse();
 
@@ -195,9 +218,9 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
             if (locators.ContainsKey(DropdownElement.Loader))
             {
                 new LoaderHandler(
-                    () => TryGetChild<GuiControl>(locators[DropdownElement.Loader]),
-                    () => !TryGetChild<GuiControl>(locators[DropdownElement.Loader]))
-                .WaitFor(TimeSpan.FromSeconds(60));
+                    () => TryGetChild<WebControl>(locators[DropdownElement.Loader]),
+                    () => !TryGetChild<WebControl>(locators[DropdownElement.Loader]))
+                .WaitFor(timeout);
             }
 
             return true;

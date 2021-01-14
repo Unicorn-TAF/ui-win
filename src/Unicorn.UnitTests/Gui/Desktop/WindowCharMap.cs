@@ -2,8 +2,8 @@
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
+using Unicorn.UI.Desktop.Controls.Dynamic;
 using Unicorn.UI.Desktop.Controls.Typified;
-using Unicorn.UnitTests.Gui.Desktop;
 
 namespace Unicorn.UnitTests.Gui.Desktop
 {
@@ -46,19 +46,19 @@ namespace Unicorn.UnitTests.Gui.Desktop
         [ByName("Select")] 
         public Button ButtonSelectLocatedByName { get; set; }
 
-        public Button SelectButton => this.ButtonSelect;
+        public Button SelectButton => ButtonSelect;
 
-        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+        public Button ButtonHelp => Find<Button>(ByLocator.Name("Help"));
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
 
         [Find(Using.Name, "Font :")]
         [DefineDropdown(DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
-        [DefineDropdown(DropdownElement.List, Using.Class, "ComboLBox")]
-        [DefineDropdown(DropdownElement.ListItem, Using.Class, "")]
-        public DynamicDropdown Droppik;
+        [DefineDropdown(DropdownElement.OptionsFrame, Using.Class, "ComboLBox")]
+        [DefineDropdown(DropdownElement.Option, Using.Class, "")]
+        public DynamicDropdown DDropdown;
 
-        public Button GetCopyButtonFromField() => this.buttonCopyAsField;
+        public Button GetCopyButtonFromField() => buttonCopyAsField;
     }
 }

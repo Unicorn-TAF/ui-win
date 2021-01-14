@@ -102,7 +102,7 @@ namespace Unicorn.UnitTests.UI
         [Test(Description = "Check dynamic dropdown selects value")]
         public void TestGuiDynamicDropdownSelection()
         {
-            charmap.Window.Droppik.Select("Arial");
+            charmap.Window.DDropdown.Select("Arial");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Automation;
+using UIAutomationClient;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
@@ -9,14 +9,14 @@ using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
-using Unicorn.UI.Desktop.Controls.Typified;
+using Unicorn.UI.Win.Controls.Typified;
 
-namespace Unicorn.UI.Desktop.Controls.Dynamic
+namespace Unicorn.UI.Win.Controls.Dynamic
 {
     /// <summary>
     /// Describes dynamically defined dropdown (each sub-control could be defined using attribute).
     /// </summary>
-    public class DynamicDropdown : GuiControl, IDynamicDropdown
+    public class DynamicDropdown : WinControl, IDynamicDropdown
     {
         /// <summary>
         /// Gets dictionary of dd elements locators.
@@ -47,8 +47,11 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         /// <summary>
         /// Gets a value indicating whether dropdown is expanded or not (options list is displayed).
         /// </summary>
-        public virtual bool Expanded => 
-            Instance.GetPattern<ExpandCollapsePattern>().Current.ExpandCollapseState.Equals(ExpandCollapseState.Expanded);
+        public virtual bool Expanded =>
+            Instance
+            .GetPattern<IUIAutomationExpandCollapsePattern>()
+            .CurrentExpandCollapseState
+            .Equals(ExpandCollapseState.ExpandCollapseState_Expanded);
 
         /// <summary>
         /// Gets dropdown selected value.
@@ -58,7 +61,7 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         /// <summary>
         /// Gets UIA control type.
         /// </summary>
-        public override ControlType UiaType => ControlType.ComboBox;
+        public override int UiaType => UIA_ControlTypeIds.UIA_ComboBoxControlTypeId;
 
         /// <summary>
         /// Populates sub-elements locators from input dictionary.
@@ -116,7 +119,7 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
         public virtual bool Collapse()
         {
             Logger.Instance.Log(LogLevel.Trace, "\tCollapsing dropdown");
-            
+
             if (!Expanded)
             {
                 Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to collapse (collapsed by default)");
@@ -195,8 +198,8 @@ namespace Unicorn.UI.Desktop.Controls.Dynamic
             if (locators.ContainsKey(DropdownElement.Loader))
             {
                 new LoaderHandler(
-                    () => TryGetChild<GuiControl>(locators[DropdownElement.Loader]),
-                    () => !TryGetChild<GuiControl>(locators[DropdownElement.Loader]))
+                    () => TryGetChild<WinControl>(locators[DropdownElement.Loader]),
+                    () => !TryGetChild<WinControl>(locators[DropdownElement.Loader]))
                 .WaitFor(TimeSpan.FromSeconds(60));
             }
 

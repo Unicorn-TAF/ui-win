@@ -1,24 +1,30 @@
 ﻿using System.Collections.Generic;
+using Unicorn.UI.Core.Controls.Interfaces;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
     public enum DropdownElement
     {
-        TextInput = 1,
+        ValueInput = 1,
         ExpandCollapse = 2,
-        List = 3,
-        ListItem = 4
+        OptionsFrame = 3,
+        Option = 4,
+        Loader = 5
     }
 
-    public interface IDynamicDropdown : IDynamicControl, IDropdown
+    public interface IDynamicDropdown : IDynamicControl, IDropdown, ILoadable
     {
-        ITextInput Input { get; }
+        ITextInput ValueInput { get; }
 
         IControl ExpandCollapse { get; }
 
-        IControl ItemsContainer { get; }
+        IControl OptionsFrame { get; }
 
-        IList<T> GetItems<T>() where T : IControl;
+        IList<IControl> GetOptions();
+
+        IControl GetOption(string optionName);
+
+        void SearchFor(string optionName);
     }
 }
