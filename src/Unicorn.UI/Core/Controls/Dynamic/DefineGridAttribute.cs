@@ -4,9 +4,9 @@ using Unicorn.UI.Core.Driver;
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public sealed class DefineDropdownAttribute : DefineAttribute
+    public sealed class DefineGridAttribute : DefineAttribute
     {
-        public DefineDropdownAttribute(DropdownElement subElement, Using how, string locator)
+        public DefineGridAttribute(GridElement subElement, Using how, string locator)
             : base((int)subElement, how, locator)
         {
         }

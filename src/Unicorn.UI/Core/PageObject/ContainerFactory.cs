@@ -131,7 +131,7 @@ namespace Unicorn.UI.Core.PageObject
 
             foreach (var definition in definitions)
             {
-                dictionary.Add(definition.ElementDef, definition.Locator);
+                dictionary.Add(definition.ElementDefinition, definition.Locator);
             }
 
             (control as IDynamicControl).Populate(dictionary);

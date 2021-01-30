@@ -18,37 +18,32 @@ namespace Unicorn.UI.Web.Controls.Dynamic
     public class DynamicDropdown : WebControl, IDynamicDropdown
     {
         /// <summary>
-        /// Gets dictionary of dd elements locators.
-        /// </summary>
-        protected Dictionary<DropdownElement, ByLocator> locators = new Dictionary<DropdownElement, ByLocator>();
-
-        /// <summary>
         /// Gets or sets control for expand/collapse trigger.
         /// </summary>
-        public virtual IControl ExpandCollapse => locators.ContainsKey(DropdownElement.ExpandCollapse) ?
-            Find<WebControl>(locators[DropdownElement.ExpandCollapse]) :
-            throw new ControlNotFoundException($"{nameof(ExpandCollapse)} dropdown sub-control locator is not specified.");
+        public virtual IControl ExpandCollapse => Locators.ContainsKey(DropdownElement.ExpandCollapse) ?
+            Find<WebControl>(Locators[DropdownElement.ExpandCollapse]) :
+            throw new NotSpecifiedLocatorException($"{nameof(ExpandCollapse)} dropdown sub-control locator is not specified.");
 
         /// <summary>
         /// Gets or sets dropdown input element with selected value.
         /// </summary>
-        public virtual ITextInput ValueInput => locators.ContainsKey(DropdownElement.ValueInput) ?
-            Find<TextInput>(locators[DropdownElement.ValueInput]) :
-            throw new ControlNotFoundException($"{nameof(ValueInput)} dropdown sub-control locator is not specified.");
+        public virtual ITextInput ValueInput => Locators.ContainsKey(DropdownElement.ValueInput) ?
+            Find<TextInput>(Locators[DropdownElement.ValueInput]) :
+            throw new NotSpecifiedLocatorException($"{nameof(ValueInput)} dropdown sub-control locator is not specified.");
 
         /// <summary>
         /// Gets or sets control of dropdown options frame.
         /// </summary>
-        public virtual IControl OptionsFrame => locators.ContainsKey(DropdownElement.OptionsFrame) ?
-            Find<WebControl>(locators[DropdownElement.OptionsFrame]) :
-            throw new ControlNotFoundException($"{nameof(OptionsFrame)} dropdown sub-control locator is not specified.");
+        public virtual IControl OptionsFrame => Locators.ContainsKey(DropdownElement.OptionsFrame) ?
+            Find<WebControl>(Locators[DropdownElement.OptionsFrame]) :
+            throw new NotSpecifiedLocatorException($"{nameof(OptionsFrame)} dropdown sub-control locator is not specified.");
 
         /// <summary>
         /// Gets a value indicating whether dropdown is expanded or not (options list is displayed).
         /// </summary>
         public virtual bool Expanded => 
-            locators.ContainsKey(DropdownElement.OptionsFrame) && 
-            TryGetChild(locators[DropdownElement.OptionsFrame], 0, out WebControl container) && 
+            Locators.ContainsKey(DropdownElement.OptionsFrame) && 
+            TryGetChild(Locators[DropdownElement.OptionsFrame], 0, out WebControl container) && 
             container.Visible;
 
         /// <summary>
@@ -58,7 +53,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         {
             get
             {
-                if (locators.ContainsKey(DropdownElement.ValueInput))
+                if (Locators.ContainsKey(DropdownElement.ValueInput))
                 {
                     var value = ValueInput.Value;
 
@@ -75,6 +70,11 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         }
 
         /// <summary>
+        /// Gets dictionary of dd elements locators.
+        /// </summary>
+        protected Dictionary<DropdownElement, ByLocator> Locators = new Dictionary<DropdownElement, ByLocator>();
+
+        /// <summary>
         /// Populates sub-elements locators from input dictionary.
         /// </summary>
         /// <param name="elementsLocators">sub-elements locators dictionary</param>
@@ -84,13 +84,13 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             {
                 var key = (DropdownElement)locator.Key;
 
-                if (locators.ContainsKey(key))
+                if (Locators.ContainsKey(key))
                 {
-                    locators[key] = locator.Value;
+                    Locators[key] = locator.Value;
                 }
                 else
                 {
-                    locators.Add((DropdownElement)locator.Key, locator.Value);
+                    Locators.Add((DropdownElement)locator.Key, locator.Value);
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
 
             ExpandCollapse.Click();
 
-            if (locators.ContainsKey(DropdownElement.OptionsFrame))
+            if (Locators.ContainsKey(DropdownElement.OptionsFrame))
             {
                 OptionsFrame.Wait(Until.Visible, TimeSpan.FromSeconds(10));
             }
@@ -145,7 +145,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// Gets list of controls for dropdown options.
         /// </summary>
         public virtual IList<IControl> GetOptions() =>
-            FindList<WebControl>(locators[DropdownElement.Option]).Cast<IControl>().ToList();
+            FindList<WebControl>(Locators[DropdownElement.Option]).Cast<IControl>().ToList();
 
         /// <summary>
         /// Get dropdown option its name.
@@ -215,11 +215,11 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <exception cref="LoaderTimeoutException">thrown if loader has not disappeared during timeout period</exception>
         public virtual bool WaitForLoading(TimeSpan timeout)
         {
-            if (locators.ContainsKey(DropdownElement.Loader))
+            if (Locators.ContainsKey(DropdownElement.Loader))
             {
                 new LoaderHandler(
-                    () => TryGetChild<WebControl>(locators[DropdownElement.Loader]),
-                    () => !TryGetChild<WebControl>(locators[DropdownElement.Loader]))
+                    () => TryGetChild<WebControl>(Locators[DropdownElement.Loader]),
+                    () => !TryGetChild<WebControl>(Locators[DropdownElement.Loader]))
                 .WaitFor(timeout);
             }
 
