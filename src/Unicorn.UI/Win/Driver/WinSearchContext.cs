@@ -156,7 +156,9 @@ namespace Unicorn.UI.Win.Driver
 
         private IUIAutomationCondition GetControlTypeCondition(int type)
         {
-            return WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ControlTypePropertyId, type);
+            return type == 0 ?
+                WinDriver.Instance.Driver.CreateTrueCondition() :
+                WinDriver.Instance.Driver.CreatePropertyCondition(UIA_PropertyIds.UIA_ControlTypePropertyId, type);
         }
 
         private IUIAutomationCondition GetNativeLocator(ByLocator locator, Type controlType)
