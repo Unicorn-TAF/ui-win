@@ -13,12 +13,12 @@ namespace Unicorn.UI.Win.Controls
     /// <summary>
     /// Represents basic abstract windows control. Contains number of main properties and action under the control.
     /// </summary>
-    public abstract class WinControl : WinSearchContext, IControl
+    public class WinControl : WinSearchContext, IControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WinControl"/> class.
         /// </summary>
-        protected WinControl()
+        public WinControl()
         {
         }
 
@@ -26,7 +26,7 @@ namespace Unicorn.UI.Win.Controls
         /// Initializes a new instance of the <see cref="WinControl"/> class with wraps specific <see cref="IUIAutomationElement"/>
         /// </summary>
         /// <param name="instance"><see cref="IUIAutomationElement"/> instance to wrap</param>
-        protected WinControl(IUIAutomationElement instance)
+        public WinControl(IUIAutomationElement instance)
         {
             Instance = instance;
         }
@@ -55,7 +55,7 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets UI Automation element type.
         /// </summary>
-        public abstract int UiaType { get; }
+        public virtual int UiaType { get; }
 
         /// <summary>
         /// Gets or sets control wrapped instance as <see cref="IUIAutomationElement"/> which is also current search context.
