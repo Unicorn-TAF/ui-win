@@ -1,6 +1,7 @@
 ﻿using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
+using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
 
 namespace Unicorn.UnitTests.Gui.Win
@@ -47,6 +48,9 @@ namespace Unicorn.UnitTests.Gui.Win
         public Button SelectButton => this.ButtonSelect;
 
         public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+
+        [Find(Using.Id, "100")]
+        public WinControl ButtonHelpGeneric { get; set; }
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
