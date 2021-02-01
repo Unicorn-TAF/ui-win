@@ -53,6 +53,11 @@ namespace Unicorn.UnitTests.UI
             Assert.IsTrue(charmap.Window.ButtonHelp.Visible);
 
         [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check ability to search for generic WinControl")]
+        public void TestWinPageObjectAbilityToSearchForGenericWinControl() =>
+            Assert.IsTrue(charmap.Window.ButtonHelpGeneric.Text.Equals("Help"));
+
+        [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that page object initialized controls are cached")]
         public void TestWinPageObjectInitializedControlsAreNotCached() =>
             Assert.IsFalse(charmap.Window.ButtonCopy.Cached);
