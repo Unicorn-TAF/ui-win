@@ -1,10 +1,12 @@
-﻿using Unicorn.UI.Core.Matchers.TypifiedMatchers;
+﻿using System;
+using Unicorn.UI.Core.Matchers.TypifiedMatchers;
 
 namespace Unicorn.UI.Core.Matchers
 {
     /// <summary>
     /// Entry point for DataGrid matchers.
     /// </summary>
+    [Obsolete("Please use Unicorn.UI.Core.Matchers.Ui entry point")]
     public static class DataGrid
     {
         /// <summary>
