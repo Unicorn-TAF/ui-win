@@ -147,14 +147,14 @@
     <Compile Include="Suites\USuite.cs" />
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
-    <Compile Include="UnitTests\Assertions.cs" />
-    <Compile Include="UnitTests\CollectionMatchers.cs" />
+    <Compile Include="UnitTests\Verification\Assertions.cs" />
+    <Compile Include="UnitTests\Verification\CollectionMatchers.cs" />
     <Compile Include="UnitTests\UI\UserInput.cs" />
     <Compile Include="UnitTests\UI\WinWindowsBaseControls.cs" />
     <Compile Include="UnitTests\UI\WinControls.cs" />
     <Compile Include="UnitTests\UI\GuiControls.cs" />
     <Compile Include="UnitTests\UI\WinPageObject.cs" />
-    <Compile Include="UnitTests\Matchers.cs" />
+    <Compile Include="UnitTests\Verification\Matchers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTests.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuite.cs" />
