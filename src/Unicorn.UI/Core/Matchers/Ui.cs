@@ -138,5 +138,19 @@ namespace Unicorn.UI.Core.Matchers
             public static DropdownExpandedMatcher Expanded()
                 => new DropdownExpandedMatcher();
         }
+
+        /// <summary>
+        /// Entry point for Textinput matchers.
+        /// </summary>
+        public static class Input
+        {
+            /// <summary>
+            /// Gets matcher to check if Textinput has specified value.
+            /// </summary>
+            /// <param name="expectedValue">expected value</param>
+            /// <returns>matcher instance</returns>
+            public static InputHasValueMatcher HasValue(string expectedValue)
+                => new InputHasValueMatcher(expectedValue);
+        }
     }
 }

@@ -19,6 +19,9 @@ namespace Unicorn.UnitTests.Gui.Win
         [Find(Using.Name, "Font :")]
         public Dropdown DropdownFonts { get; set; }
 
+        [Find(Using.Name, "Font :")]
+        public TextInput DropdownTextInputFonts { get; set; }
+
         [Find(Using.Name, "Characters to copy :")]
         public TextInput InputCharactersToCopy { get; set; }
 

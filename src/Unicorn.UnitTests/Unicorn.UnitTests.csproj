@@ -147,6 +147,7 @@
     <Compile Include="Suites\USuite.cs" />
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
+    <Compile Include="UnitTests\UI\UiMatchers.cs" />
     <Compile Include="UnitTests\Verification\Assertions.cs" />
     <Compile Include="UnitTests\Verification\CollectionMatchers.cs" />
     <Compile Include="UnitTests\UI\UserInput.cs" />
