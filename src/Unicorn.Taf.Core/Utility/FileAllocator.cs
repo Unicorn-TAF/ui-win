@@ -24,6 +24,11 @@ namespace Unicorn.Taf.Core.Utility
         /// <param name="destinationFolder">folder containing downloaded file</param>
         public FileAllocator(string destinationFolder) : this()
         {
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
             _destinationFolder = destinationFolder;
             _fileNamesBefore = GetFileNamesFromDestinationFolder();
             _wait.ErrorMessage = "File was not appeared in time or properly allocated";
@@ -36,6 +41,16 @@ namespace Unicorn.Taf.Core.Utility
         /// <param name="expectedFileName">file name to wait for</param>
         public FileAllocator(string destinationFolder, string expectedFileName) : this()
         {
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
+            if (expectedFileName == null)
+            {
+                throw new ArgumentNullException(nameof(expectedFileName));
+            }
+
             _destinationFolder = destinationFolder;
             _expectedFileName = expectedFileName;
             _wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";

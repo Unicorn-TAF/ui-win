@@ -25,6 +25,16 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
         public OrderedTargetedTestsRunner(string assemblyPath, Dictionary<string, string> filters) 
         {
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
             _testsAssemblyFile = assemblyPath;
             Outcome = new LaunchOutcome();
             _filters = filters;

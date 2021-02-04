@@ -51,6 +51,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <param name="text">text to send</param>
         public virtual void SendKeys(string text)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
 
             var pattern = Instance.GetPattern<ValuePattern>();
@@ -70,6 +75,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if value was set; false - if input already has specified value</returns>
         public virtual bool SetValue(string text)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
 
             var pattern = Instance.GetPattern<ValuePattern>();
