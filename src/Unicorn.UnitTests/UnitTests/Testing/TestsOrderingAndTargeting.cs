@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
@@ -52,6 +53,23 @@ namespace Unicorn.UnitTests.Testing
             Assert.That(runner.Outcome.SuitesOutcomes[1].Name, Is.EqualTo("Ordered suite 1"));
             Assert.That(runner.Outcome.SuitesOutcomes[1].TestsOutcomes.Count, Is.EqualTo(1));
             Assert.That(runner.Outcome.SuitesOutcomes[1].TestsOutcomes[0].Title, Is.EqualTo("Test1-1"));
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check ordered targeted runner fails when trying to run not existing suite")]
+        public void TestOrderedTargetedRunnerFailsWhenTryingToRunNotExistingSuite()
+        {
+            var runFilter = new Dictionary<string, string>
+            {
+                { "Not existingsUite", "casfdtegory2" }
+            };
+
+            runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, runFilter);
+
+            Assert.Throws<TypeLoadException>(delegate
+            {
+                runner.RunTests();
+            });
         }
     }
 }
