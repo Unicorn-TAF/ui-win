@@ -58,6 +58,11 @@ namespace Unicorn.UI.Web.Controls.Typified
         /// <returns>true - if selection was made, false - if the item is already selected</returns>
         public bool Select(string itemName)
         {
+            if (itemName == null)
+            {
+                throw new ArgumentNullException(nameof(itemName));
+            }
+
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
 
             if (SelectedValue.Equals(itemName))

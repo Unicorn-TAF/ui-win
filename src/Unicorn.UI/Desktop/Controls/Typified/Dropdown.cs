@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows.Automation;
 using Unicorn.Taf.Core.Logging;
@@ -79,6 +80,11 @@ namespace Unicorn.UI.Desktop.Controls.Typified
         /// <returns>true - if item was selected; false - if specified item is already selected</returns>
         public virtual bool Select(string itemName)
         {
+            if (itemName == null)
+            {
+                throw new ArgumentNullException(nameof(itemName));
+            }
+
             Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
 
             if (itemName.Equals(SelectedValue))
