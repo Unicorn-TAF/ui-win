@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,12 +22,12 @@ namespace Unicorn.ReportPortalAgent
             { Taf.Core.Logging.LogLevel.Trace, ReportPortal.Client.Models.LogLevel.Trace },
         };
 
-        private readonly ConcurrentDictionary<SuiteMethod, bool> _currentTests = new ConcurrentDictionary<SuiteMethod, bool>();
+        private readonly ConcurrentDictionary<Guid, SuiteMethod> _currentTests = new ConcurrentDictionary<Guid, SuiteMethod>();
 
         internal void ReportTestMessage(Taf.Core.Logging.LogLevel level, string info)
         {
             var stackTrace = new StackTrace();
-            var currentTest = _currentTests.Keys.First(t => stackTrace.GetFrames().Any(sf => sf.GetMethod().Name.Contains(t.TestMethod.Name)));
+            var currentTest = _currentTests.Values.First(t => stackTrace.GetFrames().Any(sf => sf.GetMethod().Name.Contains(t.TestMethod.Name)));
 
             if (currentTest != null)
             {
