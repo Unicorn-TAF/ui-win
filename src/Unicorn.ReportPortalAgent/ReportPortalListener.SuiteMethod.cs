@@ -33,7 +33,7 @@ namespace Unicorn.ReportPortalAgent
                 var parentId = suiteMethod.Outcome.ParentId;
                 var name = suiteMethod.Outcome.Title;
 
-                _currentTest = suiteMethod;
+                _currentTests.TryAdd(id, suiteMethod);
 
                 var startTestRequest = new StartTestItemRequest
                 {
@@ -64,7 +64,7 @@ namespace Unicorn.ReportPortalAgent
                 var id = suiteMethod.Outcome.Id;
                 var result = suiteMethod.Outcome.Result;
 
-                _currentTest = null;
+                _currentTests.TryRemove(id, out var res);
 
                 if (!_testFlowIds.ContainsKey(id))
                 {

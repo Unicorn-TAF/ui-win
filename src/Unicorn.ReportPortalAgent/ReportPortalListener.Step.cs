@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
@@ -18,13 +22,16 @@ namespace Unicorn.ReportPortalAgent
             { Taf.Core.Logging.LogLevel.Trace, ReportPortal.Client.Models.LogLevel.Trace },
         };
 
-        private SuiteMethod _currentTest = null;
+        private readonly ConcurrentDictionary<Guid, SuiteMethod> _currentTests = new ConcurrentDictionary<Guid, SuiteMethod>();
 
         internal void ReportTestMessage(Taf.Core.Logging.LogLevel level, string info)
         {
-            if (_currentTest != null)
+            var stackTrace = new StackTrace();
+            var currentTest = _currentTests.Values.First(t => stackTrace.GetFrames().Any(sf => sf.GetMethod().Name.Contains(t.TestMethod.Name)));
+
+            if (currentTest != null)
             {
-                AddLog(_currentTest.Outcome.Id, _logLevels[level], info);
+                AddLog(currentTest.Outcome.Id, _logLevels[level], info);
             }
         }
     }
