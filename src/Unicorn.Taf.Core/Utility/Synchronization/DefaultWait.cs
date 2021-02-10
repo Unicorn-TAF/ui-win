@@ -5,7 +5,7 @@ using Unicorn.Taf.Core.Logging;
 namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     /// <summary>
-    /// Basic realization of simple wait for some boolean condition during specified timeout and with polling interval.
+    /// Basic implementation of simple wait for some boolean condition during specified timeout and with polling interval.
     /// </summary>
     public class DefaultWait : BaseWait
     {
@@ -28,18 +28,27 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         }
 
         /// <summary>
-        /// Wait until specified condition is met
+        /// Waits until specified condition is met.
         /// </summary>
         /// <param name="condition">boolean function specifying condition to wait for</param>
         /// <exception cref="TimeoutException">thrown when wait condition is not met</exception> 
-        public void Until(Func<bool> condition)
+        public void Until(Func<bool> condition) => PerformWait(condition, true);
+
+        /// <summary>
+        /// Safely waits until specified condition is met and returns wait result as boolean.
+        /// </summary>
+        /// <param name="condition">boolean function specifying condition to wait for</param>
+        /// <returns>true - if wait for condition is successful; otherwise - false</returns>
+        public bool SafelyUntil(Func<bool> condition) => PerformWait(condition, false);
+
+        private bool PerformWait(Func<bool> condition, bool failOnTimeout)
         {
             if (condition == null)
             {
-                throw new ArgumentNullException("condition", "Wait condition is not defined.");
+                throw new ArgumentNullException(nameof(condition), "Wait condition is not defined.");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for '{condition.Method.Name} during {Timeout} with polling interval {PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for '{condition.Method.Name} during {Timeout.ToString(@"mm\:ss\.fff")} with polling interval {PollingInterval.ToString(@"mm\:ss\.fff")}");
 
             Exception lastException = null;
             Timer
@@ -52,8 +61,8 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 {
                     if (condition.Invoke())
                     {
-                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
-                        return;
+                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
+                        return true;
                     }
                 }
                 catch (Exception ex)
@@ -69,7 +78,17 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 // throw TimeoutException if conditions are not met before timer expiration
                 if (Timer.Expired)
                 {
-                    throw new TimeoutException(GenerateTimeoutMessage(condition.Method.Name), lastException);
+                    var message = GenerateTimeoutMessage(condition.Method.Name);
+
+                    if (failOnTimeout)
+                    {
+                        throw new TimeoutException(message, lastException);
+                    }
+                    else
+                    {
+                        Logger.Instance.Log(LogLevel.Warning, message);
+                        return false;
+                    }
                 }
 
                 Thread.Sleep(PollingInterval);
