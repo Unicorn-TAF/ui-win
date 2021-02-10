@@ -97,8 +97,11 @@
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Driver\BaseSearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\InputHasValueMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\CheckboxHasCheckStateMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SortedMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SelectedMatcher.cs" />
+    <Compile Include="Matchers\Ui.cs" />
     <Compile Include="PageObject\By\ByIdAttribute.cs" />
     <Compile Include="PageObject\By\ByClassAttribute.cs" />
     <Compile Include="PageObject\By\ByNameAttribute.cs" />

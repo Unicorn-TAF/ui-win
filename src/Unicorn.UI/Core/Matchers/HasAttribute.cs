@@ -1,10 +1,12 @@
-﻿using Unicorn.UI.Core.Matchers.IControlMatchers;
+﻿using System;
+using Unicorn.UI.Core.Matchers.IControlMatchers;
 
 namespace Unicorn.UI.Core.Matchers
 {
     /// <summary>
     /// Entry point for attribute matchers.
     /// </summary>
+    [Obsolete("Please use Unicorn.UI.Core.Matchers.Ui entry point")]
     public class HasAttribute
     {
         private readonly string _attribute;

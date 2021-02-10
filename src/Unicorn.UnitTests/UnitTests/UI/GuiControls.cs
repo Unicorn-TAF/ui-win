@@ -19,21 +19,25 @@ namespace Unicorn.UnitTests.UI
         public static void TearDown() =>
             control = null;
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check BoundingRectangle property")]
         public void TestGuiControlBoundingRectangleProperty() =>
             Assert.AreEqual(SystemInformation.VirtualScreen, control.BoundingRectangle);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Location property")]
         public void TestGuiControlLocationProperty() =>
             Assert.AreEqual(new System.Drawing.Point(0, 0), control.Location);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Visible property")]
         public void TestGuiControlVisibileProperty() =>
             Assert.IsTrue(control.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Enabled property")]
         public void TestGuiControlEnabledProperty() =>

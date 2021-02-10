@@ -22,46 +22,55 @@ namespace Unicorn.UnitTests.UI
         public static void TearDown() =>
             charmap.Close();
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that not existing controls don't brake page object initialization")]
         public void TestGuiPageObjectNotExistingControlsDontBrakePageObjectInitialization() =>
             Assert.IsTrue(charmap.Window.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check nested controls initialization")]
         public void TestGuiPageObjectNestedControlsInitialization() =>
             Assert.IsTrue(charmap.Window.ButtonCopy.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check non public controls initialization")]
         public void TestGuiPageObjectNonPublicControlsInitialization() =>
             Assert.IsTrue(charmap.Window.SelectButton.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check typified locators work")]
         public void TestTypifiedLocators() =>
             Assert.IsTrue(charmap.Window.ButtonSelectLocatedByName.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check initialization of controls as class fields")]
         public void TestGuiPageObjectInitializationOfControlsAsClassFields() =>
             Assert.IsTrue(charmap.Window.GetCopyButtonFromField().Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check for basic control search from initialized parent container")]
         public void TestGuiPageObjectBasicControlSearchFromInitializedContainer() =>
             Assert.IsTrue(charmap.Window.ButtonHelp.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that page object initialized controls are cached")]
         public void TestGuiPageObjectInitializedControlsAreNotCached() =>
             Assert.IsFalse(charmap.Window.ButtonCopy.Cached);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that controls found by base search are cached")]
         public void TestGuiPageObjectBaseSearchedControlsAreCached() =>
             Assert.IsTrue(charmap.Window.ButtonHelp.Cached);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Call for not existing control")]
         public void TestGuiPageObjectNotExistingControl()
@@ -88,11 +97,13 @@ namespace Unicorn.UnitTests.UI
             }
         }
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check private control field with default locator")]
         public void TestPrivateControlFieldWithDefaultLocator() =>
             Assert.IsTrue(charmap.Window.ButtonCopyDefaultLocatorGetter.Visible);
 
+        [Ignore("Hangs explorer")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check public control property with default locator")]
         public void TestPublicControlPropertyWithDefaultLocator() =>
