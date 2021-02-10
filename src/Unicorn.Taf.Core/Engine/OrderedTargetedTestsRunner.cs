@@ -43,7 +43,12 @@ namespace Unicorn.Taf.Core.Engine
             foreach (var suiteName in _filters.Keys)
             {
                 var suite = filteredSuites
-                    .First(s => GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(s => GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
+
+                if (suite == null)
+                {
+                    throw new TypeLoadException($"Suite with name '{suiteName}' was not found in tests assembly.");
+                }
 
                 if (suite.GetRuntimeMethods().Any(t => IsTestRunnable(t, _filters[suiteName])))
                 {

@@ -83,7 +83,7 @@ namespace Unicorn.UI.Web.Controls
         public Point Location => Instance.Location;
 
         /// <summary>
-        /// Gets control bounding rectangle as <see cref="System.Drawing.Rectangle"/>
+        /// Gets control bounding rectangle as <see cref="Rectangle"/>
         /// </summary>
         public Rectangle BoundingRectangle => new Rectangle(Location, Instance.Size);
 
@@ -97,7 +97,15 @@ namespace Unicorn.UI.Web.Controls
             {
                 if (!Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    try
+                    {
+                        base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    } 
+                    catch (OpenQA.Selenium.StaleElementReferenceException)
+                    {
+                        Logger.Instance.Log(LogLevel.Warning, "Got StaleElementReferenceException, retrying control search...");
+                        base.SearchContext = GetNativeControlFromParentContext(Locator);
+                    }
                 }
 
                 return base.SearchContext;
