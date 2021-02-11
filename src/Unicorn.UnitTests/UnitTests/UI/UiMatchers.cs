@@ -26,7 +26,8 @@ namespace Unicorn.UnitTests.UI
         [Test(Description = "Visible matcher (positive)")]
         public void TestVisibleMatcherPositive() =>
             Uv.Assert.That(charmap.Window, Ui.Control.Visible());
-
+        
+        [Ignore("No suitable element in charmap")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Visible matcher with negation (positive)")]
         public void TestVisibleMatcherWithNegationPositive() =>
@@ -154,6 +155,7 @@ namespace Unicorn.UnitTests.UI
                 Uv.Assert.That(null, Ui.Dropdown.Expanded());
             });
 
+        [Ignore("Need to find appropriate input to test")]
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "InputHasValue matcher (positive)")]
         public void TestInputHasValueMatcherPositive() =>

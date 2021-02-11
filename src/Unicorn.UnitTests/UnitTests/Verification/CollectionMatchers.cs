@@ -359,5 +359,55 @@ namespace Unicorn.UnitTests.Verification
 
         #endregion
 
+        #region "SequenceEqualToCollection"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToCollectionPositive1() =>
+            Uv.Assert.That(hasItemsA, Collection.IsSequenceEqualTo(hasItemsA));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToCollectionWithNegationPositive1() =>
+            Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.IsSequenceEqualTo(expected3)));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestSequenceEqualToCollectionNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(intArray1, Collection.IsSequenceEqualTo(intArray2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestSequenceEqualToCollectionSameElementsWithDifferentOrderNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(intArray1, Collection.IsSequenceEqualTo(intList1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.IsSequenceEqualTo(expected1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToWithNegationNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(intArray1, Um.Is.Not(Collection.IsSequenceEqualTo(intArray1)));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToWithNegationNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.IsSequenceEqualTo(hasItemsB)));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherSequenceEqualToWithDuplicatesPositive1() =>
+            Uv.Assert.That(new int[] { 1, 1, 2 }, Collection.IsSequenceEqualTo(new int[] { 1, 1, 2 }));
+
+        #endregion
     }
 }

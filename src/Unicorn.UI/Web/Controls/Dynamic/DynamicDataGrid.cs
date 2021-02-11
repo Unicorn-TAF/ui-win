@@ -107,6 +107,31 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         }
 
         /// <summary>
+        /// Gets a value indicating whether data grid has cell with specified value in column in row where specified column value is equal to expected.
+        /// </summary>
+        /// <param name="searchColumnName">row search column name</param>
+        /// <param name="searchCellValue">row search expected value</param>
+        /// <param name="targetColumnName">target column name</param>
+        /// <param name="targetCellValue">target cell text</param>
+        /// <returns>true - if such cell exists, otherwise - false</returns>
+        public bool HasCell(string searchColumnName, string searchCellValue, string targetColumnName, string targetCellValue)
+        {
+            if (HasRows)
+            {
+                try
+                {
+                    return GetCell(searchColumnName, searchCellValue, targetColumnName).Data.Equals(targetCellValue);
+                }
+                catch (ControlNotFoundException)
+                {
+                    // Do nothing, code will return a false in this case.
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets header control for column with specified name.
         /// </summary>
         /// <param name="columnName"></param>
