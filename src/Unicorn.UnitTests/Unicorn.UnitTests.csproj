@@ -133,6 +133,7 @@
     <Compile Include="Gui\Desktop\CharmapApplication.cs" />
     <Compile Include="Gui\Desktop\CopyButtonWithDefaultLocator.cs" />
     <Compile Include="Gui\Desktop\WindowCharMap.cs" />
+    <Compile Include="Gui\Web\JqueryDialogPage.cs" />
     <Compile Include="Gui\Web\JquerySelectPage.cs" />
     <Compile Include="Gui\Web\JqueryDataGridPage.cs" />
     <Compile Include="Gui\Win\CopyButtonWithDefaultLocator.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="UnitTests\UI\UiMatchers.cs" />
+    <Compile Include="UnitTests\UI\Web\WebDynamicDialog.cs" />
     <Compile Include="UnitTests\UI\Web\WebDynamicDropdown.cs" />
     <Compile Include="UnitTests\UI\Web\WebDynamicGrid.cs" />
     <Compile Include="UnitTests\Verification\Assertions.cs" />

@@ -17,7 +17,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <summary>
         /// Gets current data grid rows count.
         /// </summary>
-        public int RowsCount => HasRows ? Rows.Count : 0;
+        public virtual int RowsCount => HasRows ? Rows.Count : 0;
 
         /// <summary>
         /// Gets a value indicating whether grid has any row or not.
@@ -69,7 +69,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// </summary>
         /// <param name="columnName">column name to search for</param>
         /// <returns>true - if such column exists, otherwise - false</returns>
-        public bool HasColumn(string columnName) =>
+        public virtual bool HasColumn(string columnName) =>
             Headers.Any(h => h.Text.Trim().Equals(columnName));
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="columnName">search column name</param>
         /// <param name="cellValue">expected value</param>
         /// <returns>true - if such row exists, otherwise - false</returns>
-        public bool HasRow(string columnName, string cellValue) =>
+        public virtual bool HasRow(string columnName, string cellValue) =>
             HasRows && Rows.Any(r => r.GetCell(GetColumnIndex(columnName)).Data.Equals(cellValue));
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="searchCellValue">row search expected value</param>
         /// <param name="targetColumnName">target column name</param>
         /// <returns>true - if such cell exists, otherwise - false</returns>
-        public bool HasCell(string searchColumnName, string searchCellValue, string targetColumnName)
+        public virtual bool HasCell(string searchColumnName, string searchCellValue, string targetColumnName)
         {
             if (HasRows)
             {
@@ -114,7 +114,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="targetColumnName">target column name</param>
         /// <param name="targetCellValue">target cell text</param>
         /// <returns>true - if such cell exists, otherwise - false</returns>
-        public bool HasCell(string searchColumnName, string searchCellValue, string targetColumnName, string targetCellValue)
+        public virtual bool HasCell(string searchColumnName, string searchCellValue, string targetColumnName, string targetCellValue)
         {
             if (HasRows)
             {
@@ -137,7 +137,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="columnName"></param>
         /// <returns><see cref="IControl"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified column was not found</exception>
-        public IControl GetColumnHeader(string columnName)
+        public virtual IControl GetColumnHeader(string columnName)
         {
             var header = Headers.FirstOrDefault(h => h.Text.Trim().Equals(columnName));
 
@@ -152,7 +152,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="rowIndex">row index</param>
         /// <returns><see cref="IDataGridRow"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified row was not found</exception>
-        public IDataGridRow GetRow(int rowIndex) =>
+        public virtual IDataGridRow GetRow(int rowIndex) =>
             HasRows && Rows.Count >= rowIndex + 1 ?
             Rows[rowIndex] :
             throw new ControlNotFoundException($"Row with index '{rowIndex}' does not exist.");
@@ -164,7 +164,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="cellValue">expected value</param>
         /// <returns><see cref="IDataGridRow"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified row was not found</exception>
-        public IDataGridRow GetRow(string columnName, string cellValue)
+        public virtual IDataGridRow GetRow(string columnName, string cellValue)
         {
             if (HasRows)
             {
@@ -186,7 +186,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="cellValue">expected value</param>
         /// <returns><see cref="IDataGridRow"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified row was not found</exception>
-        public IDataGridRow GetRow(int columnIndex, string cellValue)
+        public virtual IDataGridRow GetRow(int columnIndex, string cellValue)
         {
             if (HasRows)
             {
@@ -208,7 +208,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="columnIndex">column index</param>
         /// <returns><see cref="IDataGridCell"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified cell or row was not found</exception>
-        public IDataGridCell GetCell(int rowIndex, int columnIndex) =>
+        public virtual IDataGridCell GetCell(int rowIndex, int columnIndex) =>
             GetRow(rowIndex).GetCell(columnIndex);
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <param name="targetColumnName">target column name</param>
         /// <returns><see cref="IDataGridCell"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified cell or row was not found</exception>
-        public IDataGridCell GetCell(string searchColumnName, string searchCellValue, string targetColumnName) =>
+        public virtual IDataGridCell GetCell(string searchColumnName, string searchCellValue, string targetColumnName) =>
             GetRow(GetColumnIndex(searchColumnName), searchCellValue).GetCell(GetColumnIndex(targetColumnName));
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             /// <param name="index">cell index</param>
             /// <returns></returns>
             /// <exception cref="ControlNotFoundException">is thrown when specified cell was not found</exception>
-            public IDataGridCell GetCell(int index) =>
+            public virtual IDataGridCell GetCell(int index) =>
                 Cells.Count >= index + 1 ? 
                 Cells[index] : 
                 throw new ControlNotFoundException($"Cell with index '{index}' does not exist.");
@@ -278,7 +278,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             /// <summary>
             /// Gets cell string data.
             /// </summary>
-            public string Data => GetAttribute("innerText").Trim();
+            public virtual string Data => GetAttribute("innerText").Trim();
         }
 
         private int GetColumnIndex(string columnName)

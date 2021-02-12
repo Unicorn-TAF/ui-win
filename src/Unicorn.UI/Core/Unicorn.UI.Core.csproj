@@ -88,6 +88,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Dynamic\DefineDialogAttribute.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicDialog.cs" />
     <Compile Include="Controls\Dynamic\NotSpecifiedLocatorException.cs" />
     <Compile Include="Controls\Dynamic\DefineGridAttribute.cs" />
     <Compile Include="Controls\Dynamic\IDynamicGrid.cs" />

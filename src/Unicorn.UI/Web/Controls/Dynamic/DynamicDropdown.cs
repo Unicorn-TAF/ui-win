@@ -6,6 +6,7 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Typified;
@@ -18,22 +19,25 @@ namespace Unicorn.UI.Web.Controls.Dynamic
     public class DynamicDropdown : WebControl, IDynamicDropdown
     {
         /// <summary>
-        /// Gets or sets control for expand/collapse trigger.
+        /// Gets control for expand/collapse trigger.
         /// </summary>
+        [Name("Dropdown expand/collape")]
         public virtual IControl ExpandCollapse => Locators.ContainsKey(DropdownElement.ExpandCollapse) ?
             Find<WebControl>(Locators[DropdownElement.ExpandCollapse]) :
             throw new NotSpecifiedLocatorException($"{nameof(ExpandCollapse)} dropdown sub-control locator is not specified.");
 
         /// <summary>
-        /// Gets or sets dropdown input element with selected value.
+        /// Gets dropdown input element with selected value.
         /// </summary>
+        [Name("Dropdown selection")]
         public virtual ITextInput ValueInput => Locators.ContainsKey(DropdownElement.ValueInput) ?
             Find<TextInput>(Locators[DropdownElement.ValueInput]) :
             throw new NotSpecifiedLocatorException($"{nameof(ValueInput)} dropdown sub-control locator is not specified.");
 
         /// <summary>
-        /// Gets or sets control of dropdown options frame.
+        /// Gets control of dropdown options frame.
         /// </summary>
+        [Name("Dropdown list")]
         public virtual IControl OptionsFrame => Locators.ContainsKey(DropdownElement.OptionsFrame) ?
             Find<WebControl>(Locators[DropdownElement.OptionsFrame]) :
             throw new NotSpecifiedLocatorException($"{nameof(OptionsFrame)} dropdown sub-control locator is not specified.");
