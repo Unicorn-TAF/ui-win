@@ -1,4 +1,4 @@
-[![Version]https://img.shields.io/static/v1?label=version&message=2.2.1&color=blue)](https://bitbucket.org/dobriyanchik/unicorntaf/src/unicorn-2.2.1/)
+[![Version](https://img.shields.io/static/v1?label=version&message=2.2.1&color=blue)](https://bitbucket.org/dobriyanchik/unicorntaf/src/unicorn-2.2.1/)
 [![Coverage](https://img.shields.io/static/v1?label=coverage&message=48%&color=red)](https://bitbucket.org/dobriyanchik/unicorntaf/src/master/)
 [![Licence](https://img.shields.io/static/v1?label=license&message=Apache-2.0&color=green)](https://www.apache.org/licenses/LICENSE-2.0)
 
