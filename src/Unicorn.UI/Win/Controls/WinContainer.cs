@@ -10,7 +10,7 @@ namespace Unicorn.UI.Win.Controls
     /// Represents basic container for other windows controls.
     /// Initialized container also initializes all controls and containers within itself.
     /// </summary>
-    public abstract class WinContainer : WinControl, IContainer
+    public class WinContainer : WinControl, IContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WinContainer"/> class.

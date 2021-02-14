@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
@@ -34,8 +34,8 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [Author("Vitaliy Dobriyan")]
-        [Test(Description = "Check ordered targeted runner runs suites in specified order")]
-        public void TestOrderedTargetedRunnerRunsSuitesInSpecifiedOrder()
+        [Test(Description = "Check ordered targeted runner executes suites in specified order")]
+        public void TestOrderedTargetedRunnerExecutesSuitesInSpecifiedOrder()
         {
             Assert.That(runner.Outcome.SuitesOutcomes.Count, Is.EqualTo(2));
             Assert.That(runner.Outcome.SuitesOutcomes[0].Name, Is.EqualTo("Ordered suite 2"));
@@ -43,8 +43,8 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [Author("Vitaliy Dobriyan")]
-        [Test(Description = "Check ordered targeted runner runs only targeted tests within specified suites")]
-        public void TestOrderedTargetedRunnerRunsOnlyTargetedTestsWithinSpecifiedSuites()
+        [Test(Description = "Check ordered targeted runner executes only targeted tests within specified suites")]
+        public void TestOrderedTargetedRunnerExecutesOnlyTargetedTestsWithinSpecifiedSuites()
         {
             Assert.That(runner.Outcome.SuitesOutcomes[0].TestsOutcomes.Count, Is.EqualTo(2));
             Assert.That(runner.Outcome.SuitesOutcomes[0].TestsOutcomes[0].Title, Is.EqualTo("Test2-1"));

@@ -7,21 +7,22 @@ using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
-using Unicorn.UI.Web.PageObject;
+using Unicorn.UI.Win.Controls.Typified;
+using Unicorn.UI.Win.PageObject;
 
-namespace Unicorn.UI.Web.Controls.Dynamic
+namespace Unicorn.UI.Win.Controls.Dynamic
 {
     /// <summary>
     /// Describes dynamically defined Dialog window (each sub-control could be defined using attribute).
     /// </summary>
-    public class DynamicDialog : WebContainer, IDynamicDialog
+    public class DynamicDialog : WinContainer, IDynamicDialog
     {
         /// <summary>
         /// Gets control for dialog title.
         /// </summary>
         [Name("Window title")]
         public virtual IControl TitleControl => Locators.ContainsKey(DialogElement.Title) ? 
-            Find<WebControl>(Locators[DialogElement.Title]) :
+            Find<WinControl>(Locators[DialogElement.Title]) :
             throw new NotSpecifiedLocatorException($"{nameof(TitleControl)} dialog sub-control locator is not specified.");
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// </summary>
         [Name("Window content")]
         public virtual IControl ContentControl => Locators.ContainsKey(DialogElement.Content) ?
-            Find<WebControl>(Locators[DialogElement.Content]) :
+            Find<WinControl>(Locators[DialogElement.Content]) :
             throw new NotSpecifiedLocatorException($"{nameof(ContentControl)} dialog sub-control locator is not specified.");
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// </summary>
         [Name("Accept button")]
         public virtual IControl AcceptButton => Locators.ContainsKey(DialogElement.Accept) ?
-            Find<WebControl>(Locators[DialogElement.Accept]) :
+            Find<WinControl>(Locators[DialogElement.Accept]) :
             throw new NotSpecifiedLocatorException($"{nameof(AcceptButton)} dialog sub-control locator is not specified.");
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// </summary>
         [Name("Decline button")]
         public virtual IControl DeclineButton => Locators.ContainsKey(DialogElement.Decline) ?
-            Find<WebControl>(Locators[DialogElement.Decline]) :
+            Find<WinControl>(Locators[DialogElement.Decline]) :
             throw new NotSpecifiedLocatorException($"{nameof(DeclineButton)} dialog sub-control locator is not specified.");
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// </summary>
         [Name("Cancel button")]
         public virtual IControl CloseButton => Locators.ContainsKey(DialogElement.Close) ?
-            Find<WebControl>(Locators[DialogElement.Close]) :
+            Find<Button>(Locators[DialogElement.Close]) :
             throw new NotSpecifiedLocatorException($"{nameof(CloseButton)} dialog sub-control locator is not specified.");
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <summary>
         /// Gets dialog text content.
         /// </summary>
-        public virtual string TextContent => ContentControl.GetAttribute("innerText").Trim();
+        public virtual string TextContent => ContentControl.Text.Trim();
 
         /// <summary>
         /// Gets dictionary of dd elements locators.
@@ -120,8 +121,8 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             if (Locators.ContainsKey(DialogElement.Loader))
             {
                 new LoaderHandler(
-                    () => TryGetChild<WebControl>(Locators[DialogElement.Loader]),
-                    () => !TryGetChild<WebControl>(Locators[DialogElement.Loader]))
+                    () => TryGetChild<WinControl>(Locators[DialogElement.Loader]),
+                    () => !TryGetChild<WinControl>(Locators[DialogElement.Loader]))
                 .WaitFor(timeout);
             }
 
@@ -165,9 +166,9 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         }
 
         private bool IsWindowDisplayed() =>
-            (Cached || this.Exists()) && !GetAttribute("style").Contains("display: none;") && Visible;
+            (Cached || this.Exists()) && Visible;
 
         protected bool IsWindowNotDisplayed() =>
-            !(Cached || this.Exists()) || (!GetAttribute("style").Contains("display: block;") && !Visible);
+            !(Cached || this.Exists()) || !Visible;
     }
 }

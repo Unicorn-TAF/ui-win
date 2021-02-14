@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Gui.Web
 
         [Find(Using.WebCss, "[aria-describedby = 'dialog-confirm']")]
         [DefineDialog(DialogElement.Title, Using.WebCss, ".ui-dialog-title")]
-        [DefineDialog(DialogElement.Content, Using.WebCss, ".ui-dialog-content")]
+        [DefineDialog(DialogElement.Content, Using.Id, "dialog-confirm")]
         [DefineDialog(DialogElement.Accept, Using.WebXpath, ".//button[. = 'Delete all items']")]
         [DefineDialog(DialogElement.Decline, Using.WebXpath, ".//button[. = 'Cancel']")]
         [DefineDialog(DialogElement.Close, Using.WebCss, ".ui-dialog-titlebar-close")]
