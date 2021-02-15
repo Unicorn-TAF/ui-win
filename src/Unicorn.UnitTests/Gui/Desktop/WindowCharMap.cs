@@ -2,7 +2,6 @@
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
-using Unicorn.UI.Desktop.Controls.Dynamic;
 using Unicorn.UI.Desktop.Controls.Typified;
 
 namespace Unicorn.UnitTests.Gui.Desktop
@@ -52,12 +51,6 @@ namespace Unicorn.UnitTests.Gui.Desktop
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
-
-        [Find(Using.Name, "Font :")]
-        [DefineDropdown(DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
-        [DefineDropdown(DropdownElement.OptionsFrame, Using.Class, "ComboLBox")]
-        [DefineDropdown(DropdownElement.Option, Using.Class, "")]
-        public DynamicDropdown DDropdown;
 
         public Button GetCopyButtonFromField() => buttonCopyAsField;
     }
