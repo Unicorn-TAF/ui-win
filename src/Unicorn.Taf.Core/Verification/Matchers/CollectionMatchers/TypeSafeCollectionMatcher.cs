@@ -3,7 +3,7 @@
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
     /// <summary>
-    /// Base matcher for type specific collection matchers realizations.
+    /// Base matcher for type specific collection matchers implementations.
     /// </summary>
     /// <typeparam name="T">type of object under assertion</typeparam>
     public abstract class TypeSafeCollectionMatcher<T> : BaseMatcher
@@ -16,7 +16,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         }
 
         /// <summary>
-        /// Checks if target objects collection matches condition corresponding to specific matcher realization.
+        /// Checks if target objects collection matches condition corresponding to specific matcher implementations.
         /// </summary>
         /// <param name="actual">objects collection under assertion</param>
         /// <returns>true - if objects collection matches specific condition; otherwise - false</returns>

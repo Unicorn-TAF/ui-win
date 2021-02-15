@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 using Unicorn.UI.Core.Controls;
+using Unicorn.UI.Core.Controls.Dynamic;
+using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.PageObject
 {
@@ -58,7 +61,14 @@ namespace Unicorn.UI.Core.PageObject
                         iControl.Name = nameAttribute.Name;
                     }
 
-                    InitContainer(control);
+                    if (control is IDynamicControl)
+                    {
+                        DefineDynamicControl(ref control, property);
+                    }
+                    else
+                    {
+                        InitContainer(control);
+                    }
 
                     property.SetValue(container, control);
                 }
@@ -99,11 +109,32 @@ namespace Unicorn.UI.Core.PageObject
                         iControl.Name = nameAttribute.Name;
                     }
 
-                    InitContainer(control);
+                    if (control is IDynamicControl)
+                    {
+                        DefineDynamicControl(ref control, field);
+                    }
+                    else
+                    {
+                        InitContainer(control);
+                    }
+
 
                     field.SetValue(container, control);
                 }
             }
+        }
+
+        private static void DefineDynamicControl(ref object control, MemberInfo classMember)
+        {
+            var definitions = classMember.GetCustomAttributes(typeof(DefineAttribute), true) as DefineAttribute[];
+            var dictionary = new Dictionary<int, ByLocator>();
+
+            foreach (var definition in definitions)
+            {
+                dictionary.Add(definition.ElementDefinition, definition.Locator);
+            }
+
+            (control as IDynamicControl).Populate(dictionary);
         }
     }
 }

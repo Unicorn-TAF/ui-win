@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AutomationElementExtension.cs" />
+    <Compile Include="Controls\Dynamic\DynamicDialog.cs" />
+    <Compile Include="Controls\Dynamic\DynamicDropdown.cs" />
     <Compile Include="Controls\Typified\SplitButton.cs" />
     <Compile Include="Controls\Typified\ToolTip.cs" />
     <Compile Include="Controls\Typified\StatusBar.cs" />

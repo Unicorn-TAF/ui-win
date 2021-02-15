@@ -1,5 +1,7 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using Unicorn.UI.Core.Controls.Dynamic;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
+using Unicorn.UI.Win.Controls.Dynamic;
 using Unicorn.UI.Win.PageObject;
 
 namespace Unicorn.UnitTests.Gui.Win
@@ -15,5 +17,9 @@ namespace Unicorn.UnitTests.Gui.Win
 
         [Find(Using.Name, "asdlkjfghsdhjkfgdsfkjhfg")]
         public WindowCharMap FakeWindow { get; set; }
+
+        [Find(Using.Name, "Character Map")]
+        [DefineDialog(DialogElement.Close, Using.Name, "Close")]
+        public DynamicDialog WindowDynamic { get; set; }
     }
 }

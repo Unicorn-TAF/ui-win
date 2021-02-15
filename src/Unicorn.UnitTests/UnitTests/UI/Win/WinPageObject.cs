@@ -4,7 +4,7 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Win.Driver;
 using Unicorn.UnitTests.Gui.Win;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Win
 {
     [TestFixture]
     public class WinPageObject

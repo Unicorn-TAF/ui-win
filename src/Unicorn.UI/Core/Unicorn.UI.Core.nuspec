@@ -11,9 +11,9 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests realizations of specific UI extensions or develop custom ones.</summary>
+    <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests implementations of specific UI extensions or develop custom ones.</summary>
     <description>
-      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI realizations.
+      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
 
       This package includes UI core of unicorn automation framework.
 
