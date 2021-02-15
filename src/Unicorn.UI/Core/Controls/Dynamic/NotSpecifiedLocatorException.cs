@@ -5,7 +5,7 @@ using System.Security.Permissions;
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
     /// <summary>
-    /// Thrown in case when UI control was not found by search.
+    /// Thrown in case when dynamic UI control definition has some missing element required by specific method or call.
     /// </summary>
     [Serializable]
     public class NotSpecifiedLocatorException : Exception
