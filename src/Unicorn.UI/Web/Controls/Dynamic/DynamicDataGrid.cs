@@ -15,19 +15,20 @@ namespace Unicorn.UI.Web.Controls.Dynamic
     public class DynamicDataGrid : WebControl, IDynamicGrid
     {
         /// <summary>
-        /// Gets current data grid rows count.
+        /// Gets current data grid rows count immediately.
         /// </summary>
         public virtual int RowsCount => HasRows ? GetRows().Count : 0;
 
         /// <summary>
-        /// Gets a value indicating whether grid has any row or not.
+        /// Gets a value indicating whether grid has any row or not immediately.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         public virtual bool HasRows => Locators.ContainsKey(GridElement.Row) ?
             TryGetChild<WebControl>(Locators[GridElement.Row]) :
-            throw new NotSpecifiedLocatorException($"{nameof(GetRows)} data grid sub-control locator was not specified.");
+            throw new NotSpecifiedLocatorException($"{nameof(Row)} data grid sub-control locator was not specified.");
 
         /// <summary>
-        /// Gets dictionary of dd elements locators.
+        /// Gets dictionary of sub-elements locators.
         /// </summary>
         protected Dictionary<GridElement, ByLocator> Locators = new Dictionary<GridElement, ByLocator>();
 
@@ -54,10 +55,11 @@ namespace Unicorn.UI.Web.Controls.Dynamic
 
         /// <summary>
         /// Gets list of data grid headers.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
-        protected virtual IList<WebControl> GetHeaders() => Locators.ContainsKey(GridElement.Header) ?
+        protected virtual IList<WebControl> GetColumnsHeaders() => Locators.ContainsKey(GridElement.Header) ?
             FindList<WebControl>(Locators[GridElement.Header]) :
-            throw new NotSpecifiedLocatorException($"{nameof(GetHeaders)} data grid sub-control locator was not specified.");
+            throw new NotSpecifiedLocatorException("Header data grid sub-control locator was not specified.");
 
         /// <summary>
         /// Gets list of data grid rows.
@@ -65,15 +67,15 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         protected virtual IList<Row> GetRows() => InitializeRows();
 
         /// <summary>
-        /// Gets a value indicating whether data grid has column with specified name.
+        /// Gets a value indicating whether data grid has column with specified name or not.
         /// </summary>
         /// <param name="columnName">column name to search for</param>
         /// <returns>true - if such column exists, otherwise - false</returns>
         public virtual bool HasColumn(string columnName) =>
-            GetHeaders().Any(h => h.Text.Trim().Equals(columnName));
+            GetColumnsHeaders().Any(h => h.Text.Trim().Equals(columnName));
 
         /// <summary>
-        /// Gets a value indicating whether data grid has row where specified column value is equal to expected.
+        /// Gets a value indicating whether data grid has row where specified column value is equal to expected or not.
         /// </summary>
         /// <param name="columnName">search column name</param>
         /// <param name="cellValue">expected value</param>
@@ -82,7 +84,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             HasRows && GetRows().Any(r => r.GetCell(GetColumnIndex(columnName)).Data.Equals(cellValue));
 
         /// <summary>
-        /// Gets a value indicating whether data grid has specified cell in column in row where specified column value is equal to expected.
+        /// Gets a value indicating whether data grid has specified cell in column in row where specified column value is equal to expected or not.
         /// </summary>
         /// <param name="searchColumnName">row search column name</param>
         /// <param name="searchCellValue">row search expected value</param>
@@ -107,7 +109,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         }
 
         /// <summary>
-        /// Gets a value indicating whether data grid has cell with specified value in column in row where specified column value is equal to expected.
+        /// Gets a value indicating whether data grid has cell with specified value in column in row where specified column value is equal to expected or not.
         /// </summary>
         /// <param name="searchColumnName">row search column name</param>
         /// <param name="searchCellValue">row search expected value</param>
@@ -139,7 +141,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <exception cref="ControlNotFoundException">is thrown when specified column was not found</exception>
         public virtual IControl GetColumnHeader(string columnName)
         {
-            var header = GetHeaders().FirstOrDefault(h => h.Text.Trim().Equals(columnName));
+            var header = GetColumnsHeaders().FirstOrDefault(h => h.Text.Trim().Equals(columnName));
 
             return header == null ?
                 throw new ControlNotFoundException($"Column '{columnName}' does not exist.") :
@@ -153,7 +155,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <returns><see cref="IDataGridRow"/> instance</returns>
         /// <exception cref="ControlNotFoundException">is thrown when specified row was not found</exception>
         public virtual IDataGridRow GetRow(int rowIndex) =>
-            HasRows && GetRows().Count >= rowIndex + 1 ?
+            HasRows && GetRows().Count > rowIndex ?
             GetRows()[rowIndex] :
             throw new ControlNotFoundException($"Row with index '{rowIndex}' does not exist.");
 
@@ -253,9 +255,9 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             /// <summary>
             /// Gets list of row cells controls.
             /// </summary>
-            protected IList<Cell> Cells =>
+            protected IList<Cell> GetCells() =>
                 cellsLocator == null ?
-                throw new NotSpecifiedLocatorException($"{nameof(Cells)} data grid sub-control locator is not specified.") :
+                throw new NotSpecifiedLocatorException($"{nameof(Cell)} data grid sub-control locator is not specified.") :
                 FindList<Cell>(cellsLocator);
 
             /// <summary>
@@ -265,8 +267,8 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             /// <returns></returns>
             /// <exception cref="ControlNotFoundException">is thrown when specified cell was not found</exception>
             public virtual IDataGridCell GetCell(int index) =>
-                Cells.Count >= index + 1 ? 
-                Cells[index] : 
+                GetCells().Count > index ? 
+                GetCells()[index] : 
                 throw new ControlNotFoundException($"Cell with index '{index}' does not exist.");
         }
 
@@ -285,7 +287,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         {
             int index = 0;
 
-            foreach (var header in GetHeaders())
+            foreach (var header in GetColumnsHeaders())
             {
                 if (header.Text.Trim().Equals(columnName))
                 {

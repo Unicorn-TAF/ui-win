@@ -21,6 +21,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
     {
         /// <summary>
         /// Gets control for expand/collapse trigger.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Dropdown expand/collape")]
         public virtual IControl ExpandCollapse => Locators.ContainsKey(DropdownElement.ExpandCollapse) ?
@@ -29,6 +30,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets dropdown input element with selected value.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Dropdown selection")]
         public virtual ITextInput ValueInput => Locators.ContainsKey(DropdownElement.ValueInput) ?
@@ -37,6 +39,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets control of dropdown options frame.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Dropdown list")]
         public virtual IControl OptionsFrame => Locators.ContainsKey(DropdownElement.OptionsFrame) ?
@@ -76,7 +79,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         }
 
         /// <summary>
-        /// Gets dictionary of dd elements locators.
+        /// Gets dictionary of sub-elements locators.
         /// </summary>
         protected Dictionary<DropdownElement, ByLocator> Locators = new Dictionary<DropdownElement, ByLocator>();
 

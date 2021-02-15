@@ -34,6 +34,11 @@ namespace Unicorn.UI.Core.Controls.Dynamic
     /// </summary>
     public interface IDynamicGrid : IDynamicControl, IDataGrid, ILoadable
     {
+        /// <summary>
+        /// Gets data grid header by name.
+        /// </summary>
+        /// <param name="columnName">column name</param>
+        /// <returns></returns>
         IControl GetColumnHeader(string columnName);
     }
 }

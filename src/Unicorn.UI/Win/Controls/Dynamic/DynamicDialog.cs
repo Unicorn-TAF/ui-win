@@ -19,6 +19,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
     {
         /// <summary>
         /// Gets control for dialog title.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Window title")]
         public virtual IControl TitleControl => Locators.ContainsKey(DialogElement.Title) ? 
@@ -27,6 +28,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets control for dialog content.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Window content")]
         public virtual IControl ContentControl => Locators.ContainsKey(DialogElement.Content) ?
@@ -35,6 +37,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets control for dialog acceptance button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Accept button")]
         public virtual IControl AcceptButton => Locators.ContainsKey(DialogElement.Accept) ?
@@ -43,6 +46,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets control for dialog declining button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
         [Name("Decline button")]
         public virtual IControl DeclineButton => Locators.ContainsKey(DialogElement.Decline) ?
@@ -51,8 +55,9 @@ namespace Unicorn.UI.Win.Controls.Dynamic
 
         /// <summary>
         /// Gets control for dialog close button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
         /// </summary>
-        [Name("Cancel button")]
+        [Name("Close button")]
         public virtual IControl CloseButton => Locators.ContainsKey(DialogElement.Close) ?
             Find<Button>(Locators[DialogElement.Close]) :
             throw new NotSpecifiedLocatorException($"{nameof(CloseButton)} dialog sub-control locator is not specified.");
@@ -68,7 +73,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         public virtual string TextContent => ContentControl.Text.Trim();
 
         /// <summary>
-        /// Gets dictionary of dd elements locators.
+        /// Gets dictionary of sub-elements locators.
         /// </summary>
         protected Dictionary<DialogElement, ByLocator> Locators = new Dictionary<DialogElement, ByLocator>();
 
@@ -93,18 +98,27 @@ namespace Unicorn.UI.Win.Controls.Dynamic
             }
         }
 
+        /// <summary>
+        /// Accepts a dialog and waits for window disappearance.
+        /// </summary>
         public void Accept()
         {
             AcceptButton.Click();
             WaitForWindowIsNotDisplayed();
         }
 
+        /// <summary>
+        /// Declines a dialog and waits for window disappearance.
+        /// </summary>
         public void Decline()
         {
             DeclineButton.Click();
             WaitForWindowIsNotDisplayed();
         }
 
+        /// <summary>
+        /// Closes a dialog and waits for window disappearance.
+        /// </summary>
         public void Close()
         {
             CloseButton.Click();
@@ -114,6 +128,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <summary>
         /// Waits for window loader appearance for 1.5 seconds and then for its disappearance.
         /// </summary>
+        /// <param name="timeout">disappearance timeout</param>
         /// <returns></returns>
         /// <exception cref="LoaderTimeoutException">thrown if loader has not disappeared during timeout period</exception>
         public virtual bool WaitForLoading(TimeSpan timeout)
@@ -132,7 +147,6 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <summary>
         /// Waits during window wait timeout until window is displayed on screen.
         /// </summary>
-        /// <param name="waitForContentLoading">true - if need to wait for content loading, otherwise - false</param>
         /// <exception cref="TimeoutException">Thrown when window has not appeared</exception>
         public virtual void WaitForWindowIsDisplayed()
         {
@@ -168,7 +182,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         private bool IsWindowDisplayed() =>
             (Cached || this.Exists()) && Visible;
 
-        protected bool IsWindowNotDisplayed() =>
+        private bool IsWindowNotDisplayed() =>
             !(Cached || this.Exists()) || !Visible;
     }
 }
