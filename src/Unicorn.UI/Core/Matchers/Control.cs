@@ -1,4 +1,5 @@
-﻿using Unicorn.UI.Core.Controls.Interfaces;
+﻿using System;
+using Unicorn.UI.Core.Controls.Interfaces;
 using Unicorn.UI.Core.Matchers.IControlMatchers;
 using Unicorn.UI.Core.Matchers.TypifiedMatchers;
 
@@ -7,6 +8,7 @@ namespace Unicorn.UI.Core.Matchers
     /// <summary>
     /// Entry point for general control matchers.
     /// </summary>
+    [Obsolete("Please use Unicorn.UI.Core.Matchers.Ui entry point")]
     public static class Control
     {
         /// <summary>

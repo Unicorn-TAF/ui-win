@@ -19,7 +19,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             if (input == null)
             {
-                throw new ArgumentNullException("input", "input cannot be null");
+                throw new ArgumentNullException(nameof(input));
             }
 
             Input = input;
@@ -35,7 +35,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             if (input == null)
             {
-                throw new ArgumentNullException("input", "input cannot be null");
+                throw new ArgumentNullException(nameof(input));
             }
 
             Input = input;
@@ -64,7 +64,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             if (condition == null)
             {
-                throw new ArgumentNullException("condition", "condition cannot be null");
+                throw new ArgumentNullException(nameof(condition));
             }
 
             var resultType = typeof(TResult);
@@ -73,7 +73,7 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException($"Can only wait on an object or boolean response, tried to use type: " + resultType, "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} {condition.Method.Name} during {Timeout} with polling interval {PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} {condition.Method.Name} during {Timeout.ToString(@"mm\:ss\.fff")} with polling interval {PollingInterval.ToString(@"mm\:ss\.fff")}");
 
             Exception lastException = null;
             Timer
@@ -90,7 +90,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
                             return result;
                         }
                     }
@@ -98,7 +98,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
                             return result;
                         }
                     }
@@ -141,7 +141,7 @@ namespace Unicorn.UI.Core.Synchronization
         {
             if (condition == null)
             {
-                throw new ArgumentNullException("condition", "condition cannot be null");
+                throw new ArgumentNullException(nameof(condition));
             }
 
             var resultType = typeof(TResult);
@@ -150,7 +150,7 @@ namespace Unicorn.UI.Core.Synchronization
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType, "condition");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{_attributeName}' {condition.Method.Name} '{_valueValue}' during {Timeout} with polling interval {PollingInterval}");
+            Logger.Instance.Log(LogLevel.Debug, $"Waiting for {Input} '{_attributeName}' {condition.Method.Name} '{_valueValue}' during {Timeout.ToString(@"mm\:ss\.fff")} with polling interval {PollingInterval.ToString(@"mm\:ss\.fff")}");
 
             Exception lastException = null;
             Timer
@@ -167,7 +167,7 @@ namespace Unicorn.UI.Core.Synchronization
                         var boolResult = result as bool?;
                         if (boolResult.HasValue && boolResult.Value)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
                             return result;
                         }
                     }
@@ -175,7 +175,7 @@ namespace Unicorn.UI.Core.Synchronization
                     {
                         if (result != null)
                         {
-                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed}]");
+                            Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
                             return result;
                         }
                     }

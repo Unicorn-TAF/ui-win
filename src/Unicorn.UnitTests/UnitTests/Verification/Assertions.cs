@@ -3,7 +3,7 @@ using Unicorn.UnitTests.BO;
 using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Uv = Unicorn.Taf.Core.Verification;
 
-namespace Unicorn.UnitTests.Tests
+namespace Unicorn.UnitTests.Verification
 {
     [TestFixture]
     public class Assertions

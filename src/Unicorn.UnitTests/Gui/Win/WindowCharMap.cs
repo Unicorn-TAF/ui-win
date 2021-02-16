@@ -1,7 +1,9 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using Unicorn.UI.Core.Controls.Dynamic;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Win.Controls;
+using Unicorn.UI.Win.Controls.Dynamic;
 using Unicorn.UI.Win.Controls.Typified;
 
 namespace Unicorn.UnitTests.Gui.Win
@@ -18,6 +20,9 @@ namespace Unicorn.UnitTests.Gui.Win
 
         [Find(Using.Name, "Font :")]
         public Dropdown DropdownFonts { get; set; }
+
+        [Find(Using.Name, "Font :")]
+        public TextInput DropdownTextInputFonts { get; set; }
 
         [Find(Using.Name, "Characters to copy :")]
         public TextInput InputCharactersToCopy { get; set; }
@@ -56,5 +61,18 @@ namespace Unicorn.UnitTests.Gui.Win
         protected Button ButtonSelect { get; set; }
 
         public Button GetCopyButtonFromField() => this.buttonCopyAsField;
+
+        [ById("105")]
+        [DefineDropdown(DropdownElement.ValueInput, Using.Name, "Font :")]
+        [DefineDropdown(DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
+        [DefineDropdown(DropdownElement.OptionsFrame, Using.Class, "ComboLBox")]
+        [DefineDropdown(DropdownElement.Option, Using.Class, "")]
+        public DynamicDropdown DDropdown { get; set; }
+
+        [ById("105")]
+        [DefineDropdown(DropdownElement.ExpandCollapse, Using.Id, "DropDown")]
+        [DefineDropdown(DropdownElement.OptionsFrame, Using.Class, "ComboLBox")]
+        [DefineDropdown(DropdownElement.Option, Using.Class, "")]
+        public DynamicDropdown DDropdownNoInput { get; set; }
     }
 }

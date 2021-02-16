@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading;
 using Unicorn.UI.Win.Controls.WindowsBase;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Win
 {
     [TestFixture]
     public class WinWindowsBaseControls

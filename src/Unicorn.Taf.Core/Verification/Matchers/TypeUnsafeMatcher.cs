@@ -13,7 +13,7 @@
         }
 
         /// <summary>
-        /// Checks if target object matches condition corresponding to specific matcher realization.
+        /// Checks if target object matches condition corresponding to specific matcher implementation.
         /// </summary>
         /// <param name="actual">object under assertion</param>
         /// <returns>true - if object matches specific condition; otherwise - false</returns>

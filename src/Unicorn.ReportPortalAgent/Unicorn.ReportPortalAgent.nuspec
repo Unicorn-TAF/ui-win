@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Unicorn.ReportPortalAgent is Unicorn test automation framework extension which allows to report your tests execution into EPAM ReportPortal.</summary>
     <description>
-      This package includes ready for use realization of EPAM ReportPortal extionsion which is referenced by your tests. You will need to deploy EPAM ReportPortal within your infrastructure to report your tests there.
+      This package includes ready for use implementation of EPAM ReportPortal extension which is referenced by your tests. You will need to deploy EPAM ReportPortal within your infrastructure to report your tests there.
 
       Supported platforms:
       - .NET Framework 4.5.2+

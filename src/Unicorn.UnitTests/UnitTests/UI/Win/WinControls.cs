@@ -4,7 +4,7 @@ using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Win
 {
     [TestFixture]
     public class WinControls

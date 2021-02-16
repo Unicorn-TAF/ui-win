@@ -11,11 +11,11 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Desktop is Unicorn test automation framework extension which provides ready for use realization of interaction with Windows GUI with extended capabilities.</summary>
+    <summary>Unicorn.UI.Desktop is Unicorn test automation framework extension which provides ready for use implementations of interaction with Windows GUI with extended capabilities.</summary>
     <description>
-      Unicorn Desktop features: Ready for use realizations of common controls, extended page object features.
+      Unicorn Desktop features: Ready for use implementations of common controls, extended page object features.
 
-      This package includes realization of desktop GUI interaction which is based on UIAutomation library.
+      This package includes implementations of desktop GUI interaction which is based on UIAutomation library.
 
       Supported platforms:
       - .NET Framework 4.5.2+

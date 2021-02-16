@@ -33,6 +33,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\Unicorn.UI.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -87,7 +88,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Dynamic\DefineDialogAttribute.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicDialog.cs" />
+    <Compile Include="Controls\Dynamic\NotSpecifiedLocatorException.cs" />
+    <Compile Include="Controls\Dynamic\DefineGridAttribute.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicGrid.cs" />
     <Compile Include="Controls\Interfaces\IScrollable.cs" />
+    <Compile Include="Controls\Dynamic\DefineDropdownAttribute.cs" />
+    <Compile Include="Controls\Dynamic\DefineAttribute.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicDropdown.cs" />
+    <Compile Include="Controls\Dynamic\IDynamicControl.cs" />
     <Compile Include="Controls\Interfaces\IItemSelectable.cs" />
     <Compile Include="Controls\Interfaces\ILoadable.cs" />
     <Compile Include="Controls\Interfaces\ISortable.cs" />
@@ -97,11 +107,16 @@
     <Compile Include="Driver\ISearchContext.cs" />
     <Compile Include="Driver\BaseSearchContext.cs" />
     <Compile Include="Driver\ByLocator.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\InputHasValueMatcher.cs" />
+    <Compile Include="Matchers\TypifiedMatchers\CheckboxHasCheckStateMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SortedMatcher.cs" />
     <Compile Include="Matchers\TypifiedMatchers\SelectedMatcher.cs" />
+    <Compile Include="Matchers\Ui.cs" />
     <Compile Include="PageObject\By\ByIdAttribute.cs" />
     <Compile Include="PageObject\By\ByClassAttribute.cs" />
     <Compile Include="PageObject\By\ByNameAttribute.cs" />
+    <Compile Include="Synchronization\LoaderHandler.cs" />
+    <Compile Include="Synchronization\LoaderTimeoutException.cs" />
     <Compile Include="UserInput\Constants.cs" />
     <Compile Include="UserInput\WindowsApi\Input.cs" />
     <Compile Include="UserInput\Keyboard.cs" />
