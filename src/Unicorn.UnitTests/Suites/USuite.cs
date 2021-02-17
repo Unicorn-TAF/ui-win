@@ -17,6 +17,7 @@ namespace Unicorn.UnitTests.Suites
         public void BeforeTest() =>
             Output += "BeforeTest>";
 
+        [Author("Author2")]
         [Test]
         public void Test2() =>
             Output += "Test1>";

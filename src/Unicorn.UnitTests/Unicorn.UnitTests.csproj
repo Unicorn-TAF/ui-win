@@ -142,6 +142,8 @@
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\UBaseTestSuite.cs" />
+    <Compile Include="Suites\UParameterizedSuiteNoSuiteData.cs" />
+    <Compile Include="Suites\USuiteForSteps.cs" />
     <Compile Include="Suites\USuiteForTimeouts3.cs" />
     <Compile Include="Suites\USuiteForTimeouts2.cs" />
     <Compile Include="Suites\USuiteOrdered1.cs" />
@@ -154,6 +156,11 @@
     <Compile Include="Suites\USuite.cs" />
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
+    <Compile Include="UnitTests\Testing\ParameterizedTestSuiteWithNoData.cs" />
+    <Compile Include="UnitTests\Testing\StepsFeature.cs" />
+    <Compile Include="UnitTests\Testing\ReadConfigurationFromFile.cs" />
+    <Compile Include="UnitTests\Testing\TestSuiteTestsFilter.cs" />
+    <Compile Include="UnitTests\Testing\TestSuiteOutcome.cs" />
     <Compile Include="UnitTests\UI\UiMatchers.cs" />
     <Compile Include="UnitTests\UI\Win\WinDynamicDropdown.cs" />
     <Compile Include="UnitTests\UI\Win\WinDynamicDialog.cs" />
