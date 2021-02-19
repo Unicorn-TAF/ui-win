@@ -24,6 +24,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
+        /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
         public OrderedTargetedTestsRunner(string assemblyPath, Dictionary<string, string> filters) 
         {
             if (assemblyPath == null)
@@ -49,6 +50,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <summary>
         /// Run all observed tests matching selection criteria
         /// </summary>
+        /// <exception cref="TypeLoadException">is thrown when suite class was not found for specified suite name in run filters</exception>
         public override void RunTests()
         {
             var testsAssembly = Assembly.LoadFrom(_testsAssemblyFile);

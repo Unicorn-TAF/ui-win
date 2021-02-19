@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
@@ -21,7 +20,7 @@ namespace Unicorn.Taf.Core.Utility
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
-        /// Default directory is ".\Screenshots"
+        /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
         public Screenshotter() 
             : this(
@@ -32,7 +31,8 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
+        /// Directory is created automatically if it does not exist.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
@@ -41,7 +41,8 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
+        /// Directory is created automatically if it does not exist.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>

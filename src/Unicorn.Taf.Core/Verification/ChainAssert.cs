@@ -20,8 +20,8 @@ namespace Unicorn.Taf.Core.Verification
 
         private readonly string _errorMessage;
         private readonly StringBuilder _errors;
-        private bool _isSomethingFailed;
-        private int _errorCounter;
+        private bool isSomethingFailed;
+        private int errorCounter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChainAssert"/> class. 
@@ -37,8 +37,8 @@ namespace Unicorn.Taf.Core.Verification
         public ChainAssert(string description)
         {
             _errors = new StringBuilder();
-            _isSomethingFailed = false;
-            _errorCounter = 1;
+            isSomethingFailed = false;
+            errorCounter = 1;
             _errorMessage = description + FailedMessage;
         }
 
@@ -65,8 +65,8 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                _isSomethingFailed = true;
+                _errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                isSomethingFailed = true;
             }
 
             return this;
@@ -106,8 +106,8 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                _isSomethingFailed = true;
+                _errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                isSomethingFailed = true;
             }
 
             return this;
@@ -148,8 +148,8 @@ namespace Unicorn.Taf.Core.Verification
                     message += Environment.NewLine;
                 }
 
-                _errors.AppendLine($"Error {_errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
-                _isSomethingFailed = true;
+                _errors.AppendLine($"Error {errorCounter++}").Append(message).Append(matcher.Output.ToString()).AppendLine().AppendLine();
+                isSomethingFailed = true;
             }
 
             return this;
@@ -168,9 +168,10 @@ namespace Unicorn.Taf.Core.Verification
         /// <summary>
         /// Perform final assertion of all checks in the chain
         /// </summary>
+        /// <exception cref="AssertionException">is thrown when assertion was failed</exception>
         public void AssertChain()
         {
-            if (_isSomethingFailed)
+            if (isSomethingFailed)
             {
                 throw new AssertionException(_errorMessage + Environment.NewLine + _errors.ToString().Trim());
             }

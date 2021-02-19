@@ -33,15 +33,15 @@ namespace Unicorn.Taf.Core.Utility
         private readonly int _inProgress = 0;
         private readonly int _pending = 0;
 
-        private int _total = 0;
-        private int _executed = 0;
-        private int _passed = 0;
-        private int _failed = 0;
-        private int _inconclusive = 0;
-        private int _notExecuted = 0;
-        private int _completed = 0;
-
         private readonly string[] xmlInvalidSymbols = { "&#x0" };
+
+        private int total = 0;
+        private int executed = 0;
+        private int passed = 0;
+        private int failed = 0;
+        private int inconclusive = 0;
+        private int notExecuted = 0;
+        private int completed = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrxCreator"/> class.
@@ -211,25 +211,25 @@ namespace Unicorn.Taf.Core.Utility
 
             foreach (var testOutcome in outcome.TestsOutcomes)
             {
-                _total++;
+                total++;
 
                 if (outcome.Result.Equals(Status.Skipped))
                 {
-                    _inconclusive++;
-                    _notExecuted++;
+                    inconclusive++;
+                    notExecuted++;
                     continue;
                 }
 
-                _executed++;
-                _completed++;
+                executed++;
+                completed++;
 
                 if (outcome.Result.Equals(Status.Passed))
                 {
-                    _passed++;
+                    passed++;
                 }
                 else
                 {
-                    _failed++;
+                    failed++;
                 }
 
                 var executionIdValue = AdapterUtilities.GuidFromString(testOutcome.StartTime.ToString(DtFormat, CultureInfo.InvariantCulture)).ToString();
@@ -383,19 +383,19 @@ namespace Unicorn.Taf.Core.Utility
             var counters = _trx.CreateElement(string.Empty, "Counters", string.Empty);
 
             var totalAttribute = _trx.CreateAttribute("total");
-            totalAttribute.Value = _total.ToString();
+            totalAttribute.Value = total.ToString();
 
             var executedAttribute = _trx.CreateAttribute("executed");
-            executedAttribute.Value = _executed.ToString();
+            executedAttribute.Value = executed.ToString();
 
             var passedAttribute = _trx.CreateAttribute("passed");
-            passedAttribute.Value = _passed.ToString();
+            passedAttribute.Value = passed.ToString();
 
             var errorAttribute = _trx.CreateAttribute("error");
             errorAttribute.Value = _error.ToString();
 
             var failedAttribute = _trx.CreateAttribute("failed");
-            failedAttribute.Value = _failed.ToString();
+            failedAttribute.Value = failed.ToString();
 
             var timeoutAttribute = _trx.CreateAttribute("timeout");
             timeoutAttribute.Value = _timeout.ToString();
@@ -404,7 +404,7 @@ namespace Unicorn.Taf.Core.Utility
             abortedAttribute.Value = _aborted.ToString();
 
             var inconclusiveAttribute = _trx.CreateAttribute("inconclusive");
-            inconclusiveAttribute.Value = _inconclusive.ToString();
+            inconclusiveAttribute.Value = inconclusive.ToString();
 
             var passedButRunAbortedAttribute = _trx.CreateAttribute("passedButRunAborted");
             passedButRunAbortedAttribute.Value = _passedButRunAborted.ToString();
@@ -413,7 +413,7 @@ namespace Unicorn.Taf.Core.Utility
             notRunnableAttribute.Value = _notRunnable.ToString();
 
             var notExecutedAttribute = _trx.CreateAttribute("notExecuted");
-            notExecutedAttribute.Value = _notExecuted.ToString();
+            notExecutedAttribute.Value = notExecuted.ToString();
 
             var disconnectedAttribute = _trx.CreateAttribute("disconnected");
             disconnectedAttribute.Value = _disconnected.ToString();
@@ -422,7 +422,7 @@ namespace Unicorn.Taf.Core.Utility
             warningAttribute.Value = _warning.ToString();
 
             var completedAttribute = _trx.CreateAttribute("completed");
-            completedAttribute.Value = _completed.ToString();
+            completedAttribute.Value = completed.ToString();
 
             var inProgressAttribute = _trx.CreateAttribute("inProgress");
             inProgressAttribute.Value = _inProgress.ToString();

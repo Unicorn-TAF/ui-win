@@ -22,6 +22,7 @@ namespace Unicorn.Taf.Core.Engine
         /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
         public TestsRunner(string assemblyPath) : this(assemblyPath, true)
         {
         }
@@ -31,6 +32,7 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="configurationFileName">path to configuration file</param>
+        /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
             if (assemblyPath == null)
