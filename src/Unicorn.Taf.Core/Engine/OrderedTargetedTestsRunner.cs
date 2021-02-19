@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -33,6 +34,11 @@ namespace Unicorn.Taf.Core.Engine
             if (filters == null)
             {
                 throw new ArgumentNullException(nameof(filters));
+            }
+
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
             }
 
             _testsAssemblyFile = assemblyPath;

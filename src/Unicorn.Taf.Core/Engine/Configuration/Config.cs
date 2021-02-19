@@ -131,6 +131,11 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
             }
 
+            if (!File.Exists(configPath))
+            {
+                throw new FileNotFoundException("Unicorn configuration file not found.", configPath);
+            }
+
             var conf = JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(configPath));
 
             TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
