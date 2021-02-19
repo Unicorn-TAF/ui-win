@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets tag name.
+        /// Gets tag name.
         /// </summary>
         public string Tag { get; }
     }

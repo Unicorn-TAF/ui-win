@@ -52,8 +52,6 @@ namespace Unicorn.ReportPortalAgent
         public static RpConfig Config
         {
             get;
-
-            private set;
         }
 
         /// <summary>

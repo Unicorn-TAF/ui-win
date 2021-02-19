@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets test suite name.
+        /// Gets test suite name.
         /// </summary>
         public string Name { get; }
     }
