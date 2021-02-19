@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Bugfixes, code rules fixes, added asserts IsTrue/IsFalse, removed SuiteMethod.LogOutput.</releaseNotes>
+    <releaseNotes>Waiter: ability to wait safely, small improvements.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation taf core tests steps verification matchers</tags>
     <dependencies>

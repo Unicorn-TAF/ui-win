@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Code rules fixes, any control is controls container, default locators for custom controls, NotSorted value for SortDirection enum.</releaseNotes>
+    <releaseNotes>New UI matchers, Dynamic controls support, small fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation</tags>
     <dependencies>

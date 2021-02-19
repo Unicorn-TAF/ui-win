@@ -18,7 +18,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Code rules fixes.</releaseNotes>
+    <releaseNotes>Ability to report steps for tests running in parallel, small fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation report-portal reporting</tags>
     <dependencies>
