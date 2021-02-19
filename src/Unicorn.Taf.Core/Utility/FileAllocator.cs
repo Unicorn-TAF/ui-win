@@ -66,12 +66,23 @@ namespace Unicorn.Taf.Core.Utility
             _fileNamesToExclude = fileNames;
 
         /// <summary>
+        /// Wait for file to appear in filesystem.
+        /// </summary>
+        /// <param name="timeout">timeout to wait for file appearance</param>
+        /// <returns>desired file name string</returns>
+        /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
+        public string WaitForFileToAppear(TimeSpan timeout) => WaitForFile(timeout);
+
+        /// <summary>
         /// Wait for file to be downloaded.
         /// </summary>
         /// <param name="timeout">timeout to wait for download</param>
         /// <returns>downloaded file name string</returns>
-        /// <exception cref="FileNotFoundException">thrown if more than one file matches search criteria</exception> 
-        public string WaitForFileToBeDownloaded(TimeSpan timeout)
+        /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
+        [Obsolete("please use " + nameof(WaitForFileToAppear) + "instead")]
+        public string WaitForFileToBeDownloaded(TimeSpan timeout) => WaitForFile(timeout);
+
+        private string WaitForFile(TimeSpan timeout)
         {
             _wait.Timeout = timeout;
 
@@ -130,8 +141,14 @@ namespace Unicorn.Taf.Core.Utility
             return true;
         }
 
-        private bool ExpectedFileExists() => 
-            File.Exists(_expectedFileName);
+        private bool ExpectedFileExists()
+        {
+            var file = Path.IsPathRooted(_expectedFileName) ? 
+                _expectedFileName : 
+                Path.Combine(_destinationFolder, _expectedFileName);
+
+            return File.Exists(file);
+        }
 
         /// <summary>
         /// Find all files in destination directory.

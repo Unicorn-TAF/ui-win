@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -22,6 +23,7 @@ namespace Unicorn.UnitTests.Testing
         [OneTimeSetUp]
         public static void Setup()
         {
+            Config.Reset();
             runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, filters);
             runner.RunTests();
         }
@@ -56,6 +58,21 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check ordered targeted runner do nothing if nothing to tun")]
+        public void TestOrderedTargetedRunnerDoNothingIfNothingToRun()
+        {
+            var runFilter = new Dictionary<string, string>
+            {
+                { "Ordered suite 1", "casfdtegory2" }
+            };
+
+            var runner1 = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, runFilter);
+            runner1.RunTests();
+
+            Assert.That(runner1.Outcome.SuitesOutcomes.Count, Is.EqualTo(0));
+        }
+
+        [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check ordered targeted runner fails when trying to run not existing suite")]
         public void TestOrderedTargetedRunnerFailsWhenTryingToRunNotExistingSuite()
         {
@@ -64,11 +81,11 @@ namespace Unicorn.UnitTests.Testing
                 { "Not existingsUite", "casfdtegory2" }
             };
 
-            runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, runFilter);
+            var runner2 = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, runFilter);
 
             Assert.Throws<TypeLoadException>(delegate
             {
-                runner.RunTests();
+                runner2.RunTests();
             });
         }
     }
