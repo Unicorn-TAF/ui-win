@@ -1,7 +1,9 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Opera;
 
 namespace Unicorn.UI.Web.Driver
 {
@@ -51,7 +53,6 @@ namespace Unicorn.UI.Web.Driver
         public DesktopWebDriver(IWebDriver webDriverInstance)
         {
             SeleniumDriver = webDriverInstance;
-
             ImplicitlyWait = TimeoutDefault;
         }
 
@@ -65,6 +66,10 @@ namespace Unicorn.UI.Web.Driver
                     return new InternetExplorerDriver();
                 case BrowserType.Firefox:
                     return new FirefoxDriver();
+                case BrowserType.Opera:
+                    return new OperaDriver();
+                case BrowserType.Edge:
+                    return new EdgeDriver();
                 default:
                     return null;
             }
@@ -80,6 +85,10 @@ namespace Unicorn.UI.Web.Driver
                     return new InternetExplorerDriver((InternetExplorerOptions)options);
                 case BrowserType.Firefox:
                     return new FirefoxDriver((FirefoxOptions)options);
+                case BrowserType.Opera:
+                    return new OperaDriver((OperaOptions)options);
+                case BrowserType.Edge:
+                    return new EdgeDriver((EdgeOptions)options);
                 default:
                     return null;
             }

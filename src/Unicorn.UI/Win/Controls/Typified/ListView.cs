@@ -1,4 +1,5 @@
-﻿using UIAutomationClient;
+﻿using System;
+using UIAutomationClient;
 using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Win.Controls.Typified
@@ -34,7 +35,14 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// </summary>
         /// <param name="itemName">item name to select</param>
         /// <returns>true - if selection was made; false - if specified item was already selected</returns>
-        public virtual bool SelectItem(string itemName) =>
-            Find<ListItem>(ByLocator.Name(itemName)).Select();
+        public virtual bool SelectItem(string itemName)
+        {
+            if (itemName == null)
+            {
+                throw new ArgumentNullException(nameof(itemName));
+            }
+
+            return Find<ListItem>(ByLocator.Name(itemName)).Select();
+        }
     }
 }

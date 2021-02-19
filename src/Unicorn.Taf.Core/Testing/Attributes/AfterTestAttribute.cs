@@ -37,13 +37,13 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether it's necessary 
+        /// Gets value indicating whether it's necessary 
         /// to run AfterTest even for failed tests.
         /// </summary>
         public bool RunAlways { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether it's necessary 
+        /// Gets a value indicating whether it's necessary 
         /// to skip all following tests if current AfterTest was failed.
         /// </summary>
         public bool SkipTestsOnFail { get; }

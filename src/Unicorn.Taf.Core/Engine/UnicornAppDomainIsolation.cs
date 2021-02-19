@@ -40,7 +40,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <summary>
         /// Gets assembly worker instance
         /// </summary>
-        public T Instance { get; private set; }
+        public T Instance { get; }
 
         /// <summary>
         /// Unloads current <see cref="AppDomain"/>

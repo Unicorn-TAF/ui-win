@@ -20,12 +20,12 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets metadata entry key.
+        /// Gets metadata entry key.
         /// </summary>
         public string Key { get; }
 
         /// <summary>
-        /// Gets or sets metadata entry value.
+        /// Gets metadata entry value.
         /// </summary>
         public string Value { get; }
     }

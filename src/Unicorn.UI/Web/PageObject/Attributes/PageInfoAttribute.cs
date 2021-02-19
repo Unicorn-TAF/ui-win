@@ -28,12 +28,12 @@ namespace Unicorn.UI.Web.PageObject.Attributes
         }
 
         /// <summary>
-        /// Gets or sets page relative url
+        /// Gets page relative url
         /// </summary>
         public string RelativeUrl { get; }
 
         /// <summary>
-        /// Gets or sets page title
+        /// Gets page title
         /// </summary>
         public string Title { get; }
 

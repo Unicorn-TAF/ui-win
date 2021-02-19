@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets test category.
+        /// Gets test category.
         /// </summary>
         public string Category { get; }
     }

@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         }
 
         /// <summary>
-        /// Gets or sets disabling reason.
+        /// Gets disabling reason.
         /// </summary>
         public string Reason { get; }
     }

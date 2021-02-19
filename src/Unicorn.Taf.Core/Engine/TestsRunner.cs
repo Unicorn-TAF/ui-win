@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -32,6 +33,21 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="configurationFileName">path to configuration file</param>
         public TestsRunner(string assemblyPath, string configurationFileName)
         {
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (configurationFileName == null)
+            {
+                throw new ArgumentNullException(nameof(configurationFileName));
+            }
+
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
+            }
+
             _testsAssemblyFile = assemblyPath;
             Config.FillFromFile(configurationFileName);
             Outcome = new LaunchOutcome();
@@ -44,6 +60,11 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="getConfigFromFile">true - if need to load config from default file <c>(.\unicorn.conf)</c>; false if use default values from <see cref="Config"/></param>
         public TestsRunner(string assemblyPath, bool getConfigFromFile)
         {
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
             _testsAssemblyFile = assemblyPath;
 
             if (getConfigFromFile)

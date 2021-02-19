@@ -118,7 +118,7 @@ namespace Unicorn.UI.Core.UserInput
         /// <summary>
         /// Gets help special keys.
         /// </summary>
-        public List<SpecialKeys> HeldKeys { get; private set; } = new List<SpecialKeys>();
+        public List<SpecialKeys> HeldKeys { get; } = new List<SpecialKeys>();
 
         /// <summary>
         /// press sequence of keys

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -25,6 +26,21 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
         public OrderedTargetedTestsRunner(string assemblyPath, Dictionary<string, string> filters) 
         {
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
+            }
+
             _testsAssemblyFile = assemblyPath;
             Outcome = new LaunchOutcome();
             _filters = filters;

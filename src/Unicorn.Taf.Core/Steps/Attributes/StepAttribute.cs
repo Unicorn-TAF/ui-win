@@ -18,7 +18,7 @@ namespace Unicorn.Taf.Core.Steps.Attributes
         }
 
         /// <summary>
-        /// Gets or sets value of test step title.
+        /// Gets value of test step title.
         /// </summary>
         public string Description { get; }
     }
