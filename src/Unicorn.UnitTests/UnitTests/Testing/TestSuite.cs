@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Reflection;
-using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
@@ -52,6 +52,15 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestSuitesCountOfBeforeTest() =>
             Assert.That(GetSuiteMethodListByName("_beforeTests").Length, Is.EqualTo(1));
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check that test suite matadata could be retreived")]
+        public void TestSuiteMetadata()
+        {
+            Assert.That(suite.Metadata.Count, Is.EqualTo(2));
+            Assert.That(suite.Metadata["key1"], Is.EqualTo("value1"));
+            Assert.That(suite.Metadata["key2"], Is.EqualTo("value2"));
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite run")]

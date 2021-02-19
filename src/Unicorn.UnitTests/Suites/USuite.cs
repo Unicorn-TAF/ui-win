@@ -5,6 +5,8 @@ namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite")]
     [Tag("sample")]
+    [Metadata("key1", "value1")]
+    [Metadata("key2", "value2")]
     public class USuite : TestSuite
     {
         public static string Output { get; set; }
@@ -17,6 +19,7 @@ namespace Unicorn.UnitTests.Suites
         public void BeforeTest() =>
             Output += "BeforeTest>";
 
+        [Author("Author2")]
         [Test]
         public void Test2() =>
             Output += "Test1>";

@@ -22,7 +22,7 @@ namespace Unicorn.UnitTests.UI.Win
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check BoundingRectangle property")]
         public void TestGuiControlBoundingRectangleProperty() =>
-            Assert.AreEqual(SystemInformation.VirtualScreen, control.BoundingRectangle);
+            Assert.AreEqual(Screen.PrimaryScreen.Bounds, control.BoundingRectangle);
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Location property")]

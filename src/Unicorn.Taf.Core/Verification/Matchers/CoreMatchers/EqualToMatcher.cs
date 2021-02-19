@@ -35,12 +35,6 @@
                 return Reverse;
             }
 
-            if (!_objectToCompare.GetType().Equals(actual.GetType()))
-            {
-                DescribeMismatch($"not of type {_objectToCompare.GetType()}");
-                return false;
-            }
-
             DescribeMismatch(actual.ToString());
             return actual.Equals(_objectToCompare);
         }
