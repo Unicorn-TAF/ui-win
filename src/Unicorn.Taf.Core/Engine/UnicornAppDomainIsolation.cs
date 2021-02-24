@@ -61,10 +61,9 @@ namespace Unicorn.Taf.Core.Engine
 
             if (File.Exists(fileName))
             {
-#pragma warning disable S3885 // "Assembly.Load" should be used
-                Assembly result = Assembly.LoadFrom(fileName);
-#pragma warning restore S3885 // "Assembly.Load" should be used
-                return result;
+                var bytes = File.ReadAllBytes(fileName);
+                var assessment = Assembly.Load(bytes);
+                return assessment;
             }
             else
             {
