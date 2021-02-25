@@ -3,6 +3,10 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
+    /// <summary>
+    /// Attribute is used with dynamically defined dropdowns (<see cref="IDynamicDropdown"/>) to define their parts. 
+    /// Multiple attributes could be used.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class DefineDropdownAttribute : DefineAttribute
     {

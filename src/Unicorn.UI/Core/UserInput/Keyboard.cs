@@ -39,6 +39,7 @@ namespace Unicorn.UI.Core.UserInput
         {
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         /// <summary>
         /// See <a href="http://pinvoke.net/default.aspx/user32/SendInput.html">SendInput usage (user32)</a><para/>
         /// See <a href="http://delphi.about.com/od/objectpascalide/l/blvkc.htm">Virtual key codes</a>
@@ -87,6 +88,7 @@ namespace Unicorn.UI.Core.UserInput
             LeftAlt = 0xA4,
             RightAlt = 0xA5
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Gets keyboard instance.

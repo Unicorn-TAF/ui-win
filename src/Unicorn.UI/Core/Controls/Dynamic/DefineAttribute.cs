@@ -3,6 +3,10 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
+    /// <summary>
+    /// Base attribute for control-type specific attributes to define parts of dynamic controls (<see cref="IDynamicControl"/>). 
+    /// Multiple attributes could be used.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public class DefineAttribute : Attribute
     {

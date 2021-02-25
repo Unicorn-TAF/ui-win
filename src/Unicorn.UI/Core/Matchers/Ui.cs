@@ -61,7 +61,7 @@ namespace Unicorn.UI.Core.Matchers
             /// <summary>
             /// Matcher to check if UI control has specific text.
             /// </summary>
-            /// <param name="expectedTextRegex">expected control text</param>
+            /// <param name="expectedText">expected control text</param>
             /// <returns><see cref="ControlHasTextMatcher"/> instance</returns>
             public static ControlHasTextMatcher HasText(string expectedText)
                 => new ControlHasTextMatcher(expectedText);
