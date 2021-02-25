@@ -43,29 +43,32 @@ namespace Unicorn.UI.Core.Controls.Dynamic
         /// <summary>
         /// Gets dropdown selection control.
         /// </summary>
-        ITextInput ValueInput { get; }
+        /// <returns><see cref="ITextInput"/> instance</returns>
+        ITextInput GetValueInput();
 
         /// <summary>
         /// Gets dropdown expand/collapse trigger control.
         /// </summary>
-        IControl ExpandCollapse { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetExpandCollapse();
 
         /// <summary>
         /// Gets dropdown list control.
         /// </summary>
-        IControl OptionsFrame { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetOptionsFrame();
 
         /// <summary>
         /// Gets list of controls for dropdown options.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>list of <see cref="IControl"/> instances</returns>
         IList<IControl> GetOptions();
 
         /// <summary>
         /// Gets specified dropdown option by name.
         /// </summary>
         /// <param name="optionName">option name</param>
-        /// <returns>option control</returns>
+        /// <returns><see cref="IControl"/> instance</returns>
         IControl GetOption(string optionName);
 
         /// <summary>

@@ -5,7 +5,6 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.PageObject;
@@ -18,59 +17,14 @@ namespace Unicorn.UI.Win.Controls.Dynamic
     public class DynamicDialog : WinContainer, IDynamicDialog
     {
         /// <summary>
-        /// Gets control for dialog title.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Window title")]
-        public virtual IControl TitleControl => Locators.ContainsKey(DialogElement.Title) ? 
-            Find<WinControl>(Locators[DialogElement.Title]) :
-            throw new NotSpecifiedLocatorException($"{nameof(TitleControl)} dialog sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets control for dialog content.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Window content")]
-        public virtual IControl ContentControl => Locators.ContainsKey(DialogElement.Content) ?
-            Find<WinControl>(Locators[DialogElement.Content]) :
-            throw new NotSpecifiedLocatorException($"{nameof(ContentControl)} dialog sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets control for dialog acceptance button.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Accept button")]
-        public virtual IControl AcceptButton => Locators.ContainsKey(DialogElement.Accept) ?
-            Find<WinControl>(Locators[DialogElement.Accept]) :
-            throw new NotSpecifiedLocatorException($"{nameof(AcceptButton)} dialog sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets control for dialog declining button.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Decline button")]
-        public virtual IControl DeclineButton => Locators.ContainsKey(DialogElement.Decline) ?
-            Find<WinControl>(Locators[DialogElement.Decline]) :
-            throw new NotSpecifiedLocatorException($"{nameof(DeclineButton)} dialog sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets control for dialog close button.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Close button")]
-        public virtual IControl CloseButton => Locators.ContainsKey(DialogElement.Close) ?
-            Find<Button>(Locators[DialogElement.Close]) :
-            throw new NotSpecifiedLocatorException($"{nameof(CloseButton)} dialog sub-control locator is not specified.");
-
-        /// <summary>
         /// Gets dialog title text.
         /// </summary>
-        public virtual string Title => TitleControl.Text.Trim();
+        public virtual string Title => GetTitleControl().Text.Trim();
 
         /// <summary>
         /// Gets dialog text content.
         /// </summary>
-        public virtual string TextContent => ContentControl.Text.Trim();
+        public virtual string TextContent => GetContentControl().Text.Trim();
 
         /// <summary>
         /// Gets dictionary of sub-elements locators.
@@ -99,11 +53,61 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         }
 
         /// <summary>
+        /// Gets control for dialog title.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetTitleControl() =>
+            Locators.ContainsKey(DialogElement.Title) ?
+            Find<WinControl>(Locators[DialogElement.Title]) :
+            throw new NotSpecifiedLocatorException("Title dialog sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets control for dialog content.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetContentControl() =>
+            Locators.ContainsKey(DialogElement.Content) ?
+            Find<WinControl>(Locators[DialogElement.Content]) :
+            throw new NotSpecifiedLocatorException("Content dialog sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets control for dialog acceptance button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetAcceptButton() =>
+            Locators.ContainsKey(DialogElement.Accept) ?
+            Find<WinControl>(Locators[DialogElement.Accept]) :
+            throw new NotSpecifiedLocatorException("Accept button dialog sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets control for dialog declining button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetDeclineButton() =>
+            Locators.ContainsKey(DialogElement.Decline) ?
+            Find<WinControl>(Locators[DialogElement.Decline]) :
+            throw new NotSpecifiedLocatorException("Decline button dialog sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets control for dialog close button.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetCloseButton() =>
+            Locators.ContainsKey(DialogElement.Close) ?
+            Find<Button>(Locators[DialogElement.Close]) :
+            throw new NotSpecifiedLocatorException("Close button dialog sub-control locator is not specified.");
+
+        /// <summary>
         /// Accepts a dialog and waits for window disappearance.
         /// </summary>
         public void Accept()
         {
-            AcceptButton.Click();
+            GetAcceptButton().Click();
             WaitForWindowIsNotDisplayed();
         }
 
@@ -112,7 +116,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// </summary>
         public void Decline()
         {
-            DeclineButton.Click();
+            GetDeclineButton().Click();
             WaitForWindowIsNotDisplayed();
         }
 
@@ -121,7 +125,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// </summary>
         public void Close()
         {
-            CloseButton.Click();
+            GetCloseButton().Click();
             WaitForWindowIsNotDisplayed();
         }
 

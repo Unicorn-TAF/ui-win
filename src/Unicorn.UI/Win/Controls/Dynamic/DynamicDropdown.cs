@@ -7,7 +7,6 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Controls.Interfaces.Typified;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Win.Controls.Typified;
@@ -19,33 +18,6 @@ namespace Unicorn.UI.Win.Controls.Dynamic
     /// </summary>
     public class DynamicDropdown : WinControl, IDynamicDropdown
     {
-        /// <summary>
-        /// Gets control for expand/collapse trigger.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Dropdown expand/collape")]
-        public virtual IControl ExpandCollapse => Locators.ContainsKey(DropdownElement.ExpandCollapse) ?
-            Find<WinControl>(Locators[DropdownElement.ExpandCollapse]) :
-            throw new NotSpecifiedLocatorException($"{nameof(ExpandCollapse)} dropdown sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets dropdown input element with selected value.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Dropdown selection")]
-        public virtual ITextInput ValueInput => Locators.ContainsKey(DropdownElement.ValueInput) ?
-            new TextInput(Find<WinControl>(Locators[DropdownElement.ValueInput]).Instance) :
-            throw new NotSpecifiedLocatorException($"{nameof(ValueInput)} dropdown sub-control locator is not specified.");
-
-        /// <summary>
-        /// Gets control of dropdown options frame.
-        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
-        /// </summary>
-        [Name("Dropdown list")]
-        public virtual IControl OptionsFrame => Locators.ContainsKey(DropdownElement.OptionsFrame) ?
-            Find<WinControl>(Locators[DropdownElement.OptionsFrame]) :
-            throw new NotSpecifiedLocatorException($"{nameof(OptionsFrame)} dropdown sub-control locator is not specified.");
-
         /// <summary>
         /// Gets a value indicating whether dropdown is expanded or not (options list is displayed).
         /// </summary>
@@ -66,11 +38,11 @@ namespace Unicorn.UI.Win.Controls.Dynamic
                 {
                     try
                     {
-                        return ValueInput.Value;
+                        return GetValueInput().Value;
                     }
                     catch (NullReferenceException)
                     {
-                        return (ValueInput as WinControl).Text;
+                        return (GetValueInput() as WinControl).Text;
                     }
                 }
 
@@ -105,6 +77,33 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         }
 
         /// <summary>
+        /// Gets control for expand/collapse trigger.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetExpandCollapse() => Locators.ContainsKey(DropdownElement.ExpandCollapse) ?
+            Find<WinControl>(Locators[DropdownElement.ExpandCollapse]) :
+            throw new NotSpecifiedLocatorException("Expand/Collapse dropdown sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets dropdown input element with selected value.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="ITextInput"/> instance</returns>
+        public virtual ITextInput GetValueInput() => Locators.ContainsKey(DropdownElement.ValueInput) ?
+            new TextInput(Find<WinControl>(Locators[DropdownElement.ValueInput]).Instance) :
+            throw new NotSpecifiedLocatorException("Value input dropdown sub-control locator is not specified.");
+
+        /// <summary>
+        /// Gets control of dropdown options frame.
+        /// <exception cref="NotSpecifiedLocatorException">is thrown when sub-control was not defined</exception>
+        /// </summary>
+        /// <returns><see cref="IControl"/> instance</returns>
+        public virtual IControl GetOptionsFrame() => Locators.ContainsKey(DropdownElement.OptionsFrame) ?
+            Find<WinControl>(Locators[DropdownElement.OptionsFrame]) :
+            throw new NotSpecifiedLocatorException("Options frame dropdown sub-control locator is not specified.");
+
+        /// <summary>
         /// Expands the dropdown (if it was not expanded) and waits for content loading.<para/>
         /// If items list is defined waits for its visibility.
         /// </summary>
@@ -119,11 +118,11 @@ namespace Unicorn.UI.Win.Controls.Dynamic
                 return false;
             }
 
-            ExpandCollapse.Click();
+            GetExpandCollapse().Click();
 
             if (Locators.ContainsKey(DropdownElement.OptionsFrame))
             {
-                OptionsFrame.Wait(Until.Visible, TimeSpan.FromSeconds(10));
+                GetOptionsFrame().Wait(Until.Visible, TimeSpan.FromSeconds(10));
             }
 
             WaitForLoading(TimeSpan.FromSeconds(60));
@@ -146,7 +145,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
                 return false;
             }
 
-            ExpandCollapse.Click();
+            GetExpandCollapse().Click();
             Logger.Instance.Log(LogLevel.Trace, "\t\tCollapsed");
             return true;
         }
@@ -204,7 +203,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <exception cref="ControlNotFoundException">thrown if no value input found</exception>
         public virtual void SearchFor(string optionName)
         {
-            ValueInput.SetValue(optionName);
+            GetValueInput().SetValue(optionName);
             WaitForLoading(TimeSpan.FromSeconds(60));
         }
 

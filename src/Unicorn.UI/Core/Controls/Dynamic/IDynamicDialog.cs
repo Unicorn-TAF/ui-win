@@ -47,26 +47,31 @@ namespace Unicorn.UI.Core.Controls.Dynamic
         /// <summary>
         /// Gets title control.
         /// </summary>
-        IControl TitleControl { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetTitleControl();
 
         /// <summary>
         /// Gets dialog content control.
         /// </summary>
-        IControl ContentControl { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetContentControl();
 
         /// <summary>
         /// Gets control of button for dialog acceptance.
         /// </summary>
-        IControl AcceptButton { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetAcceptButton();
 
         /// <summary>
         /// Gets control of button for dialog declining.
         /// </summary>
-        IControl DeclineButton { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetDeclineButton();
 
         /// <summary>
         /// Gets control of dialog close button.
         /// </summary>
-        IControl CloseButton { get; }
+        /// <returns><see cref="IControl"/> instance</returns>
+        IControl GetCloseButton();
     }
 }
