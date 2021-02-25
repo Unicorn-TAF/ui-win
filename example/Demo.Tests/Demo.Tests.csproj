@@ -75,8 +75,8 @@
     <Reference Include="Unicorn.Taf.Core, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.Taf.Core.2.3.0\lib\net452\Unicorn.Taf.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unicorn.TestAdapter, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.TestAdapter.2.2.1\lib\net452\Unicorn.TestAdapter.dll</HintPath>
+    <Reference Include="Unicorn.TestAdapter, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.TestAdapter.2.2.2\lib\net452\Unicorn.TestAdapter.dll</HintPath>
     </Reference>
     <Reference Include="Unicorn.UI.Core, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.UI.Core.2.3.0\lib\net452\Unicorn.UI.Core.dll</HintPath>
