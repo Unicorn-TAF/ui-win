@@ -3,7 +3,7 @@ using Unicorn.UI.Web;
 using Unicorn.UI.Web.Driver;
 using Unicorn.UnitTests.Gui.Web;
 
-namespace Unicorn.UnitTests.UnitTests.UI.Web
+namespace Unicorn.UnitTests.UI.Web
 {
     [TestFixture]
     public class WebDynamicDropdown

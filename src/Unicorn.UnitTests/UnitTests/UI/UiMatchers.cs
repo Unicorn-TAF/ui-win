@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Unicorn.UI.Core.Matchers;
 using Unicorn.UnitTests.Gui.Win;
 using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Uv = Unicorn.Taf.Core.Verification;
+using Ui = Unicorn.UI.Core.Matchers.UI;
 
 namespace Unicorn.UnitTests.UI
 {
@@ -159,19 +159,19 @@ namespace Unicorn.UnitTests.UI
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "InputHasValue matcher (positive)")]
         public void TestInputHasValueMatcherPositive() =>
-            Uv.Assert.That(charmap.Window.InputCharactersToCopy, Ui.Input.HasValue(""));
+            Uv.Assert.That(charmap.Window.InputCharactersToCopy, Ui.TextInput.HasValue(""));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "InputHasValue matcher with negation (positive)")]
         public void TestInputHasValueMatcherWithNegationPositive() =>
-            Uv.Assert.That(charmap.Window.InputCharactersToCopy, Um.Is.Not(Ui.Input.HasValue("somevalue")));
+            Uv.Assert.That(charmap.Window.InputCharactersToCopy, Um.Is.Not(Ui.TextInput.HasValue("somevalue")));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "InputHasValue matcher for null")]
         public void TestInputHasValueMatcherNull() =>
             Assert.Throws<Uv.AssertionException>(delegate
             {
-                Uv.Assert.That(null, Ui.Input.HasValue(""));
+                Uv.Assert.That(null, Ui.TextInput.HasValue(""));
             });
     }
 }
