@@ -45,7 +45,7 @@ namespace Demo.Tests.Desktop
 
         [Author("Vitaliy Dobriyan")]
         [Test("Check 'Advanced View' section controls enabled state")]
-        [TestData("GetFontsData")]
+        [TestData(nameof(GetFontsData))]
         public void TestAdvancedViewSectionControlsEnabledState(string font, TypeSafeMatcher<IControl> matcher1, TypeSafeMatcher<IControl> matcher2)
         {
             Do.UI.CharMap.SelectFont(font);

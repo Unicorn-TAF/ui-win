@@ -41,7 +41,7 @@ namespace Demo.Tests.Desktop
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check 'Font' dropdown ability to select")]
-        [TestData("GetFontsData")]
+        [TestData(nameof(GetFontsData))]
         public void TestFontDropdownAbilityToSelect(string font)
         {
             Do.UI.CharMap.SelectFont(font);

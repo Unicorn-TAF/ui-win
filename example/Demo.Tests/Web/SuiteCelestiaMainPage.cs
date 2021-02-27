@@ -38,7 +38,7 @@ namespace Demo.Tests.Web
         public static List<DataSet> GetTopMenuData() =>
             new List<DataSet>
             {
-                new DataSet("Item 'Home'", "Home", "index.html"),
+                new DataSet("Item 'Home'", "Home", "https://celestia.space/index.html"),
                 new DataSet("Item 'Download'", "Download", "download.html"),
                 new DataSet("Item 'News'", "News", "news.html"),
                 new DataSet("Item 'Documentation'", "Documentation", "#"),
@@ -63,7 +63,7 @@ namespace Demo.Tests.Web
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check header menu item is presented")]
-        [TestData("GetTopMenuData")]
+        [TestData(nameof(GetTopMenuData))]
         public void TestHeaderMenuItemIsPresented(string navItem, string href)
         {
             var item = HomePage.Header.GetNavItem(navItem);
@@ -87,7 +87,7 @@ namespace Demo.Tests.Web
                 .StartAssertionsChain()
                 .VerifyThat(HomePage.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "https://twitter.com/CelestiaProject"))
                 .VerifyThat(HomePage.Footer.LinkGithub, UI.Control.HasAttributeIsEqualTo("href", "https://github.com/CelestiaProject/Celestia"))
-                .VerifyThat(HomePage.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "mailto:team@celestia.space"))
+                .VerifyThat(HomePage.Footer.LinkEmail, UI.Control.HasAttributeIsEqualTo("href", "mailto:team@celestia.space"))
                 .VerifyThat(HomePage.Footer.Copyright, UI.Control.HasTextMatching("Celestia is Copyright © 2001-20[0-9]{2}, Celestia Development Team"))
                 .AssertChain();
         }
