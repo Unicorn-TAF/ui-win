@@ -24,11 +24,11 @@ namespace Demo.Tests.Desktop
         [Test("Check Select & Copy buttons default state")]
         public void TestSelectCopyButtonsDefalutState()
         {
-            Do.Assertion.AssertThat(Charmap.Window.ButtonSelect, Control.Visible());
-            Do.Assertion.AssertThat(Charmap.Window.ButtonSelect, Control.Enabled());
+            Do.Assertion.AssertThat(Charmap.Window.ButtonSelect, UI.Control.Visible());
+            Do.Assertion.AssertThat(Charmap.Window.ButtonSelect, UI.Control.Enabled());
 
-            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, Control.Visible());
-            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, Is.Not(Control.Enabled()));
+            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, UI.Control.Visible());
+            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, Is.Not(UI.Control.Enabled()));
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -37,7 +37,7 @@ namespace Demo.Tests.Desktop
         public void TestCopyIsEnabledAfterSelection()
         {
             Do.UI.CharMap.SelectCurrentSymbol();
-            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, Control.Enabled());
+            Do.Assertion.AssertThat(Charmap.Window.ButtonCopy, UI.Control.Enabled());
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -46,7 +46,7 @@ namespace Demo.Tests.Desktop
         public void TestAbilityToSelectChars()
         {
             Do.UI.CharMap.SelectCurrentSymbol();
-            Do.Assertion.AssertThat(Charmap.Window.InputCharactersToCopy, Is.Not(Control.HasText(string.Empty)));
+            Do.Assertion.AssertThat(Charmap.Window.InputCharactersToCopy, Is.Not(UI.Control.HasText(string.Empty)));
         }
 
         [AfterTest]

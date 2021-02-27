@@ -58,7 +58,7 @@ namespace Demo.Tests.Web
         [Category("Smoke")]
         [Test("Check header presence")]
         public void TestHeader() =>
-            Do.Assertion.AssertThat(HomePage.Header, Control.Visible());
+            Do.Assertion.AssertThat(HomePage.Header, UI.Control.Visible());
 
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
@@ -70,9 +70,9 @@ namespace Demo.Tests.Web
 
             Do.Assertion
                 .StartAssertionsChain()
-                .VerifyThat(item, Control.Visible())
-                .VerifyThat(item, Control.Enabled())
-                .VerifyThat(item, Control.HasAttribute("href").IsEqualTo(href))
+                .VerifyThat(item, UI.Control.Visible())
+                .VerifyThat(item, UI.Control.Enabled())
+                .VerifyThat(item, UI.Control.HasAttributeIsEqualTo("href", href))
                 .AssertChain();
         }
 
@@ -81,14 +81,14 @@ namespace Demo.Tests.Web
         [Test("Check footer content")]
         public void TestFooterContent()
         {
-            Do.Assertion.AssertThat(HomePage.Footer, Control.Visible());
+            Do.Assertion.AssertThat(HomePage.Footer, UI.Control.Visible());
 
             Do.Assertion
                 .StartAssertionsChain()
-                .VerifyThat(HomePage.Footer.LinkTwitter, Control.HasAttribute("href").IsEqualTo("https://twitter.com/CelestiaProject"))
-                .VerifyThat(HomePage.Footer.LinkGithub, Control.HasAttribute("href").IsEqualTo("https://github.com/CelestiaProject/Celestia"))
-                .VerifyThat(HomePage.Footer.LinkTwitter, Control.HasAttribute("href").IsEqualTo("mailto:team@celestia.space"))
-                .VerifyThat(HomePage.Footer.Copyright, Control.HasTextMatching("Celestia is Copyright © 2001-20[0-9]{2}, Celestia Development Team"))
+                .VerifyThat(HomePage.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "https://twitter.com/CelestiaProject"))
+                .VerifyThat(HomePage.Footer.LinkGithub, UI.Control.HasAttributeIsEqualTo("href", "https://github.com/CelestiaProject/Celestia"))
+                .VerifyThat(HomePage.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "mailto:team@celestia.space"))
+                .VerifyThat(HomePage.Footer.Copyright, UI.Control.HasTextMatching("Celestia is Copyright © 2001-20[0-9]{2}, Celestia Development Team"))
                 .AssertChain();
         }
 

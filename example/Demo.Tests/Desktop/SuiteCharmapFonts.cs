@@ -34,8 +34,8 @@ namespace Demo.Tests.Desktop
         [Test("Check 'Font' dropdown default state")]
         public void TestFontDropdownDefaultState()
         {
-            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, Is.Not(Control.Visible()));
-            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, Control.Enabled());
+            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, Is.Not(UI.Control.Visible()));
+            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, UI.Control.Enabled());
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -45,7 +45,7 @@ namespace Demo.Tests.Desktop
         public void TestFontDropdownAbilityToSelect(string font)
         {
             Do.UI.CharMap.SelectFont(font);
-            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, Dropdown.HasSelectedValue(font));
+            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, UI.Dropdown.HasSelectedValue(font));
         }
 
         [AfterSuite]

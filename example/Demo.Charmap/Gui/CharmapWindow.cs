@@ -1,6 +1,7 @@
 ﻿using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
+using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
 
 namespace Demo.Charmap.Gui
@@ -37,7 +38,7 @@ namespace Demo.Charmap.Gui
         public Dropdown DropdownGroupBy { get; set; }
 
         [ById("133")]
-        public Button ButtonSearch { get; set; }
+        public WinControl ButtonSearch { get; set; }
 
         #endregion
     }

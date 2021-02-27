@@ -20,10 +20,10 @@ namespace Demo.Tests.Desktop
         public static List<DataSet> GetFontsData() =>
             new List<DataSet>
             {
-                new DataSet("Calibri font", "Calibri", Control.Enabled(), Control.Enabled()),
-                new DataSet("Consolas font", "Consolas", Control.Enabled(), Control.Enabled()),
-                new DataSet("Courier font", "Courier", Is.Not(Control.Enabled()), Is.Not(Control.Enabled())),
-                new DataSet("Wingdings font", "Wingdings", Is.Not(Control.Enabled()), Is.Not(Control.Enabled()))
+                new DataSet("Calibri font", "Calibri", UI.Control.Enabled(), UI.Control.Enabled()),
+                new DataSet("Consolas font", "Consolas", UI.Control.Enabled(), UI.Control.Enabled()),
+                new DataSet("Courier font", "Courier", Is.Not(UI.Control.Enabled()), Is.Not(UI.Control.Enabled())),
+                new DataSet("Wingdings font", "Wingdings", Is.Not(UI.Control.Enabled()), Is.Not(UI.Control.Enabled()))
             };
 
         [BeforeSuite]
@@ -39,8 +39,8 @@ namespace Demo.Tests.Desktop
         [Test("Check 'Advanced View' dropdowns default values")]
         public void TestFontDropdownDefaultState()
         {
-            Do.Assertion.AssertThat(Charmap.Window.DropdownCharacterSet, Dropdown.HasSelectedValue("Unicode"));
-            Do.Assertion.AssertThat(Charmap.Window.DropdownGroupBy, Dropdown.HasSelectedValue("All"));
+            Do.Assertion.AssertThat(Charmap.Window.DropdownCharacterSet, UI.Dropdown.HasSelectedValue("Unicode"));
+            Do.Assertion.AssertThat(Charmap.Window.DropdownGroupBy, UI.Dropdown.HasSelectedValue("All"));
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -51,7 +51,7 @@ namespace Demo.Tests.Desktop
             Do.UI.CharMap.SelectFont(font);
             Do.Assertion.AssertThat(Charmap.Window.DropdownCharacterSet, matcher1);
             Do.Assertion.AssertThat(Charmap.Window.DropdownGroupBy, matcher2);
-            Do.Assertion.AssertThat(Charmap.Window.ButtonSearch, Is.Not(Control.Enabled()));
+            Do.Assertion.AssertThat(Charmap.Window.ButtonSearch, Is.Not(UI.Control.Enabled()));
         }
 
         [AfterSuite]

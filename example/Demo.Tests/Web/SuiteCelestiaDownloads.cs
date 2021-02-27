@@ -31,7 +31,7 @@ namespace Demo.Tests.Web
         public void TestDownloadsItemsStyle() =>
             Do.Assertion.AssertThat(
                 DownloadsPage.DownloadsList, 
-                Collection.Each(Control.HasAttribute("class").Contains("fa-5x")));
+                Collection.Each(UI.Control.HasAttributeContains("class", "fa-5x")));
 
         [AfterTest]
         public void ClassTearDown() =>

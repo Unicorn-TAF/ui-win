@@ -25,7 +25,7 @@ namespace Demo.Tests.Android
         public void TestDialpadButton()
         {
             Do.UI.Android.ClickDialpadButton();
-            Do.Assertion.AssertThat(Dialer.App.ActionBar.ButtonDial, Control.Visible());
+            Do.Assertion.AssertThat(Dialer.App.ActionBar.ButtonDial, UI.Control.Visible());
         }
 
         [Disabled("Android emulator is not configured")]
@@ -38,7 +38,7 @@ namespace Demo.Tests.Android
             Do.UI.Android.TapNumber("one");
             Do.UI.Android.TapNumber("two");
             Do.UI.Android.TapNumber("three");
-            Do.Assertion.AssertThat(Dialer.App.MainFrame.InputNumber, Control.HasText("1 23"));
+            Do.Assertion.AssertThat(Dialer.App.MainFrame.InputNumber, UI.Control.HasText("1 23"));
         }
 
         [Disabled("Android emulator is not configured")]
