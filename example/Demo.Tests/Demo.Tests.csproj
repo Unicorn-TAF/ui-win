@@ -133,6 +133,9 @@
     <Content Include="unicorn.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ReportPortal.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demo.Celestia\Demo.Celestia.csproj">
