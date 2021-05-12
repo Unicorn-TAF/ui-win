@@ -19,7 +19,8 @@ namespace Unicorn.Taf.Core.Testing
     public class Test : SuiteMethod
     {
         private readonly DataSet _dataSet;
-        private HashSet<string> _categories = null;
+
+        private HashSet<string> categories = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Test"/> class
@@ -85,16 +86,16 @@ namespace Unicorn.Taf.Core.Testing
         {
             get
             {
-                if (_categories == null)
+                if (categories == null)
                 {
                     var attributes = TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
 
-                    _categories = new HashSet<string>(
+                    categories = new HashSet<string>(
                         attributes.Select(a => a.Category.ToUpper().Trim())
                         .Where(c => !string.IsNullOrEmpty(c)));
                 }
 
-                return _categories;
+                return categories;
             }
         }
 
@@ -106,7 +107,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{Outcome.Title}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"-------- Test '{Outcome.Title}'");
 
             try
             {
@@ -115,7 +116,8 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnTestStart) + " event invoke" + Environment.NewLine + ex);
                 Skip();
             }
             finally
@@ -126,11 +128,12 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnTestFinish) + " event invoke" + Environment.NewLine + ex);
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"TEST {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"Test {Outcome.Result}");
         }
 
         /// <summary>
@@ -148,7 +151,8 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestSkip event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnTestSkip) + " event invoke" + Environment.NewLine + e);
             }
         }
 
@@ -177,7 +181,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnTestPass) + " event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
@@ -190,7 +195,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnTestFail) + " event invoke" + Environment.NewLine + e);
                 }
             }
 

@@ -24,8 +24,8 @@ namespace Unicorn.Taf.Core.Testing
         private readonly SuiteMethod[] _afterTests;
         private readonly SuiteMethod[] _afterSuites;
 
-        private HashSet<string> _tags = null;
-        private bool _skipTests = false;
+        private HashSet<string> tags = null;
+        private bool skipTests = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestSuite"/> class.<para/>
@@ -89,13 +89,13 @@ namespace Unicorn.Taf.Core.Testing
         {
             get
             {
-                if (_tags == null)
+                if (tags == null)
                 {
                     var attributes = GetType().GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[];
-                    _tags = new HashSet<string>(from attribute in attributes select attribute.Tag.ToUpper());
+                    tags = new HashSet<string>(from attribute in attributes select attribute.Tag.ToUpper());
                 }
 
-                return _tags;
+                return tags;
             }
         }
 
@@ -123,7 +123,7 @@ namespace Unicorn.Taf.Core.Testing
                 fullName += "[" + Outcome.DataSetName + "]";
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"==================== SUITE '{fullName}' ====================");
+            Logger.Instance.Log(LogLevel.Info, $"---------------- Suite '{fullName}'");
 
             var onSuiteStartPassed = false;
 
@@ -134,7 +134,7 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Skip("Exception occured during OnSuiteStart event invoke" + Environment.NewLine + ex);
+                Skip("Exception occured during " + nameof(OnSuiteStart) + " event invoke" + Environment.NewLine + ex);
             }
 
             if (onSuiteStartPassed)
@@ -148,10 +148,11 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteFinish event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnSuiteFinish) + " event invoke" + Environment.NewLine + ex);
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"SUITE {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"Suite {Outcome.Result}");
         }
 
         private void RunSuite()
@@ -187,7 +188,7 @@ namespace Unicorn.Taf.Core.Testing
             foreach (Test test in _tests)
             {
                 test.Skip();
-                Logger.Instance.Log(LogLevel.Warning, $"TEST '{test.Outcome.Title}' {test.Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
                 Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
@@ -199,7 +200,8 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteSkip event invoke" + Environment.NewLine + e);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnSuiteSkip) + " event invoke" + Environment.NewLine + e);
             }
         }
 
@@ -239,17 +241,10 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
         {
-            if (_skipTests)
+            if (skipTests || !RunSuiteMethods(_beforeTests))
             {
                 test.Skip();
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
-                return;
-            }
-
-            if (!RunSuiteMethods(_beforeTests))
-            {
-                test.Skip();
-                Logger.Instance.Log(LogLevel.Info, $"TEST '{test.Outcome.Title}' {Outcome.Result}");
+                Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
                 return;
             }
 
@@ -304,7 +299,7 @@ namespace Unicorn.Taf.Core.Testing
 
                 if (suiteMethod.Outcome.Result == Status.Failed)
                 {
-                    _skipTests = attribute.SkipTestsOnFail; //TODO: && Config.ParallelBy != Parallelization.Test;
+                    skipTests = attribute.SkipTestsOnFail; //TODO: && Config.ParallelBy != Parallelization.Test;
                 }
             }
         }

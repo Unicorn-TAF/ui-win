@@ -132,7 +132,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== {MethodType} '{Outcome.Title}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"---- {MethodType} '{Outcome.Title}'");
 
             try
             {
@@ -141,7 +141,8 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnSuiteMethodStart) + " event invoke" + Environment.NewLine + ex);
                 Fail(ex.InnerException);
             }
             finally
@@ -152,7 +153,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning,
+                        "Exception occured during " + nameof(OnSuiteMethodFinish) + " event invoke" + Environment.NewLine + ex);
                 }
             }
 
@@ -197,7 +199,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnSuiteMethodPass) + " event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
@@ -210,7 +213,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnSuiteMethodFail) + " event invoke" + Environment.NewLine + e);
                 }
             }
 
