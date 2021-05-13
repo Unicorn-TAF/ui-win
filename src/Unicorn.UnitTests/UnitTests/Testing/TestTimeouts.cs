@@ -10,7 +10,7 @@ using Unicorn.UnitTests.Util;
 namespace Unicorn.UnitTests.Testing
 {
     [TestFixture]
-    public class RunTimeouts : NUnitTestRunner
+    public class TestTimeouts : NUnitTestRunner
     {
         private static TestsRunner runner;
 
@@ -50,7 +50,7 @@ namespace Unicorn.UnitTests.Testing
         {
             var outcome = runner.Outcome.SuitesOutcomes.First(o => o.Name.Equals("Suite for timeouts 3", StringComparison.InvariantCultureIgnoreCase));
 
-            Assert.That(outcome.Result, Is.EqualTo(Status.Passed));
+            Assert.That(outcome.Result, Is.EqualTo(Status.Failed));
             Assert.That(outcome.SkippedTests, Is.EqualTo(1));
             Assert.That(outcome.PassedTests, Is.EqualTo(1));
         }

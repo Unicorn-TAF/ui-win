@@ -133,7 +133,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"Test {Outcome.Result}");
+            LogStatus();
         }
 
         /// <summary>
@@ -168,7 +168,18 @@ namespace Unicorn.Taf.Core.Testing
                     TestMethod.Invoke(suiteInstance, _dataSet?.Parameters.ToArray());
                 });
 
-                if (!testTask.Wait(Config.TestTimeout))
+                var restSuiteExecutionTime = Config.SuiteTimeout - suiteInstance.ExecutionTimer.Elapsed;
+
+                if (restSuiteExecutionTime < TimeSpan.Zero)
+                {
+                    restSuiteExecutionTime = TimeSpan.Zero;
+                }
+
+                if (restSuiteExecutionTime <= Config.TestTimeout && !testTask.Wait(restSuiteExecutionTime))
+                {
+                    throw new SuiteTimeoutException($"Suite timeout ({Config.SuiteTimeout}) reached");
+                }
+                else if (!testTask.Wait(Config.TestTimeout))
                 {
                     throw new TestTimeoutException($"Test timeout ({Config.TestTimeout}) reached");
                 }
@@ -187,7 +198,11 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
+                var failExeption = ex is TestTimeoutException || ex is SuiteTimeoutException ?
+                    ex :
+                    ex.InnerException.InnerException;
+
+                Fail(failExeption);
 
                 try
                 {

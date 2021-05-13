@@ -11,10 +11,10 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.Taf.Core.Testing
 {
     /// <summary>
-    /// Represents class container of <see cref="Test"/> and <see cref="SuiteMethod"/><para/>
-    /// Contains list of events related to different Suite states (started, finished, skipped)<para/>
+    /// Represents class container of <see cref="Test"/> and <see cref="SuiteMethod"/><br/>
+    /// Contains list of events related to different Suite states (started, finished, skipped)<br/>
     /// Could have <see cref="ParameterizedAttribute"/> (the class should contain parameterized constructor with corresponding parameters)<para/>
-    /// Each class with tests should be inherited from <see cref="TestSuite"/>
+    /// Each class with tests should inherit from <see cref="TestSuite"/>
     /// </summary>
     public class TestSuite
     {
@@ -28,8 +28,9 @@ namespace Unicorn.Taf.Core.Testing
         private bool skipTests = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestSuite"/> class.<para/>
-        /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites is retrieved from the instance.<para/>
+        /// Initializes a new instance of the <see cref="TestSuite"/> class.<br/>
+        /// On Initialize the list of Tests, BeforeTests, AfterTests, BeforeSuites and AfterSuites 
+        /// is retrieved from the instance.<br/>
         /// For each test is performed check for skip
         /// </summary>
         public TestSuite()
@@ -50,13 +51,13 @@ namespace Unicorn.Taf.Core.Testing
             {
                 Name = suiteAttribute != null ? suiteAttribute.Name : GetType().Name.Split('.').Last(),
                 Id = Guid.NewGuid(),
-                Result = Status.Passed
+                Result = Status.NotExecuted
             };
 
-            _beforeSuites = GetSuiteMethodsByAttribute(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
-            _beforeTests = GetSuiteMethodsByAttribute(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
-            _afterTests = GetSuiteMethodsByAttribute(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
-            _afterSuites = GetSuiteMethodsByAttribute(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
+            _beforeSuites = GetSuiteMethodsBy(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
+            _beforeTests = GetSuiteMethodsBy(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
+            _afterTests = GetSuiteMethodsBy(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
+            _afterSuites = GetSuiteMethodsBy(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
             _tests = GetTests();
         }
 
@@ -114,6 +115,8 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public SuiteOutcome Outcome { get; protected set; }
 
+        internal Stopwatch ExecutionTimer { get; private set; }
+
         internal void Execute()
         {
             var fullName = Outcome.Name;
@@ -157,7 +160,7 @@ namespace Unicorn.Taf.Core.Testing
 
         private void RunSuite()
         {
-            var suiteTimer = Stopwatch.StartNew();
+            ExecutionTimer = Stopwatch.StartNew();
 
             if (RunSuiteMethods(_beforeSuites))
             {
@@ -165,6 +168,10 @@ namespace Unicorn.Taf.Core.Testing
                 {
                     ProcessTest(test);
                 }
+
+                Outcome.Result = Outcome.TestsOutcomes.All(to => to.Result == Status.Passed) ?
+                    Status.Passed :
+                    Status.Failed;
             }
             else
             {
@@ -173,8 +180,8 @@ namespace Unicorn.Taf.Core.Testing
 
             RunSuiteMethods(_afterSuites);
 
-            suiteTimer.Stop();
-            Outcome.ExecutionTime = suiteTimer.Elapsed;
+            ExecutionTimer.Stop();
+            Outcome.ExecutionTime = ExecutionTimer.Elapsed;
         }
 
         /// <summary>
@@ -207,7 +214,8 @@ namespace Unicorn.Taf.Core.Testing
 
         private void ProcessTest(Test test)
         {
-            var dependsOnAttribute = test.TestMethod.GetCustomAttribute(typeof(DependsOnAttribute), true) as DependsOnAttribute;
+            var dependsOnAttribute = test.TestMethod
+                .GetCustomAttribute(typeof(DependsOnAttribute), true) as DependsOnAttribute;
 
             if (dependsOnAttribute != null)
             {
@@ -241,7 +249,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="test"><see cref="Test"/> instance</param>
         private void RunTest(Test test)
         {
-            if (skipTests || !RunSuiteMethods(_beforeTests))
+            if (skipTests || ExecutionTimer.Elapsed >= Config.SuiteTimeout || !RunSuiteMethods(_beforeTests))
             {
                 test.Skip();
                 Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
@@ -271,8 +279,9 @@ namespace Unicorn.Taf.Core.Testing
             {
                 suiteMethod.Execute(this);
 
-                if (suiteMethod.Outcome.Result != Status.Passed)
+                if (suiteMethod.Outcome.Result == Status.Failed)
                 {
+                    Outcome.Result = Status.Failed;
                     return false;
                 }
             }
@@ -288,7 +297,8 @@ namespace Unicorn.Taf.Core.Testing
         {
             foreach (var suiteMethod in _afterTests)
             {
-                var attribute = suiteMethod.TestMethod.GetCustomAttribute(typeof(AfterTestAttribute), true) as AfterTestAttribute;
+                var attribute = suiteMethod.TestMethod
+                    .GetCustomAttribute(typeof(AfterTestAttribute), true) as AfterTestAttribute;
 
                 if (testWasFailed && !attribute.RunAlways)
                 {
@@ -299,14 +309,16 @@ namespace Unicorn.Taf.Core.Testing
 
                 if (suiteMethod.Outcome.Result == Status.Failed)
                 {
-                    skipTests = attribute.SkipTestsOnFail; //TODO: && Config.ParallelBy != Parallelization.Test;
+                    Outcome.Result = Status.Failed;
+                    //TODO: && Config.ParallelBy != Parallelization.Test;
+                    skipTests = attribute.SkipTestsOnFail;
                 }
             }
         }
 
         /// <summary>
-        /// Get list of Tests from suite instance based on [Test] attribute presence. <para/>
-        /// Determine if test should be skipped and update runnable tests count for the suite. <para/>
+        /// Get list of Tests from suite instance based on [Test] attribute presence. <br/>
+        /// Determine if test should be skipped and update runnable tests count for the suite.
         /// </summary>
         /// <returns>array of <see cref="Test"/> instances</returns>
         private Test[] GetTests()
@@ -321,7 +333,9 @@ namespace Unicorn.Taf.Core.Testing
             {
                 if (AdapterUtilities.IsTestParameterized(method))
                 {
-                    var attribute = method.GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
+                    var attribute = method
+                        .GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
+
                     foreach (DataSet dataSet in AdapterUtilities.GetTestData(attribute.Method, this))
                     {
                         Test test = GenerateTest(method, dataSet);
@@ -342,7 +356,8 @@ namespace Unicorn.Taf.Core.Testing
         /// Generate instance of <see cref="Test"/> and fill with all data
         /// </summary>
         /// <param name="method"><see cref="MethodInfo"/> instance which represents test method</param>
-        /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; null if method does not have parameters</param>
+        /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; 
+        /// null if method does not have parameters</param>
         /// <returns><see cref="Test"/> instance</returns>
         private Test GenerateTest(MethodInfo method, DataSet dataSet)
         {
@@ -359,7 +374,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="attributeType"><see cref="Type"/> of attribute</param>
         /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
         /// <returns>array of <see cref="SuiteMethod"/> with specified attribute</returns>
-        private SuiteMethod[] GetSuiteMethodsByAttribute(Type attributeType, SuiteMethodType type)
+        private SuiteMethod[] GetSuiteMethodsBy(Type attributeType, SuiteMethodType type)
         {
             var suitableMethods = new List<SuiteMethod>();
             var suiteMethods = GetType().GetRuntimeMethods();

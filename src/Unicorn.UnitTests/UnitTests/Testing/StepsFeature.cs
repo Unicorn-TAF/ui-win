@@ -11,8 +11,12 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class StepsFeature : NUnitTestRunner
     {
-        private string Output = string.Empty; 
-        
+        private string Output = string.Empty;
+
+        [OneTimeSetUp]
+        public static void ResetConfig() =>
+            Config.Reset();
+
         [SetUp]
         public void Setup() =>
             StepsEvents.OnStepStart += ReportInfo;
