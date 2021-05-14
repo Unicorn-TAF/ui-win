@@ -132,7 +132,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== {MethodType} '{Outcome.Title}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"---- {MethodType} '{Outcome.Title}'");
 
             try
             {
@@ -141,7 +141,8 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
+                Logger.Instance.Log(LogLevel.Warning, 
+                    "Exception occured during " + nameof(OnSuiteMethodStart) + " event invoke" + Environment.NewLine + ex);
                 Fail(ex.InnerException);
             }
             finally
@@ -152,11 +153,12 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFinish event invoke" + Environment.NewLine + ex);
+                    Logger.Instance.Log(LogLevel.Warning,
+                        "Exception occured during " + nameof(OnSuiteMethodFinish) + " event invoke" + Environment.NewLine + ex);
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"{MethodType} {Outcome.Result}");
+            LogStatus();
         }
 
         /// <summary>
@@ -172,6 +174,26 @@ namespace Unicorn.Taf.Core.Testing
             Outcome.Result = Status.Failed;
         }
 
+        protected void LogStatus()
+        {
+            LogLevel level;
+
+            switch (Outcome.Result)
+            {
+                case Status.Failed:
+                    level = LogLevel.Error;
+                    break;
+                case Status.Skipped:
+                    level = LogLevel.Warning;
+                    break;
+                default:
+                    level = LogLevel.Info;
+                    break;
+            }
+
+            Logger.Instance.Log(level, $"{MethodType} {Outcome.Result}");
+        }
+
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
             Outcome.StartTime = DateTime.Now;
@@ -184,7 +206,18 @@ namespace Unicorn.Taf.Core.Testing
                     TestMethod.Invoke(suiteInstance, null);
                 });
 
-                if (!testTask.Wait(Config.TestTimeout))
+                var restSuiteExecutionTime = Config.SuiteTimeout - suiteInstance.ExecutionTimer.Elapsed;
+
+                if (restSuiteExecutionTime < TimeSpan.Zero)
+                {
+                    restSuiteExecutionTime = TimeSpan.Zero;
+                }
+
+                if (restSuiteExecutionTime <= Config.TestTimeout && !testTask.Wait(restSuiteExecutionTime))
+                {
+                    throw new SuiteTimeoutException($"Suite timeout ({Config.SuiteTimeout}) reached");
+                }
+                else if (!testTask.Wait(Config.TestTimeout))
                 {
                     throw new TestTimeoutException($"{MethodType} timeout ({Config.TestTimeout}) reached");
                 }
@@ -197,12 +230,17 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodPass event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnSuiteMethodPass) + " event invoke" + Environment.NewLine + e);
                 }
             }
             catch (Exception ex)
             {
-                Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
+                var failExeption = ex is TestTimeoutException || ex is SuiteTimeoutException ?
+                    ex :
+                    ex.InnerException.InnerException;
+
+                Fail(failExeption);
 
                 try
                 {
@@ -210,7 +248,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodFail event invoke" + Environment.NewLine + e);
+                    Logger.Instance.Log(LogLevel.Warning, 
+                        "Exception occured during " + nameof(OnSuiteMethodFail) + " event invoke" + Environment.NewLine + e);
                 }
             }
 

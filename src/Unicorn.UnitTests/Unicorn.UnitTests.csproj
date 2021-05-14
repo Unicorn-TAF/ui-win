@@ -144,6 +144,7 @@
     <Compile Include="Suites\UBaseTestSuite.cs" />
     <Compile Include="Suites\UParameterizedSuiteNoSuiteData.cs" />
     <Compile Include="Suites\USuiteForSteps.cs" />
+    <Compile Include="Suites\USuiteForTimeouts4.cs" />
     <Compile Include="Suites\USuiteForTimeouts3.cs" />
     <Compile Include="Suites\USuiteForTimeouts2.cs" />
     <Compile Include="Suites\USuiteOrdered1.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="Suites\UTestsAssembly.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuiteWithNoData.cs" />
+    <Compile Include="UnitTests\Testing\SuiteTimeouts.cs" />
     <Compile Include="UnitTests\Testing\StepsFeature.cs" />
     <Compile Include="UnitTests\Testing\ReadConfigurationFromFile.cs" />
     <Compile Include="UnitTests\Testing\TestsRunInitializeFail.cs" />
@@ -185,7 +187,7 @@
     <Compile Include="UnitTests\Testing\TestsOrderingAndTargeting.cs" />
     <Compile Include="UnitTests\Testing\TestsDependency.cs" />
     <Compile Include="UnitTests\Testing\TestsObserver.cs" />
-    <Compile Include="UnitTests\Testing\RunTimeouts.cs" />
+    <Compile Include="UnitTests\Testing\TestTimeouts.cs" />
     <Compile Include="UnitTests\Testing\TestSuite.cs" />
     <Compile Include="Util\NUnitTestRunner.cs" />
     <Compile Include="Util\SimpleReporter.cs" />

@@ -47,42 +47,42 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     public static class Config
     {
         /// <summary>
-        /// Gets or sets value indicating timeout to fail test if it reached the timeout (default - 15 minutes).
+        /// Gets or sets value indicating timeout to fail test if it reached the timeout (default: 15 minutes).
         /// </summary>
         public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
 
         /// <summary>
-        /// Gets or sets value indicating timeout to fail suite if it reached the timeout (default - 60 minutes).
+        /// Gets or sets value indicating timeout to fail suite if it reached the timeout (default: 40 minutes).
         /// </summary>
-        public static TimeSpan SuiteTimeout { get; set; } = TimeSpan.FromMinutes(60);
+        public static TimeSpan SuiteTimeout { get; set; } = TimeSpan.FromMinutes(40);
 
         /// <summary>
-        /// Gets or sets value indicating method of parallelization of tests (default - Parallel by tests assembly).
+        /// Gets or sets value indicating method of parallelization of tests (default: Parallel by tests assembly).
         /// </summary>
         public static Parallelization ParallelBy { get; set; } = Parallelization.Assembly;
 
         /// <summary>
-        /// Gets or sets value indicating number of threads to parallel on (default - 1).
+        /// Gets or sets value indicating number of threads to parallel on (default: 1).
         /// </summary>
         public static int Threads { get; set; } = 1;
 
         /// <summary>
-        /// Gets or sets value indicating behavior of dependent tests if main test is failed (default - run dependent tests).
+        /// Gets or sets value indicating behavior of dependent tests if main test is failed (default: run dependent tests).
         /// </summary>
         public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
 
         /// <summary>
-        /// Gets list of suite tags to be run (default - empty list [all suites]).
+        /// Gets list of suite tags to be run (default: empty list [all suites]).
         /// </summary>
         public static HashSet<string> RunTags { get; private set; } = new HashSet<string>();
 
         /// <summary>
-        /// Gets list of test categories to be run (default - empty list [all categories]).
+        /// Gets list of test categories to be run (default: empty list [all categories]).
         /// </summary>
         public static HashSet<string> RunCategories { get; private set; } = new HashSet<string>();
 
         /// <summary>
-        /// Gets list of test masks to search for tests to be run (default - empty list [all tests]).
+        /// Gets list of test masks to search for tests to be run (default: empty list [all tests]).
         /// </summary>
         public static HashSet<string> RunTests { get; private set; } = new HashSet<string>();
 
