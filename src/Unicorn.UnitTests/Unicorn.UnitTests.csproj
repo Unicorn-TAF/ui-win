@@ -158,10 +158,11 @@
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="Suites\UTestsAssembly.cs" />
+    <Compile Include="UnitTests\Core\Engine\DefaultConfig.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuiteWithNoData.cs" />
     <Compile Include="UnitTests\Testing\SuiteTimeouts.cs" />
     <Compile Include="UnitTests\Testing\StepsFeature.cs" />
-    <Compile Include="UnitTests\Testing\ReadConfigurationFromFile.cs" />
+    <Compile Include="UnitTests\Core\Engine\ReadConfigurationFromFile.cs" />
     <Compile Include="UnitTests\Testing\TestsRunInitializeFail.cs" />
     <Compile Include="UnitTests\Testing\TestSuiteTestsFilter.cs" />
     <Compile Include="UnitTests\Testing\TestSuiteOutcome.cs" />

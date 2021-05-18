@@ -7,13 +7,15 @@ using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Testing
+namespace Unicorn.UnitTests.Core.Engine
 {
     [TestFixture]
     public class ReadConfigurationFromFile : NUnitTestRunner
     {
+        private const string ConfigName = "config.conf";
         private const string ConfigContent = @"{""parallel"": ""assembly"",""threads"": 3,""testTimeout"": " +
-            @"25,""suiteTimeout"": 55,""tags"": [ ""feature1"", ""feature1"" ],""categories"": [ ""category"" ],""tests"": [ ]}";
+            @"25,""suiteTimeout"": 55,""testsDependency"":""donotrun"", ""testsOrder"": ""Declaration""," + 
+            @"""tags"": [ ""feature1"", ""feature1"" ],""categories"": [ ""category"" ],""tests"": [ ]}";
 
         private static TestsRunner runner;
 
@@ -21,8 +23,8 @@ namespace Unicorn.UnitTests.Testing
         public static void Setup()
         {
             Config.Reset();
-            File.WriteAllText("config.conf", ConfigContent);
-            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, "config.conf");
+            File.WriteAllText(ConfigName, ConfigContent);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, ConfigName);
             runner.RunTests();
         }
 
@@ -70,5 +72,15 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Test config parallel")]
         public void TestConfigParallel() =>
             Assert.That(Config.ParallelBy, Is.EqualTo(Parallelization.Assembly));
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Test config dependent tests")]
+        public void TestConfigDependentTests() =>
+            Assert.That(Config.DependentTests, Is.EqualTo(TestsDependency.DoNotRun));
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Test config tests order")]
+        public void TestConfigTestsOrder() =>
+            Assert.That(Config.TestsExecutionOrder, Is.EqualTo(TestsOrder.Declaration));
     }
 }

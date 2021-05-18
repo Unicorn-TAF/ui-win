@@ -42,34 +42,60 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     }
 
     /// <summary>
+    /// Describes options available to control tests execution order within test suite.
+    /// </summary>
+    public enum TestsOrder
+    {
+        /// <summary>
+        /// Random order of tests execution
+        /// </summary>
+        Random,
+
+        /// <summary>
+        /// Order of declaration in test suite class
+        /// </summary>
+        Declaration
+    }
+
+    /// <summary>
     /// Configures unicorn tests run parameters
     /// </summary>
     public static class Config
     {
-        /// <summary>
-        /// Gets or sets value indicating timeout to fail test if it reached the timeout (default: 15 minutes).
-        /// </summary>
-        public static TimeSpan TestTimeout { get; set; } = TimeSpan.FromMinutes(15);
+        static Config()
+        {
+            Reset();
+        }
 
         /// <summary>
-        /// Gets or sets value indicating timeout to fail suite if it reached the timeout (default: 40 minutes).
+        /// Gets or sets timeout to fail test if it reached the timeout (default: 15 minutes).
         /// </summary>
-        public static TimeSpan SuiteTimeout { get; set; } = TimeSpan.FromMinutes(40);
+        public static TimeSpan TestTimeout { get; set; }
 
         /// <summary>
-        /// Gets or sets value indicating method of parallelization of tests (default: Parallel by tests assembly).
+        /// Gets or sets timeout to fail suite if it reached the timeout (default: 40 minutes).
         /// </summary>
-        public static Parallelization ParallelBy { get; set; } = Parallelization.Assembly;
+        public static TimeSpan SuiteTimeout { get; set; }
 
         /// <summary>
-        /// Gets or sets value indicating number of threads to parallel on (default: 1).
+        /// Gets or sets method of parallelization of tests (default: Parallel by tests assembly).
         /// </summary>
-        public static int Threads { get; set; } = 1;
+        public static Parallelization ParallelBy { get; set; }
 
         /// <summary>
-        /// Gets or sets value indicating behavior of dependent tests if main test is failed (default: run dependent tests).
+        /// Gets or sets number of threads to parallel on (default: 1).
         /// </summary>
-        public static TestsDependency DependentTests { get; set; } = TestsDependency.Run;
+        public static int Threads { get; set; }
+
+        /// <summary>
+        /// Gets or sets behavior of dependent tests if main test is failed (default: run dependent tests).
+        /// </summary>
+        public static TestsDependency DependentTests { get; set; }
+
+        /// <summary>
+        /// Gets or sets order of tests execution in term of test suite (default: random order).
+        /// </summary>
+        public static TestsOrder TestsExecutionOrder { get; set; }
 
         /// <summary>
         /// Gets list of suite tags to be run (default: empty list [all suites]).
@@ -143,6 +169,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             ParallelBy = GetEnumValue<Parallelization>(conf.JsonParallelBy);
             Threads = conf.JsonThreads;
             DependentTests = GetEnumValue<TestsDependency>(conf.JsonTestsDependency);
+            TestsExecutionOrder = GetEnumValue<TestsOrder>(conf.JsonTestsExecutionOrder);
             SetSuiteTags(conf.JsonRunTags.ToArray());
             SetTestCategories(conf.JsonRunCategories.ToArray());
             SetTestsMasks(conf.JsonRunTests.ToArray());
@@ -157,10 +184,11 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             RunCategories.Clear();
             RunTests.Clear();
             TestTimeout = TimeSpan.FromMinutes(15);
-            SuiteTimeout = TimeSpan.FromMinutes(60);
+            SuiteTimeout = TimeSpan.FromMinutes(40);
             ParallelBy = Parallelization.Assembly;
             Threads = 1;
             DependentTests = TestsDependency.Run;
+            TestsExecutionOrder = TestsOrder.Random;
         }
 
         /// <summary>
@@ -176,9 +204,10 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 .AppendLine($"Categories to run: {string.Join(Delimiter, RunCategories)}")
                 .AppendLine($"Tests filter: {string.Join(Delimiter, RunTests)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
-                .AppendLine($"Dependent tests: '{DependentTests}'")
-                .AppendLine($"Test run timeout: {TestTimeout}")
-                .AppendLine($"Suite run timeout: {SuiteTimeout}")
+                .AppendLine($"Dependent tests behavior: '{DependentTests}'")
+                .AppendLine($"Tests execution order: '{TestsExecutionOrder}'")
+                .AppendLine($"Test timeout: {TestTimeout}")
+                .AppendLine($"Suite timeout: {SuiteTimeout}")
                 .ToString();
         }
 
@@ -202,7 +231,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             internal int JsonTestTimeout { get; set; } = 15;
 
             [JsonProperty("suiteTimeout")]
-            internal int JsonSuiteTimeout { get; set; } = 60;
+            internal int JsonSuiteTimeout { get; set; } = 40;
 
             [JsonProperty("parallel")]
             internal string JsonParallelBy { get; set; } = Parallelization.Assembly.ToString();
@@ -212,6 +241,9 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
             [JsonProperty("testsDependency")]
             internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
+
+            [JsonProperty("testsOrder")]
+            internal string JsonTestsExecutionOrder { get; set; } = TestsOrder.Random.ToString();
 
             [JsonProperty("tags")]
             internal List<string> JsonRunTags { get; set; } = new List<string>();
