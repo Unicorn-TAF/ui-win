@@ -18,6 +18,7 @@ namespace Unicorn.UnitTests.Testing
         public static void SetUp()
         {
             Config.SetTestCategories();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
             suite = Activator.CreateInstance<USuite>();
         }
 

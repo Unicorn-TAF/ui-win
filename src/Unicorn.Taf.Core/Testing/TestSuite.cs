@@ -329,6 +329,8 @@ namespace Unicorn.Taf.Core.Testing
                 .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null)
                 .Where(m => AdapterUtilities.IsTestRunnable(m));
 
+            suiteMethods = SetTestsOrder(suiteMethods);
+
             foreach (MethodInfo method in suiteMethods)
             {
                 if (AdapterUtilities.IsTestParameterized(method))
@@ -350,6 +352,20 @@ namespace Unicorn.Taf.Core.Testing
             }
 
             return testMethods.ToArray();
+        }
+
+        private IEnumerable<MethodInfo> SetTestsOrder(IEnumerable<MethodInfo> suiteMethods)
+        {
+            if (Config.TestsExecutionOrder == TestsOrder.Declaration)
+            {
+                return suiteMethods.OrderBy(sm =>
+                    (sm.GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute).Order);
+            }
+            else
+            {
+                var random = new Random();
+                return suiteMethods.OrderBy(sm => random.Next());
+            }
         }
 
         /// <summary>

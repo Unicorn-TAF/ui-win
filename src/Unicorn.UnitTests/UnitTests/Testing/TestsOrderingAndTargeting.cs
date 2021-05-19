@@ -24,6 +24,7 @@ namespace Unicorn.UnitTests.Testing
         public static void Setup()
         {
             Config.Reset();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
             runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, filters);
             runner.RunTests();
         }

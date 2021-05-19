@@ -1,7 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.Linq;
 using System.Reflection;
-using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
@@ -12,6 +11,13 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class TestsDependency : NUnitTestRunner
     {
+        [OneTimeSetUp]
+        public static void ResetConfig()
+        {
+            Config.Reset();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
+        }
+
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check dependent tests don't run on TestsDependency.DoNotRun")]
         public void TestDependentTestsDontRun()

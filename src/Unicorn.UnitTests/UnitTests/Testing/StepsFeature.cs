@@ -14,8 +14,11 @@ namespace Unicorn.UnitTests.Testing
         private string Output = string.Empty;
 
         [OneTimeSetUp]
-        public static void ResetConfig() =>
+        public static void ResetConfig()
+        {
             Config.Reset();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
+        }
 
         [SetUp]
         public void Setup() =>
