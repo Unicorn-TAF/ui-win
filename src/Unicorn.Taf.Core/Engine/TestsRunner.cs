@@ -172,7 +172,7 @@ namespace Unicorn.Taf.Core.Engine
         protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(typeof(TestAssemblyAttribute), true).Length > 0)
+                .Where(t => t.IsDefined(typeof(TestAssemblyAttribute), true))
                 .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
 
             return suitesWithRunInit.Any() ?
@@ -182,7 +182,7 @@ namespace Unicorn.Taf.Core.Engine
 
         private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType) =>
             containerType.GetRuntimeMethods()
-                .Where(m => m.GetCustomAttribute(attributeType, true) != null);
+                .Where(m => m.IsDefined(attributeType, true));
     }
 }
 #pragma warning restore S3885 // "Assembly.Load" should be used

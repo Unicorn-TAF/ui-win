@@ -23,7 +23,7 @@ namespace Unicorn.Taf.Core.Testing
             SuiteMethodType type)
         {
             var suiteMethodInfos = suiteInstance.GetType().GetRuntimeMethods()
-                .Where(m => m.GetCustomAttribute(attributeType, true) != null);
+                .Where(m => m.IsDefined(attributeType, true));
 
             var suitableMethods = new SuiteMethod[suiteMethodInfos.Count()];
 
@@ -49,8 +49,7 @@ namespace Unicorn.Taf.Core.Testing
             List<Test> testMethods = new List<Test>();
 
             var suiteMethods = suiteInstance.GetType().GetRuntimeMethods()
-                .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null)
-                .Where(m => AdapterUtilities.IsTestRunnable(m));
+                .Where(m => m.IsDefined(typeof(TestAttribute), true) && AdapterUtilities.IsTestRunnable(m));
 
             suiteMethods = SortTests(suiteMethods);
 

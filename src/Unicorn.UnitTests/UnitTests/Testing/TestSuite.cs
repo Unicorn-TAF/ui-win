@@ -22,8 +22,12 @@ namespace Unicorn.UnitTests.Testing
             suite = Activator.CreateInstance<USuite>();
         }
 
-        public static void TearDown() =>
+        [OneTimeTearDown]
+        public static void ResetConfig()
+        {
+            Config.Reset();
             suite = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of tests inside")]

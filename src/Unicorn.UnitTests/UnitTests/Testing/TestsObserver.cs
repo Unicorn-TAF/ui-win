@@ -20,7 +20,7 @@ namespace Unicorn.UnitTests.Testing
         public void TestTestsObserverSearchTests()
         {
             IEnumerable<MethodInfo> foundTests = Taf.Core.Engine.TestsObserver.ObserveTests(Assembly.GetExecutingAssembly());
-            Assert.AreEqual(57, foundTests.Count());
+            Assert.AreEqual(59, foundTests.Count());
         }
     }
 }

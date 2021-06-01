@@ -10,11 +10,14 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class ParameterizedTestSuiteWithNoData : NUnitTestRunner
     {
+        [OneTimeTearDown]
+        public static void Cleanup() =>
+            Config.Reset();
+
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that parameterized test suite without data does not run tests")]
         public void TestParameterizedSuiteWithNoDataDoesNotRunTests()
         {
-            Config.Reset();
             Config.SetSuiteTags("parameterizedBroken");
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();

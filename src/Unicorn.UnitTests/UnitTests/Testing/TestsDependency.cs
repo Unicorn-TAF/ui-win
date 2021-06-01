@@ -12,17 +12,20 @@ namespace Unicorn.UnitTests.Testing
     public class TestsDependency : NUnitTestRunner
     {
         [OneTimeSetUp]
-        public static void ResetConfig()
+        public static void SetConfig()
         {
-            Config.Reset();
             Config.TestsExecutionOrder = TestsOrder.Declaration;
+            Config.SetSuiteTags("dependencies");
         }
+
+        [OneTimeTearDown]
+        public static void ResetConfig() =>
+            Config.Reset();
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check dependent tests don't run on TestsDependency.DoNotRun")]
         public void TestDependentTestsDontRun()
         {
-            Config.SetSuiteTags("dependencies");
             Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.DoNotRun;
             
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
@@ -40,7 +43,6 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check dependent tests skipped on TestsDependency.Skip")]
         public void TestDependentTestsSkip()
         {
-            Config.SetSuiteTags("dependencies");
             Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Skip;
 
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
@@ -79,7 +81,6 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check dependent tests run on TestsDependency.Run")]
         public void TestDependentTestsRun()
         {
-            Config.SetSuiteTags("dependencies");
             Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Run;
 
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);

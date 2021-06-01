@@ -7,18 +7,24 @@ namespace Unicorn.UnitTests.Suites
     [Tag("tests-order")]
     public class USuiteForTestsOrder : TestSuite
     {
-        private string output;
-
         [Test]
-        public void Test2() => output = "Test2>";
+        public void Test2() => GetValue("Test2");
 
         [Test(3344)]
-        public void Test1() => output = "Test1>";
+        public void Test1() => GetValue("Test1");
 
         [Test]
-        public void Test4() => output = "Test4>";
+        public void Test4() => GetValue("Test4");
 
         [Test]
-        public void Test3() => output = "Test3>";
+        public void Test3() => GetValue("Test3");
+
+        [Test]
+        public void Test6() => GetValue("Test6");
+
+        [Test]
+        public void Test5() => GetValue("Test5");
+
+        private string GetValue(string value) => value;
     }
 }

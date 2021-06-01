@@ -29,8 +29,11 @@ namespace Unicorn.UnitTests.Core.Engine
         }
 
         [OneTimeTearDown]
-        public static void Cleanup() =>
+        public static void Cleanup()
+        {
+            Config.Reset();
             runner = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config categories")]

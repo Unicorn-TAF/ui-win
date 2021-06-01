@@ -180,15 +180,15 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         public static void Reset()
         {
-            RunTags.Clear();
-            RunCategories.Clear();
-            RunTests.Clear();
             TestTimeout = TimeSpan.FromMinutes(15);
             SuiteTimeout = TimeSpan.FromMinutes(40);
             ParallelBy = Parallelization.Assembly;
             Threads = 1;
             DependentTests = TestsDependency.Run;
             TestsExecutionOrder = TestsOrder.Random;
+            RunTags.Clear();
+            RunCategories.Clear();
+            RunTests.Clear();
         }
 
         /// <summary>
