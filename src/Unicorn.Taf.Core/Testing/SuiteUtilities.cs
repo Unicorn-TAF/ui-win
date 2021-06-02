@@ -51,7 +51,7 @@ namespace Unicorn.Taf.Core.Testing
             var suiteMethods = suiteInstance.GetType().GetRuntimeMethods()
                 .Where(m => m.IsDefined(typeof(TestAttribute), true) && AdapterUtilities.IsTestRunnable(m));
 
-            suiteMethods = SortTests(suiteMethods);
+            suiteMethods = OrderTests(suiteMethods);
 
             foreach (MethodInfo method in suiteMethods)
             {
@@ -92,18 +92,74 @@ namespace Unicorn.Taf.Core.Testing
             return test;
         }
 
-        private static IEnumerable<MethodInfo> SortTests(IEnumerable<MethodInfo> suiteMethods)
+        /// <summary>
+        /// Depending on settings sorts tests by order or shuffles them (considering order of dependent tests)
+        /// </summary>
+        /// <param name="testMethods"></param>
+        /// <returns></returns>
+        private static IEnumerable<MethodInfo> OrderTests(IEnumerable<MethodInfo> testMethods) =>
+            Config.TestsExecutionOrder == TestsOrder.Declaration ?
+            testMethods.OrderBy(sm => (sm.GetCustomAttribute<TestAttribute>(true)).Order) :
+            ShuffleKeepingDependency(testMethods);
+
+        private static IEnumerable<MethodInfo> ShuffleKeepingDependency(IEnumerable<MethodInfo> testMethods)
         {
-            if (Config.TestsExecutionOrder == TestsOrder.Declaration)
+            var random = new Random();
+            var shuffle = testMethods.OrderBy(sm => random.Next()).ToList();
+
+            var graph = new Dictionary<MemberInfo, string>();
+
+            foreach (var test in shuffle)
             {
-                return suiteMethods.OrderBy(sm =>
-                    (sm.GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute).Order);
+                graph.Add(test, test.GetCustomAttribute<DependsOnAttribute>(true)?.TestMethod);
             }
-            else
+
+            CheckTestsForCycleDependency(graph);
+
+            bool swapWasMade;
+
+            do
             {
-                var random = new Random();
-                return suiteMethods.OrderBy(sm => random.Next());
+                swapWasMade = false;
+
+                foreach (var node in graph.Where(pair => !string.IsNullOrEmpty(pair.Value)))
+                {
+                    var index1 = shuffle.FindIndex(
+                        t => t.Name.Equals(node.Key.Name, StringComparison.InvariantCultureIgnoreCase));
+
+                    var index2 = shuffle.FindIndex(
+                        t => t.Name.Equals(node.Value, StringComparison.InvariantCultureIgnoreCase));
+
+                    if (index1 < index2)
+                    {
+                        var tmp = shuffle.ElementAt(index1);
+                        shuffle[index1] = shuffle.ElementAt(index2);
+                        shuffle[index2] = tmp;
+                        swapWasMade = true;
+                    }
+                }
             }
+            while (swapWasMade);
+
+            return shuffle;
+        }
+
+        private static void CheckTestsForCycleDependency(Dictionary<MemberInfo, string> graph)
+        {
+            foreach (var node in graph)
+            {
+                if (graph.Any(n => NodesAreCycleDependent(n, node)))
+                {
+                    throw new StackOverflowException(
+                        $"Found cycle tests dependency for test {node.Key.Name}. Execution is aborted");
+                }
+            }
+
+            bool NodesAreCycleDependent(KeyValuePair<MemberInfo, string> p1, KeyValuePair<MemberInfo, string> p2) =>
+                p1.Value != null &&
+                p1.Value.Equals(p2.Key.Name) &&
+                p2.Value != null &&
+                p2.Value.Equals(p1.Key.Name);
         }
     }
 }

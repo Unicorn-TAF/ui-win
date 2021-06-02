@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using System.IO;
-using System.Reflection;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
@@ -16,8 +14,6 @@ namespace Unicorn.UnitTests.Core.Engine
         private const string ConfigContent = @"{}";
         private const string ConfigName = "config.conf";
 
-        private static TestsRunner runner;
-
         public DefaultConfig(bool fromFile)
         {
             Config.Reset();
@@ -25,21 +21,13 @@ namespace Unicorn.UnitTests.Core.Engine
             if (fromFile)
             {
                 File.WriteAllText(ConfigName, ConfigContent);
-                runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, ConfigName);
             }
-            else
-            {
-                runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
-            }
-            
-            runner.RunTests();
         }
 
         [OneTimeTearDown]
         public static void Cleanup()
         {
             Config.Reset();
-            runner = null;
         }
 
         [Author("Vitaliy Dobriyan")]

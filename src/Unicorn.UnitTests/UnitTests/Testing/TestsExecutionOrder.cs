@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -10,10 +11,6 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class TestsExecutionOrder : NUnitTestRunner
     {
-        [OneTimeSetUp]
-        public static void Setup() =>
-            Config.SetSuiteTags("tests-order");
-
         [OneTimeTearDown]
         public static void Cleanup() =>
             Config.Reset();
@@ -22,44 +19,89 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check Declaration order of tests execution")]
         public void TestDeclarationOrderOfTestsExecution()
         {
+            Config.SetSuiteTags("tests-order");
+
             Config.TestsExecutionOrder = TestsOrder.Declaration;
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
             var outcome = runner.Outcome.SuitesOutcomes[0];
 
-            Assert.That(outcome.TestsOutcomes[0].Title, Is.EqualTo("Test2"));
-            Assert.That(outcome.TestsOutcomes[1].Title, Is.EqualTo("Test4"));
-            Assert.That(outcome.TestsOutcomes[2].Title, Is.EqualTo("Test3"));
-            Assert.That(outcome.TestsOutcomes[3].Title, Is.EqualTo("Test6"));
-            Assert.That(outcome.TestsOutcomes[4].Title, Is.EqualTo("Test5"));
-            Assert.That(outcome.TestsOutcomes[5].Title, Is.EqualTo("Test1"));
+            Assert.That(outcome.TestsOutcomes[0].Title, Is.EqualTo("Test7"));
+            Assert.That(outcome.TestsOutcomes[1].Title, Is.EqualTo("Test2"));
+            Assert.That(outcome.TestsOutcomes[2].Title, Is.EqualTo("Test4"));
+            Assert.That(outcome.TestsOutcomes[3].Title, Is.EqualTo("Test3"));
+            Assert.That(outcome.TestsOutcomes[4].Title, Is.EqualTo("Test6"));
+            Assert.That(outcome.TestsOutcomes[5].Title, Is.EqualTo("Test5"));
+            Assert.That(outcome.TestsOutcomes[6].Title, Is.EqualTo("Test1"));
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Declaration order of tests execution")]
         public void TestRandomOrderOfTestsExecution()
         {
+            Config.SetSuiteTags("tests-order");
+
             Config.TestsExecutionOrder = TestsOrder.Random;
-            var runner1 = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
-            runner1.RunTests();
 
-            var outcome1 = runner1.Outcome.SuitesOutcomes[0];
+            SuiteOutcome previousOutcome = null;
 
-            System.Threading.Thread.Sleep(250);
+            for (int i = 0; i < 5; i++)
+            {
+                var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+                runner.RunTests();
+                var outcome = runner.Outcome.SuitesOutcomes[0];
 
-            var runner2 = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
-            runner2.RunTests();
+                var mainDependcencyIndex = outcome.TestsOutcomes
+                    .FindIndex(to => to.Title.Equals("Test5", StringComparison.InvariantCulture));
 
-            var outcome2 = runner2.Outcome.SuitesOutcomes[0];
-            var orderIsTheSame = outcome2.TestsOutcomes[0].Title.Equals(outcome1.TestsOutcomes[0].Title);
-            orderIsTheSame &= outcome2.TestsOutcomes[1].Title.Equals(outcome1.TestsOutcomes[1].Title);
-            orderIsTheSame &= outcome2.TestsOutcomes[2].Title.Equals(outcome1.TestsOutcomes[2].Title);
-            orderIsTheSame &= outcome2.TestsOutcomes[3].Title.Equals(outcome1.TestsOutcomes[3].Title);
-            orderIsTheSame &= outcome2.TestsOutcomes[4].Title.Equals(outcome1.TestsOutcomes[4].Title);
-            orderIsTheSame &= outcome2.TestsOutcomes[5].Title.Equals(outcome1.TestsOutcomes[5].Title);
-            
-            Assert.False(orderIsTheSame);
+                var secondaryDependcencyIndex = outcome.TestsOutcomes
+                    .FindIndex(to => to.Title.Equals("Test3", StringComparison.InvariantCulture));
 
+                var dependentTest1Index = outcome.TestsOutcomes
+                    .FindIndex(to => to.Title.Equals("Test7", StringComparison.InvariantCulture));
+
+                var dependentTest2Index = outcome.TestsOutcomes
+                    .FindIndex(to => to.Title.Equals("Test4", StringComparison.InvariantCulture));
+
+                Assert.That(mainDependcencyIndex, Is.LessThan(secondaryDependcencyIndex));
+                Assert.That(mainDependcencyIndex, Is.LessThan(dependentTest1Index));
+                Assert.That(mainDependcencyIndex, Is.LessThan(dependentTest2Index));
+
+                Assert.That(secondaryDependcencyIndex, Is.LessThan(dependentTest1Index));
+                Assert.That(secondaryDependcencyIndex, Is.LessThan(dependentTest2Index));
+
+                if (i > 0)
+                {
+                    var orderIsTheSame = true;
+
+                    for (int j = 0; j < 7; j++)
+                    {
+                        orderIsTheSame &= outcome.TestsOutcomes[j].Title.Equals(previousOutcome.TestsOutcomes[j].Title);
+                    }
+
+                    Assert.False(orderIsTheSame, "Tests order is the same between runs");
+                }
+
+                previousOutcome = outcome;
+
+                System.Threading.Thread.Sleep(50);
+            }
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check Declaration order of tests execution")]
+        public void TestRandomOrderOfTestsExecutionWithCycleDependency()
+        {
+            Config.SetSuiteTags("tests-cycle-dependency");
+
+            Config.TestsExecutionOrder = TestsOrder.Random;
+
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+
+            Assert.Throws<StackOverflowException>(delegate
+            {
+                runner.RunTests();
+            });
         }
     }
 }
