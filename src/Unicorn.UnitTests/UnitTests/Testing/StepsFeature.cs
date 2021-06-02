@@ -33,8 +33,6 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check step events")]
         public void TestStepEvents()
         {
-            Config.TestsExecutionOrder = TestsOrder.Declaration;
-            
             new TestsRunner(Assembly.GetExecutingAssembly().Location, false).RunTests();
             Assert.That(
                 Output, 

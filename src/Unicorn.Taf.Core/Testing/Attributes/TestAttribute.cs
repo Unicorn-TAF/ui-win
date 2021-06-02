@@ -12,7 +12,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Initializes a new instance of the <see cref="TestAttribute"/> class without title.
         /// </summary>
-        /// <param name="order">order of test as a number (default: 0)</param>
+        /// <param name="order">order of test as a number (default: test line number)</param>
         public TestAttribute([CallerLineNumber] int order = 0)
         {
             Title = string.Empty;
@@ -23,7 +23,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// Initializes a new instance of the <see cref="TestAttribute"/> class with specified title.
         /// </summary>
         /// <param name="title">test title</param>
-        /// <param name="order">order of test as a number (default: 0)</param>
+        /// <param name="order">order of test as a number (default: test line number)</param>
         public TestAttribute(string title, [CallerLineNumber] int order = 0)
         {
             Title = title;
