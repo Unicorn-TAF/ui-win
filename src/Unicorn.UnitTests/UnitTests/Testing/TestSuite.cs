@@ -35,7 +35,7 @@ namespace Unicorn.UnitTests.Testing
         {
             Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
-            Assert.That(testsCount, Is.EqualTo(2));
+            Assert.That(testsCount, Is.EqualTo(3));
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -72,7 +72,7 @@ namespace Unicorn.UnitTests.Testing
         public void TestSuitesRunSuite()
         {
             USuite.Output = string.Empty;
-            string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
+            string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test11>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             Config.SetSuiteTags("sample");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();

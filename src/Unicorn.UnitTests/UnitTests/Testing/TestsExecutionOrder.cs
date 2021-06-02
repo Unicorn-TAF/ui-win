@@ -84,7 +84,8 @@ namespace Unicorn.UnitTests.Testing
 
                 previousOutcome = outcome;
 
-                System.Threading.Thread.Sleep(50);
+                // Otherwise randomizer of tests sometimes gives same sequences.
+                System.Threading.Thread.Sleep(100);
             }
         }
 

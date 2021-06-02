@@ -62,6 +62,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     /// </summary>
     public static class Config
     {
+        private static IEnumerable<string> testFiltersForReporting;
+
         static Config()
         {
             Reset();
@@ -140,11 +142,16 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// * skips any number of symbols between dots
         /// </summary>
         /// <param name="testsToRun">tests masks</param>
-        public static void SetTestsMasks(params string[] testsToRun) =>
-            RunTests = new HashSet<string>(
-                testsToRun
-                .Select(v => v.Trim().Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*"))
-                .Where(v => !string.IsNullOrEmpty(v)));
+        public static void SetTestsMasks(params string[] testsToRun)
+        {
+            testFiltersForReporting = testsToRun
+                .Select(v => v.Trim())
+                .Where(v => !string.IsNullOrEmpty(v));
+
+            RunTests = new HashSet<string>(testFiltersForReporting
+                .Select(v => "^" + v.Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*") + "$"));
+        }
+            
 
         /// <summary>
         /// Deserialize run configuration fro JSON file
@@ -180,6 +187,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// </summary>
         public static void Reset()
         {
+            testFiltersForReporting = new string[0];
             TestTimeout = TimeSpan.FromMinutes(15);
             SuiteTimeout = TimeSpan.FromMinutes(40);
             ParallelBy = Parallelization.Assembly;
@@ -197,12 +205,12 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// <returns>string with info</returns>
         public static string GetInfo()
         {
-            const string Delimiter = ",";
+            const string Delimiter = ", ";
 
             return new StringBuilder()
                 .AppendLine($"Tags to run: {string.Join(Delimiter, RunTags)}")
                 .AppendLine($"Categories to run: {string.Join(Delimiter, RunCategories)}")
-                .AppendLine($"Tests filter: {string.Join(Delimiter, RunTests)}")
+                .AppendLine($"Tests filter: {string.Join(Delimiter, testFiltersForReporting)}")
                 .AppendLine($"Parallel by '{ParallelBy}' to '{Threads}' thread(s)")
                 .AppendLine($"Dependent tests behavior: '{DependentTests}'")
                 .AppendLine($"Tests execution order: '{TestsExecutionOrder}'")

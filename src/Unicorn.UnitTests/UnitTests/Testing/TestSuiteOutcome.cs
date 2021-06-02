@@ -46,7 +46,7 @@ namespace Unicorn.UnitTests.Testing
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite outcome TotalTests counter")]
         public void TestSuiteOutcomeTotalTestsCounter() =>
-            Assert.That(runner.Outcome.SuitesOutcomes[0].TotalTests, Is.EqualTo(2));
+            Assert.That(runner.Outcome.SuitesOutcomes[0].TotalTests, Is.EqualTo(3));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite outcome ExecutionTime")]
