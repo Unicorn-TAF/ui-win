@@ -50,7 +50,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns>true - if test needs to be run, otherwise - false</returns>
         public static bool IsTestRunnable(MethodInfo method)
         {
-            if (method.GetCustomAttribute<TestAttribute>(true) == null || method.GetCustomAttribute<DisabledAttribute>(true) != null)
+            if (!method.IsDefined(typeof(TestAttribute), true) || method.IsDefined(typeof(DisabledAttribute), true))
             {
                 return false;
             }
@@ -73,7 +73,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="suiteType"><see cref="Type"/> representing the suite</param>
         /// <returns>true - if suite is parameterized, otherwise - false</returns>
         public static bool IsSuiteParameterized(Type suiteType) =>
-            suiteType.GetCustomAttribute(typeof(ParameterizedAttribute), true) != null;
+            suiteType.IsDefined(typeof(ParameterizedAttribute), true);
 
         /// <summary>
         /// Get list of <see cref="DataSet"/> attached to parameterized suite
@@ -83,7 +83,7 @@ namespace Unicorn.Taf.Core.Engine
         public static List<DataSet> GetSuiteData(Type suiteType)
         {
             var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .FirstOrDefault(m => m.GetCustomAttribute(typeof(SuiteDataAttribute), true) != null);
+                .FirstOrDefault(m => m.IsDefined(typeof(SuiteDataAttribute), true));
 
             return suiteDataMethod == null ? 
                 new List<DataSet>() : 
@@ -96,7 +96,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="testMethod"><see cref="MethodInfo"/> representing the test</param>
         /// <returns>true - if test is parameterized, otherwise - false</returns>
         public static bool IsTestParameterized(MethodInfo testMethod) =>
-            testMethod.GetCustomAttribute(typeof(TestDataAttribute), true) != null;
+            testMethod.IsDefined(typeof(TestDataAttribute), true);
 
         /// <summary>
         /// Get list of <see cref="DataSet"/> attached to parameterized test

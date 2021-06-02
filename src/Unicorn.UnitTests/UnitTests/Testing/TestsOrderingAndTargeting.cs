@@ -13,17 +13,18 @@ namespace Unicorn.UnitTests.Testing
     public class TestsOrderingAndTargeting : NUnitTestRunner
     {
         private static TestsRunner runner;
-        private static Dictionary<string, string> filters = new Dictionary<string, string>
+
+        [OneTimeSetUp]
+        public static void Setup()
+        {
+            var filters = new Dictionary<string, string>
             {
                 { "Ordered suite 2", "category2" },
                 { "Ordered suite 3", "category1" },
                 { "Ordered suite 1", "category3" },
             };
 
-        [OneTimeSetUp]
-        public static void Setup()
-        {
-            Config.Reset();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
             runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, filters);
             runner.RunTests();
         }
@@ -31,8 +32,8 @@ namespace Unicorn.UnitTests.Testing
         [OneTimeTearDown]
         public static void Cleanup()
         {
+            Config.Reset();
             runner = null;
-            filters = null;
         }
 
         [Author("Vitaliy Dobriyan")]

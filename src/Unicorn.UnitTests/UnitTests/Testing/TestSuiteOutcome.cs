@@ -19,7 +19,6 @@ namespace Unicorn.UnitTests.Testing
         [OneTimeSetUp]
         public static void SetUp()
         {
-            Config.Reset();
             Config.SetSuiteTags("sample");
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
 
@@ -30,8 +29,11 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [OneTimeTearDown]
-        public static void TearDown() =>
+        public static void TearDown()
+        {
+            Config.Reset();
             runner = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Author attribute")]

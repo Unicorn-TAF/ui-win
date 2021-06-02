@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
@@ -54,11 +53,16 @@ namespace Unicorn.Taf.Core.Testing
                 Result = Status.NotExecuted
             };
 
-            _beforeSuites = GetSuiteMethodsBy(typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
-            _beforeTests = GetSuiteMethodsBy(typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
-            _afterTests = GetSuiteMethodsBy(typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
-            _afterSuites = GetSuiteMethodsBy(typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
-            _tests = GetTests();
+            _beforeSuites = SuiteUtilities
+                .GetSuiteMethodsFrom(this, typeof(BeforeSuiteAttribute), SuiteMethodType.BeforeSuite);
+            _beforeTests = SuiteUtilities
+                .GetSuiteMethodsFrom(this, typeof(BeforeTestAttribute), SuiteMethodType.BeforeTest);
+            _afterTests = SuiteUtilities
+                .GetSuiteMethodsFrom(this, typeof(AfterTestAttribute), SuiteMethodType.AfterTest);
+            _afterSuites = SuiteUtilities
+                .GetSuiteMethodsFrom(this, typeof(AfterSuiteAttribute), SuiteMethodType.AfterSuite);
+            
+            _tests = SuiteUtilities.GetTestsFrom(this);
         }
 
         /// <summary>
@@ -266,8 +270,6 @@ namespace Unicorn.Taf.Core.Testing
             }
         }
 
-        #region Helpers
-
         /// <summary>
         /// Run SuiteMethods
         /// </summary>
@@ -315,86 +317,5 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
         }
-
-        /// <summary>
-        /// Get list of Tests from suite instance based on [Test] attribute presence. <br/>
-        /// Determine if test should be skipped and update runnable tests count for the suite.
-        /// </summary>
-        /// <returns>array of <see cref="Test"/> instances</returns>
-        private Test[] GetTests()
-        {
-            List<Test> testMethods = new List<Test>();
-
-            IEnumerable<MethodInfo> suiteMethods = GetType().GetRuntimeMethods()
-                .Where(m => m.GetCustomAttribute(typeof(TestAttribute), true) != null)
-                .Where(m => AdapterUtilities.IsTestRunnable(m));
-
-            foreach (MethodInfo method in suiteMethods)
-            {
-                if (AdapterUtilities.IsTestParameterized(method))
-                {
-                    var attribute = method
-                        .GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
-
-                    foreach (DataSet dataSet in AdapterUtilities.GetTestData(attribute.Method, this))
-                    {
-                        Test test = GenerateTest(method, dataSet);
-                        testMethods.Add(test);
-                    }
-                }
-                else
-                {
-                    Test test = GenerateTest(method, null);
-                    testMethods.Add(test);
-                }
-            }
-
-            return testMethods.ToArray();
-        }
-
-        /// <summary>
-        /// Generate instance of <see cref="Test"/> and fill with all data
-        /// </summary>
-        /// <param name="method"><see cref="MethodInfo"/> instance which represents test method</param>
-        /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; 
-        /// null if method does not have parameters</param>
-        /// <returns><see cref="Test"/> instance</returns>
-        private Test GenerateTest(MethodInfo method, DataSet dataSet)
-        {
-            var test = dataSet == null ? new Test(method) : new Test(method, dataSet);
-             
-            test.MethodType = SuiteMethodType.Test;
-            test.Outcome.ParentId = Outcome.Id;
-            return test;
-        }
-
-        /// <summary>
-        /// Get list of <see cref="MethodInfo"/> from suite instance based on specified attribute presence
-        /// </summary>
-        /// <param name="attributeType"><see cref="Type"/> of attribute</param>
-        /// <param name="type">type of suite method (<see cref="SuiteMethodType"/>)</param>
-        /// <returns>array of <see cref="SuiteMethod"/> with specified attribute</returns>
-        private SuiteMethod[] GetSuiteMethodsBy(Type attributeType, SuiteMethodType type)
-        {
-            var suitableMethods = new List<SuiteMethod>();
-            var suiteMethods = GetType().GetRuntimeMethods();
-
-            foreach (var method in suiteMethods)
-            {
-                var attribute = method.GetCustomAttribute(attributeType, true);
-
-                if (attribute != null)
-                {
-                    var suiteMethod = new SuiteMethod(method);
-                    suiteMethod.Outcome.ParentId = Outcome.Id;
-                    suiteMethod.MethodType = type;
-                    suitableMethods.Add(suiteMethod);
-                }
-            }
-
-            return suitableMethods.ToArray();
-        }
-
-        #endregion
     }
 }

@@ -10,15 +10,14 @@ namespace Unicorn.UnitTests.Testing
     [TestFixture]
     public class TestSuiteTestsFilter : NUnitTestRunner
     {
-        [OneTimeSetUp]
-        public static void SetUp() =>
+        [TearDown]
+        public static void resetConfig() =>
             Config.Reset();
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test or test name filter (full name)")]
         public void TestFilterForTestNameFullName()
         {
-            Config.Reset();
             Config.SetTestsMasks("Unicorn.UnitTests.Suites.USuite.Test2");
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
@@ -31,7 +30,6 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Test or test name filter (Regex #1)")]
         public void TestFilterForTestNameRegex1()
         {
-            Config.Reset();
             Config.SetTestsMasks("~USuite.Test2");
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
@@ -44,7 +42,6 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Test or test name filter (Regex #1)")]
         public void TestFilterForTestNameRegex2()
         {
-            Config.Reset();
             Config.SetTestsMasks("~USuite.*");
             var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();

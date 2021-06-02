@@ -14,12 +14,13 @@ namespace Unicorn.UnitTests.Testing
     {
         private static TestsRunner runner;
 
-        [SetUp]
-        public static void Setup()
-        {
-            Config.Reset();
+        [OneTimeSetUp]
+        public static void Setup() =>
             Config.SetSuiteTags("suite-timeouts");
-        }
+
+        [OneTimeTearDown]
+        public static void ResetConfig() =>
+            Config.Reset();
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite timeout during before suite")]

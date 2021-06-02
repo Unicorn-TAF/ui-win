@@ -17,12 +17,15 @@ namespace Unicorn.UnitTests.Testing
         [OneTimeSetUp]
         public static void Setup()
         {
-            Config.Reset();
             Config.SetSuiteTags("timeouts");
             Config.TestTimeout = TimeSpan.FromSeconds(1);
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
         }
+
+        [OneTimeTearDown]
+        public static void Cleanup() =>
+            Config.Reset();
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Test timeout")]

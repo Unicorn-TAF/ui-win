@@ -13,14 +13,14 @@ namespace Unicorn.UnitTests.Testing
         public void TestTestsObserverSearchTestSuites()
         {
             IEnumerable<Type> foundSuites = Taf.Core.Engine.TestsObserver.ObserveTestSuites(Assembly.GetExecutingAssembly());
-            Assert.AreEqual(15, foundSuites.Count());
+            Assert.AreEqual(17, foundSuites.Count());
         }
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestTestsObserverSearchTests()
         {
             IEnumerable<MethodInfo> foundTests = Taf.Core.Engine.TestsObserver.ObserveTests(Assembly.GetExecutingAssembly());
-            Assert.AreEqual(53, foundTests.Count());
+            Assert.AreEqual(62, foundTests.Count());
         }
     }
 }

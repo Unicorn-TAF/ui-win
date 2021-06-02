@@ -18,11 +18,16 @@ namespace Unicorn.UnitTests.Testing
         public static void SetUp()
         {
             Config.SetTestCategories();
+            Config.TestsExecutionOrder = TestsOrder.Declaration;
             suite = Activator.CreateInstance<USuite>();
         }
 
-        public static void TearDown() =>
+        [OneTimeTearDown]
+        public static void ResetConfig()
+        {
+            Config.Reset();
             suite = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of tests inside")]
