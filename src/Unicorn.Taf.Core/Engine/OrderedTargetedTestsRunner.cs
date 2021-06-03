@@ -115,14 +115,14 @@ namespace Unicorn.Taf.Core.Engine
 
             var categories = 
                 from attribute
-                in method.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
+                in method.GetCustomAttributes<CategoryAttribute>(true)
                 select attribute.Category.ToUpper().Trim();
 
             return string.IsNullOrEmpty(category) || categories.Contains(category.ToUpper());
         }
 
         private string GetSuiteName(Type suiteType) =>
-            (suiteType.GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute).Name.Trim();
+            suiteType.GetCustomAttribute<SuiteAttribute>(true).Name.Trim();
     }
 }
 #pragma warning restore S3885 // "Assembly.Load" should be used

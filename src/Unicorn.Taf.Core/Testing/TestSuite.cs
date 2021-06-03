@@ -36,7 +36,7 @@ namespace Unicorn.Taf.Core.Testing
         {
             Metadata = new Dictionary<string, string>();
 
-            foreach (var attribute in GetType().GetCustomAttributes(typeof(MetadataAttribute), true) as MetadataAttribute[])
+            foreach (var attribute in GetType().GetCustomAttributes<MetadataAttribute>(true))
             {
                 if (!Metadata.ContainsKey(attribute.Key))
                 {
@@ -44,7 +44,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            var suiteAttribute = GetType().GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute;
+            var suiteAttribute = GetType().GetCustomAttribute<SuiteAttribute>(true);
 
             Outcome = new SuiteOutcome
             {
@@ -96,7 +96,7 @@ namespace Unicorn.Taf.Core.Testing
             {
                 if (tags == null)
                 {
-                    var attributes = GetType().GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[];
+                    var attributes = GetType().GetCustomAttributes<TagAttribute>(true);
                     tags = new HashSet<string>(from attribute in attributes select attribute.Tag.ToUpper());
                 }
 
@@ -218,8 +218,7 @@ namespace Unicorn.Taf.Core.Testing
 
         private void ProcessTest(Test test)
         {
-            var dependsOnAttribute = test.TestMethod
-                .GetCustomAttribute(typeof(DependsOnAttribute), true) as DependsOnAttribute;
+            var dependsOnAttribute = test.TestMethod.GetCustomAttribute<DependsOnAttribute>(true);
 
             if (dependsOnAttribute != null)
             {
@@ -299,8 +298,7 @@ namespace Unicorn.Taf.Core.Testing
         {
             foreach (var suiteMethod in _afterTests)
             {
-                var attribute = suiteMethod.TestMethod
-                    .GetCustomAttribute(typeof(AfterTestAttribute), true) as AfterTestAttribute;
+                var attribute = suiteMethod.TestMethod.GetCustomAttribute<AfterTestAttribute>(true);
 
                 if (testWasFailed && !attribute.RunAlways)
                 {

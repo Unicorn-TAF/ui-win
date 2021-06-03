@@ -57,8 +57,7 @@ namespace Unicorn.Taf.Core.Testing
             {
                 if (AdapterUtilities.IsTestParameterized(method))
                 {
-                    var attribute = method
-                        .GetCustomAttribute(typeof(TestDataAttribute), true) as TestDataAttribute;
+                    var attribute = method.GetCustomAttribute<TestDataAttribute>(true);
 
                     foreach (DataSet dataSet in AdapterUtilities.GetTestData(attribute.Method, suiteInstance))
                     {

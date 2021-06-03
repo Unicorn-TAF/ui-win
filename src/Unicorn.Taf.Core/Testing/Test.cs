@@ -88,7 +88,7 @@ namespace Unicorn.Taf.Core.Testing
             {
                 if (categories == null)
                 {
-                    var attributes = TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
+                    var attributes = TestMethod.GetCustomAttributes<CategoryAttribute>(true);
 
                     categories = new HashSet<string>(
                         attributes.Select(a => a.Category.ToUpper().Trim())

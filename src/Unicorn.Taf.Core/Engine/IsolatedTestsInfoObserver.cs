@@ -73,8 +73,7 @@ namespace Unicorn.Taf.Core.Engine
                 var className = unicornTest.DeclaringType.FullName;
                 var fullName = AdapterUtilities.GetFullTestMethodName(unicornTest);
 
-                var testAttribute = unicornTest
-                    .GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute;
+                var testAttribute = unicornTest.GetCustomAttribute<TestAttribute>(true);
 
                 if (testAttribute != null)
                 {

@@ -75,7 +75,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
         /// <param name="conditionName">name of wait condition to report</param>
         /// <returns>message string</returns>
         protected string GenerateTimeoutMessage(string conditionName) =>
-            string.IsNullOrEmpty(ErrorMessage) ? string.Empty : $"{ErrorMessage}: " + 
+            $"{(string.IsNullOrEmpty(ErrorMessage) ? "Wait failed" : ErrorMessage)}: " + 
             string.Format("{0} expired after {1:F1} seconds", conditionName, Timeout.TotalSeconds);
     }
 }

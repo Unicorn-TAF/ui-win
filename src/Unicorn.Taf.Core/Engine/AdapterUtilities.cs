@@ -27,11 +27,10 @@ namespace Unicorn.Taf.Core.Engine
         {
             var tags = 
                 from attribute
-                in suiteType.GetCustomAttributes(typeof(TagAttribute), true) as TagAttribute[]
+                in suiteType.GetCustomAttributes<TagAttribute>(true)
                 select attribute.Tag.ToUpper().Trim();
 
-            var name = (suiteType.GetCustomAttribute(typeof(SuiteAttribute), true) as SuiteAttribute)
-                       .Name.ToUpper().Trim();
+            var name = suiteType.GetCustomAttribute<SuiteAttribute>(true).Name.ToUpper().Trim();
 
             if (!tags.Intersect(Config.RunTags).Any() && !Config.RunTags.Contains(name) && Config.RunTags.Any())
             {
@@ -57,7 +56,7 @@ namespace Unicorn.Taf.Core.Engine
 
             var categories = 
                 from attribute
-                in method.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[]
+                in method.GetCustomAttributes<CategoryAttribute>(true)
                 select attribute.Category.ToUpper().Trim();
             
             var hasCategoriesToRun = categories.Intersect(Config.RunCategories).Count() == Config.RunCategories.Count;
