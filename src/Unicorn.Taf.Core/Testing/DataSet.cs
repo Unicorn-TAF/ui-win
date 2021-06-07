@@ -9,14 +9,14 @@ namespace Unicorn.Taf.Core.Testing
     public class DataSet
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataSet"/> with specified name and data objects
+        /// Initializes a new instance of the <see cref="DataSet"/> class with specified name and data objects
         /// </summary>
         /// <param name="name">set name</param>
         /// <param name="parameters">array of objects</param>
         public DataSet(string name, params object[] parameters)
         {
-            this.Name = name;
-            this.Parameters = new List<object>(parameters);
+            Name = name;
+            Parameters = new List<object>(parameters);
         }
 
         /// <summary>

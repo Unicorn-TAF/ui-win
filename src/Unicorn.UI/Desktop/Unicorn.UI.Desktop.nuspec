@@ -11,27 +11,26 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Desktop is Unicorn test automation framework extension which provides ready for use realization of interaction with Windows GUI with extended capabilities.</summary>
+    <summary>Unicorn.UI.Desktop is Unicorn test automation framework extension which provides ready for use implementations of interaction with Windows GUI with extended capabilities.</summary>
     <description>
-      Unicorn Desktop features: Ready for use realizations of common controls, extended page object features.
+      Unicorn Desktop features: Ready for use implementations of common controls, extended page object features.
 
-      This package includes realization of desktop GUI interaction which is based on UIAutomation library.
+      This package includes implementations of desktop GUI interaction which is based on UIAutomation library.
 
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1 and Unicorn.UI.Core 2.1.1. Improved and simplified code of Desktop controls. Added extensions and 'Application' page object.</releaseNotes>
+    <releaseNotes>Support of Unicorn.UI.Core 2.2.1, small fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object windows desktop uia2</tags>
     <dependencies>
       <group>
         <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
-        <dependency id="Unicorn.UI.Core" version="2.1.1"/>
+        <dependency id="Unicorn.UI.Core" version="2.2.1"/>
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Desktop.pdb" target="lib\net452"/>
   </files>
 </package>

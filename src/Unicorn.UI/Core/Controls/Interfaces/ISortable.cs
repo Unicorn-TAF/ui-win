@@ -5,8 +5,20 @@
     /// </summary>
     public enum SortDirection
     {
+        /// <summary>
+        /// Ascending sort direction.
+        /// </summary>
         Ascending,
-        Descending
+
+        /// <summary>
+        /// Descending sort direction.
+        /// </summary>
+        Descending,
+
+        /// <summary>
+        /// Not sorted.
+        /// </summary>
+        NotSorted
     }
 
     /// <summary>
@@ -32,7 +44,7 @@
         /// <summary>
         /// Get value indicating if data is sorted with specified direction.
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="direction">sort direction</param>
         /// <returns>true - if sorted in correct direction; otherwise - false</returns>
         bool IsSorted(SortDirection direction);
     }

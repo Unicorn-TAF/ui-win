@@ -7,7 +7,7 @@ using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Steps
 {
-    [Aspect(typeof(StepsEvents))]
+    [Inject(typeof(StepsEvents))]
     public class TestingSteps
     {
         [Step("First Test Step")]

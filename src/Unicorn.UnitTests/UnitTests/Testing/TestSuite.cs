@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Reflection;
-using NUnit.Framework;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
@@ -28,7 +28,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestSuitesCountOfTests()
         {
-            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
             int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(2));
         }
@@ -36,22 +36,31 @@ namespace Unicorn.UnitTests.Testing
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestSuitesCountOfAfterSuite() =>
-            Assert.That(GetSuiteMethodListByName("afterSuites").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_afterSuites").Length, Is.EqualTo(1));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestSuitesCountOfBeforeSuite() =>
-            Assert.That(GetSuiteMethodListByName("beforeSuites").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_beforeSuites").Length, Is.EqualTo(1));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of After suite inside")]
         public void TestSuitesCountOfAfterTest() =>
-            Assert.That(GetSuiteMethodListByName("afterTests").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_afterTests").Length, Is.EqualTo(1));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that test suite determines correct count of before suite inside")]
         public void TestSuitesCountOfBeforeTest() =>
-            Assert.That(GetSuiteMethodListByName("beforeTests").Length, Is.EqualTo(1));
+            Assert.That(GetSuiteMethodListByName("_beforeTests").Length, Is.EqualTo(1));
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check that test suite matadata could be retreived")]
+        public void TestSuiteMetadata()
+        {
+            Assert.That(suite.Metadata.Count, Is.EqualTo(2));
+            Assert.That(suite.Metadata["key1"], Is.EqualTo("value1"));
+            Assert.That(suite.Metadata["key2"], Is.EqualTo("value2"));
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite run")]

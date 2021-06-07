@@ -3,18 +3,34 @@ using System.Linq;
 
 namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
 {
-    public class HasItemMatcher : TypeUnsafeMatcher
+    /// <summary>
+    /// Matcher to check if collection has specified item. 
+    /// </summary>
+    /// <typeparam name="T">check items type</typeparam>
+    public class HasItemMatcher<T> : TypeSafeCollectionMatcher<T>
     {
-        private readonly object expectedObject;
+        private readonly T _expectedObject;
 
-        public HasItemMatcher(object expectedObject)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HasItemMatcher{T}"/> class with specified expected object.
+        /// </summary>
+        /// <param name="expectedObject">expected item</param>
+        public HasItemMatcher(T expectedObject)
         {
-            this.expectedObject = expectedObject;
+            _expectedObject = expectedObject;
         }
 
-        public override string CheckDescription => $"Collection has item {this.expectedObject}";
+        /// <summary>
+        /// Gets check description.
+        /// </summary>
+        public override string CheckDescription => $"Collection has item {_expectedObject}";
 
-        public override bool Matches(object actual)
+        /// <summary>
+        /// Checks if collection contains specified item.
+        /// </summary>
+        /// <param name="actual">objects collection under check</param>
+        /// <returns>true - if collection contains specific item; otherwise - false</returns>
+        public override bool Matches(IEnumerable<T> actual)
         {
             if (actual == null)
             {
@@ -22,15 +38,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            if (((IEnumerable<object>)actual).Contains(this.expectedObject))
-            {
-                return true;
-            }
-            else
-            {
-                DescribeMismatch(this.Reverse ? "was contains the value" : "was not contain the value");
-                return false;
-            }
+            DescribeMismatch(Reverse ? "containing the item" : "not containing the item");
+
+            return actual.Contains(_expectedObject);
         }
     }
 }

@@ -11,16 +11,16 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Web is Unicorn test automation framework extension which provides ready for use realization of interaction with Web UI with extended capabilities.</summary>
+    <summary>Unicorn.UI.Web is Unicorn test automation framework extension which provides ready for use implementations of interaction with Web UI with extended capabilities.</summary>
     <description>
-      Unicorn Web features: Ready for use realizations of common controls, extended page object features.
+      Unicorn Web features: Ready for use implementations of common controls, extended page object features.
 
-      This package includes realization of web UI interaction based on WebDriver.
+      This package includes implementations of web UI interaction based on WebDriver.
 
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1 and Unicorn.UI.Core 2.1.1. Improved and simplified code of Desktop controls. Added extensions, 'WebPage' and 'WebSite' page objects.</releaseNotes>
+    <releaseNotes>Support of Unicorn.UI.Core 2.3.0, bugfixes, dynamic controls, WebContainer methods base implementations, StaleElementReference handling.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation ui controls page-object web webdriver</tags>
     <dependencies>
@@ -29,12 +29,11 @@
       </group>
       <group>
         <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
-        <dependency id="Unicorn.UI.Core" version="2.1.1"/>
+        <dependency id="Unicorn.UI.Core" version="2.3.0"/>
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Web.pdb" target="lib\net452"/>
   </files>
 </package>

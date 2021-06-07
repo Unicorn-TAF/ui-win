@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
 using ReportPortal.Client.Models;
 using ReportPortal.Client.Requests;
@@ -8,9 +8,12 @@ using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.ReportPortalAgent
 {
+    /// <summary>
+    /// Report portal listener, which handles reporting stuff for all test items.
+    /// </summary>
     public partial class ReportPortalListener
     {
-        private readonly Dictionary<SuiteMethodType, TestItemType> itemTypes =
+        private readonly Dictionary<SuiteMethodType, TestItemType> _itemTypes =
             new Dictionary<SuiteMethodType, TestItemType>
         {
             { SuiteMethodType.BeforeSuite, TestItemType.BeforeClass },
@@ -20,6 +23,8 @@ namespace Unicorn.ReportPortalAgent
             { SuiteMethodType.Test, TestItemType.Step },
         };
 
+        internal string SkippedTestDefectType { get; set; } = "ND001";
+
         internal void StartSuiteMethod(SuiteMethod suiteMethod)
         {
             try
@@ -28,21 +33,23 @@ namespace Unicorn.ReportPortalAgent
                 var parentId = suiteMethod.Outcome.ParentId;
                 var name = suiteMethod.Outcome.Title;
 
-                this.currentTest = suiteMethod;
+                _currentTests.TryAdd(id, suiteMethod);
 
                 var startTestRequest = new StartTestItemRequest
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemTypes[suiteMethod.MethodType]
+                    Type = _itemTypes[suiteMethod.MethodType]
                 };
 
-                startTestRequest.Tags = new List<string>();
-                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
-                startTestRequest.Tags.Add(Environment.MachineName);
+                startTestRequest.Tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
-                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
-                this.testFlowIds[id] = testVal;
+                var testVal = _suitesFlow[parentId].StartChildTestReporter(startTestRequest);
+                _testFlowIds[id] = testVal;
             }
             catch (Exception exception)
             {
@@ -57,17 +64,19 @@ namespace Unicorn.ReportPortalAgent
                 var id = suiteMethod.Outcome.Id;
                 var result = suiteMethod.Outcome.Result;
 
-                this.currentTest = null;
+                _currentTests.TryRemove(id, out var res);
 
-                if (!this.testFlowIds.ContainsKey(id))
+                if (!_testFlowIds.ContainsKey(id))
                 {
                     return;
                 }
 
                 // adding categories to test
-                var tags = new List<string>();
-                tags.Add(suiteMethod.Outcome.Author);
-                tags.Add(Environment.MachineName);
+                var tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
@@ -85,20 +94,19 @@ namespace Unicorn.ReportPortalAgent
                 {
                     var text = suiteMethod.Outcome.Exception.Message + Environment.NewLine + suiteMethod.Outcome.Exception.StackTrace;
 
-                    if (!string.IsNullOrEmpty(suiteMethod.Outcome.Screenshot))
-                    {
-                        byte[] screenshotBytes = File.ReadAllBytes(suiteMethod.Outcome.Screenshot);
-                        AddAttachment(id, LogLevel.Error, text, "Fail screenshot", "image/png", screenshotBytes);
-                    }
-                    else
-                    {
-                        AddLog(id, LogLevel.Error, text);
-                    }
+                    AddLog(id, LogLevel.Error, text);
 
                     if (!string.IsNullOrEmpty(suiteMethod.Outcome.Output))
                     {
                         byte[] outputBytes = Encoding.ASCII.GetBytes(suiteMethod.Outcome.Output);
                         AddAttachment(id, LogLevel.Error, string.Empty, "Execution log", "text/plain", outputBytes);
+                    }
+
+                    if (suiteMethod.Outcome.Attachments.Any())
+                    {
+                        suiteMethod.Outcome.Attachments
+                            .ForEach(a => 
+                            AddAttachment(id, LogLevel.Error, string.Empty, a.Name, a.MimeType, a.GetBytes()));
                     }
                 }
 
@@ -107,7 +115,7 @@ namespace Unicorn.ReportPortalAgent
                     EndTime = DateTime.UtcNow,
                     Description = description,
                     Tags = tags,
-                    Status = statusMap[result]
+                    Status = _statusMap[result]
                 };
 
                 // adding issue to finish test if failed test has a defect
@@ -121,7 +129,7 @@ namespace Unicorn.ReportPortalAgent
                 }
 
                 // finishing test
-                this.testFlowIds[id].Finish(finishTestRequest);
+                _testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)
             {
@@ -142,34 +150,36 @@ namespace Unicorn.ReportPortalAgent
                 {
                     StartTime = DateTime.UtcNow,
                     Name = name,
-                    Type = itemTypes[suiteMethod.MethodType]
+                    Type = _itemTypes[suiteMethod.MethodType]
                 };
 
-                startTestRequest.Tags = new List<string>();
-                startTestRequest.Tags.Add(suiteMethod.Outcome.Author);
-                startTestRequest.Tags.Add(Environment.MachineName);
+                startTestRequest.Tags = new List<string>
+                {
+                    suiteMethod.Outcome.Author,
+                    Environment.MachineName
+                };
 
                 if (suiteMethod.MethodType.Equals(SuiteMethodType.Test))
                 {
                     startTestRequest.Tags.AddRange((suiteMethod as Test).Categories);
                 }
 
-                var testVal = this.suitesFlow[parentId].StartChildTestReporter(startTestRequest);
-                this.testFlowIds[id] = testVal;
+                var testVal = _suitesFlow[parentId].StartChildTestReporter(startTestRequest);
+                _testFlowIds[id] = testVal;
 
                 var finishTestRequest = new FinishTestItemRequest
                 {
                     EndTime = DateTime.UtcNow,
-                    Status = statusMap[result],
+                    Status = _statusMap[result],
                     Issue = new Issue
                     {
-                        Type = "ND001",
+                        Type = SkippedTestDefectType,
                         Comment = "The test is skipped, check if dependent test or before suite failed"
                     }
                 };
 
                 // finishing test
-                this.testFlowIds[id].Finish(finishTestRequest);
+                _testFlowIds[id].Finish(finishTestRequest);
             }
             catch (Exception exception)
             {

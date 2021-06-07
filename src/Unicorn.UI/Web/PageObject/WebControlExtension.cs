@@ -3,10 +3,10 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Web.Controls;
 using Unicorn.UI.Web.Driver;
 
-namespace Unicorn.UI.Desktop.PageObject
+namespace Unicorn.UI.Web.PageObject
 {
     /// <summary>
-    /// Extension for WebControl
+    /// Extension for <see cref="WebControl"/>
     /// </summary>
     public static class WebControlExtension
     {
@@ -14,7 +14,7 @@ namespace Unicorn.UI.Desktop.PageObject
         /// Check if page object exists it the moment ignoring implicitly wait
         /// </summary>
         /// <param name="control">Control instance</param>
-        /// <returns></returns>
+        /// <returns>true - if control exists; otherwise - false</returns>
         public static bool Exists(this WebControl control)
         {
             var originalTimeout = WebDriver.Instance.ImplicitlyWait;

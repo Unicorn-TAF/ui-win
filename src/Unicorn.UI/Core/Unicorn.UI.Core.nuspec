@@ -11,16 +11,16 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests realizations of specific UI extensions or develop custom ones.</summary>
+    <summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests implementations of specific UI extensions or develop custom ones.</summary>
     <description>
-      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI realizations.
+      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
 
       This package includes UI core of unicorn automation framework.
 
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Support of Unicorn.Taf.Core 2.1.1. Improved UI core code. Added more typified controls interfaces. Added set of common UI controls matchers and common IControl extensions.</releaseNotes>
+    <releaseNotes>New UI matchers, Dynamic controls support, small fixes.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation</tags>
     <dependencies>
@@ -31,6 +31,5 @@
   </metadata>
   <files>
     <file src="..\..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.UI.Core.pdb" target="lib\net452"/>
   </files>
 </package>

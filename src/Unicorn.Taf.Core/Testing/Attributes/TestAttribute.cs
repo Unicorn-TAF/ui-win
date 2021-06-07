@@ -2,19 +2,31 @@
 
 namespace Unicorn.Taf.Core.Testing.Attributes
 {
+    /// <summary>
+    /// Provides with ability to mark specified methods as tests.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestAttribute : Attribute
+    public sealed class TestAttribute : Attribute
     {
-        public TestAttribute()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestAttribute"/> class without title.
+        /// </summary>
+        public TestAttribute() : this(string.Empty)
         {
-            this.Title = string.Empty;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestAttribute"/> class with specified title.
+        /// </summary>
+        /// <param name="title">test title</param>
         public TestAttribute(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
-        public string Title { get; protected set; }
+        /// <summary>
+        /// Gets test title.
+        /// </summary>
+        public string Title { get; }
     }
 }

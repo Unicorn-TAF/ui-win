@@ -1,70 +1,79 @@
 ﻿using UIAutomationClient;
 using Unicorn.Taf.Core.Logging;
+using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls.Typified;
 
 namespace Unicorn.UI.Win.Controls
 {
-    public abstract class WinContainer : WinControl, IContainer
+    /// <summary>
+    /// Represents basic container for other windows controls.
+    /// Initialized container also initializes all controls and containers within itself.
+    /// </summary>
+    public class WinContainer : WinControl, IContainer
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WinContainer"/> class.
+        /// </summary>
         protected WinContainer() : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WinContainer"/> class with wraps specific <see cref="IUIAutomationElement"/>
+        /// </summary>
+        /// <param name="instance"><see cref="IUIAutomationElement"/> instance to wrap</param>
         protected WinContainer(IUIAutomationElement instance) : base(instance)
         {
         }
 
-        public override IUIAutomationElement Instance
+        /// <summary>
+        /// Clicks button with specified name within the container.
+        /// </summary>
+        /// <param name="name">button name</param>
+        /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
+        public virtual void ClickButton(string name)
         {
-            get
-            {
-                if (!this.Cached)
-                {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator, this.GetType());
-                }
-
-                return this.SearchContext;
-            }
-
-            set
-            {
-                this.SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
+            Logger.Instance.Log(LogLevel.Debug, $"Click '{name}' button");
+            Find<Button>(ByLocator.Name(name)).Click();
         }
 
-        public virtual void ClickButton(string locator)
+        /// <summary>
+        /// Sets specified text into specified text input within the container.
+        /// </summary>
+        /// <param name="name">text input name</param>
+        /// <param name="text">text to input</param>
+        /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
+        public virtual void InputText(string name, string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Click '{locator}' button");
-
-            Button button = Find<Button>(ByLocator.Name(locator));
-            button.Click();
+            Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{name}' field");
+            Find<TextInput>(ByLocator.Name(name)).SetValue(text);
         }
 
-        public virtual void InputText(string locator, string text)
+        /// <summary>
+        /// Selects specified radio button within the container.
+        /// </summary>
+        /// <param name="name">radio button name</param>
+        /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
+        /// <returns>true - if selection was made; false - if already selected</returns>
+        public virtual bool SelectRadio(string name)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{locator}' field");
-
-            TextInput edit = Find<TextInput>(ByLocator.Name(locator));
-            edit.SendKeys(text);
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{name}' radio button");
+            return Find<Radio>(ByLocator.Name(name)).Select();
         }
 
-        public virtual bool SelectRadio(string locator)
+        /// <summary>
+        /// Sets specified checkbox within the container in specified state.
+        /// </summary>
+        /// <param name="name">checkbox name</param>
+        /// <param name="state">state to set for checkbox</param>
+        /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
+        /// <returns>true - if state was changed; false - if already in desired state</returns>
+        public virtual bool SetCheckbox(string name, bool state)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{locator}' radio button");
-
-            Radio radio = Find<Radio>(ByLocator.Name(locator));
-            return radio.Select();
-        }
-
-        public virtual bool SetCheckbox(string locator, bool state)
-        {
-            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{locator}' to '{state}'");
-
-            Checkbox checkbox = Find<Checkbox>(ByLocator.Name(locator));
-            return checkbox.SetCheckedState(state);
+            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{name}' to '{state}'");
+            return Find<Checkbox>(ByLocator.Name(name)).SetCheckedState(state);
         }
     }
 }

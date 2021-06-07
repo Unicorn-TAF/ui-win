@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -17,6 +18,8 @@
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,8 +81,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AspectInjector.Broker">
-      <HintPath>..\packages\AspectInjector.0.9.44\lib\AspectInjector.Broker.dll</HintPath>
+    <Reference Include="AspectInjector.Broker, Version=0.0.0.0, Culture=neutral, PublicKeyToken=a29e12442a3d3609, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspectInjector.1.0.2\lib\net45\AspectInjector.Broker.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\Unicorn.UI\Win\lib\Interop.UIAutomationClient.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.Engine.3.5.0\lib\Mono.Cecil.dll</HintPath>
@@ -103,6 +112,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="WebDriver, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -115,12 +131,19 @@
   <ItemGroup>
     <Compile Include="BO\SampleObject.cs" />
     <Compile Include="Gui\Desktop\CharmapApplication.cs" />
+    <Compile Include="Gui\Desktop\CopyButtonWithDefaultLocator.cs" />
     <Compile Include="Gui\Desktop\WindowCharMap.cs" />
-    <Compile Include="Gui\Win\WinCharmapApplication.cs" />
-    <Compile Include="Gui\Win\WinWindowCharMap.cs" />
+    <Compile Include="Gui\Web\JqueryDialogPage.cs" />
+    <Compile Include="Gui\Web\JquerySelectPage.cs" />
+    <Compile Include="Gui\Web\JqueryDataGridPage.cs" />
+    <Compile Include="Gui\Win\CopyButtonWithDefaultLocator.cs" />
+    <Compile Include="Gui\Win\CharmapApplication.cs" />
+    <Compile Include="Gui\Win\WindowCharMap.cs" />
     <Compile Include="Steps\AllSteps.cs" />
     <Compile Include="Steps\TestingSteps.cs" />
     <Compile Include="Suites\UBaseTestSuite.cs" />
+    <Compile Include="Suites\UParameterizedSuiteNoSuiteData.cs" />
+    <Compile Include="Suites\USuiteForSteps.cs" />
     <Compile Include="Suites\USuiteForTimeouts3.cs" />
     <Compile Include="Suites\USuiteForTimeouts2.cs" />
     <Compile Include="Suites\USuiteOrdered1.cs" />
@@ -133,12 +156,32 @@
     <Compile Include="Suites\USuite.cs" />
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
-    <Compile Include="UnitTests\Assertions.cs" />
-    <Compile Include="UnitTests\Matchers.cs" />
+    <Compile Include="Suites\UTestsAssembly.cs" />
+    <Compile Include="UnitTests\Testing\ParameterizedTestSuiteWithNoData.cs" />
+    <Compile Include="UnitTests\Testing\StepsFeature.cs" />
+    <Compile Include="UnitTests\Testing\ReadConfigurationFromFile.cs" />
+    <Compile Include="UnitTests\Testing\TestsRunInitializeFail.cs" />
+    <Compile Include="UnitTests\Testing\TestSuiteTestsFilter.cs" />
+    <Compile Include="UnitTests\Testing\TestSuiteOutcome.cs" />
+    <Compile Include="UnitTests\UI\UiMatchers.cs" />
+    <Compile Include="UnitTests\UI\Win\WinDynamicDropdown.cs" />
+    <Compile Include="UnitTests\UI\Win\WinDynamicDialog.cs" />
+    <Compile Include="UnitTests\UI\Web\WebDynamicDialog.cs" />
+    <Compile Include="UnitTests\UI\Web\WebDynamicDropdown.cs" />
+    <Compile Include="UnitTests\UI\Web\WebDynamicGrid.cs" />
+    <Compile Include="UnitTests\Util\FileAllocatorFunctionality.cs" />
+    <Compile Include="UnitTests\Verification\Assertions.cs" />
+    <Compile Include="UnitTests\Verification\CollectionMatchers.cs" />
+    <Compile Include="UnitTests\UI\UserInput.cs" />
+    <Compile Include="UnitTests\UI\Win\WinWindowsBaseControls.cs" />
+    <Compile Include="UnitTests\UI\Win\WinControls.cs" />
+    <Compile Include="UnitTests\UI\GuiControls.cs" />
+    <Compile Include="UnitTests\UI\Win\WinPageObject.cs" />
+    <Compile Include="UnitTests\Verification\Matchers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTests.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuite.cs" />
-    <Compile Include="UnitTests\GuiPageObject.cs" />
+    <Compile Include="UnitTests\UI\GuiPageObject.cs" />
     <Compile Include="UnitTests\Testing\TestsOrderingAndTargeting.cs" />
     <Compile Include="UnitTests\Testing\TestsDependency.cs" />
     <Compile Include="UnitTests\Testing\TestsObserver.cs" />
@@ -178,6 +221,12 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\packages\WebDriver.ChromeDriver.win32.2.35.0\content\chromedriver.exe">
+      <Link>chromedriver.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -198,6 +247,14 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AspectInjector.1.0.2\build\AspectInjector.targets'))" />
+  </Target>
+  <Import Project="..\packages\AspectInjector.1.0.2\build\AspectInjector.targets" Condition="Exists('..\packages\AspectInjector.1.0.2\build\AspectInjector.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

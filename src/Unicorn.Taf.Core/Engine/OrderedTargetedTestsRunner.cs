@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -15,37 +16,59 @@ namespace Unicorn.Taf.Core.Engine
     /// </summary>
     public class OrderedTargetedTestsRunner : TestsRunner
     {
-        private readonly string testsAssemblyFile;
-        private readonly Dictionary<string, string> filters;
+        private readonly string _testsAssemblyFile;
+        private readonly Dictionary<string, string> _filters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> for specified assembly and with specified filters.
+        /// Initializes a new instance of the <see cref="OrderedTargetedTestsRunner"/> class for specified assembly and with specified filters.
         /// </summary>
         /// <param name="assemblyPath">path to tests assembly file</param>
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
+        /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
         public OrderedTargetedTestsRunner(string assemblyPath, Dictionary<string, string> filters) 
         {
-            this.testsAssemblyFile = assemblyPath;
-            this.Outcome = new LaunchOutcome();
-            this.filters = filters;
+            if (assemblyPath == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyPath));
+            }
+
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
+            }
+
+            _testsAssemblyFile = assemblyPath;
+            Outcome = new LaunchOutcome();
+            _filters = filters;
         }
 
         /// <summary>
         /// Run all observed tests matching selection criteria
         /// </summary>
+        /// <exception cref="TypeLoadException">is thrown when suite class was not found for specified suite name in run filters</exception>
         public override void RunTests()
         {
-            var testsAssembly = Assembly.LoadFrom(this.testsAssemblyFile);
+            var testsAssembly = Assembly.LoadFrom(_testsAssemblyFile);
             var orderedRunnableSuites = new List<Type>();
             var filteredSuites = TestsObserver.ObserveTestSuites(testsAssembly)
-                .Where(s => filters.Keys.Contains(GetSuiteName(s)));
+                .Where(s => _filters.Keys.Contains(GetSuiteName(s)));
 
-            foreach (var suiteName in filters.Keys)
+            foreach (var suiteName in _filters.Keys)
             {
                 var suite = filteredSuites
-                    .First(s => GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(s => GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
 
-                if (suite.GetRuntimeMethods().Any(t => IsTestRunnable(t, filters[suiteName])))
+                if (suite == null)
+                {
+                    throw new TypeLoadException($"Suite with name '{suiteName}' was not found in tests assembly.");
+                }
+
+                if (suite.GetRuntimeMethods().Any(t => IsTestRunnable(t, _filters[suiteName])))
                 {
                     orderedRunnableSuites.Add(suite);
                 }
@@ -56,7 +79,7 @@ namespace Unicorn.Taf.Core.Engine
                 return;
             }
 
-            this.Outcome.StartTime = DateTime.Now;
+            Outcome.StartTime = DateTime.Now;
 
             // Execute run init action if exists in assembly.
             try
@@ -66,15 +89,15 @@ namespace Unicorn.Taf.Core.Engine
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
-                this.Outcome.RunInitialized = false;
-                this.Outcome.RunnerException = ex.InnerException;
+                Outcome.RunInitialized = false;
+                Outcome.RunnerException = ex.InnerException;
             }
 
-            if (this.Outcome.RunInitialized)
+            if (Outcome.RunInitialized)
             {
                 foreach (var suiteType in orderedRunnableSuites)
                 {
-                    Config.SetTestCategories(filters[GetSuiteName(suiteType)]);
+                    Config.SetTestCategories(_filters[GetSuiteName(suiteType)]);
                     RunTestSuite(suiteType);
                 }
 

@@ -14,7 +14,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
         /// Check if page object exists it the moment ignoring implicitly wait
         /// </summary>
         /// <param name="control">Control instance</param>
-        /// <returns></returns>
+        /// <returns>true - if control exists; otherwise - false</returns>
         public static bool Exists(this AndroidControl control)
         {
             var originalTimeout = AndroidAppDriver.Instance.ImplicitlyWait;

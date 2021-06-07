@@ -14,41 +14,22 @@ namespace Unicorn.UI.Mobile.Android.Controls
         {
         }
 
-        public override AppiumWebElement Instance
-        {
-            get
-            {
-                if (!this.Cached)
-                {
-                    this.SearchContext = GetNativeControlFromParentContext(this.Locator);
-                }
-
-                return this.SearchContext;
-            }
-
-            set
-            {
-                this.SearchContext = value;
-                ContainerFactory.InitContainer(this);
-            }
-        }
-
-        public void ClickButton(string locator)
+        public void ClickButton(string name)
         {
             throw new NotImplementedException();
         }
 
-        public void InputText(string locator, string text)
+        public void InputText(string name, string text)
         {
             throw new NotImplementedException();
         }
 
-        public bool SelectRadio(string locator)
+        public bool SelectRadio(string name)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetCheckbox(string locator, bool state)
+        public bool SetCheckbox(string name, bool state)
         {
             throw new NotImplementedException();
         }

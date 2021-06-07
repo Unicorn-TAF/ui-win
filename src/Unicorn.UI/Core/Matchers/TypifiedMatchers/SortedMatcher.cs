@@ -3,17 +3,31 @@ using Unicorn.UI.Core.Controls.Interfaces;
 
 namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
 {
+    /// <summary>
+    /// Matcher to check if <see cref="ISortable"/> UI control is sorted in specified direction. 
+    /// </summary>
     public class SortedMatcher : TypeSafeMatcher<ISortable>
     {
-        private readonly SortDirection sortDirection;
+        private readonly SortDirection _sortDirection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SortedMatcher"/> class for specified sort direction.
+        /// </summary>
         public SortedMatcher(SortDirection sortDirection)
         {
-            this.sortDirection = sortDirection;
+            _sortDirection = sortDirection;
         }
 
-        public override string CheckDescription => $"is sorted {this.sortDirection}";
+        /// <summary>
+        /// Gets check description.
+        /// </summary>
+        public override string CheckDescription => $"is sorted {_sortDirection}";
 
+        /// <summary>
+        /// Checks if UI control is sorted in specified direction.
+        /// </summary>
+        /// <param name="actual">UI control under check</param>
+        /// <returns>true - if control is sorted in specified direction; otherwise - false</returns>
         public override bool Matches(ISortable actual)
         {
             if (actual == null)
@@ -23,7 +37,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
             }
 
             DescribeMismatch("not sorted correctly");
-            return actual.IsSorted(this.sortDirection);
+            return actual.IsSorted(_sortDirection);
         }
     }
 }

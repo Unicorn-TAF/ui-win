@@ -7,13 +7,13 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 namespace Unicorn.Taf.Core.Utility
 {
     /// <summary>
-    /// Provides with ability to wait for and allocate files in filesystem.
+    /// Provides with ability to wait for and allocate files in file system.
     /// </summary>
     public class FileAllocator
     {
-        private readonly string destinationFolder;
-        private readonly HashSet<string> fileNamesBefore = null;
-        private readonly DefaultWait wait;
+        private readonly string _destinationFolder;
+        private readonly HashSet<string> _fileNamesBefore = null;
+        private readonly DefaultWait _wait;
         private string expectedFileName = null;
         private string[] fileNamesToExclude = null;
 
@@ -22,11 +22,22 @@ namespace Unicorn.Taf.Core.Utility
         /// Used in case when file name is unknown.
         /// </summary>
         /// <param name="destinationFolder">folder containing downloaded file</param>
+        /// <exception cref="DirectoryNotFoundException">is thrown when target directory does not exist</exception>
         public FileAllocator(string destinationFolder) : this()
         {
-            this.destinationFolder = destinationFolder;
-            this.fileNamesBefore = GetFileNamesFromDestinationFolder();
-            this.wait.ErrorMessage = "File was not appeared in time or properly allocated";
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
+            if (!Directory.Exists(destinationFolder))
+            {
+                throw new DirectoryNotFoundException($"Targer directory '{destinationFolder}' does not exist.");
+            }
+
+            _destinationFolder = destinationFolder;
+            _fileNamesBefore = GetFileNamesFromDestinationFolder();
+            _wait.ErrorMessage = "File was not appeared in time or properly allocated";
         }
 
         /// <summary>
@@ -34,11 +45,27 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="destinationFolder">folder containing downloaded file</param>
         /// <param name="expectedFileName">file name to wait for</param>
+        /// <exception cref="DirectoryNotFoundException">is thrown when target directory does not exist</exception>
         public FileAllocator(string destinationFolder, string expectedFileName) : this()
         {
-            this.destinationFolder = destinationFolder;
+            if (destinationFolder == null)
+            {
+                throw new ArgumentNullException(nameof(destinationFolder));
+            }
+
+            if (expectedFileName == null)
+            {
+                throw new ArgumentNullException(nameof(expectedFileName));
+            }
+
+            if (!Directory.Exists(destinationFolder))
+            {
+                throw new DirectoryNotFoundException($"Targer directory '{destinationFolder}' does not exist.");
+            }
+
+            _destinationFolder = destinationFolder;
             this.expectedFileName = expectedFileName;
-            this.wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";
+            _wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";
         }
 
         /// <summary>
@@ -47,7 +74,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         protected FileAllocator()
         {
-            this.wait = new DefaultWait
+            _wait = new DefaultWait
             {
                 PollingInterval = TimeSpan.FromMilliseconds(500)
             };
@@ -63,26 +90,37 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="fileNames">array of file names endings</param>
         public void ExcludeFileNames(params string[] fileNames) =>
-            this.fileNamesToExclude = fileNames;
+            fileNamesToExclude = fileNames;
+
+        /// <summary>
+        /// Wait for file to appear in filesystem.
+        /// </summary>
+        /// <param name="timeout">timeout to wait for file appearance</param>
+        /// <returns>desired file name string</returns>
+        /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
+        public string WaitForFileToAppear(TimeSpan timeout) => WaitForFile(timeout);
 
         /// <summary>
         /// Wait for file to be downloaded.
         /// </summary>
         /// <param name="timeout">timeout to wait for download</param>
         /// <returns>downloaded file name string</returns>
-        /// <exception cref="FileNotFoundException">thrown if more than one file matches search criteria</exception> 
-        public string WaitForFileToBeDownloaded(TimeSpan timeout)
+        /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
+        [Obsolete("please use " + nameof(WaitForFileToAppear) + "instead")]
+        public string WaitForFileToBeDownloaded(TimeSpan timeout) => WaitForFile(timeout);
+
+        private string WaitForFile(TimeSpan timeout)
         {
-            this.wait.Timeout = timeout;
+            _wait.Timeout = timeout;
 
             if (!string.IsNullOrEmpty(expectedFileName))
             {
-                this.wait.Until(ExpectedFileExists);
+                _wait.Until(ExpectedFileExists);
             }
             else
             {
-                this.wait.Until(FileIsAllocated);
-                fileNamesBefore?.Clear();
+                _wait.Until(FileIsAllocated);
+                _fileNamesBefore?.Clear();
             }
 
             return expectedFileName;
@@ -94,7 +132,7 @@ namespace Unicorn.Taf.Core.Utility
             var currentFiles = GetFileNamesFromDestinationFolder();
 
             // Filter out files existed already before downloading.s
-            currentFiles.ExceptWith(fileNamesBefore);
+            currentFiles.ExceptWith(_fileNamesBefore);
 
             // If there are files to exclude specified, 
             // filter out all files which names end with exclusions list.
@@ -110,9 +148,9 @@ namespace Unicorn.Taf.Core.Utility
                 currentFiles.ExceptWith(listToExclude);
             }
 
-            if (!string.IsNullOrEmpty(this.ExpectedFileNamePart))
+            if (!string.IsNullOrEmpty(ExpectedFileNamePart))
             {
-                var notMatchingFiles = currentFiles.Where(f => !f.Contains(this.ExpectedFileNamePart));
+                var notMatchingFiles = currentFiles.Where(f => !f.Contains(ExpectedFileNamePart));
                 currentFiles.ExceptWith(notMatchingFiles);
             }
 
@@ -130,14 +168,20 @@ namespace Unicorn.Taf.Core.Utility
             return true;
         }
 
-        private bool ExpectedFileExists() => 
-            File.Exists(expectedFileName);
+        private bool ExpectedFileExists()
+        {
+            var file = Path.IsPathRooted(expectedFileName) ? 
+                expectedFileName : 
+                Path.Combine(_destinationFolder, expectedFileName);
+
+            return File.Exists(file);
+        }
 
         /// <summary>
         /// Find all files in destination directory.
         /// </summary>
         /// <returns>set of files names</returns>
         private HashSet<string> GetFileNamesFromDestinationFolder() =>
-            new HashSet<string>(Directory.GetFiles(this.destinationFolder));
+            new HashSet<string>(Directory.GetFiles(_destinationFolder));
     }
 }

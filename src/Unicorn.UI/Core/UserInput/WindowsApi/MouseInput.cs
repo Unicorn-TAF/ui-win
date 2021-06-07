@@ -7,21 +7,21 @@ namespace Unicorn.UI.Core.UserInput.WindowsApi
     [StructLayout(LayoutKind.Sequential)]
     internal struct MouseInput
     {
-        private readonly int dx;
-        private readonly int dy;
-        private readonly int mouseData;
-        private readonly int flags;
-        private readonly int time;
-        private readonly IntPtr extraInfo;
+        private readonly int _dx;
+        private readonly int _dy;
+        private readonly int _mouseData;
+        private readonly int _flags;
+        private readonly int _time;
+        private readonly IntPtr _extraInfo;
 
-        public MouseInput(int flags, IntPtr extraInfo)
+        internal MouseInput(int flags, IntPtr extraInfo)
         {
-            this.flags = flags;
-            this.extraInfo = extraInfo;
-            this.dx = 0;
-            this.dy = 0;
-            this.time = 0;
-            this.mouseData = 0;
+            _flags = flags;
+            _extraInfo = extraInfo;
+            _dx = 0;
+            _dy = 0;
+            _time = 0;
+            _mouseData = 0;
         }
     }
 }

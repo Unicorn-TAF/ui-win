@@ -5,27 +5,27 @@
     /// </summary>
     public static class Logger
     {
-        private static ILogger instance;
+        private static ILogger _instance;
 
         /// <summary>
-        /// Gets framework logger instance (default logger is <see cref="DefaultLogger"/>).
+        /// Gets or sets framework logger instance (default logger is <see cref="DefaultLogger"/>).
         /// </summary>
         public static ILogger Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new DefaultLogger();
-                    instance.Log(LogLevel.Info, "Default console logger is initialized");
+                    _instance = new DefaultLogger();
+                    _instance.Log(LogLevel.Info, "Default console logger is initialized");
                 }
                     
-                return instance;
+                return _instance;
             }
 
             set
             {
-                instance = value;
+                _instance = value;
             }
         }
 

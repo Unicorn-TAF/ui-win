@@ -3,10 +3,13 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Core.Controls
 {
+    /// <summary>
+    /// Interface for UI control.
+    /// </summary>
     public interface IControl
     {
         /// <summary>
-        /// Gets or sets value indicating if control is cached (cached control is searched for each time when it's called).
+        /// Gets or sets a value indicating whether control is cached (cached control is searched for each time when it's called).
         /// </summary>
         bool Cached { get; set; }
 
@@ -23,7 +26,7 @@ namespace Unicorn.UI.Core.Controls
         #region "Props"
 
         /// <summary>
-        /// Gets value indicating if control is visible on screen.
+        /// Gets a value indicating whether control is visible on screen.
         /// </summary>
         bool Visible
         {
@@ -31,7 +34,7 @@ namespace Unicorn.UI.Core.Controls
         }
 
         /// <summary>
-        /// Gets value indicating if control is enabled.
+        /// Gets a value indicating whether control is enabled.
         /// </summary>
         bool Enabled
         {

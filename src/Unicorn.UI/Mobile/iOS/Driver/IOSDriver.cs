@@ -6,35 +6,35 @@ using OpenQA.Selenium.Remote;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
-namespace Unicorn.UI.Mobile.IOS.Driver
+namespace Unicorn.UI.Mobile.Ios.Driver
 {
-    public class IOSDriver : IOSSearchContext, IDriver
+    public class IosDriver : IosSearchContext, IDriver
     {
-        private static DesiredCapabilities capabilities = null;
-        private static Uri uri = null;
-        private static bool needInit = false;
-        private static IOSDriver instance = null;
+        private static DesiredCapabilities _capabilities = null;
+        private static Uri _uri = null;
+        private static bool _needInit = false;
+        private static IosDriver _instance = null;
 
-        private IOSDriver()
+        private IosDriver()
         {
-            Driver = new IOSDriver<IOSElement>(uri, capabilities, TimeSpan.FromSeconds(120));
-            this.ImplicitlyWait = TimeoutDefault;
+            Driver = new IOSDriver<IOSElement>(_uri, _capabilities, TimeSpan.FromSeconds(120));
+            ImplicitlyWait = TimeoutDefault;
         }
 
-        public static IOSDriver Instance
+        public static IosDriver Instance
         {
             get
             {
-                if (instance == null || needInit)
+                if (_instance == null || _needInit)
                 {
-                    instance = new IOSDriver();
-                    instance.SearchContext = Driver.FindElementByXPath(".//*");
-                    needInit = false;
-                    Logger.Instance.Log(LogLevel.Info, instance.SearchContext.TagName);
+                    _instance = new IosDriver();
+                    _instance.SearchContext = Driver.FindElementByXPath(".//*");
+                    _needInit = false;
+                    Logger.Instance.Log(LogLevel.Info, _instance.SearchContext.TagName);
                     Logger.Instance.Log(LogLevel.Debug, $"iOSDriver initialized");
                 }
 
-                return instance;
+                return _instance;
             }
         }
 
@@ -55,17 +55,17 @@ namespace Unicorn.UI.Mobile.IOS.Driver
 
         public static void Init(string url, Dictionary<string, string> capabilitiesList = null)
         {
-            needInit = true;
-            uri = new Uri(url);
+            _needInit = true;
+            _uri = new Uri(url);
 
-            capabilities = null;
+            _capabilities = null;
             if (capabilitiesList != null)
             {
-                capabilities = new DesiredCapabilities();
+                _capabilities = new DesiredCapabilities();
 
                 foreach (string key in capabilitiesList.Keys)
                 {
-                    capabilities.SetCapability(key, capabilitiesList[key]);
+                    _capabilities.SetCapability(key, capabilitiesList[key]);
                 }
             }
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
@@ -15,10 +14,29 @@ namespace Unicorn.Taf.Core.Testing
     /// </summary>
     public enum SuiteMethodType
     {
+        /// <summary>
+        /// Method executed before all suite tests.
+        /// </summary>
         BeforeSuite,
+
+        /// <summary>
+        /// Method executed before each suite test.
+        /// </summary>
         BeforeTest,
+
+        /// <summary>
+        /// Method executed after each suite test.
+        /// </summary>
         AfterTest,
+
+        /// <summary>
+        /// Method executed after all suite tests.
+        /// </summary>
         AfterSuite,
+
+        /// <summary>
+        /// Test itself.
+        /// </summary>
         Test
     }
 
@@ -29,6 +47,8 @@ namespace Unicorn.Taf.Core.Testing
     /// </summary>
     public class SuiteMethod
     {
+        private const string NoAuthor = "No author";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SuiteMethod"/> class, which is part of some TestSuite.
         /// Contains list of events related to different Test states (started, finished, skipped, passed, failed)
@@ -37,23 +57,23 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="testMethod">MethodInfo instance which represents test method</param>
         public SuiteMethod(MethodInfo testMethod)
         {
-            this.TestMethod = testMethod;
-            this.Outcome = new TestOutcome
+            TestMethod = testMethod;
+            Outcome = new TestOutcome
             {
                 FullMethodName = AdapterUtilities.GetFullTestMethodName(testMethod),
             };
 
-            var testAttribute = this.TestMethod
+            var testAttribute = TestMethod
                 .GetCustomAttribute(typeof(TestAttribute), true) as TestAttribute;
 
-            var authorAttribute = this.TestMethod
+            var authorAttribute = TestMethod
                 .GetCustomAttribute(typeof(AuthorAttribute), true) as AuthorAttribute;
 
-            this.Outcome.Author = authorAttribute == null ? "No author" : authorAttribute.Author;
-            this.Outcome.Id = AdapterUtilities.GuidFromString(this.Outcome.FullMethodName);
+            Outcome.Author = authorAttribute == null ? NoAuthor : authorAttribute.Author;
+            Outcome.Id = AdapterUtilities.GuidFromString(Outcome.FullMethodName);
 
-            this.Outcome.Title = string.IsNullOrEmpty(testAttribute?.Title) ?
-                this.TestMethod.Name :
+            Outcome.Title = string.IsNullOrEmpty(testAttribute?.Title) ?
+                TestMethod.Name :
                 testAttribute.Title;
         }
 
@@ -61,6 +81,7 @@ namespace Unicorn.Taf.Core.Testing
         /// Delegate used for suite method events invocation
         /// </summary>
         /// <param name="suiteMethod">current <see cref="SuiteMethod"/> instance</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void UnicornSuiteMethodEvent(SuiteMethod suiteMethod);
 
         /// <summary>
@@ -82,11 +103,6 @@ namespace Unicorn.Taf.Core.Testing
         /// Event is invoked on suite method fail (<see cref="OnSuiteMethodFinish"/> will be invoked anyway)
         /// </summary>
         public static event UnicornSuiteMethodEvent OnSuiteMethodFail;
-
-        /// <summary>
-        /// Gets current log in for of <see cref="StringBuilder"/>
-        /// </summary>
-        public static StringBuilder LogOutput { get; } = new StringBuilder();
 
         /// <summary>
         /// Gets or sets current test outcome, contains base information about execution results
@@ -116,17 +132,17 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== {this.MethodType} '{this.Outcome.Title}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== {MethodType} '{Outcome.Title}' ==========");
 
             try
             {
                 OnSuiteMethodStart?.Invoke(this);
-                this.RunSuiteMethod(suiteInstance);
+                RunSuiteMethod(suiteInstance);
             }
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnSuiteMethodStart event invoke" + Environment.NewLine + ex);
-                this.Fail(ex.InnerException);
+                Fail(ex.InnerException);
             }
             finally
             {
@@ -140,7 +156,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"{this.MethodType} {Outcome.Result}");
+            Logger.Instance.Log(LogLevel.Info, $"{MethodType} {Outcome.Result}");
         }
 
         /// <summary>
@@ -152,29 +168,28 @@ namespace Unicorn.Taf.Core.Testing
         {
             Logger.Instance.Log(LogLevel.Error, ex.ToString());
 
-            this.Outcome.Exception = ex;
-            this.Outcome.Result = Status.Failed;
+            Outcome.Exception = ex;
+            Outcome.Result = Status.Failed;
         }
 
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
-            LogOutput.Clear();
-            this.Outcome.StartTime = DateTime.Now;
-            this.TestTimer = Stopwatch.StartNew();
+            Outcome.StartTime = DateTime.Now;
+            TestTimer = Stopwatch.StartNew();
 
             try
             {
                 var testTask = Task.Run(() =>
                 {
-                    this.TestMethod.Invoke(suiteInstance, null);
+                    TestMethod.Invoke(suiteInstance, null);
                 });
 
                 if (!testTask.Wait(Config.TestTimeout))
                 {
-                    throw new TestTimeoutException($"{this.MethodType} timeout ({Config.TestTimeout}) reached");
+                    throw new TestTimeoutException($"{MethodType} timeout ({Config.TestTimeout}) reached");
                 }
                 
-                this.Outcome.Result = Status.Passed;
+                Outcome.Result = Status.Passed;
 
                 try
                 {
@@ -187,7 +202,7 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                this.Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
+                Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
 
                 try
                 {
@@ -199,10 +214,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            this.TestTimer.Stop();
-            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
-            this.Outcome.Output = LogOutput.ToString();
-            LogOutput.Clear();
+            TestTimer.Stop();
+            Outcome.ExecutionTime = TestTimer.Elapsed;
         }
     }
 }

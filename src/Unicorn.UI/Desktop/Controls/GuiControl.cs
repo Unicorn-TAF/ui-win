@@ -4,6 +4,7 @@ using System.Windows.Automation;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.UserInput;
 using Unicorn.UI.Desktop.Driver;
 
@@ -15,23 +16,23 @@ namespace Unicorn.UI.Desktop.Controls
     public abstract class GuiControl : GuiSearchContext, IControl
     {
         /// <summary>
-        /// Initializes new instance of <see cref="GuiControl"/>
+        /// Initializes a new instance of the <see cref="GuiControl"/> class.
         /// </summary>
         protected GuiControl()
         {
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="GuiControl"/> with wraps specific <see cref="AutomationElement"/>
+        /// Initializes a new instance of the <see cref="GuiControl"/> class with wraps specific <see cref="AutomationElement"/>
         /// </summary>
         /// <param name="instance"><see cref="AutomationElement"/> instance to wrap</param>
         protected GuiControl(AutomationElement instance)
         {
-            this.Instance = instance;
+            Instance = instance;
         }
 
         /// <summary>
-        /// Gets or sets value indicating if need to cache the control.
+        /// Gets or sets a value indicating whether need to cache the control.
         /// Cached control is not searched for on each next call. Not cached control is searched each time (as PageObject control).
         /// </summary>
         public bool Cached { get; set; } = true;
@@ -57,35 +58,36 @@ namespace Unicorn.UI.Desktop.Controls
         public abstract ControlType UiaType { get; }
 
         /// <summary>
-        /// Gets or sests control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
+        /// Gets or sets control wrapped instance as <see cref="AutomationElement"/> which is also current search context.
         /// </summary>
-        public virtual AutomationElement Instance
+        public AutomationElement Instance
         {
             get
             {
-                return this.SearchContext;
+                return SearchContext;
             }
 
             set
             {
-                this.SearchContext = value;
+                SearchContext = value;
+                ContainerFactory.InitContainer(this);
             }
         }
 
         /// <summary>
         /// Gets control text.
         /// </summary>
-        public string Text =>
-            this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
+        public virtual string Text =>
+            Instance.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
 
         /// <summary>
-        /// Gets value indicating if control is enabled in UI.
+        /// Gets a value indicating whether control is enabled in UI.
         /// </summary>
         public bool Enabled =>
-            (bool)this.Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
+            (bool)Instance.GetCurrentPropertyValue(AutomationElement.IsEnabledProperty);
 
         /// <summary>
-        /// Gets value indicating if control is visible (not is Offscreen)
+        /// Gets a value indicating whether control is visible (not is Off-screen)
         /// </summary>
         public bool Visible
         {
@@ -93,7 +95,7 @@ namespace Unicorn.UI.Desktop.Controls
             {
                 try
                 {
-                    return !this.Instance.Current.IsOffscreen;
+                    return !Instance.Current.IsOffscreen;
                 }
                 catch (ElementNotAvailableException)
                 {
@@ -106,13 +108,20 @@ namespace Unicorn.UI.Desktop.Controls
         /// Gets control location as <see cref="Point"/>
         /// </summary>
         public System.Drawing.Point Location =>
-            new System.Drawing.Point(this.BoundingRectangle.Location.X, this.BoundingRectangle.Location.Y);
+            new System.Drawing.Point(BoundingRectangle.Location.X, BoundingRectangle.Location.Y);
 
         /// <summary>
         /// Gets control bounding rectangle as <see cref="System.Drawing.Rectangle"/>
         /// </summary>
-        public System.Drawing.Rectangle BoundingRectangle =>
-            (System.Drawing.Rectangle)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
+        public System.Drawing.Rectangle BoundingRectangle
+        {
+            get
+            {
+                var rect = Instance.Current.BoundingRectangle;
+                return new System.Drawing.Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+            }
+        }
+            
 
         /// <summary>
         /// Gets or sets control search context. 
@@ -122,9 +131,9 @@ namespace Unicorn.UI.Desktop.Controls
         {
             get
             {
-                if (!this.Cached)
+                if (!Cached)
                 {
-                    base.SearchContext = GetNativeControlFromParentContext(this.Locator, this.GetType());
+                    base.SearchContext = GetNativeControlFromParentContext(Locator, GetType());
                 }
 
                 return base.SearchContext;
@@ -140,19 +149,13 @@ namespace Unicorn.UI.Desktop.Controls
         /// Gets control attribute value as <see cref="string"/>
         /// </summary>
         /// <param name="attribute">attribute name</param>
-        /// <returns></returns>
+        /// <returns>control attribute value as string</returns>
         public string GetAttribute(string attribute)
         {
             switch (attribute.ToLower())
             {
                 case "class":
-                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.ClassNameProperty);
-                case "text":
-                    return (string)this.Instance.GetCurrentPropertyValue(AutomationElement.NameProperty);
-                case "enabled":
-                    return this.Enabled.ToString();
-                case "visible":
-                    return this.Visible.ToString();
+                    return (string)Instance.GetCurrentPropertyValue(AutomationElement.ClassNameProperty);
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
@@ -171,13 +174,13 @@ namespace Unicorn.UI.Desktop.Controls
 
             try
             {
-                if (this.Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
+                if (Instance.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
                 {
                     ((InvokePattern)pattern).Invoke();
                 }
                 else
                 {
-                    ((TogglePattern)this.Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
+                    ((TogglePattern)Instance.GetCurrentPattern(TogglePattern.Pattern)).Toggle();
                 }
             }
             catch
@@ -187,68 +190,62 @@ namespace Unicorn.UI.Desktop.Controls
         }
 
         /// <summary>
-        /// Performs mouse click on the control by it's coordinates on screen.
+        /// Performs mouse click on the control on its clickable coordinates. If no such, click on center of control.
         /// </summary>
         public void MouseClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
-            Point point;
-            if (!this.Instance.TryGetClickablePoint(out point))
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                point = rect.TopLeft;
-                point.Offset(pt.X, pt.Y);
-            }
-
+            var point = GetClickablePoint();
             Mouse.Instance.Click(point);
         }
 
         /// <summary>
-        /// Performs right click by mouse on the control by it's coordinates on screen.
+        /// Performs right click by mouse on the control on its clickable coordinates. If no such, click on center of control..
         /// </summary>
         public void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            Point point;
-            if (!this.Instance.TryGetClickablePoint(out point))
-            {
-                Point pt = new Point(3, 3);
-                var rect = (Rect)this.Instance.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty);
-                point = rect.TopLeft;
-                point.Offset(pt.X, pt.Y);
-            }
-
+            var point = GetClickablePoint();
             Mouse.Instance.RightClick(point);
         }
 
         /// <summary>
         /// Gets parent control as <see cref="AutomationElement"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>parent of the control as <see cref="AutomationElement"/></returns>
         public AutomationElement GetParent() =>
-            TreeWalker.ControlViewWalker.GetParent(this.Instance);
+            TreeWalker.ControlViewWalker.GetParent(Instance);
 
         /// <summary>
         /// Gets string description of the control.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>control description as string</returns>
         public override string ToString() => 
-            string.IsNullOrEmpty(this.Name) ? $"{this.GetType().Name} [{this.Locator?.ToString()}]" : this.Name;
+            string.IsNullOrEmpty(Name) ? 
+            $"{GetType().Name} [{Locator?.ToString()}]" : 
+            Name;
 
         #region "Helpers"
 
-        /// <summary>
-        /// Get pattern of the specified type from the control.
-        /// </summary>
-        /// <typeparam name="T">pattern type</typeparam>
-        /// <returns></returns>
-        protected T GetPattern<T>() where T : BasePattern
+        private Point GetClickablePoint()
         {
-            var pattern = (AutomationPattern)typeof(T).GetField("Pattern").GetValue(null);
-            object patternObject;
-            this.Instance.TryGetCurrentPattern(pattern, out patternObject);
-            return patternObject as T;
+            if (!Visible)
+            {
+                throw new ControlInvalidStateException("Control is not visible, other control will receive the mouse click.");
+            }
+
+            Point point;
+
+            if (!Instance.TryGetClickablePoint(out point))
+            {
+                Logger.Instance.Log(LogLevel.Trace, "Clickable point is not found, clicking on center of control...");
+
+                var rect = BoundingRectangle;
+                point = new Point(rect.Left, rect.Top);
+                point.Offset(rect.Width / 2d, rect.Height / 2d);
+            }
+
+            return point;
         }
 
         #endregion

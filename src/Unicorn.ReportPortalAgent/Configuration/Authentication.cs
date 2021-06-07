@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Unicorn.ReportPortalAgent.Configuration
+﻿namespace Unicorn.ReportPortalAgent.Configuration
 {
+    /// <summary>
+    /// Report portal authentication object.
+    /// </summary>
     public class Authentication
     {
+        /// <summary>
+        /// Gets or sets RP user UUID to authenticate.
+        /// </summary>
         public string Uuid { get; set; }
     }
 }

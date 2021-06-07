@@ -79,7 +79,7 @@ namespace Unicorn.Taf.Core.Engine
         /// Get list of <see cref="DataSet"/> attached to parameterized suite
         /// </summary>
         /// <param name="suiteType"><see cref="Type"/> representing the suite</param>
-        /// <returns></returns>
+        /// <returns>collection of <see cref="DataSet"/> entries attached to suite</returns>
         public static List<DataSet> GetSuiteData(Type suiteType)
         {
             var suiteDataMethod = suiteType.GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -102,8 +102,8 @@ namespace Unicorn.Taf.Core.Engine
         /// Get list of <see cref="DataSet"/> attached to parameterized test
         /// </summary>
         /// <param name="testDataMethod">string with short name of <see cref="MethodInfo"/> returning test data</param>
-        /// <param name="suiteInstance">instance of paren <see cref="TestSuite"/></param>
-        /// <returns></returns>
+        /// <param name="suiteInstance">instance of parent <see cref="TestSuite"/></param>
+        /// <returns>list of data sets attached to the test</returns>
         public static List<DataSet> GetTestData(string testDataMethod, object suiteInstance) =>
             suiteInstance.GetType().GetMethod(testDataMethod)
                 .Invoke(suiteInstance, null) as List<DataSet>;

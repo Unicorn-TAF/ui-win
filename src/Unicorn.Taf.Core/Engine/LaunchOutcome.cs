@@ -16,11 +16,11 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         public LaunchOutcome()
         {
-            this.SuitesOutcomes = new List<SuiteOutcome>();
+            SuitesOutcomes = new List<SuiteOutcome>();
         }
 
         /// <summary>
-        /// Gets of sets value of launch start time.
+        /// Gets or sets value of launch start time.
         /// </summary>
         public DateTime StartTime { get; set; }
 
@@ -30,20 +30,21 @@ namespace Unicorn.Taf.Core.Engine
         public List<SuiteOutcome> SuitesOutcomes { get; }
 
         /// <summary>
-        /// Gets or sets value indicating if launch was initialized without errors (assembly init was executed).
+        /// Gets or sets a value indicating whether launch was initialized without errors (assembly initialization was executed).
         /// </summary>
         public bool RunInitialized { get; set; } = true;
 
         /// <summary>
         /// Gets value indicating overall tests run status
         /// </summary>
-        public Status RunStatus => this.SuitesOutcomes
-                .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !this.RunInitialized ?
-                Status.Failed :
-                Status.Passed;
+        public Status RunStatus => 
+            SuitesOutcomes
+            .Any(o => o.Result.Equals(Status.Failed) || o.Result.Equals(Status.Skipped)) || !RunInitialized ?
+            Status.Failed :
+            Status.Passed;
 
         /// <summary>
-        /// Gets value representing runner exeption in case when assembly initialization was failed.
+        /// Gets or sets value representing runner exception in case when assembly initialization was failed.
         /// </summary>
         public Exception RunnerException { get; set; } = null;
     }

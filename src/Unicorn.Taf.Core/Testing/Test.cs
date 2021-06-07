@@ -18,17 +18,17 @@ namespace Unicorn.Taf.Core.Testing
     /// </summary>
     public class Test : SuiteMethod
     {
-        private readonly DataSet dataSet;
-        private HashSet<string> categories = null;
+        private readonly DataSet _dataSet;
+        private HashSet<string> _categories = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Test"/> 
+        /// Initializes a new instance of the <see cref="Test"/> class
         /// based on actual <see cref="MethodInfo"/> with test body
         /// </summary>
         /// <param name="testMethod"><see cref="MethodInfo"/> instance which represents test method</param>
         public Test(MethodInfo testMethod) : base(testMethod)
         {
-            this.dataSet = null;
+            _dataSet = null;
         }
 
         /// <summary>
@@ -40,16 +40,17 @@ namespace Unicorn.Taf.Core.Testing
         public Test(MethodInfo testMethod, DataSet dataSet) : base(testMethod)
         {
             var postfix = $" [{dataSet.Name}]";
-            this.dataSet = dataSet;
+            _dataSet = dataSet;
 
-            this.Outcome.Title += postfix;
-            this.Outcome.Id = AdapterUtilities.GuidFromString(this.Outcome.FullMethodName + postfix);
+            Outcome.Title += postfix;
+            Outcome.Id = AdapterUtilities.GuidFromString(Outcome.FullMethodName + postfix);
         }
 
         /// <summary>
         /// Delegate used for test events invocation
         /// </summary>
         /// <param name="test">current <see cref="Test"/> instance</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void TestEvent(Test test);
 
         /// <summary>
@@ -84,16 +85,16 @@ namespace Unicorn.Taf.Core.Testing
         {
             get
             {
-                if (this.categories == null)
+                if (_categories == null)
                 {
-                    var attributes = this.TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
+                    var attributes = TestMethod.GetCustomAttributes(typeof(CategoryAttribute), true) as CategoryAttribute[];
 
-                    this.categories = new HashSet<string>(
+                    _categories = new HashSet<string>(
                         attributes.Select(a => a.Category.ToUpper().Trim())
                         .Where(c => !string.IsNullOrEmpty(c)));
                 }
 
-                return this.categories;
+                return _categories;
             }
         }
 
@@ -105,17 +106,17 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{this.Outcome.Title}' ==========");
+            Logger.Instance.Log(LogLevel.Info, $"========== TEST '{Outcome.Title}' ==========");
 
             try
             {
                 OnTestStart?.Invoke(this);
-                this.RunTestMethod(suiteInstance);
+                RunTestMethod(suiteInstance);
             }
             catch (Exception ex)
             {
                 Logger.Instance.Log(LogLevel.Warning, "Exception occured during OnTestStart event invoke" + Environment.NewLine + ex);
-                this.Skip();
+                Skip();
             }
             finally
             {
@@ -137,9 +138,9 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         public void Skip()
         {
-            this.Outcome.Result = Status.Skipped;
-            this.Outcome.StartTime = DateTime.Now;
-            this.Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
+            Outcome.Result = Status.Skipped;
+            Outcome.StartTime = DateTime.Now;
+            Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -153,15 +154,14 @@ namespace Unicorn.Taf.Core.Testing
 
         private void RunTestMethod(TestSuite suiteInstance)
         {
-            LogOutput.Clear();
-            this.Outcome.StartTime = DateTime.Now;
-            this.TestTimer = Stopwatch.StartNew();
+            Outcome.StartTime = DateTime.Now;
+            TestTimer = Stopwatch.StartNew();
 
             try
             {
                 var testTask = Task.Run(() => 
                 {
-                    this.TestMethod.Invoke(suiteInstance, this.dataSet?.Parameters.ToArray());
+                    TestMethod.Invoke(suiteInstance, _dataSet?.Parameters.ToArray());
                 });
 
                 if (!testTask.Wait(Config.TestTimeout))
@@ -169,7 +169,7 @@ namespace Unicorn.Taf.Core.Testing
                     throw new TestTimeoutException($"Test timeout ({Config.TestTimeout}) reached");
                 }
 
-                this.Outcome.Result = Status.Passed;
+                Outcome.Result = Status.Passed;
 
                 try
                 {
@@ -182,7 +182,7 @@ namespace Unicorn.Taf.Core.Testing
             }
             catch (Exception ex)
             {
-                this.Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
+                Fail(ex is TestTimeoutException ? ex : ex.InnerException.InnerException);
 
                 try
                 {
@@ -194,10 +194,8 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            this.TestTimer.Stop();
-            this.Outcome.ExecutionTime = this.TestTimer.Elapsed;
-            this.Outcome.Output = LogOutput.ToString();
-            LogOutput.Clear();
+            TestTimer.Stop();
+            Outcome.ExecutionTime = TestTimer.Elapsed;
         }
     }
 }

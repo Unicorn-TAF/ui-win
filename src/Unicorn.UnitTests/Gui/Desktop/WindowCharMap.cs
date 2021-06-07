@@ -1,12 +1,15 @@
-﻿using Unicorn.UI.Core.Driver;
+﻿using Unicorn.UI.Core.Controls.Dynamic;
+using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Desktop.Controls.Typified;
 
-namespace Unicorn.UnitTests.Gui
+namespace Unicorn.UnitTests.Gui.Desktop
 {
     public class WindowCharMap : Window
     {
+        private CopyButtonWithDefaultLocator buttonCopyDefaultLocator;
+
         [Find(Using.Name, "Copy")]
         private Button buttonCopyAsField;
 
@@ -21,6 +24,10 @@ namespace Unicorn.UnitTests.Gui
 
         [Find(Using.Name, "Advanced view")]
         public Checkbox CheckboxAdvancedView { get; set; }
+
+        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocator { get; set; }
+
+        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocatorGetter => buttonCopyDefaultLocator;
 
         #region "Advanced view"
 
@@ -38,13 +45,13 @@ namespace Unicorn.UnitTests.Gui
         [ByName("Select")] 
         public Button ButtonSelectLocatedByName { get; set; }
 
-        public Button SelectButton => this.ButtonSelect;
+        public Button SelectButton => ButtonSelect;
 
-        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+        public Button ButtonHelp => Find<Button>(ByLocator.Name("Help"));
 
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
 
-        public Button GetCopyButtonFromField() => this.buttonCopyAsField;
+        public Button GetCopyButtonFromField() => buttonCopyAsField;
     }
 }

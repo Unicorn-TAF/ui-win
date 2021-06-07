@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Rework of taf core. Added configurable tests adapter. Introduced new testing logic: parameterized tests and suites. Improved assertions and implemented Type safe matchers. Added bunch of utilities.</releaseNotes>
+    <releaseNotes>Waiter: ability to wait safely, small improvements.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation taf core tests steps verification matchers</tags>
     <dependencies>
@@ -32,6 +32,5 @@
   </metadata>
   <files>
     <file src="..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.Taf.Core.pdb" target="lib\net452"/>
   </files>
 </package>

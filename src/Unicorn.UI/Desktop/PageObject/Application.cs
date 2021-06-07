@@ -12,19 +12,19 @@ namespace Unicorn.UI.Desktop.PageObject
     /// <summary>
     /// Represents base of windows application. Contains fields related to paths, process, methods for starting and closing the application.
     /// </summary>
-    public abstract class Application : GuiContainer
+    public abstract class Application : GuiControl
     {
         /// <summary>
-        /// Initializas new instance of <see cref="Application"/> located in specified directory and with specified exe name.
+        /// Initializes a new instance of the <see cref="Application"/> class located in specified directory and with specified exe name.
         /// </summary>
         /// <param name="path">path to application</param>
         /// <param name="exeName">.exe file name</param>
         protected Application(string path, string exeName)
         {
-            this.SearchContext = GuiDriver.Instance.SearchContext;
+            SearchContext = GuiDriver.Instance.SearchContext;
             ContainerFactory.InitContainer(this);
-            this.Path = path;
-            this.ExeName = exeName;
+            Path = path;
+            ExeName = exeName;
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace Unicorn.UI.Desktop.PageObject
         /// </summary>
         public virtual void Start()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Start {this.ExeName} application");
-            this.Process = Process.Start(System.IO.Path.Combine(this.Path, this.ExeName));
+            Logger.Instance.Log(LogLevel.Debug, $"Start {ExeName} application");
+            Process = Process.Start(System.IO.Path.Combine(Path, ExeName));
         }
 
         /// <summary>
@@ -61,14 +61,14 @@ namespace Unicorn.UI.Desktop.PageObject
         /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {this.ExeName} application");
+            Logger.Instance.Log(LogLevel.Debug, $"Close {ExeName} application");
             try
             {
-                new Window(AutomationElement.FromHandle(this.Process.MainWindowHandle)).Close();
+                new Window(AutomationElement.FromHandle(Process.MainWindowHandle)).Close();
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, $"Unable to close {this.ExeName} application: {ex.Message}");
+                Logger.Instance.Log(LogLevel.Warning, $"Unable to close {ExeName} application: {ex.Message}");
             }
         }
     }

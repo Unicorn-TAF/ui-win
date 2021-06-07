@@ -18,86 +18,170 @@ namespace Unicorn.Taf.Core.Steps
     [Inject(typeof(StepsEvents))]
     public class AssertionSteps
     {
-        private ChainAssert chaninAssert = null;
+        private ChainAssert _chaninAssert = null;
 
+        /// <summary>
+        /// Step which performs assertion on object of any type using type specific matcher 
+        /// which is suitable for specified actual object type
+        /// and with specified message on fail
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <param name="errorMessage">message thrown on fail</param>
         [Step("Assert that '{0}' {1}")]
         public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher, string errorMessage) => 
             Assert.That(actual, matcher, errorMessage);
 
+        /// <summary>
+        /// Step which performs assertion on object of any type using type specific matcher 
+        /// which is suitable for specified actual object type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
         [Step("Assert that '{0}' {1}")]
         public void AssertThat<T>(T actual, TypeSafeMatcher<T> matcher) =>
             Assert.That(actual, matcher);
 
+        /// <summary>
+        /// Step which performs assertion on collection of objects of same type using matcher 
+        /// which is suitable for specified actual objects type
+        /// and with specified message on fail
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">collection of objects to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <param name="errorMessage">message thrown on fail</param>
         public void AssertThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string errorMessage) =>
             ReportedCollectionAssertThat(typeof(T).Name, matcher, actual, errorMessage);
 
+        /// <summary>
+        /// Step which performs assertion on collection of objects of same type using matcher 
+        /// which is suitable for specified actual objects type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">collection of objects to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
         public void AssertThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) =>
             ReportedCollectionAssertThat(typeof(T).Name, matcher, actual);
 
+        /// <summary>
+        /// Perform assertion on object of any type using matcher 
+        /// which is not specified by type and with specified message on fail
+        /// </summary>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
+        /// <param name="errorMessage">message thrown on fail</param>
         [Step("Assert that '{0}' {1}")]
         public void AssertThat(object actual, TypeUnsafeMatcher matcher, string errorMessage) =>
             Assert.That(actual, matcher, errorMessage);
 
+        /// <summary>
+        /// Perform assertion on object of any type using matcher 
+        /// which is not specified by type
+        /// </summary>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
         [Step("Assert that '{0}' {1}")]
         public void AssertThat(object actual, TypeUnsafeMatcher matcher) =>
             Assert.That(actual, matcher);
 
-        public AssertionSteps StartAssertionsChain()
+        /// <summary>
+        /// Initializes assertions chain.
+        /// </summary>
+        /// <returns>current assertion steps instance</returns>
+        /// <param name="description">description for following assertions</param>
+        [Step("{0}")]
+        public AssertionSteps StartAssertionsChain(string description)
         {
-            chaninAssert = new ChainAssert();
+            _chaninAssert = new ChainAssert(description);
             return this;
         }
 
+        /// <summary>
+        /// Initializes assertions chain.
+        /// </summary>
+        /// <returns>current assertion steps instance</returns>
+        public AssertionSteps StartAssertionsChain() => StartAssertionsChain(string.Empty);
+
+        /// <summary>
+        /// Step which performs soft check on object of any type using type specific matcher 
+        /// which is suitable for specified actual object type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <returns>current assertion steps instance</returns>
         [Step("Verify that '{0}' {1}")]
         public AssertionSteps VerifyThat<T>(T actual, TypeSafeMatcher<T> matcher)
         {
-            if (chaninAssert == null)
+            if (_chaninAssert == null)
             {
-                chaninAssert = new ChainAssert();
+                _chaninAssert = new ChainAssert();
             }
 
-            chaninAssert.That(actual, matcher);
+            _chaninAssert.That(actual, matcher);
             return this;
         }
 
+        /// <summary>
+        /// Step which performs soft check on object of any type using matcher 
+        /// which is not specified by type
+        /// </summary>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
+        /// <returns>current assertion steps instance</returns>
         [Step("Verify that '{0}' {1}")]
         public AssertionSteps VerifyThat(object actual, TypeUnsafeMatcher matcher)
         {
-            if (chaninAssert == null)
+            if (_chaninAssert == null)
             {
-                chaninAssert = new ChainAssert();
+                _chaninAssert = new ChainAssert();
             }
 
-            chaninAssert.That(actual, matcher);
+            _chaninAssert.That(actual, matcher);
             return this;
         }
 
+        /// <summary>
+        /// Step which performs assertion on collection of objects of same type using matcher 
+        /// which is suitable for specified actual objects type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">collection of objects to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <returns>current assertion steps instance</returns>
         public AssertionSteps VerifyThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher)
         {
-            if (chaninAssert == null)
+            if (_chaninAssert == null)
             {
-                chaninAssert = new ChainAssert();
+                _chaninAssert = new ChainAssert();
             }
 
             ReportedCollectionVerifyThat(typeof(T).Name, matcher, actual);
             return this;
         }
 
+        /// <summary>
+        /// Step which performs assertion on chain of soft asserts performed after chain initialization.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">is thrown if chain assert was not initialized</exception>
         [Step("Assert verifications chain")]
         public void AssertChain()
         {
-            if (chaninAssert == null)
+            if (_chaninAssert == null)
             {
                 throw new InvalidOperationException("There were no any verifications made. Please check scenario.");
             }
 
             try
             {
-                chaninAssert.AssertChain();
+                _chaninAssert.AssertChain();
             }
             finally
             {
-                chaninAssert = null;
+                _chaninAssert = null;
             }
         }
 
@@ -111,6 +195,6 @@ namespace Unicorn.Taf.Core.Steps
 
         [Step("Assert that collection of <{0}> {1}")]
         private void ReportedCollectionVerifyThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
-            chaninAssert.That(actual, matcher);
+            _chaninAssert.That(actual, matcher);
     }
 }

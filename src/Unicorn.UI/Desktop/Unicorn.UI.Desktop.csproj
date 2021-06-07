@@ -89,9 +89,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AutomationElementExtension.cs" />
+    <Compile Include="Controls\Typified\ToolTip.cs" />
+    <Compile Include="Controls\Typified\StatusBar.cs" />
+    <Compile Include="Controls\Typified\TreeItem.cs" />
+    <Compile Include="Controls\Typified\TreeView.cs" />
+    <Compile Include="Controls\Typified\Pane.cs" />
+    <Compile Include="Controls\Typified\ProgressBar.cs" />
+    <Compile Include="Controls\Typified\Image.cs" />
+    <Compile Include="Controls\Typified\Document.cs" />
+    <Compile Include="Controls\Typified\Custom.cs" />
+    <Compile Include="Controls\Typified\Group.cs" />
     <Compile Include="Controls\Typified\Text.cs" />
     <Compile Include="Controls\Typified\Hyperlink.cs" />
     <Compile Include="Controls\Typified\ListView.cs" />
+    <Compile Include="Controls\WindowsBase\SaveFileDialog.cs" />
+    <Compile Include="Controls\WindowsBase\OpenFileDialog.cs" />
+    <Compile Include="Controls\Typified\SplitButton.cs" />
     <Compile Include="Driver\GuiDriver.cs" />
     <Compile Include="Driver\GuiSearchContext.cs" />
     <Compile Include="PageObject\GuiControlExtension.cs" />
@@ -108,6 +122,7 @@
     <Compile Include="Controls\Typified\Window.cs" />
     <Compile Include="Controls\GuiContainer.cs" />
     <Compile Include="Controls\GuiControl.cs" />
+    <Compile Include="UiActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -15,12 +15,12 @@ namespace Unicorn.Taf.Core.Utility
     {
         private const int MaxLength = 255;
 
-        private readonly ImageFormat format;
-        private readonly string screenshotsDir;
+        private readonly ImageFormat _format;
+        private readonly string _screenshotsDir;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> with default directory.<para/>
-        /// Default dir is ".\Screenshots"
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
+        /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
         public Screenshotter() 
             : this(
@@ -31,7 +31,8 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
+        /// Directory is created automatically if it does not exist.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
@@ -40,15 +41,16 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
-        /// Initializes a new instance of the<see cref="Screenshotter"/> based on specified directory and image format.
+        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
+        /// Directory is created automatically if it does not exist.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
         /// <param name="subscribeToEvents">true - if need to subscribe to unicorn events; otherwise - false</param>
         public Screenshotter(string screenshotsDir, ImageFormat format, bool subscribeToEvents)
         {
-            this.format = format;
-            this.screenshotsDir = screenshotsDir;
+            _format = format;
+            _screenshotsDir = screenshotsDir;
 
             if (!Directory.Exists(screenshotsDir))
             {
@@ -67,7 +69,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         /// <param name="folder">folder to save screenshot to</param>
         /// <param name="fileName">screenshot file name without extension</param>
-        /// <returns></returns>
+        /// <returns>path to the screenshot file</returns>
         public string TakeScreenshot(string folder, string fileName)
         {
             var printScreen = GetScreenshot();
@@ -87,9 +89,9 @@ namespace Unicorn.Taf.Core.Utility
                     filePath = filePath.Substring(0, MaxLength - 1) + "~";
                 }
 
-                filePath += "." + format;
+                filePath += "." + _format;
 
-                printScreen.Save(filePath, format);
+                printScreen.Save(filePath, _format);
                 return filePath;
             }
             catch (Exception e)
@@ -103,8 +105,8 @@ namespace Unicorn.Taf.Core.Utility
         /// Take screenshot with specified name and save to screenshots directory.
         /// </summary>
         /// <param name="fileName">screenshot file name without extension</param>
-        /// <returns></returns>
-        public string TakeScreenshot(string fileName) => TakeScreenshot(screenshotsDir, fileName);
+        /// <returns>path to the screenshot file</returns>
+        public string TakeScreenshot(string fileName) => TakeScreenshot(_screenshotsDir, fileName);
 
         /// <summary>
         /// Unsubscribe from Unicorn events.
@@ -136,7 +138,13 @@ namespace Unicorn.Taf.Core.Utility
             }
         }
 
-        private void TakeScreenshot(SuiteMethod suiteMethod) =>
-            suiteMethod.Outcome.Screenshot = this.TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+        private void TakeScreenshot(SuiteMethod suiteMethod)
+        {
+            var mime = "image/" + _format.ToString().ToLowerInvariant();
+            var screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+
+            suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
+        }
+            
     }
 }

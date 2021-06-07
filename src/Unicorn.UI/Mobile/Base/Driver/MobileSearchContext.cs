@@ -7,14 +7,14 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Base.Driver
 {
-    public abstract class MobileSearchContext : UISearchContext<MobileSearchContext>
+    public abstract class MobileSearchContext : BaseSearchContext<MobileSearchContext>
     {
         protected virtual AppiumWebElement SearchContext { get; set; }
 
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             AppiumWebElement elementToWrap = GetNativeControl(locator);
-            return this.Wrap<T>(elementToWrap, locator);
+            return Wrap<T>(elementToWrap, locator);
         }
 
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
@@ -24,7 +24,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
             foreach (var elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap, null));
+                controlsList.Add(Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -33,17 +33,17 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.WebXpath, "./*"))[0];
-            return this.Wrap<T>(elementToWrap, null);
+            return Wrap<T>(elementToWrap, null);
         }
 
         protected AppiumWebElement GetNativeControl(ByLocator locator)
         {
-            return GetNativeControlFromContext(locator, this.SearchContext);
+            return GetNativeControlFromContext(locator, SearchContext);
         }
 
         protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator)
         {
-            return GetNativeControlFromContext(locator, this.ParentSearchContext.SearchContext);
+            return GetNativeControlFromContext(locator, ParentSearchContext.SearchContext);
         }
 
         protected IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
@@ -52,7 +52,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
 
             try
             {
-                IList<AppiumWebElement> nativeControls = this.SearchContext.FindElements(by);
+                IList<AppiumWebElement> nativeControls = SearchContext.FindElements(by);
                 return nativeControls;
             }
             catch (NoSuchElementException)

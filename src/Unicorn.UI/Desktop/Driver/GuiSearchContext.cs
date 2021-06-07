@@ -10,9 +10,9 @@ using Unicorn.UI.Desktop.Controls;
 namespace Unicorn.UI.Desktop.Driver
 {
     /// <summary>
-    /// Describes search context for desktop gui controls. Contains variety of methods to search and wait for controls of specified type from current context.
+    /// Describes search context for windows controls. Contains variety of methods to search and wait for controls of specified type from current context.
     /// </summary>
-    public abstract class GuiSearchContext : UISearchContext<GuiSearchContext>
+    public abstract class GuiSearchContext : BaseSearchContext<GuiSearchContext>
     {
         private const int SearchDelay = 50;
 
@@ -38,11 +38,11 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns>wrapped control instance</returns>
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             var elementToWrap = GetNativeControl<T>(locator);
-            return this.Wrap<T>(elementToWrap, locator);
+            return Wrap<T>(elementToWrap, locator);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns>wrapped controls list</returns>
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
             var elementsToWrap = GetNativeControlsList<T>(locator);
@@ -58,7 +58,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             foreach (AutomationElement elementToWrap in elementsToWrap)
             {
-                controlsList.Add(this.Wrap<T>(elementToWrap, null));
+                controlsList.Add(Wrap<T>(elementToWrap, null));
             }
 
             return controlsList;
@@ -68,7 +68,7 @@ namespace Unicorn.UI.Desktop.Driver
         /// Get first child from current context which has specified control type ignoring implicitly wait timeout.
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
-        /// <returns></returns>
+        /// <returns>wrapped control instance</returns>
         protected override T GetFirstChildWrappedControl<T>()
         {
             GuiControl instance = (GuiControl)Activator.CreateInstance(typeof(T));
@@ -78,14 +78,14 @@ namespace Unicorn.UI.Desktop.Driver
                GetControlTypeCondition(instance.UiaType));
 
             var walker = new TreeWalker(condition);
-            var elementToWrap = walker.GetFirstChild(this.SearchContext);
+            var elementToWrap = walker.GetFirstChild(SearchContext);
 
             if (elementToWrap == null)
             {
                 throw new ControlNotFoundException($"Unable to find child {typeof(T)}");
             }
 
-            return this.Wrap<T>(elementToWrap, null);
+            return Wrap<T>(elementToWrap, null);
         }
 
         /// <summary>
@@ -93,23 +93,23 @@ namespace Unicorn.UI.Desktop.Driver
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="GuiControl"/></typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns></returns>
+        /// <returns><see cref="AutomationElement"/> instance</returns>
         protected AutomationElement GetNativeControl<T>(ByLocator locator) =>
-            GetNativeControlFromContext(locator, typeof(T), this.SearchContext);
+            GetNativeControlFromContext(locator, typeof(T), SearchContext);
 
         /// <summary>
         /// Get control instance from parent context as UIA <see cref="AutomationElement"/>.
         /// </summary>
         /// <param name="locator">locator to search by</param>
         /// <param name="type">control type</param>
-        /// <returns></returns>
+        /// <returns><see cref="AutomationElement"/> instance</returns>
         protected AutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type) =>
-            GetNativeControlFromContext(locator, type, this.ParentSearchContext.SearchContext);
+            GetNativeControlFromContext(locator, type, ParentSearchContext.SearchContext);
 
         /// <summary>
         /// Set current implicitly wait timeout value.
         /// </summary>
-        /// <param name="timeout"></param>
+        /// <param name="timeout">new implicit timeout value</param>
         protected override void SetImplicitlyWait(TimeSpan timeout) =>
             ImplicitlyWaitTimeout = timeout;
 
@@ -134,7 +134,7 @@ namespace Unicorn.UI.Desktop.Driver
 
             if (control == null)
             {
-                throw new ControlNotFoundException($"Unable to find control by {locator}");
+                throw new ControlNotFoundException($"Unable to find '{type.Name}' by {locator}");
             }
 
             return control;
@@ -143,7 +143,7 @@ namespace Unicorn.UI.Desktop.Driver
         private AutomationElementCollection GetNativeControlsList<T>(ByLocator locator)
         {
             Condition condition = GetNativeLocator(locator, typeof(T));
-            AutomationElementCollection wrappedElements = this.SearchContext.FindAll(TreeScope.Descendants, condition);
+            AutomationElementCollection wrappedElements = SearchContext.FindAll(TreeScope.Descendants, condition);
             return wrappedElements;
         }
 
