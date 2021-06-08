@@ -15,20 +15,38 @@ namespace Unicorn.Backend.Services.RestService
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.
         /// </summary>
-        /// <param name="baseUrl">service base url</param>
-        public RestClient(string baseUrl) : this(baseUrl, null)
+        /// <param name="baseUri">service base url</param>
+        public RestClient(string baseUri) : this(new Uri(baseUri), null)
         {
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.
+        /// </summary>
+        /// <param name="baseUri">service base url</param>
+        public RestClient(Uri baseUri) : this(baseUri, null)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class with service base url 
         /// based on existing session.
         /// </summary>
         /// <param name="baseUri">service base uri</param>
         /// <param name="session">existing service session</param>
-        public RestClient(string baseUri, IServiceSession session)
+        public RestClient(string baseUri, IServiceSession session) : this(new Uri(baseUri), session)
         {
-            BaseUri = new Uri(baseUri);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url 
+        /// based on existing session.
+        /// </summary>
+        /// <param name="baseUri">service base uri</param>
+        /// <param name="session">existing service session</param>
+        public RestClient(Uri baseUri, IServiceSession session)
+        {
+            BaseUri = baseUri;
             Session = session;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
@@ -36,7 +54,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class.
         /// </summary>
-        public RestClient() : this(null, null)
+        public RestClient() : this((Uri)null, null)
         {
         }
 
