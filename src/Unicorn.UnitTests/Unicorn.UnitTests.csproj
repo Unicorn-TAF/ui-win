@@ -113,6 +113,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationClient" />
     <Reference Include="WebDriver, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -157,6 +158,7 @@
     <Compile Include="Suites\USuiteForReporting.cs" />
     <Compile Include="Suites\USuiteToBeSkipped.cs" />
     <Compile Include="Suites\UTestsAssembly.cs" />
+    <Compile Include="UnitTests\RestMatchersTests.cs" />
     <Compile Include="UnitTests\Testing\ParameterizedTestSuiteWithNoData.cs" />
     <Compile Include="UnitTests\Testing\StepsFeature.cs" />
     <Compile Include="UnitTests\Testing\ReadConfigurationFromFile.cs" />
@@ -192,6 +194,10 @@
     <Compile Include="Util\TestContextLogger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Unicorn.Backend\Unicorn.Backend.csproj">
+      <Project>{6ADBE5D2-D96C-4694-AEF6-24206155DFC3}</Project>
+      <Name>Unicorn.Backend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
       <Project>{dde87224-bff6-4abd-879e-1c5316124536}</Project>
       <Name>Unicorn.Taf.Core</Name>

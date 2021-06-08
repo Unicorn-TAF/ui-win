@@ -43,8 +43,15 @@ namespace Unicorn.Backend.Matchers.RestMatchers
                 return Reverse;
             }
 
-            var hasChild = actual.AsJObject.SelectTokens(_tokensJsonPath)
-                .All(t => t.SelectTokens($"$.{_expectedChild}").Any());
+            var tokens = actual.AsJObject.SelectTokens(_tokensJsonPath);
+
+            if (!tokens.Any())
+            {
+                DescribeMismatch("no tokens found by specified JSONPath");
+                return Reverse;
+            }
+
+            var hasChild = tokens.All(t => t.SelectTokens($"$.{_expectedChild}").Any());
 
             DescribeMismatch(actual.Content);
             return hasChild;

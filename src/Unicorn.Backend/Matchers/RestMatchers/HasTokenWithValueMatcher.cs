@@ -45,8 +45,26 @@ namespace Unicorn.Backend.Matchers.RestMatchers
                 return Reverse;
             }
 
-            var hasMatch = actual.AsJObject.SelectTokens(_jsonPath)
-                .Any(t => t.Value<T>().Equals(_tokenValue));
+            bool hasMatch;
+            JToken response;
+
+            if (actual.Content.StartsWith("["))
+            {
+                response = JArray.Parse(actual.Content);
+            }
+            else
+            {
+                response = actual.AsJObject;
+            }
+
+            if (_tokenValue.Equals("null"))
+            {
+                hasMatch = string.IsNullOrEmpty((string)response.SelectToken(_jsonPath));
+                return hasMatch;
+            }
+
+            var castedValues = response.SelectTokens(_jsonPath).Select(t => t.Value<T>());
+            hasMatch = castedValues.Any(value => value.Equals(_tokenValue));
 
             DescribeMismatch(actual.Content);
             return hasMatch;
