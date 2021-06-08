@@ -11,14 +11,14 @@
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
     <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>Unicorn.Backend is test automation framework extension which provides ready for use realization of interaction with backend.</summary>
+    <summary>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.</summary>
     <description>
-      Unicorn Backend features: Ready for use realization of interaction with backend, corresponding matchers.
+      Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.
 
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Implemented module for REST services interaction, added base matchers.</releaseNotes>
+    <releaseNotes>Implemented service clients abstractions, added module for interaction with REST services, added base matchers.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation matchers web-services rest</tags>
     <dependencies>
@@ -30,6 +30,5 @@
   </metadata>
   <files>
     <file src="..\..\LICENSE.txt" />
-    <file src="bin\Release\Unicorn.Backend.pdb" target="lib\net452"/>
   </files>
 </package>
