@@ -20,10 +20,10 @@ namespace Unicorn.Backend.Services.RestService
         /// Initializes a new instance of the <see cref="RestResponse"/> class with status code, message and headers.
         /// </summary>
         /// <param name="status">response status code</param>
-        /// <param name="headers">response headers</param>
         /// <param name="statusDescription">response status description</param>
-        public RestResponse(HttpStatusCode status, HttpResponseHeaders headers, string statusDescription)
-            : base(status, headers, statusDescription)
+        /// <param name="headers">response headers</param>
+        public RestResponse(HttpStatusCode status, string statusDescription, HttpResponseHeaders headers)
+            : base(status, statusDescription, headers)
         {
         }
 

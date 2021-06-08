@@ -89,7 +89,7 @@ namespace Unicorn.Backend.Services.RestService
 
                     var elapsed = timer.Elapsed;
 
-                    var restResponse = new RestResponse(response.StatusCode, response.Headers, response.ReasonPhrase)
+                    var restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
                     {
                         Content = responseContent,
                         ExecutionTime = elapsed,
