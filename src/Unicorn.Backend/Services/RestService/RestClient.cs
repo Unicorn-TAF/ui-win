@@ -136,7 +136,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns>service response</returns>
         public virtual RestResponse SendRequest(HttpMethod method, string endpoint, string content)
         {
-            var request = CreateRequestWithHeaders(method, endpoint, content);
+            var request = CreateRequest(method, endpoint, content);
 
             return SendRequest(request);
         }
@@ -157,7 +157,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <param name="endpoint">service endpoint relative url</param>
         /// <param name="content">request content</param>
         /// <returns><see cref="HttpRequestMessage"/> instance</returns>
-        protected virtual HttpRequestMessage CreateRequestWithHeaders(HttpMethod method, string endpoint, string content)
+        protected virtual HttpRequestMessage CreateRequest(HttpMethod method, string endpoint, string content)
         {
             var uri = new Uri(BaseUri, endpoint);
             var request = new HttpRequestMessage(method, uri);
