@@ -83,7 +83,7 @@ namespace Unicorn.Backend.Services.RestService
         /// </summary>
         /// <param name="request">request to send</param>
         /// <returns>service response</returns>
-        public RestResponse SendRequest(HttpRequestMessage request)
+        public virtual RestResponse SendRequest(HttpRequestMessage request)
         {
             Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
 
@@ -134,7 +134,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <param name="endpoint">service endpoint relative url</param>
         /// <param name="content">request content</param>
         /// <returns>service response</returns>
-        public RestResponse SendRequest(HttpMethod method, string endpoint, string content)
+        public virtual RestResponse SendRequest(HttpMethod method, string endpoint, string content)
         {
             var request = CreateRequestWithHeaders(method, endpoint, content);
 
@@ -147,7 +147,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <param name="method">Http method</param>
         /// <param name="endpoint">service endpoint relative url</param>
         /// <returns></returns>
-        public RestResponse SendRequest(HttpMethod method, string endpoint) =>
+        public virtual RestResponse SendRequest(HttpMethod method, string endpoint) =>
             SendRequest(method, endpoint, string.Empty);
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Unicorn.Backend.Services.RestService
         /// <param name="endpoint">service endpoint relative url</param>
         /// <param name="content">request content</param>
         /// <returns><see cref="HttpRequestMessage"/> instance</returns>
-        protected HttpRequestMessage CreateRequestWithHeaders(HttpMethod method, string endpoint, string content)
+        protected virtual HttpRequestMessage CreateRequestWithHeaders(HttpMethod method, string endpoint, string content)
         {
             var uri = new Uri(BaseUri, endpoint);
             var request = new HttpRequestMessage(method, uri);
