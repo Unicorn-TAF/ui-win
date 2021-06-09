@@ -62,7 +62,9 @@
     <Compile Include="Engine\LaunchOutcome.cs" />
     <Compile Include="Engine\OrderedTargetedTestsRunner.cs" />
     <Compile Include="Testing\Attachment.cs" />
+    <Compile Include="Testing\SuiteTimeoutException.cs" />
     <Compile Include="Testing\TestTimeoutException.cs" />
+    <Compile Include="Testing\SuiteUtilities.cs" />
     <Compile Include="Utility\TrxCreator.cs" />
     <Compile Include="Engine\UnicornAppDomainIsolation.cs" />
     <Compile Include="Testing\Defect.cs" />

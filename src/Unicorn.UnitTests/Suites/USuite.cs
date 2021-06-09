@@ -24,6 +24,11 @@ namespace Unicorn.UnitTests.Suites
         public void Test2() =>
             Output += "Test1>";
 
+        [Author("Author2")]
+        [Test]
+        public void Test22() =>
+            Output += "Test11>";
+
         [Test]
         [Disabled("")]
         public void TestToSkip() =>

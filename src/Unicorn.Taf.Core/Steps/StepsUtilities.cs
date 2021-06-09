@@ -17,7 +17,7 @@ namespace Unicorn.Taf.Core.Steps
         /// <returns>step description as string</returns>
         public static string GetStepInfo(MethodBase method, object[] arguments)
         {
-            var attribute = method.GetCustomAttribute(typeof(StepAttribute), true) as StepAttribute;
+            var attribute = method.GetCustomAttribute<StepAttribute>(true);
             return attribute == null ? string.Empty : string.Format(attribute.Description, ConvertArguments(arguments));
         }
 

@@ -49,7 +49,7 @@ namespace Unicorn.Taf.Core.Steps
         {
             var method = new StackFrame(1).GetMethod();
 
-            if (method.GetCustomAttributes(typeof(StepAttribute), true).Any())
+            if (method.IsDefined(typeof(StepAttribute), true))
             {
                 try
                 {
@@ -74,7 +74,7 @@ namespace Unicorn.Taf.Core.Steps
         {
             var method = new StackFrame(1).GetMethod();
 
-            if (method.GetCustomAttributes(typeof(StepAttribute), true).Any())
+            if (method.IsDefined(typeof(StepAttribute), true))
             {
                 try
                 {

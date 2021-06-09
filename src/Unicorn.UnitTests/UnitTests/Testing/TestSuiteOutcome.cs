@@ -19,7 +19,6 @@ namespace Unicorn.UnitTests.Testing
         [OneTimeSetUp]
         public static void SetUp()
         {
-            Config.Reset();
             Config.SetSuiteTags("sample");
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
 
@@ -30,8 +29,11 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [OneTimeTearDown]
-        public static void TearDown() =>
+        public static void TearDown()
+        {
+            Config.Reset();
             runner = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Author attribute")]
@@ -44,7 +46,7 @@ namespace Unicorn.UnitTests.Testing
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite outcome TotalTests counter")]
         public void TestSuiteOutcomeTotalTestsCounter() =>
-            Assert.That(runner.Outcome.SuitesOutcomes[0].TotalTests, Is.EqualTo(2));
+            Assert.That(runner.Outcome.SuitesOutcomes[0].TotalTests, Is.EqualTo(3));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check suite outcome ExecutionTime")]
