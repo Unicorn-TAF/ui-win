@@ -7,15 +7,15 @@ namespace Unicorn.Backend.Matchers.RestMatchers
     /// <summary>
     /// Matcher to check if REST service response content contains substring.
     /// </summary>
-    public class HasContentContainsMatcher : TypeSafeMatcher<ServiceResponse>
+    public class ContentContainsMatcher : TypeSafeMatcher<ServiceResponse>
     {
         private readonly string _expectedSubstring;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HasContentContainsMatcher"/> class with status code.
+        /// Initializes a new instance of the <see cref="ContentContainsMatcher"/> class with status code.
         /// </summary>
         /// <param name="expectedSubstring">substring to search for in response content</param>
-        public HasContentContainsMatcher(string expectedSubstring)
+        public ContentContainsMatcher(string expectedSubstring)
         {
             _expectedSubstring = expectedSubstring;
         }

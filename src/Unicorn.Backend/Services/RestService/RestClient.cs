@@ -13,7 +13,8 @@ namespace Unicorn.Backend.Services.RestService
     public class RestClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.
+        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.<br/>
+        /// <see cref="SecurityProtocolType.Tls12"/> protocol is used by default.
         /// </summary>
         /// <param name="baseUri">service base url</param>
         public RestClient(string baseUri) : this(new Uri(baseUri), null)
@@ -21,7 +22,8 @@ namespace Unicorn.Backend.Services.RestService
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.
+        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.<br/>
+        /// <see cref="SecurityProtocolType.Tls12"/> protocol is used by default.
         /// </summary>
         /// <param name="baseUri">service base url</param>
         public RestClient(Uri baseUri) : this(baseUri, null)
@@ -30,17 +32,8 @@ namespace Unicorn.Backend.Services.RestService
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class with service base url 
-        /// based on existing session.
-        /// </summary>
-        /// <param name="baseUri">service base uri</param>
-        /// <param name="session">existing service session</param>
-        public RestClient(string baseUri, IServiceSession session) : this(new Uri(baseUri), session)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RestClient"/> class with service base url 
-        /// based on existing session.
+        /// based on existing session.<br/>
+        /// <see cref="SecurityProtocolType.Tls12"/> protocol is used by default.
         /// </summary>
         /// <param name="baseUri">service base uri</param>
         /// <param name="session">existing service session</param>
@@ -54,8 +47,9 @@ namespace Unicorn.Backend.Services.RestService
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class.
         /// </summary>
-        public RestClient() : this((Uri)null, null)
+        public RestClient()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         /// <summary>

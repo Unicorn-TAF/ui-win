@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Matchers\RestMatchers\HasEndpointMatcher.cs" />
-    <Compile Include="Matchers\RestMatchers\HasContentContainsMatcher.cs" />
+    <Compile Include="Matchers\RestMatchers\ContentContainsMatcher.cs" />
     <Compile Include="Matchers\RestMatchers\RestResponseMatchers.cs" />
     <Compile Include="Matchers\Service.cs" />
     <Compile Include="Matchers\RestMatchers\RestServiceMatchers.cs" />

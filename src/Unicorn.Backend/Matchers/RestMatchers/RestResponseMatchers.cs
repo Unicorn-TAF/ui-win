@@ -19,9 +19,9 @@ namespace Unicorn.Backend.Matchers.RestMatchers
         /// Matcher to check if REST service response content contains substring.
         /// </summary>
         /// <param name="expectedSubstring">substring to search for in response content</param>
-        /// <returns><see cref="HasContentContainsMatcher"/> instance</returns>
-        public HasContentContainsMatcher ContentContains(string expectedSubstring) =>
-            new HasContentContainsMatcher(expectedSubstring);
+        /// <returns><see cref="ContentContainsMatcher"/> instance</returns>
+        public ContentContainsMatcher ContentContains(string expectedSubstring) =>
+            new ContentContainsMatcher(expectedSubstring);
 
         /// <summary>
         /// Matcher to check if REST service JSON response has any child matching specified JSONPath.
