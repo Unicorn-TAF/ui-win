@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <license type="file">LICENSE.txt</license>
+    <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
+    <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
+    <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.</summary>
+    <description>
+      Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.
+
+      Supported platforms:
+      - .NET Framework 4.5.2+
+    </description>
+    <releaseNotes>Implemented service clients abstractions, added module for interaction with REST services, added base matchers.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>automation matchers web-services rest</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Unicorn.Taf.Core" version="2.1.1"/>
+        <dependency id="Newtonsoft.Json" version="10.0.1"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\LICENSE.txt" />
+  </files>
+</package>
