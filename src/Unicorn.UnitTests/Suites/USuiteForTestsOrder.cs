@@ -22,14 +22,14 @@ namespace Unicorn.UnitTests.Suites
         [DependsOn(nameof(Test5))]
         public void Test3() => GetValue("Test3");
 
-        [Test(3344)]
-        public void Test1() => GetValue("Test1");
-
         [Test]
         public void Test6() => GetValue("Test6");
 
         [Test]
         public void Test5() => GetValue("Test5");
+
+        [Test]
+        public void Test1() => GetValue("Test1");
 
         private string GetValue(string value) => value;
     }

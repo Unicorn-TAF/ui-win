@@ -51,7 +51,10 @@ namespace Unicorn.Taf.Core.Testing
             var suiteMethods = suiteInstance.GetType().GetRuntimeMethods()
                 .Where(m => m.IsDefined(typeof(TestAttribute), true) && AdapterUtilities.IsTestRunnable(m));
 
-            suiteMethods = OrderTests(suiteMethods);
+            if (Config.TestsExecutionOrder == TestsOrder.Random)
+            {
+                suiteMethods = ShuffleKeepingDependency(suiteMethods);
+            }
 
             foreach (MethodInfo method in suiteMethods)
             {
@@ -90,16 +93,6 @@ namespace Unicorn.Taf.Core.Testing
             test.Outcome.ParentId = parentId;
             return test;
         }
-
-        /// <summary>
-        /// Depending on settings sorts tests by order or shuffles them (considering order of dependent tests)
-        /// </summary>
-        /// <param name="testMethods"></param>
-        /// <returns></returns>
-        private static IEnumerable<MethodInfo> OrderTests(IEnumerable<MethodInfo> testMethods) =>
-            Config.TestsExecutionOrder == TestsOrder.Declaration ?
-            testMethods.OrderBy(sm => (sm.GetCustomAttribute<TestAttribute>(true)).Order) :
-            ShuffleKeepingDependency(testMethods);
 
         private static IEnumerable<MethodInfo> ShuffleKeepingDependency(IEnumerable<MethodInfo> testMethods)
         {
