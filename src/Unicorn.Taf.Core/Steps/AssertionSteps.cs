@@ -126,6 +126,27 @@ namespace Unicorn.Taf.Core.Steps
         }
 
         /// <summary>
+        /// Step which performs soft check on object of any type using type specific matcher 
+        /// which is suitable for specified actual object type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <returns>current assertion steps instance</returns>
+        [Step("Verify that '{0}' {1}")]
+        public AssertionSteps VerifyThat<T>(T actual, TypeSafeMatcher<T> matcher, string errorMessage)
+        {
+            if (_chaninAssert == null)
+            {
+                _chaninAssert = new ChainAssert();
+            }
+
+            _chaninAssert.That(actual, matcher, errorMessage);
+            return this;
+        }
+
+        /// <summary>
         /// Step which performs soft check on object of any type using matcher 
         /// which is not specified by type
         /// </summary>
@@ -141,6 +162,26 @@ namespace Unicorn.Taf.Core.Steps
             }
 
             _chaninAssert.That(actual, matcher);
+            return this;
+        }
+
+        /// <summary>
+        /// Step which performs soft check on object of any type using matcher 
+        /// which is not specified by type
+        /// </summary>
+        /// <param name="actual">object to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
+        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <returns>current assertion steps instance</returns>
+        [Step("Verify that '{0}' {1}")]
+        public AssertionSteps VerifyThat(object actual, TypeUnsafeMatcher matcher, string errorMessage)
+        {
+            if (_chaninAssert == null)
+            {
+                _chaninAssert = new ChainAssert();
+            }
+
+            _chaninAssert.That(actual, matcher, errorMessage);
             return this;
         }
 
@@ -164,6 +205,26 @@ namespace Unicorn.Taf.Core.Steps
         }
 
         /// <summary>
+        /// Step which performs assertion on collection of objects of same type using matcher 
+        /// which is suitable for specified actual objects type
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="actual">collection of objects to perform assertion on</param>
+        /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
+        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <returns>current assertion steps instance</returns>
+        public AssertionSteps VerifyThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string errorMessage)
+        {
+            if (_chaninAssert == null)
+            {
+                _chaninAssert = new ChainAssert();
+            }
+
+            ReportedCollectionVerifyThat(typeof(T).Name, matcher, actual, errorMessage);
+            return this;
+        }
+
+        /// <summary>
         /// Step which performs assertion on chain of soft asserts performed after chain initialization.
         /// </summary>
         /// <exception cref="InvalidOperationException">is thrown if chain assert was not initialized</exception>
@@ -172,7 +233,8 @@ namespace Unicorn.Taf.Core.Steps
         {
             if (_chaninAssert == null)
             {
-                throw new InvalidOperationException("There were no any verifications made. Please check scenario.");
+                throw new InvalidOperationException(
+                    "There were no any verifications made. Please check scenario.");
             }
 
             try
@@ -186,15 +248,40 @@ namespace Unicorn.Taf.Core.Steps
         }
 
         [Step("Assert that collection of <{0}> {1}")]
-        private void ReportedCollectionAssertThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual, string errorMessage) =>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", 
+            Justification = "'elementType' is used just for automatic reporting ")]
+        private void ReportedCollectionAssertThat<T>(
+            string elementType, 
+            TypeSafeCollectionMatcher<T> matcher, 
+            IEnumerable<T> actual, string errorMessage) =>
             Assert.That(actual, matcher, errorMessage);
 
         [Step("Assert that collection of <{0}> {1}")]
-        private void ReportedCollectionAssertThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", 
+            Justification = "'elementType' is used just for automatic reporting ")]
+        private void ReportedCollectionAssertThat<T>(
+            string elementType, 
+            TypeSafeCollectionMatcher<T> matcher, 
+            IEnumerable<T> actual) =>
             Assert.That(actual, matcher);
 
         [Step("Assert that collection of <{0}> {1}")]
-        private void ReportedCollectionVerifyThat<T>(string elementType, TypeSafeCollectionMatcher<T> matcher, IEnumerable<T> actual) =>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", 
+            Justification = "'elementType' is used just for automatic reporting ")]
+        private void ReportedCollectionVerifyThat<T>(
+            string elementType, 
+            TypeSafeCollectionMatcher<T> matcher, 
+            IEnumerable<T> actual) =>
             _chaninAssert.That(actual, matcher);
+
+        [Step("Assert that collection of <{0}> {1}")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", 
+            Justification = "'elementType' is used just for automatic reporting ")]
+        private void ReportedCollectionVerifyThat<T>(
+            string elementType, 
+            TypeSafeCollectionMatcher<T> matcher, 
+            IEnumerable<T> actual, 
+            string errorMessage) =>
+            _chaninAssert.That(actual, matcher, errorMessage);
     }
 }

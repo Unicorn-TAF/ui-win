@@ -11,14 +11,14 @@ namespace Unicorn.UnitTests.Verification
         [Test, Author("Vitaliy Dobriyan")]
         public void TestSoftAssertThat()
         {
-            Assert.Throws<Uv.AssertionException>(delegate 
+            Assert.Throws<Uv.AssertionException>(delegate
             {
                 new Uv.ChainAssert()
                     .That("asd", Um.Is.EqualTo("asd"))
                     .That(2, Um.Is.EqualTo(2))
-                    .That(new SampleObject(), Um.Is.EqualTo(new SampleObject("ds", 234)))
+                    .That(new SampleObject(), Um.Is.EqualTo(new SampleObject("ds", 234)), "Sample objects comparison fail")
                     .That(new SampleObject(), Um.Is.EqualTo(new SampleObject()))
-                    .That(new int[] { 2 }, Um.Collection.IsTheSameAs(new int[] { 1 }))
+                    .That(new int[] { 2 }, Um.Collection.IsTheSameAs(new int[] { 1 }), "Collections comparison fail")
                     .AssertChain();
             });
         }
