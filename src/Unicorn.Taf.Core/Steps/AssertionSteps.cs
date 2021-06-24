@@ -132,7 +132,7 @@ namespace Unicorn.Taf.Core.Steps
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <param name="errorMessage">error message displayed on fail</param>
         /// <returns>current assertion steps instance</returns>
         [Step("Verify that '{0}' {1}")]
         public AssertionSteps VerifyThat<T>(T actual, TypeSafeMatcher<T> matcher, string errorMessage)
@@ -171,7 +171,7 @@ namespace Unicorn.Taf.Core.Steps
         /// </summary>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
-        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <param name="errorMessage">error message displayed on fail</param>
         /// <returns>current assertion steps instance</returns>
         [Step("Verify that '{0}' {1}")]
         public AssertionSteps VerifyThat(object actual, TypeUnsafeMatcher matcher, string errorMessage)
@@ -211,7 +211,7 @@ namespace Unicorn.Taf.Core.Steps
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        /// <param name="errorMessage">error message disaplyed on fail</param>
+        /// <param name="errorMessage">error message displayed on fail</param>
         /// <returns>current assertion steps instance</returns>
         public AssertionSteps VerifyThat<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string errorMessage)
         {
