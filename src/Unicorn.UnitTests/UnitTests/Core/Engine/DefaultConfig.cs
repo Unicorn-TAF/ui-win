@@ -73,6 +73,6 @@ namespace Unicorn.UnitTests.Core.Engine
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config tests order")]
         public void TestConfigTestsOrder() =>
-            Assert.That(Config.TestsExecutionOrder, Is.EqualTo(TestsOrder.Random));
+            Assert.That(Config.TestsExecutionOrder, Is.EqualTo(TestsOrder.Declaration));
     }
 }

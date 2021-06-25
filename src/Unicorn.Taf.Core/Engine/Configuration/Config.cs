@@ -95,7 +95,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         public static TestsDependency DependentTests { get; set; }
 
         /// <summary>
-        /// Gets or sets order of tests execution in term of test suite (default: random order).
+        /// Gets or sets order of tests execution in term of test suite (default: declaration order).
         /// </summary>
         public static TestsOrder TestsExecutionOrder { get; set; }
 
@@ -193,7 +193,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             ParallelBy = Parallelization.Assembly;
             Threads = 1;
             DependentTests = TestsDependency.Run;
-            TestsExecutionOrder = TestsOrder.Random;
+            TestsExecutionOrder = TestsOrder.Declaration;
             RunTags.Clear();
             RunCategories.Clear();
             RunTests.Clear();
@@ -251,7 +251,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
 
             [JsonProperty("testsOrder")]
-            internal string JsonTestsExecutionOrder { get; set; } = TestsOrder.Random.ToString();
+            internal string JsonTestsExecutionOrder { get; set; } = TestsOrder.Declaration.ToString();
 
             [JsonProperty("tags")]
             internal List<string> JsonRunTags { get; set; } = new List<string>();
