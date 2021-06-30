@@ -20,7 +20,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Waiter: ability to wait safely, small improvements.</releaseNotes>
+    <releaseNotes>suite execution timeout; configurable tests execution order, default error message for DefaultWait; custom error message for chain asssertions</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation taf core tests steps verification matchers</tags>
     <dependencies>
