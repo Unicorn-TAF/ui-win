@@ -84,6 +84,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="method"><see cref="MethodInfo"/> instance which represents test method</param>
         /// <param name="dataSet"><see cref="DataSet"/> to populate test method parameters; 
         /// null if method does not have parameters</param>
+        /// <param name="parentId"><see cref="Guid"/> of parent item (suite)</param>
         /// <returns><see cref="Test"/> instance</returns>
         private static Test GenerateTest(MethodInfo method, DataSet dataSet, Guid parentId)
         {
