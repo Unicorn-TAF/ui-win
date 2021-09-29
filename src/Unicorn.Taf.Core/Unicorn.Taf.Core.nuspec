@@ -26,7 +26,6 @@
     <dependencies>
       <group targetFramework="net45">
         <dependency id="AspectInjector" version="1.0.2"/>
-        <dependency id="Newtonsoft.Json" version="10.0.1"/>
       </group>
     </dependencies>
   </metadata>

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Unicorn.Taf.Core.Engine.Configuration
 {
@@ -169,7 +170,14 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 throw new FileNotFoundException("Unicorn configuration file not found.", configPath);
             }
 
-            var conf = JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(configPath));
+            JsonConfig conf;
+
+            var formatter = new DataContractJsonSerializer(typeof(JsonConfig));
+
+            using (FileStream fs = new FileStream(configPath, FileMode.Open))
+            {
+                conf = formatter.ReadObject(fs) as JsonConfig;
+            }
 
             TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
             SuiteTimeout = TimeSpan.FromMinutes(conf.JsonSuiteTimeout);
@@ -233,33 +241,34 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             }
         }
 
+        [DataContract]
         private class JsonConfig
         {
-            [JsonProperty("testTimeout")]
+            [DataMember(Name = "testTimeout")]
             internal int JsonTestTimeout { get; set; } = 15;
 
-            [JsonProperty("suiteTimeout")]
+            [DataMember(Name = "suiteTimeout")]
             internal int JsonSuiteTimeout { get; set; } = 40;
 
-            [JsonProperty("parallel")]
+            [DataMember(Name = "parallel")]
             internal string JsonParallelBy { get; set; } = Parallelization.Assembly.ToString();
 
-            [JsonProperty("threads")]
+            [DataMember(Name = "threads")]
             internal int JsonThreads { get; set; } = 1;
 
-            [JsonProperty("testsDependency")]
+            [DataMember(Name = "testsDependency")]
             internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
 
-            [JsonProperty("testsOrder")]
+            [DataMember(Name = "testsOrder")]
             internal string JsonTestsExecutionOrder { get; set; } = TestsOrder.Declaration.ToString();
 
-            [JsonProperty("tags")]
+            [DataMember(Name = "tags")]
             internal List<string> JsonRunTags { get; set; } = new List<string>();
 
-            [JsonProperty("categories")]
+            [DataMember(Name = "categories")]
             internal List<string> JsonRunCategories { get; set; } = new List<string>();
 
-            [JsonProperty("tests")]
+            [DataMember(Name = "tests")]
             internal List<string> JsonRunTests { get; set; } = new List<string>();
         }
     }

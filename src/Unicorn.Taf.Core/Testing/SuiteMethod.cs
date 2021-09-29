@@ -170,6 +170,9 @@ namespace Unicorn.Taf.Core.Testing
             Outcome.Result = Status.Failed;
         }
 
+        /// <summary>
+        /// Writes suite method status to log. Log level depends on execution status.
+        /// </summary>
         protected void LogStatus()
         {
             LogLevel level;
