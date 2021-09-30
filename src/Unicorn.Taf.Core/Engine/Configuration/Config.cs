@@ -48,18 +48,24 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     public enum TestsOrder
     {
         /// <summary>
-        /// Random order of tests execution
+        /// Alphabetical tests execution order within test suite.
         /// </summary>
-        Random,
+        Alphabetical,
 
         /// <summary>
-        /// Order of declaration in test suite class
+        /// Order of declaration in test suite class.
         /// </summary>
-        Declaration
+        /// 
+        Declaration,
+
+        /// <summary>
+        /// Random order of tests execution.
+        /// </summary>
+        Random
     }
 
     /// <summary>
-    /// Configures unicorn tests run parameters
+    /// Configures unicorn tests run parameters.
     /// </summary>
     public static class Config
     {
@@ -128,7 +134,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         
         /// <summary>
         /// Set tests categories needed to be run.
-        /// All categories are converted in upper case. Blank categories are ignored
+        /// All categories are converted in upper case. Blank categories are ignored.
         /// </summary>
         /// <param name="categoriesToRun">array of categories</param>
         public static void SetTestCategories(params string[] categoriesToRun) =>
@@ -155,7 +161,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             
 
         /// <summary>
-        /// Deserialize run configuration fro JSON file
+        /// Deserialize run configuration fro JSON file.
         /// </summary>
         /// <param name="configPath">path to JSON config file</param>
         public static void FillFromFile(string configPath)
@@ -191,7 +197,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         }
 
         /// <summary>
-        /// Reset engine config to default state
+        /// Reset engine config to default state.
         /// </summary>
         public static void Reset()
         {
@@ -236,7 +242,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             catch
             {
                 throw new ArgumentException(
-                    $"{typeof(T)} is not defined. Available methods are: " +
+                    $"{typeof(T)} is not defined. Available values are: " +
                     string.Join(",", Enum.GetValues(typeof(T)).Cast<T>()));
             }
         }

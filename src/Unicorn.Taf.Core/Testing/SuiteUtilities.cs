@@ -56,6 +56,13 @@ namespace Unicorn.Taf.Core.Testing
                 suiteMethods = ShuffleKeepingDependency(suiteMethods);
             }
 
+            if (Config.TestsExecutionOrder == TestsOrder.Alphabetical)
+            {
+                suiteMethods = suiteMethods.OrderBy(sm => sm.Name);
+            }
+
+            suiteMethods = ConsiderOrderAttribute(suiteMethods);
+
             foreach (MethodInfo method in suiteMethods)
             {
                 if (AdapterUtilities.IsTestParameterized(method))
@@ -136,6 +143,16 @@ namespace Unicorn.Taf.Core.Testing
 
             return shuffle;
         }
+
+        private static IEnumerable<MethodInfo> ConsiderOrderAttribute(IEnumerable<MethodInfo> testMethods) =>
+            testMethods.OrderBy(sm =>
+            {
+                var orderAttribute = sm.GetCustomAttribute<OrderAttribute>(true);
+
+                return orderAttribute == null ?
+                    int.MaxValue :
+                    orderAttribute.Order;
+            });
 
         private static void CheckTestsForCycleDependency(Dictionary<MemberInfo, string> graph)
         {

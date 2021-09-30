@@ -36,7 +36,44 @@ namespace Unicorn.UnitTests.Testing
         }
 
         [Author("Vitaliy Dobriyan")]
-        [Test(Description = "Check Declaration order of tests execution")]
+        [Test(Description = "Check Alphabetical order of tests execution")]
+        public void TestAlphabeticalOrderOfTestsExecution()
+        {
+            Config.SetSuiteTags("tests-order");
+
+            Config.TestsExecutionOrder = TestsOrder.Alphabetical;
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner.RunTests();
+            var outcome = runner.Outcome.SuitesOutcomes[0];
+
+            for (int i = 0; i < outcome.TestsOutcomes.Count; i++)
+            {
+                Assert.That(outcome.TestsOutcomes[0].Title, Is.EqualTo($"Test{i + 1}"));
+            }
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check Alphabetical order with presence of [Order] attibute")]
+        public void TestAlphabeticalOrderWithPresenceOfOrderAttribute()
+        {
+            Config.SetSuiteTags("tests-order-attribute");
+
+            Config.TestsExecutionOrder = TestsOrder.Alphabetical;
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner.RunTests();
+            var outcome = runner.Outcome.SuitesOutcomes[0];
+
+            Assert.That(outcome.TestsOutcomes[0].Title, Is.EqualTo("Test3"));
+            Assert.That(outcome.TestsOutcomes[1].Title, Is.EqualTo("Test5"));
+            Assert.That(outcome.TestsOutcomes[2].Title, Is.EqualTo("Test1"));
+            Assert.That(outcome.TestsOutcomes[3].Title, Is.EqualTo("Test2"));
+            Assert.That(outcome.TestsOutcomes[4].Title, Is.EqualTo("Test4"));
+            Assert.That(outcome.TestsOutcomes[5].Title, Is.EqualTo("Test6"));
+            Assert.That(outcome.TestsOutcomes[6].Title, Is.EqualTo("Test7"));
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check Random order of tests execution")]
         public void TestRandomOrderOfTestsExecution()
         {
             Config.SetSuiteTags("tests-order");

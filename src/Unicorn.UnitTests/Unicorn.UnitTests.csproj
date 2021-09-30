@@ -146,6 +146,7 @@
     <Compile Include="Suites\UParameterizedSuiteNoSuiteData.cs" />
     <Compile Include="Suites\USuiteForSteps.cs" />
     <Compile Include="Suites\USuiteForCycleDependency.cs" />
+    <Compile Include="Suites\USuiteForTestsOrderAttribute.cs" />
     <Compile Include="Suites\USuiteForTimeouts4.cs" />
     <Compile Include="Suites\USuiteForTimeouts3.cs" />
     <Compile Include="Suites\USuiteForTimeouts2.cs" />
