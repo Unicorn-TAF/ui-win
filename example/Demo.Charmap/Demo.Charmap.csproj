@@ -44,13 +44,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unicorn.Taf.Core, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unicorn.Taf.Core.2.3.0\lib\net452\Unicorn.Taf.Core.dll</HintPath>
+    <Reference Include="Unicorn.Taf.Core, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unicorn.Taf.Core.2.4.0\lib\net452\Unicorn.Taf.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unicorn.UI.Core, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unicorn.UI.Core.2.3.0\lib\net452\Unicorn.UI.Core.dll</HintPath>
