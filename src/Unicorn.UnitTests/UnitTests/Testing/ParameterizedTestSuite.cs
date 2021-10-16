@@ -13,8 +13,9 @@ namespace Unicorn.UnitTests.Testing
     public class ParameterizedTestSuite : NUnitTestRunner
     {
         private static TestsRunner runner;
+        private static string executionOutput;
 
-        private readonly UParameterizedSuite suite = Activator.CreateInstance<UParameterizedSuite>();
+        private readonly UParameterizedSuite _suite = Activator.CreateInstance<UParameterizedSuite>();
         
         [OneTimeSetUp]
         public static void Setup()
@@ -22,12 +23,15 @@ namespace Unicorn.UnitTests.Testing
             Config.TestsExecutionOrder = TestsOrder.Declaration;
             Config.SetSuiteTags("parameterized");
             runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner.RunTests();
+            executionOutput = UParameterizedSuite.Output;
         }
 
         [OneTimeTearDown]
         public static void Cleanup()
         {
             runner = null;
+            executionOutput = null;
             Config.Reset();
         }
 
@@ -35,7 +39,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestParameterizedSuiteCountOfTests()
         {
-            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_suite);
             int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(2));
         }
@@ -64,18 +68,44 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check suite run")]
         public void TestParameterizedSuiteRunSuite()
         {
-            UParameterizedSuite.Output = string.Empty;
             string suiteOutputSet1 = "complex object with a = 2>BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             string suiteOutputSet2 = "complex object with b = 3>BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
-            runner.RunTests();
-            Assert.That(UParameterizedSuite.Output, Is.EqualTo(suiteOutputSet1 + suiteOutputSet2));
+            
+            Assert.That(executionOutput, Is.EqualTo(suiteOutputSet1 + suiteOutputSet2));
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check that test suite has different Id for run on each DataSet")]
+        public void TestParameterizedSuiteExecutionsHasDifferentIds()
+        {
+            Assert.That(runner.Outcome.SuitesOutcomes.Count, Is.EqualTo(2));
+            Assert.That(runner.Outcome.SuitesOutcomes[0].Id, Is.Not.EqualTo(runner.Outcome.SuitesOutcomes[1].Id));
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check that test suite has same Ids for different runs")]
+        public void TestSuiteHasSameIdForDifferentRuns()
+        {
+            TestsRunner runner1 = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner1.RunTests();
+
+            Assert.That(runner.Outcome.SuitesOutcomes[0].Id, Is.EqualTo(runner1.Outcome.SuitesOutcomes[0].Id));
+            Assert.That(runner.Outcome.SuitesOutcomes[1].Id, Is.EqualTo(runner1.Outcome.SuitesOutcomes[1].Id));
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check that test suite test has different Id for run on each suite DataSet")]
+        public void TestParameterizedSuiteTestExecutionsHasDifferentIds()
+        {
+            Assert.That(runner.Outcome.SuitesOutcomes[0].TestsOutcomes[0].Id, 
+                Is.Not.EqualTo(runner.Outcome.SuitesOutcomes[1].TestsOutcomes[0].Id));
         }
 
         private SuiteMethod[] GetSuiteMethodListByName(string name)
         {
             object field = typeof(Taf.Core.Testing.TestSuite)
                 .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(suite);
+                .GetValue(_suite);
 
             return field as SuiteMethod[];
         }

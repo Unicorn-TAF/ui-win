@@ -85,7 +85,7 @@ namespace Unicorn.UnitTests.Testing
         {
             USuiteToBeSkipped.Output = string.Empty;
             Config.SetTestCategories("category");
-            Config.SetSuiteTags("reporting");
+            Config.SetSuiteTags("skipping");
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
             runner.RunTests();
             Assert.That(USuiteToBeSkipped.Output, Is.EqualTo(string.Empty));

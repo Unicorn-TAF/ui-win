@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
@@ -44,7 +43,6 @@ namespace Unicorn.Taf.Core.Testing
             _dataSet = dataSet;
 
             Outcome.Title += postfix;
-            Outcome.Id = AdapterUtilities.GuidFromString(Outcome.FullMethodName + postfix);
         }
 
         /// <summary>
