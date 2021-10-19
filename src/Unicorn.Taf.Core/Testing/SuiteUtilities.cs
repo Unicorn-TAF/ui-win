@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine;
@@ -102,6 +103,10 @@ namespace Unicorn.Taf.Core.Testing
             return test;
         }
 
+        [SuppressMessage(
+            "Critical Security Hotspot", 
+            "S2245:Using pseudorandom number generators (PRNGs) is security-sensitive", 
+            Justification = "Current usage is safe")]
         private static IEnumerable<MethodInfo> ShuffleKeepingDependency(IEnumerable<MethodInfo> testMethods)
         {
             var random = new Random();
