@@ -100,7 +100,7 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Generates unique suite method Id.<br/>
+        /// Assigns parent id for suite method and generates unique suite method Id considering postfix.<br/>
         /// Id is different for different suite parameters.
         /// </summary>
         /// <param name="suiteMethod"><see cref="SuiteMethod"/> instance</param>
@@ -114,7 +114,7 @@ namespace Unicorn.Taf.Core.Testing
         }
 
         /// <summary>
-        /// Generates unique test method Id.<br/>
+        /// Assigns parent id for suite method and generates unique test method Id.<br/>
         /// Id is different for different test and suite parameters.
         /// </summary>
         /// <param name="suiteMethod"><see cref="SuiteMethod"/> instance</param>

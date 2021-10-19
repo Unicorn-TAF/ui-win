@@ -7,7 +7,7 @@ namespace Unicorn.Taf.Core.Internal
     internal static class GuidGenerator
     {
         /// <summary>
-        /// Generates Id for the test which will be the same each time for this test
+        /// Generates <see cref="Guid"/> for retrieved string. Id is the same for same string each time.
         /// </summary>
         /// <param name="data">string value</param>
         /// <returns>unique test method <see cref="Guid"/></returns>

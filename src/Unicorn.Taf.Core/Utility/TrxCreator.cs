@@ -196,7 +196,7 @@ namespace Unicorn.Taf.Core.Utility
             testMethod.Attributes.Append(className);
 
             var testMethodName = _trx.CreateAttribute("name");
-            testMethodName.Value = outcome.FullMethodName.Split('.').Last();
+            testMethodName.Value = GetMethodName(outcome.FullMethodName);
             testMethod.Attributes.Append(testMethodName);
 
             unitTest.AppendChild(testMethod);
