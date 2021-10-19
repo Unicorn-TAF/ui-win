@@ -29,7 +29,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Ordered suite 2", "category2" },
             };
 
-            var runner = new OrderedTargetedTestsRunner(Assembly.GetExecutingAssembly().Location, filters);
+            var runner = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, filters);
             runner.RunTests();
 
             Assert.IsFalse(runner.Outcome.RunInitialized);
