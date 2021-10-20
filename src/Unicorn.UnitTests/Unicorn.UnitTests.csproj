@@ -168,7 +168,7 @@
     <Compile Include="UnitTests\Testing\SuiteTimeouts.cs" />
     <Compile Include="UnitTests\Testing\StepsFeature.cs" />
     <Compile Include="UnitTests\Core\Engine\ReadConfigurationFromFile.cs" />
-    <Compile Include="UnitTests\Testing\TestsOrderingAndTargeting.cs" />
+    <Compile Include="UnitTests\Testing\PlaylistRunnerTests.cs" />
     <Compile Include="UnitTests\Testing\TestsRunInitializeFail.cs" />
     <Compile Include="UnitTests\Testing\TestSuiteTestsFilter.cs" />
     <Compile Include="UnitTests\Testing\TestSuiteOutcome.cs" />

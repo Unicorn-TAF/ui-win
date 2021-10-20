@@ -130,7 +130,7 @@
     <Content Include="unicorn.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="ReportPortal.conf">
+    <None Include="ReportPortal.config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
