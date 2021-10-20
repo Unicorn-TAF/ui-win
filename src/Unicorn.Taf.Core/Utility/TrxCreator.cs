@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using Unicorn.Taf.Core.Engine;
@@ -24,6 +25,7 @@ namespace Unicorn.Taf.Core.Utility
         private readonly XmlElement _testEntries;
         private readonly XmlElement _results;
         private readonly string _machineName = Environment.MachineName;
+        private readonly string _assemblyLocation = string.Empty;
 
         private readonly int _error = 0;
         private readonly int _timeout = 0;
@@ -59,6 +61,15 @@ namespace Unicorn.Taf.Core.Utility
             _testLists = _trx.CreateElement(string.Empty, "TestLists", string.Empty);
             _testEntries = _trx.CreateElement(string.Empty, "TestEntries", string.Empty);
             _results = _trx.CreateElement(string.Empty, "Results", string.Empty);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrxCreator"/> class based on test assembly 
+        /// (codebase and storage are populated based on assembly info).
+        /// </summary>
+        public TrxCreator(Assembly testAssembly) : this()
+        {
+            _assemblyLocation = testAssembly.Location;
         }
 
         /// <summary>
@@ -158,7 +169,7 @@ namespace Unicorn.Taf.Core.Utility
             unitTest.Attributes.Append(name);
 
             var storage = _trx.CreateAttribute("storage");
-            storage.Value = string.Empty; ////TODO: Path.GetFileName(outcome.testMethodInfo.DeclaringType.Assembly.Location));
+            storage.Value = _assemblyLocation;
             unitTest.Attributes.Append(storage);
 
             var id = _trx.CreateAttribute("id");
@@ -183,7 +194,7 @@ namespace Unicorn.Taf.Core.Utility
             var testMethod = _trx.CreateElement(string.Empty, "TestMethod", string.Empty);
 
             var codeBase = _trx.CreateAttribute("codeBase");
-            codeBase.Value = string.Empty; ////TODO: testMethodInfo.DeclaringType.Assembly.CodeBase.Replace("file:///", string.Empty);
+            codeBase.Value = _assemblyLocation;
             testMethod.Attributes.Append(codeBase);
 
             var adapterTypeName = _trx.CreateAttribute("adapterTypeName");
