@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Unicorn.Taf.Core.Engine.Configuration;
+using Unicorn.Taf.Core.Internal;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -49,7 +51,6 @@ namespace Unicorn.Taf.Core.Testing
             Outcome = new SuiteOutcome
             {
                 Name = suiteAttribute != null ? suiteAttribute.Name : GetType().Name.Split('.').Last(),
-                Id = Guid.NewGuid(),
                 Result = Status.NotExecuted
             };
 
@@ -69,7 +70,7 @@ namespace Unicorn.Taf.Core.Testing
         /// Delegate used for suite events invocation
         /// </summary>
         /// <param name="testSuite">current <see cref="TestSuite"/> instance</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void UnicornSuiteEvent(TestSuite testSuite);
 
         /// <summary>
@@ -132,6 +133,8 @@ namespace Unicorn.Taf.Core.Testing
 
             Logger.Instance.Log(LogLevel.Info, $"---------------- Suite '{fullName}'");
 
+            GenerateIds();
+            
             var onSuiteStartPassed = false;
 
             try
@@ -179,7 +182,7 @@ namespace Unicorn.Taf.Core.Testing
             }
             else
             {
-                Skip(string.Empty);
+                Skip("BeforeSuite was failed.");
             }
 
             RunSuiteMethods(_afterSuites);
@@ -241,17 +244,9 @@ namespace Unicorn.Taf.Core.Testing
                 }
             }
 
-            RunTest(test);
+            Array.ForEach(_beforeTests, 
+                beforeTest => SuiteUtilities.GenerateSuiteMethodIds(beforeTest, Outcome.Id, test.Outcome.Title));
 
-            Outcome.TestsOutcomes.Add(test.Outcome);
-        }
-
-        /// <summary>
-        /// Run specified <see cref="Test"/>.
-        /// </summary>
-        /// <param name="test"><see cref="Test"/> instance</param>
-        private void RunTest(Test test)
-        {
             if (skipTests || ExecutionTimer.Elapsed >= Config.SuiteTimeout || !RunSuiteMethods(_beforeTests))
             {
                 test.Skip();
@@ -261,12 +256,14 @@ namespace Unicorn.Taf.Core.Testing
 
             test.Execute(this);
 
-            RunAftertests(test.Outcome.Result == Status.Failed);
+            RunAftertests(test.Outcome);
 
             if (test.Outcome.Result == Status.Failed)
             {
                 Outcome.Result = Status.Failed;
             }
+
+            Outcome.TestsOutcomes.Add(test.Outcome);
         }
 
         /// <summary>
@@ -293,9 +290,14 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Run SuiteMethods
         /// </summary>
-        /// <param name="testWasFailed">array of suite methods to run</param>
-        private void RunAftertests(bool testWasFailed)
+        /// <param name="testOutcome">related test outcome</param>
+        private void RunAftertests(TestOutcome testOutcome)
         {
+            bool testWasFailed = testOutcome.Result == Status.Failed;
+
+            Array.ForEach(_afterTests,
+                afterTest => SuiteUtilities.GenerateSuiteMethodIds(afterTest, Outcome.Id, testOutcome.Title));
+
             foreach (var suiteMethod in _afterTests)
             {
                 var attribute = suiteMethod.TestMethod.GetCustomAttribute<AfterTestAttribute>(true);
@@ -314,6 +316,21 @@ namespace Unicorn.Taf.Core.Testing
                     skipTests = attribute.SkipTestsOnFail;
                 }
             }
+        }
+
+        private void GenerateIds()
+        {
+            // (type name + data set name) is unique int terms of assembly.
+            Outcome.Id = GuidGenerator.FromString(GetType().Name + Outcome.DataSetName);
+
+            Array.ForEach(_beforeSuites,
+                beforeSuite => SuiteUtilities.GenerateSuiteMethodIds(beforeSuite, Outcome.Id));
+
+            Array.ForEach(_tests,
+                t => SuiteUtilities.GenerateTestIds(t, Outcome.Id));
+
+            Array.ForEach(_afterSuites,
+                afterSuite => SuiteUtilities.GenerateSuiteMethodIds(afterSuite, Outcome.Id));
         }
     }
 }

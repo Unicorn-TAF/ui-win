@@ -58,6 +58,7 @@
     <Compile Include="Engine\PlaylistRunner.cs" />
     <Compile Include="Testing\Attachment.cs" />
     <Compile Include="Testing\Attributes\OrderAttribute.cs" />
+    <Compile Include="Internal\GuidGenerator.cs" />
     <Compile Include="Testing\SuiteTimeoutException.cs" />
     <Compile Include="Testing\TestTimeoutException.cs" />
     <Compile Include="Testing\SuiteUtilities.cs" />

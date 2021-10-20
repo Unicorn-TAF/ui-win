@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
@@ -114,14 +112,5 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns>full test name string</returns>
         public static string GetFullTestMethodName(MethodInfo testMethod) =>
             testMethod.ReflectedType.FullName + "." + testMethod.Name;
-
-        /// <summary>
-        /// Generates Id for the test which will be the same each time for this test
-        /// </summary>
-        /// <param name="data">string value</param>
-        /// <returns>unique test method <see cref="Guid"/></returns>
-        internal static Guid GuidFromString(string data) =>
-            new Guid(new MD5CryptoServiceProvider()
-                .ComputeHash(Encoding.Unicode.GetBytes(data)));
     }
 }

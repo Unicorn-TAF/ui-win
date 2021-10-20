@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using Unicorn.Taf.Core.Engine;
+using Unicorn.Taf.Core.Internal;
 using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Utility
@@ -13,8 +15,9 @@ namespace Unicorn.Taf.Core.Utility
     /// </summary>
     public class TrxCreator
     {
-        private const string Adapter = "Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
         private const string DtFormat = "yyyy-MM-ddTHH:mm:ss.fffffffK";
+
+        private const string Adapter = "executor://UnicornTestExecutor/v2";
 
         private readonly XmlDocument _trx;
         private readonly XmlElement _testDefinitions;
@@ -22,6 +25,7 @@ namespace Unicorn.Taf.Core.Utility
         private readonly XmlElement _testEntries;
         private readonly XmlElement _results;
         private readonly string _machineName = Environment.MachineName;
+        private readonly string _assemblyLocation = string.Empty;
 
         private readonly int _error = 0;
         private readonly int _timeout = 0;
@@ -33,7 +37,7 @@ namespace Unicorn.Taf.Core.Utility
         private readonly int _inProgress = 0;
         private readonly int _pending = 0;
 
-        private readonly string[] xmlInvalidSymbols = { "&#x0" };
+        private readonly string[] _xmlInvalidSymbols = { "&#x0" };
 
         private int total = 0;
         private int executed = 0;
@@ -60,6 +64,15 @@ namespace Unicorn.Taf.Core.Utility
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="TrxCreator"/> class based on test assembly 
+        /// (codebase and storage are populated based on assembly info).
+        /// </summary>
+        public TrxCreator(Assembly testAssembly) : this()
+        {
+            _assemblyLocation = testAssembly.Location;
+        }
+
+        /// <summary>
         /// Generates TRX file for <see cref="LaunchOutcome"/> and saves it by specified path
         /// </summary>
         /// <param name="outcome">tests run outcome</param>
@@ -80,7 +93,7 @@ namespace Unicorn.Taf.Core.Utility
                     FillTrxWithSuiteData(suiteOutcome);
                 }
 
-                var resultSummary = GetResultSummary();
+                var resultSummary = GetResultSummary(outcome);
 
                 testRun.AppendChild(resultSummary);
                 testRun.AppendChild(_testDefinitions);
@@ -147,58 +160,56 @@ namespace Unicorn.Taf.Core.Utility
             return testRun;
         }
 
-        private XmlElement GetUnitTest(TestOutcome outcome, string executionIdValue, Guid idValue)
+        private XmlElement GetUnitTest(TestOutcome outcome, string executionIdValue)
         {
             var unitTest = _trx.CreateElement(string.Empty, "UnitTest", string.Empty);
 
             var name = _trx.CreateAttribute("name");
-            name.Value = outcome.FullMethodName;
+            name.Value = GetMethodName(outcome.FullMethodName);
+            unitTest.Attributes.Append(name);
 
             var storage = _trx.CreateAttribute("storage");
-            storage.Value = string.Empty; ////TODO: Path.GetFileName(outcome.testMethodInfo.DeclaringType.Assembly.Location));
+            storage.Value = _assemblyLocation;
+            unitTest.Attributes.Append(storage);
 
             var id = _trx.CreateAttribute("id");
-
-            id.Value = idValue.ToString();
-
-            unitTest.Attributes.Append(name);
-            unitTest.Attributes.Append(storage);
+            id.Value = outcome.Id.ToString();
             unitTest.Attributes.Append(id);
 
             // Description.
             var description = _trx.CreateElement(string.Empty, "Description", string.Empty);
             description.InnerText = outcome.Title;
+            unitTest.AppendChild(description);
 
             // Execution.
             var execution = _trx.CreateElement(string.Empty, "Execution", string.Empty);
 
             var executionId = _trx.CreateAttribute("id");
             executionId.Value = executionIdValue;
-
             execution.Attributes.Append(executionId);
+            
+            unitTest.AppendChild(execution);
 
             // TestMethod.
             var testMethod = _trx.CreateElement(string.Empty, "TestMethod", string.Empty);
 
             var codeBase = _trx.CreateAttribute("codeBase");
-            codeBase.Value = string.Empty; ////TODO: testMethodInfo.DeclaringType.Assembly.CodeBase.Replace("file:///", string.Empty);
+            codeBase.Value = _assemblyLocation;
+            testMethod.Attributes.Append(codeBase);
 
             var adapterTypeName = _trx.CreateAttribute("adapterTypeName");
             adapterTypeName.Value = Adapter;
+            testMethod.Attributes.Append(adapterTypeName);
 
             var className = _trx.CreateAttribute("className");
-            className.Value = string.Empty; ////TODO: testMethodInfo.DeclaringType.AssemblyQualifiedName;
+            className.Value = outcome.FullMethodName
+                .Substring(0, outcome.FullMethodName.LastIndexOf("."));
+            testMethod.Attributes.Append(className);
 
             var testMethodName = _trx.CreateAttribute("name");
-            testMethodName.Value = outcome.FullMethodName;
-
-            testMethod.Attributes.Append(codeBase);
-            testMethod.Attributes.Append(adapterTypeName);
-            testMethod.Attributes.Append(className);
+            testMethodName.Value = GetMethodName(outcome.FullMethodName);
             testMethod.Attributes.Append(testMethodName);
 
-            unitTest.AppendChild(description);
-            unitTest.AppendChild(execution);
             unitTest.AppendChild(testMethod);
 
             return unitTest;
@@ -232,15 +243,11 @@ namespace Unicorn.Taf.Core.Utility
                     failed++;
                 }
 
-                var executionIdValue = AdapterUtilities.GuidFromString(testOutcome.StartTime.ToString(DtFormat, CultureInfo.InvariantCulture)).ToString();
+                var executionIdValue = GuidGenerator.FromString(testOutcome.StartTime.ToString() + testOutcome.Id).ToString();
 
-                var testId = string.IsNullOrEmpty(outcome.DataSetName) ?
-                    testOutcome.Id :
-                    AdapterUtilities.GuidFromString(testOutcome.FullMethodName + $"[{outcome.DataSetName}]");
-
-                var unitTest = GetUnitTest(testOutcome, executionIdValue, testId);
-                var testEntry = GetTestEntry(testOutcome, executionIdValue, testId);
-                var unitTestResult = GetUnitTestResult(testOutcome, executionIdValue, testId);
+                var unitTest = GetUnitTest(testOutcome, executionIdValue);
+                var testEntry = GetTestEntry(testOutcome, executionIdValue);
+                var unitTestResult = GetUnitTestResult(testOutcome, executionIdValue);
 
                 _testDefinitions.AppendChild(unitTest);
                 _testEntries.AppendChild(testEntry);
@@ -262,44 +269,50 @@ namespace Unicorn.Taf.Core.Utility
             }
 
             name.Value = nameValue;
+            testList.Attributes.Append(name);
 
             var id = _trx.CreateAttribute("id");
             id.Value = outcome.Id.ToString();
-
-            testList.Attributes.Append(name);
             testList.Attributes.Append(id);
 
             return testList;
         }
 
-        private XmlElement GetUnitTestResult(TestOutcome outcome, string executionIdValue, Guid idValue)
+        private XmlElement GetUnitTestResult(TestOutcome outcome, string executionIdValue)
         {
             var unitTestResult = _trx.CreateElement(string.Empty, "UnitTestResult", string.Empty);
 
             var executionId = _trx.CreateAttribute("executionId");
             executionId.Value = executionIdValue;
+            unitTestResult.Attributes.Append(executionId);
 
             var testId = _trx.CreateAttribute("testId");
-
-            testId.Value = idValue.ToString();
+            testId.Value = outcome.Id.ToString();
+            unitTestResult.Attributes.Append(testId);
 
             var testName = _trx.CreateAttribute("testName");
-            testName.Value = outcome.FullMethodName;
+            testName.Value = GetMethodName(outcome.FullMethodName);
+            unitTestResult.Attributes.Append(testName);
 
             var computerName = _trx.CreateAttribute("computerName");
             computerName.Value = _machineName;
+            unitTestResult.Attributes.Append(computerName);
 
             var duration = _trx.CreateAttribute("duration");
             duration.Value = string.Format("{0:hh\\:mm\\:ss\\.fffffff}", outcome.ExecutionTime);
+            unitTestResult.Attributes.Append(duration);
 
             var startTime = _trx.CreateAttribute("startTime");
             startTime.Value = outcome.StartTime.ToString(DtFormat, CultureInfo.InvariantCulture);
+            unitTestResult.Attributes.Append(startTime);
 
             var endTime = _trx.CreateAttribute("endTime");
             endTime.Value = outcome.StartTime.Add(outcome.ExecutionTime).ToString(DtFormat, CultureInfo.InvariantCulture);
+            unitTestResult.Attributes.Append(endTime);
 
             var testType = _trx.CreateAttribute("testType");
             testType.Value = "13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b";
+            unitTestResult.Attributes.Append(testType);
 
             var outcomeAttribute = _trx.CreateAttribute("outcome");
 
@@ -316,18 +329,11 @@ namespace Unicorn.Taf.Core.Utility
                     break;
             }
 
+            unitTestResult.Attributes.Append(outcomeAttribute);
+
+
             var testListId = _trx.CreateAttribute("testListId");
             testListId.Value = outcome.ParentId.ToString();
-
-            unitTestResult.Attributes.Append(executionId);
-            unitTestResult.Attributes.Append(testId);
-            unitTestResult.Attributes.Append(testName);
-            unitTestResult.Attributes.Append(computerName);
-            unitTestResult.Attributes.Append(duration);
-            unitTestResult.Attributes.Append(startTime);
-            unitTestResult.Attributes.Append(endTime);
-            unitTestResult.Attributes.Append(testType);
-            unitTestResult.Attributes.Append(outcomeAttribute);
             unitTestResult.Attributes.Append(testListId);
 
             var output = _trx.CreateElement(string.Empty, "Output", string.Empty);
@@ -337,16 +343,18 @@ namespace Unicorn.Taf.Core.Utility
             if (outcome.Result.Equals(Status.Failed))
             {
                 var errorInfo = _trx.CreateElement(string.Empty, "ErrorInfo", string.Empty);
+                
                 var message = _trx.CreateElement(string.Empty, "Message", string.Empty);
-                var stackTrace = _trx.CreateElement(string.Empty, "StackTrace", string.Empty);
-
                 message.InnerText = outcome.Exception.Message;
-                stackTrace.InnerText = outcome.Exception.StackTrace;
-                stdOut.InnerText = RemoveXmlInvalidSymbolsFromString(outcome.Output);
-
                 errorInfo.AppendChild(message);
+
+                var stackTrace = _trx.CreateElement(string.Empty, "StackTrace", string.Empty);
+                stackTrace.InnerText = outcome.Exception.StackTrace;
                 errorInfo.AppendChild(stackTrace);
+                
                 output.AppendChild(errorInfo);
+
+                stdOut.InnerText = RemoveXmlInvalidSymbolsFromString(outcome.Output);
             }
 
             output.AppendChild(stdOut);
@@ -356,95 +364,97 @@ namespace Unicorn.Taf.Core.Utility
             return unitTestResult;
         }
 
-        private XmlElement GetTestEntry(TestOutcome outcome, string executionIdValue, Guid idValue)
+        private XmlElement GetTestEntry(TestOutcome outcome, string executionIdValue)
         {
             var testEntry = _trx.CreateElement(string.Empty, "TestEntry", string.Empty);
 
             var testId = _trx.CreateAttribute("testId");
-
-            testId.Value = idValue.ToString();
+            testId.Value = outcome.Id.ToString();
+            testEntry.Attributes.Append(testId);
 
             var executionId = _trx.CreateAttribute("executionId");
             executionId.Value = executionIdValue;
+            testEntry.Attributes.Append(executionId);
 
             var testListId = _trx.CreateAttribute("testListId");
             testListId.Value = outcome.ParentId.ToString();
-
-            testEntry.Attributes.Append(testId);
-            testEntry.Attributes.Append(executionId);
             testEntry.Attributes.Append(testListId);
 
             return testEntry;
         }
 
-        private XmlElement GetResultSummary()
+        private XmlElement GetResultSummary(LaunchOutcome outcome)
         {
             var resultSummary = _trx.CreateElement(string.Empty, "ResultSummary", string.Empty);
+
+            var outcomeAttribute = _trx.CreateAttribute("outcome");
+            outcomeAttribute.Value = outcome.RunStatus.ToString();
+            resultSummary.Attributes.Append(outcomeAttribute);
+
             var counters = _trx.CreateElement(string.Empty, "Counters", string.Empty);
 
             var totalAttribute = _trx.CreateAttribute("total");
             totalAttribute.Value = total.ToString();
+            counters.Attributes.Append(totalAttribute);
 
             var executedAttribute = _trx.CreateAttribute("executed");
             executedAttribute.Value = executed.ToString();
+            counters.Attributes.Append(executedAttribute);
 
             var passedAttribute = _trx.CreateAttribute("passed");
             passedAttribute.Value = passed.ToString();
+            counters.Attributes.Append(passedAttribute);
 
             var errorAttribute = _trx.CreateAttribute("error");
             errorAttribute.Value = _error.ToString();
+            counters.Attributes.Append(errorAttribute);
 
             var failedAttribute = _trx.CreateAttribute("failed");
             failedAttribute.Value = failed.ToString();
+            counters.Attributes.Append(failedAttribute);
 
             var timeoutAttribute = _trx.CreateAttribute("timeout");
             timeoutAttribute.Value = _timeout.ToString();
+            counters.Attributes.Append(timeoutAttribute);
 
             var abortedAttribute = _trx.CreateAttribute("aborted");
             abortedAttribute.Value = _aborted.ToString();
+            counters.Attributes.Append(abortedAttribute);
 
             var inconclusiveAttribute = _trx.CreateAttribute("inconclusive");
             inconclusiveAttribute.Value = inconclusive.ToString();
+            counters.Attributes.Append(inconclusiveAttribute);
 
             var passedButRunAbortedAttribute = _trx.CreateAttribute("passedButRunAborted");
             passedButRunAbortedAttribute.Value = _passedButRunAborted.ToString();
+            counters.Attributes.Append(passedButRunAbortedAttribute);
 
             var notRunnableAttribute = _trx.CreateAttribute("notRunnable");
             notRunnableAttribute.Value = _notRunnable.ToString();
+            counters.Attributes.Append(notRunnableAttribute);
 
             var notExecutedAttribute = _trx.CreateAttribute("notExecuted");
             notExecutedAttribute.Value = notExecuted.ToString();
+            counters.Attributes.Append(notExecutedAttribute);
 
             var disconnectedAttribute = _trx.CreateAttribute("disconnected");
             disconnectedAttribute.Value = _disconnected.ToString();
+            counters.Attributes.Append(disconnectedAttribute);
 
             var warningAttribute = _trx.CreateAttribute("warning");
             warningAttribute.Value = _warning.ToString();
+            counters.Attributes.Append(warningAttribute);
 
             var completedAttribute = _trx.CreateAttribute("completed");
             completedAttribute.Value = completed.ToString();
+            counters.Attributes.Append(completedAttribute);
 
             var inProgressAttribute = _trx.CreateAttribute("inProgress");
             inProgressAttribute.Value = _inProgress.ToString();
+            counters.Attributes.Append(inProgressAttribute);
 
             var pendingAttribute = _trx.CreateAttribute("pending");
             pendingAttribute.Value = _pending.ToString();
-
-            counters.Attributes.Append(totalAttribute);
-            counters.Attributes.Append(executedAttribute);
-            counters.Attributes.Append(passedAttribute);
-            counters.Attributes.Append(errorAttribute);
-            counters.Attributes.Append(failedAttribute);
-            counters.Attributes.Append(timeoutAttribute);
-            counters.Attributes.Append(abortedAttribute);
-            counters.Attributes.Append(inconclusiveAttribute);
-            counters.Attributes.Append(passedButRunAbortedAttribute);
-            counters.Attributes.Append(notRunnableAttribute);
-            counters.Attributes.Append(notExecutedAttribute);
-            counters.Attributes.Append(disconnectedAttribute);
-            counters.Attributes.Append(warningAttribute);
-            counters.Attributes.Append(completedAttribute);
-            counters.Attributes.Append(inProgressAttribute);
             counters.Attributes.Append(pendingAttribute);
 
             resultSummary.AppendChild(counters);
@@ -456,12 +466,15 @@ namespace Unicorn.Taf.Core.Utility
         {
             StringBuilder sb = new StringBuilder(input);
 
-            foreach (var invalidSymbol in xmlInvalidSymbols)
+            foreach (var invalidSymbol in _xmlInvalidSymbols)
             {
                 sb.Replace(invalidSymbol, string.Empty);
             }
 
             return sb.ToString().ToLower();
         }
+
+        private string GetMethodName(string fullMethodNme) =>
+            fullMethodNme.Split('.').Last();
     }
 }

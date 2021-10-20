@@ -66,7 +66,6 @@ namespace Unicorn.Taf.Core.Testing
             var testAttribute = TestMethod.GetCustomAttribute<TestAttribute>(true);
             var authorAttribute = TestMethod.GetCustomAttribute<AuthorAttribute>(true);
             Outcome.Author = authorAttribute == null ? NoAuthor : authorAttribute.Author;
-            Outcome.Id = AdapterUtilities.GuidFromString(Outcome.FullMethodName);
 
             Outcome.Title = string.IsNullOrEmpty(testAttribute?.Title) ?
                 TestMethod.Name :
