@@ -48,7 +48,7 @@ namespace Unicorn.UnitTests.Testing
 
             for (int i = 0; i < outcome.TestsOutcomes.Count; i++)
             {
-                Assert.That(outcome.TestsOutcomes[0].Title, Is.EqualTo($"Test{i + 1}"));
+                Assert.That(outcome.TestsOutcomes[i].Title, Is.EqualTo($"Test{i + 1}"));
             }
         }
 
