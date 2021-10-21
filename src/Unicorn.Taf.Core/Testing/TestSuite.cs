@@ -251,16 +251,17 @@ namespace Unicorn.Taf.Core.Testing
             {
                 test.Skip();
                 Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
-                return;
             }
-
-            test.Execute(this);
-
-            RunAftertests(test.Outcome);
-
-            if (test.Outcome.Result == Status.Failed)
+            else
             {
-                Outcome.Result = Status.Failed;
+                test.Execute(this);
+
+                RunAftertests(test.Outcome);
+
+                if (test.Outcome.Result == Status.Failed)
+                {
+                    Outcome.Result = Status.Failed;
+                }
             }
 
             Outcome.TestsOutcomes.Add(test.Outcome);
