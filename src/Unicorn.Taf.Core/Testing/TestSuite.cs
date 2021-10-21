@@ -312,7 +312,8 @@ namespace Unicorn.Taf.Core.Testing
                 if (suiteMethod.Outcome.Result == Status.Failed)
                 {
                     Outcome.Result = Status.Failed;
-                    //TODO: && Config.ParallelBy != Parallelization.Test;
+                    //TODO: parallelization is not implemented yet. 
+                    //// && Config.ParallelBy != Parallelization.Test;
                     skipTests = attribute.SkipTestsOnFail;
                 }
             }

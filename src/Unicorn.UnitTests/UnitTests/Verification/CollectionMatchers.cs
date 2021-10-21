@@ -146,6 +146,57 @@ namespace Unicorn.UnitTests.Verification
 
         #endregion
 
+        #region "HasItemsCount"
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountForArrayPositive1() =>
+            Uv.Assert.That(hasItemsA, Collection.HasItemsCount(3));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountFolListPositive2() =>
+            Uv.Assert.That(intList1, Collection.HasItemsCount(2));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountWithNotPositive1() =>
+            Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItemsCount(4)));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountNegativeExpected() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Collection.HasItemsCount(-1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Collection.HasItemsCount(2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountNullNegative2() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.HasItemsCount(55));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountWithNotNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Um.Is.Not(Collection.HasItemsCount(3)));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherHasItemsCountNullWithNotNegative5() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.HasItemsCount(234)));
+            });
+
+        #endregion
+
         #region "HasItem"
 
         [Test, Author("Vitaliy Dobriyan")]

@@ -174,6 +174,14 @@ namespace Unicorn.Taf.Core.Verification
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
         /// <exception cref="AssertionException">is thrown when assertion was failed</exception>
-        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => That(actual, matcher, DefaultFailMessage);
+        public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher) => 
+            That(actual, matcher, DefaultFailMessage);
+
+        /// <summary>
+        /// Throws <see cref="AssertionException"/> with specified message.
+        /// </summary>
+        /// <param name="message">error message to display</param>
+        public static void Fail(string message) =>
+            throw new AssertionException(message);
     }
 }

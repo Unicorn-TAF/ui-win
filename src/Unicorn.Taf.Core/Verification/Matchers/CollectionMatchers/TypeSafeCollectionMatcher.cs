@@ -27,13 +27,13 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// </summary>
         /// <param name="collection">collection instance</param>
         /// <returns>collection description string</returns>
-        protected string DescribeCollection(IEnumerable<T> collection)
+        protected string DescribeCollection(IEnumerable<T> collection, int trimLength)
         {
             string itemsList = string.Join(", ", collection);
 
-            if (itemsList.Length > 200)
+            if (itemsList.Length > trimLength)
             {
-                itemsList = itemsList.Substring(0, 200) + " etc . . .";
+                itemsList = itemsList.Substring(0, trimLength) + " etc . . .";
             }
 
             return itemsList;
