@@ -34,6 +34,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers
             new HasItemsMatcher<T>(expectedObjects);
 
         /// <summary>
+        /// Matcher to check if collection contains specified items count.
+        /// </summary>
+        /// <param name="expectedCount">items count expected in collection</param>
+        /// <returns><see cref="HasItemsCountMatcher"/> instance</returns>
+        public static HasItemsCountMatcher HasItemsCount(int expectedCount) =>
+            new HasItemsCountMatcher(expectedCount);
+
+        /// <summary>
         /// Matcher to check if collection has the same items as expected one ignoring order.
         /// </summary>
         /// <typeparam name="T">items type</typeparam>
