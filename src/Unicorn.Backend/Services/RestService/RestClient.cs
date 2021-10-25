@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -143,6 +144,48 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns></returns>
         public virtual RestResponse SendRequest(HttpMethod method, string endpoint) =>
             SendRequest(method, endpoint, string.Empty);
+
+        /// <summary>
+        /// Returns <seealso cref="HttpResponseMessage"/> witn file<para/>
+        /// Responce should be disposed later
+        /// </summary>
+        /// <param name="endpoint">Service endpoint relative url</param>
+        /// <returns><seealso cref="HttpResponseMessage"/> that contains file</returns>
+        public HttpResponseMessage DownloadFile(string endpoint)
+        {
+            return GenerateDownloadFileRequest(endpoint);
+        }
+
+        /// <summary>
+        /// Downloads file to specific location in <paramref name="path"/>
+        /// </summary>
+        /// <param name="path">Where to save</param>
+        /// <param name="endpoint">Endpoint</param>
+        public void DownloadFile(string path, string endpoint)
+        {
+            var request = GenerateDownloadFileRequest(endpoint);
+            var streamToReadFrom = request.Content.ReadAsStreamAsync().Result;
+
+            using (var fileStream = File.Create(path))
+            {
+                streamToReadFrom.Seek(0, SeekOrigin.Begin);
+                streamToReadFrom.CopyTo(fileStream);
+            }
+        }
+
+        private HttpResponseMessage GenerateDownloadFileRequest(string endpoint)
+        {
+            // Getting request just to get cookies for existing sesion if any
+            var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
+
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true
+            };
+            handler.CookieContainer.SetCookies(this.BaseUri, request.Headers.ToString());
+            HttpClient client = new HttpClient(handler);
+            return client.GetAsync(this.BaseUri + endpoint).Result;
+        }
 
         /// <summary>
         /// Creates <see cref="HttpRequestMessage"/> and fills it's headers from session.
