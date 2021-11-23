@@ -153,18 +153,28 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns><seealso cref="HttpResponseMessage"/> that contains file</returns>
         public HttpResponseMessage DownloadFile(string endpoint)
         {
-            return GenerateDownloadFileRequest(endpoint);
+            var httpClientHandler = GenerateHttpClientHandler(endpoint);
+
+            // Using http client with headers from active session
+            HttpClient client = new HttpClient(httpClientHandler);
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var requestUri = new Uri(this.BaseUri, endpoint);
+            return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
         }
 
         /// <summary>
         /// Downloads file to specific location in <paramref name="path"/>
         /// </summary>
-        /// <param name="path">Where to save</param>
+        /// <param name="path">Path with desired filename</param>
         /// <param name="endpoint">Endpoint</param>
         public void DownloadFile(string path, string endpoint)
         {
-            var request = GenerateDownloadFileRequest(endpoint);
-            var streamToReadFrom = request.Content.ReadAsStreamAsync().Result;
+            var httpClientHandler = GenerateHttpClientHandler(endpoint);
+
+            HttpClient client = new HttpClient(httpClientHandler);
+            var requestUri = new Uri(this.BaseUri, endpoint);
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var streamToReadFrom = client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result.Content.ReadAsStreamAsync().Result;
 
             using (var fileStream = File.Create(path))
             {
@@ -173,7 +183,12 @@ namespace Unicorn.Backend.Services.RestService
             }
         }
 
-        private HttpResponseMessage GenerateDownloadFileRequest(string endpoint)
+        /// <summary>
+        /// Gets request from <seealso cref="CreateRequest"/> method and copies cookies if any to new <seealso cref="HttpClientHandler"/>
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <returns><seealso cref="HttpClientHandler"/> with cookies</returns>
+        private HttpClientHandler GenerateHttpClientHandler(string endpoint)
         {
             // Getting request just to get cookies for existing sesion if any
             var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
@@ -182,9 +197,40 @@ namespace Unicorn.Backend.Services.RestService
             {
                 AllowAutoRedirect = true
             };
-            handler.CookieContainer.SetCookies(this.BaseUri, request.Headers.ToString());
-            HttpClient client = new HttpClient(handler);
-            return client.GetAsync(this.BaseUri + endpoint).Result;
+
+            var cookies = new CookieCollection();
+            foreach (var header in request.Headers)
+            {
+                foreach (var headerValue in header.Value)
+                {
+                    if (headerValue.Contains(";"))
+                    {
+                        // if header contains multiple cookies
+                        var headerParts = headerValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var part in headerParts)
+                        {
+                            var partKeyValue = part.Trim().Split('=');
+                            Cookie cookie = new Cookie(partKeyValue[0], partKeyValue[1])
+                            {
+                                Domain = request.RequestUri.Host
+                            };
+                            cookies.Add(cookie);
+                        }
+                    }
+                    else
+                    {
+                        // if header contains just one cookie
+                        var cookie = new Cookie(header.Key, headerValue)
+                        {
+                            Domain = request.RequestUri.Host
+                        };
+                        cookies.Add(cookie);
+                    }
+                }
+            }
+            handler.CookieContainer.Add(cookies);
+
+            return handler;
         }
 
         /// <summary>
