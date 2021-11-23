@@ -9,6 +9,11 @@ using Unicorn.UI.Core.Matchers;
 
 namespace Demo.Tests.Desktop
 {
+    /// <summary>
+    /// Desktop application test suite example.
+    /// The test suite should inherit <see cref="TestSuite"/> and have <see cref="SuiteAttribute"/>
+    /// It's possible to specify any number of suite tags and metadata.
+    /// </summary>
     [Suite("Charmap Advanced View")]
     [Tag("Desktop"), Tag("Charmap"), Tag("Charmap.AdvancedView")]
     [Metadata(key: "Description", value: "Tests for Charmap Advanced View controls behavior")]
@@ -17,6 +22,12 @@ namespace Demo.Tests.Desktop
     {
         private CharmapApp Charmap => CharmapApp.Charmap;
 
+        /// <summary>
+        /// Data for parameterized test. First parameter is <see cref="DataSet"/> name 
+        /// and is not considered in parameterization.
+        /// The method should be static.
+        /// </summary>
+        /// <returns></returns>
         public static List<DataSet> GetFontsData() =>
             new List<DataSet>
             {
@@ -26,6 +37,9 @@ namespace Demo.Tests.Desktop
                 new DataSet("Wingdings font", "Wingdings", Is.Not(UI.Control.Enabled()), Is.Not(UI.Control.Enabled()))
             };
 
+        /// <summary>
+        /// Actions before whole suite execution.
+        /// </summary>
         [BeforeSuite]
         public void ClassInit()
         {
@@ -34,6 +48,10 @@ namespace Demo.Tests.Desktop
             Do.UI.CharMap.SetAdvancedView(true);
         }
 
+        /// <summary>
+        /// Example of test with execution order specified.
+        /// </summary>
+        [Order(1)]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check 'Advanced View' dropdowns default values")]
@@ -43,6 +61,14 @@ namespace Demo.Tests.Desktop
             Do.Assertion.AssertThat(Charmap.Window.DropdownGroupBy, UI.Dropdown.HasSelectedValue("All"));
         }
 
+        /// <summary>
+        /// Example of parameterized test.
+        /// Number of parameters should be the same as number of items in <see cref="DataSet"/> (DataSet name is not considered)
+        /// </summary>
+        /// <param name="font">1st DataSet parameter</param>
+        /// <param name="matcher1">2nd DataSet parameter</param>
+        /// <param name="matcher2">3rd DataSet parameter</param>
+        [Order(2)]
         [Author("Vitaliy Dobriyan")]
         [Test("Check 'Advanced View' section controls enabled state")]
         [TestData(nameof(GetFontsData))]
@@ -54,6 +80,9 @@ namespace Demo.Tests.Desktop
             Do.Assertion.AssertThat(Charmap.Window.ButtonSearch, Is.Not(UI.Control.Enabled()));
         }
 
+        /// <summary>
+        /// Actions after whole suite execution.
+        /// </summary>
         [AfterSuite]
         public void ClassTearDown() =>
             Do.UI.CharMap.CloseApplication();

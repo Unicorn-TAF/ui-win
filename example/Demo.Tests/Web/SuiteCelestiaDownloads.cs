@@ -9,6 +9,11 @@ using Unicorn.UI.Web;
 
 namespace Demo.Tests.Web
 {
+    /// <summary>
+    /// Web test suite example.
+    /// The test suite should inherit <see cref="TestSuite"/> and have <see cref="SuiteAttribute"/>
+    /// It's possible to specify any number of suite tags and metadata.
+    /// </summary>
     [Suite("Celestia website downloads page")]
     [Tag("Web"), Tag("Celestia"), Tag("Celestia.Downloads")]
     [Metadata(key: "Description", value: "Tests for Celestia website downloads page")]
@@ -18,6 +23,9 @@ namespace Demo.Tests.Web
         private DownloadPage DownloadsPage => 
             CelestiaSite.Instance.GetPage<DownloadPage>();
 
+        /// <summary>
+        /// Actions executed before each test.
+        /// </summary>
         [BeforeTest]
         public void ClassInit()
         {
@@ -25,6 +33,9 @@ namespace Demo.Tests.Web
             Do.UI.Celestia.SelectMenu("Download");
         }
 
+        /// <summary>
+        /// Example of simple test with specified category.
+        /// </summary>
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check downloads items style")]
@@ -33,6 +44,9 @@ namespace Demo.Tests.Web
                 DownloadsPage.DownloadsList, 
                 Collection.Each(UI.Control.HasAttributeContains("class", "fa-5x")));
 
+        /// <summary>
+        /// Actions executed after each test.
+        /// </summary>
         [AfterTest]
         public void ClassTearDown() =>
             Do.UI.Celestia.CloseBrowser();
