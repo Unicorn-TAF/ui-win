@@ -1,4 +1,5 @@
 ﻿using Demo.Tests.Base;
+using System.Net;
 using System.Net.Http;
 using Unicorn.Backend.Matchers;
 using Unicorn.Backend.Services.RestService;
@@ -23,9 +24,22 @@ namespace Demo.Tests.RestService
         public void GetEmployeeByIdTest()
         {
             RestResponse employee = Do.DummyRestApi.GetEmployee(1);
+
             Do.Assertion.AssertThat(
                 employee,
-                Service.Rest.Response.HasTokenWithValue("$.status", "success"));
+                Service.Rest.Response.HasStatusCode(HttpStatusCode.OK));
+        }
+
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void SendRequestToNonExistingEndpoint()
+        {
+            RestResponse response = Do.DummyRestApi
+                .SendGeneralRequest(HttpMethod.Post, "/non-existing-endpoint", "data");
+
+            Do.Assertion.AssertThat(
+                response,
+                Service.Rest.Response.HasStatusCode(HttpStatusCode.NotFound));
         }
     }
 }

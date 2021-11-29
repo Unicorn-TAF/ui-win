@@ -5,12 +5,17 @@ namespace Demo.DummyRestApi
 {
     public class DummyApiClient : RestClient
     {
-        public DummyApiClient() : base("http://dummy.restapiexample.com")
-        {
+        private readonly string _version;
 
+        public DummyApiClient(string version) : base("http://dummy.restapiexample.com")
+        {
+            _version = version;
         }
 
         public RestResponse GetEmployee(int id) =>
-            SendRequest(HttpMethod.Get, $"/api/v1/employee/{id}");
+            SendRequest(HttpMethod.Get, $"/api/{_version}/employee/{id}");
+
+        public RestResponse GetEmployees() =>
+            SendRequest(HttpMethod.Get, $"/api/{_version}/employees");
     }
 }
