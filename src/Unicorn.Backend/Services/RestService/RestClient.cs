@@ -157,30 +157,10 @@ namespace Unicorn.Backend.Services.RestService
 
             // Using http client with headers from active session
             HttpClient client = new HttpClient(httpClientHandler);
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType));
             var requestUri = new Uri(this.BaseUri, endpoint);
+
             return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
-        }
-
-        /// <summary>
-        /// Downloads file to specific location in <paramref name="path"/>
-        /// </summary>
-        /// <param name="path">Path with desired filename</param>
-        /// <param name="endpoint">Endpoint</param>
-        public void DownloadFile(string path, string endpoint)
-        {
-            var httpClientHandler = GenerateHttpClientHandler(endpoint);
-
-            HttpClient client = new HttpClient(httpClientHandler);
-            var requestUri = new Uri(this.BaseUri, endpoint);
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            var streamToReadFrom = client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result.Content.ReadAsStreamAsync().Result;
-
-            using (var fileStream = File.Create(path))
-            {
-                streamToReadFrom.Seek(0, SeekOrigin.Begin);
-                streamToReadFrom.CopyTo(fileStream);
-            }
         }
 
         /// <summary>
