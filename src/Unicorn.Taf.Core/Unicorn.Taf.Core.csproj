@@ -70,6 +70,7 @@
     <Compile Include="Verification\Matchers\BaseMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\AnyMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\EachMatcher.cs" />
+    <Compile Include="Verification\Matchers\CollectionMatchers\HasItemsCountMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\HasItemMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\SequenceEqualToCollectionMatcher.cs" />
     <Compile Include="Verification\Matchers\CollectionMatchers\TypeSafeCollectionMatcher.cs" />

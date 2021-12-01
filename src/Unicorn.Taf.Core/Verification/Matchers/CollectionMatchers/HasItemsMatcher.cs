@@ -24,7 +24,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// Gets check description
         /// </summary>
         public override string CheckDescription =>
-            "Collection has items: " + DescribeCollection(_expectedObjects);
+            "Collection has items: " + DescribeCollection(_expectedObjects, 200);
 
         /// <summary>
         /// Checks if collection contains specified items.

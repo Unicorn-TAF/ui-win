@@ -4,6 +4,12 @@ using Unicorn.UI.Web.Controls;
 
 namespace Demo.Celestia.Ui.Common
 {
+    /// <summary>
+    /// Generic complex UI controls block which could be reused across different places.
+    /// Any block could be a PageObject for other child controls.
+    /// Any block could have default locator with will be used if no direct locator is specified in PageObject.
+    /// </summary>
+    [Find(Using.Id, "footer")]
     public class FooterBlock : WebContainer
     {
         [Name("Twitter link")]

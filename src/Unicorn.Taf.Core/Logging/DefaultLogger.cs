@@ -10,6 +10,8 @@ namespace Unicorn.Taf.Core.Logging
     /// </summary>
     public class DefaultLogger : ILogger
     {
+        private const string DtFormat = "yyyy/MM/dd HH:mm:ss.ff";
+
         private readonly Dictionary<LogLevel, string> _prefixes = new Dictionary<LogLevel, string>
         {
             { LogLevel.Error, $"  [Error]: " },
@@ -28,7 +30,8 @@ namespace Unicorn.Taf.Core.Logging
         {
             if (level <= Logger.Level)
             {
-                var logString = $"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ff", CultureInfo.InvariantCulture)} {_prefixes[level]}{message}";
+                var timestamp = DateTime.Now.ToString(DtFormat, CultureInfo.InvariantCulture);
+                var logString = $"{timestamp} {_prefixes[level]}{message}";
                 Console.WriteLine(logString);
             }
         }

@@ -5,26 +5,41 @@ using Unicorn.Taf.Core.Logging;
 namespace Unicorn.Taf.Core.Utility.Synchronization
 {
     /// <summary>
-    /// Basic implementation of simple wait for some boolean condition during specified timeout and with polling interval.
+    /// Basic implementation of simple wait for some boolean condition during 
+    /// specified timeout and with polling interval.
     /// </summary>
     public class DefaultWait : BaseWait
     {
+        private const string TimeFormat = @"mm\:ss\.fff";
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait"/> class with default timeout and polling interval.
+        /// Initializes a new instance of the <see cref="DefaultWait"/> class with 
+        /// 60 sec timeout and 250 ms polling interval.
         /// </summary>
         public DefaultWait() : base()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait"/> class with specified timeout and polling interval.
+        /// Initializes a new instance of the <see cref="DefaultWait"/> class with 
+        /// specified timeout and polling interval.
         /// </summary>
         /// <param name="timeout">wait timeout</param>
         /// <param name="pollingInterval">check polling interval</param>
-        public DefaultWait(TimeSpan timeout, TimeSpan pollingInterval)
+        public DefaultWait(TimeSpan timeout, TimeSpan pollingInterval) : base()
         {
             Timeout = timeout;
             PollingInterval = pollingInterval;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultWait"/> class with 
+        /// specified timeout and 250 ms polling interval.
+        /// </summary>
+        /// <param name="timeout">wait timeout</param>
+        public DefaultWait(TimeSpan timeout) : base()
+        {
+            Timeout = timeout;
         }
 
         /// <summary>
@@ -48,7 +63,8 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 throw new ArgumentNullException(nameof(condition), "Wait condition is not defined.");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Waiting for '{condition.Method.Name} during {Timeout.ToString(@"mm\:ss\.fff")} with polling interval {PollingInterval.ToString(@"mm\:ss\.fff")}");
+            Logger.Instance.Log(LogLevel.Debug, 
+                $"Waiting for '{condition.Method.Name} during {Timeout.ToString(TimeFormat)} with polling interval {PollingInterval.ToString(TimeFormat)}");
 
             Exception lastException = null;
             Timer
@@ -61,7 +77,8 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 {
                     if (condition.Invoke())
                     {
-                        Logger.Instance.Log(LogLevel.Trace, $"wait is successful [Wait time = {Timer.Elapsed.ToString(@"mm\:ss\.fff")}]");
+                        Logger.Instance.Log(LogLevel.Trace, 
+                            $"wait is successful [Wait time = {Timer.Elapsed.ToString(TimeFormat)}]");
                         return true;
                     }
                 }

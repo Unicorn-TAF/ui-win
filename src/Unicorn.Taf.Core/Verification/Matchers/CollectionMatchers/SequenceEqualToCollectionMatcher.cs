@@ -24,7 +24,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// Gets check description
         /// </summary>
         public override string CheckDescription =>
-            "Is sequence equal to collection: [" + DescribeCollection(_expected) + "]";
+            "Is sequence equal to collection: [" + DescribeCollection(_expected, 200) + "]";
 
         /// <summary>
         /// Checks if collection is sequence equal to another one
@@ -39,7 +39,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
                 return Reverse;
             }
 
-            DescribeMismatch(DescribeCollection(actual));
+            DescribeMismatch(DescribeCollection(actual, 1000));
             return actual.SequenceEqual(_expected);
         }
     }

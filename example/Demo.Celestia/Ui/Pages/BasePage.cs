@@ -12,10 +12,23 @@ namespace Demo.Celestia.Ui.Pages
         {
         }
 
+        public BasePage() : base(WebDriver.Instance.SeleniumDriver)
+        {
+
+        }
+
+        /// <summary>
+        /// Each control could have name (specified in <see cref="NameAttribute"/>). 
+        /// This can help to have more readable code, logs, reports and error messages from matchers.
+        /// </summary>
         [ById("header"), Name("Page heder")]
         public HeaderBlock Header { get; set; }
 
-        [ById("footer"), Name("Page footer")]
+        /// <summary>
+        /// Initializae complex PageObject element.
+        /// If locator is not specified explicitly, then default locator is used (if any).
+        /// </summary>
+        [Name("Page footer")]
         public FooterBlock Footer { get; set; }
     }
 }

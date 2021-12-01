@@ -36,6 +36,7 @@ namespace Demo.Tests
         /// </summary>
         public FileLogger()
         {
+            // Subscribe to step start event to log step.
             StepsEvents.OnStepStart += ReportStepInfo;
 
             var logsDirectory = Path.Combine(Config.Instance.TestsDir, "Logs"); ;

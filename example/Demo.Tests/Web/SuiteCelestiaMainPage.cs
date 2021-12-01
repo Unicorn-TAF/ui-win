@@ -10,6 +10,12 @@ using Unicorn.UI.Web;
 
 namespace Demo.Tests.Web
 {
+    /// <summary>
+    /// Parameterized web test suite example.
+    /// Parameterized suite should have <see cref="ParameterizedAttribute"/>
+    /// The test suite should inherit <see cref="TestSuite"/> and have <see cref="SuiteAttribute"/>
+    /// It's possible to specify any number of suite tags and metadata.
+    /// </summary>
     [Parameterized]
     [Suite("Celestia website home page")]
     [Tag("Web"), Tag("Celestia"), Tag("Celestia.Home")]
@@ -19,6 +25,10 @@ namespace Demo.Tests.Web
     {
         private readonly BrowserType _browser;
 
+        /// <summary>
+        /// Constructor for parameterized suite. It should contain the same number of parameters as suite DataSet.
+        /// </summary>
+        /// <param name="browser">browser type to run suite on (corresponds to same parameter of suite DataSet)</param>
         public SuiteCelestiaMainPage(BrowserType browser)
         {
             _browser = browser;
@@ -27,6 +37,13 @@ namespace Demo.Tests.Web
         private HomePage HomePage => 
             CelestiaSite.Instance.GetPage<HomePage>();
 
+        /// <summary>
+        /// Data for parameterized suite. First parameter is <see cref="DataSet"/> name 
+        /// and is not considered in parameterization.
+        /// Data for parameterized suite should have <see cref="SuiteDataAttribute"/>
+        /// The method should be static.
+        /// </summary>
+        /// <returns></returns>
         [SuiteData]
         public static List<DataSet> GetRunBrowsers() =>
             new List<DataSet>
@@ -35,6 +52,12 @@ namespace Demo.Tests.Web
                 new DataSet("Internet Explorer", BrowserType.IE)
             };
 
+        /// <summary>
+        /// Data for parameterized test. First parameter is <see cref="DataSet"/> name 
+        /// and is not considered in parameterization.
+        /// The method should be static.
+        /// </summary>
+        /// <returns></returns>
         public static List<DataSet> GetTopMenuData() =>
             new List<DataSet>
             {
@@ -47,6 +70,9 @@ namespace Demo.Tests.Web
                 new DataSet("Item 'Forum'", "Forum", "/forum")
             };
 
+        /// <summary>
+        /// Actions before whole suite execution.
+        /// </summary>
         [BeforeSuite]
         public void ClassInit()
         {
@@ -54,14 +80,22 @@ namespace Demo.Tests.Web
             Do.Assertion.AssertThat(HomePage.Opened, Is.EqualTo(true));
         }
 
+        /// <summary>
+        /// Example of simple test with specified category.
+        /// </summary>
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check header presence")]
         public void TestHeader() =>
             Do.Assertion.AssertThat(HomePage.Header, UI.Control.Visible());
 
+        /// <summary>
+        /// Example of parameterized test.
+        /// Number of parameters should be the same as number of items in <see cref="DataSet"/> (DataSet name is not considered)
+        /// </summary>
+        /// <param name="navItem">navigation item name</param>
+        /// <param name="href">href attribute value</param>
         [Author("Vitaliy Dobriyan")]
-        [Category("Smoke")]
         [Test("Check header menu item is presented")]
         [TestData(nameof(GetTopMenuData))]
         public void TestHeaderMenuItemIsPresented(string navItem, string href)
@@ -76,6 +110,9 @@ namespace Demo.Tests.Web
                 .AssertChain();
         }
 
+        /// <summary>
+        /// Example of simple test with specified category.
+        /// </summary>
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check footer content")]
@@ -92,6 +129,9 @@ namespace Demo.Tests.Web
                 .AssertChain();
         }
 
+        /// <summary>
+        /// Actions after whole suite execution.
+        /// </summary>
         [AfterSuite]
         public void ClassTearDown() =>
             Do.UI.Celestia.CloseBrowser();
