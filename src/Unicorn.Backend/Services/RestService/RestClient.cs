@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -143,6 +144,74 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns></returns>
         public virtual RestResponse SendRequest(HttpMethod method, string endpoint) =>
             SendRequest(method, endpoint, string.Empty);
+
+        /// <summary>
+        /// Returns <seealso cref="HttpResponseMessage"/> witn file<para/>
+        /// Responce should be disposed later
+        /// </summary>
+        /// <param name="endpoint">Service endpoint relative url</param>
+        /// <returns><seealso cref="HttpResponseMessage"/> that contains file</returns>
+        public HttpResponseMessage DownloadFile(string endpoint)
+        {
+            var httpClientHandler = GenerateHttpClientHandler(endpoint);
+
+            // Using http client with headers from active session
+            HttpClient client = new HttpClient(httpClientHandler);
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType));
+            var requestUri = new Uri(this.BaseUri, endpoint);
+
+            return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
+        }
+
+        /// <summary>
+        /// Gets request from <seealso cref="CreateRequest"/> method and copies cookies if any to new <seealso cref="HttpClientHandler"/>
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <returns><seealso cref="HttpClientHandler"/> with cookies</returns>
+        private HttpClientHandler GenerateHttpClientHandler(string endpoint)
+        {
+            // Getting request just to get cookies for existing sesion if any
+            var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
+
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true
+            };
+
+            var cookies = new CookieCollection();
+            foreach (var header in request.Headers)
+            {
+                foreach (var headerValue in header.Value)
+                {
+                    if (headerValue.Contains(";"))
+                    {
+                        // if header contains multiple cookies
+                        var headerParts = headerValue.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var part in headerParts)
+                        {
+                            var partKeyValue = part.Trim().Split('=');
+                            Cookie cookie = new Cookie(partKeyValue[0], partKeyValue[1])
+                            {
+                                Domain = request.RequestUri.Host
+                            };
+                            cookies.Add(cookie);
+                        }
+                    }
+                    else
+                    {
+                        // if header contains just one cookie
+                        var cookie = new Cookie(header.Key, headerValue)
+                        {
+                            Domain = request.RequestUri.Host
+                        };
+                        cookies.Add(cookie);
+                    }
+                }
+            }
+            handler.CookieContainer.Add(cookies);
+
+            return handler;
+        }
 
         /// <summary>
         /// Creates <see cref="HttpRequestMessage"/> and fills it's headers from session.
