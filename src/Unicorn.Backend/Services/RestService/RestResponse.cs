@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Unicorn.Taf.Core.Logging;
 
 namespace Unicorn.Backend.Services.RestService
 {
@@ -30,6 +32,20 @@ namespace Unicorn.Backend.Services.RestService
         /// <summary>
         /// Gets response content in form of <see cref="JObject"/>.
         /// </summary>
-        public JObject AsJObject => JObject.Parse(Content);
+        public JObject AsJObject
+        {
+            get
+            {
+                try
+                {
+                    return JObject.Parse(Content);
+                }
+                catch (JsonReaderException)
+                {
+                    Logger.Instance.Log(LogLevel.Error, "Unable to parse response as JSON. Content:\n" + Content);
+                    throw;
+                }
+            }
+        }
     }
 }
