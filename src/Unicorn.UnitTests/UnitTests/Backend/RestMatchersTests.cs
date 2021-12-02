@@ -5,7 +5,7 @@ using Unicorn.Backend.Matchers;
 using Unicorn.Backend.Services.RestService;
 using Uv = Unicorn.Taf.Core.Verification;
 
-namespace Unicorn.UnitTests.UnitTests
+namespace Unicorn.UnitTests.Backend
 {
     [TestFixture]
     public class RestMatchersTests
