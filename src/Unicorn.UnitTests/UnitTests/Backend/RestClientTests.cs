@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.IO;
-using System.Net.Http;
 using Unicorn.Backend.Services.RestService;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
@@ -18,8 +17,14 @@ namespace Unicorn.UnitTests.Backend
         public void TestRestClientGetFile()
         {
             var client = new RestClient(BaseUrl);
-            HttpResponseMessage response = client.GetFileResponse(FileEndpoint);
-            Assert.That(response.Content.Headers.ContentDisposition.DispositionType, Is.EqualTo("attachment"));
+
+            string fileName;
+
+            using (Stream stream = client.GetFileStream(FileEndpoint, out fileName))
+            {
+                Assert.That(fileName, Is.EqualTo("Release 2.0.0 nuget packages.zip"));
+                Assert.That(stream.ReadByte(), Is.EqualTo(80));
+            }
         }
 
         [Author("Vitaliy Dobriyan")]

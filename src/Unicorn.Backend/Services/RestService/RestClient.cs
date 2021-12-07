@@ -159,59 +159,59 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns>downloaded file name</returns>
         public string DownloadFile(string endpoint, string destinationFolder)
         {
-            HttpResponseMessage response = GetFileResponse(endpoint);
-            HttpContent content = response.Content;
+            string destinationFileName;
 
-            string destinationFileName = content.Headers.ContentDisposition?.FileName;
-
-            if (string.IsNullOrEmpty(destinationFileName))
-            {
-                destinationFileName = endpoint.Split('/').Last();
-            }
-
-            destinationFileName = Uri.UnescapeDataString(destinationFileName.Replace("\"", string.Empty));
-
-            Stream stream = content.ReadAsStreamAsync().Result;
-
-            using (stream)
-            using (var fileStream = File.Create(Path.Combine(destinationFolder, destinationFileName)))
+            using (Stream stream = GetFileStream(endpoint, out destinationFileName))
+            using (FileStream fileStream = File.Create(Path.Combine(destinationFolder, destinationFileName)))
             {
                 stream.CopyTo(fileStream);
             }
-
-            content.Dispose();
-            response.Dispose();
 
             return destinationFileName;
         }
 
         /// <summary>
-        /// Returns <see cref="HttpResponseMessage"/> with file<br/>
-        /// Response should be disposed later.
+        /// Returns <see cref="Stream"/> with file content<br/>
         /// </summary>
         /// <param name="endpoint">service endpoint relative url</param>
-        /// <returns><see cref="HttpResponseMessage"/> that contains file</returns>
-        public HttpResponseMessage GetFileResponse(string endpoint)
+        /// <param name="fileName">original remote file name</param>
+        /// <returns><see cref="Stream"/> with file content</returns>
+        public Stream GetFileStream(string endpoint, out string fileName)
         {
             var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
 
-            var handler = new HttpClientHandler
-            { 
-                AllowAutoRedirect = AllowAutoRedirect
-            };
-
-            // By default HttpClient uses CookieContainer.
-            // If we want to set Cookie via Headers we need to disable cookies.
-            if (request.Headers.Contains("Cookie"))
+            using (var handler = new HttpClientHandler())
             {
-                handler.UseCookies = false;
+                handler.AllowAutoRedirect = AllowAutoRedirect;
+
+                // By default HttpClient uses CookieContainer.
+                // If we want to set Cookie via Headers we need to disable cookies.
+                if (request.Headers.Contains("Cookie"))
+                {
+                    handler.UseCookies = false;
+                }
+
+                // Using http client with headers from active session
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    var requestUri = new Uri(BaseUri, endpoint);
+
+                    HttpResponseMessage response = client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
+
+                    HttpContent content = response.Content;
+
+                    fileName = content.Headers.ContentDisposition?.FileName;
+
+                    if (string.IsNullOrEmpty(fileName))
+                    {
+                        fileName = endpoint.Split('/').Last();
+                    }
+
+                    fileName = Uri.UnescapeDataString(fileName.Replace("\"", string.Empty));
+
+                    return content.ReadAsStreamAsync().Result;
+                }
             }
-
-            // Using http client with headers from active session
-            HttpClient client = new HttpClient(handler);
-            var requestUri = new Uri(BaseUri, endpoint);
-
-            return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
         }
 
         /// <summary>
@@ -234,6 +234,11 @@ namespace Unicorn.Backend.Services.RestService
             Session?.UpdateRequestWithSessionData(request);
 
             return request;
+        }
+    
+        ~RestClient()
+        {
+            Console.WriteLine();
         }
     }
 }
