@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.IO;
 using System.Net.Http;
 using Unicorn.Backend.Services.RestService;

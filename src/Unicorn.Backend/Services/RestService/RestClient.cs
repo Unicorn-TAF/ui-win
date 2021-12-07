@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Unicorn.Taf.Core.Logging;
 
@@ -194,11 +193,22 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns><see cref="HttpResponseMessage"/> that contains file</returns>
         public HttpResponseMessage GetFileResponse(string endpoint)
         {
-            var httpClientHandler = GenerateHttpClientHandler(endpoint);
+            var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
+
+            var handler = new HttpClientHandler
+            { 
+                AllowAutoRedirect = AllowAutoRedirect
+            };
+
+            // By default HttpClient uses CookieContainer.
+            // If we want to set Cookie via Headers we need to disable cookies.
+            if (request.Headers.Contains("Cookie"))
+            {
+                handler.UseCookies = false;
+            }
 
             // Using http client with headers from active session
-            HttpClient client = new HttpClient(httpClientHandler);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
+            HttpClient client = new HttpClient(handler);
             var requestUri = new Uri(BaseUri, endpoint);
 
             return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
@@ -224,27 +234,6 @@ namespace Unicorn.Backend.Services.RestService
             Session?.UpdateRequestWithSessionData(request);
 
             return request;
-        }
-
-        /// <summary>
-        /// Gets request from <seealso cref="CreateRequest"/> method and copies cookies if any to new <seealso cref="HttpClientHandler"/>
-        /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns><seealso cref="HttpClientHandler"/> with cookies</returns>
-        private HttpClientHandler GenerateHttpClientHandler(string endpoint)
-        {
-            // Getting request just to get cookies for existing sesion if any
-            HttpRequestMessage request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
-
-            var handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = AllowAutoRedirect
-            };
-
-            handler.CookieContainer.Add(HttpUtils.GetCookieCollectionFrom(request));
-            request.Dispose();
-
-            return handler;
         }
     }
 }
