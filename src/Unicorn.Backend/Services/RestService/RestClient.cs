@@ -14,6 +14,9 @@ namespace Unicorn.Backend.Services.RestService
     /// </summary>
     public class RestClient
     {
+        private HttpClientHandler handler;
+        private HttpClient client;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.<br/>
         /// <see cref="SecurityProtocolType.Tls12"/> protocol is used by default.
@@ -86,46 +89,27 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns>service response</returns>
         public virtual RestResponse SendRequest(HttpRequestMessage request)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+            Stopwatch timer = Stopwatch.StartNew();
+            HttpResponseMessage response = GetResponse(request, false);
+            string responseContent = response.Content.ReadAsStringAsync().Result;
+            TimeSpan elapsed = timer.Elapsed;
 
-            using (var handler = new HttpClientHandler())
+            RestResponse restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
             {
-                handler.AllowAutoRedirect = AllowAutoRedirect;
+                Content = responseContent,
+                ExecutionTime = elapsed,
+            };
 
-                // By default HttpClient uses CookieContainer.
-                // If we want to set Cookie via Headers we need to disable cookies.
-                if (request.Headers.Contains("Cookie"))
-                {
-                    handler.UseCookies = false;
-                }
+            Logger.Instance.Log(LogLevel.Debug, $"Getting {restResponse.Status} response.");
 
-                using (var client = new HttpClient(handler))
-                {
-                    var timer = Stopwatch.StartNew();
-
-                    var response = client.SendAsync(request).Result;
-                    var responseContent = response.Content.ReadAsStringAsync().Result;
-
-                    var elapsed = timer.Elapsed;
-
-                    var restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
-                    {
-                        Content = responseContent,
-                        ExecutionTime = elapsed,
-                    };
-
-                    Logger.Instance.Log(LogLevel.Debug, $"Getting {restResponse.Status} response.");
-
-                    if (Logger.Level.Equals(LogLevel.Trace) && restResponse.Content != null)
-                    {
-                        Logger.Instance.Log(LogLevel.Trace, "Response body: " + restResponse.Content);
-                    }
-
-                    request.Dispose();
-
-                    return restResponse;
-                }
+            if (Logger.Level.Equals(LogLevel.Trace) && restResponse.Content != null)
+            {
+                Logger.Instance.Log(LogLevel.Trace, "Response body: " + restResponse.Content);
             }
+
+            request.Dispose();
+
+            return restResponse;
         }
 
         /// <summary>
@@ -178,40 +162,20 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns><see cref="Stream"/> with file content</returns>
         public Stream GetFileStream(string endpoint, out string fileName)
         {
-            var request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
+            HttpRequestMessage request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
+            HttpResponseMessage response = GetResponse(request, true);
+            HttpContent content = response.Content;
+            
+            fileName = content.Headers.ContentDisposition?.FileName;
 
-            using (var handler = new HttpClientHandler())
+            if (string.IsNullOrEmpty(fileName))
             {
-                handler.AllowAutoRedirect = AllowAutoRedirect;
-
-                // By default HttpClient uses CookieContainer.
-                // If we want to set Cookie via Headers we need to disable cookies.
-                if (request.Headers.Contains("Cookie"))
-                {
-                    handler.UseCookies = false;
-                }
-
-                // Using http client with headers from active session
-                using (HttpClient client = new HttpClient(handler))
-                {
-                    var requestUri = new Uri(BaseUri, endpoint);
-
-                    HttpResponseMessage response = client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
-
-                    HttpContent content = response.Content;
-
-                    fileName = content.Headers.ContentDisposition?.FileName;
-
-                    if (string.IsNullOrEmpty(fileName))
-                    {
-                        fileName = endpoint.Split('/').Last();
-                    }
-
-                    fileName = Uri.UnescapeDataString(fileName.Replace("\"", string.Empty));
-
-                    return content.ReadAsStreamAsync().Result;
-                }
+                fileName = endpoint.Split('/').Last();
             }
+
+            fileName = Uri.UnescapeDataString(fileName.Replace("\"", string.Empty));
+
+            return content.ReadAsStreamAsync().Result;
         }
 
         /// <summary>
@@ -226,7 +190,9 @@ namespace Unicorn.Backend.Services.RestService
             var uri = new Uri(BaseUri, endpoint);
             var request = new HttpRequestMessage(method, uri);
 
-            if (!method.Equals(HttpMethod.Get))
+            string methodLower = method.ToString().ToLowerInvariant();
+
+            if (!methodLower.Equals("get") && !methodLower.Equals("head"))
             {
                 request.Content = new StringContent(content, Encoding, ContentType);
             }
@@ -236,9 +202,39 @@ namespace Unicorn.Backend.Services.RestService
             return request;
         }
     
+        private HttpClient GetClient(HttpRequestMessage request)
+        {
+            if (client == null)
+            {
+                handler = new HttpClientHandler();
+                handler.AllowAutoRedirect = AllowAutoRedirect;
+
+                // By default HttpClient uses CookieContainer.
+                // If we want to set Cookie via Headers we need to disable cookies otherwise CookieContainer is used.
+                handler.UseCookies = request.Headers.Contains("Cookie") ? false : true;
+
+                client = new HttpClient(handler);
+            }
+
+            return client;
+        }
+
+        private HttpResponseMessage GetResponse(HttpRequestMessage request, bool getAsync)
+        {
+            Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+
+            return getAsync ?
+                GetClient(request).GetAsync(request.RequestUri, HttpCompletionOption.ResponseHeadersRead).Result :
+                GetClient(request).SendAsync(request).Result;
+        }
+
+        /// <summary>
+        /// Frees resources taken by <see cref="HttpClientHandler"/> and <see cref="HttpClient"/>
+        /// </summary>
         ~RestClient()
         {
-            Console.WriteLine();
+            client?.Dispose();
+            handler?.Dispose();
         }
     }
 }
