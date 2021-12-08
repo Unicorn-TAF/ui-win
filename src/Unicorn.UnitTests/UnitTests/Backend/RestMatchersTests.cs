@@ -45,6 +45,16 @@ namespace Unicorn.UnitTests.Backend
   }
 ]";
 
+        private static RestClient client;
+
+        [OneTimeSetUp]
+        public static void SetUp() =>
+            client = new RestClient("https://bitbucket.org");
+
+        [OneTimeTearDown]
+        public static void TearDown() =>
+            client = null;
+
         [Test, Author("Vitaliy Dobriyan")]
         public void TestBodyContainsValueMatcherPositive() =>
             Uv.Assert.That(GetResponse("{expectedBodyPart}"), 
@@ -60,6 +70,18 @@ namespace Unicorn.UnitTests.Backend
             CheckNegativeScenario(() => Uv.Assert.That(
                 GetResponse("{expectedBodyPart}"), 
                 Service.Rest.Response.ContentContains("NotExpectedBody")));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegative() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                client,
+                Service.Rest.HasEndpoint("NotExistingEndpoint")));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherPositive() =>
+            Uv.Assert.That(
+                client,
+                Service.Rest.HasEndpoint("/!api/internal/repositories/dobriyanchik/unicorntaf/metadata"));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestHasStatusCodeMatcherPositive() =>
