@@ -9,7 +9,7 @@
     <license type="file">LICENSE.txt</license>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
-    <iconUrl>https://bitbucket.org/repo/dapykeA/images/1111167104-logo.png</iconUrl>
+    <iconUrl>https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2021/Oct/21/2649637088-10-unicorntaf-logo_avatar.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.</summary>
     <description>
@@ -18,7 +18,7 @@
       Supported platforms:
       - .NET Framework 4.5.2+
     </description>
-    <releaseNotes>Implemented service clients abstractions, added module for interaction with REST services, added base matchers.</releaseNotes>
+    <releaseNotes>File download via rest client, improved rest client resources usage, improved logging, small fixes</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>automation matchers web-services rest</tags>
     <dependencies>
