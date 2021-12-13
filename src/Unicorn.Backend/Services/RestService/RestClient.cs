@@ -217,7 +217,7 @@ namespace Unicorn.Backend.Services.RestService
 
                 // By default HttpClient uses CookieContainer.
                 // If we want to set Cookie via Headers we need to disable cookies otherwise CookieContainer is used.
-                handler.UseCookies = request.Headers.Contains("Cookie") ? false : true;
+                handler.UseCookies = !request.Headers.Contains("Cookie");
 
                 client = new HttpClient(handler);
             }
