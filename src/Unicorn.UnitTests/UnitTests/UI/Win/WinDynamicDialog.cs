@@ -6,7 +6,7 @@ using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.PageObject;
 using Unicorn.UnitTests.Gui.Win;
 
-namespace Unicorn.UnitTests.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Win
 {
     [TestFixture]
     public class WinDynamicDialog
