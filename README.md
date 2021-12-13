@@ -29,9 +29,13 @@ Core of unicorn automation framework.
 * Logger abstractions
 * Base utilities
 
-Unicorn.ReportPortalAgent
+Unicorn.Backend
 ------------
-Ready for use realization of EPAM ReportPortal extension.
+Implementation of clients for interaction with services based on `HttpClient`
+* Client for REST services
+* REST service matchers collection
+
+> TBD: Client for SOAP services
 
 Unicorn.UI.Core
 ------------
@@ -60,6 +64,7 @@ Implementation of desktop GUI interaction which is based on UIA3 library.
 
 Unicorn.UI.Desktop
 ------------
+> obsolete
 Implementation of desktop GUI interaction which is based on UIAutomation library.
 
 * GUI Driver implementation

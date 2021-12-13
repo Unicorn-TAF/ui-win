@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Unicorn.Taf.Core.Logging;
 
@@ -15,6 +14,9 @@ namespace Unicorn.Backend.Services.RestService
     /// </summary>
     public class RestClient
     {
+        private HttpClientHandler handler;
+        private HttpClient client;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RestClient"/> class with service base url.<br/>
         /// <see cref="SecurityProtocolType.Tls12"/> protocol is used by default.
@@ -87,46 +89,30 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns>service response</returns>
         public virtual RestResponse SendRequest(HttpRequestMessage request)
         {
+            Stopwatch timer = Stopwatch.StartNew();
+
             Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+            HttpResponseMessage response = GetClient(request).SendAsync(request).Result;
 
-            using (var handler = new HttpClientHandler())
+            string responseContent = response.Content.ReadAsStringAsync().Result;
+            TimeSpan elapsed = timer.Elapsed;
+
+            Logger.Instance.Log(LogLevel.Debug, $"Getting {response.StatusCode} response.");
+
+            if (Logger.Level.Equals(LogLevel.Trace) && responseContent != null)
             {
-                handler.AllowAutoRedirect = AllowAutoRedirect;
-
-                // By default HttpClient uses CookieContainer.
-                // If we want to set Cookie via Headers we need to disable cookies.
-                if (request.Headers.Contains("Cookie"))
-                {
-                    handler.UseCookies = false;
-                }
-
-                using (var client = new HttpClient(handler))
-                {
-                    var timer = Stopwatch.StartNew();
-
-                    var response = client.SendAsync(request).Result;
-                    var responseContent = response.Content.ReadAsStringAsync().Result;
-
-                    var elapsed = timer.Elapsed;
-
-                    var restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
-                    {
-                        Content = responseContent,
-                        ExecutionTime = elapsed,
-                    };
-
-                    Logger.Instance.Log(LogLevel.Debug, $"Getting {restResponse.Status} response.");
-
-                    if (Logger.Level.Equals(LogLevel.Trace) && restResponse.Content != null)
-                    {
-                        Logger.Instance.Log(LogLevel.Trace, "Response body: " + restResponse.Content);
-                    }
-
-                    request.Dispose();
-
-                    return restResponse;
-                }
+                Logger.Instance.Log(LogLevel.Trace, "Response body: " + responseContent);
             }
+
+            RestResponse restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
+            {
+                Content = responseContent,
+                ExecutionTime = elapsed,
+            };
+
+            request.Dispose();
+
+            return restResponse;
         }
 
         /// <summary>
@@ -160,48 +146,42 @@ namespace Unicorn.Backend.Services.RestService
         /// <returns>downloaded file name</returns>
         public string DownloadFile(string endpoint, string destinationFolder)
         {
-            HttpResponseMessage response = GetFileResponse(endpoint);
-            HttpContent content = response.Content;
+            string destinationFileName;
 
-            string destinationFileName = content.Headers.ContentDisposition?.FileName;
-
-            if (string.IsNullOrEmpty(destinationFileName))
-            {
-                destinationFileName = endpoint.Split('/').Last();
-            }
-
-            destinationFileName = Uri.UnescapeDataString(destinationFileName.Replace("\"", string.Empty));
-
-            Stream stream = content.ReadAsStreamAsync().Result;
-
-            using (stream)
-            using (var fileStream = File.Create(Path.Combine(destinationFolder, destinationFileName)))
+            using (Stream stream = GetFileStream(endpoint, out destinationFileName))
+            using (FileStream fileStream = File.Create(Path.Combine(destinationFolder, destinationFileName)))
             {
                 stream.CopyTo(fileStream);
             }
-
-            content.Dispose();
-            response.Dispose();
 
             return destinationFileName;
         }
 
         /// <summary>
-        /// Returns <see cref="HttpResponseMessage"/> with file<br/>
-        /// Response should be disposed later.
+        /// Returns <see cref="Stream"/> with file content<br/>
         /// </summary>
         /// <param name="endpoint">service endpoint relative url</param>
-        /// <returns><see cref="HttpResponseMessage"/> that contains file</returns>
-        public HttpResponseMessage GetFileResponse(string endpoint)
+        /// <param name="fileName">original remote file name</param>
+        /// <returns><see cref="Stream"/> with file content</returns>
+        public Stream GetFileStream(string endpoint, out string fileName)
         {
-            var httpClientHandler = GenerateHttpClientHandler(endpoint);
+            HttpRequestMessage request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
 
-            // Using http client with headers from active session
-            HttpClient client = new HttpClient(httpClientHandler);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
-            var requestUri = new Uri(BaseUri, endpoint);
+            Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+            HttpResponseMessage response = GetClient(request).SendAsync(request).Result;
+            HttpContent content = response.Content;
+            Logger.Instance.Log(LogLevel.Debug, $"Getting {response.StatusCode} response.");
 
-            return client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead).Result;
+            fileName = content.Headers.ContentDisposition?.FileNameStar;
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = endpoint.Split('/').Last();
+            }
+
+            fileName = Uri.UnescapeDataString(fileName.Replace("\"", string.Empty));
+
+            return content.ReadAsStreamAsync().Result;
         }
 
         /// <summary>
@@ -216,7 +196,9 @@ namespace Unicorn.Backend.Services.RestService
             var uri = new Uri(BaseUri, endpoint);
             var request = new HttpRequestMessage(method, uri);
 
-            if (!method.Equals(HttpMethod.Get))
+            string methodLower = method.ToString().ToLowerInvariant();
+
+            if (!methodLower.Equals("get") && !methodLower.Equals("head"))
             {
                 request.Content = new StringContent(content, Encoding, ContentType);
             }
@@ -225,26 +207,31 @@ namespace Unicorn.Backend.Services.RestService
 
             return request;
         }
+    
+        private HttpClient GetClient(HttpRequestMessage request)
+        {
+            if (client == null)
+            {
+                handler = new HttpClientHandler();
+                handler.AllowAutoRedirect = AllowAutoRedirect;
+
+                // By default HttpClient uses CookieContainer.
+                // If we want to set Cookie via Headers we need to disable cookies otherwise CookieContainer is used.
+                handler.UseCookies = !request.Headers.Contains("Cookie");
+
+                client = new HttpClient(handler);
+            }
+
+            return client;
+        }
 
         /// <summary>
-        /// Gets request from <seealso cref="CreateRequest"/> method and copies cookies if any to new <seealso cref="HttpClientHandler"/>
+        /// Frees resources taken by <see cref="HttpClientHandler"/> and <see cref="HttpClient"/>
         /// </summary>
-        /// <param name="endpoint"></param>
-        /// <returns><seealso cref="HttpClientHandler"/> with cookies</returns>
-        private HttpClientHandler GenerateHttpClientHandler(string endpoint)
+        ~RestClient()
         {
-            // Getting request just to get cookies for existing sesion if any
-            HttpRequestMessage request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
-
-            var handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = AllowAutoRedirect
-            };
-
-            handler.CookieContainer.Add(HttpUtils.GetCookieCollectionFrom(request));
-            request.Dispose();
-
-            return handler;
+            client?.Dispose();
+            handler?.Dispose();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using Unicorn.Backend.Services.RestService;
 using Unicorn.Taf.Core.Testing;
@@ -11,25 +11,49 @@ namespace Unicorn.UnitTests.Backend
     [TestFixture]
     public class RestClientTests : NUnitTestRunner
     {
-        private const string BaseUrl = "https://bitbucket.org";
         private const string FileEndpoint = "/dobriyanchik/unicorntaf/downloads/Release%202.0.0%20nuget%20packages.zip";
+        private const string ExpectedFileName = "Release 2.0.0 nuget packages.zip";
+        private static RestClient client;
+
+        [OneTimeSetUp]
+        public static void SetUp() =>
+            client = new RestClient("https://bitbucket.org");
+
+        [OneTimeTearDown]
+        public static void TearDown() =>
+                client = null;
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Rest client sends correct get request")]
+        public void TestRestClientCorrectGetRequest()
+        {
+            RestResponse employee = client.SendRequest(
+                HttpMethod.Get, 
+                "/!api/internal/repositories/dobriyanchik/unicorntaf/metadata");
+
+            Assert.That(employee.Status, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(employee.Content, Is.EqualTo(@"{""has_statuses"": true, ""has_lfs_files"": false}"));
+        }
 
         [Author("Evgeniy Voronyuk")]
         [Test(Description = "Rest client Get file")]
         public void TestRestClientGetFile()
         {
-            var client = new RestClient(BaseUrl);
-            HttpResponseMessage response = client.GetFileResponse(FileEndpoint);
-            Assert.That(response.Content.Headers.ContentDisposition.DispositionType, Is.EqualTo("attachment"));
+            string fileName;
+
+            using (Stream stream = client.GetFileStream(FileEndpoint, out fileName))
+            {
+                Assert.That(fileName, Is.EqualTo(ExpectedFileName));
+                Assert.That(stream.ReadByte(), Is.EqualTo(80));
+            }
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Rest client download file")]
         public void TestRestClientDownloadFile()
         {
-            var client = new RestClient(BaseUrl);
             client.DownloadFile(FileEndpoint, string.Empty);
-            Assert.IsTrue(File.Exists("Release 2.0.0 nuget packages.zip"), "File wasn't found");
+            Assert.IsTrue(File.Exists(ExpectedFileName), "File wasn't found");
         }
     }
 }
