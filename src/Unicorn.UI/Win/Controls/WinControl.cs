@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Windows;
+using System.Drawing;
 using UIAutomationClient;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
-using Unicorn.UI.Core.UserInput;
 using Unicorn.UI.Win.Driver;
+using Unicorn.UI.Win.UserInput;
 
 namespace Unicorn.UI.Win.Controls
 {
@@ -249,7 +249,7 @@ namespace Unicorn.UI.Win.Controls
 
                 var rect = BoundingRectangle;
                 point = new Point(rect.Left, rect.Top);
-                point.Offset(rect.Width / 2d, rect.Height / 2d);
+                point.Offset(rect.Width / 2, rect.Height / 2);
             }
             else
             {

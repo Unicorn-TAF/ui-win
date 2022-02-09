@@ -1,5 +1,5 @@
 ﻿using System;
-using AspectInjector.Broker;
+//using AspectInjector.Broker;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Steps;
 using Unicorn.Taf.Core.Steps.Attributes;
@@ -7,7 +7,7 @@ using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Steps
 {
-    [Inject(typeof(StepsEvents))]
+    //[Inject(typeof(StepsEvents))]
     public class TestingSteps
     {
         [Step("First Test Step")]

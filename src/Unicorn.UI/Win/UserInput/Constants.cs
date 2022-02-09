@@ -1,4 +1,4 @@
-﻿namespace Unicorn.UI.Core.UserInput
+﻿namespace Unicorn.UI.Win.UserInput
 {
     internal static class Constants
     {

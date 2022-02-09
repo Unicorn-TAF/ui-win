@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
 
-namespace Unicorn.Taf.Core.Utility
+namespace Unicorn.UI.Win
 {
     /// <summary>
     /// Provides ability to take screenshots.
@@ -24,7 +24,7 @@ namespace Unicorn.Taf.Core.Utility
         /// </summary>
         public Screenshotter() 
             : this(
-                  Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.CodeBase).LocalPath), "Screenshots"), 
+                  Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.Location).LocalPath), "Screenshots"), 
                   ImageFormat.Png, 
                   false)
         {

@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Windows;
-using Unicorn.UI.Core.UserInput;
+﻿using System.Drawing;
+using System.Threading;
 using Unicorn.UI.Win.Controls;
+using Unicorn.UI.Win.UserInput;
 
 namespace Unicorn.UI.Win
 {
@@ -61,7 +61,7 @@ namespace Unicorn.UI.Win
         {
             var rect = control.BoundingRectangle;
             var point = new Point(rect.Left, rect.Top);
-            point.Offset(rect.Width / 2d, rect.Height / 2d);
+            point.Offset(rect.Width / 2, rect.Height / 2);
 
             return point;
         }

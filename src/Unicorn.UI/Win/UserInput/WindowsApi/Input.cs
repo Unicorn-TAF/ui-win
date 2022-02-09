@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace Unicorn.UI.Core.UserInput.WindowsApi
+namespace Unicorn.UI.Win.UserInput.WindowsApi
 {
     [SuppressMessage("Microsoft.Portability", "CA1900:ValueTypeFieldsShouldBePortable", MessageId = "mouseInput", Justification = "Skip for now")]
     [SuppressMessage("Microsoft.Portability", "CA1900:ValueTypeFieldsShouldBePortable", MessageId = "keyboardInput", Justification = "Skip for now")]

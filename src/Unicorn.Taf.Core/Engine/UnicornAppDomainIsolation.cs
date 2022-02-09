@@ -4,6 +4,7 @@ using System.Reflection;
 
 namespace Unicorn.Taf.Core.Engine
 {
+#if NETFRAMEWORK
     /// <summary>
     /// Provides with ability to manipulate with Unicorn test assembly in dedicated <see cref="AppDomain"/>
     /// </summary>
@@ -71,4 +72,5 @@ namespace Unicorn.Taf.Core.Engine
             }
         }
     }
+#endif
 }

@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows;
-using Unicorn.UI.Core.UserInput.WindowsApi;
+using Unicorn.UI.Win.UserInput.WindowsApi;
 
-namespace Unicorn.UI.Core.UserInput
+namespace Unicorn.UI.Win.UserInput
 {
     /// <summary>
     /// Mouse.

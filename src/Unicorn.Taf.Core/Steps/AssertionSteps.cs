@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AspectInjector.Broker;
+//using AspectInjector.Broker;
 using Unicorn.Taf.Core.Steps.Attributes;
 using Unicorn.Taf.Core.Verification;
 using Unicorn.Taf.Core.Verification.Matchers;
@@ -15,7 +15,7 @@ namespace Unicorn.Taf.Core.Steps
     /// - chain assertions on typified/non-typified objects<para/>
     /// - chain assertions on typified/non-typified objects collection<para/>
     /// </summary>
-    [Inject(typeof(StepsEvents))]
+    //[Inject(typeof(StepsEvents))]
     public class AssertionSteps
     {
         private ChainAssert _chaninAssert = null;

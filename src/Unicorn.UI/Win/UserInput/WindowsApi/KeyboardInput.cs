@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 #pragma warning disable S1450 // Private fields only used as local variables in methods should become local variables
-namespace Unicorn.UI.Core.UserInput.WindowsApi
+namespace Unicorn.UI.Win.UserInput.WindowsApi
 {
     internal enum KeyUpDown
     {

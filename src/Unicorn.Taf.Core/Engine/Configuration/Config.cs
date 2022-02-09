@@ -168,7 +168,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         {
             if (string.IsNullOrEmpty(configPath))
             {
-                configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath) + "/unicorn.conf";
+                configPath = Path.GetDirectoryName(new Uri(typeof(Config).Assembly.Location).LocalPath) + "/unicorn.conf";
             }
 
             if (!File.Exists(configPath))

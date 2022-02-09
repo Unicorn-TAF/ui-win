@@ -1,142 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicorn.UI.Web</RootNamespace>
-    <AssemblyName>Unicorn.UI.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>Vitaliy Dobriyan</Company>
+    <Authors>Vitaliy Dobriyan</Authors>
+    <Description>Unicorn Web features: Ready for use implementations of common controls, extended page object features.
+This package includes implementations of web UI interaction based on WebDriver.</Description>
+    <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
+    <Version>3.0.0</Version>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Unicorn.UI.Web.XML</DocumentationFile>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Web\bin\Release\net452\Unicorn.UI.Web.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='netstandard2.0'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Web\bin\Release\netstandard2.0\Unicorn.UI.Web.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net5.0'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Web\bin\Release\net5.0\Unicorn.UI.Web.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WebDriver, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="WebDriver.Support, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Selenium.Support.3.5.0\lib\net40\WebDriver.Support.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Selenium.Support" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BrowserType.cs" />
-    <Compile Include="Controls\Dynamic\DynamicDataGrid.cs" />
-    <Compile Include="Controls\Dynamic\DynamicDialog.cs" />
-    <Compile Include="Controls\Dynamic\DynamicDropdown.cs" />
-    <Compile Include="Controls\Typified\Dropdown.cs" />
-    <Compile Include="Controls\Typified\Radio.cs" />
-    <Compile Include="Controls\Typified\Checkbox.cs" />
-    <Compile Include="Controls\Typified\TextInput.cs" />
-    <Compile Include="Driver\DesktopWebDriver.cs" />
-    <Compile Include="Driver\WebDriver.cs" />
-    <Compile Include="Driver\WebSearchContext.cs" />
-    <Compile Include="PageObject\Attributes\PageInfoAttribute.cs" />
-    <Compile Include="PageObject\WebControlExtension.cs" />
-    <Compile Include="PageObject\WebPage.cs" />
-    <Compile Include="PageObject\WebSite.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\WebContainer.cs" />
-    <Compile Include="Controls\WebControl.cs" />
+    <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
+    <None Include="..\..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
-      <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
-      <Name>Unicorn.Taf.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj">
-      <Project>{41306953-6a6f-4f5c-8713-e82d9122c32a}</Project>
-      <Name>Unicorn.UI.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Unicorn.UI.Web.nuspec" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

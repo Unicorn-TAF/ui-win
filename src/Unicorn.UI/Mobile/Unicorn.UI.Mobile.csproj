@@ -1,112 +1,57 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1B2390D-5BB2-4CE4-A6F1-8130A3570330}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicorn.UI.Mobile</RootNamespace>
-    <AssemblyName>Unicorn.UI.Mobile</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>Vitaliy Dobriyan</Company>
+    <Authors>Vitaliy Dobriyan</Authors>
+    <Description>
+      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
+
+      This package includes UI core of unicorn automation framework.
+    </Description>
+    <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
+    <Version>2.3.0</Version>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\..\CodeRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Release\Unicorn.UI.Mobile.XML</DocumentationFile>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\net452\Unicorn.UI.Mobile.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='netstandard2.0'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\netstandard2.0\Unicorn.UI.Mobile.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net5.0'">
+    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\net5.0\Unicorn.UI.Mobile.xml</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="appium-dotnet-driver, Version=3.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Appium.WebDriver.3.0.0.2\lib\net45\appium-dotnet-driver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WebDriver">
-      <HintPath>..\..\packages\Selenium.WebDriver.3.5.0\lib\net40\WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support">
-      <HintPath>..\..\packages\Selenium.Support.3.5.0\lib\net40\WebDriver.Support.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Appium.WebDriver" Version="4.3.1" />
+    <PackageReference Include="Selenium.Support" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Android\Controls\AndroidContainer.cs" />
-    <Compile Include="Android\Controls\AndroidControl.cs" />
-    <Compile Include="Android\PageObject\AndroidApplication.cs" />
-    <Compile Include="Android\PageObject\AndroidControlExtension.cs" />
-    <Compile Include="Android\Driver\AndroidWebDriver.cs" />
-    <Compile Include="Base\Driver\MobileSearchContext.cs" />
-    <Compile Include="Ios\Controls\IosControl.cs" />
-    <Compile Include="Ios\Driver\IosDriver.cs" />
-    <Compile Include="Ios\Driver\IosSearchContext.cs" />
-    <Compile Include="Android\Driver\AndroidAppDriver.cs" />
-    <Compile Include="Android\Driver\AndroidSearchContext.cs" />
-    <Compile Include="Ios\PageObject\IosControlExtension.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj" />
+    <ProjectReference Include="..\Web\Unicorn.UI.Web.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Unicorn.UI.Mobile.nuspec" />
+    <None Include="..\..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Unicorn.Taf.Core\Unicorn.Taf.Core.csproj">
-      <Project>{DDE87224-BFF6-4ABD-879E-1C5316124536}</Project>
-      <Name>Unicorn.Taf.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Unicorn.UI.Core.csproj">
-      <Project>{41306953-6A6F-4F5C-8713-E82D9122C32A}</Project>
-      <Name>Unicorn.UI.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Web\Unicorn.UI.Web.csproj">
-      <Project>{A6E1ED9C-2B52-4B46-BC24-CCAF20BAE7FB}</Project>
-      <Name>Unicorn.UI.Web</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.7.5.0.6605\analyzers\SonarAnalyzer.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.UserInput;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
+using Unicorn.UI.Win.UserInput;
 
 namespace Unicorn.UnitTests.UI
 {
@@ -16,7 +16,7 @@ namespace Unicorn.UnitTests.UI
         public void TestMouseMovement()
         {
             var coordinate = 50;
-            Mouse.Instance.Location = new System.Windows.Point(coordinate, coordinate);
+            Mouse.Instance.Location = new System.Drawing.Point(coordinate, coordinate);
             Assert.AreEqual(new System.Drawing.Point(coordinate, coordinate), Cursor.Position);
         }
 

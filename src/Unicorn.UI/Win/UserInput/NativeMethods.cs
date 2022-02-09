@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Unicorn.UI.Core.UserInput.WindowsApi;
+using Unicorn.UI.Win.UserInput.WindowsApi;
 
-namespace Unicorn.UI.Core.UserInput
+namespace Unicorn.UI.Win.UserInput
 {
     internal static class NativeMethods
     {
