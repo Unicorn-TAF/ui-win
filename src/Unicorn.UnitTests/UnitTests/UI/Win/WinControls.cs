@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
-using System.Windows.Forms;
+using System.Drawing;
 using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
+using Unicorn.UI.Win.WindowsApi;
 
 namespace Unicorn.UnitTests.UI.Win
 {
@@ -22,12 +23,12 @@ namespace Unicorn.UnitTests.UI.Win
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check BoundingRectangle property")]
         public void TestGuiControlBoundingRectangleProperty() =>
-            Assert.AreEqual(Screen.PrimaryScreen.Bounds, control.BoundingRectangle);
+            Assert.AreEqual(new Rectangle(new Point(0, 0), Screen.GetSize()), control.BoundingRectangle);
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Location property")]
         public void TestGuiControlLocationProperty() =>
-            Assert.AreEqual(new System.Drawing.Point(0, 0), control.Location);
+            Assert.AreEqual(new Point(0, 0), control.Location);
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Visible property")]

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 #pragma warning disable S1144 // Unused private types or members should be removed
-namespace Unicorn.UI.Win.UserInput.WindowsApi
+namespace Unicorn.UI.Win.WindowsApi
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct MouseInput

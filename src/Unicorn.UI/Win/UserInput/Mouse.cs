@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Unicorn.UI.Win.UserInput.WindowsApi;
+using Unicorn.UI.Win.WindowsApi;
 
 namespace Unicorn.UI.Win.UserInput
 {
@@ -35,9 +35,9 @@ namespace Unicorn.UI.Win.UserInput
         {
             get
             {
-                var point = new System.Drawing.Point();
+                var point = new Point();
                 NativeMethods.GetCursorPos(ref point);
-                return new Point(point.X, point.Y);
+                return point;
             }
 
             set
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Win.UserInput
                     throw new InvalidOperationException($"Trying to set location outside the screen. {value}");
                 }
 
-                NativeMethods.SetCursorPos(new System.Drawing.Point((int)value.X, (int)value.Y));
+                NativeMethods.SetCursorPos(value.X, value.Y);
             }
         }
 

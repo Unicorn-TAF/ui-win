@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Drawing;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
 using Unicorn.UI.Win.UserInput;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Win
 {
     [TestFixture]
     public class UserInput
@@ -15,19 +15,20 @@ namespace Unicorn.UnitTests.UI
         [Test(Description = "Check Mouse movement")]
         public void TestMouseMovement()
         {
-            var coordinate = 50;
-            Mouse.Instance.Location = new System.Drawing.Point(coordinate, coordinate);
-            Assert.AreEqual(new System.Drawing.Point(coordinate, coordinate), Cursor.Position);
+            Point coordinates = new Point(50, 50);
+            Mouse.Instance.Location = coordinates;
+            Assert.AreEqual(coordinates, Mouse.Instance.Location);
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Keyboard hotkey")]
         public void TestKeyboardHotkey()
         {
+            //System.Threading.Thread.Sleep(4000);
             Keyboard.Instance.HoldKey(Keyboard.SpecialKeys.RightWin);
             Keyboard.Instance.Type("r");
             Keyboard.Instance.LeaveAllKeys();
-
+            
             var appeared = WinDriver.Instance.TryGetChild<Window>(ByLocator.Name("Run"), 5000);
 
             Keyboard.Instance.PressSpecialKey(Keyboard.SpecialKeys.Escape);

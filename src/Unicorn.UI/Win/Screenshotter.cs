@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Forms;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
+using Unicorn.UI.Win.WindowsApi;
 
 namespace Unicorn.UI.Win
 {
@@ -17,16 +17,16 @@ namespace Unicorn.UI.Win
 
         private readonly ImageFormat _format;
         private readonly string _screenshotsDir;
+        private readonly Size _screenSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
         /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
-        public Screenshotter() 
-            : this(
-                  Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.Location).LocalPath), "Screenshots"), 
-                  ImageFormat.Png, 
-                  false)
+        public Screenshotter() : this(
+            Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.Location).LocalPath), "Screenshots"), 
+            ImageFormat.Png,
+            false)
         {
         }
 
@@ -36,7 +36,8 @@ namespace Unicorn.UI.Win
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
-        public Screenshotter(string screenshotsDir, ImageFormat format) : this(screenshotsDir, format, false)
+        public Screenshotter(string screenshotsDir, ImageFormat format) 
+            : this(screenshotsDir, format, false)
         {
         }
 
@@ -50,6 +51,7 @@ namespace Unicorn.UI.Win
         public Screenshotter(string screenshotsDir, ImageFormat format, bool subscribeToEvents)
         {
             _format = format;
+            _screenSize = Screen.GetSize();
             _screenshotsDir = screenshotsDir;
 
             if (!Directory.Exists(screenshotsDir))
@@ -122,14 +124,13 @@ namespace Unicorn.UI.Win
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
-                var printScreen = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
 
-                using (Graphics g = Graphics.FromImage(printScreen))
+                var captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
+                using (Graphics captureGraphic = Graphics.FromImage(captureBmp))
                 {
-                    g.CopyFromScreen(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top, 0, 0, printScreen.Size);
+                    captureGraphic.CopyFromScreen(0, 0, 0, 0, captureBmp.Size);
+                    return captureBmp;
                 }
-
-                return printScreen;
             }
             catch (Exception e)
             {

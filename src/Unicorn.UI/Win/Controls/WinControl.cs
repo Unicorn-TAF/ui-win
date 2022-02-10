@@ -110,18 +110,18 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets control location as <see cref="Point"/>
         /// </summary>
-        public System.Drawing.Point Location => 
-            new System.Drawing.Point(BoundingRectangle.Location.X, BoundingRectangle.Location.Y);
+        public Point Location => 
+            new Point(BoundingRectangle.Location.X, BoundingRectangle.Location.Y);
 
         /// <summary>
         /// Gets control bounding rectangle as <see cref="System.Drawing.Rectangle"/>
         /// </summary>
-        public System.Drawing.Rectangle BoundingRectangle
+        public Rectangle BoundingRectangle
         {
             get
             {
                 var rect = Instance.CurrentBoundingRectangle;
-                return new System.Drawing.Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }
         }
 

@@ -2,25 +2,26 @@
 using System.Runtime.InteropServices;
 
 #pragma warning disable S1450 // Private fields only used as local variables in methods should become local variables
-namespace Unicorn.UI.Win.UserInput.WindowsApi
+namespace Unicorn.UI.Win.WindowsApi
 {
-    internal enum KeyUpDown
+    internal class KeyUpDown
     {
-        KEYEVENTF_KEYDOWN = 0x0000,
-        KEYEVENTF_EXTENDEDKEY = 0x0001,
-        KEYEVENTF_KEYUP = 0x0002,
+        internal const uint KEYEVENTF_KEYDOWN = 0x0000;
+        internal const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
+        internal const uint KEYEVENTF_KEYUP = 0x0002;
+        internal const uint Scancode = 0x0008;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct KeyboardInput
     {
-        private readonly short _vk;
-        private readonly short _scan;
-        private readonly KeyUpDown _flags;
-        private readonly int _time;
+        private readonly ushort _vk;
+        private readonly ushort _scan;
+        private readonly uint _flags;
+        private readonly uint _time;
         private readonly IntPtr _extraInfo;
 
-        internal KeyboardInput(short wVk, KeyUpDown flags, IntPtr extraInfo)
+        internal KeyboardInput(ushort wVk, uint flags, IntPtr extraInfo)
         {
             _vk = wVk;
             _scan = 0;

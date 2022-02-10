@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Unicorn.UI.Win.UserInput.WindowsApi;
+using Unicorn.UI.Win.WindowsApi;
 
 namespace Unicorn.UI.Win.UserInput
 {
@@ -133,7 +133,7 @@ namespace Unicorn.UI.Win.UserInput
 
             foreach (char c in keysToType)
             {
-                short key = NativeMethods.VkKeyScan(c);
+                ushort key = (ushort)NativeMethods.VkKeyScan(c);
                 if (c.Equals('\r'))
                 {
                     continue;
@@ -141,14 +141,14 @@ namespace Unicorn.UI.Win.UserInput
 
                 if (ShiftKeyIsNeeded(key))
                 {
-                    SendKeyDown((short)SpecialKeys.Shift, false);
+                    SendKeyDown((ushort)SpecialKeys.Shift, false);
                 }
                     
                 Press(key, false);
 
                 if (ShiftKeyIsNeeded(key))
                 {
-                    SendKeyUp((short)SpecialKeys.Shift, false);
+                    SendKeyUp((ushort)SpecialKeys.Shift, false);
                 }
             }
 
@@ -173,7 +173,7 @@ namespace Unicorn.UI.Win.UserInput
         /// <returns>keyboard instance</returns>
         public Keyboard HoldKey(SpecialKeys key)
         {
-            SendKeyDown((short)key, true);
+            SendKeyDown((ushort)key, true);
             HeldKeys.Add(key);
             return this;
         }
@@ -185,7 +185,7 @@ namespace Unicorn.UI.Win.UserInput
         /// <returns>keyboard instance</returns>
         public Keyboard LeaveKey(SpecialKeys key)
         {
-            SendKeyUp((short)key, true);
+            SendKeyUp((ushort)key, true);
             HeldKeys.Remove(key);
             return this;
         }
@@ -200,16 +200,16 @@ namespace Unicorn.UI.Win.UserInput
             return this;
         }
 
-        private static bool ShiftKeyIsNeeded(short key) =>
+        private static bool ShiftKeyIsNeeded(ushort key) =>
             ((key >> 8) & 1) == 1;
 
         private void LeaveSingleKey(SpecialKeys key)
         {
-            SendKeyUp((short)key, true);
+            SendKeyUp((ushort)key, true);
             HeldKeys.Remove(key);
         }
 
-        private KeyUpDown GetSpecialKeyCode(bool specialKey, KeyUpDown key)
+        private uint GetSpecialKeyCode(bool specialKey, uint key)
         {
             if (specialKey && _scanCodeDependent.Contains((SpecialKeys)key))
             {
@@ -222,19 +222,19 @@ namespace Unicorn.UI.Win.UserInput
         private void SendInput(Input input) =>
             NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
 
-        private Input GetInputFor(short character, KeyUpDown keyUpOrDown) =>
+        private Input GetInputFor(ushort character, uint keyUpOrDown) =>
             Input.Keyboard(new KeyboardInput(character, keyUpOrDown, NativeMethods.GetMessageExtraInfo()));
 
-        private void Press(short key, bool specialKey)
+        private void Press(ushort key, bool specialKey)
         {
             SendKeyDown(key, specialKey);
             SendKeyUp(key, specialKey);
         }
 
         private void Send(SpecialKeys key, bool specialKey) =>
-            Press((short)key, specialKey);
+            Press((ushort)key, specialKey);
 
-        private void SendKeyUp(short b, bool specialKey)
+        private void SendKeyUp(ushort b, bool specialKey)
         {
             if (!_keysHeld.Contains(b))
             {
@@ -242,11 +242,11 @@ namespace Unicorn.UI.Win.UserInput
             }
 
             _keysHeld.Remove(b);
-            KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYUP);
+            uint keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYUP);
             SendInput(GetInputFor(b, keyUpDown));
         }
 
-        private void SendKeyDown(short b, bool specialKey)
+        private void SendKeyDown(ushort b, bool specialKey)
         {
             if (_keysHeld.Contains(b))
             {
@@ -254,7 +254,7 @@ namespace Unicorn.UI.Win.UserInput
             }
 
             _keysHeld.Add(b);
-            KeyUpDown keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYDOWN);
+            uint keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYDOWN);
             SendInput(GetInputFor(b, keyUpDown));
         }
     }
