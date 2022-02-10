@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
+using Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Suites
@@ -19,34 +20,34 @@ namespace Unicorn.UnitTests.Suites
 
         [Test]
         public void Test2() =>
-            Do.Testing.FirstTestStep();
+            Do.Assertion.StartAssertionsChain(null);
 
         [Test]
         [Disabled("")]
         public void TestToSkip() =>
-            Do.Testing.Say("a");
+            Do.Assertion.StartAssertionsChain("a");
 
         [Test]
         public void Test1() =>
-            Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
+            Bug("871236").Assertion.AssertThat(new SampleObject(), Is.Null());
 
         [Test]
         public void Test23() =>
-            Bug("2343").Testing.Say("a");
+            Bug("2343").Assertion.StartAssertionsChain("a");
 
         [Test]
         public void Test53() =>
-            Bug("234").Testing.StepWhichSouldFail(new SampleObject());
+            Bug("234").Assertion.AssertThat(new SampleObject(), Is.Null());
 
         [Test]
         public void Test33() =>
-            Do.Testing.StepWhichSouldFail(new SampleObject());
+            Do.Assertion.AssertThat(new SampleObject(), Is.Null());
 
         [Test]
         public void Test43()
         {
-            Bug("8716").Testing.Say("a");
-            Do.Testing.StepWhichSouldFail(new SampleObject());
+            Bug("8716").Assertion.StartAssertionsChain("a");
+            Do.Assertion.AssertThat(new SampleObject(), Is.Null());
         }
 
         [AfterTest]

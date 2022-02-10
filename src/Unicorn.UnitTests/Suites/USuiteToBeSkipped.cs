@@ -1,4 +1,5 @@
 ﻿using Unicorn.Taf.Core.Testing.Attributes;
+using Unicorn.Taf.Core.Verification.Matchers;
 using Unicorn.UnitTests.BO;
 
 namespace Unicorn.UnitTests.Suites
@@ -22,7 +23,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test2()
         {
             Output += "Test2";
-            Do.Testing.FirstTestStep();
+            Do.Assertion.StartAssertionsChain(null);
         }
 
         [Disabled("")]
@@ -30,7 +31,7 @@ namespace Unicorn.UnitTests.Suites
         public void TestToSkip()
         {
             Output += "TestToSkip";
-            Do.Testing.Say("a");
+            Do.Assertion.StartAssertionsChain("a");
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test1()
         {
             Output += "Test1";
-            Bug("871236").Testing.StepWhichSouldFail(new SampleObject());
+            Bug("871236").Assertion.AssertThat(new SampleObject(), Is.Null());
         }
 
         [Disabled("")]
@@ -46,7 +47,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test23()
         {
             Output += "Test23";
-            Bug("871236").Testing.Say("a");
+            Bug("871236").Assertion.StartAssertionsChain("a");
         }
 
         [Test]
@@ -54,7 +55,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test33()
         {
             Output += "Test33";
-            Do.Testing.StepWhichSouldFail(new SampleObject());
+            Do.Assertion.AssertThat(new SampleObject(), Is.Null());
         }
 
         [Disabled("")]
@@ -63,8 +64,8 @@ namespace Unicorn.UnitTests.Suites
         public void Test43()
         {
             Output += "Test43";
-            Bug("871236").Testing.Say("a");
-            Do.Testing.StepWhichSouldFail(new SampleObject());
+            Bug("871236").Assertion.StartAssertionsChain("a");
+            Do.Assertion.AssertThat(new SampleObject(), Is.Null());
         }
 
         [AfterTest]
