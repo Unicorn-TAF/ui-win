@@ -6,8 +6,8 @@ namespace Unicorn.UI.Win.WindowsApi
 {
     internal static class NativeMethods
     {
-        [DllImport("user32", EntryPoint = "SendInput")]
-        internal static extern int SendInput(uint numberOfInputs, ref Input input, int structSize);
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern int SendInput(uint numberOfInputs, ref INPUT input, int structSize);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetMessageExtraInfo();
@@ -15,7 +15,7 @@ namespace Unicorn.UI.Win.WindowsApi
         [DllImport("user32.dll")]
         internal static extern short VkKeyScan(char ch);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern ushort GetKeyState(uint virtKey);
 
         [DllImport("user32.dll")]

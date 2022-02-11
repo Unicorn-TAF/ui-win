@@ -56,8 +56,8 @@ namespace Unicorn.UI.Win.UserInput
         /// </summary>
         public void RightClick()
         {
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightDown, NativeMethods.GetMessageExtraInfo())));
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFRightUp, NativeMethods.GetMessageExtraInfo())));
+            SendInput(INPUT.Mouse(MouseFlag.MOUSEEVENTF_RIGHTDOWN));
+            SendInput(INPUT.Mouse(MouseFlag.MOUSEEVENTF_RIGHTUP));
         }
 
         /// <summary>
@@ -121,16 +121,16 @@ namespace Unicorn.UI.Win.UserInput
         /// Performs left button down action on current mouse position.
         /// </summary>
         public void LeftButtonDown() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftDown, NativeMethods.GetMessageExtraInfo())));
+            SendInput(INPUT.Mouse(MouseFlag.MOUSEEVENTF_LEFTDOWN));
 
         /// <summary>
         /// Performs left button up action on current mouse position.
         /// </summary>
         public void LeftButtonUp() =>
-            SendInput(Input.Mouse(new MouseInput(Constants.MouseEventFLeftUp, NativeMethods.GetMessageExtraInfo())));
+            SendInput(INPUT.Mouse(MouseFlag.MOUSEEVENTF_LEFTUP));
 
-        private int SendInput(Input input) =>
-            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+        private int SendInput(INPUT input) =>
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(INPUT)));
 
         private void MouseLeftButtonUpAndDown()
         {

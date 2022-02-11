@@ -213,17 +213,17 @@ namespace Unicorn.UI.Win.UserInput
         {
             if (specialKey && _scanCodeDependent.Contains((SpecialKeys)key))
             {
-                key |= KeyUpDown.KEYEVENTF_EXTENDEDKEY;
+                key |= (UInt32)KeyboardFlag.KEYEVENTF_EXTENDEDKEY;
             }
 
             return key;
         }
 
-        private void SendInput(Input input) =>
-            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(Input)));
+        private void SendInput(INPUT input) =>
+            NativeMethods.SendInput(1, ref input, Marshal.SizeOf(typeof(INPUT)));
 
-        private Input GetInputFor(ushort character, uint keyUpOrDown) =>
-            Input.Keyboard(new KeyboardInput(character, keyUpOrDown, NativeMethods.GetMessageExtraInfo()));
+        private INPUT GetInputFor(ushort character, uint flag) =>
+            INPUT.Keyboard(character, flag);
 
         private void Press(ushort key, bool specialKey)
         {
@@ -242,7 +242,7 @@ namespace Unicorn.UI.Win.UserInput
             }
 
             _keysHeld.Remove(b);
-            uint keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYUP);
+            uint keyUpDown = GetSpecialKeyCode(specialKey, (UInt32)KeyboardFlag.KEYEVENTF_KEYUP);
             SendInput(GetInputFor(b, keyUpDown));
         }
 
@@ -254,7 +254,7 @@ namespace Unicorn.UI.Win.UserInput
             }
 
             _keysHeld.Add(b);
-            uint keyUpDown = GetSpecialKeyCode(specialKey, KeyUpDown.KEYEVENTF_KEYDOWN);
+            uint keyUpDown = GetSpecialKeyCode(specialKey, (UInt32)KeyboardFlag.KEYEVENTF_KEYDOWN);
             SendInput(GetInputFor(b, keyUpDown));
         }
     }

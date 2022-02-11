@@ -1,28 +1,43 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
-#pragma warning disable S1144 // Unused private types or members should be removed
 namespace Unicorn.UI.Win.WindowsApi
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct MouseInput
+    [Flags]
+    internal enum MouseFlag : uint // UInt32
     {
-        private readonly int _dx;
-        private readonly int _dy;
-        private readonly int _mouseData;
-        private readonly int _flags;
-        private readonly int _time;
-        private readonly IntPtr _extraInfo;
+        MOUSEEVENTF_MOVE = 0x0001,
+        MOUSEEVENTF_LEFTDOWN = 0x0002,
+        MOUSEEVENTF_LEFTUP = 0x0004,
+        MOUSEEVENTF_RIGHTDOWN = 0x0008,
+        MOUSEEVENTF_RIGHTUP = 0x0010,
+        MOUSEEVENTF_MIDDLEDOWN = 0x0020,
+        MOUSEEVENTF_MIDDLEUP = 0x0040,
+        MOUSEEVENTF_XDOWN = 0x0080,
+        MOUSEEVENTF_XUP = 0x0100,
+        MOUSEEVENTF_WHEEL = 0x0800,
+        MOUSEEVENTF_HWHEEL = 0x1000,
+        MOUSEEVENTF_MOVE_NOCOALESCE = 0x2000,
+        MOUSEEVENTF_VIRTUALDESK = 0x4000,
+        MOUSEEVENTF_ABSOLUTE = 0x8000,
+    }
 
-        internal MouseInput(int flags, IntPtr extraInfo)
+    internal struct MOUSEINPUT
+    {
+        internal Int32 X;
+        internal Int32 Y;
+        internal UInt32 MouseData;
+        internal UInt32 Flags;
+        internal UInt32 Time;
+        internal IntPtr ExtraInfo;
+
+        internal MOUSEINPUT(UInt32 flags)
         {
-            _flags = flags;
-            _extraInfo = extraInfo;
-            _dx = 0;
-            _dy = 0;
-            _time = 0;
-            _mouseData = 0;
+            X = 0;
+            Y = 0;
+            MouseData = 0;
+            Flags = flags;
+            Time = 0;
+            ExtraInfo = IntPtr.Zero;
         }
     }
 }
-#pragma warning restore S1144 // Unused private types or members should be removed

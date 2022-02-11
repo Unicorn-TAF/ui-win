@@ -1,38 +1,46 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System;
 
 namespace Unicorn.UI.Win.WindowsApi
 {
-    [SuppressMessage("Microsoft.Portability", "CA1900:ValueTypeFieldsShouldBePortable", MessageId = "mouseInput", Justification = "Skip for now")]
-    [SuppressMessage("Microsoft.Portability", "CA1900:ValueTypeFieldsShouldBePortable", MessageId = "keyboardInput", Justification = "Skip for now")]
-    [SuppressMessage("Microsoft.Portability", "CA1900:ValueTypeFieldsShouldBePortable", MessageId = "extraInfo", Justification = "Skip for now")]
-    [StructLayout(LayoutKind.Explicit)]
-    internal struct Input
+    internal enum InputType : uint
     {
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Skip for now")]
-        [FieldOffset(0)]
-        private int type;
+        INPUT_MOUSE = 0,
+        INPUT_KEYBOARD = 1,
+        INPUT_HARDWARE = 2,
+    }
 
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Skip for now")]
-        [FieldOffset(4)]
-        private MouseInput mouseInput;
+    internal struct INPUT
+    {
+        internal UInt32 Type;
 
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "Skip for now")]
-        [FieldOffset(4)]
-        private KeyboardInput keyboardInput;
+        internal INPUTDATA Data;
 
-        internal static Input Mouse(MouseInput input) =>
-            new Input
+        internal static INPUT Mouse(MouseFlag flag) =>
+            new INPUT
             {
-                type = Constants.InputMouse,
-                mouseInput = input
+                Type = (UInt32)InputType.INPUT_MOUSE,
+                Data = new INPUTDATA { Mi = new MOUSEINPUT((UInt32)flag) }
             };
 
-        internal static Input Keyboard(KeyboardInput input) =>
-            new Input
+        //internal static INPUT Keyboard(KEYBDINPUT input) =>
+        //    new INPUT
+        //    {
+        //        Type = (UInt32)InputType.INPUT_KEYBOARD,
+        //        Data = new INPUTDATA { Ki = input }
+        //    };
+
+        internal static INPUT Keyboard(UInt16 vk, UInt32 flag) =>
+            new INPUT
             {
-                type = Constants.InputKeyboard,
-                keyboardInput = input
+                Type = (UInt32)InputType.INPUT_KEYBOARD,
+                Data = new INPUTDATA { Ki = new KEYBDINPUT(vk, flag) }
+            };
+
+        internal static INPUT Hardware(HARDWAREINPUT input) =>
+            new INPUT
+            {
+                Type = (UInt32)InputType.INPUT_HARDWARE,
+                Data = new INPUTDATA { Hi = input }
             };
     }
 }

@@ -21,7 +21,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
         /// <summary>
         /// Gets check description.
         /// </summary>
-        public override string CheckDescription => $"has velue '{_expectedValue}'";
+        public override string CheckDescription => $"has value '{_expectedValue}'";
 
         /// <summary>
         /// Checks if text input has specified value.
