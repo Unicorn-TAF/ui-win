@@ -5,12 +5,17 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.</Description>
+    <Description>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.
+    Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>2.0.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
+    <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
+    <PackageTags>automation matchers web-services rest</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
@@ -41,6 +46,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

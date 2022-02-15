@@ -5,13 +5,19 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>Unicorn Desktop features: Ready for use implementations of common controls, extended page object features.
-This package includes implementation of desktop GUI interaction which is based on UIA3 library.</Description>
+    <Description>
+      Unicorn.UI.Win is Unicorn test automation framework extension which provides ready for use implementation of interaction with Windows GUI with extended capabilities.
+      Unicorn Desktop features: Ready for use implementations of common controls, extended page object features.
+      This package includes implementation of desktop GUI interaction which is based on UIA3 library.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>3.0.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
+    <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
+    <PackageTags>automation ui controls page-object windows desktop uia3</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,9 +44,23 @@ This package includes implementation of desktop GUI interaction which is based o
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="tools\install.ps1">
+      <Pack>True</Pack>
+      <PackagePath>tools</PackagePath>
+    </None>
+    <None Include="Lib\Interop.UIAutomationClient.dll">
+      <Pack>True</Pack>
+      <PackagePath Condition="'$(TargetFramework)'=='net452'">lib\net452</PackagePath>
+      <PackagePath Condition="'$(TargetFramework)'=='netstandard2.0'">lib\netstandard2.0</PackagePath>
+      <PackagePath Condition="'$(TargetFramework)'=='net5.0'">lib\net5.0</PackagePath>
     </None>
   </ItemGroup>
 

@@ -5,13 +5,19 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>Unicorn Web features: Ready for use implementations of common controls, extended page object features.
-This package includes implementations of web UI interaction based on WebDriver.</Description>
+    <Description>
+      Unicorn.UI.Web is Unicorn test automation framework extension which provides ready for use implementations of interaction with Web UI with extended capabilities.
+      Unicorn Web features: Ready for use implementations of common controls, extended page object features.
+      This package includes implementations of web UI interaction based on WebDriver.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>3.0.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
+    <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
+    <PackageTags>automation ui controls page-object web webdriver browser</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,6 +49,10 @@ This package includes implementations of web UI interaction based on WebDriver.<
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
