@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 namespace Unicorn.UI.Core.Controls.Dynamic
 {
@@ -35,17 +34,6 @@ namespace Unicorn.UI.Core.Controls.Dynamic
         protected NotSpecifiedLocatorException(SerializationInfo info, StreamingContext context) 
             : base(info, context)
         {
-        }
-
-        /// <summary>
-        /// Set serialization info
-        /// </summary>
-        /// <param name="info">serialization info</param>
-        /// <param name="context">streaming context</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
         }
     }
 }
