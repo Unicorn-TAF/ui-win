@@ -61,13 +61,13 @@
 
   <Target Name="IncludeReferencedProjectInPackage" Condition="'$(IncludeBuildOutput)' != 'false'">
     <ItemGroup>
-      <TfmSpecificPackageFile Include="Lib\Interop.UIAutomationClient.dll" PackagePath="lib/$(TargetFramework)" />
+      <TfmSpecificPackageFile Include="ComLib\Interop.UIAutomationClient.dll" PackagePath="lib/$(TargetFramework)" />
     </ItemGroup>
   </Target>
 
   <ItemGroup>
     <Reference Include="Interop.UIAutomationClient">
-      <HintPath>Lib\Interop.UIAutomationClient.dll</HintPath>
+      <HintPath>ComLib\Interop.UIAutomationClient.dll</HintPath>
     </Reference>
   </ItemGroup>
 
