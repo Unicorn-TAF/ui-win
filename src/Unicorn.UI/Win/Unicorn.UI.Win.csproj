@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeReferencedProjectInPackage</TargetsForTfmSpecificContentInPackage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
@@ -56,13 +57,13 @@
       <Pack>True</Pack>
       <PackagePath>tools</PackagePath>
     </None>
-    <None Include="Lib\Interop.UIAutomationClient.dll">
-      <Pack>True</Pack>
-      <PackagePath Condition="'$(TargetFramework)'=='net452'">lib\net452</PackagePath>
-      <PackagePath Condition="'$(TargetFramework)'=='netstandard2.0'">lib\netstandard2.0</PackagePath>
-      <PackagePath Condition="'$(TargetFramework)'=='net5.0'">lib\net5.0</PackagePath>
-    </None>
   </ItemGroup>
+
+  <Target Name="IncludeReferencedProjectInPackage" Condition="'$(IncludeBuildOutput)' != 'false'">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="Lib\Interop.UIAutomationClient.dll" PackagePath="lib/$(TargetFramework)" />
+    </ItemGroup>
+  </Target>
 
   <ItemGroup>
     <Reference Include="Interop.UIAutomationClient">
