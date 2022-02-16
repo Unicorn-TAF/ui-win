@@ -288,12 +288,12 @@ namespace Unicorn.Taf.Core.Steps
 
             try
             {
-                StepsEvents.InvokeOnStepStart(methodBase, arguments);
+                StepsEvents.CallOnStepStartEvent(methodBase, arguments);
                 action();
             }
             finally
             {
-                StepsEvents.InvokeOnStepFinish(methodBase, arguments);
+                StepsEvents.CallOnStepFinishEvent(methodBase, arguments);
             }
         }
 
@@ -303,12 +303,12 @@ namespace Unicorn.Taf.Core.Steps
 
             try
             {
-                StepsEvents.InvokeOnStepStart(methodBase, arguments);
+                StepsEvents.CallOnStepStartEvent(methodBase, arguments);
                 return action();
             }
             finally
             {
-                StepsEvents.InvokeOnStepFinish(methodBase, arguments);
+                StepsEvents.CallOnStepFinishEvent(methodBase, arguments);
             }
         }
     }

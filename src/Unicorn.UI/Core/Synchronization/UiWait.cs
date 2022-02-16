@@ -6,6 +6,10 @@ using Unicorn.UI.Core.Controls;
 
 namespace Unicorn.UI.Core.Synchronization
 {
+    /// <summary>
+    /// UI controls specified wait (for <see cref="IControl"/>)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class UiWait<T> : BaseWait where T : IControl
     {
         private readonly string _attributeName;
@@ -44,6 +48,9 @@ namespace Unicorn.UI.Core.Synchronization
             _valueValue = value;
         }
 
+        /// <summary>
+        /// Input object to check wait condition against.
+        /// </summary>
         protected T Input { get; set; }
 
         /// <summary>
@@ -60,6 +67,7 @@ namespace Unicorn.UI.Core.Synchronization
         /// <typeparam name="TResult">The delegate's expected return type.</typeparam>
         /// <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
         /// <returns>The delegate's return value.</returns>
+        /// <exception cref="TimeoutException">is thrown if wait reached timeout</exception>
         public TResult Until<TResult>(Func<T, TResult> condition)
         {
             if (condition == null)

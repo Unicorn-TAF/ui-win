@@ -35,7 +35,13 @@ namespace Unicorn.Taf.Core.Steps
         /// </summary>
         public static event StepEvent OnStepFinish;
 
-        public static void InvokeOnStepStart(MethodBase methodBase, params object[] arguments)
+        /// <summary>
+        /// Safely calls step start event for specified method and arguments.
+        /// The call will execute only for methods marked as steps.
+        /// </summary>
+        /// <param name="methodBase">target step method</param>
+        /// <param name="arguments">method arguments</param>
+        public static void CallOnStepStartEvent(MethodBase methodBase, params object[] arguments)
         {
             if (methodBase.IsDefined(typeof(StepAttribute), true))
             {
@@ -52,7 +58,13 @@ namespace Unicorn.Taf.Core.Steps
             }
         }
 
-        public static void InvokeOnStepFinish(MethodBase methodBase, params object[] arguments)
+        /// <summary>
+        /// Safely calls step finish event for specified method and arguments.
+        /// The call will execute only for methods marked as steps.
+        /// </summary>
+        /// <param name="methodBase">target step method</param>
+        /// <param name="arguments">method arguments</param>
+        public static void CallOnStepFinishEvent(MethodBase methodBase, params object[] arguments)
         {
             if (methodBase.IsDefined(typeof(StepAttribute), true))
             {
