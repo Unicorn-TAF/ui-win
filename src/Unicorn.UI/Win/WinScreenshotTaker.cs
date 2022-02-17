@@ -11,7 +11,7 @@ namespace Unicorn.UI.Win
     /// <summary>
     /// Provides ability to take screenshots.
     /// </summary>
-    public class Screenshotter
+    public class WinScreenshotTaker
     {
         private const int MaxLength = 255;
 
@@ -20,35 +20,22 @@ namespace Unicorn.UI.Win
         private readonly Size _screenSize;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> class with default directory.<para/>
+        /// Initializes a new instance of the <see cref="WinScreenshotTaker"/> class with default directory.<para/>
         /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
-        public Screenshotter() : this(
-            Path.Combine(Path.GetDirectoryName(new Uri(typeof(Screenshotter).Assembly.Location).LocalPath), "Screenshots"), 
-            ImageFormat.Png,
-            false)
+        public WinScreenshotTaker() : this(
+            Path.Combine(Path.GetDirectoryName(new Uri(typeof(WinScreenshotTaker).Assembly.Location).LocalPath), "Screenshots"), 
+            ImageFormat.Png)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
+        /// Initializes a new instance of the <see cref="WinScreenshotTaker"/> class based on specified directory and image format.<para/>
         /// Directory is created automatically if it does not exist.
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
-        public Screenshotter(string screenshotsDir, ImageFormat format) 
-            : this(screenshotsDir, format, false)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Screenshotter"/> class based on specified directory and image format.<para/>
-        /// Directory is created automatically if it does not exist.
-        /// </summary>
-        /// <param name="screenshotsDir">directory to save screenshots to</param>
-        /// <param name="format">screenshot image format</param>
-        /// <param name="subscribeToEvents">true - if need to subscribe to unicorn events; otherwise - false</param>
-        public Screenshotter(string screenshotsDir, ImageFormat format, bool subscribeToEvents)
+        public WinScreenshotTaker(string screenshotsDir, ImageFormat format) 
         {
             _format = format;
             _screenSize = Screen.GetSize();
@@ -57,12 +44,6 @@ namespace Unicorn.UI.Win
             if (!Directory.Exists(screenshotsDir))
             {
                 Directory.CreateDirectory(screenshotsDir);
-            }
-
-            if (subscribeToEvents)
-            {
-                Test.OnTestFail += TakeScreenshot;
-                SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
             }
         }
 
@@ -74,7 +55,7 @@ namespace Unicorn.UI.Win
         /// <returns>path to the screenshot file</returns>
         public string TakeScreenshot(string folder, string fileName)
         {
-            var printScreen = GetScreenshot();
+            Bitmap printScreen = GetScreenshot();
 
             if (printScreen == null)
             {
@@ -84,7 +65,8 @@ namespace Unicorn.UI.Win
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Saving print screen...");
-                var filePath = Path.Combine(folder, fileName);
+
+                string filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
                 {
@@ -92,7 +74,6 @@ namespace Unicorn.UI.Win
                 }
 
                 filePath += "." + _format;
-
                 printScreen.Save(filePath, _format);
                 return filePath;
             }
@@ -111,9 +92,18 @@ namespace Unicorn.UI.Win
         public string TakeScreenshot(string fileName) => TakeScreenshot(_screenshotsDir, fileName);
 
         /// <summary>
+        /// Subscribe to Unicorn events.
+        /// </summary>
+        public void ScribeToTafEvents()
+        {
+            Test.OnTestFail += TakeScreenshot;
+            SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
+        }
+
+        /// <summary>
         /// Unsubscribe from Unicorn events.
         /// </summary>
-        public void Unsubscribe()
+        public void UnsubscribeFromTafEvents()
         {
             Test.OnTestFail -= TakeScreenshot;
             SuiteMethod.OnSuiteMethodFail -= TakeScreenshot;
@@ -125,7 +115,7 @@ namespace Unicorn.UI.Win
             {
                 Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
 
-                var captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
+                Bitmap captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
                 using (Graphics captureGraphic = Graphics.FromImage(captureBmp))
                 {
                     captureGraphic.CopyFromScreen(0, 0, 0, 0, captureBmp.Size);
@@ -146,6 +136,5 @@ namespace Unicorn.UI.Win
 
             suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
         }
-            
     }
 }
