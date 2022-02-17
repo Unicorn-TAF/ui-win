@@ -1,9 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Opera;
 
 namespace Unicorn.UI.Web.Driver
 {
@@ -19,7 +14,9 @@ namespace Unicorn.UI.Web.Driver
         {
             Browser = browser;
 
-            SeleniumDriver = driverOptions == null ? GetInstance() : GetInstance(driverOptions);
+            SeleniumDriver = driverOptions == null ? 
+                WebDriverFactory.Get(browser) :
+                WebDriverFactory.Get(browser, driverOptions);
 
             if (maximize)
             {
@@ -54,44 +51,7 @@ namespace Unicorn.UI.Web.Driver
         {
             SeleniumDriver = webDriverInstance;
             ImplicitlyWait = TimeoutDefault;
-        }
-
-        private IWebDriver GetInstance()
-        {
-            switch (Browser)
-            {
-                case BrowserType.Chrome:
-                    return new ChromeDriver();
-                case BrowserType.IE:
-                    return new InternetExplorerDriver();
-                case BrowserType.Firefox:
-                    return new FirefoxDriver();
-                case BrowserType.Opera:
-                    return new OperaDriver();
-                case BrowserType.Edge:
-                    return new EdgeDriver();
-                default:
-                    return null;
-            }
-        }
-
-        private IWebDriver GetInstance(DriverOptions options)
-        {
-            switch (Browser)
-            {
-                case BrowserType.Chrome:
-                    return new ChromeDriver((ChromeOptions)options);
-                case BrowserType.IE:
-                    return new InternetExplorerDriver((InternetExplorerOptions)options);
-                case BrowserType.Firefox:
-                    return new FirefoxDriver((FirefoxOptions)options);
-                case BrowserType.Opera:
-                    return new OperaDriver((OperaOptions)options);
-                case BrowserType.Edge:
-                    return new EdgeDriver((EdgeOptions)options);
-                default:
-                    return null;
-            }
+            Browser = WebDriverFactory.GetBrowserType(webDriverInstance);
         }
     }
 }
