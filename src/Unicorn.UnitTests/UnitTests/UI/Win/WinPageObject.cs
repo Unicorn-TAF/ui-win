@@ -6,21 +6,27 @@ using Unicorn.UnitTests.Gui.Win;
 
 namespace Unicorn.UnitTests.UI.Win
 {
-    [TestFixture]
+
+    [TestFixture(true)] // use IUIAutomation2
+    [TestFixture(false)] // use IUIAutomation
     public class WinPageObject
     {
         private static CharmapApplication charmap;
 
-        [OneTimeSetUp]
-        public static void Setup()
+        public WinPageObject(bool useUia2)
         {
+            WinDriver.UseIUia2 = useUia2;
             charmap = new CharmapApplication();
             charmap.Start();
         }
 
         [OneTimeTearDown]
-        public static void TearDown() =>
+        public static void TearDown()
+        {
             charmap.Close();
+            WinDriver.Close();
+            WinDriver.UseIUia2 = false;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check that not existing controls don't brake page object initialization")]
