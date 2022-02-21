@@ -36,7 +36,7 @@
             new TextInputMatchers();
 
         /// <summary>
-        /// Entry point for Textinput matchers.
+        /// Entry point for Window matchers.
         /// </summary>
         public static WindowMatchers Window =>
             new WindowMatchers();

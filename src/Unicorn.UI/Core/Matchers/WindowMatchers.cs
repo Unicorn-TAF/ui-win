@@ -18,9 +18,9 @@ namespace Unicorn.UI.Core.Matchers
         /// <summary>
         /// Gets matcher to check if modal window has specified text content.
         /// </summary>
-        /// <param name="expectedTitle">expected text content</param>
+        /// <param name="expectedText">expected text content</param>
         /// <returns>matcher instance</returns>
-        public ModalWindowHasTextMatcher HasText(string expectedTitle) =>
-            new ModalWindowHasTextMatcher(expectedTitle);
+        public ModalWindowHasTextMatcher HasText(string expectedText) =>
+            new ModalWindowHasTextMatcher(expectedText);
     }
 }

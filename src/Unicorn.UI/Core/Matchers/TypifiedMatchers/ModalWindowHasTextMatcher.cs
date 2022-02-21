@@ -11,7 +11,7 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
         private readonly string _expectedText;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowHasTitleMatcher"/> class.
+        /// Initializes a new instance of the <see cref="ModalWindowHasTextMatcher"/> class.
         /// </summary>
         public ModalWindowHasTextMatcher(string expectedText)
         {
@@ -37,9 +37,9 @@ namespace Unicorn.UI.Core.Matchers.TypifiedMatchers
             }
 
             string actualText = actual.TextContent;
-            bool titleMatch = actualText.Equals(_expectedText);
+            bool hasText = actualText.Equals(_expectedText);
             DescribeMismatch(actualText);
-            return titleMatch;
+            return hasText;
         }
     }
 }
