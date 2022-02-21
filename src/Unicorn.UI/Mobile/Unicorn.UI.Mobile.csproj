@@ -5,11 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>
-      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
-
-      This package includes UI core of unicorn automation framework.
-    </Description>
+    <Description></Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>2.3.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

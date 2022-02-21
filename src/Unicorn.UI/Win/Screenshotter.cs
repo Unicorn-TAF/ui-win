@@ -74,7 +74,7 @@ namespace Unicorn.UI.Win
         /// <returns>path to the screenshot file</returns>
         public string TakeScreenshot(string folder, string fileName)
         {
-            var printScreen = GetScreenshot();
+            Bitmap printScreen = GetScreenshot();
 
             if (printScreen == null)
             {
@@ -84,7 +84,7 @@ namespace Unicorn.UI.Win
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Saving print screen...");
-                var filePath = Path.Combine(folder, fileName);
+                string filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
                 {
@@ -125,7 +125,7 @@ namespace Unicorn.UI.Win
             {
                 Logger.Instance.Log(LogLevel.Debug, "Creating print screen...");
 
-                var captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
+                Bitmap captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
                 using (Graphics captureGraphic = Graphics.FromImage(captureBmp))
                 {
                     captureGraphic.CopyFromScreen(0, 0, 0, 0, captureBmp.Size);
@@ -141,8 +141,8 @@ namespace Unicorn.UI.Win
 
         private void TakeScreenshot(SuiteMethod suiteMethod)
         {
-            var mime = "image/" + _format.ToString().ToLowerInvariant();
-            var screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+            string mime = "image/" + _format.ToString().ToLowerInvariant();
+            string screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
 
             suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
         }

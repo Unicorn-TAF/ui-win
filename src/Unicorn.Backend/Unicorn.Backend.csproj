@@ -5,8 +5,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.
-    Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.</Description>
+    <Description>
+      Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.
+      Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>2.0.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

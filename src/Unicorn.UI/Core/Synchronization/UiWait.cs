@@ -9,7 +9,7 @@ namespace Unicorn.UI.Core.Synchronization
     /// <summary>
     /// UI controls specified wait (for <see cref="IControl"/>)
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">should implement <see cref="IControl"/></typeparam>
     public class UiWait<T> : BaseWait where T : IControl
     {
         private readonly string _attributeName;
