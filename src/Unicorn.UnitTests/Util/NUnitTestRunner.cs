@@ -13,13 +13,13 @@ namespace Unicorn.UnitTests.Util
     {
         public static SimpleReporter Reporter { get; set; }
 
-        public static Screenshotter Screenshot { get; set; }
+        public static WinScreenshotTaker Screenshot { get; set; }
 
         [OneTimeSetUp]
         public static void ClassInit()
         {
             Logger.Instance = new TestContextLogger();
-            Screenshot = new Screenshotter();
+            Screenshot = new WinScreenshotTaker();
             Reporter = new SimpleReporter();
         }
 
