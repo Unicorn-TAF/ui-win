@@ -17,7 +17,8 @@ namespace Unicorn.UI.Mobile.Ios.Driver
 
         private IosDriver()
         {
-            Driver = new IOSDriver<IOSElement>(_uri, _capabilities, TimeSpan.FromSeconds(120));
+
+            Driver = new IOSDriver<IOSElement>(_uri, null, TimeSpan.FromSeconds(120)); // TODO: to fix second parameter
             ImplicitlyWait = TimeoutDefault;
         }
 

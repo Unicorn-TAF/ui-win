@@ -1,0 +1,43 @@
+﻿using System;
+
+namespace Unicorn.UI.Win.WindowsApi
+{
+    [Flags]
+    internal enum MouseFlag : uint // UInt32
+    {
+        MOUSEEVENTF_MOVE = 0x0001,
+        MOUSEEVENTF_LEFTDOWN = 0x0002,
+        MOUSEEVENTF_LEFTUP = 0x0004,
+        MOUSEEVENTF_RIGHTDOWN = 0x0008,
+        MOUSEEVENTF_RIGHTUP = 0x0010,
+        MOUSEEVENTF_MIDDLEDOWN = 0x0020,
+        MOUSEEVENTF_MIDDLEUP = 0x0040,
+        MOUSEEVENTF_XDOWN = 0x0080,
+        MOUSEEVENTF_XUP = 0x0100,
+        MOUSEEVENTF_WHEEL = 0x0800,
+        MOUSEEVENTF_HWHEEL = 0x1000,
+        MOUSEEVENTF_MOVE_NOCOALESCE = 0x2000,
+        MOUSEEVENTF_VIRTUALDESK = 0x4000,
+        MOUSEEVENTF_ABSOLUTE = 0x8000,
+    }
+
+    internal struct MOUSEINPUT
+    {
+        internal Int32 X;
+        internal Int32 Y;
+        internal UInt32 MouseData;
+        internal UInt32 Flags;
+        internal UInt32 Time;
+        internal IntPtr ExtraInfo;
+
+        internal MOUSEINPUT(UInt32 flags)
+        {
+            X = 0;
+            Y = 0;
+            MouseData = 0;
+            Flags = flags;
+            Time = 0;
+            ExtraInfo = IntPtr.Zero;
+        }
+    }
+}

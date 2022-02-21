@@ -2,6 +2,9 @@
 
 namespace Unicorn.UI.Core.Synchronization.Conditions
 {
+    /// <summary>
+    /// Represents conditions for <see cref="IControl"/> waits.
+    /// </summary>
     public static class Until
     {
         /// <summary>

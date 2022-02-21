@@ -1,5 +1,6 @@
 ﻿using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
+using Unicorn.Taf.Core.Verification.Matchers;
 
 namespace Unicorn.UnitTests.Suites
 {
@@ -9,23 +10,23 @@ namespace Unicorn.UnitTests.Suites
     {
         [Test]
         public void Test1() =>
-            Do.Testing.Say("Test1");
+            Do.Assertion.StartAssertionsChain("Test1");
 
         [Test]
         public void Test2() =>
-            Do.Testing.Say("Test2");
+            Do.Assertion.AssertThat("Test2", Is.EqualTo("Test2"));
 
         [Test]
         [Disabled("")]
         public void TestToSkip() =>
-            Do.Testing.Say("TestToSkip");
+            Do.Assertion.StartAssertionsChain("TestToSkip");
 
         [AfterTest]
         public void AfterTest() =>
-            Do.Testing.Say("AfterTest");
+            Do.Assertion.StartAssertionsChain("AfterTest");
 
         [AfterSuite]
         public void AfterSuite() =>
-            Do.Testing.Say("AfterSuite");
+            Do.Assertion.StartAssertionsChain("AfterSuite");
     }
 }

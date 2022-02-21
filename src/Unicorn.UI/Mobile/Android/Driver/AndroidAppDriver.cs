@@ -18,7 +18,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
 
         private AndroidAppDriver()
         {
-            Driver = new AndroidDriver<AndroidElement>(_uri, _capabilities);
+            Driver = new AndroidDriver<AndroidElement>(_uri, null);  // TODO: to fix second parameter
             ImplicitlyWait = TimeoutDefault;
         }
 

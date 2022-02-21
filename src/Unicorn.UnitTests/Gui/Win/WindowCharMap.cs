@@ -21,6 +21,8 @@ namespace Unicorn.UnitTests.Gui.Win
         [Find(Using.Name, "Font :")]
         public Dropdown DropdownFonts { get; set; }
 
+        public Text HiddenText => DropdownFonts.Find<Text>(ByLocator.Name("Font :"));
+
         [Find(Using.Name, "Font :")]
         public TextInput DropdownTextInputFonts { get; set; }
 

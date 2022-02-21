@@ -36,7 +36,7 @@ namespace Unicorn.UnitTests.Testing
             new TestsRunner(Assembly.GetExecutingAssembly().Location, false).RunTests();
             Assert.That(
                 Output, 
-                Is.EqualTo("Say 'Test1'Say 'AfterTest'Say 'Test2'Say 'AfterTest'Say 'AfterSuite'"));
+                Is.EqualTo("Test1AfterTestAssert that 'Test2' Is equal to Test2AfterTestAfterSuite"));
         }
 
         private static void ReportInfo(MethodBase method, object[] arguments) =>

@@ -17,6 +17,12 @@ namespace Unicorn.UI.Core.Driver
         /// <exception cref="ControlNotFoundException"> is thrown if control is not found</exception>
         T Find<T>(ByLocator locator) where T : IControl;
 
+        /// <summary>
+        /// Searches for list of controls of specified type by specified locator during implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">control type</typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>list of controls instances, in case when no controls found empty list is returned</returns>
         IList<T> FindList<T>(ByLocator locator) where T : IControl;
 
         /// <summary>

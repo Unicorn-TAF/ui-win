@@ -26,6 +26,7 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
         /// Gets truncated to 200 chars version of collection ToString
         /// </summary>
         /// <param name="collection">collection instance</param>
+        /// <param name="trimLength">max number of symbols for output</param>
         /// <returns>collection description string</returns>
         protected string DescribeCollection(IEnumerable<T> collection, int trimLength)
         {

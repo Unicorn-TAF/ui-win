@@ -45,7 +45,7 @@ namespace Unicorn.UI.Core.Driver
         /// </summary>
         /// <typeparam name="T">control type</typeparam>
         /// <param name="locator">locator to search by</param>
-        /// <returns>list of controls instances, in case whe no controls found empty list is returned</returns>
+        /// <returns>list of controls instances, in case when no controls found empty list is returned</returns>
         public IList<T> FindList<T>(ByLocator locator) where T : IControl
         {
             CheckForControlType<T>();
