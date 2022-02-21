@@ -34,5 +34,11 @@
         /// </summary>
         public static TextInputMatchers TextInput =>
             new TextInputMatchers();
+
+        /// <summary>
+        /// Entry point for Window matchers.
+        /// </summary>
+        public static WindowMatchers Window =>
+            new WindowMatchers();
     }
 }

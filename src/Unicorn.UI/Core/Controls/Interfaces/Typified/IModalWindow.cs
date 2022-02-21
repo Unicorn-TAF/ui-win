@@ -1,6 +1,4 @@
-﻿using Unicorn.UI.Core.PageObject;
-
-namespace Unicorn.UI.Core.Controls.Interfaces.Typified
+﻿namespace Unicorn.UI.Core.Controls.Interfaces.Typified
 {
     /// <summary>
     /// Interface for modal windows implementation. 
