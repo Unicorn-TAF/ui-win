@@ -26,17 +26,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Win\bin\Release\net452\Unicorn.UI.Win.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net452\Unicorn.UI.Win.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='netstandard2.0'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Win\bin\Release\netstandard2.0\Unicorn.UI.Win.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Unicorn.UI.Win.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net5.0'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Win\bin\Release\net5.0\Unicorn.UI.Win.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net5.0\Unicorn.UI.Win.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
