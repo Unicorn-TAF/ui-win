@@ -65,7 +65,6 @@ namespace Unicorn.UI.Win
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Saving print screen...");
-
                 string filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
@@ -131,8 +130,8 @@ namespace Unicorn.UI.Win
 
         private void TakeScreenshot(SuiteMethod suiteMethod)
         {
-            var mime = "image/" + _format.ToString().ToLowerInvariant();
-            var screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
+            string mime = "image/" + _format.ToString().ToLowerInvariant();
+            string screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
 
             suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
         }

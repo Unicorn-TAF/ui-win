@@ -35,7 +35,7 @@ namespace Unicorn.UI.Win.UserInput
         {
             get
             {
-                var point = new Point();
+                Point point = new Point();
                 NativeMethods.GetCursorPos(ref point);
                 return point;
             }

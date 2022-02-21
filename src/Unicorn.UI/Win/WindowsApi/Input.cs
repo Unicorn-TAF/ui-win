@@ -22,13 +22,6 @@ namespace Unicorn.UI.Win.WindowsApi
                 Data = new INPUTDATA { Mi = new MOUSEINPUT((UInt32)flag) }
             };
 
-        //internal static INPUT Keyboard(KEYBDINPUT input) =>
-        //    new INPUT
-        //    {
-        //        Type = (UInt32)InputType.INPUT_KEYBOARD,
-        //        Data = new INPUTDATA { Ki = input }
-        //    };
-
         internal static INPUT Keyboard(UInt16 vk, UInt32 flag) =>
             new INPUT
             {

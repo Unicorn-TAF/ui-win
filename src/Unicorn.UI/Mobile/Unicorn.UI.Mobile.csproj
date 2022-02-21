@@ -5,11 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
-    <Description>
-      Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
-
-      This package includes UI core of unicorn automation framework.
-    </Description>
+    <Description></Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>2.3.0</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -21,18 +17,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\net452\Unicorn.UI.Mobile.xml</DocumentationFile>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='netstandard2.0'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\netstandard2.0\Unicorn.UI.Mobile.xml</DocumentationFile>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net5.0'">
-    <DocumentationFile>D:\Dev\Sources\unicorn\unicorntaf\src\Unicorn.UI\Mobile\bin\Release\net5.0\Unicorn.UI.Mobile.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\$(TargetFramework)\Unicorn.UI.Mobile.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
