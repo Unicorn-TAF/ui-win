@@ -24,7 +24,6 @@ namespace Unicorn.UnitTests.UI.Win
         [Test(Description = "Check Keyboard hotkey")]
         public void TestKeyboardHotkey()
         {
-            //System.Threading.Thread.Sleep(4000);
             Keyboard.Instance.HoldKey(Keyboard.SpecialKeys.RightWin);
             Keyboard.Instance.Type("r");
             Keyboard.Instance.LeaveAllKeys();
