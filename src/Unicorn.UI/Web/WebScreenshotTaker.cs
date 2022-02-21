@@ -28,7 +28,7 @@ namespace Unicorn.UI.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="WebScreenshotTaker"/> class with screenshots directory.
         /// </summary>
-        /// <param name="screenshotsDir"></param>
+        /// <param name="screenshotsDir">directory to save screenshots to</param>
         public WebScreenshotTaker(string screenshotsDir)
         {
             _screenshotsDir = screenshotsDir;
