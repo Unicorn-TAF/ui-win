@@ -21,18 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net452'">
-    <DocumentationFile>bin\Release\net452\Unicorn.UI.Mobile.xml</DocumentationFile>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='netstandard2.0'">
-    <DocumentationFile>bin\Release\netstandard2.0\Unicorn.UI.Mobile.xml</DocumentationFile>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' And '$(TargetFramework)'=='net5.0'">
-    <DocumentationFile>bin\Release\net5.0\Unicorn.UI.Mobile.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\$(TargetFramework)\Unicorn.UI.Mobile.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
