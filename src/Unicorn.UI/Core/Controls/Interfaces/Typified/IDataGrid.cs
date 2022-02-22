@@ -81,7 +81,7 @@
     /// <summary>
     /// Interface for base data grid row implementation.
     /// </summary>
-    public interface IDataGridRow
+    public interface IDataGridRow : IControl
     {
         /// <summary>
         /// Get cell with specified index.
@@ -94,7 +94,7 @@
     /// <summary>
     /// Interface for base data grid cell implementation.
     /// </summary>
-    public interface IDataGridCell
+    public interface IDataGridCell : IControl
     {
         /// <summary>
         /// Gets cell data
