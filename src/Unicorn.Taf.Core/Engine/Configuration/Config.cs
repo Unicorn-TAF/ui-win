@@ -30,12 +30,12 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Skip dependent tests if main test s failed
         /// </summary>
         Skip,
-        
+
         /// <summary>
         /// Do not execute tests if main test s failed
         /// </summary>
         DoNotRun,
-        
+
         /// <summary>
         /// Run tests anyway if main test s failed
         /// </summary>
@@ -70,6 +70,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
     public static class Config
     {
         private static IEnumerable<string> testFiltersForReporting;
+
+        private static Dictionary<string, string> userDefinedSettings;
 
         static Config()
         {
@@ -131,7 +133,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 tagsToRun
                 .Select(v => v.ToUpper().Trim())
                 .Where(v => !string.IsNullOrEmpty(v)));
-        
+
         /// <summary>
         /// Set tests categories needed to be run.
         /// All categories are converted in upper case. Blank categories are ignored.
@@ -158,7 +160,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             RunTests = new HashSet<string>(testFiltersForReporting
                 .Select(v => "^" + v.Replace(".", @"\.").Replace("*", "[A-z0-9]*").Replace("~", ".*") + "$"));
         }
-            
+
 
         /// <summary>
         /// Deserialize run configuration fro JSON file.
@@ -178,22 +180,66 @@ namespace Unicorn.Taf.Core.Engine.Configuration
 
             JsonConfig conf;
 
-            var formatter = new DataContractJsonSerializer(typeof(JsonConfig));
+            var serializerSettings = new DataContractJsonSerializerSettings()
+            {
+                UseSimpleDictionaryFormat = true
+            };
+
+            var serializer = new DataContractJsonSerializer(typeof(JsonConfig), serializerSettings);
 
             using (FileStream fs = new FileStream(configPath, FileMode.Open))
             {
-                conf = formatter.ReadObject(fs) as JsonConfig;
+                conf = serializer.ReadObject(fs) as JsonConfig;
             }
 
-            TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
-            SuiteTimeout = TimeSpan.FromMinutes(conf.JsonSuiteTimeout);
-            ParallelBy = GetEnumValue<Parallelization>(conf.JsonParallelBy);
-            Threads = conf.JsonThreads;
-            DependentTests = GetEnumValue<TestsDependency>(conf.JsonTestsDependency);
-            TestsExecutionOrder = GetEnumValue<TestsOrder>(conf.JsonTestsExecutionOrder);
-            SetSuiteTags(conf.JsonRunTags.ToArray());
-            SetTestCategories(conf.JsonRunCategories.ToArray());
-            SetTestsMasks(conf.JsonRunTests.ToArray());
+            Reset();
+
+            if (conf.JsonTestTimeout != 0)
+            {
+                TestTimeout = TimeSpan.FromMinutes(conf.JsonTestTimeout);
+            }
+
+            if (conf.JsonSuiteTimeout != 0)
+            {
+                SuiteTimeout = TimeSpan.FromMinutes(conf.JsonSuiteTimeout);
+            }
+
+            if (conf.JsonParallelBy != null)
+            {
+                ParallelBy = GetEnumValue<Parallelization>(conf.JsonParallelBy);
+            }
+
+            if (conf.JsonThreads != 0)
+            {
+                Threads = conf.JsonThreads;
+            }
+
+            if (conf.JsonTestsDependency != null)
+            {
+                DependentTests = GetEnumValue<TestsDependency>(conf.JsonTestsDependency);
+            }
+
+            if (conf.JsonTestsExecutionOrder != null)
+            {
+                TestsExecutionOrder = GetEnumValue<TestsOrder>(conf.JsonTestsExecutionOrder);
+            }
+
+            if (conf.JsonRunTags != null)
+            {
+                SetSuiteTags(conf.JsonRunTags);
+            }
+
+            if (conf.JsonRunCategories != null)
+            {
+                SetTestCategories(conf.JsonRunCategories);
+            }
+
+            if (conf.JsonRunTests != null)
+            {
+                SetTestsMasks(conf.JsonRunTests);
+            }
+
+            userDefinedSettings = conf.JsonUserDefinedSettings;
         }
 
         /// <summary>
@@ -211,6 +257,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
             RunTags.Clear();
             RunCategories.Clear();
             RunTests.Clear();
+            userDefinedSettings = null;
         }
 
         /// <summary>
@@ -233,6 +280,17 @@ namespace Unicorn.Taf.Core.Engine.Configuration
                 .ToString();
         }
 
+        /// <summary>
+        /// Gets value of user defined setting (located under 'userDefined' node in config file)
+        /// </summary>
+        /// <param name="setting">setting name</param>
+        /// <returns>setting value</returns>
+        /// <exception cref="KeyNotFoundException">is thrown if there is no specified setting in config</exception>
+        public static string GetUserDefinedSetting(string setting) =>
+            userDefinedSettings != null && userDefinedSettings.ContainsKey(setting) ?
+            userDefinedSettings[setting] :
+            throw new KeyNotFoundException($"User defined setting '{setting}' does not exist in config");
+
         private static T GetEnumValue<T>(string jsonValue)
         {
             try
@@ -250,32 +308,35 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         [DataContract]
         private class JsonConfig
         {
-            [DataMember(Name = "testTimeout")]
-            internal int JsonTestTimeout { get; set; } = 15;
+            [DataMember(Name = "testTimeout", IsRequired = false)]
+            internal int JsonTestTimeout { get; set; }
 
-            [DataMember(Name = "suiteTimeout")]
-            internal int JsonSuiteTimeout { get; set; } = 40;
+            [DataMember(Name = "suiteTimeout", IsRequired = false)]
+            internal int JsonSuiteTimeout { get; set; }
 
-            [DataMember(Name = "parallel")]
-            internal string JsonParallelBy { get; set; } = Parallelization.Assembly.ToString();
+            [DataMember(Name = "parallel", IsRequired = false)]
+            internal string JsonParallelBy { get; set; }
 
-            [DataMember(Name = "threads")]
-            internal int JsonThreads { get; set; } = 1;
+            [DataMember(Name = "threads", IsRequired = false)]
+            internal int JsonThreads { get; set; }
 
-            [DataMember(Name = "testsDependency")]
-            internal string JsonTestsDependency { get; set; } = TestsDependency.Run.ToString();
+            [DataMember(Name = "testsDependency", IsRequired = false)]
+            internal string JsonTestsDependency { get; set; }
 
-            [DataMember(Name = "testsOrder")]
-            internal string JsonTestsExecutionOrder { get; set; } = TestsOrder.Declaration.ToString();
+            [DataMember(Name = "testsOrder", IsRequired = false)]
+            internal string JsonTestsExecutionOrder { get; set; }
 
-            [DataMember(Name = "tags")]
-            internal List<string> JsonRunTags { get; set; } = new List<string>();
+            [DataMember(Name = "tags", IsRequired = false)]
+            internal string[] JsonRunTags { get; set; }
 
-            [DataMember(Name = "categories")]
-            internal List<string> JsonRunCategories { get; set; } = new List<string>();
+            [DataMember(Name = "categories", IsRequired = false)]
+            internal string[] JsonRunCategories { get; set; }
 
-            [DataMember(Name = "tests")]
-            internal List<string> JsonRunTests { get; set; } = new List<string>();
+            [DataMember(Name = "tests", IsRequired = false)]
+            internal string[] JsonRunTests { get; set; }
+
+            [DataMember(Name = "userDefined", IsRequired = false)]
+            internal Dictionary<string, string> JsonUserDefinedSettings { get; set; }
         }
     }
 }
