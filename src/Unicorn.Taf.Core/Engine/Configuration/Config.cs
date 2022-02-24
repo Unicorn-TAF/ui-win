@@ -281,7 +281,7 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         }
 
         /// <summary>
-        /// Gets value of custom defined setting (located under 'customSettings' node in config file)
+        /// Gets value of user defined setting (located under 'userDefined' node in config file)
         /// </summary>
         /// <param name="setting">setting name</param>
         /// <returns>setting value</returns>
