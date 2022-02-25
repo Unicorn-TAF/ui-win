@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Unicorn.UnitTests.Gui.Win;
+using Unicorn.UnitTests.Util;
 using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Uv = Unicorn.Taf.Core.Verification;
 using Ui = Unicorn.UI.Core.Matchers.UI;
@@ -7,7 +8,7 @@ using Ui = Unicorn.UI.Core.Matchers.UI;
 namespace Unicorn.UnitTests.UI
 {
     [TestFixture]
-    public class UiMatchers
+    public class UiMatchersWin : NUnitTestRunner
     {
         private static CharmapApplication charmap;
 

@@ -78,10 +78,40 @@ namespace Unicorn.UnitTests.Backend
                 Service.Rest.HasEndpoint("NotExistingEndpoint")));
 
         [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegativeNull() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                null,
+                Service.Rest.HasEndpoint("NotExistingEndpoint")));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegativeNoBaseUrl() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                new RestClient(),
+                Service.Rest.HasEndpoint("weee")));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegativeNoBaseUrlWithNot() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                new RestClient(),
+                Uv.Matchers.Is.Not(Service.Rest.HasEndpoint("weee"))));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegativeNullWithNot() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                null,
+                Uv.Matchers.Is.Not(Service.Rest.HasEndpoint("NotExistingEndpoint"))));
+
+        [Test, Author("Vitaliy Dobriyan")]
         public void TestHasEndpointMatcherPositive() =>
             Uv.Assert.That(
                 client,
                 Service.Rest.HasEndpoint("/!api/internal/repositories/dobriyanchik/unicorntaf/metadata"));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestHasEndpointMatcherNegativeNotExistingBaseUrl() =>
+            CheckNegativeScenario(() => Uv.Assert.That(
+                new RestClient("http://bla-bla/"),
+                Uv.Matchers.Is.Not(Service.Rest.HasEndpoint("NotExistingEndpoint"))));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestHasStatusCodeMatcherPositive() =>

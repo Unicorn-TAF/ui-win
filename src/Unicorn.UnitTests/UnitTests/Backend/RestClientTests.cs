@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
+using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Unicorn.Backend.Services.RestService;
@@ -33,6 +35,23 @@ namespace Unicorn.UnitTests.Backend
 
             Assert.That(employee.Status, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(employee.Content, Is.EqualTo(@"{""has_statuses"": true, ""has_lfs_files"": false}"));
+            Assert.IsTrue(employee.ExecutionTime > TimeSpan.Zero && employee.ExecutionTime < TimeSpan.FromMinutes(2), 
+                "request execution time looks incorrect, actual: " + employee.ExecutionTime);
+
+            Assert.IsTrue(employee.Headers.GetValues("X-Dc-Location").Contains("Micros"),
+                "response does not contain expected header");
+        }
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Rest client sends correct get request")]
+        public void TestRestClientCorrectPostRequest()
+        {
+            string body = @"{""events"":[{""name"":""bitbucket.connect.discovery_card.view"",""referrer"":""https://bitbucket.org/dobriyanchik/unicorntaf/src/master/"",""timeDelta"":-2298}]}";
+            RestResponse response = client.SendRequest(
+                HttpMethod.Post,
+                "/!api/internal/analytics/events", body);
+
+            Assert.That(response.Status, Is.EqualTo(HttpStatusCode.NoContent));
         }
 
         [Author("Evgeniy Voronyuk")]

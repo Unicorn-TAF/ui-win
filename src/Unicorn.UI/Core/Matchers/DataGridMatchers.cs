@@ -29,7 +29,7 @@ namespace Unicorn.UI.Core.Matchers
         /// </summary>
         /// <param name="columnName">expected data grid column</param>
         /// <returns>matcher instance</returns>
-        public static DataGridHasColumnMatcher HasColumn(string columnName) =>
+        public DataGridHasColumnMatcher HasColumn(string columnName) =>
             new DataGridHasColumnMatcher(columnName);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Unicorn.UI.Core.Matchers
         /// <param name="targetColumnName">name of target column to get corresponding cell in target row</param>
         /// <param name="expectedCellText">expected text of target cell</param>
         /// <returns></returns>
-        public static DataGridHasCellWithTextMatcher HasCellWithText(
+        public DataGridHasCellWithTextMatcher HasCellWithText(
             string searchColumnName, string searchCellValue, string targetColumnName, string expectedCellText) =>
             new DataGridHasCellWithTextMatcher(searchColumnName, searchCellValue, targetColumnName, expectedCellText);
 
@@ -51,7 +51,7 @@ namespace Unicorn.UI.Core.Matchers
         /// <param name="columnIndex">data grid column index</param>
         /// <param name="expectedCellText">expected text of target cell</param>
         /// <returns></returns>
-        public static DataGridHasCellWithTextMatcher HasCellWithText(
+        public DataGridHasCellWithTextMatcher HasCellWithText(
             int rowIndex, int columnIndex, string expectedCellText) =>
             new DataGridHasCellWithTextMatcher(rowIndex, columnIndex, expectedCellText);
     }
