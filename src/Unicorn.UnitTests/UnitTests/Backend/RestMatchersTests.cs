@@ -111,7 +111,7 @@ namespace Unicorn.UnitTests.Backend
         public void TestHasEndpointMatcherNegativeNotExistingBaseUrl() =>
             CheckNegativeScenario(() => Uv.Assert.That(
                 new RestClient("http://bla-bla/"),
-                Uv.Matchers.Is.Not(Service.Rest.HasEndpoint("NotExistingEndpoint"))));
+                Service.Rest.HasEndpoint("NotExistingEndpoint")));
 
         [Test, Author("Vitaliy Dobriyan")]
         public void TestHasStatusCodeMatcherPositive() =>
