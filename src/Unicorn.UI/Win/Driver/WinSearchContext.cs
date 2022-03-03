@@ -41,7 +41,7 @@ namespace Unicorn.UI.Win.Driver
         /// <returns>wrapped control instance</returns>
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
-            var elementToWrap = GetNativeControl<T>(locator);
+            IUIAutomationElement elementToWrap = GetNativeControl<T>(locator);
             return Wrap<T>(elementToWrap, locator);
         }
 
@@ -53,7 +53,7 @@ namespace Unicorn.UI.Win.Driver
         /// <returns>wrapped controls list</returns>
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
-            var elementsToWrap = GetNativeControlsList<T>(locator);
+            IUIAutomationElementArray elementsToWrap = GetNativeControlsList<T>(locator);
             List<T> controlsList = new List<T>();
 
             for (int i = 0; i < elementsToWrap.Length; i++)
@@ -77,8 +77,8 @@ namespace Unicorn.UI.Win.Driver
                WinDriver.Instance.Driver.ControlViewCondition,
                GetControlTypeCondition(instance.UiaType));
 
-            var walker = WinDriver.Instance.Driver.CreateTreeWalker(condition);
-            var elementToWrap = walker.GetFirstChildElement(SearchContext);
+            IUIAutomationTreeWalker walker = WinDriver.Instance.Driver.CreateTreeWalker(condition);
+            IUIAutomationElement elementToWrap = walker.GetFirstChildElement(SearchContext);
 
             if (elementToWrap == null)
             {
@@ -120,14 +120,13 @@ namespace Unicorn.UI.Win.Driver
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            IUIAutomationElement control = null;
-
-            control = context.FindFirst(TreeScope.TreeScope_Descendants, condition);
+            IUIAutomationTreeWalker walker = WinDriver.Instance.Driver.CreateTreeWalker(condition);
+            IUIAutomationElement control = walker.GetFirstChildElement(context);
 
             while (control == null && timer.Elapsed < ImplicitlyWaitTimeout)
             {
                 Thread.Sleep(SearchDelay);
-                control = context.FindFirst(TreeScope.TreeScope_Descendants, condition);
+                control = walker.GetFirstChildElement(context);
             }
 
             timer.Stop();
@@ -163,7 +162,7 @@ namespace Unicorn.UI.Win.Driver
 
         private IUIAutomationCondition GetNativeLocator(ByLocator locator, Type controlType)
         {
-            IUIAutomationCondition locatorCondition = null;
+            IUIAutomationCondition locatorCondition;
 
             switch (locator.How)
             {
@@ -185,7 +184,9 @@ namespace Unicorn.UI.Win.Driver
             IUIAutomationCondition classCondition = GetClassNameCondition(instance.ClassName);
             IUIAutomationCondition typeCondition = GetControlTypeCondition(instance.UiaType);
 
-            var baseAndCondition = WinDriver.Instance.Driver.CreateAndCondition(classCondition, typeCondition);
+            IUIAutomationCondition baseAndCondition = 
+                WinDriver.Instance.Driver.CreateAndCondition(classCondition, typeCondition);
+
             return WinDriver.Instance.Driver.CreateAndCondition(baseAndCondition, locatorCondition);
         }
 
