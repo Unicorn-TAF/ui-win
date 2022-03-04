@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Demo.Specifics.Environment
+namespace Demo.Tests
 {
     public class Config
     {
@@ -9,10 +9,11 @@ namespace Demo.Specifics.Environment
 
         protected Config()
         {
+            
         }
 
         public static Config Instance => _instance ?? (_instance = new Config());
 
-        public string TestsDir { get; } =  Path.GetDirectoryName(new Uri(typeof(Config).Assembly.CodeBase).LocalPath);
+        public string TestsDir { get; } =  Path.GetDirectoryName(new Uri(typeof(Config).Assembly.Location).LocalPath);
     }
 }

@@ -1,10 +1,9 @@
-﻿using Demo.Specifics.Environment;
-using System.Drawing.Imaging;
+﻿using System.Drawing.Imaging;
 using System.IO;
 using Unicorn.AllureAgent;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
-using Unicorn.Taf.Core.Utility;
+using Unicorn.UI.Win;
 
 namespace Demo.Tests
 {
@@ -16,7 +15,7 @@ namespace Demo.Tests
     {
         ////private static ReportPortalReporterInstance reporter;
         private static AllureReporterInstance reporter;
-        private static Screenshotter screenshotter;
+        private static WinScreenshotTaker screenshotter;
 
         /// <summary>
         /// Actions before all tests execution.
@@ -33,7 +32,8 @@ namespace Demo.Tests
 
             // Initialize built-in screenshotter with automatic subscription to test fail event.
             var screenshotsDir = Path.Combine(Config.Instance.TestsDir, "Screenshots");
-            screenshotter = new Screenshotter(screenshotsDir, ImageFormat.Png, true);
+            screenshotter = new WinScreenshotTaker(screenshotsDir, ImageFormat.Png);
+            screenshotter.ScribeToTafEvents();
 
             // Initialize built-in allure reporter with automatic subscription to all testing events.
             reporter = new AllureReporterInstance();
@@ -48,7 +48,7 @@ namespace Demo.Tests
         public static void FinalizeRun()
         {
             reporter.Dispose();
-            screenshotter.Unsubscribe();
+            screenshotter.UnsubscribeFromTafEvents();
             reporter = null;
             screenshotter = null;
         }

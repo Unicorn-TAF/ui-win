@@ -1,4 +1,4 @@
-﻿using AspectInjector.Broker;
+﻿//using AspectInjector.Broker;
 using Demo.Celestia.Ui.Pages;
 using System.Threading;
 using Unicorn.Taf.Core.Steps;
@@ -15,7 +15,7 @@ namespace Demo.Celestia.Steps
     /// To make steps be able to use events subscriptions it's necessary 
     /// to use <see cref="Inject"/> with <see cref="StepsEvents"/>.
     /// </summary>
-    [Inject(typeof(StepsEvents))]
+    //[Inject(typeof(StepsEvents))]
     public class StepsCelestia
     {
         public CelestiaSite Celestia => CelestiaSite.Instance;

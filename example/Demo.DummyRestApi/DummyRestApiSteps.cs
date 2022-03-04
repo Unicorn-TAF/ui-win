@@ -1,4 +1,4 @@
-﻿using AspectInjector.Broker;
+﻿//using AspectInjector.Broker;
 using System.Net.Http;
 using Unicorn.Backend.Matchers;
 using Unicorn.Backend.Services.RestService;
@@ -8,7 +8,7 @@ using Unicorn.Taf.Core.Verification;
 
 namespace Demo.DummyRestApi
 {
-    [Inject(typeof(StepsEvents))]
+    //[Inject(typeof(StepsEvents))]
     public class DummyRestApiSteps
     {
         private readonly DummyApiClient _client = new DummyApiClient("v1");

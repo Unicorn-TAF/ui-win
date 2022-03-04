@@ -1,4 +1,4 @@
-﻿using AspectInjector.Broker;
+﻿//using AspectInjector.Broker;
 using Unicorn.Taf.Core.Steps;
 using Unicorn.Taf.Core.Steps.Attributes;
 
@@ -9,7 +9,7 @@ namespace Demo.Charmap.Steps
     /// To make steps be able to use events subscriptions it's necessary 
     /// to use <see cref="Inject"/> with <see cref="StepsEvents"/>.
     /// </summary>
-    [Inject(typeof(StepsEvents))]
+    //[Inject(typeof(StepsEvents))]
     public class StepsCharMap
     {
         CharmapApp Charmap => CharmapApp.Charmap;
