@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using System.IO;
 using Unicorn.AllureAgent;
+using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
 using Unicorn.UI.Win;
@@ -25,7 +26,7 @@ namespace Demo.Tests
         public static void InitRun()
         {
             // Use of custom logger instead of default Console logger.
-            Logger.Instance = new FileLogger();
+            //Logger.Instance = new FileLogger();
 
             // Set trace logging level.
             Logger.Level = LogLevel.Trace;
@@ -38,6 +39,8 @@ namespace Demo.Tests
             // Initialize built-in allure reporter with automatic subscription to all testing events.
             reporter = new AllureReporterInstance();
             ////reporter = new ReportPortalReporterInstance();
+
+            Logger.Instance.Log(LogLevel.Info, "Unicorn.Taf location: " + typeof(TestsRunner).Assembly.Location);
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace Demo.Tests
         public static void FinalizeRun()
         {
             reporter.Dispose();
-            screenshotter.UnsubscribeFromTafEvents();
+            //screenshotter.UnsubscribeFromTafEvents();
             reporter = null;
             screenshotter = null;
         }

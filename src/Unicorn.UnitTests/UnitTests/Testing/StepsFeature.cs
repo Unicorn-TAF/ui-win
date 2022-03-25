@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Steps;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
@@ -33,7 +33,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check step events")]
         public void TestStepEvents()
         {
-            new TestsRunner(Assembly.GetExecutingAssembly().Location, false).RunTests();
+            new TestsRunner(Assembly.GetExecutingAssembly(), false).RunTests();
             Assert.That(
                 Output, 
                 Is.EqualTo("Test1AfterTestAssert that 'Test2' Is equal to Test2AfterTestAfterSuite"));

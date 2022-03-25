@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.UI.Win", "Unicorn.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.UI.Mobile", "Unicorn.UI\Mobile\Unicorn.UI.Mobile.csproj", "{50B89817-07DF-4930-B010-6E64103D8F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicorn.UnitTests", "Unicorn.UnitTests\Unicorn.UnitTests.csproj", "{09D36FBF-31EE-4BC0-A731-35276DCBB370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.UnitTests", "Unicorn.UnitTests\Unicorn.UnitTests.csproj", "{09D36FBF-31EE-4BC0-A731-35276DCBB370}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicorn.Taf.Api", "Unicorn.Taf.Api\Unicorn.Taf.Api.csproj", "{90D82A3A-BA2F-4421-87D2-8C65242E0B3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{09D36FBF-31EE-4BC0-A731-35276DCBB370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D36FBF-31EE-4BC0-A731-35276DCBB370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D36FBF-31EE-4BC0-A731-35276DCBB370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D82A3A-BA2F-4421-87D2-8C65242E0B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D82A3A-BA2F-4421-87D2-8C65242E0B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D82A3A-BA2F-4421-87D2-8C65242E0B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D82A3A-BA2F-4421-87D2-8C65242E0B3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

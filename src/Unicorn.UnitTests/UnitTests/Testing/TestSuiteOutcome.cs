@@ -3,8 +3,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -20,7 +20,7 @@ namespace Unicorn.UnitTests.Testing
         public static void SetUp()
         {
             Config.SetSuiteTags("sample");
-            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
             var timer = Stopwatch.StartNew();
             runner.RunTests();

@@ -29,7 +29,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Ordered suite 2", "category2" },
             };
 
-            var runner = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, filters);
+            var runner = new PlaylistRunner(Assembly.GetExecutingAssembly(), filters);
             runner.RunTests();
 
             Assert.IsFalse(runner.Outcome.RunInitialized);
@@ -42,7 +42,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check runner behavior on suite init fail")]
         public void TestRunnerBehaviorOnSuiteInitFail()
         {
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
 
             Assert.IsFalse(runner.Outcome.RunInitialized);

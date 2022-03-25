@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace Unicorn.Taf.Core.Engine.Configuration
+namespace Unicorn.Taf.Core
 {
     /// <summary>
     /// Describes options available to control tests parallelization.
@@ -17,8 +17,8 @@ namespace Unicorn.Taf.Core.Engine.Configuration
         /// Parallel by assembly
         /// </summary>
         Assembly,
-        ////Suite,
-        ////Test
+        //Suite,
+        //Test
     }
 
     /// <summary>

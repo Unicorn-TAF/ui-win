@@ -3,22 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;net452</TargetFrameworks>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Remove="C:\Users\Vitaliy_Dobriyan\.nuget\packages\unicorn.allureagent\2.0.0\contentFiles\any\net5.0\allureConfig.json" />
-    <Content Remove="C:\Users\Vitaliy_Dobriyan\.nuget\packages\unicorn.allureagent\2.0.0\contentFiles\any\net5.0\content\allureConfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="C:\Users\Vitaliy_Dobriyan\.nuget\packages\unicorn.allureagent\2.0.0\contentFiles\any\net5.0\allureConfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="97.0.4692.7100" />
     <PackageReference Include="Unicorn.AllureAgent" Version="2.0.0" />
+    <PackageReference Include="Unicorn.TestAdapter" Version="3.0.0" />
   </ItemGroup>
-
+    
   <ItemGroup>
     <ProjectReference Include="..\Demo.Celestia\Demo.Celestia.csproj" />
     <ProjectReference Include="..\Demo.Charmap\Demo.Charmap.csproj" />
@@ -35,4 +28,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="allureConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

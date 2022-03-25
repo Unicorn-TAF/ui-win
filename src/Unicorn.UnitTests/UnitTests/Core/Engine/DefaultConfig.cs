@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.IO;
-using Unicorn.Taf.Core.Engine.Configuration;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 

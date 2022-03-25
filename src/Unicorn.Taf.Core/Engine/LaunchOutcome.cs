@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unicorn.Taf.Api;
 using Unicorn.Taf.Core.Testing;
 
 namespace Unicorn.Taf.Core.Engine
@@ -9,7 +10,7 @@ namespace Unicorn.Taf.Core.Engine
     /// Represents outcome of whole tests run. Contains run start time, list of test suites outcomes, overall run status.
     /// </summary>
     [Serializable]
-    public class LaunchOutcome
+    public class LaunchOutcome : IOutcome
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LaunchOutcome"/> class.

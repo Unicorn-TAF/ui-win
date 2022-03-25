@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -88,7 +88,7 @@ namespace Unicorn.UnitTests.Testing
 
         private SuiteOutcome RunTestSuite()
         {
-            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
 
             return runner.Outcome.SuitesOutcomes

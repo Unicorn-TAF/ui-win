@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -25,7 +25,7 @@ namespace Unicorn.UnitTests.Testing
             };
 
             Config.TestsExecutionOrder = TestsOrder.Declaration;
-            runner = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, filters);
+            runner = new PlaylistRunner(Assembly.GetExecutingAssembly(), filters);
             runner.RunTests();
         }
 
@@ -67,7 +67,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Ordered suite 1", "casfdtegory2" }
             };
 
-            var runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, runFilter);
+            var runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly(), runFilter);
             runner1.RunTests();
 
             Assert.That(runner1.Outcome.SuitesOutcomes.Count, Is.EqualTo(0));
@@ -82,7 +82,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Not existingsUite", "casfdtegory2" }
             };
 
-            var runner2 = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, runFilter);
+            var runner2 = new PlaylistRunner(Assembly.GetExecutingAssembly(), runFilter);
 
             Assert.Throws<TypeLoadException>(delegate
             {
@@ -99,7 +99,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Parameterized test suite::set 1", "" },
             };
 
-            PlaylistRunner runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, filters);
+            PlaylistRunner runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly(), filters);
             runner1.RunTests();
 
             Assert.That(runner1.Outcome.SuitesOutcomes.Count, Is.EqualTo(1));
@@ -114,7 +114,7 @@ namespace Unicorn.UnitTests.Testing
                 { "Parameterized test suite", "" },
             };
 
-            PlaylistRunner runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly().Location, filters);
+            PlaylistRunner runner1 = new PlaylistRunner(Assembly.GetExecutingAssembly(), filters);
             runner1.RunTests();
 
             Assert.That(runner1.Outcome.SuitesOutcomes.Count, Is.EqualTo(2));

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Internal;
 using Unicorn.Taf.Core.Testing.Attributes;
 

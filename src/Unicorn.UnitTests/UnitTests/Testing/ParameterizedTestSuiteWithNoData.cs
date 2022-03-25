@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Testing
         public void TestParameterizedSuiteWithNoDataDoesNotRunTests()
         {
             Config.SetSuiteTags("parameterizedBroken");
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(runner.Outcome.SuitesOutcomes.Count, Is.EqualTo(0));
         }

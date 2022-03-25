@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Unicorn.Taf.Core.Engine.Configuration;
-using Unicorn.Taf.Core.Testing;
+using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Testing.Attributes;
 
-namespace Unicorn.Taf.Core.Engine
+namespace Unicorn.Taf.Core.Testing
 {
     /// <summary>
     /// Provides tests adapter with additional utilities
@@ -65,6 +64,32 @@ namespace Unicorn.Taf.Core.Engine
         }
 
         /// <summary>
+        /// Determine if specific test needs to be executed for specified category if:<para/>
+        /// - category is not speicifed (null or empty)
+        /// - OR one of test categories contains specified category<para/>
+        /// </summary>
+        /// <param name="method"><see cref="MethodInfo"/> representing the test</param>
+        /// <param name="category">category to check against</param>
+        /// <returns></returns>
+        public static bool IsTestRunnable(MethodInfo method, string category)
+        {
+            if (!method.IsDefined(typeof(TestAttribute), true) || method.IsDefined(typeof(DisabledAttribute), true))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(category))
+            {
+                return true;
+            }
+
+            return (from attribute
+                in method.GetCustomAttributes<CategoryAttribute>(true)
+                    select attribute.Category.Trim())
+                .Contains(category, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
         /// Determine if specific suite is parameterized by existence of <see cref="ParameterizedAttribute"/>.
         /// </summary>
         /// <param name="suiteType"><see cref="Type"/> representing the suite</param>
@@ -112,5 +137,13 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns>full test name string</returns>
         public static string GetFullTestMethodName(MethodInfo testMethod) =>
             testMethod.ReflectedType.FullName + "." + testMethod.Name;
+
+        /// <summary>
+        /// Gets name of suite by it's type.
+        /// </summary>
+        /// <param name="suiteType">suite type</param>
+        /// <returns>suite name</returns>
+        public static string GetSuiteName(Type suiteType) =>
+            suiteType.GetCustomAttribute<SuiteAttribute>(true).Name.Trim();
     }
 }

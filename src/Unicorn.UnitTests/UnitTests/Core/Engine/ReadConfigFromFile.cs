@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -26,7 +26,7 @@ namespace Unicorn.UnitTests.Core.Engine
         {
             Config.Reset();
             File.WriteAllText(ConfigName, ConfigContent);
-            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, ConfigName);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly(), ConfigName);
             runner.RunTests();
         }
 
