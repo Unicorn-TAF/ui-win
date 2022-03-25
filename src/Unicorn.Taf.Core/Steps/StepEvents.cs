@@ -8,7 +8,7 @@ namespace Unicorn.Taf.Core.Steps
     /// <summary>
     /// Provides functionality of test step based events.
     /// </summary>
-    public class StepsEvents
+    public class StepEvents
     {
         /// <summary>
         /// Delegate for test step events.

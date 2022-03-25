@@ -18,14 +18,14 @@ namespace Unicorn.UnitTests.Testing
         {
             Config.TestsExecutionOrder = TestsOrder.Declaration;
             Config.SetSuiteTags("Steps");
-            StepsEvents.OnStepStart += ReportInfo;
+            StepEvents.OnStepStart += ReportInfo;
         }
 
         [OneTimeTearDown]
         public static void ResetConfig()
         {
             Config.Reset();
-            StepsEvents.OnStepStart -= ReportInfo;
+            StepEvents.OnStepStart -= ReportInfo;
             Output = null;
         }
 
