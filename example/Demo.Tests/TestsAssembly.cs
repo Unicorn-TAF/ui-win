@@ -26,15 +26,18 @@ namespace Demo.Tests
         public static void InitRun()
         {
             // Use of custom logger instead of default Console logger.
-            //Logger.Instance = new FileLogger();
+            Logger.Instance = new FileLogger();
 
             // Set trace logging level.
             Logger.Level = LogLevel.Trace;
 
             // Initialize built-in screenshotter with automatic subscription to test fail event.
             var screenshotsDir = Path.Combine(Config.Instance.TestsDir, "Screenshots");
+
+#if !NET
             screenshotter = new WinScreenshotTaker(screenshotsDir, ImageFormat.Png);
             screenshotter.ScribeToTafEvents();
+#endif
 
             // Initialize built-in allure reporter with automatic subscription to all testing events.
             reporter = new AllureReporterInstance();

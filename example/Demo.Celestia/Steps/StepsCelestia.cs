@@ -1,7 +1,6 @@
-﻿//using AspectInjector.Broker;
-using Demo.Celestia.Ui.Pages;
+﻿using Demo.Celestia.Ui.Pages;
+using Demo.StepsInjection;
 using System.Threading;
-using Unicorn.Taf.Core.Steps;
 using Unicorn.Taf.Core.Steps.Attributes;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Web;
@@ -13,9 +12,9 @@ namespace Demo.Celestia.Steps
     /// <summary>
     /// Represents high-level steps for website.
     /// To make steps be able to use events subscriptions it's necessary 
-    /// to use <see cref="Inject"/> with <see cref="StepsEvents"/>.
+    /// to use <see cref="Inject"/> with <see cref="StepsInjection.StepsClass"/>.
     /// </summary>
-    //[Inject(typeof(StepsEvents))]
+    [StepsClass]
     public class StepsCelestia
     {
         public CelestiaSite Celestia => CelestiaSite.Instance;

@@ -62,7 +62,7 @@ namespace Demo.Tests.Web
             new List<DataSet>
             {
                 new DataSet("Item 'Home'", "Home", "https://celestia.space/index.html"),
-                new DataSet("Item 'Download'", "Download", "download.html"),
+                new DataSet("Item 'Download'", "Download", "https://celestia.space/download.html"),
                 new DataSet("Item 'News'", "News", "news.html"),
                 new DataSet("Item 'Documentation'", "Documentation", "#"),
                 new DataSet("Item 'Add-Ons'", "Add-Ons", "#"),
