@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Unicorn.Backend.Services;
+﻿using Unicorn.Backend.Services;
 using Unicorn.Taf.Core.Verification.Matchers;
 
 namespace Unicorn.Backend.Matchers.RestMatchers
