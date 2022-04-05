@@ -6,7 +6,7 @@ namespace Unicorn.Taf.Core.Testing.Attributes
     /// Provides with ability to assign a bug to test.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class BugAttribute : Attribute
+    public sealed class BugAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BugAttribute"/> class with specified bug reference.
@@ -20,6 +20,6 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         /// <summary>
         /// Gets or sets test bug.
         /// </summary>
-        public string Bug { get; protected set; }
+        public string Bug { get; }
     }
 }

@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
@@ -22,7 +22,7 @@ namespace Unicorn.UnitTests.Testing
             Config.SetSuiteTags("parameterizedTests");
             Config.TestsExecutionOrder = TestsOrder.Declaration;
 
-            runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             executionOutput = USuiteWithParameterizedTests.Output;
         }
@@ -74,7 +74,7 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check that test suite has same Ids for different runs")]
         public void TestSuiteHasSameIdForDifferentRuns()
         {
-            TestsRunner runner1 = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            TestsRunner runner1 = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner1.RunTests();
 
             var testOutcomes = runner.Outcome.SuitesOutcomes[0].TestsOutcomes

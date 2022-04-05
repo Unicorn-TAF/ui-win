@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using System.Linq;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -26,9 +26,9 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check dependent tests don't run on TestsDependency.DoNotRun")]
         public void TestDependentTestsDontRun()
         {
-            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.DoNotRun;
+            Config.DependentTests = Taf.Core.TestsDependency.DoNotRun;
             
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
 
             var testOutcomes = runner.Outcome.SuitesOutcomes[0].TestsOutcomes;
@@ -43,9 +43,9 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check dependent tests skipped on TestsDependency.Skip")]
         public void TestDependentTestsSkip()
         {
-            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Skip;
+            Config.DependentTests = Taf.Core.TestsDependency.Skip;
 
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
 
             var testOutcomes = runner.Outcome.SuitesOutcomes[0].TestsOutcomes;
@@ -81,9 +81,9 @@ namespace Unicorn.UnitTests.Testing
         [Test(Description = "Check dependent tests run on TestsDependency.Run")]
         public void TestDependentTestsRun()
         {
-            Config.DependentTests = Taf.Core.Engine.Configuration.TestsDependency.Run;
+            Config.DependentTests = Taf.Core.TestsDependency.Run;
 
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
 
             var testOutcomes = runner.Outcome.SuitesOutcomes[0].TestsOutcomes;

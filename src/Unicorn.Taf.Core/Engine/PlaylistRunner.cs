@@ -4,12 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Unicorn.Taf.Core.Engine.Configuration;
+using Unicorn.Taf.Api;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
 namespace Unicorn.Taf.Core.Engine
 {
     /// <summary>
@@ -20,21 +19,21 @@ namespace Unicorn.Taf.Core.Engine
     {
         private const string DataSetDelimiter = "::";
 
-        private readonly string _testsAssemblyFile;
+        private readonly Assembly _testAssembly;
         private readonly Dictionary<string, string> _filters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaylistRunner"/> class 
         /// for specified assembly and with specified filters.
         /// </summary>
-        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="testAssembly">assembly with tests</param>
         /// <param name="filters">filters (key: suite name, value: tests categories to run within the suite)</param>
         /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
-        public PlaylistRunner(string assemblyPath, Dictionary<string, string> filters) 
+        public PlaylistRunner(Assembly testAssembly, Dictionary<string, string> filters) 
         {
-            if (assemblyPath == null)
+            if (testAssembly == null)
             {
-                throw new ArgumentNullException(nameof(assemblyPath));
+                throw new ArgumentNullException(nameof(testAssembly));
             }
 
             if (filters == null)
@@ -42,12 +41,7 @@ namespace Unicorn.Taf.Core.Engine
                 throw new ArgumentNullException(nameof(filters));
             }
 
-            if (!File.Exists(assemblyPath))
-            {
-                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
-            }
-
-            _testsAssemblyFile = assemblyPath;
+            _testAssembly = testAssembly;
             Outcome = new LaunchOutcome();
             _filters = filters;
         }
@@ -57,15 +51,13 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         /// <exception cref="TypeLoadException">is thrown when suite class was not 
         /// found for specified suite name in run filters</exception>
-        public override void RunTests()
+        public override IOutcome RunTests()
         {
-            var testsAssembly = Assembly.LoadFrom(_testsAssemblyFile);
-
-            var suitesToRun = CollectSuitesToRun(testsAssembly);
+            var suitesToRun = CollectSuitesToRun(_testAssembly);
 
             if (!suitesToRun.Any())
             {
-                return;
+                return null;
             }
 
             Outcome.StartTime = DateTime.Now;
@@ -73,7 +65,7 @@ namespace Unicorn.Taf.Core.Engine
             // Execute run init action if exists in assembly.
             try
             {
-                GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(_testAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
             }
             catch (Exception ex)
             {
@@ -95,8 +87,10 @@ namespace Unicorn.Taf.Core.Engine
                 }
 
                 // Execute run finalize action if exists in assembly.
-                GetRunInitCleanupMethod(testsAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(_testAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
             }
+
+            return Outcome;
         }
 
         private void RunTestSuite(Type type, string dataSet)
@@ -131,21 +125,21 @@ namespace Unicorn.Taf.Core.Engine
             var suiteNames = _filters.Keys.Select(k => GetSuiteNameFromFilter(k));
 
             var filteredSuites = TestsObserver.ObserveTestSuites(assembly)
-                .Where(s => suiteNames.Contains(GetSuiteNameByType(s)));
+                .Where(s => suiteNames.Contains(AdapterUtilities.GetSuiteName(s)));
 
             foreach (var filterSuiteName in _filters.Keys)
             {
                 var suiteName = GetSuiteNameFromFilter(filterSuiteName);
 
-                var suite = filteredSuites.FirstOrDefault(
-                    s => GetSuiteNameByType(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
+                var suite = filteredSuites.FirstOrDefault(s => 
+                    AdapterUtilities.GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
 
                 if (suite == null)
                 {
                     throw new TypeLoadException($"Suite with name '{suiteName}' was not found in tests assembly.");
                 }
 
-                if (suite.GetRuntimeMethods().Any(t => IsTestRunnable(t, _filters[filterSuiteName])))
+                if (suite.GetRuntimeMethods().Any(t => AdapterUtilities.IsTestRunnable(t, _filters[filterSuiteName])))
                 {
                     suitesToRun.Add(filterSuiteName, suite);
                 }
@@ -154,31 +148,7 @@ namespace Unicorn.Taf.Core.Engine
             return suitesToRun;
         }
 
-        private bool IsTestRunnable(MethodInfo method, string category)
-        {
-            if (!method.IsDefined(typeof(TestAttribute), true) || method.IsDefined(typeof(DisabledAttribute), true))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(category))
-            {
-                return true;
-            }
-            else
-            {
-                return (from attribute
-                    in method.GetCustomAttributes<CategoryAttribute>(true)
-                    select attribute.Category.Trim())
-                    .Contains(category, StringComparer.InvariantCultureIgnoreCase);
-            }
-        }
-
-        private string GetSuiteNameByType(Type suiteType) =>
-            suiteType.GetCustomAttribute<SuiteAttribute>(true).Name.Trim();
-
-        private string GetSuiteNameFromFilter(string filterSuiteName) =>
+        private static string GetSuiteNameFromFilter(string filterSuiteName) =>
             Regex.Split(filterSuiteName, DataSetDelimiter)[0]; 
     }
 }
-#pragma warning restore S3885 // "Assembly.Load" should be used

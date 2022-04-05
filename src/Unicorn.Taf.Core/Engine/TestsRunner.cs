@@ -3,41 +3,41 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Taf.Core.Engine.Configuration;
+using Unicorn.Taf.Api;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 
-#pragma warning disable S3885 // "Assembly.Load" should be used
 namespace Unicorn.Taf.Core.Engine
 {
     /// <summary>
     /// Provides ability to run tests which are filtered based on <see cref="Config"/>.
     /// </summary>
-    public class TestsRunner
+    public class TestsRunner : ITestRunner
     {
-        private readonly string _testsAssemblyFile;
+        private readonly Assembly _testAssembly;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly.
         /// </summary>
-        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="testAssembly">assembly with tests</param>
         /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
-        public TestsRunner(string assemblyPath) : this(assemblyPath, true)
+        public TestsRunner(Assembly testAssembly) : this(testAssembly, true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly based on specified configuration file
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly 
+        /// based on specified configuration file.
         /// </summary>
-        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="testAssembly">assembly with tests</param>
         /// <param name="configurationFileName">path to configuration file</param>
         /// <exception cref="FileNotFoundException">is thrown when tests assembly was not found</exception>
-        public TestsRunner(string assemblyPath, string configurationFileName)
+        public TestsRunner(Assembly testAssembly, string configurationFileName)
         {
-            if (assemblyPath == null)
+            if (testAssembly == null)
             {
-                throw new ArgumentNullException(nameof(assemblyPath));
+                throw new ArgumentNullException(nameof(testAssembly));
             }
 
             if (configurationFileName == null)
@@ -45,29 +45,25 @@ namespace Unicorn.Taf.Core.Engine
                 throw new ArgumentNullException(nameof(configurationFileName));
             }
 
-            if (!File.Exists(assemblyPath))
-            {
-                throw new FileNotFoundException("Tests assembly not found.", assemblyPath);
-            }
-
-            _testsAssemblyFile = assemblyPath;
+            _testAssembly = testAssembly;
             Config.FillFromFile(configurationFileName);
             Outcome = new LaunchOutcome();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly with ability to specify if need to load file from default config
+        /// Initializes a new instance of the <see cref="TestsRunner"/> class for specified assembly 
+        /// with ability to specify if need to load file from default config.
         /// </summary>
-        /// <param name="assemblyPath">path to tests assembly file</param>
+        /// <param name="testAssembly">assembly with tests</param>
         /// <param name="getConfigFromFile">true - if need to load config from default file <c>(.\unicorn.conf)</c>; false if use default values from <see cref="Config"/></param>
-        public TestsRunner(string assemblyPath, bool getConfigFromFile)
+        public TestsRunner(Assembly testAssembly, bool getConfigFromFile)
         {
-            if (assemblyPath == null)
+            if (testAssembly == null)
             {
-                throw new ArgumentNullException(nameof(assemblyPath));
+                throw new ArgumentNullException(nameof(testAssembly));
             }
 
-            _testsAssemblyFile = assemblyPath;
+            _testAssembly = testAssembly;
 
             if (getConfigFromFile)
             {
@@ -92,24 +88,27 @@ namespace Unicorn.Taf.Core.Engine
         /// <summary>
         /// Run all observed tests matching selection criteria
         /// </summary>
-        public virtual void RunTests()
+        public virtual IOutcome RunTests()
         {
-            var testsAssembly = Assembly.LoadFrom(_testsAssemblyFile);
+            Logger.Instance.Log(LogLevel.Info, "Scanning for runnable suites...");
 
-            var runnableSuites = TestsObserver.ObserveTestSuites(testsAssembly)
+            var runnableSuites = TestsObserver.ObserveTestSuites(_testAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
 
             if (!runnableSuites.Any())
             {
-                return;
+                Logger.Instance.Log(LogLevel.Warning, "No runnable suites found for specified filters, run finished.");
+                return null;
             }
+
+            Logger.Instance.Log(LogLevel.Info, $"{runnableSuites.Count()} runnable suites found, starting run...");
 
             Outcome.StartTime = DateTime.Now;
 
             // Execute run init action if exists in assembly.
             try
             {
-                GetRunInitCleanupMethod(testsAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(_testAssembly, typeof(RunInitializeAttribute))?.Invoke(null, null);
             }
             catch (Exception ex)
             {
@@ -126,8 +125,12 @@ namespace Unicorn.Taf.Core.Engine
                 }
 
                 // Execute run finalize action if exists in assembly.
-                GetRunInitCleanupMethod(testsAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
+                GetRunInitCleanupMethod(_testAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
             }
+
+            Logger.Instance.Log(LogLevel.Info, "Run finished.");
+
+            return Outcome;
         }
 
         /// <summary>
@@ -169,20 +172,19 @@ namespace Unicorn.Taf.Core.Engine
         /// <param name="assembly">assembly to search within</param>
         /// <param name="attributeType">Type of attribute class should be marked with</param>
         /// <returns><see cref="MethodInfo"/> instance</returns>
-        protected MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
+        protected static MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
             var suitesWithRunInit = assembly.GetTypes()
                 .Where(t => t.IsDefined(typeof(TestAssemblyAttribute), true))
-                .Where(s => GetTypeStaticMethodsWithAttribute(s, attributeType).Any());
+                .Where(s => GetStaticMethodsWithAttribute(s, attributeType).Any());
 
             return suitesWithRunInit.Any() ?
-                GetTypeStaticMethodsWithAttribute(suitesWithRunInit.First(), attributeType).First() :
+                GetStaticMethodsWithAttribute(suitesWithRunInit.First(), attributeType).First() :
                 null;
         }
 
-        private IEnumerable<MethodInfo> GetTypeStaticMethodsWithAttribute(Type containerType, Type attributeType) =>
+        private static IEnumerable<MethodInfo> GetStaticMethodsWithAttribute(Type containerType, Type attributeType) =>
             containerType.GetRuntimeMethods()
                 .Where(m => m.IsDefined(attributeType, true));
     }
 }
-#pragma warning restore S3885 // "Assembly.Load" should be used

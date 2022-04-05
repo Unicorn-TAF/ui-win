@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace Unicorn.Taf.Core.Engine
+namespace Unicorn.Taf.Api
 {
 #if NETFRAMEWORK
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Util;
 
@@ -22,7 +22,7 @@ namespace Unicorn.UnitTests.Testing
             Config.SetSuiteTags("tests-order");
 
             Config.TestsExecutionOrder = TestsOrder.Declaration;
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             var outcome = runner.Outcome.SuitesOutcomes[0];
 
@@ -42,7 +42,7 @@ namespace Unicorn.UnitTests.Testing
             Config.SetSuiteTags("tests-order");
 
             Config.TestsExecutionOrder = TestsOrder.Alphabetical;
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             var outcome = runner.Outcome.SuitesOutcomes[0];
 
@@ -59,7 +59,7 @@ namespace Unicorn.UnitTests.Testing
             Config.SetSuiteTags("tests-order-attribute");
 
             Config.TestsExecutionOrder = TestsOrder.Alphabetical;
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             var outcome = runner.Outcome.SuitesOutcomes[0];
 
@@ -84,7 +84,7 @@ namespace Unicorn.UnitTests.Testing
 
             for (int i = 0; i < 5; i++)
             {
-                var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+                var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
                 runner.RunTests();
                 var outcome = runner.Outcome.SuitesOutcomes[0];
 
@@ -134,7 +134,7 @@ namespace Unicorn.UnitTests.Testing
 
             Config.TestsExecutionOrder = TestsOrder.Random;
 
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
             Assert.Throws<StackOverflowException>(delegate
             {

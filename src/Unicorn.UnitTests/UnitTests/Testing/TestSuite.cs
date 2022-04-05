@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Reflection;
+using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
-using Unicorn.Taf.Core.Engine.Configuration;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
@@ -74,7 +74,7 @@ namespace Unicorn.UnitTests.Testing
             USuite.Output = string.Empty;
             string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test11>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
             Config.SetSuiteTags("sample");
-            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(USuite.Output, Is.EqualTo(expectedOutput));
         }
@@ -86,7 +86,7 @@ namespace Unicorn.UnitTests.Testing
             USuiteToBeSkipped.Output = string.Empty;
             Config.SetTestCategories("category");
             Config.SetSuiteTags("skipping");
-            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly().Location, false);
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(USuiteToBeSkipped.Output, Is.EqualTo(string.Empty));
         }

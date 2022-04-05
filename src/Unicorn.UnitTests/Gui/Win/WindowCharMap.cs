@@ -10,10 +10,10 @@ namespace Unicorn.UnitTests.Gui.Win
 {
     public class WindowCharMap : Window
     {
-        private CopyButtonWithDefaultLocator buttonCopyDefaultLocator;
+        private readonly CopyButtonWithDefaultLocator _buttonCopyDefaultLocator;
 
         [Find(Using.Name, "Copy")]
-        private Button buttonCopyAsField;
+        private readonly Button _buttonCopyAsField;
 
         [Find(Using.Name, "Copy")]
         public Button ButtonCopy { get; set; }
@@ -34,7 +34,7 @@ namespace Unicorn.UnitTests.Gui.Win
 
         public CopyButtonWithDefaultLocator ButtonCopyDefaultLocator { get; set; }
 
-        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocatorGetter => buttonCopyDefaultLocator;
+        public CopyButtonWithDefaultLocator ButtonCopyDefaultLocatorGetter => _buttonCopyDefaultLocator;
 
         #region "Advanced view"
 
@@ -52,9 +52,9 @@ namespace Unicorn.UnitTests.Gui.Win
         [ByName("Select")]
         public Button ButtonSelectLocatedByName { get; set; }
 
-        public Button SelectButton => this.ButtonSelect;
+        public Button SelectButton => ButtonSelect;
 
-        public Button ButtonHelp => this.Find<Button>(ByLocator.Name("Help"));
+        public Button ButtonHelp => Find<Button>(ByLocator.Name("Help"));
 
         [Find(Using.Id, "100")]
         public WinControl ButtonHelpGeneric { get; set; }
@@ -62,7 +62,7 @@ namespace Unicorn.UnitTests.Gui.Win
         [Find(Using.Name, "Select")]
         protected Button ButtonSelect { get; set; }
 
-        public Button GetCopyButtonFromField() => this.buttonCopyAsField;
+        public Button GetCopyButtonFromField() => _buttonCopyAsField;
 
         [ById("105")]
         [DefineDropdown(DropdownElement.ValueInput, Using.Name, "Font :")]
