@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Unicorn.Taf.Core.Utility;
 
-namespace Unicorn.UnitTests.Util
+namespace Unicorn.UnitTests.Core.Utility
 {
     [TestFixture]
     public class FileAllocatorFunctionality
