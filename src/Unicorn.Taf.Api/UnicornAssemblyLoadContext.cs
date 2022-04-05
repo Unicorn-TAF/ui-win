@@ -32,7 +32,7 @@ namespace Unicorn.Taf.Api
         /// <summary>
         /// Loads all assemblies from tests assembly directory except assemblies containing shared types.
         /// </summary>
-        /// <param name="sharedTypes">types shared across load contexts (usually types from Engine)</param>
+        /// <param name="sharedTypes">types shared across load contexts (usually types from Taf.Api)</param>
         public UnicornAssemblyLoadContext Initialize(params Type[] sharedTypes)
         {
             foreach (Type sharedType in sharedTypes)
@@ -52,7 +52,7 @@ namespace Unicorn.Taf.Api
         }
 
         /// <summary>
-        /// Gets all implementations of the specified shared type or interfaces 
+        /// Gets all implementations of the specified shared type or interface 
         /// located in all assemblies loaded into context.
         /// </summary>
         /// <typeparam name="T">base shared type</typeparam>
@@ -70,8 +70,8 @@ namespace Unicorn.Taf.Api
         /// <param name="type">type belonging to desired assembly</param>
         /// <returns><see cref="Assembly"/> containing the type</returns>
         public Assembly GetAssemblyContainingType(Type type) =>
-            _loadedAssemblies.First(a => a.GetName().Name.Equals(
-                type.Assembly.GetName().Name, StringComparison.InvariantCultureIgnoreCase));
+            _loadedAssemblies
+            .First(a => a.GetName().Name.Equals(type.Assembly.GetName().Name, StringComparison.InvariantCulture));
 
         /// <summary>
         /// Gets <see cref="Assembly"/> by its <see cref="AssemblyName"/>.
@@ -79,7 +79,8 @@ namespace Unicorn.Taf.Api
         /// <param name="assemblyName">assembly name</param>
         /// <returns><see cref="Assembly"/> located at path</returns>
         public Assembly GetAssembly(AssemblyName assemblyName) =>
-            _loadedAssemblies.First(a => a.GetName().FullName.Equals(assemblyName.FullName, StringComparison.InvariantCulture));
+            _loadedAssemblies
+            .First(a => a.GetName().FullName.Equals(assemblyName.FullName, StringComparison.InvariantCulture));
 
         /// <summary>
         /// Loads an assembly from specified path. 
