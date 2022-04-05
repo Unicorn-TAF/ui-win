@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Utility.Synchronization;
 
 namespace Unicorn.Taf.Core.Utility
@@ -11,6 +12,8 @@ namespace Unicorn.Taf.Core.Utility
     /// </summary>
     public class FileAllocator
     {
+        private const string LogPrefix = "FileAllocator: ";
+
         private readonly string _destinationFolder;
         private readonly HashSet<string> _fileNamesBefore = null;
         private readonly DefaultWait _wait;
@@ -38,6 +41,8 @@ namespace Unicorn.Taf.Core.Utility
             _destinationFolder = destinationFolder;
             _fileNamesBefore = GetFileNamesFromDestinationFolder();
             _wait.ErrorMessage = "File was not appeared in time or properly allocated";
+
+            Logger.Instance.Log(LogLevel.Debug, LogPrefix + $"allocator initialized in directory {destinationFolder}");
         }
 
         /// <summary>
@@ -66,6 +71,9 @@ namespace Unicorn.Taf.Core.Utility
             _destinationFolder = destinationFolder;
             this.expectedFileName = expectedFileName;
             _wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";
+
+            Logger.Instance.Log(LogLevel.Debug, LogPrefix + 
+                $"allocator initialized in directory {destinationFolder} with expected file name: {expectedFileName}");
         }
 
         /// <summary>
@@ -100,17 +108,10 @@ namespace Unicorn.Taf.Core.Utility
         /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
         public string WaitForFileToAppear(TimeSpan timeout) => WaitForFile(timeout);
 
-        /// <summary>
-        /// Wait for file to be downloaded.
-        /// </summary>
-        /// <param name="timeout">timeout to wait for download</param>
-        /// <returns>downloaded file name string</returns>
-        /// <exception cref="TimeoutException">thrown if more than one file matches search criteria</exception> 
-        [Obsolete("please use " + nameof(WaitForFileToAppear) + "instead")]
-        public string WaitForFileToBeDownloaded(TimeSpan timeout) => WaitForFile(timeout);
-
         private string WaitForFile(TimeSpan timeout)
         {
+            Logger.Instance.Log(LogLevel.Debug, LogPrefix + "waiting for the file...");
+
             _wait.Timeout = timeout;
 
             if (!string.IsNullOrEmpty(expectedFileName))
@@ -122,6 +123,8 @@ namespace Unicorn.Taf.Core.Utility
                 _wait.Until(FileIsAllocated);
                 _fileNamesBefore?.Clear();
             }
+
+            Logger.Instance.Log(LogLevel.Trace, LogPrefix + $"file has been found ({expectedFileName})");
 
             return expectedFileName;
         }
