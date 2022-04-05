@@ -1,7 +1,7 @@
 ﻿namespace Unicorn.Taf.Api
 {
     /// <summary>
-    /// Interface for tests run outcome.
+    /// General interface for executors outcomes.
     /// </summary>
     public interface IOutcome
     {
