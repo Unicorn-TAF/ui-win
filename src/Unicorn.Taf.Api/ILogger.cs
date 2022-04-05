@@ -27,14 +27,14 @@
         void Info(string message, params object[] parameters);
 
         /// <summary>
-        /// Logs message with informational level
+        /// Logs message with debug level
         /// </summary>
         /// <param name="message">message to log</param>
         /// <param name="parameters">parameters to substitute to message template</param>
         void Debug(string message, params object[] parameters);
 
         /// <summary>
-        /// Logs trace message.
+        /// Logs message with trace level
         /// </summary>
         /// <param name="message">message to log</param>
         /// <param name="parameters">parameters to substitute to message template</param>
