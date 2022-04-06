@@ -91,6 +91,17 @@ namespace Unicorn.UnitTests.Testing
             Assert.That(USuiteToBeSkipped.Output, Is.EqualTo(string.Empty));
         }
 
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Test For Suite Disabling")]
+        public void TestSuitesDisabledSuite()
+        {
+            USuiteDisabled.Output = string.Empty;
+            Config.SetSuiteTags("disabled");
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
+            runner.RunTests();
+            Assert.That(USuiteDisabled.Output, Is.EqualTo(string.Empty));
+        }
+
         private SuiteMethod[] GetSuiteMethodListByName(string name)
         {
             object field = typeof(Taf.Core.Testing.TestSuite)
