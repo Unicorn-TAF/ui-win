@@ -21,6 +21,11 @@ namespace Unicorn.Taf.Core.Testing
         /// <returns>true - if suite needs to be run, otherwise - false</returns>
         public static bool IsSuiteRunnable(Type suiteType)
         {
+            if (suiteType.IsDefined(typeof(DisabledAttribute)))
+            {
+                return false;
+            }
+
             var tags = 
                 from attribute
                 in suiteType.GetCustomAttributes<TagAttribute>(true)
