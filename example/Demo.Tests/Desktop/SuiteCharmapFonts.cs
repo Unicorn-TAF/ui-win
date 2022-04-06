@@ -2,7 +2,6 @@
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 using Unicorn.UI.Core.Matchers;
-using Unicorn.Taf.Core.Verification.Matchers;
 using Demo.Charmap;
 using Demo.Tests.Base;
 
@@ -51,7 +50,7 @@ namespace Demo.Tests.Desktop
         [Test("Check 'Font' dropdown default state")]
         public void TestFontDropdownDefaultState()
         {
-            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, Is.Not(UI.Control.Visible()));
+            Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, UI.Control.Visible());
             Do.Assertion.AssertThat(Charmap.Window.DropdownFonts, UI.Control.Enabled());
         }
 

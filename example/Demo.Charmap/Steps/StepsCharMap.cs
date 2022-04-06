@@ -1,5 +1,7 @@
 ﻿using Demo.StepsInjection;
 using Unicorn.Taf.Core.Steps.Attributes;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Win.Controls.Typified;
 
 namespace Demo.Charmap.Steps
 {
@@ -27,8 +29,13 @@ namespace Demo.Charmap.Steps
         /// With placeholders parameters could be substitured into description.
         /// </summary>
         [Step("Select '{0}' font")]
-        public void SelectFont(string fontName) =>
-            Charmap.Window.DropdownFonts.Select(fontName);
+        public void SelectFont(string fontName)
+        {
+            // Selection from the box does not fire UI events
+            Charmap.Window.DropdownFonts.Expand();
+            Charmap.Window.DropdownFonts.Find<ListItem>(ByLocator.Name(fontName)).Click();
+            Charmap.Window.DropdownFonts.Collapse();
+        }
 
         [Step("Select current symbol")]
         public void SelectCurrentSymbol() =>
