@@ -3,9 +3,9 @@
 namespace Unicorn.Taf.Core.Testing.Attributes
 {
     /// <summary>
-    /// Provides with ability to mark a test as disabled.
+    /// Provides with ability to mark test or suite as disabled.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     public sealed class DisabledAttribute : Attribute
     {
         /// <summary>
