@@ -8,7 +8,7 @@ using Unicorn.Taf.Core.Testing;
 using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
 
-namespace Unicorn.UnitTests.Testing
+namespace Unicorn.UnitTests.Core.Testing
 {
     [TestFixture]
     public class ParameterizedTests : NUnitTestRunner

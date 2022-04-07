@@ -1,4 +1,5 @@
-﻿using Unicorn.UI.Core.Controls.Dynamic;
+﻿using Unicorn.Taf.Core.Utility;
+using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
@@ -30,9 +31,12 @@ namespace Unicorn.UnitTests.Gui.Web
         
         public void WaitForLoading()
         {
-            Frame.Wait(Until.Visible);
-            WebDriver.Instance.SeleniumDriver.SwitchTo().Frame(Frame.Instance);
-            Dialog.Wait(Until.Visible);
+            new Retrier().Execute(() =>
+            {
+                Frame.Wait(Until.Visible);
+                WebDriver.Instance.SeleniumDriver.SwitchTo().Frame(Frame.Instance);
+                Dialog.Wait(Until.Visible);
+            });
         }
     }
 }
