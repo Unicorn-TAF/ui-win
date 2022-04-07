@@ -2,8 +2,8 @@
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Controls;
-using Unicorn.UI.Web.Driver;
 using Unicorn.UI.Web.PageObject.Attributes;
+using Selenium = OpenQA.Selenium;
 
 namespace Unicorn.UI.Web.PageObject
 {
@@ -15,10 +15,10 @@ namespace Unicorn.UI.Web.PageObject
         /// <summary>
         /// Initializes a new instance of the <see cref="WebPage"/> class with specified root search context, page sub-url and title.
         /// </summary>
-        /// <param name="searchContext">root search context (usually <see cref="OpenQA.Selenium.IWebDriver"/> instance)</param>
+        /// <param name="searchContext">root search context (usually <see cref="Selenium.IWebDriver"/> instance)</param>
         /// <param name="url">page sub-url</param>
         /// <param name="title">page title</param>
-        protected WebPage(OpenQA.Selenium.ISearchContext searchContext, string url, string title)
+        protected WebPage(Selenium.IWebDriver searchContext, string url, string title)
         {
             SearchContext = searchContext;
             ContainerFactory.InitContainer(this);
@@ -29,12 +29,13 @@ namespace Unicorn.UI.Web.PageObject
         /// <summary>
         /// Initializes a new instance of the <see cref="WebPage"/> class with specified root search context.
         /// </summary>
-        /// <param name="searchContext">root search context (usually <see cref="OpenQA.Selenium.IWebDriver"/> instance)</param>
-        protected WebPage(OpenQA.Selenium.ISearchContext searchContext)
+        /// <param name="searchContext">root search context (usually <see cref="Selenium.IWebDriver"/> instance)</param>
+        protected WebPage(Selenium.IWebDriver searchContext)
         {
             SearchContext = searchContext;
             ContainerFactory.InitContainer(this);
-            var relativeUrlAttributes = GetType().GetCustomAttributes(typeof(PageInfoAttribute), true) as PageInfoAttribute[];
+            PageInfoAttribute[] relativeUrlAttributes = GetType()
+                .GetCustomAttributes(typeof(PageInfoAttribute), true) as PageInfoAttribute[];
             
             Url = relativeUrlAttributes.FirstOrDefault()?.RelativeUrl;
             Title = relativeUrlAttributes.FirstOrDefault()?.Title;
@@ -53,14 +54,16 @@ namespace Unicorn.UI.Web.PageObject
             {
                 bool opened = true;
 
-                if (!string.IsNullOrEmpty(Title))
+                Selenium.IWebDriver driver = ((Selenium.IWebDriver)SearchContext);
+
+                if (!string.IsNullOrEmpty(Url))
                 {
-                    opened &= WebDriver.Instance.Url.EndsWith(Url);
+                    opened &= driver.Url.EndsWith(Url);
                 }
 
                 if (!string.IsNullOrEmpty(Title))
                 {
-                    opened &= WebDriver.Instance.SeleniumDriver.Title.Equals(Title);
+                    opened &= driver.Title.Equals(Title);
                 }
 
                 return opened;
