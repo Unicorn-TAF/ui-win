@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Reflection;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Controls;
@@ -34,12 +34,9 @@ namespace Unicorn.UI.Web.PageObject
         {
             SearchContext = searchContext;
             ContainerFactory.InitContainer(this);
-            PageInfoAttribute[] relativeUrlAttributes = GetType()
-                .GetCustomAttributes(typeof(PageInfoAttribute), true) as PageInfoAttribute[];
-            
-            Url = relativeUrlAttributes.FirstOrDefault()?.RelativeUrl;
-            Title = relativeUrlAttributes.FirstOrDefault()?.Title;
-
+            PageInfoAttribute relativeUrlAttribute = GetType().GetCustomAttribute<PageInfoAttribute>(true);
+            Url = relativeUrlAttribute?.RelativeUrl;
+            Title = relativeUrlAttribute?.Title;
         }
 
         /// <summary>

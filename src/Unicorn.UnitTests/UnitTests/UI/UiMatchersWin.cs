@@ -20,8 +20,11 @@ namespace Unicorn.UnitTests.UI
         }
 
         [OneTimeTearDown]
-        public static void TearDown() =>
+        public static void TearDown()
+        {
             charmap.Close();
+            charmap = null;
+        }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Visible matcher (positive)")]
