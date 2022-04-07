@@ -11,8 +11,7 @@ namespace Demo.Celestia.Steps
 {
     /// <summary>
     /// Represents high-level steps for website.
-    /// To make steps be able to use events subscriptions it's necessary 
-    /// to use <see cref="Inject"/> with <see cref="StepsInjection.StepsClass"/>.
+    /// To make steps be able to use events subscriptions it's necessary to add StepsClass attribute.
     /// </summary>
     [StepsClass]
     public class StepsCelestia

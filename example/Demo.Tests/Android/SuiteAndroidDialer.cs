@@ -6,6 +6,7 @@ using Demo.Tests.Base;
 
 namespace Demo.Tests.Android
 {
+    [Disabled("Android emulator is not configured")]
     [Suite("Tests Android dialer application")]
     [Tag("Android"), Tag("Dialer"), Tag("Dialer.Dialpad")]
     [Metadata(key: "Description", value: "Sample suite containing tests for android Dialer app")]
@@ -18,7 +19,6 @@ namespace Demo.Tests.Android
         public void TestInit() =>
             Do.UI.Android.OpenDialer();
 
-        [Disabled("Android emulator is not configured")]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check dialpad button")]
@@ -28,7 +28,6 @@ namespace Demo.Tests.Android
             Do.Assertion.AssertThat(Dialer.App.ActionBar.ButtonDial, UI.Control.Visible());
         }
 
-        [Disabled("Android emulator is not configured")]
         [Author("Vitaliy Dobriyan")]
         [Category("Smoke")]
         [Test("Check ability to type call number")]
@@ -41,7 +40,6 @@ namespace Demo.Tests.Android
             Do.Assertion.AssertThat(Dialer.App.MainFrame.InputNumber, UI.Control.HasText("1 23"));
         }
 
-        [Disabled("Android emulator is not configured")]
         [Author("Vitaliy Dobriyan")]
         [Test("Check calls history")]
         public void TestCallsHistory()

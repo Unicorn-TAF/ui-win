@@ -7,8 +7,7 @@ namespace Demo.Charmap.Steps
 {
     /// <summary>
     /// Represents high-level steps for application.
-    /// To make steps be able to use events subscriptions it's necessary 
-    /// to use <see cref="Inject"/> with <see cref="StepsEvents"/>.
+    /// To make steps be able to use events subscriptions it's necessary to add StepsClass attribute.
     /// </summary>
     [StepsClass]
     public class StepsCharMap
