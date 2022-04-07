@@ -23,15 +23,7 @@ namespace Unicorn.UnitTests.UI.Web
         {
             page = new JqueryDialogPage(WebDriver.Instance.SeleniumDriver);
             WebDriver.Instance.Get(page.Url);
-
-            try
-            {
-                page.WaitForLoading();
-            }
-            catch
-            {
-                page.WaitForLoading();
-            }
+            page.WaitForLoading();
         }
 
         [Author("Vitaliy Dobriyan")]

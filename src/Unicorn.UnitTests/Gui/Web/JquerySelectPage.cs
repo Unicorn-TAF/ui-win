@@ -10,7 +10,7 @@ using Unicorn.UI.Web.PageObject.Attributes;
 
 namespace Unicorn.UnitTests.Gui.Web
 {
-    [PageInfo("https://jqueryui.com/selectmenu/")]
+    [PageInfo("https://jqueryui.com/selectmenu/", "Selectmenu | jQuery UI")]
     public class JquerySelectPage : WebPage
     {
         public JquerySelectPage(OpenQA.Selenium.IWebDriver driver) : base(driver)

@@ -5,6 +5,7 @@ using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Driver;
+using Selenium = OpenQA.Selenium;
 
 namespace Unicorn.UI.Web.Controls
 {
@@ -21,10 +22,10 @@ namespace Unicorn.UI.Web.Controls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebControl"/> class with wraps specific <see cref="OpenQA.Selenium.IWebElement"/>
+        /// Initializes a new instance of the <see cref="WebControl"/> class with wraps specific <see cref="Selenium.IWebElement"/>
         /// </summary>
-        /// <param name="instance"><see cref="OpenQA.Selenium.IWebElement"/> instance to wrap</param>
-        public WebControl(OpenQA.Selenium.IWebElement instance)
+        /// <param name="instance"><see cref="Selenium.IWebElement"/> instance to wrap</param>
+        public WebControl(Selenium.IWebElement instance)
         {
             Instance = instance;
         }
@@ -46,13 +47,13 @@ namespace Unicorn.UI.Web.Controls
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets control wrapped instance as <see cref="OpenQA.Selenium.IWebElement"/> which is also current search context.
+        /// Gets or sets control wrapped instance as <see cref="Selenium.IWebElement"/> which is also current search context.
         /// </summary>
-        public OpenQA.Selenium.IWebElement Instance
+        public Selenium.IWebElement Instance
         {
             get
             {
-                return (OpenQA.Selenium.IWebElement)SearchContext;
+                return (Selenium.IWebElement)SearchContext;
             }
 
             set
@@ -91,7 +92,7 @@ namespace Unicorn.UI.Web.Controls
         /// Gets or sets control search context. 
         /// If control is not cached current context is searched from parent context by this control locator.
         /// </summary>
-        protected override OpenQA.Selenium.ISearchContext SearchContext
+        protected override Selenium.ISearchContext SearchContext
         {
             get
             {
@@ -101,7 +102,7 @@ namespace Unicorn.UI.Web.Controls
                     {
                         base.SearchContext = GetNativeControlFromParentContext(Locator);
                     } 
-                    catch (OpenQA.Selenium.StaleElementReferenceException)
+                    catch (Selenium.StaleElementReferenceException)
                     {
                         Logger.Instance.Log(LogLevel.Warning, "Got StaleElementReferenceException, retrying control search...");
                         base.SearchContext = GetNativeControlFromParentContext(Locator);
@@ -140,7 +141,11 @@ namespace Unicorn.UI.Web.Controls
         public virtual void JsClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "JavaScript click " + this);
-            WebDriver.Instance.ExecuteJS("arguments[0].click()", Instance);
+
+            Selenium.IJavaScriptExecutor js = (Selenium.IJavaScriptExecutor)
+                ((Selenium.Internal.IWrapsDriver)Instance).WrappedDriver;
+
+            js.ExecuteScript("arguments[0].click()", Instance);
         }
 
         /// <summary>
@@ -149,7 +154,7 @@ namespace Unicorn.UI.Web.Controls
         public virtual void RightClick()
         {
             Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
-            var actions = new Actions(WebDriver.Instance.SeleniumDriver);
+            var actions = new Actions(((Selenium.Internal.IWrapsDriver)Instance).WrappedDriver);
             actions.MoveToElement(Instance);
             actions.ContextClick();
             actions.Release().Perform();
