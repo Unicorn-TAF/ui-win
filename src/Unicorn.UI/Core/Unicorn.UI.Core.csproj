@@ -5,6 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.UI.Core</Title>
+    <Summary>Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests implementations of specific UI extensions or develop custom ones.</Summary>
     <Description>
       Unicorn.UI.Core is extension of Unicorn test automation framework which allows to use in tests implementations of specific UI extensions or develop custom ones.
       Unicorn UI Core features: Common controls interfaces, UI matchers for common controls, synchronization methods (waits), core for different UI implementations.
@@ -16,6 +18,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>automation ui matchers</PackageTags>
+    <PackageReleaseNotes>Support of netstandard, support of Taf.Core 3.0, more UI matchers, removed obsolete matchers entry points, IDataGridRow and IDataGridCell implement IControl.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

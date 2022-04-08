@@ -6,9 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.UI.Win</Title>
+    <Summary>Unicorn.UI.Win is Unicorn test automation framework extension which provides ready for use implementation of interaction with Windows GUI with extended capabilities.</Summary>
     <Description>
       Unicorn.UI.Win is Unicorn test automation framework extension which provides ready for use implementation of interaction with Windows GUI with extended capabilities.
-      Unicorn Desktop features: Ready for use implementations of common controls, extended page object features.
+      Unicorn Win features: Ready for use implementations of common controls, extended page object features.
       This package includes implementation of desktop GUI interaction which is based on UIA3 library.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>3.0.0</Version>
@@ -17,6 +19,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>automation ui controls page-object windows desktop uia3</PackageTags>
+    <PackageReleaseNotes>Support of netstandard, support of Taf.Core 3.0 and UI.Core 3.0, added screenshotter, ability to use IUIAutomation2 interface.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

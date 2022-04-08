@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net452;netcoreapp3.0;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.Taf.Api</Title>
+    <Summary>API of unicorn test automation framework.</Summary>
     <Description>
-      This package includes common API for core of unicorn automation framework, which is referenced by your tests.
+      This package includes common API for core of unicorn automation framework. The package also offers AddDomain isolation and custom assembly load context.
     </Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>1.0.0</Version>
@@ -15,6 +17,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>api</PackageTags>
+    <PackageReleaseNotes>Api for extensions, test executors, data collectors and outcome. AppDomain isolation and custom assembly load context.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

@@ -5,9 +5,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.Taf.Core</Title>
+    <Summary>Unicorn is test automation framework which provides wide spectrum of functionality out of box to start efficient test automation process in short terms.</Summary>
     <Description>
       Unicorn is test automation framework which provides wide spectrum of functionality out of box to start efficient test automation process in short terms.
-      Unicorn features: asserts with collection of matchers, self-describing test steps, parameterized tests and suites, tests dependency.
+      Unicorn features: asserts with collection of matchers, functionality for test steps implementation, parameterized tests and suites, tests dependency.
       This package includes core of unicorn automation framework, which is referenced by your tests. You will need to install nuget test adapter or console runner to run your tests.</Description>
     <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
     <Version>3.0.0</Version>
@@ -16,6 +18,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>automation tests steps verification matchers</PackageTags>
+    <PackageReleaseNotes>Support of netstandard, removed dependencies on aspectinjector and windows components, retrier utility, user defined settings, test suite disabling.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

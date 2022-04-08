@@ -5,6 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.Backend</Title>
+    <Summary>Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.</Summary>
     <Description>
       Unicorn.Backend is test automation framework extension which provides ready for use implementation of interaction with backend.
       Unicorn Backend features: Ready for use implementation of interaction with backend, corresponding matchers.</Description>
@@ -15,6 +17,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>automation matchers web-services rest</PackageTags>
+    <PackageReleaseNotes>Support of netstandard, support of Taf.Core 3.0.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>

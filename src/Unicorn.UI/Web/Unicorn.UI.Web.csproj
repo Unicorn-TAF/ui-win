@@ -5,6 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company>Vitaliy Dobriyan</Company>
     <Authors>Vitaliy Dobriyan</Authors>
+    <Title>Unicorn.UI.Web</Title>
+    <Summary>Unicorn.UI.Web is Unicorn test automation framework extension which provides ready for use implementations of interaction with Web UI with extended capabilities.</Summary>
     <Description>
       Unicorn.UI.Web is Unicorn test automation framework extension which provides ready for use implementations of interaction with Web UI with extended capabilities.
       Unicorn Web features: Ready for use implementations of common controls, extended page object features.
@@ -16,6 +18,7 @@
     <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
     <PackageProjectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</PackageProjectUrl>
     <PackageTags>automation ui controls page-object web webdriver browser</PackageTags>
+    <PackageReleaseNotes>Support of netstandard, support of Taf.Core 3.0 and UI.Core 3.0, bugfix, added web screenshotter.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
