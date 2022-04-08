@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(OutDir)\Unicorn.Taf.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\$(TargetFramework)\Unicorn.Taf.Api.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
 
