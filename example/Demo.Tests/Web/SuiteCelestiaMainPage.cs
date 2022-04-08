@@ -49,7 +49,7 @@ namespace Demo.Tests.Web
             new List<DataSet>
             {
                 new DataSet("Google Chrome", BrowserType.Chrome),
-                new DataSet("Internet Explorer", BrowserType.IE)
+                //new DataSet("Internet Explorer", BrowserType.IE)
             };
 
         /// <summary>
@@ -62,12 +62,12 @@ namespace Demo.Tests.Web
             new List<DataSet>
             {
                 new DataSet("Item 'Home'", "Home", "https://celestia.space/index.html"),
-                new DataSet("Item 'Download'", "Download", "download.html"),
-                new DataSet("Item 'News'", "News", "news.html"),
-                new DataSet("Item 'Documentation'", "Documentation", "#"),
-                new DataSet("Item 'Add-Ons'", "Add-Ons", "#"),
-                new DataSet("Item 'Gallery'", "Gallery", "gallery.html"),
-                new DataSet("Item 'Forum'", "Forum", "/forum")
+                new DataSet("Item 'Download'", "Download", "https://celestia.space/download.html"),
+                new DataSet("Item 'News'", "News", "https://celestia.space/news.html"),
+                new DataSet("Item 'Documentation'", "Documentation", "https://celestia.space/#"),
+                new DataSet("Item 'Add-Ons'", "Add-Ons", "https://celestia.space/#"),
+                new DataSet("Item 'Gallery'", "Gallery", "https://celestia.space/gallery.html"),
+                new DataSet("Item 'Forum'", "Forum", "https://celestia.space/forum")
             };
 
         /// <summary>

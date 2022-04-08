@@ -3,8 +3,7 @@
 namespace Demo.Celestia
 {
     /// <summary>
-    /// Describes website (celestia website).
-    /// should inherit <see cref="Application"/>.
+    /// Describes celestia website (should inherit <see cref="WebSite"/>).
     /// </summary>
     public class CelestiaSite : WebSite
     {

@@ -1,15 +1,15 @@
-﻿//using AspectInjector.Broker;
-using Unicorn.Taf.Core.Steps;
+﻿using Demo.StepsInjection;
 using Unicorn.Taf.Core.Steps.Attributes;
+using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Win.Controls.Typified;
 
 namespace Demo.Charmap.Steps
 {
     /// <summary>
     /// Represents high-level steps for application.
-    /// To make steps be able to use events subscriptions it's necessary 
-    /// to use <see cref="Inject"/> with <see cref="StepsEvents"/>.
+    /// To make steps be able to use events subscriptions it's necessary to add StepsClass attribute.
     /// </summary>
-    //[Inject(typeof(StepsEvents))]
+    [StepsClass]
     public class StepsCharMap
     {
         CharmapApp Charmap => CharmapApp.Charmap;
@@ -28,8 +28,13 @@ namespace Demo.Charmap.Steps
         /// With placeholders parameters could be substitured into description.
         /// </summary>
         [Step("Select '{0}' font")]
-        public void SelectFont(string fontName) =>
-            Charmap.Window.DropdownFonts.Select(fontName);
+        public void SelectFont(string fontName)
+        {
+            // Selection from the box does not fire UI events
+            Charmap.Window.DropdownFonts.Expand();
+            Charmap.Window.DropdownFonts.Find<ListItem>(ByLocator.Name(fontName)).Click();
+            Charmap.Window.DropdownFonts.Collapse();
+        }
 
         [Step("Select current symbol")]
         public void SelectCurrentSymbol() =>

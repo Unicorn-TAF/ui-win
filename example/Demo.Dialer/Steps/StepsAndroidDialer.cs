@@ -1,11 +1,10 @@
-﻿//using AspectInjector.Broker;
-using Unicorn.Taf.Core.Steps;
+﻿using Demo.StepsInjection;
 using Unicorn.Taf.Core.Steps.Attributes;
 using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Demo.AndroidDialer.Steps
 {
-    //[Inject(typeof(StepsEvents))]
+    [StepsClass]
     public class StepsAndroidDialer
     {
         private AndroidDialerApp Dialer => AndroidDialerApp.Instance;

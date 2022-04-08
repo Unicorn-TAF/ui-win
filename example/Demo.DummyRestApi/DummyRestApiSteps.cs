@@ -1,14 +1,11 @@
-﻿//using AspectInjector.Broker;
+﻿using Demo.StepsInjection;
 using System.Net.Http;
-using Unicorn.Backend.Matchers;
 using Unicorn.Backend.Services.RestService;
-using Unicorn.Taf.Core.Steps;
 using Unicorn.Taf.Core.Steps.Attributes;
-using Unicorn.Taf.Core.Verification;
 
 namespace Demo.DummyRestApi
 {
-    //[Inject(typeof(StepsEvents))]
+    [StepsClass]
     public class DummyRestApiSteps
     {
         private readonly DummyApiClient _client = new DummyApiClient("v1");

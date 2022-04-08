@@ -21,7 +21,7 @@ namespace Demo.Celestia.Ui.Pages
         /// Each control could have name (specified in <see cref="NameAttribute"/>). 
         /// This can help to have more readable code, logs, reports and error messages from matchers.
         /// </summary>
-        [ById("header"), Name("Page heder")]
+        [ById("header"), Name("Page header")]
         public HeaderBlock Header { get; set; }
 
         /// <summary>
