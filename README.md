@@ -25,7 +25,7 @@ Unicorn.Taf.Api
 common API for core of unicorn automation framework.
 
 * common APIs
-* AddDomain isolation
+* AppDomain isolation
 * Unicorn AssemblyLoadContext
 
 Unicorn.Taf.Core
@@ -43,7 +43,7 @@ Implementation of clients for interaction with services based on `HttpClient`
 * Client for REST services
 * REST service matchers collection
 
-> TBD: Client for SOAP services
+> TBD: Client for SOAP services  
 > TBD: batabase client
 
 Unicorn.UI.Core
