@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="100.0.4896.6000" />
     <PackageReference Include="Unicorn.AllureAgent" Version="2.0.0" />
+    <PackageReference Include="Unicorn.ReportPortalAgent" Version="3.0.0" />
     <PackageReference Include="Unicorn.TestAdapter" Version="3.0.0" />
   </ItemGroup>
     
@@ -25,6 +26,9 @@
     </Content>
     <None Update="allureConfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ReportPortal.config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

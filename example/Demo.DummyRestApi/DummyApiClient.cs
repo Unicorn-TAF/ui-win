@@ -3,19 +3,22 @@ using Unicorn.Backend.Services.RestService;
 
 namespace Demo.DummyRestApi
 {
+    /// <summary>
+    /// Implementation of some dummy api client (should inherit <see cref="RestClient"/>)
+    /// </summary>
     public class DummyApiClient : RestClient
     {
-        private readonly string _version;
-
-        public DummyApiClient(string version) : base("http://dummy.restapiexample.com")
+        /// <summary>
+        /// Initializing instance of <see cref="DummyApiClient"/> calling base constructor with api base url.
+        /// </summary>
+        public DummyApiClient() : base("https://reqres.in")
         {
-            _version = version;
         }
 
-        public RestResponse GetEmployee(int id) =>
-            SendRequest(HttpMethod.Get, $"/api/{_version}/employee/{id}");
+        public RestResponse GetUser(int id) =>
+            SendRequest(HttpMethod.Get, $"/api/users/{id}");
 
-        public RestResponse GetEmployees() =>
-            SendRequest(HttpMethod.Get, $"/api/{_version}/employees");
+        public RestResponse GetUsersPage(int page) =>
+            SendRequest(HttpMethod.Get, $"/api/users?page={page}");
     }
 }

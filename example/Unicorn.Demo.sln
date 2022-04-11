@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AndroidDialer", "Demo.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Tests", "Demo.Tests\Demo.Tests.csproj", "{64A115E0-E805-4AAD-875F-573E7729D636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.StepsInjection", "Demo.StepsInjection\Demo.StepsInjection.csproj", "{92567F67-5DE9-4FE9-8801-CD36B6027164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.StepsInjection", "Demo.StepsInjection\Demo.StepsInjection.csproj", "{92567F67-5DE9-4FE9-8801-CD36B6027164}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

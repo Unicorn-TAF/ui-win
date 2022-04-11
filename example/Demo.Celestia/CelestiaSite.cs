@@ -3,14 +3,14 @@
 namespace Demo.Celestia
 {
     /// <summary>
-    /// Describes celestia website (should inherit <see cref="WebSite"/>).
+    /// Describes https://celestia.space website (should inherit <see cref="WebSite"/>).
     /// </summary>
     public class CelestiaSite : WebSite
     {
         private static CelestiaSite _instance = null;
 
         /// <summary>
-        /// Website constructor. Calls base constructor with site address.
+        /// Website constructor. Calls base constructor with address to website.
         /// </summary>
         public CelestiaSite() : base("https://celestia.space")
         {

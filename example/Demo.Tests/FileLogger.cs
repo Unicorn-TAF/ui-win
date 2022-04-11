@@ -7,6 +7,9 @@ using Unicorn.Taf.Core.Steps;
 
 namespace Demo.Tests
 {
+    /// <summary>
+    /// Custom implementation of logger which will be assigned to <see cref="Logger.Instance"/>
+    /// </summary>
     public sealed class FileLogger : ILogger
     {
         private readonly string _logFile;

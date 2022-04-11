@@ -11,7 +11,7 @@ namespace Demo.Celestia.Steps
 {
     /// <summary>
     /// Represents high-level steps for website.
-    /// To make steps be able to use events subscriptions it's necessary to add StepsClass attribute.
+    /// To make steps be able to use events subscriptions it's necessary to add <see cref="StepsClassAttribute"/>.
     /// </summary>
     [StepsClass]
     public class StepsCelestia
@@ -28,6 +28,7 @@ namespace Demo.Celestia.Steps
         public void Open(BrowserType browser)
         {
             WebDriver.Instance = new DesktopWebDriver(browser);
+            Celestia.ResetPagesCache();
             Celestia.Open();
             Home.Find<WebControl>(ByLocator.Css("ul.dropotron[style *= z-index]"));
             Thread.Sleep(3000); // Wait for animation (nothing changes in html source during the animation).

@@ -21,13 +21,30 @@ namespace Demo.Tests.RestService
     {
         [Test]
         [Author("Vitaliy Dobriyan")]
-        public void GetEmployeeByIdTest()
+        public void GetUserByIdTest()
         {
-            RestResponse employee = Do.DummyRestApi.GetEmployee(1);
+            RestResponse userResponse = Do.DummyRestApi.GetUser(2);
 
-            Do.Assertion.AssertThat(
-                employee,
-                Service.Rest.Response.HasStatusCode(HttpStatusCode.OK));
+            Do.Assertion.StartAssertionsChain()
+                .VerifyThat(userResponse, Service.Rest.Response.HasStatusCode(HttpStatusCode.OK))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokenWithValue("$.data.id", 2))
+                .AssertChain();
+        }
+
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void GetUsersTest()
+        {
+            RestResponse userResponse = Do.DummyRestApi.GetUsersPage(2);
+
+            Do.Assertion.StartAssertionsChain()
+                .VerifyThat(userResponse, Service.Rest.Response.HasStatusCode(HttpStatusCode.OK))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokenWithValue("$.page", 2))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokenWithValue("$.per_page", 6))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokenWithValue("$.total", 12))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokenWithValue("$.total_pages", 2))
+                .VerifyThat(userResponse, Service.Rest.Response.HasTokensCount("$.data[*]", 6))
+                .AssertChain();
         }
 
         [Test]
@@ -39,7 +56,7 @@ namespace Demo.Tests.RestService
 
             Do.Assertion.AssertThat(
                 response,
-                Service.Rest.Response.HasStatusCode(HttpStatusCode.NotFound));
+                Service.Rest.Response.HasStatusCode(HttpStatusCode.BadRequest));
         }
     }
 }
