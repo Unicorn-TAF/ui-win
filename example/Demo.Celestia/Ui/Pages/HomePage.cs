@@ -1,4 +1,6 @@
-﻿using Unicorn.UI.Core.PageObject.By;
+﻿using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
+using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Web.Controls;
 
 namespace Demo.Celestia.Ui.Pages
@@ -8,6 +10,9 @@ namespace Demo.Celestia.Ui.Pages
         public HomePage() : base(string.Empty, "Celestia: Home")
         {
         }
+
+        [Find(Using.WebCss, "h1 > a")]
+        public WebControl HomeLink { get; set; }
 
         [ByClass("fa-map")]
         public WebControl VirtualTextures { get; set; }
