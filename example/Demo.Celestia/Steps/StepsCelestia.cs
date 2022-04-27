@@ -1,9 +1,7 @@
 ﻿using Demo.Celestia.Ui.Pages;
 using Demo.StepsInjection;
-using OpenQA.Selenium.Interactions;
 using System;
 using Unicorn.Taf.Core.Steps.Attributes;
-using Unicorn.Taf.Core.Utility.Synchronization;
 using Unicorn.UI.Web;
 using Unicorn.UI.Web.Driver;
 
@@ -30,18 +28,7 @@ namespace Demo.Celestia.Steps
             WebDriver.Instance = new DesktopWebDriver(browser);
             Celestia.ResetPagesCache();
             Celestia.Open();
-
-            var actions = new Actions(WebDriver.Instance.SeleniumDriver);
-
-            // During fade out animation nothing is interactable, need to wait for interaction is available.
-            new DefaultWait(TimeSpan.FromSeconds(10))
-                .Until(() =>
-                {
-                    actions.MoveToElement(Home.HomeLink.Instance).Perform();
-                    bool result = !Home.HomeLink.Instance.GetCssValue("color").Equals("rgba(255, 255, 255, 1)");
-                    actions.MoveByOffset(0, 0).Perform();
-                    return result;
-                });
+            Home.WaitForLoading(TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
