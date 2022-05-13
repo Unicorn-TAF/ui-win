@@ -1,20 +1,25 @@
 ﻿using Demo.Celestia.Ui.Common;
+using OpenQA.Selenium;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
-using Unicorn.UI.Web.Driver;
 using Unicorn.UI.Web.PageObject;
+using Unicorn.UI.Web.PageObject.Attributes;
 
 namespace Demo.Celestia.Ui.Pages
 {
     public abstract class BasePage : WebPage
     {
-        public BasePage(string subUrl, string title) : base(WebDriver.Instance.SeleniumDriver, subUrl, title)
+        /// <summary>
+        /// Initializes new instance of <see cref="BasePage"/> with webdriver intance and page info data.
+        /// Page info data could be specified either by <see cref="PageInfoAttribute"/> or via constructor.
+        /// </summary>
+        /// <param name="driver"></param>
+        public BasePage(IWebDriver driver, string subUrl, string title) : base(driver, subUrl, title)
         {
         }
 
-        public BasePage() : base(WebDriver.Instance.SeleniumDriver)
+        public BasePage(IWebDriver driver) : base(driver)
         {
-
         }
 
         /// <summary>

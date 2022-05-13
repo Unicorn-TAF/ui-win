@@ -1,9 +1,7 @@
 ﻿using Demo.Celestia.Ui.Pages;
 using Demo.StepsInjection;
-using System;
 using Unicorn.Taf.Core.Steps.Attributes;
 using Unicorn.UI.Web;
-using Unicorn.UI.Web.Driver;
 
 namespace Demo.Celestia.Steps
 {
@@ -14,21 +12,22 @@ namespace Demo.Celestia.Steps
     [StepsClass]
     public class StepsCelestia
     {
-        public CelestiaSite Celestia => CelestiaSite.Instance;
+        private CelestiaSite celestia;
 
         /// <summary>
         /// Gets web page from website cache.
         /// If page was already initializaed and called before the same instance is used further.
         /// </summary>
-        private HomePage Home => Celestia.GetPage<HomePage>();
+        private HomePage Home => celestia.GetPage<HomePage>();
 
         [Step("Open Celestia Web site in {0} browser")]
-        public void Open(BrowserType browser)
+        public CelestiaSite Open(BrowserType browser)
         {
-            WebDriver.Instance = new DesktopWebDriver(browser);
-            Celestia.ResetPagesCache();
-            Celestia.Open();
-            Home.WaitForLoading(TimeSpan.FromSeconds(10));
+            celestia = new CelestiaSite(browser);
+            celestia.Open();
+            Home.WaitForLoading(Timeouts.PageLoadTimeout);
+
+            return celestia;
         }
 
         /// <summary>
@@ -48,6 +47,6 @@ namespace Demo.Celestia.Steps
         /// </summary>
         [Step("Close Browser")]
         public void CloseBrowser() =>
-            WebDriver.Close();
+            celestia.Driver.Close();
     }
 }

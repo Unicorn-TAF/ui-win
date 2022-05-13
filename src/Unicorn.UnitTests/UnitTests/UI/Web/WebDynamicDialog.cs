@@ -9,20 +9,24 @@ namespace Unicorn.UnitTests.UI.Web
     public class WebDynamicDialog
     {
         private JqueryDialogPage page;
+        private static WebDriver webdriver;
 
         [OneTimeSetUp]
         public static void Setup() =>
-            WebDriver.Instance = new DesktopWebDriver(BrowserType.Chrome, true);
+            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
 
         [OneTimeTearDown]
-        public static void TearDown() =>
-            WebDriver.Close();
+        public static void TearDown()
+        {
+            webdriver.Close();
+            webdriver = null;
+        }
 
         [SetUp]
         public void PreparePage()
         {
-            page = new JqueryDialogPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            page = new JqueryDialogPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
         }
 

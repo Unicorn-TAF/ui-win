@@ -1,4 +1,6 @@
-﻿using Unicorn.UI.Web.PageObject;
+﻿using Unicorn.UI.Web;
+using Unicorn.UI.Web.Driver;
+using Unicorn.UI.Web.PageObject;
 
 namespace Demo.Celestia
 {
@@ -7,16 +9,20 @@ namespace Demo.Celestia
     /// </summary>
     public class CelestiaSite : WebSite
     {
-        private static CelestiaSite _instance = null;
+        public const string SiteUrl = "https://celestia.space";
 
         /// <summary>
         /// Website constructor. Calls base constructor with address to website.
         /// </summary>
-        public CelestiaSite() : base("https://celestia.space")
+        public CelestiaSite(WebDriver driver) : base(driver, SiteUrl)
         {
         }
 
-        public static CelestiaSite Instance => 
-            _instance ?? (_instance = new CelestiaSite());
+        /// <summary>
+        /// Website constructor. Calls base constructor with address to website.
+        /// </summary>
+        public CelestiaSite(BrowserType browser) : base(browser, SiteUrl)
+        {
+        }
     }
 }

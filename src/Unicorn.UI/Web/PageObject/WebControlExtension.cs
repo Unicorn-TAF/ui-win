@@ -1,7 +1,8 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Internal;
+using System;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Web.Controls;
-using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.PageObject
 {
@@ -17,8 +18,9 @@ namespace Unicorn.UI.Web.PageObject
         /// <returns>true - if control exists; otherwise - false</returns>
         public static bool Exists(this WebControl control)
         {
-            var originalTimeout = WebDriver.Instance.ImplicitlyWait;
-            WebDriver.Instance.ImplicitlyWait = TimeSpan.FromSeconds(0);
+            IWebDriver driver = ((IWrapsDriver)control.Instance).WrappedDriver;
+            TimeSpan originalTimeout = driver.Manage().Timeouts().ImplicitWait;
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -30,7 +32,7 @@ namespace Unicorn.UI.Web.PageObject
             }
             finally
             {
-                WebDriver.Instance.ImplicitlyWait = originalTimeout;
+                driver.Manage().Timeouts().ImplicitWait = originalTimeout;
             }
         }
     }

@@ -9,21 +9,23 @@ namespace Unicorn.UnitTests.UI.Web
     public class WebDynamicDropdown
     {
         private static JquerySelectPage page;
+        private static WebDriver webdriver;
 
         [OneTimeSetUp]
         public static void Setup()
         {
-            WebDriver.Instance = new DesktopWebDriver(BrowserType.Chrome, true);
-            page = new JquerySelectPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
+            page = new JquerySelectPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
         }
 
         [OneTimeTearDown]
         public static void TearDown()
         {
+            webdriver.Close();
+            webdriver = null;
             page = null;
-            WebDriver.Close();
         }
 
         [Author("Vitaliy Dobriyan")]

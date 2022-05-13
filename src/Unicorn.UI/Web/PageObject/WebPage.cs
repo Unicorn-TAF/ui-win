@@ -51,7 +51,7 @@ namespace Unicorn.UI.Web.PageObject
             {
                 bool opened = true;
 
-                Selenium.IWebDriver driver = ((Selenium.IWebDriver)SearchContext);
+                Selenium.IWebDriver driver = (Selenium.IWebDriver)SearchContext;
 
                 if (!string.IsNullOrEmpty(Url))
                 {

@@ -8,16 +8,18 @@ namespace Unicorn.UnitTests.UI.Web
     [TestFixture]
     public class WebPageTests
     {
+        private static WebDriver webdriver;
+
         [OneTimeSetUp]
         public static void Setup() =>
-            WebDriver.Instance = new DesktopWebDriver(BrowserType.Chrome, true);
+            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "WebPage.Opened works for page with relative url only")]
         public void TestWebPageOpenedWorksForPageWithRelativeUrlOnly()
         {
-            JqueryDataGridPage page = new JqueryDataGridPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JqueryDataGridPage page = new JqueryDataGridPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
             Assert.IsTrue(page.Opened);
         }
@@ -26,8 +28,8 @@ namespace Unicorn.UnitTests.UI.Web
         [Test(Description = "WebPage.Opened works for page with relative url and title")]
         public void TestWebPageOpenedWorksForPageWithRelativeUrlAndTitle()
         {
-            JquerySelectPage page = new JquerySelectPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
 
             Assert.IsTrue(page.Opened);
@@ -37,16 +39,18 @@ namespace Unicorn.UnitTests.UI.Web
         [Test(Description = "WebPage.Opened fails if page is not opened")]
         public void TestWebPageOpenedFailsIfPageIsNotOpened()
         {
-            JquerySelectPage page = new JquerySelectPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
 
-            Assert.IsFalse(new JqueryDialogPage(WebDriver.Instance.SeleniumDriver).Opened);
+            Assert.IsFalse(new JqueryDialogPage(webdriver.SeleniumDriver).Opened);
         }
 
         [OneTimeTearDown]
-        public static void TearDown() =>
-            WebDriver.Close();
-
+        public static void TearDown()
+        {
+            webdriver.Close();
+            webdriver = null;
+        }
     }
 }

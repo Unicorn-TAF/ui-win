@@ -11,36 +11,6 @@ namespace Unicorn.UI.Web.Driver
     /// </summary>
     public abstract class WebDriver : WebSearchContext, IDriver
     {
-        private static WebDriver _instance = null;
-
-        private TimeSpan currentImplicitlyWait;
-
-        /// <summary>
-        /// Gets or sets instance of Web driver.
-        /// Initialized with default implicitly wait timeout.
-        /// </summary>
-        public static WebDriver Instance
-        {
-            get
-            {
-                return _instance;
-            }
-
-            set
-            {
-                if (value != null)
-                {
-                    Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"{value.Browser} {value.GetType()} driver initialized");
-                    _instance = value;
-                    _instance.SearchContext = _instance.SeleniumDriver;
-                }
-                else
-                {
-                    _instance = null;
-                }
-            }
-        }
-
         /// <summary>
         /// Gets or sets underlying <see cref="IWebDriver"/> instance.
         /// </summary>
@@ -61,30 +31,18 @@ namespace Unicorn.UI.Web.Driver
         /// </summary>
         public TimeSpan ImplicitlyWait
         {
-            get
-            {
-                return currentImplicitlyWait;
-            }
+            get => SeleniumDriver.Manage().Timeouts().ImplicitWait;
 
-            set
-            {
-                currentImplicitlyWait = value;
-                SeleniumDriver.Manage().Timeouts().ImplicitWait = value;
-            }
+            set => SeleniumDriver.Manage().Timeouts().ImplicitWait = value;
         }
 
         /// <summary>
         /// Close web driver instance and associated browser.
         /// </summary>
-        public static void Close()
+        public void Close()
         {
             Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, "Close driver");
-
-            if (Instance != null)
-            {
-                Instance.SeleniumDriver.Quit();
-                Instance = null;
-            }
+            SeleniumDriver.Quit();
         }
 
         /// <summary>
@@ -93,7 +51,7 @@ namespace Unicorn.UI.Web.Driver
         /// <param name="url">url to navigate</param>
         public void Get(string url)
         {
-            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"Navigate to {url} page");
+            Logger.Instance.Log(Taf.Core.Logging.LogLevel.Debug, $"Navigate to {url}");
             SeleniumDriver.Navigate().GoToUrl(url);
         }
 

@@ -1,11 +1,11 @@
-﻿using Unicorn.Taf.Core.Utility;
+﻿using OpenQA.Selenium;
+using Unicorn.Taf.Core.Utility;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Dynamic;
-using Unicorn.UI.Web.Driver;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
 
@@ -14,7 +14,7 @@ namespace Unicorn.UnitTests.Gui.Web
     [PageInfo("https://jqueryui.com/dialog/#modal-confirmation")]
     public class JqueryDialogPage : WebPage
     {
-        public JqueryDialogPage(OpenQA.Selenium.IWebDriver driver) : base(driver)
+        public JqueryDialogPage(IWebDriver driver) : base(driver)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Unicorn.UnitTests.Gui.Web
             new Retrier().Execute(() =>
             {
                 Frame.Wait(Until.Visible);
-                WebDriver.Instance.SeleniumDriver.SwitchTo().Frame(Frame.Instance);
+                (SearchContext as IWebDriver).SwitchTo().Frame(Frame.Instance);
                 Dialog.Wait(Until.Visible);
             });
         }
