@@ -31,8 +31,8 @@ namespace Unicorn.UI.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="WebScreenshotTaker"/> class with screenshots directory.
         /// </summary>
-        /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="driver"><see cref="WebDriver"/> instance</param>
+        /// <param name="screenshotsDir">directory to save screenshots to</param>
         public WebScreenshotTaker(WebDriver driver, string screenshotsDir)
         {
             _driver = driver;
