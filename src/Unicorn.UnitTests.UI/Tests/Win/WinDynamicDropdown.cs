@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using Unicorn.UnitTests.Gui.Win;
+using Unicorn.UnitTests.UI.Gui.Win;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
     [TestFixture]
-    public class WinDynamicDropdown
+    public class WinDynamicDropdown : WinTestsBase
     {
         private static CharmapApplication charmap;
 

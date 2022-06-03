@@ -8,7 +8,7 @@ using Unicorn.UI.Web.Controls.Dynamic;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
 
-namespace Unicorn.UnitTests.Gui.Web
+namespace Unicorn.UnitTests.UI.Gui.Web
 {
     [PageInfo("https://jqueryui.com/selectmenu/", "Selectmenu | jQuery UI")]
     public class JquerySelectPage : WebPage

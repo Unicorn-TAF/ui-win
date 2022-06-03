@@ -3,10 +3,10 @@ using System.Reflection;
 using System.Threading;
 using Unicorn.UI.Win.Controls.WindowsBase;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
     [TestFixture]
-    public class WinWindowsBaseControls
+    public class WinWindowsBaseControls : WinTestsBase
     {
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Open file dialog 'Open File' functionality")]

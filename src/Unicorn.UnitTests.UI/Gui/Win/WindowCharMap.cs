@@ -6,7 +6,7 @@ using Unicorn.UI.Win.Controls;
 using Unicorn.UI.Win.Controls.Dynamic;
 using Unicorn.UI.Win.Controls.Typified;
 
-namespace Unicorn.UnitTests.Gui.Win
+namespace Unicorn.UnitTests.UI.Gui.Win
 {
     public class WindowCharMap : Window
     {

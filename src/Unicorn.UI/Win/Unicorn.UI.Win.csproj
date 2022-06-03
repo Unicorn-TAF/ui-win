@@ -28,7 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)'=='CI' Or '$(Configuration)'=='Release'">
     <DocumentationFile>bin\Release\$(TargetFramework)\Unicorn.UI.Win.xml</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>

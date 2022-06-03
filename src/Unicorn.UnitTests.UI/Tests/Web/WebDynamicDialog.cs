@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
-using Unicorn.UI.Web;
 using Unicorn.UI.Web.Driver;
-using Unicorn.UnitTests.Gui.Web;
+using Unicorn.UnitTests.UI.Gui.Web;
 
-namespace Unicorn.UnitTests.UI.Web
+namespace Unicorn.UnitTests.UI.Tests.Web
 {
     [TestFixture]
     public class WebDynamicDialog
@@ -13,7 +12,7 @@ namespace Unicorn.UnitTests.UI.Web
 
         [OneTimeSetUp]
         public static void Setup() =>
-            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
+            webdriver = DriverManager.GetDriverInstance();
 
         [OneTimeTearDown]
         public static void TearDown()

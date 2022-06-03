@@ -6,10 +6,10 @@ using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
 using Unicorn.UI.Win.UserInput;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
     [TestFixture]
-    public class UserInput
+    public class UserInput : WinTestsBase
     {
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check Mouse movement")]
