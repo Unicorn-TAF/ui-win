@@ -132,9 +132,11 @@ namespace Unicorn.UnitTests.Core.Testing
         {
             Config.SetSuiteTags("tests-cycle-dependency");
             Config.TestsExecutionOrder = TestsOrder.Random;
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
             try
             {
+                runner.RunTests();
                 Assert.Fail("Expected exception with cycle reference");
             }
             catch (Exception ex)
