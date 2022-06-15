@@ -7,16 +7,35 @@ using Unicorn.UI.Core.Driver;
 
 namespace Unicorn.UI.Mobile.Base.Driver
 {
+    /// <summary>
+    /// Describes search context base for mobile controls. 
+    /// Contains variety of methods to search and wait for controls of specified type from current context.
+    /// </summary>
     public abstract class MobileSearchContext : BaseSearchContext<MobileSearchContext>
     {
+        /// <summary>
+        /// Gets or sets Current search context as <see cref="AppiumWebElement"/>
+        /// </summary>
         protected virtual AppiumWebElement SearchContext { get; set; }
 
+        /// <summary>
+        /// Wait for typified control by specified locator during implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>wrapped control instance</returns>
         protected override T WaitForWrappedControl<T>(ByLocator locator)
         {
             AppiumWebElement elementToWrap = GetNativeControl(locator);
             return Wrap<T>(elementToWrap, locator);
         }
 
+        /// <summary>
+        /// Wait for typified controls list by specified locator during implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>wrapped controls list</returns>
         protected override IList<T> GetWrappedControlsList<T>(ByLocator locator)
         {
             var elementsToWrap = GetNativeControlsList(locator);
@@ -30,23 +49,43 @@ namespace Unicorn.UI.Mobile.Base.Driver
             return controlsList;
         }
 
+        /// <summary>
+        /// Get first child from current context which has specified control type ignoring implicitly wait timeout.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
+        /// <returns>wrapped control instance</returns>
         protected override T GetFirstChildWrappedControl<T>()
         {
             var elementToWrap = GetNativeControlsList(new ByLocator(Using.WebXpath, "./*"))[0];
             return Wrap<T>(elementToWrap, null);
         }
 
-        protected AppiumWebElement GetNativeControl(ByLocator locator)
-        {
-            return GetNativeControlFromContext(locator, SearchContext);
-        }
+        /// <summary>
+        /// Get control instance from current context as <see cref="AppiumWebElement"/>.
+        /// </summary>
+        /// <param name="locator">locator to search by</param>
+        /// <returns><see cref="AppiumWebElement"/> instance</returns>
+        protected AppiumWebElement GetNativeControl(ByLocator locator) =>
+            GetNativeControlFromContext(locator, SearchContext);
 
-        protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator)
-        {
-            return GetNativeControlFromContext(locator, ParentSearchContext.SearchContext);
-        }
+        /// <summary>
+        /// Get control instance from parent context as <see cref="AppiumWebElement"/>.
+        /// </summary>
+        /// <param name="locator">locator to search by</param>
+        /// <returns><see cref="AppiumWebElement"/> instance</returns>
+        protected AppiumWebElement GetNativeControlFromParentContext(ByLocator locator) =>
+            GetNativeControlFromContext(locator, ParentSearchContext.SearchContext);
 
-        protected IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
+        /// <summary>
+        /// Wraps <see cref="AppiumWebElement"/> from current search context by specified locator.
+        /// </summary>
+        /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
+        /// <param name="elementToWrap"><see cref="AppiumWebElement"/> instance to wrap</param>
+        /// <param name="locator">locator to search by</param>
+        /// <returns>wrapped control instance</returns>
+        protected abstract T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator);
+
+        private IList<AppiumWebElement> GetNativeControlsList(ByLocator locator)
         {
             By by = GetNativeLocator(locator);
 
@@ -61,7 +100,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
             }
         }
 
-        protected By GetNativeLocator(ByLocator locator)
+        private By GetNativeLocator(ByLocator locator)
         {
             switch (locator.How)
             {
@@ -81,8 +120,6 @@ namespace Unicorn.UI.Mobile.Base.Driver
                     throw new ArgumentException($"Incorrect locator type specified:  {locator.How}");
             }
         }
-
-        protected abstract T Wrap<T>(AppiumWebElement elementToWrap, ByLocator locator);
 
         private AppiumWebElement GetNativeControlFromContext(ByLocator locator, AppiumWebElement context)
         {

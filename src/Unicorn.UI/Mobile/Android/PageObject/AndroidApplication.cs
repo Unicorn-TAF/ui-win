@@ -6,40 +6,33 @@ namespace Unicorn.UI.Mobile.Android.PageObject
 {
     public abstract class AndroidApplication
     {
+        private readonly Dictionary<string, string> _options;
+        private readonly string _appActivity;
+
         protected AndroidApplication(string appPackage, string appActivity, string platformVersion, string deviceName, string hubUrl)
         {
-            DeviceName = deviceName;
-            PlatformVersion = platformVersion;
-            AppPackage = appPackage;
-            AppActivity = appActivity;
             HubUrl = hubUrl;
+            _appActivity = $"{appPackage}.{appActivity}";
 
-            var capabilities = new Dictionary<string, string>();
-            capabilities.Add("deviceName", DeviceName);
-            capabilities.Add("platformVersion", PlatformVersion);
-            capabilities.Add("appPackage", AppPackage);
-            capabilities.Add("appActivity", $"{AppPackage}.{AppActivity}");
-            capabilities.Add("platformName", PlatformName);
-
-            AndroidAppDriver.Init(hubUrl, capabilities);
+            _options = new Dictionary<string, string>();
+            _options.Add("deviceName", deviceName);
+            _options.Add("platformVersion", platformVersion);
+            _options.Add("appPackage", appPackage);
+            _options.Add("appActivity", _appActivity);
+            _options.Add("platformName", "Android");
         }
 
-        public string AppPackage { get; protected set; }
+        /// <summary>
+        /// Gets AndroidAppDriver instance used by the website.
+        /// </summary>
+        public AndroidAppDriver Driver { get; private set; }
 
-        public string AppActivity { get; protected set; }
+        public string HubUrl { get; }
 
-        public string PlatformName { get; protected set; } = "Android";
-
-        public string PlatformVersion { get; protected set; }
-
-        public string DeviceName { get; protected set; }
-
-        public string HubUrl { get; protected set; }
-
-        public void Open()
+        public virtual void Open()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {AppActivity} application");
-            AndroidAppDriver.Instance.ToString(); // need to call for initialization
+            Logger.Instance.Log(LogLevel.Debug, $"Open {_appActivity} application");
+            Driver = new AndroidAppDriver(HubUrl, _options);
         }
     }
 }
