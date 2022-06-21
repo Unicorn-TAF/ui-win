@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
+using System;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Core.Driver;
 
@@ -17,11 +16,12 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// remote address, and driver options.
         /// </summary>
         /// <param name="remoteAddress">remote address</param>
-        /// <param name="options"><see cref="AppiumOptions"/></param>
+        /// <param name="options"><see cref="AppiumOptions"/> instance</param>
         public AndroidAppDriver(Uri remoteAddress, AppiumOptions options)
         {
             Driver = new AndroidDriver<AndroidElement>(remoteAddress, options);
             ImplicitlyWait = TimeoutDefault;
+            SearchContext = Driver.FindElementByXPath("//*");
         }
 
         /// <summary>
@@ -29,31 +29,12 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// remote address, and driver options.
         /// </summary>
         /// <param name="remoteAddress">remote address</param>
-        /// <param name="options"><see cref="AppiumOptions"/></param>
+        /// <param name="options"><see cref="AppiumOptions"/> instance</param>
         public AndroidAppDriver(string remoteAddress, AppiumOptions options)
         {
             Driver = new AndroidDriver<AndroidElement>(new Uri(remoteAddress), options);
             ImplicitlyWait = TimeoutDefault;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AndroidAppDriver"/> class with specified 
-        /// remote address, and driver options.
-        /// </summary>
-        /// <param name="remoteAddress">remote address</param>
-        /// <param name="optionsList">dictionary of options</param>
-        public AndroidAppDriver(string remoteAddress, Dictionary<string, string> optionsList)
-        {
-            AppiumOptions options = new AppiumOptions();
-
-            foreach (string key in optionsList.Keys)
-            {
-                options.AddAdditionalCapability(key, optionsList[key]);
-            }
-
-            Driver = new AndroidDriver<AndroidElement>(new Uri(remoteAddress), options);
-            ImplicitlyWait = TimeoutDefault;
-            //TODO var a = Driver.FindElementByClassName("android.widget.FrameLayout");
+            SearchContext = Driver.FindElementByXPath("//*");
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Mobile.Android.Controls;
@@ -23,7 +24,9 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// <param name="timeout">new implicit timeout value</param>
         protected override void SetImplicitlyWait(TimeSpan timeout)
         {
-            AndroidAppDriver.Instance.ImplicitlyWait = timeout;
+            IWebDriver driver = ((OpenQA.Selenium.Internal.IWrapsDriver)SearchContext).WrappedDriver;
+
+            driver.Manage().Timeouts().ImplicitWait = timeout;
         }
 
         /// <summary>

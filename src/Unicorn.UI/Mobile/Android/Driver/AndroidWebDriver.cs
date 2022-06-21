@@ -15,7 +15,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// Initializes a new instance of the <see cref="AndroidWebDriver"/> class with specified url and options.
         /// </summary>
         /// <param name="hubUrl">server url</param>
-        /// <param name="options"><see cref="AppiumOptions"/></param>
+        /// <param name="options"><see cref="AppiumOptions"/> instance</param>
         public AndroidWebDriver(string hubUrl, AppiumOptions options)
         {
             SeleniumDriver = new AndroidDriver<IWebElement>(new Uri(hubUrl), options);
@@ -28,7 +28,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// <param name="hubUrl">server url</param>
         /// <param name="deviceName">device name</param>
         /// <param name="browserName">browser name</param>
-        /// <param name="platformVersion">platform version</param>
+        /// <param name="platformVersion">android version</param>
         public AndroidWebDriver(string hubUrl, string deviceName, string browserName, string platformVersion)
         {
             AppiumOptions options = new AppiumOptions();
