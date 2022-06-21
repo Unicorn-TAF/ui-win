@@ -76,7 +76,7 @@ namespace Unicorn.UnitTests.Core.Engine
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config parallel")]
         public void TestConfigParallel() =>
-            Assert.That(Config.ParallelBy, Is.EqualTo(Parallelization.Assembly));
+            Assert.That(Config.ParallelBy, Is.EqualTo(Parallelization.None));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config dependent tests")]

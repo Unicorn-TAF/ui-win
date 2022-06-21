@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Unicorn.Taf.Api;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
@@ -119,10 +120,12 @@ namespace Unicorn.Taf.Core.Engine
 
             if (Outcome.RunInitialized)
             {
-                foreach (var suiteType in runnableSuites)
-                {
-                    RunTestSuite(suiteType);
-                }
+                ParallelOptions parallelOptions = new ParallelOptions 
+                { 
+                    MaxDegreeOfParallelism = Config.Threads 
+                };
+
+                Parallel.ForEach(runnableSuites, parallelOptions, suiteType => RunTestSuite(suiteType));
 
                 // Execute run finalize action if exists in assembly.
                 GetRunInitCleanupMethod(_testAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);

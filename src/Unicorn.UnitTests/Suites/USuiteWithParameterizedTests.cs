@@ -6,7 +6,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite with parameterized tests")]
-    [Tag("parameterizedTests")]
+    [Tag(Tag.ParameterizedTests)]
     public class USuiteWithParameterizedTests : TestSuite
     {
         public static string Output { get; set; }

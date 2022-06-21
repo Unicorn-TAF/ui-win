@@ -17,7 +17,7 @@ namespace Unicorn.UnitTests.Core.Testing
         public static void SetConfig()
         {
             Config.TestsExecutionOrder = TestsOrder.Declaration;
-            Config.SetSuiteTags("Steps");
+            Config.SetSuiteTags(Tag.Steps);
             StepEvents.OnStepStart += ReportInfo;
         }
 

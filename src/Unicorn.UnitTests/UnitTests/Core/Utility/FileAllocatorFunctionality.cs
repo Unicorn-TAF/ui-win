@@ -69,7 +69,7 @@ namespace Unicorn.UnitTests.Core.Utility
             var allocator = new FileAllocator(testsPath);
             allocator.ExcludeFileNames("FileAllocatorIgnoreFile");
 
-            var task = new Task(() => allocator.WaitForFileToAppear(TimeSpan.FromSeconds(1)));
+            var task = new Task(() => allocator.WaitForFileToAppear(TimeSpan.FromSeconds(0.5)));
 
             try
             {
