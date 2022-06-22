@@ -1,10 +1,10 @@
-﻿using Unicorn.UI.Core.Controls.Dynamic;
+﻿using OpenQA.Selenium;
+using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Dynamic;
-using Unicorn.UI.Web.Driver;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
 
@@ -13,7 +13,7 @@ namespace Unicorn.UnitTests.Gui.Web
     [PageInfo("https://jqueryui.com/selectmenu/", "Selectmenu | jQuery UI")]
     public class JquerySelectPage : WebPage
     {
-        public JquerySelectPage(OpenQA.Selenium.IWebDriver driver) : base(driver)
+        public JquerySelectPage(IWebDriver driver) : base(driver)
         {
         }
 
@@ -32,7 +32,7 @@ namespace Unicorn.UnitTests.Gui.Web
 
         public void WaitForLoading()
         {
-            WebDriver.Instance.SeleniumDriver.SwitchTo().Frame(0);
+            (SearchContext as IWebDriver).SwitchTo().Frame(0);
             Dropdown.Wait(Until.Visible);
         }
     }

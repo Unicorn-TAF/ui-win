@@ -11,16 +11,19 @@ namespace Unicorn.UI.Web
     /// </summary>
     public class WebScreenshotTaker
     {
-        private const int MaxLength = 255;
+        private const int MaxLength = 250;
 
         private readonly string _screenshotsDir;
         private readonly OpenQA.Selenium.ScreenshotImageFormat _format;
+        private readonly WebDriver _driver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebScreenshotTaker"/> class with default directory.<para/>
         /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
-        public WebScreenshotTaker() : this(
+        /// <param name="driver"><see cref="WebDriver"/> instance</param>
+        public WebScreenshotTaker(WebDriver driver) : this(
+            driver,
             Path.Combine(Path.GetDirectoryName(new Uri(typeof(WebScreenshotTaker).Assembly.Location).LocalPath), "Screenshots"))
         {
         }
@@ -28,9 +31,11 @@ namespace Unicorn.UI.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="WebScreenshotTaker"/> class with screenshots directory.
         /// </summary>
+        /// <param name="driver"><see cref="WebDriver"/> instance</param>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
-        public WebScreenshotTaker(string screenshotsDir)
+        public WebScreenshotTaker(WebDriver driver, string screenshotsDir)
         {
+            _driver = driver;
             _screenshotsDir = screenshotsDir;
 
             if (!Directory.Exists(screenshotsDir))
@@ -104,13 +109,13 @@ namespace Unicorn.UI.Web
             SuiteMethod.OnSuiteMethodFail -= TakeScreenshot;
         }
 
-        private static OpenQA.Selenium.Screenshot GetScreenshot()
+        private OpenQA.Selenium.Screenshot GetScreenshot()
         {
             try
             {
                 Logger.Instance.Log(LogLevel.Debug, "Creating browser print screen...");
 
-                return (WebDriver.Instance.SeleniumDriver as OpenQA.Selenium.ITakesScreenshot).GetScreenshot();
+                return (_driver.SeleniumDriver as OpenQA.Selenium.ITakesScreenshot).GetScreenshot();
             }
             catch (Exception e)
             {

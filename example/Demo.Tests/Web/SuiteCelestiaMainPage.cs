@@ -25,6 +25,8 @@ namespace Demo.Tests.Web
     {
         private readonly BrowserType _browser;
 
+        private CelestiaSite celestia;
+
         /// <summary>
         /// Constructor for parameterized suite. It should contain the same number of parameters as suite DataSet.
         /// </summary>
@@ -33,9 +35,8 @@ namespace Demo.Tests.Web
         {
             _browser = browser;
         }
-
-        private HomePage HomePage => 
-            CelestiaSite.Instance.GetPage<HomePage>();
+        
+        private HomePage Home => celestia.GetPage<HomePage>();
 
         /// <summary>
         /// Data for parameterized suite. First parameter is <see cref="DataSet"/> name 
@@ -49,7 +50,7 @@ namespace Demo.Tests.Web
             new List<DataSet>
             {
                 new DataSet("Google Chrome", BrowserType.Chrome),
-                //new DataSet("Internet Explorer", BrowserType.IE)
+                ////new DataSet("Internet Explorer", BrowserType.IE)
             };
 
         /// <summary>
@@ -61,13 +62,13 @@ namespace Demo.Tests.Web
         public static List<DataSet> GetTopMenuData() =>
             new List<DataSet>
             {
-                new DataSet("Item 'Home'", "Home", "https://celestia.space/index.html"),
-                new DataSet("Item 'Download'", "Download", "https://celestia.space/download.html"),
-                new DataSet("Item 'News'", "News", "https://celestia.space/news.html"),
-                new DataSet("Item 'Documentation'", "Documentation", "https://celestia.space/#"),
-                new DataSet("Item 'Add-Ons'", "Add-Ons", "https://celestia.space/#"),
-                new DataSet("Item 'Gallery'", "Gallery", "https://celestia.space/gallery.html"),
-                new DataSet("Item 'Forum'", "Forum", "https://celestia.space/forum")
+                new DataSet("Item 'Home'", SiteMenuItems.Home, "/index.html"),
+                new DataSet("Item 'Download'", SiteMenuItems.Documentation, "/download.html"),
+                new DataSet("Item 'News'", SiteMenuItems.News, "/news.html"),
+                new DataSet("Item 'Documentation'", SiteMenuItems.Documentation, "/#"),
+                new DataSet("Item 'Add-Ons'", SiteMenuItems.Addons, "/#"),
+                new DataSet("Item 'Gallery'", SiteMenuItems.Gallery, "/gallery.html"),
+                new DataSet("Item 'Forum'", SiteMenuItems.Forum, "/forum")
             };
 
         /// <summary>
@@ -76,8 +77,8 @@ namespace Demo.Tests.Web
         [BeforeSuite]
         public void ClassInit()
         {
-            Do.UI.Celestia.Open(_browser);
-            Do.Assertion.AssertThat(HomePage.Opened, Is.EqualTo(true));
+            celestia = Do.UI.Celestia.Open(_browser, Config.Instance.CelestiaUrl);
+            Do.Assertion.AssertThat(Home.Opened, Is.EqualTo(true));
         }
 
         /// <summary>
@@ -87,26 +88,26 @@ namespace Demo.Tests.Web
         [Category("Smoke")]
         [Test("Check header presence")]
         public void TestHeader() =>
-            Do.Assertion.AssertThat(HomePage.Header, UI.Control.Visible());
+            Do.Assertion.AssertThat(Home.Header, UI.Control.Visible());
 
         /// <summary>
         /// Example of parameterized test.
         /// Number of parameters should be the same as number of items in <see cref="DataSet"/> (DataSet name is not considered)
         /// </summary>
         /// <param name="navItem">navigation item name</param>
-        /// <param name="href">href attribute value</param>
+        /// <param name="relativeHref">href attribute value</param>
         [Author("Vitaliy Dobriyan")]
         [Test("Check header menu item is presented")]
         [TestData(nameof(GetTopMenuData))]
-        public void TestHeaderMenuItemIsPresented(string navItem, string href)
+        public void TestHeaderMenuItemIsPresented(string navItem, string relativeHref)
         {
-            var item = HomePage.Header.GetNavItem(navItem);
+            var item = Home.Header.GetNavItem(navItem);
 
             Do.Assertion
                 .StartAssertionsChain()
                 .VerifyThat(item, UI.Control.Visible())
                 .VerifyThat(item, UI.Control.Enabled())
-                .VerifyThat(item, UI.Control.HasAttributeIsEqualTo("href", href))
+                .VerifyThat(item, UI.Control.HasAttributeIsEqualTo("href", Config.Instance.CelestiaUrl + relativeHref))
                 .AssertChain();
         }
 
@@ -118,14 +119,14 @@ namespace Demo.Tests.Web
         [Test("Check footer content")]
         public void TestFooterContent()
         {
-            Do.Assertion.AssertThat(HomePage.Footer, UI.Control.Visible());
+            Do.Assertion.AssertThat(Home.Footer, UI.Control.Visible());
 
             Do.Assertion
                 .StartAssertionsChain()
-                .VerifyThat(HomePage.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "https://twitter.com/CelestiaProject"))
-                .VerifyThat(HomePage.Footer.LinkGithub, UI.Control.HasAttributeIsEqualTo("href", "https://github.com/CelestiaProject/Celestia"))
-                .VerifyThat(HomePage.Footer.LinkEmail, UI.Control.HasAttributeIsEqualTo("href", "mailto:team@celestia.space"))
-                .VerifyThat(HomePage.Footer.Copyright, UI.Control.HasTextMatching("Celestia is Copyright © 2001-20[0-9]{2}, Celestia Development Team"))
+                .VerifyThat(Home.Footer.LinkTwitter, UI.Control.HasAttributeIsEqualTo("href", "https://twitter.com/CelestiaProject"))
+                .VerifyThat(Home.Footer.LinkGithub, UI.Control.HasAttributeIsEqualTo("href", "https://github.com/CelestiaProject/Celestia"))
+                .VerifyThat(Home.Footer.LinkEmail, UI.Control.HasAttributeIsEqualTo("href", "mailto:team@celestia.space"))
+                .VerifyThat(Home.Footer.Copyright, UI.Control.HasTextMatching("Celestia is Copyright © 2001-202[0-9], Celestia Development Team"))
                 .AssertChain();
         }
 

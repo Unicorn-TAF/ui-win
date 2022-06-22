@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
-using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Web.Driver;
 
 namespace Unicorn.UI.Web.PageObject
@@ -15,29 +15,46 @@ namespace Unicorn.UI.Web.PageObject
         /// <summary>
         /// Initializes a new instance of the <see cref="WebSite"/> class with specified base url.
         /// </summary>
+        /// <param name="driver">instance of web driver</param>
         /// <param name="baseUrl">site base url</param>
-        protected WebSite(string baseUrl)
+        protected WebSite(WebDriver driver, string baseUrl)
         {
-            BaseUrl = baseUrl.TrimEnd('/');
+            BaseUrl = new Uri(baseUrl);
             _pagesCache = new Dictionary<Type, WebPage>();
+            Driver = driver;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebSite"/> class with specified base url and browser type.
+        /// </summary>
+        /// <param name="browserType">browser type to start site in</param>
+        /// <param name="baseUrl">site base url</param>
+        protected WebSite(BrowserType browserType, string baseUrl)
+        {
+            BaseUrl = new Uri(baseUrl);
+            _pagesCache = new Dictionary<Type, WebPage>();
+            Driver = new DesktopWebDriver(browserType, true);
+        }
+
+        /// <summary>
+        /// Gets WebDriver instance used by the website.
+        /// </summary>
+        public WebDriver Driver { get; }
 
         /// <summary>
         /// Gets or sets site base url.
         /// </summary>
-        public string BaseUrl { get; protected set; }
+        public Uri BaseUrl { get; protected set; }
 
         /// <summary>
         /// Open web site (navigate to site base url).
         /// </summary>
-        public virtual void Open()
-        {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {BaseUrl} site");
-            WebDriver.Instance.Get(BaseUrl);
-        }
+        public virtual void Open() =>
+            Driver.Get(BaseUrl.ToString());
 
         /// <summary>
-        /// Get specified site page instance.
+        /// Gets specified site page instance from pages cache 
+        /// (page should have constructor with <see cref="IWebDriver"/> argument).
         /// </summary>
         /// <typeparam name="T">page type</typeparam>
         /// <returns>page instance</returns>
@@ -47,7 +64,7 @@ namespace Unicorn.UI.Web.PageObject
 
             if (!_pagesCache.ContainsKey(type))
             {
-                var page = Activator.CreateInstance<T>();
+                T page = (T)Activator.CreateInstance(type, Driver.SeleniumDriver);
                 _pagesCache.Add(type, page);
             }
 
@@ -55,21 +72,15 @@ namespace Unicorn.UI.Web.PageObject
         }
 
         /// <summary>
-        /// Navigate to specified site page.
+        /// Navigates to specified site page.
         /// </summary>
         /// <typeparam name="T">page type</typeparam>
         /// <returns>page instance</returns>
         public virtual T NavigateTo<T>() where T : WebPage
         {
             var page = GetPage<T>();
-            WebDriver.Instance.Get($"{BaseUrl}/{page.Url.TrimStart('/')}");
+            Driver.Get(new Uri(BaseUrl, page.Url).ToString());
             return page;
         }
-
-        /// <summary>
-        /// Reset pages cache (commonly in case when driver context was changed)
-        /// </summary>
-        public void ResetPagesCache() =>
-            _pagesCache.Clear();
     }
 }

@@ -20,8 +20,7 @@ namespace Demo.Tests.Web
     [Metadata(key: "Site link", value: "https://celestia.space")]
     public class SuiteCelestiaDownloads : BaseTestSuite
     {
-        private DownloadPage DownloadsPage => 
-            CelestiaSite.Instance.GetPage<DownloadPage>();
+        private CelestiaSite celestia;
 
         /// <summary>
         /// Actions executed before each test.
@@ -29,8 +28,8 @@ namespace Demo.Tests.Web
         [BeforeTest]
         public void ClassInit()
         {
-            Do.UI.Celestia.Open(BrowserType.Chrome);
-            Do.UI.Celestia.SelectMenu("Download");
+            celestia = Do.UI.Celestia.Open(BrowserType.Chrome, Config.Instance.CelestiaUrl);
+            Do.UI.Celestia.SelectMenu(SiteMenuItems.Download);
         }
 
         /// <summary>
@@ -41,7 +40,7 @@ namespace Demo.Tests.Web
         [Test("Check downloads items style")]
         public void TestDownloadsItemsStyle() =>
             Do.Assertion.AssertThat(
-                DownloadsPage.DownloadsList, 
+                celestia.GetPage<DownloadPage>().DownloadsList, 
                 Collection.Each(UI.Control.HasAttributeContains("class", "fa-5x")));
 
         /// <summary>

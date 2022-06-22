@@ -10,7 +10,7 @@ using Selenium = OpenQA.Selenium;
 namespace Unicorn.UI.Web.Controls
 {
     /// <summary>
-    /// Represents basic web control control. Contains number of main properties and action under the control.
+    /// Represents basic web control. Contains number of main properties and action under the control.
     /// </summary>
     public class WebControl : WebSearchContext, IControl
     {

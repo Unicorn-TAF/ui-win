@@ -1,17 +1,17 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using Unicorn.Taf.Core.Utility.Synchronization;
 using Unicorn.UI.Core.Controls.Interfaces;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Web.Controls;
-using Unicorn.UI.Web.Driver;
 
 namespace Demo.Celestia.Ui.Pages
 {
     public class HomePage : BasePage, ILoadable
     {
-        public HomePage() : base(string.Empty, "Celestia: Home")
+        public HomePage(IWebDriver driver) : base(driver, string.Empty, "Celestia: Home")
         {
         }
 
@@ -29,13 +29,14 @@ namespace Demo.Celestia.Ui.Pages
 
         public bool WaitForLoading(TimeSpan timeout)
         {
-            const string overlayZindexAfterAnimation = "-1";
+            const string expectedOverlayZindex = "-1";
             const string jsGetOverlayZindex =
                 "return window.getComputedStyle(document.querySelector('.landing'), '::after').getPropertyValue('z-index')";
             
             // During fade out animation nothing is interactable, need to wait for interaction is available.
             new DefaultWait(timeout)
-                .Until(() => (string)WebDriver.Instance.ExecuteJS(jsGetOverlayZindex) == overlayZindexAfterAnimation);
+                .Until(() => (string)(SearchContext as IJavaScriptExecutor)
+                    .ExecuteScript(jsGetOverlayZindex) == expectedOverlayZindex);
 
             return true;
         }

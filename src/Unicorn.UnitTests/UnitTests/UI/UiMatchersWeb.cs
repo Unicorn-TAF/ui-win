@@ -10,18 +10,23 @@ namespace Unicorn.UnitTests.UI
     [TestFixture]
     public class UiMatchersWeb
     {
+        private static WebDriver webdriver;
+
         [OneTimeSetUp]
         public static void Setup() =>
-            WebDriver.Instance = new DesktopWebDriver(BrowserType.Chrome, true);
+            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
 
         [OneTimeTearDown]
-        public static void TearDown() =>
-            WebDriver.Close();
+        public static void TearDown()
+        {
+            webdriver.SeleniumDriver.Quit();
+            webdriver = null;
+        }
 
         public JqueryDataGridPage OpenGridPage()
         {
-            JqueryDataGridPage gridPage = new JqueryDataGridPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(gridPage.Url);
+            JqueryDataGridPage gridPage = new JqueryDataGridPage(webdriver.SeleniumDriver);
+            webdriver.Get(gridPage.Url);
             gridPage.WaitForLoading();
 
             return gridPage;
@@ -29,8 +34,8 @@ namespace Unicorn.UnitTests.UI
 
         public JqueryDialogPage OpenDialogPage()
         {
-            JqueryDialogPage page = new JqueryDialogPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JqueryDialogPage page = new JqueryDialogPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
 
             return page;
@@ -38,8 +43,8 @@ namespace Unicorn.UnitTests.UI
 
         public JquerySelectPage OpenSelectPage()
         {
-            JquerySelectPage page = new JquerySelectPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
 
             return page;
@@ -47,8 +52,8 @@ namespace Unicorn.UnitTests.UI
 
         public JqueryCheckboxRadioPage OpenCheckboxRadioPage()
         {
-            JqueryCheckboxRadioPage page = new JqueryCheckboxRadioPage(WebDriver.Instance.SeleniumDriver);
-            WebDriver.Instance.Get(page.Url);
+            JqueryCheckboxRadioPage page = new JqueryCheckboxRadioPage(webdriver.SeleniumDriver);
+            webdriver.Get(page.Url);
             page.WaitForLoading();
 
             return page;

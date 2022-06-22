@@ -18,7 +18,7 @@ namespace Unicorn.UI.Web.Driver
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
 
         /// <summary>
-        /// Gets or sets base <see cref="Type"/> for all desktop controls (by default is <see cref="WebControl"/>)
+        /// Gets or sets base <see cref="Type"/> for all web controls (by default is <see cref="WebControl"/>)
         /// </summary>
         protected override Type ControlsBaseType => typeof(WebControl);
 
@@ -86,8 +86,14 @@ namespace Unicorn.UI.Web.Driver
         /// Set current implicitly wait timeout value.
         /// </summary>
         /// <param name="timeout">new implicit timeout value</param>
-        protected override void SetImplicitlyWait(TimeSpan timeout) =>
-            WebDriver.Instance.ImplicitlyWait = timeout;
+        protected override void SetImplicitlyWait(TimeSpan timeout)
+        {
+            IWebDriver driver = SearchContext is IWebDriver ?
+                (IWebDriver)SearchContext :
+                ((OpenQA.Selenium.Internal.IWrapsDriver)SearchContext).WrappedDriver;
+
+            driver.Manage().Timeouts().ImplicitWait = timeout;
+        }
 
         private IWebElement GetNativeControlFromContext(ByLocator locator, OpenQA.Selenium.ISearchContext context)
         {

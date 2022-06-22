@@ -5,15 +5,17 @@ namespace Demo.Tests
 {
     public class Config
     {
-        private static Config _instance = null;
+        private static Config instance = null;
 
-        protected Config()
+        private Config()
         {
             
         }
 
-        public static Config Instance => _instance ?? (_instance = new Config());
+        public static Config Instance => instance ?? (instance = new Config());
 
         public string TestsDir { get; } =  Path.GetDirectoryName(new Uri(typeof(Config).Assembly.Location).LocalPath);
+
+        public string CelestiaUrl { get; } = "https://celestia.space";
     }
 }

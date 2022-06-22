@@ -23,15 +23,6 @@ namespace Demo.Tests
             { LogLevel.Trace, $"  [Trace]: \t\t" },
         };
 
-        private readonly Dictionary<LogLevel, string> _consolePrefixes = new Dictionary<LogLevel, string>
-        {
-            { LogLevel.Error,   $"  ##[error]: " },
-            { LogLevel.Warning, $"##[warning]: " },
-            { LogLevel.Info,    $"     [Info]: " },
-            { LogLevel.Debug,   $"    [Debug]:     " },
-            { LogLevel.Trace,   $"    [Trace]:         " },
-        };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FileLogger"/> class.
         /// Logger writes all messages into text file.
@@ -41,7 +32,7 @@ namespace Demo.Tests
             // Subscribe to step start event to log step.
             StepEvents.OnStepStart += ReportStepInfo;
 
-            var logsDirectory = Path.Combine(Config.Instance.TestsDir, "Logs"); ;
+            var logsDirectory = Path.Combine(Config.Instance.TestsDir, "Logs");
 
             if (!Directory.Exists(logsDirectory))
             {
@@ -64,7 +55,7 @@ namespace Demo.Tests
                 WriteToFile(logString);
 
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine(_consolePrefixes[level] + message);
+                System.Diagnostics.Debug.WriteLine(_prefixes[level] + message);
 #endif
             }
         }

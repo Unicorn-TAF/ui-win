@@ -16,7 +16,7 @@ namespace Demo.Charmap
         /// <summary>
         /// Application constructor. Calls base constructor with path to application and application executable name.
         /// </summary>
-        public CharmapApp() 
+        private CharmapApp() 
             : base(@"C:\Windows\System32\", "charmap.exe") 
         { 
         }

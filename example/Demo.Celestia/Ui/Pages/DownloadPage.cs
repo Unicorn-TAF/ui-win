@@ -13,9 +13,17 @@ namespace Demo.Celestia.Ui.Pages
     /// Title property is implicitly used in page <see cref="Opened"/> 
     /// property indicating wherer the page is opened in browser or not.
     /// </summary>
-    [PageInfo("/download.html", "Celestia: Download")]
+    [PageInfo("download.html", "Celestia: Download")]
     public class DownloadPage : BasePage
     {
+        public DownloadPage(OpenQA.Selenium.IWebDriver driver) : base(driver)
+        {
+        }
+
+        /// <summary>
+        /// List of elements could be found by using <see cref="FindList"/> method and 
+        /// could not be initialized by Find attribute usage.
+        /// </summary>
         public IList<WebControl> DownloadsList => FindList<WebControl>(ByLocator.Css("section#content i"));
     }
 }
