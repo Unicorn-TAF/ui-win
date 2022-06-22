@@ -15,5 +15,7 @@ namespace Demo.Tests
         public static Config Instance => instance ?? (instance = new Config());
 
         public string TestsDir { get; } =  Path.GetDirectoryName(new Uri(typeof(Config).Assembly.Location).LocalPath);
+
+        public string CelestiaUrl { get; } = "https://celestia.space";
     }
 }
