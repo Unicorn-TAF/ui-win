@@ -1,0 +1,42 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Unicorn.Taf.Api</id>
+    <version>1.0.0</version>
+    <title>Unicorn.Taf.Core</title>
+    <authors>Vitaliy Dobriyan</authors>
+    <license type="expression">MIT</license>
+    <copyright>Copyright © 2022 Vitaliy Dobriyan</copyright>
+    <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
+    <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
+    <icon>images\icon.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      This package includes common API for core of unicorn automation framework. The package also offers AddDomain isolation and custom assembly load context.
+    </description>
+    <releaseNotes>Api for extensions, test executors, data collectors and outcome. AppDomain isolation and custom assembly load context.</releaseNotes>
+    <tags>api</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
+      </group>
+      <group targetFramework="net5.0">
+        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\icon.png" target="images\" />
+    <file src="bin\Release\net452\unicorn.taf.api.dll" target="lib\net452" />
+    <file src="bin\Release\net452\unicorn.taf.api.xml" target="lib\net452" />
+    <file src="bin\Release\netstandard2.0\unicorn.taf.api.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\unicorn.taf.api.xml" target="lib\netstandard2.0" />
+    <file src="bin\Release\netcoreapp3.0\unicorn.taf.api.dll" target="lib\netcoreapp3.0" />
+    <file src="bin\Release\netcoreapp3.0\unicorn.taf.api.xml" target="lib\netcoreapp3.0" />
+    <file src="bin\Release\net5.0\unicorn.taf.api.dll" target="lib\net5.0" />
+    <file src="bin\Release\net5.0\unicorn.taf.api.xml" target="lib\net5.0" />
+  </files>
+</package>

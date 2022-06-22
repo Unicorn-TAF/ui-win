@@ -2,15 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Company>Vitaliy Dobriyan</Company>
-    <Authors>Vitaliy Dobriyan</Authors>
-    <Description></Description>
-    <Copyright>Copyright © 2022 Vitaliy Dobriyan</Copyright>
-    <Version>2.3.0</Version>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://bitbucket.org/dobriyanchik/unicorntaf</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
