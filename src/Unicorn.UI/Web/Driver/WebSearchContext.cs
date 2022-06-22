@@ -18,7 +18,7 @@ namespace Unicorn.UI.Web.Driver
         protected virtual OpenQA.Selenium.ISearchContext SearchContext { get; set; }
 
         /// <summary>
-        /// Gets or sets base <see cref="Type"/> for all desktop controls (by default is <see cref="WebControl"/>)
+        /// Gets or sets base <see cref="Type"/> for all web controls (by default is <see cref="WebControl"/>)
         /// </summary>
         protected override Type ControlsBaseType => typeof(WebControl);
 

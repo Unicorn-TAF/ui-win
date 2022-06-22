@@ -20,7 +20,7 @@ namespace Demo.Tests.Web
     [Suite("Celestia website home page")]
     [Tag("Web"), Tag("Celestia"), Tag("Celestia.Home")]
     [Metadata(key: "Description", value: "Tests for Celestia website home page")]
-    [Metadata(key: "Site link", value: CelestiaSite.SiteUrl)]
+    [Metadata(key: "Site link", value: "https://celestia.space")]
     public class SuiteCelestiaMainPage : BaseTestSuite
     {
         private readonly BrowserType _browser;
@@ -77,7 +77,7 @@ namespace Demo.Tests.Web
         [BeforeSuite]
         public void ClassInit()
         {
-            celestia = Do.UI.Celestia.Open(_browser);
+            celestia = Do.UI.Celestia.Open(_browser, Config.Instance.CelestiaUrl);
             Do.Assertion.AssertThat(Home.Opened, Is.EqualTo(true));
         }
 
@@ -107,7 +107,7 @@ namespace Demo.Tests.Web
                 .StartAssertionsChain()
                 .VerifyThat(item, UI.Control.Visible())
                 .VerifyThat(item, UI.Control.Enabled())
-                .VerifyThat(item, UI.Control.HasAttributeIsEqualTo("href", CelestiaSite.SiteUrl + relativeHref))
+                .VerifyThat(item, UI.Control.HasAttributeIsEqualTo("href", Config.Instance.CelestiaUrl + relativeHref))
                 .AssertChain();
         }
 
