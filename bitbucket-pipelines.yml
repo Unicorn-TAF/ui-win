@@ -1,4 +1,4 @@
-image: mcr.microsoft.com/dotnet/sdk:5.0-focal
+image: mcr.microsoft.com/dotnet/sdk:5.0
 
 pipelines:
   pull-requests:
@@ -10,8 +10,6 @@ pipelines:
           script:
             - if [ "${BITBUCKET_PR_DESTINATION_BRANCH}" != "master" ]; then printf 'not a target branch we want to check'; exit; fi
             - cd src
-            - apt update
-            - apt install -y mono-complete
             - dotnet restore ./Unicorn.Taf.Api/Unicorn.Taf.Api.csproj
             - dotnet restore ./Unicorn.Taf.Core/Unicorn.Taf.Core.csproj
             - dotnet restore ./Unicorn.Backend/Unicorn.Backend.csproj
@@ -21,6 +19,6 @@ pipelines:
             - dotnet restore ./Unicorn.UI/Win/Unicorn.UI.Win.csproj
             - dotnet restore ./Unicorn.UnitTests/Unicorn.UnitTests.csproj
             - dotnet build --no-restore --configuration CI
-            - dotnet test --no-build --configuration CI -f net5.0 --test-adapter-path:. --logger:trx
+            - dotnet test --no-build --configuration CI --framework net5.0 --test-adapter-path:. --logger:trx
           artifacts:
             - src/Unicorn.UnitTests/TestResults/*.trx
