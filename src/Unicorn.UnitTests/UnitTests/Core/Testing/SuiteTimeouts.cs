@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Unicorn.Taf.Core;
 using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Testing;
+using Unicorn.UnitTests.Suites;
 using Unicorn.UnitTests.Util;
 
 namespace Unicorn.UnitTests.Core.Testing
@@ -16,7 +17,7 @@ namespace Unicorn.UnitTests.Core.Testing
 
         [OneTimeSetUp]
         public static void Setup() =>
-            Config.SetSuiteTags("suite-timeouts");
+            Config.SetSuiteTags(Tag.SuiteTimeouts);
 
         [OneTimeTearDown]
         public static void ResetConfig() =>
@@ -26,7 +27,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check suite timeout during before suite")]
         public void TestSuiteTimeoutDuringBeforeSuite()
         {
-            Config.SuiteTimeout = TimeSpan.FromSeconds(1);
+            Config.SuiteTimeout = TimeSpan.FromMilliseconds(USuiteForTimeouts4.Timeout * 0.5);
             var outcome = RunTestSuite();
 
             Assert.That(outcome.Result, Is.EqualTo(Status.Skipped), 
@@ -42,7 +43,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check suite timeout during before test")]
         public void TestSuiteTimeoutDuringBeforeTest()
         {
-            Config.SuiteTimeout = TimeSpan.FromSeconds(2);
+            Config.SuiteTimeout = TimeSpan.FromMilliseconds(USuiteForTimeouts4.Timeout * 1.5);
             var outcome = RunTestSuite();
 
             Assert.That(outcome.Result, Is.EqualTo(Status.Failed), 
@@ -56,7 +57,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check suite timeout during before test")]
         public void TestSuiteTimeoutDuringTest()
         {
-            Config.SuiteTimeout = TimeSpan.FromSeconds(4);
+            Config.SuiteTimeout = TimeSpan.FromMilliseconds(USuiteForTimeouts4.Timeout * 2.5);
             var outcome = RunTestSuite();
 
             Assert.That(outcome.Result, Is.EqualTo(Status.Failed), 
@@ -76,7 +77,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check suite timeout is not reached")]
         public void TestSuiteTimeoutIsNotReached()
         {
-            Config.SuiteTimeout = TimeSpan.FromSeconds(15);
+            Config.SuiteTimeout = TimeSpan.FromMilliseconds(USuiteForTimeouts4.Timeout * 10);
             var outcome = RunTestSuite();
 
             Assert.That(outcome.Result, Is.EqualTo(Status.Passed),

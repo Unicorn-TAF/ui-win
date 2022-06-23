@@ -18,7 +18,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check that parameterized test suite without data does not run tests")]
         public void TestParameterizedSuiteWithNoDataDoesNotRunTests()
         {
-            Config.SetSuiteTags("parameterizedBroken");
+            Config.SetSuiteTags(Tag.ParameterizedBroken);
             var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(runner.Outcome.SuitesOutcomes.Count, Is.EqualTo(0));

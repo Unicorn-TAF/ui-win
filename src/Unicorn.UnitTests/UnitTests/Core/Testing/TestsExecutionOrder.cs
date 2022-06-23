@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check Declaration order of tests execution")]
         public void TestDeclarationOrderOfTestsExecution()
         {
-            Config.SetSuiteTags("tests-order");
+            Config.SetSuiteTags(Tag.TestsOrder);
 
             Config.TestsExecutionOrder = TestsOrder.Declaration;
             var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
@@ -39,7 +39,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check Alphabetical order of tests execution")]
         public void TestAlphabeticalOrderOfTestsExecution()
         {
-            Config.SetSuiteTags("tests-order");
+            Config.SetSuiteTags(Tag.TestsOrder);
 
             Config.TestsExecutionOrder = TestsOrder.Alphabetical;
             var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
@@ -56,7 +56,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check Alphabetical order with presence of [Order] attibute")]
         public void TestAlphabeticalOrderWithPresenceOfOrderAttribute()
         {
-            Config.SetSuiteTags("tests-order-attribute");
+            Config.SetSuiteTags(Tag.TestsOrderAttribute);
 
             Config.TestsExecutionOrder = TestsOrder.Alphabetical;
             var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
@@ -76,7 +76,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check Random order of tests execution")]
         public void TestRandomOrderOfTestsExecution()
         {
-            Config.SetSuiteTags("tests-order");
+            Config.SetSuiteTags(Tag.TestsOrder);
 
             Config.TestsExecutionOrder = TestsOrder.Random;
 
@@ -130,7 +130,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check Declaration order of tests execution")]
         public void TestRandomOrderOfTestsExecutionWithCycleDependency()
         {
-            Config.SetSuiteTags("tests-cycle-dependency");
+            Config.SetSuiteTags(Tag.TestsCycleDependency);
             Config.TestsExecutionOrder = TestsOrder.Random;
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
@@ -140,7 +140,9 @@ namespace Unicorn.UnitTests.Core.Testing
                 Assert.Fail("Expected exception with cycle reference");
             }
             catch (Exception ex)
-            when (ex is StackOverflowException || (ex is TargetInvocationException tie && tie.InnerException is StackOverflowException))
+            when (ex is StackOverflowException || 
+            ex is AggregateException ||
+            (ex is TargetInvocationException tie && tie.InnerException is StackOverflowException))
             {
                 // positive case
             }

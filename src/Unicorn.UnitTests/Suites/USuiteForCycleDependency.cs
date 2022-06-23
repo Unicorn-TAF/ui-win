@@ -4,7 +4,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite for tests with cycle dependency")]
-    [Tag("tests-cycle-dependency")]
+    [Tag(Tag.TestsCycleDependency)]
     public class USuiteForCycleDependency : TestSuite
     {
         [Test]

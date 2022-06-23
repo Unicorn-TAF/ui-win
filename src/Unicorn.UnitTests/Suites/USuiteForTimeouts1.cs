@@ -6,7 +6,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite for timeouts 1")]
-    [Tag("timeouts")]
+    [Tag(Tag.Timeouts)]
     public class USuiteForTimeouts1 : TestSuite
     {
         [BeforeSuite]
@@ -25,7 +25,7 @@ namespace Unicorn.UnitTests.Suites
         public void Test2()
         {
             Logger.Instance.Log(LogLevel.Info, "Test2 started");
-            Thread.Sleep(2500);
+            Thread.Sleep(1000);
             Logger.Instance.Log(LogLevel.Info, "Test2 finished");
         }
 
@@ -52,6 +52,6 @@ namespace Unicorn.UnitTests.Suites
 
         [AfterSuite]
         public void AfterSuite() =>
-            Thread.Sleep(500);
+            Thread.Sleep(250);
     }
 }

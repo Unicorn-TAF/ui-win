@@ -5,20 +5,22 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite for timeouts 4")]
-    [Tag("suite-timeouts")]
+    [Tag(Tag.SuiteTimeouts)]
     public class USuiteForTimeouts4 : TestSuite
     {
+        internal const int Timeout = 400;
+
         [BeforeSuite]
-        public void BeforeSuite() => Thread.Sleep(1500);
+        public void BeforeSuite() => Thread.Sleep(Timeout);
 
         [BeforeTest]
-        public void BeforeTest() => Thread.Sleep(1500);
+        public void BeforeTest() => Thread.Sleep(Timeout);
 
         [Test]
-        public void Test1() => Thread.Sleep(1500);
+        public void Test1() => Thread.Sleep(Timeout);
 
         [Test]
-        public void Test2() => Thread.Sleep(1500);
+        public void Test2() => Thread.Sleep(Timeout);
 
         [Test, Disabled("")]
         public void TestToSkip()
@@ -27,6 +29,6 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [AfterTest]
-        public void AfterTest() => Thread.Sleep(1500);
+        public void AfterTest() => Thread.Sleep(Timeout);
     }
 }
