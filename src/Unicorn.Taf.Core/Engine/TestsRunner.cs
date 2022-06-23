@@ -93,7 +93,7 @@ namespace Unicorn.Taf.Core.Engine
         {
             Logger.Instance.Log(LogLevel.Info, "Scanning for runnable suites...");
 
-            var runnableSuites = TestsObserver.ObserveTestSuites(_testAssembly)
+            IEnumerable<Type> runnableSuites = TestsObserver.ObserveTestSuites(_testAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
 
             if (!runnableSuites.Any())
@@ -120,12 +120,7 @@ namespace Unicorn.Taf.Core.Engine
 
             if (Outcome.RunInitialized)
             {
-                ParallelOptions parallelOptions = new ParallelOptions 
-                { 
-                    MaxDegreeOfParallelism = Config.Threads 
-                };
-
-                Parallel.ForEach(runnableSuites, parallelOptions, suiteType => RunTestSuite(suiteType));
+                ExecuteSuitesList(runnableSuites);
 
                 // Execute run finalize action if exists in assembly.
                 GetRunInitCleanupMethod(_testAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
@@ -146,7 +141,9 @@ namespace Unicorn.Taf.Core.Engine
             {
                 foreach (var parametersSet in AdapterUtilities.GetSuiteData(type))
                 {
-                    var parameterizedSuite = Activator.CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
+                    TestSuite parameterizedSuite = Activator
+                        .CreateInstance(type, parametersSet.Parameters.ToArray()) as TestSuite;
+
                     parameterizedSuite.Metadata.Add("Data Set", parametersSet.Name);
                     parameterizedSuite.Outcome.DataSetName = parametersSet.Name;
                     ExecuteSuiteIteration(parameterizedSuite);
@@ -154,7 +151,7 @@ namespace Unicorn.Taf.Core.Engine
             }
             else
             {
-                var suite = Activator.CreateInstance(type) as TestSuite;
+                TestSuite suite = Activator.CreateInstance(type) as TestSuite;
                 ExecuteSuiteIteration(suite);
             }
         }
@@ -177,7 +174,7 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns><see cref="MethodInfo"/> instance</returns>
         protected static MethodInfo GetRunInitCleanupMethod(Assembly assembly, Type attributeType)
         {
-            var suitesWithRunInit = assembly.GetTypes()
+            IEnumerable<Type> suitesWithRunInit = assembly.GetTypes()
                 .Where(t => t.IsDefined(typeof(TestAssemblyAttribute), true))
                 .Where(s => GetStaticMethodsWithAttribute(s, attributeType).Any());
 
@@ -189,5 +186,25 @@ namespace Unicorn.Taf.Core.Engine
         private static IEnumerable<MethodInfo> GetStaticMethodsWithAttribute(Type containerType, Type attributeType) =>
             containerType.GetRuntimeMethods()
                 .Where(m => m.IsDefined(attributeType, true));
+
+        private void ExecuteSuitesList(IEnumerable<Type> suitesTypes)
+        {
+            if (Config.ParallelBy == Parallelization.Suite)
+            {
+                ParallelOptions parallelOptions = new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Config.Threads
+                };
+
+                Parallel.ForEach(suitesTypes, parallelOptions, suiteType => RunTestSuite(suiteType));
+            }
+            else
+            {
+                foreach (var suiteType in suitesTypes)
+                {
+                    RunTestSuite(suiteType);
+                }
+            }
+        }
     }
 }

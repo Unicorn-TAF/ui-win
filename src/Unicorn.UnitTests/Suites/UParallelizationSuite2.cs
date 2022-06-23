@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -11,7 +12,8 @@ namespace Unicorn.UnitTests.Suites
         [Test]
         public void ParallelTest21()
         {
-            while (!ParallelSuitesHelper.Test11);
+            Stopwatch sw = Stopwatch.StartNew();
+            while (!ParallelSuitesHelper.Test11 && sw.ElapsedMilliseconds < 1000) ;
             Thread.Sleep(25);
             ParallelSuitesHelper.Test21 = true;
         }
@@ -19,7 +21,8 @@ namespace Unicorn.UnitTests.Suites
         [Test]
         public void ParallelTest22()
         {
-            while (!ParallelSuitesHelper.Test12);
+            Stopwatch sw = Stopwatch.StartNew();
+            while (!ParallelSuitesHelper.Test12 && sw.ElapsedMilliseconds < 1000) ;
             Thread.Sleep(25);
             ParallelSuitesHelper.Test22 = true;
         }
@@ -27,7 +30,8 @@ namespace Unicorn.UnitTests.Suites
         [Test]
         public void ParallelTest23()
         {
-            while (!ParallelSuitesHelper.Test22);
+            Stopwatch sw = Stopwatch.StartNew();
+            while (!ParallelSuitesHelper.Test22 && sw.ElapsedMilliseconds < 1000) ;
             Thread.Sleep(25);
 
             ParallelSuitesHelper.Test23 = true;
