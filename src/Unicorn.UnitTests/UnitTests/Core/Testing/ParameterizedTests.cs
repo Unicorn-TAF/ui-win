@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [OneTimeSetUp]
         public static void Setup()
         {
-            Config.SetSuiteTags("parameterizedTests");
+            Config.SetSuiteTags(Tag.ParameterizedTests);
             Config.TestsExecutionOrder = TestsOrder.Declaration;
 
             runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);

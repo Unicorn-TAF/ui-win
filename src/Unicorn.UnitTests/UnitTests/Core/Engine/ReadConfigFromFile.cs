@@ -14,7 +14,7 @@ namespace Unicorn.UnitTests.Core.Engine
     public class ReadConfigFromFile : NUnitTestRunner
     {
         private const string ConfigName = "config.conf";
-        private const string ConfigContent = @"{""parallel"": ""assembly"",""threads"": 3,""testTimeout"": " +
+        private const string ConfigContent = @"{""parallel"": ""none"",""threads"": 3,""testTimeout"": " +
             @"25,""suiteTimeout"": 55,""testsDependency"":""donotrun"", ""testsOrder"": ""Declaration""," +
             @"""tags"": [ ""feature1"", ""feature1"" ],""categories"": [ ""category"" ],""tests"": [ ]," +
             @"""userDefined"": {""customSetting1"": ""customValue1"", ""customSetting3"": ""customValue3""} }";
@@ -76,7 +76,7 @@ namespace Unicorn.UnitTests.Core.Engine
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config parallel")]
         public void TestConfigParallel() =>
-            Assert.That(Config.ParallelBy, Is.EqualTo(Parallelization.Assembly));
+            Assert.That(Config.ParallelBy, Is.EqualTo(Parallelization.None));
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Test config dependent tests")]

@@ -5,7 +5,7 @@ using Unicorn.Taf.Core.Verification.Matchers;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Tests for reporting")]
-    [Tag("Steps")]
+    [Tag(Tag.Steps)]
     public class USuiteForSteps : UBaseTestSuite
     {
         [Test]

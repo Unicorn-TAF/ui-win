@@ -6,7 +6,7 @@ namespace Unicorn.UnitTests.Suites
 {
     [Disabled("By design")]
     [Suite("Suite disabled")]
-    [Tag("disabled")]
+    [Tag(Tag.Disabled)]
     public class USuiteDisabled : UBaseTestSuite
     {
         public static string Output { get; set; }

@@ -15,7 +15,7 @@ namespace Unicorn.UnitTests.Core.Testing
         public static void SetConfig()
         {
             Config.TestsExecutionOrder = TestsOrder.Declaration;
-            Config.SetSuiteTags("dependencies");
+            Config.SetSuiteTags(Tag.Dependencies);
         }
 
         [OneTimeTearDown]

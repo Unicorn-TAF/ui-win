@@ -20,7 +20,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AndroidContainer"/> class 
-        /// which wraps specific <see cref="AppiumWebElement"/>
+        /// which wraps specific <see cref="AppiumWebElement"/>.
         /// </summary>
         /// <param name="instance"><see cref="AppiumWebElement"/> instance to wrap</param>
         public AndroidContainer(AppiumWebElement instance) : base(instance)
@@ -28,7 +28,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Clicks button with specified text.<para/>
+        /// Clicks button with specified text.
         /// </summary>
         /// <param name="name">button text</param>
         /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
@@ -38,7 +38,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Sets specified text into text input with specified placeholder.<para/>
+        /// Sets specified text into text input with specified placeholder.
         /// </summary>
         /// <param name="name">text input placeholder text</param>
         /// <param name="text">text to input</param>
@@ -49,7 +49,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Selects specified radio button by label text.<para/>
+        /// Selects specified radio button by label text.
         /// </summary>
         /// <param name="name">radio button label</param>
         /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
@@ -60,7 +60,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Sets specified state for checkbox with specified name.<para/>
+        /// Sets specified state for checkbox with specified name.
         /// </summary>
         /// <param name="name">checkbox name</param>
         /// <param name="state">state to set for checkbox</param>

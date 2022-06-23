@@ -4,7 +4,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite")]
-    [Tag("sample")]
+    [Tag(Tag.Sample)]
     [Metadata("key1", "value1")]
     [Metadata("key2", "value2")]
     public class USuite : TestSuite

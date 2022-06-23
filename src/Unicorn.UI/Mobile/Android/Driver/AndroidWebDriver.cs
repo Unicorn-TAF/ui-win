@@ -7,7 +7,7 @@ using Unicorn.UI.Web.Driver;
 namespace Unicorn.UI.Mobile.Android.Driver
 {
     /// <summary>
-    /// Represents driver for bworser on android mobile device and allows to perform search of elements in web pages.
+    /// Represents driver for browser on android mobile device and allows to perform search of elements in web pages.
     /// </summary>
     public class AndroidWebDriver : WebDriver
     {

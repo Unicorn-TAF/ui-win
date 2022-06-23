@@ -10,7 +10,8 @@ using Unicorn.UI.Mobile.Android.Driver;
 namespace Unicorn.UI.Mobile.Android.Controls
 {
     /// <summary>
-    /// Represents basic android control. Contains number of main properties and action under the control.
+    /// Represents basic android control. Contains number of main properties and actions under the control.
+    /// The control wraps <see cref="AppiumWebElement"/> as underlying instance.
     /// </summary>
     public class AndroidControl : AndroidSearchContext, IControl
     {
@@ -22,8 +23,8 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AndroidControl"/> class with wraps 
-        /// specific <see cref="AppiumWebElement"/>
+        /// Initializes a new instance of the <see cref="AndroidControl"/> class which wraps 
+        /// specific <see cref="AppiumWebElement"/>.
         /// </summary>
         /// <param name="instance"><see cref="AppiumWebElement"/> instance to wrap</param>
         public AndroidControl(AppiumWebElement instance)
@@ -73,7 +74,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         public bool Enabled => Instance.Enabled;
 
         /// <summary>
-        /// Gets a value indicating whether control is visible
+        /// Gets a value indicating whether control is visible.
         /// </summary>
         public bool Visible => Instance.Displayed;
 
@@ -83,7 +84,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         public Point Location => Instance.Location;
 
         /// <summary>
-        /// Gets control bounding rectangle as <see cref="Rectangle"/>
+        /// Gets control bounding rectangle as <see cref="Rectangle"/>.
         /// </summary>
         public Rectangle BoundingRectangle => new Rectangle(Location, Instance.Size);
 
@@ -107,7 +108,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         }
 
         /// <summary>
-        /// Gets control attribute value as <see cref="string"/>
+        /// Gets control attribute value as <see cref="string"/>.
         /// </summary>
         /// <param name="attribute">attribute name</param>
         /// <returns>control attribute value as string</returns>
