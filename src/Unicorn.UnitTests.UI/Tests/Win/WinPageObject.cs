@@ -2,14 +2,14 @@
 using System;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Win.Driver;
-using Unicorn.UnitTests.Gui.Win;
+using Unicorn.UnitTests.UI.Gui.Win;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
 
     [TestFixture(true)] // use IUIAutomation2
     [TestFixture(false)] // use IUIAutomation
-    public class WinPageObject
+    public class WinPageObject : WinTestsBase
     {
         private static CharmapApplication charmap;
 

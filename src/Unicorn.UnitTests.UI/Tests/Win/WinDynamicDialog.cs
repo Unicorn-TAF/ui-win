@@ -4,12 +4,12 @@ using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.PageObject;
-using Unicorn.UnitTests.Gui.Win;
+using Unicorn.UnitTests.UI.Gui.Win;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
     [TestFixture]
-    public class WinDynamicDialog
+    public class WinDynamicDialog : WinTestsBase
     {
         private CharmapApplication charmap;
 

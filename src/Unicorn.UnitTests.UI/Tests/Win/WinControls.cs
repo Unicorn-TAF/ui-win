@@ -5,10 +5,10 @@ using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
 using Unicorn.UI.Win.WindowsApi;
 
-namespace Unicorn.UnitTests.UI.Win
+namespace Unicorn.UnitTests.UI.Tests.Win
 {
     [TestFixture]
-    public class WinControls
+    public class WinControls : WinTestsBase
     {
         private static WinControl control;
 

@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using Unicorn.UI.Web;
 using Unicorn.UI.Web.Driver;
-using Unicorn.UnitTests.Gui.Web;
+using Unicorn.UnitTests.UI.Gui.Web;
 using Uv = Unicorn.Taf.Core.Verification;
 using Ui = Unicorn.UI.Core.Matchers.UI;
+using Unicorn.Taf.Core.Utility;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Tests
 {
     [TestFixture]
     public class UiMatchersWeb
@@ -14,7 +14,7 @@ namespace Unicorn.UnitTests.UI
 
         [OneTimeSetUp]
         public static void Setup() =>
-            webdriver = new DesktopWebDriver(BrowserType.Chrome, true);
+            webdriver = DriverManager.GetDriverInstance();
 
         [OneTimeTearDown]
         public static void TearDown()
@@ -35,8 +35,12 @@ namespace Unicorn.UnitTests.UI
         public JqueryDialogPage OpenDialogPage()
         {
             JqueryDialogPage page = new JqueryDialogPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
+
+            new Retrier().Execute(() =>
+            {
+                webdriver.Get(page.Url);
+                page.WaitForLoading();
+            });
 
             return page;
         }

@@ -4,7 +4,7 @@ using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls.Dynamic;
 using Unicorn.UI.Win.PageObject;
 
-namespace Unicorn.UnitTests.Gui.Win
+namespace Unicorn.UnitTests.UI.Gui.Win
 {
     public class CharmapApplication : Application
     {

@@ -1,14 +1,13 @@
 ﻿using NUnit.Framework;
-using Unicorn.UnitTests.Gui.Win;
-using Unicorn.UnitTests.Util;
+using Unicorn.UnitTests.UI.Gui.Win;
 using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Uv = Unicorn.Taf.Core.Verification;
 using Ui = Unicorn.UI.Core.Matchers.UI;
 
-namespace Unicorn.UnitTests.UI
+namespace Unicorn.UnitTests.UI.Tests
 {
     [TestFixture]
-    public class UiMatchersWin : NUnitTestRunner
+    public class UiMatchersWin : WinTestsBase
     {
         private static CharmapApplication charmap;
 
@@ -30,7 +29,7 @@ namespace Unicorn.UnitTests.UI
         [Test(Description = "Visible matcher (positive)")]
         public void TestVisibleMatcherPositive() =>
             Uv.Assert.That(charmap.Window, Ui.Control.Visible());
-        
+
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Visible matcher with negation (positive)")]
         public void TestVisibleMatcherWithNegationPositive() =>

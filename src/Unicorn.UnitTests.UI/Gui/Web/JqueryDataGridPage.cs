@@ -7,7 +7,7 @@ using Unicorn.UI.Web.Controls.Dynamic;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
 
-namespace Unicorn.UnitTests.Gui.Web
+namespace Unicorn.UnitTests.UI.Gui.Web
 {
     [PageInfo("http://labs.creative-area.net/jquery.datagrid/demo/")]
     public class JqueryDataGridPage : WebPage
