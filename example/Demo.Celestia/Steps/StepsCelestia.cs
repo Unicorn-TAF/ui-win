@@ -21,9 +21,9 @@ namespace Demo.Celestia.Steps
         private HomePage Home => celestia.GetPage<HomePage>();
 
         [Step("Open Celestia Web site in {0} browser")]
-        public CelestiaSite Open(BrowserType browser)
+        public CelestiaSite Open(BrowserType browser, string siteUrl)
         {
-            celestia = new CelestiaSite(browser);
+            celestia = new CelestiaSite(browser, siteUrl);
             celestia.Open();
             Home.WaitForLoading(Timeouts.PageLoadTimeout);
 

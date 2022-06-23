@@ -5,23 +5,21 @@ using Unicorn.UI.Web.PageObject;
 namespace Demo.Celestia
 {
     /// <summary>
-    /// Describes https://celestia.space website (should inherit <see cref="WebSite"/>).
+    /// Describes Celestia app website (should inherit <see cref="WebSite"/>).
     /// </summary>
     public class CelestiaSite : WebSite
     {
-        public const string SiteUrl = "https://celestia.space";
-
         /// <summary>
         /// Website constructor. Calls base constructor with address to website.
         /// </summary>
-        public CelestiaSite(WebDriver driver) : base(driver, SiteUrl)
+        public CelestiaSite(WebDriver driver, string siteUrl) : base(driver, siteUrl)
         {
         }
 
         /// <summary>
         /// Website constructor. Calls base constructor with address to website.
         /// </summary>
-        public CelestiaSite(BrowserType browser) : base(browser, SiteUrl)
+        public CelestiaSite(BrowserType browser, string siteUrl) : base(browser, siteUrl)
         {
         }
     }

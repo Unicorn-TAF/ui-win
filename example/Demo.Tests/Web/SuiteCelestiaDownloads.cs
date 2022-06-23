@@ -17,7 +17,7 @@ namespace Demo.Tests.Web
     [Suite("Celestia website downloads page")]
     [Tag("Web"), Tag("Celestia"), Tag("Celestia.Downloads")]
     [Metadata(key: "Description", value: "Tests for Celestia website downloads page")]
-    [Metadata(key: "Site link", value: CelestiaSite.SiteUrl)]
+    [Metadata(key: "Site link", value: "https://celestia.space")]
     public class SuiteCelestiaDownloads : BaseTestSuite
     {
         private CelestiaSite celestia;
@@ -28,7 +28,7 @@ namespace Demo.Tests.Web
         [BeforeTest]
         public void ClassInit()
         {
-            celestia = Do.UI.Celestia.Open(BrowserType.Chrome);
+            celestia = Do.UI.Celestia.Open(BrowserType.Chrome, Config.Instance.CelestiaUrl);
             Do.UI.Celestia.SelectMenu(SiteMenuItems.Download);
         }
 
