@@ -131,15 +131,19 @@ namespace Unicorn.UnitTests.Core.Testing
         public void TestRandomOrderOfTestsExecutionWithCycleDependency()
         {
             Config.SetSuiteTags("tests-cycle-dependency");
-
             Config.TestsExecutionOrder = TestsOrder.Random;
+            TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
-            var runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
-
-            Assert.Throws<StackOverflowException>(delegate
+            try
             {
                 runner.RunTests();
-            });
+                Assert.Fail("Expected exception with cycle reference");
+            }
+            catch (Exception ex)
+            when (ex is StackOverflowException || (ex is TargetInvocationException tie && tie.InnerException is StackOverflowException))
+            {
+                // positive case
+            }
         }
     }
 }
