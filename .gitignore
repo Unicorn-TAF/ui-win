@@ -24,6 +24,9 @@ bld/
 # Visual Studio cache/options directory
 .vs/
 
+# VSCode dir
+.vscode/
+
 # DNX
 project.lock.json
 artifacts/

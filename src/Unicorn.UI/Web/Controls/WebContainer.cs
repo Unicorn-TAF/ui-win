@@ -7,8 +7,8 @@ using Unicorn.UI.Web.Controls.Typified;
 namespace Unicorn.UI.Web.Controls
 {
     /// <summary>
-    /// Represents basic container for other web controls.
-    /// Initialized container also initializes all controls and containers within itself.
+    /// Represents basic container for other web controls with ready for use 
+    /// standard methods of interaction with base controls.
     /// </summary>
     public class WebContainer : WebControl, IContainer
     {
@@ -20,7 +20,8 @@ namespace Unicorn.UI.Web.Controls
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebContainer"/> class with wraps specific <see cref="IWebElement"/>
+        /// Initializes a new instance of the <see cref="WebContainer"/> class which 
+        /// wraps specific <see cref="IWebElement"/>
         /// </summary>
         /// <param name="instance"><see cref="IWebElement"/> instance to wrap</param>
         public WebContainer(IWebElement instance) : base(instance)

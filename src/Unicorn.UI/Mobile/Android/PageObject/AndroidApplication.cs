@@ -1,45 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using OpenQA.Selenium.Appium;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Unicorn.UI.Mobile.Android.PageObject
 {
+    /// <summary>
+    /// Describes basic android application with driver attached to it.
+    /// </summary>
     public abstract class AndroidApplication
     {
+        private readonly AppiumOptions _options;
+        private readonly string _appActivity;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndroidApplication"/> class 
+        /// with specified application and appium parameters.
+        /// </summary>
+        /// <param name="appPackage">appPackage value</param>
+        /// <param name="appActivity">appActivity value</param>
+        /// <param name="platformVersion">android version</param>
+        /// <param name="deviceName">name of device</param>
+        /// <param name="hubUrl">url to appium hub</param>
         protected AndroidApplication(string appPackage, string appActivity, string platformVersion, string deviceName, string hubUrl)
         {
-            DeviceName = deviceName;
-            PlatformVersion = platformVersion;
-            AppPackage = appPackage;
-            AppActivity = appActivity;
             HubUrl = hubUrl;
+            _appActivity = $"{appPackage}.{appActivity}";
 
-            var capabilities = new Dictionary<string, string>();
-            capabilities.Add("deviceName", DeviceName);
-            capabilities.Add("platformVersion", PlatformVersion);
-            capabilities.Add("appPackage", AppPackage);
-            capabilities.Add("appActivity", $"{AppPackage}.{AppActivity}");
-            capabilities.Add("platformName", PlatformName);
+            _options = new AppiumOptions();
 
-            AndroidAppDriver.Init(hubUrl, capabilities);
+            _options.AddAdditionalCapability("deviceName", deviceName);
+            _options.AddAdditionalCapability("platformVersion", platformVersion);
+            _options.AddAdditionalCapability("appPackage", appPackage);
+            _options.AddAdditionalCapability("appActivity", _appActivity);
+            _options.AddAdditionalCapability("platformName", "Android");
         }
 
-        public string AppPackage { get; protected set; }
+        /// <summary>
+        /// Gets <see cref="AndroidAppDriver"/> instance used by the application.
+        /// </summary>
+        public AndroidAppDriver Driver { get; private set; }
 
-        public string AppActivity { get; protected set; }
+        /// <summary>
+        /// Gets appium hub url.
+        /// </summary>
+        public string HubUrl { get; }
 
-        public string PlatformName { get; protected set; } = "Android";
-
-        public string PlatformVersion { get; protected set; }
-
-        public string DeviceName { get; protected set; }
-
-        public string HubUrl { get; protected set; }
-
-        public void Open()
+        /// <summary>
+        /// Starts the application and initializes associated driver.
+        /// </summary>
+        public virtual void Open()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {AppActivity} application");
-            AndroidAppDriver.Instance.ToString(); // need to call for initialization
+            Logger.Instance.Log(LogLevel.Debug, $"Open {_appActivity} application");
+            Driver = new AndroidAppDriver(HubUrl, _options);
         }
     }
 }
