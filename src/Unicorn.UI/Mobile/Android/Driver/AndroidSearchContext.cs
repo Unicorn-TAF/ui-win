@@ -14,12 +14,12 @@ namespace Unicorn.UI.Mobile.Android.Driver
     public class AndroidSearchContext : MobileSearchContext
     {
         /// <summary>
-        /// Gets or sets base <see cref="Type"/> for all andriod controls (by default is <see cref="AndroidControl"/>)
+        /// Gets or sets base <see cref="Type"/> for all andriod controls (by default is <see cref="AndroidControl"/>).
         /// </summary>
         protected override Type ControlsBaseType => typeof(AndroidControl);
 
         /// <summary>
-        /// Set current implicitly wait timeout value.
+        /// Sets current implicitly wait timeout value.
         /// </summary>
         /// <param name="timeout">new implicit timeout value</param>
         protected override void SetImplicitlyWait(TimeSpan timeout)

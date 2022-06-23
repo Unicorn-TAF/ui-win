@@ -53,7 +53,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         }
 
         /// <summary>
-        /// Close android driver instance and associated application.
+        /// Closes android driver instance and associated application.
         /// </summary>
         public void Close()
         {

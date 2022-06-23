@@ -19,7 +19,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         protected virtual AppiumWebElement SearchContext { get; set; }
 
         /// <summary>
-        /// Wait for typified control by specified locator during implicitly wait timeout.
+        /// Waits for typified control by specified locator during implicitly wait timeout.
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
         /// <param name="locator">locator to search by</param>
@@ -31,7 +31,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         }
 
         /// <summary>
-        /// Wait for typified controls list by specified locator during implicitly wait timeout.
+        /// Waits for typified controls list by specified locator during implicitly wait timeout.
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
         /// <param name="locator">locator to search by</param>
@@ -50,7 +50,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         }
 
         /// <summary>
-        /// Get first child from current context which has specified control type ignoring implicitly wait timeout.
+        /// Gets first child from current context which has specified control type ignoring implicitly wait timeout.
         /// </summary>
         /// <typeparam name="T">any <see cref="Type"/> inherited from <see cref="AppiumWebElement"/></typeparam>
         /// <returns>wrapped control instance</returns>
@@ -61,7 +61,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
         }
 
         /// <summary>
-        /// Get control instance from current context as <see cref="AppiumWebElement"/>.
+        /// Gets control instance from current context as <see cref="AppiumWebElement"/>.
         /// </summary>
         /// <param name="locator">locator to search by</param>
         /// <returns><see cref="AppiumWebElement"/> instance</returns>
@@ -69,7 +69,7 @@ namespace Unicorn.UI.Mobile.Base.Driver
             GetNativeControlFromContext(locator, SearchContext);
 
         /// <summary>
-        /// Get control instance from parent context as <see cref="AppiumWebElement"/>.
+        /// Gets control instance from parent context as <see cref="AppiumWebElement"/>.
         /// </summary>
         /// <param name="locator">locator to search by</param>
         /// <returns><see cref="AppiumWebElement"/> instance</returns>
