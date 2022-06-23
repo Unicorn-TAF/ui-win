@@ -4,7 +4,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite with dependencies")]
-    [Tag("dependencies")]
+    [Tag(Tag.Dependencies)]
     public class USuiteWithDependencies : TestSuite
     {
         public static string Output { get; set; }

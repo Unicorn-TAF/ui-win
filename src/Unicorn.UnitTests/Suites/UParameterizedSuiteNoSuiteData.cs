@@ -5,7 +5,7 @@ using Unicorn.UnitTests.BO;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Parameterized test suite with no data"), Parameterized]
-    [Tag("parameterizedBroken")]
+    [Tag(Tag.ParameterizedBroken)]
     public class UParameterizedSuiteNoSuiteData : TestSuite
     {
         public UParameterizedSuiteNoSuiteData(SampleObject so)

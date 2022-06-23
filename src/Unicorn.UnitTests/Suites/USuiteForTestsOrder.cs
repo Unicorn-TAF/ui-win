@@ -4,7 +4,7 @@ using Unicorn.Taf.Core.Testing.Attributes;
 namespace Unicorn.UnitTests.Suites
 {
     [Suite("Suite for tests order")]
-    [Tag("tests-order")]
+    [Tag(Tag.TestsOrder)]
     public class USuiteForTestsOrder : TestSuite
     {
         [Test]

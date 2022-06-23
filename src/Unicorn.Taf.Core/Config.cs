@@ -14,10 +14,14 @@ namespace Unicorn.Taf.Core
     public enum Parallelization
     {
         /// <summary>
-        /// Parallel by assembly
+        /// Disable parallel execution.
         /// </summary>
-        Assembly,
-        //Suite,
+        None,
+
+        /// <summary>
+        /// Parallel execution by suites.
+        /// </summary>
+        Suite,
         //Test
     }
 
@@ -89,7 +93,8 @@ namespace Unicorn.Taf.Core
         public static TimeSpan SuiteTimeout { get; set; }
 
         /// <summary>
-        /// Gets or sets method of parallelization of tests (default: Parallel by tests assembly).
+        /// Gets or sets method of parallelization of tests 
+        /// (default: <see cref="Parallelization.None"/>).
         /// </summary>
         public static Parallelization ParallelBy { get; set; }
 
@@ -99,12 +104,14 @@ namespace Unicorn.Taf.Core
         public static int Threads { get; set; }
 
         /// <summary>
-        /// Gets or sets behavior of dependent tests if main test is failed (default: run dependent tests).
+        /// Gets or sets behavior of dependent tests if main test is failed 
+        /// (default: <see cref="TestsDependency.Run"/>).
         /// </summary>
         public static TestsDependency DependentTests { get; set; }
 
         /// <summary>
-        /// Gets or sets order of tests execution in term of test suite (default: declaration order).
+        /// Gets or sets order of tests execution in term of test suite 
+        /// (default: <see cref="TestsOrder.Declaration"/>).
         /// </summary>
         public static TestsOrder TestsExecutionOrder { get; set; }
 
@@ -206,7 +213,9 @@ namespace Unicorn.Taf.Core
 
             if (conf.JsonParallelBy != null)
             {
-                ParallelBy = GetEnumValue<Parallelization>(conf.JsonParallelBy);
+                // Replace is for backward combpatibility.
+                string parallelString = conf.JsonParallelBy.ToLowerInvariant().Replace("assembly", "none");
+                ParallelBy = GetEnumValue<Parallelization>(parallelString);
             }
 
             if (conf.JsonThreads != 0)
@@ -250,7 +259,7 @@ namespace Unicorn.Taf.Core
             testFiltersForReporting = new string[0];
             TestTimeout = TimeSpan.FromMinutes(15);
             SuiteTimeout = TimeSpan.FromMinutes(40);
-            ParallelBy = Parallelization.Assembly;
+            ParallelBy = Parallelization.None;
             Threads = 1;
             DependentTests = TestsDependency.Run;
             TestsExecutionOrder = TestsOrder.Declaration;

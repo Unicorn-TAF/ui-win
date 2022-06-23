@@ -17,8 +17,8 @@ namespace Unicorn.UnitTests.Core.Testing
         [OneTimeSetUp]
         public static void Setup()
         {
-            Config.SetSuiteTags("timeouts");
-            Config.TestTimeout = TimeSpan.FromSeconds(1);
+            Config.SetSuiteTags(Tag.Timeouts);
+            Config.TestTimeout = TimeSpan.FromSeconds(0.5);
             runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
         }

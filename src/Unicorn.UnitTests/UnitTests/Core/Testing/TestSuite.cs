@@ -33,7 +33,9 @@ namespace Unicorn.UnitTests.Core.Testing
         [Test(Description = "Check that test suite determines correct count of tests inside")]
         public void TestSuitesCountOfTests()
         {
-            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite).GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+            Test[] actualTests = (Test[])typeof(Taf.Core.Testing.TestSuite)
+                .GetField("_tests", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(suite);
+
             int testsCount = actualTests.Length;
             Assert.That(testsCount, Is.EqualTo(3));
         }
@@ -72,8 +74,10 @@ namespace Unicorn.UnitTests.Core.Testing
         public void TestSuitesRunSuite()
         {
             USuite.Output = string.Empty;
-            string expectedOutput = "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test11>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
-            Config.SetSuiteTags("sample");
+            string expectedOutput = 
+                "BeforeSuite>BeforeTest>Test1>AfterTest>BeforeTest>Test11>AfterTest>BeforeTest>Test2>AfterTest>AfterSuite";
+
+            Config.SetSuiteTags(Tag.Sample);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(USuite.Output, Is.EqualTo(expectedOutput));
@@ -85,7 +89,7 @@ namespace Unicorn.UnitTests.Core.Testing
         {
             USuiteToBeSkipped.Output = string.Empty;
             Config.SetTestCategories("category");
-            Config.SetSuiteTags("skipping");
+            Config.SetSuiteTags(Tag.Skipping);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(USuiteToBeSkipped.Output, Is.EqualTo(string.Empty));
@@ -96,7 +100,7 @@ namespace Unicorn.UnitTests.Core.Testing
         public void TestSuitesDisabledSuite()
         {
             USuiteDisabled.Output = string.Empty;
-            Config.SetSuiteTags("disabled");
+            Config.SetSuiteTags(Tag.Disabled);
             TestsRunner runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
             runner.RunTests();
             Assert.That(USuiteDisabled.Output, Is.EqualTo(string.Empty));

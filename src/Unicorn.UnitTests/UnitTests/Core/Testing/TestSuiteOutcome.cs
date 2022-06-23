@@ -19,7 +19,7 @@ namespace Unicorn.UnitTests.Core.Testing
         [OneTimeSetUp]
         public static void SetUp()
         {
-            Config.SetSuiteTags("sample");
+            Config.SetSuiteTags(Tag.Sample);
             runner = new TestsRunner(Assembly.GetExecutingAssembly(), false);
 
             var timer = Stopwatch.StartNew();
