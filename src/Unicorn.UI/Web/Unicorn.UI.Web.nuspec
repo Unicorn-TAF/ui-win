@@ -5,7 +5,7 @@
     <version>3.1.0</version>
     <title>Unicorn.UI.Web</title>
     <authors>Vitaliy Dobriyan</authors>
-    <license type="expression">MIT</license>
+    <license type="expression">Apache-2.0</license>
     <copyright>Copyright © 2022 Vitaliy Dobriyan</copyright>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
@@ -19,7 +19,7 @@
     <releaseNotes>Support of netstandard, support of Taf.Core 3.0 and UI.Core 3.0, bugfix, added web screenshotter.</releaseNotes>
     <tags>automation ui controls page-object web webdriver browser</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
+      <group targetFramework="net452">
         <dependency id="Unicorn.UI.Core" version="3.0.0"/>
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>
@@ -29,7 +29,7 @@
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>
       </group>
-      <group targetFramework=".NETStandard2.0">
+      <group targetFramework="netstandard2.0">
         <dependency id="Unicorn.UI.Core" version="3.0.0"/>
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>

@@ -3,9 +3,9 @@
   <metadata>
     <id>Unicorn.Taf.Api</id>
     <version>1.0.0</version>
-    <title>Unicorn.Taf.Core</title>
+    <title>Unicorn.Taf.Api</title>
     <authors>Vitaliy Dobriyan</authors>
-    <license type="expression">MIT</license>
+    <license type="expression">Apache-2.0</license>
     <copyright>Copyright © 2022 Vitaliy Dobriyan</copyright>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
@@ -16,17 +16,6 @@
     </description>
     <releaseNotes>Api for extensions, test executors, data collectors and outcome. AppDomain isolation and custom assembly load context.</releaseNotes>
     <tags>api</tags>
-    <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
-        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
-      </group>
-      <group targetFramework="net5.0">
-        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
-      </group>
-      <group targetFramework=".NETStandard2.0">
-        <dependency id="Unicorn.Taf.Api" version="1.0.0"/>
-      </group>
-    </dependencies>
   </metadata>
   <files>
     <file src="..\..\icon.png" target="images\" />

@@ -3,9 +3,9 @@
   <metadata>
     <id>Unicorn.Backend</id>
     <version>2.0.0</version>
-    <title>Unicorn.Taf.Core</title>
+    <title>Unicorn.Backend</title>
     <authors>Vitaliy Dobriyan</authors>
-    <license type="expression">MIT</license>
+    <license type="expression">Apache-2.0</license>
     <copyright>Copyright © 2022 Vitaliy Dobriyan</copyright>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
@@ -18,7 +18,7 @@
     <releaseNotes>Support of netstandard, support of Taf.Core 3.0.</releaseNotes>
     <tags>automation matchers web-services rest</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
+      <group targetFramework="net452">
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
         <dependency id="Newtonsoft.Json" version="11.0.1"/>
       </group>
@@ -26,7 +26,7 @@
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
         <dependency id="Newtonsoft.Json" version="11.0.1"/>
       </group>
-      <group targetFramework=".NETStandard2.0">
+      <group targetFramework="netstandard2.0">
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
         <dependency id="Newtonsoft.Json" version="11.0.1"/>
       </group>

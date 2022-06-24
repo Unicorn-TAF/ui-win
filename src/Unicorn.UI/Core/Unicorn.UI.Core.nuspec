@@ -5,7 +5,7 @@
     <version>3.0.0</version>
     <title>Unicorn.UI.Core</title>
     <authors>Vitaliy Dobriyan</authors>
-    <license type="expression">MIT</license>
+    <license type="expression">Apache-2.0</license>
     <copyright>Copyright © 2022 Vitaliy Dobriyan</copyright>
     <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
     <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
@@ -19,13 +19,13 @@
     <releaseNotes>Support of netstandard, support of Taf.Core 3.0, more UI matchers, removed obsolete matchers entry points, IDataGridRow and IDataGridCell implement IControl.</releaseNotes>
     <tags>automation ui matchers</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
+      <group targetFramework="net452">
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
       </group>
       <group targetFramework="net5.0">
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
       </group>
-      <group targetFramework=".NETStandard2.0">
+      <group targetFramework="netstandard2.0">
         <dependency id="Unicorn.Taf.Core" version="3.0.0"/>
       </group>
     </dependencies>
