@@ -5,42 +5,46 @@
 [![Coverage](https://img.shields.io/static/v1?label=coverage&message=58%&color=yellow&style=plastic)](https://bitbucket.org/dobriyanchik/unicorntaf/src/master/)
 
 Unicorn test automation framework
-================================
+=================================
 
 Content
 -------
 
 The following files and directories are presented:
 
-      example/         code with TAF usage examples
-	  src/             framework core sources
-	  LICENSE.txt	   licence file
-	  README.md        this file
+      example/         			code with TAF usage examples
+	  src/             			framework core sources
+	  bitbucket-pipelines.yml	YAML of the CI pipeline
+	  icon.png					icon file
+	  LICENSE.txt	   			licence file
+	  README.md        			this file
 
 
 TAF Solution Structure
-=====================
+======================
 
 Unicorn.Taf.Api
 ---------------
-common API for core of unicorn automation framework.
+Common API for core of unicorn automation framework.
 
-* common APIs
+* Common APIs
 * AppDomain isolation
 * Unicorn AssemblyLoadContext
 
 Unicorn.Taf.Core
----------------
+----------------
 Core of unicorn automation framework.
 
 * Unit test framework implementation
+* Base tests runners
 * Logger abstractions
 * Base utilities
-* Test steps instrumentation
+* Asserts and base matchers
 
 Unicorn.Backend
---------------
-Implementation of clients for interaction with services based on `HttpClient`
+---------------
+Implementation of clients for interaction with services based on `HttpClient`.
+
 * Client for REST services
 * REST service matchers collection
 
@@ -48,14 +52,14 @@ Implementation of clients for interaction with services based on `HttpClient`
 > TBD: batabase client
 
 Unicorn.UI.Core
---------------
+---------------
 UI core of unicorn automation framework.
 
 * Driver, PageObject and search context abstractions
 * UI matchers
 
 Unicorn.UI.Win
--------------
+--------------
 Implementation of desktop GUI interaction based on UIA3 library.
 
 * GUI Driver implementation
@@ -65,19 +69,18 @@ Implementation of desktop GUI interaction based on UIA3 library.
 * User input clients (mouse, keyboard)
 
 Unicorn.UI.Web
--------------
+--------------
 Implementation of browser interaction based on Selenium.
 
 * Web Driver implementation
 * Typified controls implementations
 * PageObject implementation
-* abstract WebSite and pages pool
-
+* Abstract WebSite and pages pool
 
 Unicorn.UI.Mobile
-----------------
-Implementation of Mobile UI interaction which is based on Appium.
+-----------------
+Implementation of Mobile UI interaction which is based on Appium (for Android).
 
-* Web Driver implementation (iOS, Android)
-* Typified controls implementations (iOS, Android)
-* PageObject implementation (iOS, Android)
+* Web and App Driver implementation
+* Typified controls implementations
+* PageObject implementation
