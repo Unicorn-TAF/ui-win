@@ -1,7 +1,8 @@
-[![Version](https://img.shields.io/static/v1?label=version&message=Taf.Api 1.0.0 | Taf.Core 3.0.0 | Backend 2.0.0 | UI.Core 3.0.0 | UI.Web 3.0.0 | UI.Win 3.0.0&color=blue)](https://bitbucket.org/dobriyanchik/unicorntaf/src/unicorn-2.3.0/)  
-[![Coverage](https://img.shields.io/static/v1?label=coverage&message=58%&color=silver)](https://bitbucket.org/dobriyanchik/unicorntaf/src/master/)
-[![Licence](https://img.shields.io/static/v1?label=license&message=Apache-2.0&color=green)](https://www.apache.org/licenses/LICENSE-2.0)
-
+[![Version](https://img.shields.io/static/v1?label=version&message=Taf.Api 1.0.0 · Taf.Core 3.0.0 · Backend 2.0.0 · UI.Core 3.0.0 · UI.Web 3.0.0 · UI.Win 3.0.0&color=blue&style=plastic)](https://bitbucket.org/dobriyanchik/unicorntaf/src/unicorn-2.3.0/)  
+[![Licence](https://img.shields.io/static/v1?label=license&message=Apache-2.0&color=white&style=plastic)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Issues](https://img.shields.io/bitbucket/issues/dobriyanchik/unicorntaf?style=plastic)](https://bitbucket.org/dobriyanchik/unicorntaf/issues?status=new&status=open)
+[![Pipelines](https://img.shields.io/bitbucket/pipelines/dobriyanchik/unicorntaf/master?style=plastic)](https://bitbucket.org/dobriyanchik/unicorntaf/pipelines)
+[![Coverage](https://img.shields.io/static/v1?label=coverage&message=58%&color=yellow&style=plastic)](https://bitbucket.org/dobriyanchik/unicorntaf/src/master/)
 
 Unicorn test automation framework
 ================================
