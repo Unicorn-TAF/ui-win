@@ -13,7 +13,6 @@ namespace Unicorn.UnitTests.Core.Engine
     [TestFixture]
     public class ReadConfigFromFile : NUnitTestRunner
     {
-        private const string ConfigName = "config.conf";
         private const string ConfigContent = @"{""parallel"": ""none"",""threads"": 3,""testTimeout"": " +
             @"25,""suiteTimeout"": 55,""testsDependency"":""donotrun"", ""testsOrder"": ""Declaration""," +
             @"""tags"": [ ""feature1"", ""feature1"" ],""categories"": [ ""category"" ],""tests"": [ ]," +

@@ -71,8 +71,10 @@ namespace Unicorn.UnitTests.Backend
         [Test(Description = "Rest client download file")]
         public void TestRestClientDownloadFile()
         {
-            client.DownloadFile(FileEndpoint, string.Empty);
-            Assert.IsTrue(File.Exists(ExpectedFileName), "File wasn't found");
+            string filePath = Path.Combine(DllFolder, ExpectedFileName);
+
+            client.DownloadFile(FileEndpoint, DllFolder);
+            Assert.IsTrue(File.Exists(filePath), "File wasn't found");
         }
     }
 }

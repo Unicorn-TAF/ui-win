@@ -12,7 +12,6 @@ namespace Unicorn.UnitTests.Core.Engine
     public class DefaultConfig : NUnitTestRunner
     {
         private const string ConfigContent = @"{}";
-        private const string ConfigName = "config.conf";
 
         public DefaultConfig(bool fromFile)
         {

@@ -42,6 +42,14 @@ namespace Unicorn.Taf.Core.Verification.Matchers
             new HasItemsCountMatcher(expectedCount);
 
         /// <summary>
+        /// Matcher to check if collection is sorted in desired direction. 
+        /// </summary>
+        /// <param name="ascending">true for ascending order; false for descending</param>
+        /// <returns><see cref="IsSortedMatcher"/> instance</returns>
+        public static IsSortedMatcher IsSorted(bool ascending) =>
+            new IsSortedMatcher(ascending);
+
+        /// <summary>
         /// Matcher to check if collection has the same items as expected one ignoring order.
         /// </summary>
         /// <typeparam name="T">items type</typeparam>
