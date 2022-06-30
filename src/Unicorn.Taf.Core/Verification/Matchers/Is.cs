@@ -1,5 +1,7 @@
-﻿using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
+﻿using System;
+using Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers;
 using Unicorn.Taf.Core.Verification.Matchers.CoreMatchers;
+using Unicorn.Taf.Core.Verification.Matchers.MiscMatchers;
 
 namespace Unicorn.Taf.Core.Verification.Matchers
 {
@@ -23,6 +25,38 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         /// <returns><see cref="NullMatcher"/> instance</returns>
         public static NullMatcher Null() =>
             new NullMatcher();
+
+        /// <summary>
+        /// Matcher to check if <see cref="IComparable"/> is greater than other <see cref="IComparable"/>.
+        /// </summary>
+        /// <param name="compareTo">object to compare</param>
+        /// <returns><see cref="IsGreaterThanMatcher"/> matcher instance</returns>
+        public static IsGreaterThanMatcher IsGreaterThan(IComparable compareTo) =>
+            new IsGreaterThanMatcher(compareTo);
+
+        /// <summary>
+        /// Matcher to check if <see cref="IComparable"/> is greater than or equal to other <see cref="IComparable"/>.
+        /// </summary>
+        /// <param name="compareTo">object to compare</param>
+        /// <returns><see cref="IsGreaterThanOrEqualToMatcher"/> matcher instance</returns>
+        public static IsGreaterThanOrEqualToMatcher IsGreaterThanOrEqualTo(IComparable compareTo) =>
+            new IsGreaterThanOrEqualToMatcher(compareTo);
+
+        /// <summary>
+        /// Matcher to check if <see cref="IComparable"/> is less than other <see cref="IComparable"/>.
+        /// </summary>
+        /// <param name="compareTo">object to compare</param>
+        /// <returns><see cref="IsLessThanMatcher"/> matcher instance</returns>
+        public static IsLessThanMatcher IsLessThan(IComparable compareTo) =>
+            new IsLessThanMatcher(compareTo);
+
+        /// <summary>
+        /// Matcher to check if <see cref="IComparable"/> is less than or equal to other <see cref="IComparable"/>.
+        /// </summary>
+        /// <param name="compareTo">object to compare</param>
+        /// <returns><see cref="IsLessThanOrEqualToMatcher"/> matcher instance</returns>
+        public static IsLessThanOrEqualToMatcher IsLessThanOrEqualTo(IComparable compareTo) =>
+            new IsLessThanOrEqualToMatcher(compareTo);
 
         /// <summary>
         /// Matcher to negotiate action of another matcher.

@@ -8,6 +8,12 @@ namespace Unicorn.UnitTests.Core.Verification
     [TestFixture]
     public class Matchers
     {
+        private readonly string _compare1 = "compare1";
+        private readonly string _compare2 = "compare2";
+
+        private readonly int _intCompare1 = 1;
+        private readonly int _intCompare2 = 2;
+
         #region IsNull
 
         [Test, Author("Vitaliy Dobriyan")]
@@ -100,6 +106,152 @@ namespace Unicorn.UnitTests.Core.Verification
             Assert.Throws<Uv.AssertionException>(delegate 
             {
                 Uv.Assert.That(null, Um.Is.Not(Um.Is.EqualTo("23")));
+            });
+
+        #endregion
+
+        #region IsGreaterThan
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanPositive() =>
+            Uv.Assert.That(_compare2, Um.Is.IsGreaterThan(_compare1));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanWithNotPositive() =>
+            Uv.Assert.That(_compare1, Um.Is.Not(Um.Is.IsGreaterThan(_compare2)));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_compare1, Um.Is.IsGreaterThan(_compare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_compare1, Um.Is.IsGreaterThan(_compare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsGreaterThan(_compare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsGreaterThan(_compare1)));
+            });
+
+        #endregion
+
+        #region IsGreaterThanOrEqualTo
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToPositive() =>
+            Uv.Assert.That(_intCompare2, Um.Is.IsGreaterThanOrEqualTo(_intCompare1));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToPositive1() =>
+            Uv.Assert.That(_intCompare1, Um.Is.IsGreaterThanOrEqualTo(_intCompare1));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_intCompare1, Um.Is.IsGreaterThanOrEqualTo(_intCompare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsGreaterThanOrEqualTo(_intCompare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsGreaterThanOrEqualTo(_intCompare2)));
+            });
+
+        #endregion
+
+        #region IsLessThan
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanPositive() =>
+            Uv.Assert.That(_compare1, Um.Is.IsLessThan(_compare2));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanWithNotPositive() =>
+            Uv.Assert.That(_compare2, Um.Is.Not(Um.Is.IsLessThan(_compare1)));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_compare2, Um.Is.IsLessThan(_compare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_compare1, Um.Is.IsLessThan(_compare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsLessThan(_compare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsLessThan(_compare1)));
+            });
+
+        #endregion
+
+        #region IsGreaterThanOrEqualTo
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToPositive() =>
+            Uv.Assert.That(_intCompare1, Um.Is.IsLessThanOrEqualTo(_intCompare2));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToPositive1() =>
+            Uv.Assert.That(_intCompare2, Um.Is.IsLessThanOrEqualTo(_intCompare2));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(_intCompare2, Um.Is.IsLessThanOrEqualTo(_intCompare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsLessThanOrEqualTo(_intCompare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsLessThanOrEqualTo(_intCompare1)));
             });
 
         #endregion

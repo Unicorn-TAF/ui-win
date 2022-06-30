@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Unicorn.Taf.Core.Verification.Matchers;
+using Unicorn.UnitTests.BO;
 using Um = Unicorn.Taf.Core.Verification.Matchers;
 using Uv = Unicorn.Taf.Core.Verification;
 
@@ -10,6 +11,7 @@ namespace Unicorn.UnitTests.Core.Verification
     public class CollectionMatchers
     {
         #region Data
+
         private readonly string[] hasItemsA = new [] 
         {
             "qwerty", "qwerty12", "qwerty123"
@@ -63,6 +65,28 @@ namespace Unicorn.UnitTests.Core.Verification
                 3,
                 2
             };
+
+        private readonly List<float> listForSort1 = new List<float>
+            {
+                2f,
+                2f,
+                3f
+            };
+
+        private readonly List<float> listForSort2 = new List<float>
+            { 
+                3f,
+                3f,
+                2f
+            };
+
+        private readonly HashSet<SampleObject> setNonComparable = new HashSet<SampleObject>
+            {
+                new SampleObject("a", 1),
+                new SampleObject("b", 2)
+            };
+
+        private readonly double[] emptyCollection = new double[] { };
 
         #endregion
 
@@ -233,6 +257,69 @@ namespace Unicorn.UnitTests.Core.Verification
             Assert.Throws<Uv.AssertionException>(delegate 
             {
                 Uv.Assert.That(null, Um.Is.Not(Collection.HasItem("qwerty")));
+            });
+
+        #endregion
+
+        #region IsSorted
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedAscPositive1() =>
+            Uv.Assert.That(hasItemsA, Collection.IsSorted(true));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedAscPositive2() =>
+            Uv.Assert.That(listForSort1, Collection.IsSorted(true));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedAscEmptyPositive() =>
+            Uv.Assert.That(emptyCollection, Collection.IsSorted(true));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedAscNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsC, Collection.IsSorted(true));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedDescPositive1() =>
+            Uv.Assert.That(hasItemsC, Collection.IsSorted(false));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedDescPositive2() =>
+            Uv.Assert.That(listForSort2, Collection.IsSorted(false));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedDescNegative1() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(hasItemsA, Collection.IsSorted(false));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedDescEmptyPositive() =>
+            Uv.Assert.That(emptyCollection, Collection.IsSorted(false));
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedNonComparableNegative() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(setNonComparable, Collection.IsSorted(true));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.IsSorted(true));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.IsSorted(true)));
             });
 
         #endregion

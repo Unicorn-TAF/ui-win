@@ -13,8 +13,6 @@ namespace Unicorn.UnitTests.Core.Engine
     [TestFixture]
     public class ReadConfigFromFileMissedFields : NUnitTestRunner
     {
-        private const string ConfigName = "config.conf";
-
         private const string ConfigContent = @"{""testsDependency"":""donotrun""," +
             @"""tags"": [ ""feature1"", ""feature1"" ],""categories"": [ ""category"" ]}";
 
