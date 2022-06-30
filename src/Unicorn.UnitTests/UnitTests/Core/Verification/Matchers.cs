@@ -134,6 +134,20 @@ namespace Unicorn.UnitTests.Core.Verification
                 Uv.Assert.That(_compare1, Um.Is.IsGreaterThan(_compare1));
             });
 
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsGreaterThan(_compare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsGreaterThan(_compare1)));
+            });
+
         #endregion
 
         #region IsGreaterThanOrEqualTo
@@ -151,6 +165,20 @@ namespace Unicorn.UnitTests.Core.Verification
             Assert.Throws<Uv.AssertionException>(delegate
             {
                 Uv.Assert.That(_intCompare1, Um.Is.IsGreaterThanOrEqualTo(_intCompare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsGreaterThanOrEqualTo(_intCompare2));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsGreaterThanOrEqualToWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsGreaterThanOrEqualTo(_intCompare2)));
             });
 
         #endregion
@@ -179,6 +207,20 @@ namespace Unicorn.UnitTests.Core.Verification
                 Uv.Assert.That(_compare1, Um.Is.IsLessThan(_compare1));
             });
 
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsLessThan(_compare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsLessThan(_compare1)));
+            });
+
         #endregion
 
         #region IsGreaterThanOrEqualTo
@@ -196,6 +238,20 @@ namespace Unicorn.UnitTests.Core.Verification
             Assert.Throws<Uv.AssertionException>(delegate
             {
                 Uv.Assert.That(_intCompare2, Um.Is.IsLessThanOrEqualTo(_intCompare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.IsLessThanOrEqualTo(_intCompare1));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsLessThanOrEqualToWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Um.Is.IsLessThanOrEqualTo(_intCompare1)));
             });
 
         #endregion

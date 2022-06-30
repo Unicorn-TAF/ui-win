@@ -47,13 +47,10 @@ namespace Unicorn.Taf.Core.Verification.Matchers.CollectionMatchers
             {
                 if (enumerator.Current is IComparable c)
                 {
-                    if (previous != null)
+                    if (previous != null && !IsRightOrder(previous, c))
                     {
-                        if (!IsRightOrder(previous, c))
-                        {
-                            DescribeMismatch($"Sorting is not valid at index {index} ({previous} >> {c})");
-                            return false;
-                        }
+                        DescribeMismatch($"Sorting is not valid at index {index} ({previous} >> {c})");
+                        return false;
                     }
 
                     previous = c;

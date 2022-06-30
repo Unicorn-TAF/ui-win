@@ -16,9 +16,9 @@ namespace Unicorn.Taf.Core.Verification.Matchers
         }
 
         /// <summary>
-        /// Gets or sets output which contains results check.
+        /// Gets output which contains results check.
         /// </summary>
-        public StringBuilder Output { get; protected set; }
+        public StringBuilder Output { get; }
 
         /// <summary>
         /// Gets verification description.

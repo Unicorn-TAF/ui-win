@@ -308,6 +308,20 @@ namespace Unicorn.UnitTests.Core.Verification
                 Uv.Assert.That(setNonComparable, Collection.IsSorted(true));
             });
 
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedWithNull() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Collection.IsSorted(true));
+            });
+
+        [Test, Author("Vitaliy Dobriyan")]
+        public void TestMatcherIsSortedWithNullWithNot() =>
+            Assert.Throws<Uv.AssertionException>(delegate
+            {
+                Uv.Assert.That(null, Um.Is.Not(Collection.IsSorted(true)));
+            });
+
         #endregion
 
         #region "IsNullOrEmpty"

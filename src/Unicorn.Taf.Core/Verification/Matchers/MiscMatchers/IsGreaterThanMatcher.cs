@@ -30,6 +30,12 @@ namespace Unicorn.Taf.Core.Verification.Matchers.MiscMatchers
         /// <returns>true - if <see cref="IComparable"/> is greater than other; otherwise - false</returns>
         public override bool Matches(IComparable actual)
         {
+            if (actual == null)
+            {
+                DescribeMismatch("null");
+                return Reverse;
+            }
+
             DescribeMismatch(actual.ToString());
             return actual.CompareTo(_compareTo) > 0;
         }
