@@ -24,37 +24,41 @@ namespace Unicorn.UI.Core.PageObject
         public static void InitContainer<T>(T container)
         {
             InitContainerProperties(container);
+            InitContainerListProperties(container);
             InitContainerFields(container);
+            InitContainerListFields(container);
         }
 
         private static void InitContainerProperties<T>(T container)
         {
-            var properties = container.GetType()
+            IEnumerable<PropertyInfo> properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                 .Where(p => p.PropertyType.GetInterfaces().Contains(_iControlType) && p.CanWrite);
 
-            foreach (var property in properties)
+            foreach (PropertyInfo property in properties)
             {
-                var findAttribute = property.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                FindAttribute findAttribute = property.GetCustomAttribute<FindAttribute>(true);
 
                 if (findAttribute == null)
                 {
-                    findAttribute = property.PropertyType.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                    findAttribute = property.PropertyType.GetCustomAttribute<FindAttribute>(true);
                 }
 
                 if (findAttribute != null)
                 {
                     Type controlType = property.PropertyType;
                     var control = Activator.CreateInstance(controlType);
-                    
-                    var iControl = ((IControl)control);
+
+                    IControl iControl = ((IControl)control);
                     iControl.Locator = findAttribute.Locator;
                     iControl.Cached = false;
 
-                    var contextField = control.GetType().GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+                    PropertyInfo contextField = control.GetType()
+                        .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+
                     contextField.SetValue(control, container);
 
-                    var nameAttribute = property.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+                    NameAttribute nameAttribute = property.GetCustomAttribute<NameAttribute>(true);
 
                     if (nameAttribute != null)
                     {
@@ -75,19 +79,51 @@ namespace Unicorn.UI.Core.PageObject
             }
         }
 
-        private static void InitContainerFields<T>(T container)
+        private static void InitContainerListProperties<T>(T container)
         {
-            var fields = container.GetType()
-                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.FieldType.GetInterfaces().Contains(_iControlType));
+            IEnumerable<PropertyInfo> properties = container.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .Where(p => p.PropertyType.GetInterfaces()
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) && 
+                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl)))) 
+                    && p.CanWrite);
 
-            foreach (var field in fields)
+            foreach (PropertyInfo property in properties)
             {
-                var findAttribute = field.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                Type childrensType = property.PropertyType.GetInterfaces()
+                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
+                    .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
+
+                FindAttribute findAttribute = property.GetCustomAttribute<FindAttribute>(true);
 
                 if (findAttribute == null)
                 {
-                    findAttribute = field.FieldType.GetCustomAttribute(typeof(FindAttribute), true) as FindAttribute;
+                    findAttribute = property.PropertyType.GetCustomAttribute<FindAttribute>(true);
+                }
+
+                if (findAttribute != null)
+                {
+                    Type collectionType = typeof(ControlsList<>);
+                    Type constructedClass = collectionType.MakeGenericType(childrensType);
+                    var list = Activator.CreateInstance(constructedClass, new object[] { container, findAttribute.Locator });
+                    property.SetValue(container, list);
+                }
+            }
+        }
+
+        private static void InitContainerFields<T>(T container)
+        {
+            IEnumerable<FieldInfo> fields = container.GetType()
+                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .Where(p => p.FieldType.GetInterfaces().Contains(_iControlType));
+
+            foreach (FieldInfo field in fields)
+            {
+                FindAttribute findAttribute = field.GetCustomAttribute<FindAttribute>(true);
+
+                if (findAttribute == null)
+                {
+                    findAttribute = field.FieldType.GetCustomAttribute<FindAttribute>(true);
                 }
 
                 if (findAttribute != null)
@@ -95,14 +131,16 @@ namespace Unicorn.UI.Core.PageObject
                     Type controlType = field.FieldType;
                     var control = Activator.CreateInstance(controlType);
 
-                    var iControl = ((IControl)control);
+                    IControl iControl = ((IControl)control);
                     iControl.Locator = findAttribute.Locator;
                     iControl.Cached = false;
 
-                    var contextField = control.GetType().GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+                    PropertyInfo contextField = control.GetType()
+                        .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+
                     contextField.SetValue(control, container);
 
-                    var nameAttribute = field.GetCustomAttribute(typeof(NameAttribute), true) as NameAttribute;
+                    NameAttribute nameAttribute = field.GetCustomAttribute<NameAttribute>(true);
 
                     if (nameAttribute != null)
                     {
@@ -120,6 +158,37 @@ namespace Unicorn.UI.Core.PageObject
 
 
                     field.SetValue(container, control);
+                }
+            }
+        }
+
+        private static void InitContainerListFields<T>(T container)
+        {
+            IEnumerable<FieldInfo> fields = container.GetType()
+                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                .Where(p => p.FieldType.GetInterfaces()
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) && 
+                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl)))));
+
+            foreach (FieldInfo field in fields)
+            {
+                Type childrensType = field.FieldType.GetInterfaces()
+                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
+                    .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
+
+                FindAttribute findAttribute = field.GetCustomAttribute<FindAttribute>(true);
+
+                if (findAttribute == null)
+                {
+                    findAttribute = field.FieldType.GetCustomAttribute<FindAttribute>(true);
+                }
+
+                if (findAttribute != null)
+                {
+                    Type collectionType = typeof(ControlsList<>);
+                    Type constructedClass = collectionType.MakeGenericType(childrensType);
+                    var list = Activator.CreateInstance(constructedClass, new object[] { container, findAttribute.Locator });
+                    field.SetValue(container, list);
                 }
             }
         }
