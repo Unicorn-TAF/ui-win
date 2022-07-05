@@ -17,7 +17,9 @@ namespace Unicorn.UI.Core.PageObject
         private static readonly Type _iControlType = typeof(IControl);
 
         /// <summary>
-        /// Initialize container with child controls.
+        /// Initializes container with child controls. Both single controls and controls lists are initialized. <br/>
+        /// To be initialized controls should implement <see cref="IControl"/> and 
+        /// have <see cref="FindAttribute"/> or it's derivatives specified for field/property or for type itself.
         /// </summary>
         /// <typeparam name="T">specific contaiter class type</typeparam>
         /// <param name="container">container instance</param>
