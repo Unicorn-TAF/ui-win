@@ -30,8 +30,8 @@ namespace Unicorn.UI.Core.Controls
         /// Gets control from list by its index. The control could not be set.
         /// </summary>
         /// <param name="index"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <returns>element located at specified index</returns>
+        /// <exception cref="NotImplementedException">is thrown in case of set attempt</exception>
         public T this[int index] { get => Items[index]; set => throw new NotImplementedException(); }
 
         /// <summary>
@@ -62,10 +62,11 @@ namespace Unicorn.UI.Core.Controls
             Items.Contains(item);
 
         /// <summary>
-        /// Copies the elements of controls list to an System.Array, starting at a particular System.Array index.
+        /// Copies the elements of controls list to an <see cref="Array"/>, 
+        /// starting at a particular <see cref="Array"/> index.
         /// </summary>
-        /// <param name="array">target array to copy to</param>
-        /// <param name="arrayIndex">index to paste to</param>
+        /// <param name="array">target array to copy to, must have zero-based indexing</param>
+        /// <param name="arrayIndex">the zero-based index in array at which copying begins</param>
         public void CopyTo(T[] array, int arrayIndex) =>
             Items.CopyTo(array, arrayIndex);
 
