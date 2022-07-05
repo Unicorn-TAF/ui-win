@@ -8,7 +8,7 @@ namespace Unicorn.UnitTests.Suites
     [Tag(Tag.SuiteTimeouts)]
     public class USuiteForTimeouts4 : TestSuite
     {
-        internal const int Timeout = 400;
+        internal const int Timeout = 250;
 
         [BeforeSuite]
         public void BeforeSuite() => Thread.Sleep(Timeout);
