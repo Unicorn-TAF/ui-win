@@ -14,7 +14,9 @@ namespace Unicorn.UI.Core.PageObject
     public static class ContainerFactory
     {
         private const string ParentContext = "ParentSearchContext";
-        private static readonly Type _iControlType = typeof(IControl);
+        private static readonly Type ControlInterface = typeof(IControl);
+        private static readonly Type ControlsListType = typeof(ControlsList<>);
+        private static readonly Type CollectionType = typeof(ICollection<>);
 
         /// <summary>
         /// Initializes container with child controls. Both single controls and controls lists are initialized. <br/>
@@ -39,15 +41,16 @@ namespace Unicorn.UI.Core.PageObject
         {
             IEnumerable<PropertyInfo> properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.PropertyType.GetInterfaces().Contains(_iControlType) && p.CanWrite);
+                .Where(p => p.PropertyType.GetInterfaces().Contains(ControlInterface) && p.CanWrite);
 
             foreach (PropertyInfo property in properties)
             {
-                ByLocator locator = GetControlLocator(property, property.PropertyType);
+                Type controlType = property.PropertyType;
+                ByLocator locator = GetControlLocator(property, controlType);
 
                 if (locator != null)
                 {
-                    var control = InitControl(property.PropertyType, locator, container, property);
+                    object control = InitControl(controlType, locator, container, property);
                     property.SetValue(container, control);
                 }
             }
@@ -57,21 +60,17 @@ namespace Unicorn.UI.Core.PageObject
         {
             IEnumerable<PropertyInfo> properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.PropertyType.GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) &&
-                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl))))
-                    && p.CanWrite);
+                .Where(p => IsControlsList(p.PropertyType) && p.CanWrite);
 
             foreach (PropertyInfo property in properties)
             {
-                Type childrensType = GetChildrenType(property.PropertyType);
-                ByLocator locator = GetControlLocator(property, property.PropertyType);
+                Type controlType = GetChildrenType(property.PropertyType);
+                ByLocator locator = GetControlLocator(property, controlType);
 
                 if (locator != null)
                 {
-                    Type collectionType = typeof(ControlsList<>);
-                    Type constructedClass = collectionType.MakeGenericType(childrensType);
-                    var list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
+                    Type constructedClass = ControlsListType.MakeGenericType(controlType);
+                    object list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
                     property.SetValue(container, list);
                 }
             }
@@ -81,15 +80,16 @@ namespace Unicorn.UI.Core.PageObject
         {
             IEnumerable<FieldInfo> fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(f => f.FieldType.GetInterfaces().Contains(_iControlType));
+                .Where(f => f.FieldType.GetInterfaces().Contains(ControlInterface));
 
             foreach (FieldInfo field in fields)
             {
-                ByLocator locator = GetControlLocator(field, field.FieldType);
+                Type controlType = field.FieldType;
+                ByLocator locator = GetControlLocator(field, controlType);
 
                 if (locator != null)
                 {
-                    var control = InitControl(field.FieldType, locator, container, field);
+                    object control = InitControl(controlType, locator, container, field);
                     field.SetValue(container, control);
                 }
             }
@@ -99,20 +99,17 @@ namespace Unicorn.UI.Core.PageObject
         {
             IEnumerable<FieldInfo> fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.FieldType.GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) &&
-                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl)))));
+                .Where(p => IsControlsList(p.FieldType));
 
             foreach (FieldInfo field in fields)
             {
-                Type childrensType = GetChildrenType(field.FieldType);
-                ByLocator locator = GetControlLocator(field, field.FieldType);
+                Type controlType = GetChildrenType(field.FieldType);
+                ByLocator locator = GetControlLocator(field, controlType);
 
-                if (field != null)
+                if (locator != null)
                 {
-                    Type collectionType = typeof(ControlsList<>);
-                    Type constructedClass = collectionType.MakeGenericType(childrensType);
-                    var list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
+                    Type constructedClass = ControlsListType.MakeGenericType(controlType);
+                    object list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
                     field.SetValue(container, list);
                 }
             }
@@ -120,7 +117,7 @@ namespace Unicorn.UI.Core.PageObject
 
         private static object InitControl(Type controlType, ByLocator locator, object parent, MemberInfo memberInfo)
         {
-            var control = Activator.CreateInstance(controlType);
+            object control = Activator.CreateInstance(controlType);
 
             IControl iControl = ((IControl)control);
             iControl.Locator = locator;
@@ -133,10 +130,12 @@ namespace Unicorn.UI.Core.PageObject
 
             NameAttribute nameAttribute = memberInfo.GetCustomAttribute<NameAttribute>(true);
 
-            if (nameAttribute != null)
+            if (nameAttribute == null)
             {
-                iControl.Name = nameAttribute.Name;
+                nameAttribute = controlType.GetCustomAttribute<NameAttribute>(true);
             }
+
+            iControl.Name = nameAttribute?.Name;
 
             if (control is IDynamicControl)
             {
@@ -155,21 +154,19 @@ namespace Unicorn.UI.Core.PageObject
             var definitions = classMember.GetCustomAttributes(typeof(DefineAttribute), true) as DefineAttribute[];
             var dictionary = new Dictionary<int, ByLocator>();
 
-            foreach (var definition in definitions)
-            {
-                dictionary.Add(definition.ElementDefinition, definition.Locator);
-            }
+            Array.ForEach(definitions, 
+                d => dictionary.Add(d.ElementDefinition, d.Locator));
 
             (control as IDynamicControl).Populate(dictionary);
         }
 
-        private static ByLocator GetControlLocator(MemberInfo memberInfo, Type type)
+        private static ByLocator GetControlLocator(MemberInfo memberInfo, Type controlType)
         {
             FindAttribute findAttribute = memberInfo.GetCustomAttribute<FindAttribute>(true);
 
             if (findAttribute == null)
             {
-                findAttribute = type.GetCustomAttribute<FindAttribute>(true);
+                findAttribute = controlType.GetCustomAttribute<FindAttribute>(true);
             }
 
             return findAttribute?.Locator;
@@ -177,7 +174,11 @@ namespace Unicorn.UI.Core.PageObject
 
         private static Type GetChildrenType(Type memberType) =>
             memberType.GetInterfaces()
-            .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
-            .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
+            .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == CollectionType)
+            .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(ControlInterface));
+
+        private static bool IsControlsList(Type type) =>
+            type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == CollectionType &&
+                i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(ControlInterface)));
     }
 }
