@@ -8,7 +8,7 @@ using Unicorn.UI.Web.PageObject.Attributes;
 
 namespace Unicorn.UnitTests.UI.Gui.Web
 {
-    [PageInfo("https://jqueryui.com/checkboxradio/")]
+    [PageInfo("https://jqueryui.com/resources/demos/checkboxradio/default.html")]
     public class JqueryCheckboxRadioPage : WebPage
     {
         public JqueryCheckboxRadioPage(IWebDriver driver) : base(driver)
@@ -21,10 +21,7 @@ namespace Unicorn.UnitTests.UI.Gui.Web
         [ById("radio-1")]
         public Radio JqRadio { get; set; }
 
-        public void WaitForLoading()
-        {
-            (SearchContext as IWebDriver).SwitchTo().Frame(0);
-            JqCheckbox.Wait(Until.Visible);
-        }
+        //public void WaitForLoading() =>
+        //    JqCheckbox.Wait(Until.Visible);
     }
 }

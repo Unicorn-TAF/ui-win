@@ -1,18 +1,24 @@
 ﻿using OpenQA.Selenium;
+using System.Collections.Generic;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Dynamic;
+using Unicorn.UI.Web.Controls.Typified;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
 
 namespace Unicorn.UnitTests.UI.Gui.Web
 {
-    [PageInfo("https://jqueryui.com/selectmenu/", "Selectmenu | jQuery UI")]
+    [PageInfo("https://jqueryui.com/resources/demos/selectmenu/default.html", "jQuery UI Selectmenu - Default functionality")]
     public class JquerySelectPage : WebPage
     {
+        [Find(Using.WebCss, "fieldset select")]
+        private IList<Dropdown> dropdownsList;
+
         public JquerySelectPage(IWebDriver driver) : base(driver)
         {
         }
@@ -29,11 +35,13 @@ namespace Unicorn.UnitTests.UI.Gui.Web
         [DefineDropdown(DropdownElement.OptionsFrame, Using.WebXpath, "//div[contains(@class, 'ui-selectmenu-open')]")]
         [DefineDropdown(DropdownElement.Option, Using.WebXpath, "//div[contains(@class, 'ui-selectmenu-open')]//div[@role = 'option']")]
         public DynamicDropdown DropdownNoInput { get; set; }
+        
+        [Find(Using.WebCss, "fieldset select")]
+        public IList<Dropdown> DropdownsList { get; set; }
 
-        public void WaitForLoading()
-        {
-            (SearchContext as IWebDriver).SwitchTo().Frame(0);
-            Dropdown.Wait(Until.Visible);
-        }
+        public IList<Dropdown> DropdownsListwithBackingField => dropdownsList;
+
+        //public void WaitForLoading() =>
+        //    Dropdown.Wait(Until.Visible);
     }
 }

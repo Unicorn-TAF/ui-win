@@ -23,10 +23,14 @@ namespace Unicorn.UI.Core.PageObject
         /// <param name="container">container instance</param>
         public static void InitContainer<T>(T container)
         {
-            InitContainerProperties(container);
-            InitContainerListProperties(container);
+            /* 
+             * The order makes sense as initialization of fields also initializes properties backing fields
+             * so need to init properties in the second order to rewrite backing fields correctly.
+            */
             InitContainerFields(container);
             InitContainerListFields(container);
+            InitContainerProperties(container);
+            InitContainerListProperties(container);
         }
 
         private static void InitContainerProperties<T>(T container)
@@ -37,43 +41,11 @@ namespace Unicorn.UI.Core.PageObject
 
             foreach (PropertyInfo property in properties)
             {
-                FindAttribute findAttribute = property.GetCustomAttribute<FindAttribute>(true);
+                ByLocator locator = GetControlLocator(property, property.PropertyType);
 
-                if (findAttribute == null)
+                if (locator != null)
                 {
-                    findAttribute = property.PropertyType.GetCustomAttribute<FindAttribute>(true);
-                }
-
-                if (findAttribute != null)
-                {
-                    Type controlType = property.PropertyType;
-                    var control = Activator.CreateInstance(controlType);
-
-                    IControl iControl = ((IControl)control);
-                    iControl.Locator = findAttribute.Locator;
-                    iControl.Cached = false;
-
-                    PropertyInfo contextField = control.GetType()
-                        .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
-
-                    contextField.SetValue(control, container);
-
-                    NameAttribute nameAttribute = property.GetCustomAttribute<NameAttribute>(true);
-
-                    if (nameAttribute != null)
-                    {
-                        iControl.Name = nameAttribute.Name;
-                    }
-
-                    if (control is IDynamicControl)
-                    {
-                        DefineDynamicControl(ref control, property);
-                    }
-                    else
-                    {
-                        InitContainer(control);
-                    }
-
+                    var control = InitControl(property.PropertyType, locator, container, property);
                     property.SetValue(container, control);
                 }
             }
@@ -84,28 +56,20 @@ namespace Unicorn.UI.Core.PageObject
             IEnumerable<PropertyInfo> properties = container.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                 .Where(p => p.PropertyType.GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) && 
-                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl)))) 
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) &&
+                    i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl))))
                     && p.CanWrite);
 
             foreach (PropertyInfo property in properties)
             {
-                Type childrensType = property.PropertyType.GetInterfaces()
-                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
-                    .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
+                Type childrensType = GetChildrenType(property.PropertyType);
+                ByLocator locator = GetControlLocator(property, property.PropertyType);
 
-                FindAttribute findAttribute = property.GetCustomAttribute<FindAttribute>(true);
-
-                if (findAttribute == null)
-                {
-                    findAttribute = property.PropertyType.GetCustomAttribute<FindAttribute>(true);
-                }
-
-                if (findAttribute != null)
+                if (locator != null)
                 {
                     Type collectionType = typeof(ControlsList<>);
                     Type constructedClass = collectionType.MakeGenericType(childrensType);
-                    var list = Activator.CreateInstance(constructedClass, new object[] { container, findAttribute.Locator });
+                    var list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
                     property.SetValue(container, list);
                 }
             }
@@ -115,48 +79,15 @@ namespace Unicorn.UI.Core.PageObject
         {
             IEnumerable<FieldInfo> fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.FieldType.GetInterfaces().Contains(_iControlType));
+                .Where(f => f.FieldType.GetInterfaces().Contains(_iControlType));
 
             foreach (FieldInfo field in fields)
             {
-                FindAttribute findAttribute = field.GetCustomAttribute<FindAttribute>(true);
+                ByLocator locator = GetControlLocator(field, field.FieldType);
 
-                if (findAttribute == null)
+                if (locator != null)
                 {
-                    findAttribute = field.FieldType.GetCustomAttribute<FindAttribute>(true);
-                }
-
-                if (findAttribute != null)
-                {
-                    Type controlType = field.FieldType;
-                    var control = Activator.CreateInstance(controlType);
-
-                    IControl iControl = ((IControl)control);
-                    iControl.Locator = findAttribute.Locator;
-                    iControl.Cached = false;
-
-                    PropertyInfo contextField = control.GetType()
-                        .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
-
-                    contextField.SetValue(control, container);
-
-                    NameAttribute nameAttribute = field.GetCustomAttribute<NameAttribute>(true);
-
-                    if (nameAttribute != null)
-                    {
-                        iControl.Name = nameAttribute.Name;
-                    }
-
-                    if (control is IDynamicControl)
-                    {
-                        DefineDynamicControl(ref control, field);
-                    }
-                    else
-                    {
-                        InitContainer(control);
-                    }
-
-
+                    var control = InitControl(field.FieldType, locator, container, field);
                     field.SetValue(container, control);
                 }
             }
@@ -167,30 +98,54 @@ namespace Unicorn.UI.Core.PageObject
             IEnumerable<FieldInfo> fields = container.GetType()
                 .GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                 .Where(p => p.FieldType.GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) && 
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>) &&
                     i.GetGenericArguments().Any(ga => ga.GetInterfaces().Contains(typeof(IControl)))));
 
             foreach (FieldInfo field in fields)
             {
-                Type childrensType = field.FieldType.GetInterfaces()
-                    .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
-                    .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
+                Type childrensType = GetChildrenType(field.FieldType);
+                ByLocator locator = GetControlLocator(field, field.FieldType);
 
-                FindAttribute findAttribute = field.GetCustomAttribute<FindAttribute>(true);
-
-                if (findAttribute == null)
-                {
-                    findAttribute = field.FieldType.GetCustomAttribute<FindAttribute>(true);
-                }
-
-                if (findAttribute != null)
+                if (field != null)
                 {
                     Type collectionType = typeof(ControlsList<>);
                     Type constructedClass = collectionType.MakeGenericType(childrensType);
-                    var list = Activator.CreateInstance(constructedClass, new object[] { container, findAttribute.Locator });
+                    var list = Activator.CreateInstance(constructedClass, new object[] { container, locator });
                     field.SetValue(container, list);
                 }
             }
+        }
+
+        private static object InitControl(Type controlType, ByLocator locator, object parent, MemberInfo memberInfo)
+        {
+            var control = Activator.CreateInstance(controlType);
+
+            IControl iControl = ((IControl)control);
+            iControl.Locator = locator;
+            iControl.Cached = false;
+
+            PropertyInfo contextField = control.GetType()
+                .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+
+            contextField.SetValue(control, parent);
+
+            NameAttribute nameAttribute = memberInfo.GetCustomAttribute<NameAttribute>(true);
+
+            if (nameAttribute != null)
+            {
+                iControl.Name = nameAttribute.Name;
+            }
+
+            if (control is IDynamicControl)
+            {
+                DefineDynamicControl(ref control, memberInfo);
+            }
+            else
+            {
+                InitContainer(control);
+            }
+
+            return control;
         }
 
         private static void DefineDynamicControl(ref object control, MemberInfo classMember)
@@ -205,5 +160,22 @@ namespace Unicorn.UI.Core.PageObject
 
             (control as IDynamicControl).Populate(dictionary);
         }
+
+        private static ByLocator GetControlLocator(MemberInfo memberInfo, Type type)
+        {
+            FindAttribute findAttribute = memberInfo.GetCustomAttribute<FindAttribute>(true);
+
+            if (findAttribute == null)
+            {
+                findAttribute = type.GetCustomAttribute<FindAttribute>(true);
+            }
+
+            return findAttribute?.Locator;
+        }
+
+        private static Type GetChildrenType(Type memberType) =>
+            memberType.GetInterfaces()
+            .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>))
+            .GetGenericArguments().First(ga => ga.GetInterfaces().Contains(typeof(IControl)));
     }
 }

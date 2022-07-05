@@ -5,7 +5,7 @@ using Unicorn.UnitTests.UI.Gui.Web;
 namespace Unicorn.UnitTests.UI.Tests.Web
 {
     [TestFixture]
-    public class WebDynamicDialog
+    public class WebDynamicDialog : WebTestsBase
     {
         private JqueryDialogPage page;
         private static WebDriver webdriver;
@@ -24,9 +24,7 @@ namespace Unicorn.UnitTests.UI.Tests.Web
         [SetUp]
         public void PreparePage()
         {
-            page = new JqueryDialogPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
+            page = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
         }
 
         [Author("Vitaliy Dobriyan")]
