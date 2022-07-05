@@ -24,7 +24,7 @@ namespace Unicorn.UnitTests.UI.Tests.Web
         [SetUp]
         public void PreparePage()
         {
-            page = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
+            page = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver, true);
         }
 
         [Author("Vitaliy Dobriyan")]

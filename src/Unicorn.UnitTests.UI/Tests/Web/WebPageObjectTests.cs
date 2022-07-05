@@ -55,6 +55,40 @@ namespace Unicorn.UnitTests.UI.Tests.Web
             Assert.That(page.JqCheckbox.GetAttribute("name"), Is.EqualTo("checkbox-1"));
         }
 
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void TestPageObjectNameAttributeExplicit()
+        {
+            JqueryCheckboxRadioPage page = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            Assert.That(page.JqRadio.Name, Is.EqualTo(JqueryCheckboxRadioPage.RadioButtonName));
+        }
+
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void TestPageObjectImplicitName()
+        {
+            JqueryCheckboxRadioPage page = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            Assert.That(page.CheckboxCustom.Name, Is.EqualTo(CustomCheckbox.ControlName));
+        }
+
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void TestPageObjectImplicitFindAndNestedControls()
+        {
+            JqueryCheckboxRadioPage page = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            Assert.IsTrue(page.CheckboxCustom.GetAttribute("class").Contains("ui-checkboxradio-label"));
+            Assert.IsTrue(page.CheckboxCustom.Label.GetAttribute("class").Contains("ui-checkboxradio-icon"));
+        }
+
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void TestPageObjectImplicitFindAndNestedControlsInList()
+        {
+            JqueryCheckboxRadioPage page = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            Assert.IsTrue(page.CheckboxesCustomList[0].GetAttribute("class").Contains("ui-checkboxradio-label"));
+            Assert.IsTrue(page.CheckboxesCustomList[0].Label.GetAttribute("class").Contains("ui-checkboxradio-icon"));
+        }
+
         [OneTimeTearDown]
         public static void TearDown()
         {

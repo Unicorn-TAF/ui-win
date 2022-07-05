@@ -3,7 +3,6 @@ using Unicorn.UI.Web.Driver;
 using Unicorn.UnitTests.UI.Gui.Web;
 using Uv = Unicorn.Taf.Core.Verification;
 using Ui = Unicorn.UI.Core.Matchers.UI;
-using Unicorn.Taf.Core.Utility;
 
 namespace Unicorn.UnitTests.UI.Tests
 {
@@ -197,8 +196,8 @@ namespace Unicorn.UnitTests.UI.Tests
         public void TestCheckboxCheckedMatcher()
         {
             JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
-            cboxPage.JqCheckbox.JsClick();
-            Uv.Assert.That(cboxPage.JqCheckbox, Ui.Checkbox.Checked());
+            cboxPage.JqCheckboxToCheck1.JsClick();
+            Uv.Assert.That(cboxPage.JqCheckboxToCheck1, Ui.Checkbox.Checked());
         }
 
         [Author("Vitaliy Dobriyan")]
@@ -226,11 +225,11 @@ namespace Unicorn.UnitTests.UI.Tests
         public void TestCheckboxHasCheckStateMatcherNegative()
         {
             JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
-            cboxPage.JqCheckbox.JsClick();
+            cboxPage.JqCheckboxToCheck2.JsClick();
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
-                Uv.Assert.That(cboxPage.JqCheckbox, Ui.Checkbox.HasCheckState(false));
+                Uv.Assert.That(cboxPage.JqCheckboxToCheck2, Ui.Checkbox.HasCheckState(false));
             });
         }
 
@@ -239,8 +238,8 @@ namespace Unicorn.UnitTests.UI.Tests
         public void TestSelectedMatcher()
         {
             JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
-            cboxPage.JqRadio.JsClick();
-            Uv.Assert.That(cboxPage.JqRadio, Ui.Control.Selected());
+            cboxPage.JqRadioToSelect.JsClick();
+            Uv.Assert.That(cboxPage.JqRadioToSelect, Ui.Control.Selected());
         }
 
         [Author("Vitaliy Dobriyan")]
