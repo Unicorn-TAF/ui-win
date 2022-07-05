@@ -4,8 +4,6 @@ using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.PageObject.By;
-using Unicorn.UI.Core.Synchronization;
-using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Dynamic;
 using Unicorn.UI.Web.Controls.Typified;
 using Unicorn.UI.Web.PageObject;
@@ -40,8 +38,5 @@ namespace Unicorn.UnitTests.UI.Gui.Web
         public IList<Dropdown> DropdownsList { get; set; }
 
         public IList<Dropdown> DropdownsListwithBackingField => dropdownsList;
-
-        //public void WaitForLoading() =>
-        //    Dropdown.Wait(Until.Visible);
     }
 }

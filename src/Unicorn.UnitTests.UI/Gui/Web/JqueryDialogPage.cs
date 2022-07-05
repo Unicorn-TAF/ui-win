@@ -2,8 +2,6 @@
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
-using Unicorn.UI.Core.Synchronization;
-using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Dynamic;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
@@ -27,8 +25,5 @@ namespace Unicorn.UnitTests.UI.Gui.Web
 
         [Find(Using.WebCss, ".demo-frame")]
         public DynamicDialog Frame { get; set; }
-        
-        //public void WaitForLoading() =>
-        //    Dialog.Wait(Until.Visible);
     }
 }

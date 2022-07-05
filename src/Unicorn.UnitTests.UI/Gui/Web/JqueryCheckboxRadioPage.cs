@@ -1,7 +1,5 @@
 ﻿using OpenQA.Selenium;
 using Unicorn.UI.Core.PageObject.By;
-using Unicorn.UI.Core.Synchronization;
-using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Web.Controls.Typified;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
@@ -20,8 +18,5 @@ namespace Unicorn.UnitTests.UI.Gui.Web
 
         [ById("radio-1")]
         public Radio JqRadio { get; set; }
-
-        //public void WaitForLoading() =>
-        //    JqCheckbox.Wait(Until.Visible);
     }
 }
