@@ -3,12 +3,11 @@ using Unicorn.UI.Web.Driver;
 using Unicorn.UnitTests.UI.Gui.Web;
 using Uv = Unicorn.Taf.Core.Verification;
 using Ui = Unicorn.UI.Core.Matchers.UI;
-using Unicorn.Taf.Core.Utility;
 
 namespace Unicorn.UnitTests.UI.Tests
 {
     [TestFixture]
-    public class UiMatchersWeb
+    public class UiMatchersWeb : WebTestsBase
     {
         private static WebDriver webdriver;
 
@@ -25,49 +24,17 @@ namespace Unicorn.UnitTests.UI.Tests
 
         public JqueryDataGridPage OpenGridPage()
         {
-            JqueryDataGridPage gridPage = new JqueryDataGridPage(webdriver.SeleniumDriver);
-            webdriver.Get(gridPage.Url);
+            JqueryDataGridPage gridPage = NavigateToPage<JqueryDataGridPage>(webdriver.SeleniumDriver);
             gridPage.WaitForLoading();
 
             return gridPage;
-        }
-
-        public JqueryDialogPage OpenDialogPage()
-        {
-            JqueryDialogPage page = new JqueryDialogPage(webdriver.SeleniumDriver);
-
-            new Retrier().Execute(() =>
-            {
-                webdriver.Get(page.Url);
-                page.WaitForLoading();
-            });
-
-            return page;
-        }
-
-        public JquerySelectPage OpenSelectPage()
-        {
-            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
-
-            return page;
-        }
-
-        public JqueryCheckboxRadioPage OpenCheckboxRadioPage()
-        {
-            JqueryCheckboxRadioPage page = new JqueryCheckboxRadioPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
-
-            return page;
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check WindowHasTitleMatcher")]
         public void TestWindowHasTitleMatcherMatcher()
         {
-            JqueryDialogPage dialogPage = OpenDialogPage();
+            JqueryDialogPage dialogPage = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
             Uv.Assert.That(dialogPage.Dialog, Ui.Window.HasTitle("Empty the recycle bin?"));
         }
 
@@ -75,7 +42,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check WindowHasTitleMatcher Negative")]
         public void TestWindowHasTitleMatcherMatcherNegative()
         {
-            JqueryDialogPage dialogPage = OpenDialogPage();
+            JqueryDialogPage dialogPage = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
@@ -87,7 +54,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check ModalWindowHasTextMatcher")]
         public void TestModalWindowHasTextMatcher()
         {
-            JqueryDialogPage dialogPage = OpenDialogPage();
+            JqueryDialogPage dialogPage = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
             Uv.Assert.That(dialogPage.Dialog, Ui.Window.HasText(
                 "These items will be permanently deleted and cannot be recovered. Are you sure?"));
         }
@@ -96,7 +63,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check ModalWindowHasTextMatcher Negative")]
         public void TestModalWindowHasTextMatcherNegative()
         {
-            JqueryDialogPage dialogPage = OpenDialogPage();
+            JqueryDialogPage dialogPage = NavigateToPage<JqueryDialogPage>(webdriver.SeleniumDriver);
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
@@ -208,7 +175,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check DropdownHasSelectedValueMatcher")]
         public void TestDropdownHasSelectedValueMatcher()
         {
-            JquerySelectPage selectPage = OpenSelectPage();
+            JquerySelectPage selectPage = NavigateToPage<JquerySelectPage>(webdriver.SeleniumDriver);
             Uv.Assert.That(selectPage.Dropdown, Ui.Dropdown.HasSelectedValue("Medium"));
         }
 
@@ -216,7 +183,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check DropdownHasSelectedValueMatcher Negative")]
         public void TestDropdownHasSelectedValueMatcherNegative()
         {
-            JquerySelectPage selectPage = OpenSelectPage();
+            JquerySelectPage selectPage = NavigateToPage<JquerySelectPage>(webdriver.SeleniumDriver);
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
@@ -228,16 +195,16 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check CheckboxCheckedMatcher")]
         public void TestCheckboxCheckedMatcher()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
-            cboxPage.JqCheckbox.JsClick();
-            Uv.Assert.That(cboxPage.JqCheckbox, Ui.Checkbox.Checked());
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            cboxPage.JqCheckboxToCheck1.JsClick();
+            Uv.Assert.That(cboxPage.JqCheckboxToCheck1, Ui.Checkbox.Checked());
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check CheckboxCheckedMatcher Negative")]
         public void TestCheckboxCheckedMatcherNegative()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
@@ -249,7 +216,7 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check CheckboxHasCheckStateMatcher")]
         public void TestCheckboxHasCheckStateMatcher()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
             Uv.Assert.That(cboxPage.JqCheckbox, Ui.Checkbox.HasCheckState(false));
         }
 
@@ -257,12 +224,12 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check CheckboxHasCheckStateMatcher Negative")]
         public void TestCheckboxHasCheckStateMatcherNegative()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
-            cboxPage.JqCheckbox.JsClick();
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            cboxPage.JqCheckboxToCheck2.JsClick();
 
             Assert.Throws<Uv.AssertionException>(delegate
             {
-                Uv.Assert.That(cboxPage.JqCheckbox, Ui.Checkbox.HasCheckState(false));
+                Uv.Assert.That(cboxPage.JqCheckboxToCheck2, Ui.Checkbox.HasCheckState(false));
             });
         }
 
@@ -270,16 +237,16 @@ namespace Unicorn.UnitTests.UI.Tests
         [Test(Description = "Check SelectedMatcher")]
         public void TestSelectedMatcher()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
-            cboxPage.JqRadio.JsClick();
-            Uv.Assert.That(cboxPage.JqRadio, Ui.Control.Selected());
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            cboxPage.JqRadioToSelect.JsClick();
+            Uv.Assert.That(cboxPage.JqRadioToSelect, Ui.Control.Selected());
         }
 
         [Author("Vitaliy Dobriyan")]
         [Test(Description = "Check SelectedMatcher Negative")]
         public void TestSelectedMatcherNegative()
         {
-            JqueryCheckboxRadioPage cboxPage = OpenCheckboxRadioPage();
+            JqueryCheckboxRadioPage cboxPage = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
 
             Assert.Throws<Uv.AssertionException>(delegate
             {

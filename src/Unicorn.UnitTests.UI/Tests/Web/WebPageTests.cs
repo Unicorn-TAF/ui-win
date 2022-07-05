@@ -5,7 +5,7 @@ using Unicorn.UnitTests.UI.Gui.Web;
 namespace Unicorn.UnitTests.UI.Tests.Web
 {
     [TestFixture]
-    public class WebPageTests
+    public class WebPageTests : WebTestsBase
     {
         private static WebDriver webdriver;
 
@@ -27,10 +27,7 @@ namespace Unicorn.UnitTests.UI.Tests.Web
         [Test(Description = "WebPage.Opened works for page with relative url and title")]
         public void TestWebPageOpenedWorksForPageWithRelativeUrlAndTitle()
         {
-            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
-
+            JquerySelectPage page = NavigateToPage<JquerySelectPage>(webdriver.SeleniumDriver);
             Assert.IsTrue(page.Opened);
         }
 
@@ -38,10 +35,7 @@ namespace Unicorn.UnitTests.UI.Tests.Web
         [Test(Description = "WebPage.Opened fails if page is not opened")]
         public void TestWebPageOpenedFailsIfPageIsNotOpened()
         {
-            JquerySelectPage page = new JquerySelectPage(webdriver.SeleniumDriver);
-            webdriver.Get(page.Url);
-            page.WaitForLoading();
-
+            NavigateToPage<JquerySelectPage>(webdriver.SeleniumDriver);
             Assert.IsFalse(new JqueryDialogPage(webdriver.SeleniumDriver).Opened);
         }
 
