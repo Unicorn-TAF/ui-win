@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Core.Synchronization.Conditions;
 using Unicorn.UI.Win.Controls.Typified;
-using Unicorn.UI.Win.PageObject;
 using Unicorn.UnitTests.UI.Gui.Win;
 
 namespace Unicorn.UnitTests.UI.Tests.Win
@@ -29,7 +29,7 @@ namespace Unicorn.UnitTests.UI.Tests.Win
         public void TestDialogClose()
         {
             charmap.WindowDynamic.Close();
-            Assert.IsFalse(charmap.WindowDynamic.Exists());
+            Assert.IsFalse(charmap.WindowDynamic.ExistsInPageObject());
         }
 
         [Author("Vitaliy Dobriyan")]

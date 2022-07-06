@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Controls.Typified;
 using Unicorn.UI.Web.Driver;
 using Unicorn.UnitTests.UI.Gui.Web;
@@ -89,6 +90,15 @@ namespace Unicorn.UnitTests.UI.Tests.Web
             Assert.IsTrue(page.CheckboxesCustomList[0].Label.GetAttribute("class").Contains("ui-checkboxradio-icon"));
         }
 
+        [Test]
+        [Author("Vitaliy Dobriyan")]
+        public void TestPageObjectExistsExtension()
+        {
+            JqueryCheckboxRadioPage page = NavigateToPage<JqueryCheckboxRadioPage>(webdriver.SeleniumDriver);
+            Assert.IsTrue(page.JqRadio.ExistsInPageObject());
+            Assert.IsFalse(page.NotExistingRadio.ExistsInPageObject());
+        }
+        
         [OneTimeTearDown]
         public static void TearDown()
         {
