@@ -16,7 +16,7 @@
       Unicorn Web features: Ready for use implementations of common controls, extended page object features.
       This package includes implementations of web UI interaction based on WebDriver.
     </description>
-    <releaseNotes>Support of netstandard, support of Taf.Core 3.0 and UI.Core 3.0, bugfix, added web screenshotter.</releaseNotes>
+    <releaseNotes>Non-static WebDriver and screenshotter.</releaseNotes>
     <tags>automation ui controls page-object web webdriver browser</tags>
     <dependencies>
       <group targetFramework="net452">

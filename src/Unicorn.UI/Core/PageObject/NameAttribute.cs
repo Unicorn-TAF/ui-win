@@ -3,7 +3,7 @@
 namespace Unicorn.UI.Core.PageObject
 {
     /// <summary>
-    /// Provides with ability to assign readable name to controls
+    /// Provides with ability to assign readable name to controls. Could be set for control field, property or type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = false)]
     public sealed class NameAttribute : Attribute

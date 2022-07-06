@@ -19,9 +19,9 @@ namespace Unicorn.UnitTests.UI.Tests.Mobile
         [Test(Description = "Check Android UI basics")]
         public void TestAndroidUiBasics()
         {
-            
             app.Container.ActionBar.ButtonHistory.Click();
             app.Container.ButtonDialPad.Click();
+            Assert.That(app.Container.DialPad.Buttons.Count, Is.EqualTo(12));
             app.Container.DialPad.GetButton("#").Click();
             app.Container.DialPad.GetButton("2").Click();
 

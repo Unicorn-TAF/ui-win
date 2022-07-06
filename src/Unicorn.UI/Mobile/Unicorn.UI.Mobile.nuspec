@@ -14,28 +14,28 @@
     <description>
       Unicorn.UI.Mobile is Unicorn test automation framework extension which provides ready for use implementations of interaction with Android app and web controls with extended capabilities.
       Unicorn Mobile features: Ready for use implementations of common controls, extended page object features.
-      This package includes implementations of web UI interaction based on Appium.
+      This package includes implementations of interaction based on Appium.
     </description>
-    <releaseNotes>First release, support of Taf.Core 3.0 and UI.Core 3.0, AndroidApplication and page objects.</releaseNotes>
+    <releaseNotes>First release, support of Taf.Core 3.0 and UI.Core 3.1, AndroidApplication and page objects.</releaseNotes>
     <tags>automation ui controls page-object android mobile appium</tags>
     <dependencies>
       <group targetFramework="net452">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
-        <dependency id="Unicorn.UI.Web" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.1.0"/>
+        <dependency id="Unicorn.UI.Web" version="3.1.0"/>
         <dependency id="Appium.WebDriver" version="4.3.1"/>
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>
       </group>
       <group targetFramework="net5.0">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
-        <dependency id="Unicorn.UI.Web" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.1.0"/>
+        <dependency id="Unicorn.UI.Web" version="3.1.0"/>
         <dependency id="Appium.WebDriver" version="4.3.1"/>
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>
       </group>
       <group targetFramework="netstandard2.0">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
-        <dependency id="Unicorn.UI.Web" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.1.0"/>
+        <dependency id="Unicorn.UI.Web" version="3.1.0"/>
         <dependency id="Appium.WebDriver" version="4.3.1"/>
         <dependency id="Selenium.Support" version="3.141.0"/>
         <dependency id="Selenium.WebDriver" version="3.141.0"/>

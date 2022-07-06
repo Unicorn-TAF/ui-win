@@ -9,7 +9,7 @@ namespace Unicorn.UI.Core.PageObject
     public static class ControlExtension
     {
         /// <summary>
-        /// Check if control exists int page object immediately ignoring implicitly wait.<br/>
+        /// Checks if control exists in page object immediately ignoring implicitly wait.<br/>
         /// Works only for controls located by <see cref="FindAttribute"/>.
         /// </summary>
         /// <typeparam name="T">control type (should implement <see cref="IControl"/>)</typeparam>

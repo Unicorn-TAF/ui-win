@@ -18,6 +18,8 @@ namespace Unicorn.UI.Web.Driver
                 WebDriverFactory.Get(browser) :
                 WebDriverFactory.Get(browser, driverOptions);
 
+            SearchContext = SeleniumDriver;
+
             if (maximize)
             {
                 SeleniumDriver.Manage().Window.Maximize();
@@ -50,6 +52,7 @@ namespace Unicorn.UI.Web.Driver
         public DesktopWebDriver(IWebDriver webDriverInstance)
         {
             SeleniumDriver = webDriverInstance;
+            SearchContext = SeleniumDriver;
             ImplicitlyWait = TimeoutDefault;
             Browser = WebDriverFactory.GetBrowserType(webDriverInstance);
         }

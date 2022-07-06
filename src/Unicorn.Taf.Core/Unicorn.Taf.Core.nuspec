@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unicorn.Taf.Core</id>
-    <version>3.0.0</version>
+    <version>3.1.0</version>
     <title>Unicorn.Taf.Core</title>
     <authors>Vitaliy Dobriyan</authors>
     <license type="expression">Apache-2.0</license>
@@ -16,7 +16,7 @@
       Unicorn features: asserts with collection of matchers, functionality for test steps implementation, parameterized tests and suites, tests dependency.
       This package includes core of unicorn automation framework, which is referenced by your tests. You will need to install nuget test adapter or console runner to run your tests.
     </description>
-    <releaseNotes>Support of netstandard, removed dependencies on aspectinjector and windows components, retrier utility, user defined settings, test suite disabling.</releaseNotes>
+    <releaseNotes>Tests run parallelization by suites, extended core matchers.</releaseNotes>
     <tags>automation tests steps verification matchers</tags>
     <dependencies>
       <group targetFramework="net452">

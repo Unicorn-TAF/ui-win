@@ -19,6 +19,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         public AndroidWebDriver(string hubUrl, AppiumOptions options)
         {
             SeleniumDriver = new AndroidDriver<IWebElement>(new Uri(hubUrl), options);
+            SearchContext = SeleniumDriver;
             ImplicitlyWait = TimeoutDefault;
         }
 
@@ -39,6 +40,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
             options.AddAdditionalCapability("platformName", "Android");
 
             SeleniumDriver = new AndroidDriver<IWebElement>(new Uri(hubUrl), options);
+            SearchContext = SeleniumDriver;
             ImplicitlyWait = TimeoutDefault;
         }
     }

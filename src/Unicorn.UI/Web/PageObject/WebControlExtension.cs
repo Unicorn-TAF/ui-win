@@ -12,7 +12,7 @@ namespace Unicorn.UI.Web.PageObject
     public static class WebControlExtension
     {
         /// <summary>
-        /// Check if control exists int page object immediately ignoring implicitly wait.
+        /// Checks if control exists in page object immediately ignoring implicitly wait.
         /// </summary>
         /// <param name="control">Control instance</param>
         /// <returns>true - if control exists; otherwise - false</returns>
