@@ -47,6 +47,8 @@
     <file src="bin\Release\net5.0\unicorn.ui.win.dll" target="lib\net5.0" />
     <file src="bin\Release\net5.0\unicorn.ui.win.xml" target="lib\net5.0" />
     <file src="ComLib\Interop.UIAutomationClient.dll" target="lib\net5.0"/>
+    <file src="bin\Release\net5.0\unicorn.ui.win.dll" target="ref\net5.0" />
+    <file src="ComLib\Interop.UIAutomationClient.dll" target="ref\net5.0"/>
     <file src="tools\install.ps1" target="tools" />
   </files>
 </package>

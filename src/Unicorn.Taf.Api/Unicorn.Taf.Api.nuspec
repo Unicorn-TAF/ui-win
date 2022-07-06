@@ -16,6 +16,12 @@
     </description>
     <releaseNotes>Api for extensions, test executors, data collectors and outcome. AppDomain isolation and custom assembly load context.</releaseNotes>
     <tags>api</tags>
+    <dependencies>
+      <group targetFramework="net452"/>
+      <group targetFramework="net5.0"/>
+      <group targetFramework="netstandard2.0"/>
+      <group targetFramework="netcoreapp3.0"/>
+    </dependencies>
   </metadata>
   <files>
     <file src="..\..\icon.png" target="images\" />
