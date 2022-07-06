@@ -13,6 +13,7 @@ namespace Unicorn.UI.Core.Driver
         /// Gets or sets control parent search context (context from which current control was searched for).
         /// </summary>
         public U ParentSearchContext { get; set; }
+        /** It's ugly, but <see cref="InternalResources.ParentContext"/> refers to this property name **/
 
         /// <summary>
         /// Gets default implicit wait timeout (30 seconds)

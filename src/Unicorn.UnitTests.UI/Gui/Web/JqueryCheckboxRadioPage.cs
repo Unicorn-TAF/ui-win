@@ -30,9 +30,11 @@ namespace Unicorn.UnitTests.UI.Gui.Web
         [ById("radio-1")]
         public Radio JqRadio { get; set; }
 
-        [Name(RadioButtonName)]
         [ById("radio-2")]
         public Radio JqRadioToSelect { get; set; }
+
+        [ById("radio-notexisting")]
+        public Radio NotExistingRadio { get; set; }
 
         public CustomCheckbox CheckboxCustom { get; set; }
 

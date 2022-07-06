@@ -13,7 +13,6 @@ namespace Unicorn.UI.Core.PageObject
     /// </summary>
     public static class ContainerFactory
     {
-        private const string ParentContext = "ParentSearchContext";
         private static readonly Type ControlInterface = typeof(IControl);
         private static readonly Type ControlsListType = typeof(ControlsList<>);
         private static readonly Type CollectionType = typeof(ICollection<>);
@@ -124,7 +123,7 @@ namespace Unicorn.UI.Core.PageObject
             iControl.Cached = false;
 
             PropertyInfo contextField = control.GetType()
-                .GetProperty(ParentContext, BindingFlags.Public | BindingFlags.Instance);
+                .GetProperty(InternalResources.ParentContext, BindingFlags.Public | BindingFlags.Instance);
 
             contextField.SetValue(control, parent);
 
