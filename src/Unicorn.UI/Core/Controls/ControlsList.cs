@@ -16,7 +16,7 @@ namespace Unicorn.UI.Core.Controls
         private readonly ByLocator _locator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ControlsList"/> class for parent search context and locator.
+        /// Initializes a new instance of the <see cref="ControlsList{T}"/> class for parent search context and locator.
         /// </summary>
         /// <param name="parentContext">parent context to search controls list from</param>
         /// <param name="locator">locator to search controls list by</param>
