@@ -62,7 +62,7 @@ namespace Unicorn.Taf.Core.Verification
         /// </summary>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeUnsafeMatcher"/> instance</param>
-        /// <param name="message">message thrown on fail</param>
+        /// <param name="message">high level message thrown on fail (matcher output is added automatically)</param>
         /// <exception cref="AssertionException">is thrown when assertion was failed</exception>
         public static void That(object actual, TypeUnsafeMatcher matcher, string message)
         {
@@ -102,7 +102,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">object to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        /// <param name="message">message thrown on fail</param>
+        /// <param name="message">high level message thrown on fail (matcher output is added automatically)</param>
         /// <exception cref="AssertionException">is thrown when assertion was failed</exception>
         public static void That<T>(T actual, TypeSafeMatcher<T> matcher, string message)
         {
@@ -143,7 +143,7 @@ namespace Unicorn.Taf.Core.Verification
         /// <typeparam name="T">Any type</typeparam>
         /// <param name="actual">collection of objects to perform assertion on</param>
         /// <param name="matcher"><see cref="TypeSafeMatcher{T}"/> instance</param>
-        /// <param name="message">message thrown on fail</param>
+        /// <param name="message">high level message thrown on fail (matcher output is added automatically)</param>
         /// <exception cref="AssertionException">is thrown when assertion was failed</exception>
         public static void That<T>(IEnumerable<T> actual, TypeSafeCollectionMatcher<T> matcher, string message)
         {
