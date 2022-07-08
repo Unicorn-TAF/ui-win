@@ -63,7 +63,7 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(itemName));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this}");
 
             if (SelectedValue.Equals(itemName))
             {
