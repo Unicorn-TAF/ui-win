@@ -4,15 +4,10 @@ using Unicorn.UI.Mobile.Android.Controls;
 
 namespace Demo.AndroidDialer.Ui
 {
+    [Find(Using.Id, "com.google.android.dialer:id/lists_pager_header")]
     public class DialerActionBar : AndroidContainer
     {
-        [Find(Using.Id, "com.android.dialer:id/call_history_button")]
+        [Find(Using.WebXpath, "//android.widget.ImageView[@content-desc='Call History']")]
         public AndroidControl ButtonHistory { get; set; }
-
-        [Find(Using.Id, "com.android.dialer:id/dial_button")]
-        public AndroidControl ButtonDial { get; set; }
-
-        [Find(Using.Id, "com.android.dialer:id/overflow_menu")]
-        public AndroidControl ButtonMenu { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Unicorn.UI.Web.Controls
     /// </summary>
     public class WebControl : WebSearchContext, IControl
     {
+        private string name;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WebControl"/> class.
         /// </summary>
@@ -44,7 +46,20 @@ namespace Unicorn.UI.Web.Controls
         /// <summary>
         /// Gets or sets control name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name 
+        { 
+            get
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = $"{GetType().Name} [{Locator?.ToString()}]";
+                }
+
+                return name;
+            }
+
+            set => name = value;
+        }
 
         /// <summary>
         /// Gets or sets control wrapped instance as <see cref="Selenium.IWebElement"/> which is also current search context.
@@ -164,7 +179,6 @@ namespace Unicorn.UI.Web.Controls
         /// Gets string description of the control.
         /// </summary>
         /// <returns>control description as string</returns>
-        public override string ToString() =>
-            string.IsNullOrEmpty(Name) ? $"{GetType().Name} [{Locator?.ToString()}]" : Name;
+        public override string ToString() => Name;
     }
 }

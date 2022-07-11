@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Web.Controls;
 using Unicorn.UI.Web.PageObject;
 using Unicorn.UI.Web.PageObject.Attributes;
@@ -21,9 +22,9 @@ namespace Demo.Celestia.Ui.Pages
         }
 
         /// <summary>
-        /// List of elements could be found by using <see cref="FindList"/> method and 
-        /// could not be initialized by Find attribute usage.
+        /// List of elements also could be found using <see cref="FindAttribute"/>.
         /// </summary>
-        public IList<WebControl> DownloadsList => FindList<WebControl>(ByLocator.Css("section#content i"));
+        [Find(Using.WebCss, "section#content i")]
+        public IList<WebControl> DownloadsList { get; set; }
     }
 }

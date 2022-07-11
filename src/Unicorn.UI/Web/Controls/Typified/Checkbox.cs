@@ -23,7 +23,7 @@ namespace Unicorn.UI.Web.Controls.Typified
 
         private bool Check()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Check {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Check {this}");
 
             if (Checked)
             {
@@ -40,7 +40,7 @@ namespace Unicorn.UI.Web.Controls.Typified
 
         private bool Uncheck()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this}");
 
             if (!Checked)
             {

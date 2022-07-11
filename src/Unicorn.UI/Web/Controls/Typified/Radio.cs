@@ -19,7 +19,7 @@ namespace Unicorn.UI.Web.Controls.Typified
         /// <returns>true - if selection was made; false - if radio is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Select {this}");
 
             if (Selected)
             {

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Unicorn.UI.Mobile" Version="2.3.0" />
+    <PackageReference Include="Unicorn.UI.Mobile" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

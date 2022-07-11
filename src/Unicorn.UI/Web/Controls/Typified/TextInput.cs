@@ -25,7 +25,7 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this}");
 
             Instance.SendKeys(text);
         }
@@ -42,7 +42,7 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
+            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this}");
 
             if (!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
