@@ -33,7 +33,6 @@ namespace Demo.Celestia.Ui.Pages
         /// Initializae complex PageObject element.
         /// If locator is not specified explicitly, then default locator is used (if any).
         /// </summary>
-        [Name("Page footer")]
         public FooterBlock Footer { get; set; }
     }
 }

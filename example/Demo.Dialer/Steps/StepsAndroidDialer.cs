@@ -1,33 +1,36 @@
 ﻿using Demo.StepsInjection;
 using Unicorn.Taf.Core.Steps.Attributes;
-using Unicorn.UI.Mobile.Android.Driver;
 
 namespace Demo.AndroidDialer.Steps
 {
     [StepsClass]
     public class StepsAndroidDialer
     {
-        private AndroidDialerApp Dialer => AndroidDialerApp.Instance;
+        private AndroidDialerApi25 dialer;
 
         [Step("Open dialer app")]
-        public void OpenDialer() =>
-            Dialer.Open();
+        public AndroidDialerApi25 OpenDialer()
+        {
+            dialer = new AndroidDialerApi25("http://127.0.0.1:4723/wd/hub", "device");
+            dialer.Open();
+            return dialer;
+        }
 
-        [Step("Click dialpad button")]
-        public void ClickDialpadButton() =>
-            Dialer.App.ButtonDialPad.Click();
+        [Step("Open dialpad")]
+        public void OpenDialpad() =>
+            dialer.AppFrame.DialPadButton.Click();
 
         [Step("Open calls history")]
         public void OpenCallsHistory() =>
-            Dialer.App.ActionBar.ButtonHistory.Click();
+            dialer.AppFrame.ActionBar.ButtonHistory.Click();
 
         [Step("Tap '{0}' number")]
         public void TapNumber(string number) =>
-            Dialer.App.MainFrame.GetButton(number).Click();
+            dialer.AppFrame.DialPad.GetButton(number).Click();
 
         [Step("Close app")]
         public void CloseDialer() =>
-            AndroidAppDriver.Close();
+            dialer.Driver.Close();
 
         ////private IOSDriver driver;
 

@@ -6,7 +6,7 @@ using Unicorn.UI.Web.Controls;
 namespace Demo.Celestia.Ui.Common
 {
     /// <summary>
-    /// Generic complex UI controls block which could be reused across different places.
+    /// Common complex UI controls block which could be reused across different places.
     /// </summary>
     public class HeaderBlock : WebContainer
     {

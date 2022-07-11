@@ -1,18 +1,17 @@
-﻿using Unicorn.UI.Core.Driver;
-using Unicorn.UI.Core.PageObject;
+﻿using Unicorn.UI.Core.PageObject.By;
 using Unicorn.UI.Mobile.Android.Controls;
 
 namespace Demo.AndroidDialer.Ui
 {
     public class DialerFrame : AndroidContainer
     {
-        [Find(Using.Id, "com.android.dialer:id/top")]
-        public DialPad MainFrame { get; set; }
+        public DialPad DialPad { get; set; }
 
-        [Find(Using.Id, "com.android.dialer:id/fake_action_bar")]
         public DialerActionBar ActionBar { get; set; }
 
-        [Find(Using.Id, "com.android.dialer:id/dialpad_button")]
-        public AndroidControl ButtonDialPad { get; set; }
+        [ById("com.google.android.dialer:id/floating_action_button")]
+        public AndroidControl DialPadButton { get; set; }
+
+        public CallsHistoryPane CallsHistory { get; set; }
     }
 }
