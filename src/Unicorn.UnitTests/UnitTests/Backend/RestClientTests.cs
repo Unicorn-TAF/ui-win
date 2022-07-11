@@ -38,7 +38,7 @@ namespace Unicorn.UnitTests.Backend
             Assert.IsTrue(employee.ExecutionTime > TimeSpan.Zero && employee.ExecutionTime < TimeSpan.FromMinutes(2), 
                 "request execution time looks incorrect, actual: " + employee.ExecutionTime);
 
-            Assert.IsTrue(employee.Headers.GetValues("X-Dc-Location").Contains("Micros"),
+            Assert.IsTrue(employee.Headers.GetValues("X-Dc-Location").Any(h => h.Contains("Micros")),
                 "response does not contain expected header");
         }
 
