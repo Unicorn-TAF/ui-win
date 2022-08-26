@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unicorn.Taf.Api</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Unicorn.Taf.Api</title>
     <authors>Vitaliy Dobriyan</authors>
     <license type="expression">Apache-2.0</license>

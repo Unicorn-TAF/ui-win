@@ -15,7 +15,7 @@ namespace Unicorn.Taf.Api
         [NonSerialized]
         private AppDomain _domain;
         private readonly string _assemblyDirectory;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on specified tests assembly directory.
         /// </summary>
@@ -24,7 +24,7 @@ namespace Unicorn.Taf.Api
         {
             _assemblyDirectory = assemblyDirectory;
 
-            var setup = new AppDomainSetup
+            AppDomainSetup setup = new AppDomainSetup
             {
                 ShadowCopyFiles = "true",
                 ApplicationBase = assemblyDirectory
@@ -34,7 +34,7 @@ namespace Unicorn.Taf.Api
 
             _domain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-            var type = typeof(T);
+            Type type = typeof(T);
             Instance = (T)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
         }
 
@@ -57,19 +57,17 @@ namespace Unicorn.Taf.Api
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var shortAssemblyName = args.Name.Substring(0, args.Name.IndexOf(','));
-            var fileName = Path.Combine(_assemblyDirectory, shortAssemblyName + ".dll");
+            string shortAssemblyName = args.Name.Substring(0, args.Name.IndexOf(','));
+            string fileName = Path.Combine(_assemblyDirectory, shortAssemblyName + ".dll");
 
             if (File.Exists(fileName))
             {
-                var bytes = File.ReadAllBytes(fileName);
-                var assessment = Assembly.Load(bytes);
+                byte[] bytes = File.ReadAllBytes(fileName);
+                Assembly assessment = Assembly.Load(bytes);
                 return assessment;
             }
-            else
-            {
-                return Assembly.GetExecutingAssembly().FullName == args.Name ? Assembly.GetExecutingAssembly() : null;
-            }
+            
+            return Assembly.GetExecutingAssembly().FullName == args.Name ? Assembly.GetExecutingAssembly() : null;
         }
     }
 #endif
