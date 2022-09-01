@@ -1,6 +1,11 @@
 @echo off
-set TAF_ROOT=%cd%\..\src
-set OUT_DIR=%1
+set SRC_ROOT=%cd%\..\src
+set PKG=%1
+set OUT_DIR=%2
 
-for %%p in (Unicorn.Taf.Api Unicorn.Taf.Core Unicorn.Backend) do (dotnet pack %TAF_ROOT%\%%p\%%p.csproj -o %OUT_DIR% -c Release --no-build -p:NuspecFile=%TAF_ROOT%\%%p\%%p.nuspec)
-for %%p in (Core Win Web Mobile) do (dotnet pack %TAF_ROOT%\Unicorn.UI\%%p\Unicorn.UI.%%p.csproj -o %OUT_DIR% -c Release --no-build -p:NuspecFile=%TAF_ROOT%\Unicorn.UI\%%p\Unicorn.UI.%%p.nuspec)
+if /I "%PKG:.UI.=%" neq "%PKG%" (
+set DIR=%PKG:Unicorn.UI.=%
+dotnet pack %SRC_ROOT%\Unicorn.UI\%DIR%\%PKG%.csproj -o %OUT_DIR% -c Release -p:NuspecFile=%SRC_ROOT%\Unicorn.UI\%DIR%\%PKG%.nuspec
+) else (
+dotnet pack %SRC_ROOT%\%PKG%\%PKG%.csproj -o %OUT_DIR% -c Release -p:NuspecFile=%SRC_ROOT%\%PKG%\%PKG%.nuspec
+)
