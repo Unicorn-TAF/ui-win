@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Internal;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
@@ -135,33 +134,16 @@ namespace Unicorn.Taf.Core.Testing
 
             GenerateIds();
             
-            var onSuiteStartPassed = false;
-
-            try
-            {
-                OnSuiteStart?.Invoke(this);
-                onSuiteStartPassed = true;
-            }
-            catch (Exception ex)
-            {
-                Skip("Exception occured during " + nameof(OnSuiteStart) + " event invoke" + Environment.NewLine + ex);
-            }
-
-            if (onSuiteStartPassed)
+            if(TafEvents.ExecuteSuiteEvent(OnSuiteStart, this, nameof(OnSuiteStart)))
             {
                 RunSuite();
             }
-
-            try
+            else
             {
-                OnSuiteFinish?.Invoke(this);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Warning, 
-                    "Exception occured during " + nameof(OnSuiteFinish) + " event invoke" + Environment.NewLine + ex);
+                Skip("Exception occured during " + nameof(OnSuiteStart) + " event invoke");
             }
 
+            TafEvents.ExecuteSuiteEvent(OnSuiteFinish, this, nameof(OnSuiteFinish));
             Logger.Instance.Log(LogLevel.Info, $"Suite {Outcome.Result}");
         }
 
@@ -171,10 +153,7 @@ namespace Unicorn.Taf.Core.Testing
 
             if (RunSuiteMethods(_beforeSuites))
             {
-                foreach (Test test in _tests)
-                {
-                    ProcessTest(test);
-                }
+                Array.ForEach(_tests, t => ProcessTest(t));
 
                 Outcome.Result = Outcome.TestsOutcomes.All(to => to.Result == Status.Passed) ?
                     Status.Passed :
@@ -197,7 +176,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="reason">skip reason message</param>
         private void Skip(string reason)
         {
-            Logger.Instance.Log(LogLevel.Info, reason);
+            Logger.Instance.Log(LogLevel.Warning, reason);
 
             foreach (Test test in _tests)
             {
@@ -207,16 +186,7 @@ namespace Unicorn.Taf.Core.Testing
             }
 
             Outcome.Result = Status.Skipped;
-
-            try
-            {
-                OnSuiteSkip?.Invoke(this);
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Log(LogLevel.Warning, 
-                    "Exception occured during " + nameof(OnSuiteSkip) + " event invoke" + Environment.NewLine + e);
-            }
+            TafEvents.ExecuteSuiteEvent(OnSuiteSkip, this, nameof(OnSuiteSkip));
         }
 
         private void ProcessTest(Test test)
@@ -225,11 +195,11 @@ namespace Unicorn.Taf.Core.Testing
 
             if (dependsOnAttribute != null)
             {
-                var failedMainTest = _tests
-                    .Where(t => !t.Outcome.Result.Equals(Status.Passed) 
+                bool anyFailedMainTest = _tests
+                    .Any(t => !t.Outcome.Result.Equals(Status.Passed) 
                     && t.TestMethod.Name.Equals(dependsOnAttribute.TestMethod));
 
-                if (failedMainTest.Any())
+                if (anyFailedMainTest)
                 {
                     if (Config.DependentTests.Equals(TestsDependency.Skip))
                     {
