@@ -10,7 +10,7 @@ using Unicorn.UnitTests.Util;
 namespace Unicorn.UnitTests.Core.Testing
 {
     [TestFixture]
-    public class TestSuite : NUnitTestRunner
+    public class TestSuiteTests : NUnitTestRunner
     {
         private static USuite suite;
 

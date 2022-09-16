@@ -127,30 +127,18 @@ namespace Unicorn.Taf.Core.Testing
         {
             Logger.Instance.Log(LogLevel.Info, $"---- {MethodType} '{Outcome.Title}'");
 
-            try
+            Exception ex = TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodStart, this, nameof(OnSuiteMethodStart));
+
+            if (ex == null)
             {
-                OnSuiteMethodStart?.Invoke(this);
                 RunSuiteMethod(suiteInstance);
             }
-            catch (Exception ex)
+            else
             {
-                Logger.Instance.Log(LogLevel.Warning, 
-                    "Exception occured during " + nameof(OnSuiteMethodStart) + " event invoke" + Environment.NewLine + ex);
-                Fail(ex.InnerException);
-            }
-            finally
-            {
-                try
-                {
-                    OnSuiteMethodFinish?.Invoke(this);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Log(LogLevel.Warning,
-                        "Exception occured during " + nameof(OnSuiteMethodFinish) + " event invoke" + Environment.NewLine + ex);
-                }
+                Fail(ex);
             }
 
+            TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodFinish, this, nameof(OnSuiteMethodFinish));
             LogStatus();
         }
 
@@ -162,7 +150,6 @@ namespace Unicorn.Taf.Core.Testing
         public void Fail(Exception ex)
         {
             Logger.Instance.Log(LogLevel.Error, ex.ToString());
-
             Outcome.Exception = ex;
             Outcome.Result = Status.Failed;
         }
@@ -219,16 +206,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
                 
                 Outcome.Result = Status.Passed;
-
-                try
-                {
-                    OnSuiteMethodPass?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, 
-                        "Exception occured during " + nameof(OnSuiteMethodPass) + " event invoke" + Environment.NewLine + e);
-                }
+                TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodPass, this, nameof(OnSuiteMethodPass));
             }
             catch (Exception ex)
             {
@@ -237,16 +215,7 @@ namespace Unicorn.Taf.Core.Testing
                     ex.InnerException.InnerException;
 
                 Fail(failExeption);
-
-                try
-                {
-                    OnSuiteMethodFail?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, 
-                        "Exception occured during " + nameof(OnSuiteMethodFail) + " event invoke" + Environment.NewLine + e);
-                }
+                TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodFail, this, nameof(OnSuiteMethodFail));
             }
 
             TestTimer.Stop();
