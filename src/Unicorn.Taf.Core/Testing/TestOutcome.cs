@@ -14,6 +14,9 @@ namespace Unicorn.Taf.Core.Testing
     {
         private readonly StringBuilder _output;
 
+        [NonSerialized]
+        private Exception exception;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TestOutcome"/> class.
         /// </summary>
@@ -67,7 +70,27 @@ namespace Unicorn.Taf.Core.Testing
         /// <summary>
         /// Gets or sets Fail Exception details. Has value only when test has failed.
         /// </summary>
-        public Exception Exception { get; set; }
+        public Exception Exception 
+        {
+            get => exception;
+
+            set
+            {
+                exception = value;
+                FailMessage = exception.Message;
+                FailStackTrace = exception.StackTrace;
+            }
+        }
+
+        /// <summary>
+        /// Gets fail exception message.
+        /// </summary>
+        public string FailMessage { get; private set; }
+
+        /// <summary>
+        /// Gets fail exception stack trace.
+        /// </summary>
+        public string FailStackTrace { get; private set; }
 
         /// <summary>
         /// Gets list of test attachments.
