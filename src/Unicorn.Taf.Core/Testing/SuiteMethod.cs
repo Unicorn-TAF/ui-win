@@ -127,19 +127,18 @@ namespace Unicorn.Taf.Core.Testing
         {
             Logger.Instance.Log(LogLevel.Info, $"---- {MethodType} '{Outcome.Title}'");
 
-            Exception ex = TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodStart, this, nameof(OnSuiteMethodStart));
+            TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodStart, this, nameof(OnSuiteMethodStart));
 
-            if (ex == null)
-            {
-                RunSuiteMethod(suiteInstance);
-            }
-            else
-            {
-                Fail(ex);
-            }
+            Outcome.StartTime = DateTime.Now;
+            TestTimer = Stopwatch.StartNew();
 
-            TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodFinish, this, nameof(OnSuiteMethodFinish));
+            RunSuiteMethod(suiteInstance);
+
+            TestTimer.Stop();
+            Outcome.ExecutionTime = TestTimer.Elapsed;
+
             LogStatus();
+            TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodFinish, this, nameof(OnSuiteMethodFinish));
         }
 
         /// <summary>
@@ -179,9 +178,6 @@ namespace Unicorn.Taf.Core.Testing
 
         private void RunSuiteMethod(TestSuite suiteInstance)
         {
-            Outcome.StartTime = DateTime.Now;
-            TestTimer = Stopwatch.StartNew();
-
             try
             {
                 var testTask = Task.Run(() =>
@@ -217,9 +213,6 @@ namespace Unicorn.Taf.Core.Testing
                 Fail(failExeption);
                 TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodFail, this, nameof(OnSuiteMethodFail));
             }
-
-            TestTimer.Stop();
-            Outcome.ExecutionTime = TestTimer.Elapsed;
         }
     }
 }

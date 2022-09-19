@@ -72,46 +72,40 @@ namespace Unicorn.Taf.Core
         /// </summary>
         ////public static event TestEvent OnTestSkip;
 
-        internal static bool ExecuteSuiteEvent(UnicornSuiteEvent e, TestSuite suite, string eventName)
+        internal static void ExecuteSuiteEvent(UnicornSuiteEvent e, TestSuite suite, string eventName)
         {
             try
             {
                 e?.Invoke(suite);
-                return true;
             }
             catch (Exception ex)
             {
                 LogEventCallError(eventName, ex.ToString());
-                return false;
             }
         }
 
-        internal static Exception ExecuteSuiteMethodEvent(
+        internal static void ExecuteSuiteMethodEvent(
             UnicornSuiteMethodEvent e, SuiteMethod suiteMethod, string eventName)
         {
             try
             {
                 e?.Invoke(suiteMethod);
-                return null;
             }
             catch (Exception ex)
             {
                 LogEventCallError(eventName, ex.ToString());
-                return ex.InnerException;
             }
         }
 
-        internal static bool ExecuteTestEvent(TestEvent e, Test test, string eventName)
+        internal static void ExecuteTestEvent(TestEvent e, Test test, string eventName)
         {
             try
             {
                 e?.Invoke(test);
-                return true;
             }
             catch (Exception ex)
             {
                 LogEventCallError(eventName, ex.ToString());
-                return false;
             }
         }
 

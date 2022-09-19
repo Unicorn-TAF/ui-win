@@ -18,7 +18,8 @@ namespace Unicorn.Taf.Core.Engine
         /// <returns>collection of Type representing TestSuites</returns>
         public static IEnumerable<Type> ObserveTestSuites(Assembly assembly) =>
             assembly.GetTypes()
-            .Where(t => t.IsDefined(typeof(SuiteAttribute), true));
+            .Where(t => t.IsDefined(typeof(SuiteAttribute), true))
+            .ToList();
 
         /// <summary>
         /// Search assembly for all Tests located inside
@@ -31,7 +32,8 @@ namespace Unicorn.Taf.Core.Engine
 
             return availableTestSuites
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                .Where(m => m.IsDefined(typeof(TestAttribute), true));
+                .Where(m => m.IsDefined(typeof(TestAttribute), true))
+                .ToList();
         }
     }
 }
