@@ -106,17 +106,18 @@ namespace Unicorn.Taf.Core.Testing
         {
             Logger.Instance.Log(LogLevel.Info, $"-------- Test '{Outcome.Title}'");
 
-            if (TafEvents.ExecuteTestEvent(OnTestStart, this, nameof(OnTestStart)))
-            {
-                RunTestMethod(suiteInstance);
-            }
-            else
-            {
-                Skip();
-            }
+            TafEvents.ExecuteTestEvent(OnTestStart, this, nameof(OnTestStart));
+                
+            Outcome.StartTime = DateTime.Now;
+            TestTimer = Stopwatch.StartNew();
+            
+            RunTestMethod(suiteInstance);
+
+            TestTimer.Stop();
+            Outcome.ExecutionTime = TestTimer.Elapsed;
+            LogStatus();
 
             TafEvents.ExecuteTestEvent(OnTestFinish, this, nameof(OnTestFinish));
-            LogStatus();
         }
 
         /// <summary>
@@ -127,14 +128,12 @@ namespace Unicorn.Taf.Core.Testing
             Outcome.Result = Status.Skipped;
             Outcome.StartTime = DateTime.Now;
             Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
+            Logger.Instance.Log(LogLevel.Warning, $"Test '{Outcome.Title}' {Outcome.Result}");
             TafEvents.ExecuteTestEvent(OnTestSkip, this, nameof(OnTestSkip));
         }
 
         private void RunTestMethod(TestSuite suiteInstance)
         {
-            Outcome.StartTime = DateTime.Now;
-            TestTimer = Stopwatch.StartNew();
-
             try
             {
                 var testTask = Task.Run(() => 
@@ -170,9 +169,6 @@ namespace Unicorn.Taf.Core.Testing
                 Fail(failExeption);
                 TafEvents.ExecuteTestEvent(OnTestFail, this, nameof(OnTestFail));
             }
-
-            TestTimer.Stop();
-            Outcome.ExecutionTime = TestTimer.Elapsed;
         }
     }
 }

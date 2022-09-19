@@ -97,9 +97,9 @@ namespace Unicorn.Taf.Core.Engine
         {
             if (AdapterUtilities.IsSuiteParameterized(type))
             {
-                var dataSetsToRun = string.IsNullOrEmpty(dataSet) ?
+                List<DataSet> dataSetsToRun = string.IsNullOrEmpty(dataSet) ?
                     AdapterUtilities.GetSuiteData(type) :
-                    AdapterUtilities.GetSuiteData(type).Where(ds => ds.Name.Equals(dataSet));
+                    AdapterUtilities.GetSuiteData(type).Where(ds => ds.Name.Equals(dataSet)).ToList();
 
                 foreach (var parametersSet in dataSetsToRun)
                 {
@@ -118,20 +118,21 @@ namespace Unicorn.Taf.Core.Engine
 
         private Dictionary<string, Type> CollectSuitesToRun(Assembly assembly)
         {
-            var suitesToRun = new Dictionary<string, Type>();
+            Dictionary<string, Type> suitesToRun = new Dictionary<string, Type>();
              
             //As suite entry in filter can contain data set name need to extract pure suites names
             //to filter assembly types by them 
-            var suiteNames = _filters.Keys.Select(k => GetSuiteNameFromFilter(k));
+            IEnumerable<string> suiteNames = _filters.Keys.Select(k => GetSuiteNameFromFilter(k));
 
-            var filteredSuites = TestsObserver.ObserveTestSuites(assembly)
-                .Where(s => suiteNames.Contains(AdapterUtilities.GetSuiteName(s)));
+            List<Type> filteredSuites = TestsObserver.ObserveTestSuites(assembly)
+                .Where(s => suiteNames.Contains(AdapterUtilities.GetSuiteName(s)))
+                .ToList();
 
             foreach (var filterSuiteName in _filters.Keys)
             {
-                var suiteName = GetSuiteNameFromFilter(filterSuiteName);
+                string suiteName = GetSuiteNameFromFilter(filterSuiteName);
 
-                var suite = filteredSuites.FirstOrDefault(s => 
+                Type suite = filteredSuites.FirstOrDefault(s => 
                     AdapterUtilities.GetSuiteName(s).Equals(suiteName, StringComparison.InvariantCultureIgnoreCase));
 
                 if (suite == null)

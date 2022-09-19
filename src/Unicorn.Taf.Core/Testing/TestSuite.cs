@@ -123,41 +123,24 @@ namespace Unicorn.Taf.Core.Testing
 
         internal void Execute()
         {
-            var fullName = Outcome.Name;
+            // First need to generate full name including dataset as it influences IDs generation.
+            string fullName = string.IsNullOrEmpty(Outcome.DataSetName) ?
+                Outcome.Name : 
+                $"{Outcome.Name}[{Outcome.DataSetName}]";
 
-            if (!string.IsNullOrEmpty(Outcome.DataSetName))
-            {
-                fullName += "[" + Outcome.DataSetName + "]";
-            }
+            GenerateIds();
 
             Logger.Instance.Log(LogLevel.Info, $"---------------- Suite '{fullName}'");
 
-            GenerateIds();
-            
-            if(TafEvents.ExecuteSuiteEvent(OnSuiteStart, this, nameof(OnSuiteStart)))
-            {
-                RunSuite();
-            }
-            else
-            {
-                Skip("Exception occured during " + nameof(OnSuiteStart) + " event invoke");
-            }
-
-            TafEvents.ExecuteSuiteEvent(OnSuiteFinish, this, nameof(OnSuiteFinish));
-            Logger.Instance.Log(LogLevel.Info, $"Suite {Outcome.Result}");
-        }
-
-        private void RunSuite()
-        {
+            TafEvents.ExecuteSuiteEvent(OnSuiteStart, this, nameof(OnSuiteStart));
             ExecutionTimer = Stopwatch.StartNew();
 
             if (RunSuiteMethods(_beforeSuites))
             {
                 Array.ForEach(_tests, t => ProcessTest(t));
 
-                Outcome.Result = Outcome.TestsOutcomes.All(to => to.Result == Status.Passed) ?
-                    Status.Passed :
-                    Status.Failed;
+                bool allTestsPassed = Outcome.TestsOutcomes.All(to => to.Result == Status.Passed);
+                Outcome.Result = allTestsPassed ? Status.Passed : Status.Failed;
             }
             else
             {
@@ -165,9 +148,12 @@ namespace Unicorn.Taf.Core.Testing
             }
 
             RunSuiteMethods(_afterSuites);
-
+            
             ExecutionTimer.Stop();
             Outcome.ExecutionTime = ExecutionTimer.Elapsed;
+
+            Logger.Instance.Log(LogLevel.Info, $"Suite {Outcome.Result}");
+            TafEvents.ExecuteSuiteEvent(OnSuiteFinish, this, nameof(OnSuiteFinish));
         }
 
         /// <summary>
@@ -181,7 +167,6 @@ namespace Unicorn.Taf.Core.Testing
             foreach (Test test in _tests)
             {
                 test.Skip();
-                Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
                 Outcome.TestsOutcomes.Add(test.Outcome);
             }
 
@@ -220,7 +205,6 @@ namespace Unicorn.Taf.Core.Testing
             if (skipTests || ExecutionTimer.Elapsed >= Config.SuiteTimeout || !RunSuiteMethods(_beforeTests))
             {
                 test.Skip();
-                Logger.Instance.Log(LogLevel.Warning, $"Test '{test.Outcome.Title}' {test.Outcome.Result}");
             }
             else
             {
