@@ -10,8 +10,6 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
     /// </summary>
     public class DefaultWait : BaseWait
     {
-        private const string TimeFormat = @"mm\:ss\.fff";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait"/> class with 
         /// 60 sec timeout and 250 ms polling interval.
@@ -63,8 +61,8 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 throw new ArgumentNullException(nameof(condition), "Wait condition is not defined.");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, 
-                $"Waiting for '{condition.Method.Name} during {Timeout.ToString(TimeFormat)} with polling interval {PollingInterval.ToString(TimeFormat)}");
+            ULog.Debug("Waiting for '{0} during {1:mm\\:ss\\.fff} with polling interval {2:mm\\:ss\\.fff}",
+                condition.Method.Name, Timeout, PollingInterval);
 
             Exception lastException = null;
             Timer
@@ -77,8 +75,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                 {
                     if (condition.Invoke())
                     {
-                        Logger.Instance.Log(LogLevel.Trace, 
-                            $"wait is successful [Wait time = {Timer.Elapsed.ToString(TimeFormat)}]");
+                        ULog.Trace(@"wait is successful [wait time = {0:mm\:ss\.fff}]", Timer.Elapsed);
                         return true;
                     }
                 }
@@ -103,7 +100,7 @@ namespace Unicorn.Taf.Core.Utility.Synchronization
                     }
                     else
                     {
-                        Logger.Instance.Log(LogLevel.Warning, message);
+                        ULog.Warn(message);
                         return false;
                     }
                 }

@@ -48,11 +48,11 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if selection was made; false - if already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Selecting {ToString()}");
+            ULog.Debug("Selecting {0}", this);
 
             if (Selected)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to select (already selected)");
+                ULog.Trace("No need to select (already selected)");
                 return false;
             }
 
@@ -67,7 +67,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 Click();
             }
 
-            Logger.Instance.Log(LogLevel.Trace, "Selected");
+            ULog.Trace("Selected");
             return true;
         }
 

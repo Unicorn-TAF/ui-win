@@ -125,7 +125,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public virtual void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"---- {MethodType} '{Outcome.Title}'");
+            ULog.Info("---- {0} '{1}'", MethodType, Outcome.Title);
 
             TafEvents.ExecuteSuiteMethodEvent(OnSuiteMethodStart, this, nameof(OnSuiteMethodStart));
 
@@ -148,7 +148,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="ex">Exception caught on test execution</param>
         public void Fail(Exception ex)
         {
-            Logger.Instance.Log(LogLevel.Error, ex.ToString());
+            ULog.Error(ex.ToString());
             Outcome.Exception = ex;
             Outcome.Result = Status.Failed;
         }
@@ -160,20 +160,20 @@ namespace Unicorn.Taf.Core.Testing
         {
             LogLevel level;
 
+            string template = "{0} {1}";
+
             switch (Outcome.Result)
             {
                 case Status.Failed:
-                    level = LogLevel.Error;
+                    ULog.Error(template, MethodType, Outcome.Result);
                     break;
                 case Status.Skipped:
-                    level = LogLevel.Warning;
+                    ULog.Warn(template, MethodType, Outcome.Result);
                     break;
                 default:
-                    level = LogLevel.Info;
+                    ULog.Info(template, MethodType, Outcome.Result);
                     break;
             }
-
-            Logger.Instance.Log(level, $"{MethodType} {Outcome.Result}");
         }
 
         private void RunSuiteMethod(TestSuite suiteInstance)

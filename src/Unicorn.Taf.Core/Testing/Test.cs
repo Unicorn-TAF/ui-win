@@ -104,7 +104,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"-------- Test '{Outcome.Title}'");
+            ULog.Info("-------- Test '{0}'", Outcome.Title);
 
             TafEvents.ExecuteTestEvent(OnTestStart, this, nameof(OnTestStart));
                 
@@ -128,7 +128,7 @@ namespace Unicorn.Taf.Core.Testing
             Outcome.Result = Status.Skipped;
             Outcome.StartTime = DateTime.Now;
             Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
-            Logger.Instance.Log(LogLevel.Warning, $"Test '{Outcome.Title}' {Outcome.Result}");
+            ULog.Warn("Test '{0}' {1}", Outcome.Title, Outcome.Result);
             TafEvents.ExecuteTestEvent(OnTestSkip, this, nameof(OnTestSkip));
         }
 

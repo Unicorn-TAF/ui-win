@@ -42,7 +42,7 @@ namespace Unicorn.Taf.Core.Utility
             _fileNamesBefore = GetFileNamesFromDestinationFolder();
             _wait.ErrorMessage = "File was not appeared in time or properly allocated";
 
-            Logger.Instance.Log(LogLevel.Debug, LogPrefix + $"allocator initialized in directory {destinationFolder}");
+            ULog.Debug("{0}allocator initialized in directory {1}", LogPrefix, destinationFolder);
         }
 
         /// <summary>
@@ -72,8 +72,8 @@ namespace Unicorn.Taf.Core.Utility
             this.expectedFileName = expectedFileName;
             _wait.ErrorMessage = $"File '{expectedFileName}' was not appeared in time";
 
-            Logger.Instance.Log(LogLevel.Debug, LogPrefix + 
-                $"allocator initialized in directory {destinationFolder} with expected file name: {expectedFileName}");
+            ULog.Debug("{0}allocator initialized in directory {1} with expected file name: {2}",
+                LogPrefix, destinationFolder, expectedFileName);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Unicorn.Taf.Core.Utility
 
         private string WaitForFile(TimeSpan timeout)
         {
-            Logger.Instance.Log(LogLevel.Debug, LogPrefix + "waiting for the file...");
+            ULog.Debug("{0}waiting for the file...", LogPrefix);
 
             _wait.Timeout = timeout;
 
@@ -124,7 +124,7 @@ namespace Unicorn.Taf.Core.Utility
                 _fileNamesBefore?.Clear();
             }
 
-            Logger.Instance.Log(LogLevel.Trace, LogPrefix + $"file has been found ({expectedFileName})");
+            ULog.Trace("{0}file has been found ({1})", LogPrefix, expectedFileName);
 
             return expectedFileName;
         }

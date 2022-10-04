@@ -50,7 +50,7 @@ namespace Unicorn.UI.Mobile.Android.PageObject
         /// </summary>
         public virtual void Open()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Open {_appActivity} application");
+            ULog.Debug("Open {0} application", _appActivity);
             Driver = new AndroidAppDriver(HubUrl, _options);
         }
     }

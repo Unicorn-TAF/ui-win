@@ -91,18 +91,14 @@ namespace Unicorn.Backend.Services.RestService
         {
             Stopwatch timer = Stopwatch.StartNew();
 
-            Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+            ULog.Debug("Sending {0} request to {1}.", request.Method, request.RequestUri);
             HttpResponseMessage response = GetClient(request).SendAsync(request).Result;
 
             string responseContent = response.Content.ReadAsStringAsync().Result;
             TimeSpan elapsed = timer.Elapsed;
 
-            Logger.Instance.Log(LogLevel.Debug, $"Getting {response.StatusCode} response.");
-
-            if (Logger.Level.Equals(LogLevel.Trace) && responseContent != null)
-            {
-                Logger.Instance.Log(LogLevel.Trace, "Response body: " + responseContent);
-            }
+            ULog.Debug("Getting {0} response.", response.StatusCode);
+            ULog.Trace("Response body: {0}", responseContent);
 
             RestResponse restResponse = new RestResponse(response.StatusCode, response.ReasonPhrase, response.Headers)
             {
@@ -167,10 +163,10 @@ namespace Unicorn.Backend.Services.RestService
         {
             HttpRequestMessage request = CreateRequest(HttpMethod.Get, endpoint, string.Empty);
 
-            Logger.Instance.Log(LogLevel.Debug, $"Sending {request.Method} request to {request.RequestUri}.");
+            ULog.Debug("Sending {0} request to {1}.", request.Method, request.RequestUri);
             HttpResponseMessage response = GetClient(request).SendAsync(request).Result;
             HttpContent content = response.Content;
-            Logger.Instance.Log(LogLevel.Debug, $"Getting {response.StatusCode} response.");
+            ULog.Debug("Getting {0} response.", response.StatusCode);
 
             fileName = content.Headers.ContentDisposition?.FileNameStar;
 

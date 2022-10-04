@@ -63,16 +63,16 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(itemName));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this}");
+            ULog.Debug("Select '{0}' item from {1}", itemName, this);
 
             if (SelectedValue.Equals(itemName))
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to select (the item is selected by default)");
+                ULog.Trace("No need to select (the item is selected by default)");
                 return false;
             }
 
             SelectControl.SelectByText(itemName);
-            Logger.Instance.Log(LogLevel.Trace, "Item was selected");
+            ULog.Trace("Item was selected");
 
             return true;
         }

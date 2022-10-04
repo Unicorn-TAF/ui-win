@@ -99,8 +99,8 @@ namespace Unicorn.Taf.Core.Utility
 
                 if (currentAttempt++ < _attempts && (IsExpectedExceptionCaught(innerEx)))
                 {
-                    string log = $"found exception {innerEx.GetType()}: '{innerEx.Message}'. Retrying ({currentAttempt})...";
-                    Logger.Instance.Log(LogLevel.Warning, LogPrefix + log);
+                    ULog.Warn("{0}found exception {1}: '{2}'. Retrying ({3})...",
+                        LogPrefix, innerEx.GetType(), innerEx.Message, currentAttempt);
 
                     beforeRetryAction?.DynamicInvoke();
                     ExecuteRetry(action, currentAttempt);
@@ -124,8 +124,8 @@ namespace Unicorn.Taf.Core.Utility
 
                 if (currentAttempt++ < _attempts && (IsExpectedExceptionCaught(innerEx)))
                 {
-                    string log = $"found exception {innerEx.GetType()}: '{innerEx.Message}'. Retrying ({currentAttempt})...";
-                    Logger.Instance.Log(LogLevel.Warning, LogPrefix + log);
+                    ULog.Warn("{0}found exception {1}: '{2}'. Retrying ({3})...",
+                        LogPrefix, innerEx.GetType(), innerEx.Message, currentAttempt);
 
                     beforeRetryAction?.DynamicInvoke();
                     return ExecuteRetry(func, currentAttempt);

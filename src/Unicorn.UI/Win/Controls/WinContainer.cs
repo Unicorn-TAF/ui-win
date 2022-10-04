@@ -35,7 +35,7 @@ namespace Unicorn.UI.Win.Controls
         /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
         public virtual void ClickButton(string name)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Click '{name}' button");
+            ULog.Debug("Click '{0}' button", name);
             Find<Button>(ByLocator.Name(name)).Click();
         }
 
@@ -47,7 +47,7 @@ namespace Unicorn.UI.Win.Controls
         /// <exception cref="ControlNotFoundException">is thrown when control was not found</exception>
         public virtual void InputText(string name, string text)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Input Text '{text}' to '{name}' field");
+            ULog.Debug("Input Text '{0}' to '{1}' field", text, name);
             Find<TextInput>(ByLocator.Name(name)).SetValue(text);
         }
 
@@ -59,7 +59,7 @@ namespace Unicorn.UI.Win.Controls
         /// <returns>true - if selection was made; false - if already selected</returns>
         public virtual bool SelectRadio(string name)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{name}' radio button");
+            ULog.Debug("Select '{0}' radio button", name);
             return Find<Radio>(ByLocator.Name(name)).Select();
         }
 
@@ -72,7 +72,7 @@ namespace Unicorn.UI.Win.Controls
         /// <returns>true - if state was changed; false - if already in desired state</returns>
         public virtual bool SetCheckbox(string name, bool state)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Set checkbox '{name}' to '{state}'");
+            ULog.Debug("Set checkbox '{0}' to '{1}'", name, state);
             return Find<Checkbox>(ByLocator.Name(name)).SetCheckedState(state);
         }
     }

@@ -91,18 +91,18 @@ namespace Unicorn.Taf.Core.Engine
         /// </summary>
         public virtual IOutcome RunTests()
         {
-            Logger.Instance.Log(LogLevel.Info, "Scanning for runnable suites...");
+            ULog.Info("Scanning for runnable suites...");
 
             IEnumerable<Type> runnableSuites = TestsObserver.ObserveTestSuites(_testAssembly)
                 .Where(s => AdapterUtilities.IsSuiteRunnable(s));
 
             if (!runnableSuites.Any())
             {
-                Logger.Instance.Log(LogLevel.Warning, "No runnable suites found for specified filters, run finished.");
+                ULog.Warn("No runnable suites found for specified filters, run finished.");
                 return null;
             }
 
-            Logger.Instance.Log(LogLevel.Info, $"{runnableSuites.Count()} runnable suites found, starting run...");
+            ULog.Info("{0} runnable suites found, starting run...", runnableSuites.Count());
 
             Outcome.StartTime = DateTime.Now;
 
@@ -113,7 +113,7 @@ namespace Unicorn.Taf.Core.Engine
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
+                ULog.Error("Run initialization failed: {0}", ex);
                 Outcome.RunInitialized = false;
                 Outcome.RunnerException = ex.InnerException;
             }
@@ -126,7 +126,7 @@ namespace Unicorn.Taf.Core.Engine
                 GetRunInitCleanupMethod(_testAssembly, typeof(RunFinalizeAttribute))?.Invoke(null, null);
             }
 
-            Logger.Instance.Log(LogLevel.Info, "Run finished.");
+            ULog.Info("Run finished.");
 
             return Outcome;
         }

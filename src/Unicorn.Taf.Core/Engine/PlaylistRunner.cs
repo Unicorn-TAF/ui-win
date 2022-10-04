@@ -69,7 +69,7 @@ namespace Unicorn.Taf.Core.Engine
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Error, "Run initialization failed:\n" + ex);
+                ULog.Error("Run initialization failed: {0}", ex);
                 Outcome.RunInitialized = false;
                 Outcome.RunnerException = ex.InnerException;
             }

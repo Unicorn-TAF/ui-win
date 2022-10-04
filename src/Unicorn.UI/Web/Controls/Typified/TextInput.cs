@@ -25,7 +25,7 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {this}");
+            ULog.Debug("Send keys '{0}' to {1}", text, this);
 
             Instance.SendKeys(text);
         }
@@ -42,7 +42,7 @@ namespace Unicorn.UI.Web.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {this}");
+            ULog.Debug("Set text '{0}' to {1}", text, this);
 
             if (!Value.Equals(text, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -52,7 +52,7 @@ namespace Unicorn.UI.Web.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to set (input already has such text)");
+                ULog.Trace("No need to set (input already has such text)");
                 return false;
             }
         }
