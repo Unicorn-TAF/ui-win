@@ -10,7 +10,7 @@ namespace Unicorn.UI.Mobile.Base
     /// </summary>
     public class MobileScreenshotTaker : ScreenshotTakerBase
     {
-        private const string LogPrefix = "MobileScreenshotTaker: ";
+        private const string LogPrefix = nameof(MobileScreenshotTaker);
 
         private readonly OpenQA.Selenium.ScreenshotImageFormat _format;
         private readonly OpenQA.Selenium.IWebDriver _driver;
@@ -60,14 +60,14 @@ namespace Unicorn.UI.Mobile.Base
 
             try
             {
-                ULog.Debug(LogPrefix + "Saving browser print screen...");
+                ULog.Debug("{0}: Saving browser print screen...", LogPrefix);
                 string filePath = BuildFileName(folder, fileName);
                 printScreen.SaveAsFile(filePath, _format);
                 return filePath;
             }
             catch (Exception e)
             {
-                ULog.Warn(LogPrefix + "Failed to save browser print screen: {0}", e);
+                ULog.Warn("{0}: Failed to save browser print screen: {1}", LogPrefix, e);
                 return string.Empty;
             }
         }
@@ -83,12 +83,12 @@ namespace Unicorn.UI.Mobile.Base
         {
             try
             {
-                ULog.Debug(LogPrefix + "Creating browser print screen...");
+                ULog.Debug("{0}: Creating browser print screen...", LogPrefix);
                 return (_driver as OpenQA.Selenium.ITakesScreenshot).GetScreenshot();
             }
             catch (Exception e)
             {
-                ULog.Warn(LogPrefix + "Failed to get browser print screen: {0}", e);
+                ULog.Warn("{0}: Failed to get browser print screen: {1}", LogPrefix, e);
                 return null;
             }
         }

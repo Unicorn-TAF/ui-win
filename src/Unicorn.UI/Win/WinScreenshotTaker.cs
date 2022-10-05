@@ -13,6 +13,7 @@ namespace Unicorn.UI.Win
     /// </summary>
     public class WinScreenshotTaker
     {
+        private const string LogPrefix = nameof(WinScreenshotTaker);
         private const int MaxLength = 255;
 
         private readonly ImageFormat _format;
@@ -64,7 +65,7 @@ namespace Unicorn.UI.Win
 
             try
             {
-                ULog.Debug("Saving print screen...");
+                ULog.Debug("{0}: Saving print screen...", LogPrefix);
                 string filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
@@ -78,7 +79,7 @@ namespace Unicorn.UI.Win
             }
             catch (Exception e)
             {
-                ULog.Warn("Failed to save print screen: {0}", e);
+                ULog.Warn("{0}: Failed to save print screen: {1}", LogPrefix, e);
                 return string.Empty;
             }
         }
@@ -112,7 +113,7 @@ namespace Unicorn.UI.Win
         {
             try
             {
-                ULog.Debug("Creating print screen...");
+                ULog.Debug("{0}: Creating print screen...", LogPrefix);
 
                 Bitmap captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
                 using (Graphics captureGraphic = Graphics.FromImage(captureBmp))
@@ -123,7 +124,7 @@ namespace Unicorn.UI.Win
             }
             catch (Exception e)
             {
-                ULog.Warn("Failed to get print screen: {0}", e);
+                ULog.Warn("{0}: Failed to get print screen: {1}", LogPrefix, e);
                 return null;
             }
         }
