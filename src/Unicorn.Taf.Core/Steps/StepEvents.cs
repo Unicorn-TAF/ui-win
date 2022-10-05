@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Steps.Attributes;
@@ -10,19 +11,21 @@ namespace Unicorn.Taf.Core.Steps
     /// </summary>
     public class StepEvents
     {
+        private const string WarningTemplate = "Exception occured during {0} event invoke: {1}";
+
         /// <summary>
         /// Delegate for test step events.
         /// </summary>
         /// <param name="methodBase"><see cref="MethodBase"/> representing test step</param>
         /// <param name="arguments">test step method arguments array</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void StepEvent(MethodBase methodBase, object[] arguments);
 
         /// <summary>
         /// Delegate for test step fail event.
         /// </summary>
         /// <param name="exception">exception test step failed with</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         public delegate void StepFailEvent(Exception exception);
 
         /// <summary>
@@ -51,9 +54,7 @@ namespace Unicorn.Taf.Core.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(
-                        LogLevel.Warning,
-                        "Exception occured during OnStepStart event invoke" + Environment.NewLine + ex);
+                    ULog.Warn(WarningTemplate, nameof(OnStepStart), ex);
                 }
             }
         }
@@ -74,9 +75,7 @@ namespace Unicorn.Taf.Core.Steps
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Log(
-                        LogLevel.Warning,
-                        "Exception occured during OnStepFinish event invoke" + Environment.NewLine + ex);
+                    ULog.Warn(WarningTemplate, nameof(OnStepFinish), ex);
                 }
             }
         }

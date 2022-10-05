@@ -110,7 +110,6 @@ namespace Unicorn.Taf.Core
         }
 
         internal static void LogEventCallError(string eventName, string error) =>
-            Logger.Instance.Log(LogLevel.Warning,
-                $"Exception occured during '{eventName}' event call{Environment.NewLine}{error}");
+            ULog.Warn("Exception occured during '{0}' event call: {1}", eventName, error);
     }
 }

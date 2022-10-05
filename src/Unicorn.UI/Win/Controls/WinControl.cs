@@ -171,7 +171,7 @@ namespace Unicorn.UI.Win.Controls
         /// </summary>
         public void Click()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
+            ULog.Debug("Click {0}", this);
 
             try
             {
@@ -197,7 +197,7 @@ namespace Unicorn.UI.Win.Controls
         /// </summary>
         public void MouseClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Mouse click " + this);
+            ULog.Debug("Mouse click {0}", this);
             var point = GetClickablePoint();
             Mouse.Instance.Click(point);
         }
@@ -207,7 +207,7 @@ namespace Unicorn.UI.Win.Controls
         /// </summary>
         public void RightClick()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Right click " + this);
+            ULog.Debug("Right click {0}", this);
             var point = GetClickablePoint();
             Mouse.Instance.RightClick(point);
         }
@@ -245,7 +245,7 @@ namespace Unicorn.UI.Win.Controls
 
             if (Instance.GetClickablePoint(out tagPoint) == 0)
             {
-                Logger.Instance.Log(LogLevel.Trace, "Clickable point is not found, clicking on center of control...");
+                ULog.Trace("Clickable point is not found, clicking on center of control...");
 
                 var rect = BoundingRectangle;
                 point = new Point(rect.Left, rect.Top);

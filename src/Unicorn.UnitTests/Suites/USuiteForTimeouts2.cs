@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -10,12 +9,8 @@ namespace Unicorn.UnitTests.Suites
     public class USuiteForTimeouts2 : TestSuite
     {
         [BeforeSuite]
-        public void BeforeSuite()
-        {
-            Logger.Instance.Log(LogLevel.Info, "BeforeSuite started");
+        public void BeforeSuite() =>
             Thread.Sleep(1000);
-            Logger.Instance.Log(LogLevel.Info, "BeforeSuite finished");
-        }
 
         [BeforeTest]
         public void BeforeTest()
@@ -24,12 +19,8 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [Test]
-        public void Test2()
-        {
-            Logger.Instance.Log(LogLevel.Info, "Test2 started");
+        public void Test2() =>
             Thread.Sleep(100);
-            Logger.Instance.Log(LogLevel.Info, "Test2 finished");
-        }
 
         [Test]
         [Disabled("")]
@@ -39,12 +30,8 @@ namespace Unicorn.UnitTests.Suites
         }
 
         [Test]
-        public void Test1()
-        {
-            Logger.Instance.Log(LogLevel.Info, "Test1 started");
+        public void Test1() =>
             Thread.Sleep(50);
-            Logger.Instance.Log(LogLevel.Info, "Test1 finished");
-        }
 
         [AfterTest]
         public void AfterTest()

@@ -130,7 +130,7 @@ namespace Unicorn.Taf.Core.Testing
 
             GenerateIds();
 
-            Logger.Instance.Log(LogLevel.Info, $"---------------- Suite '{fullName}'");
+            ULog.Info("---------------- Suite '{0}'", fullName);
 
             TafEvents.ExecuteSuiteEvent(OnSuiteStart, this, nameof(OnSuiteStart));
             ExecutionTimer = Stopwatch.StartNew();
@@ -152,7 +152,7 @@ namespace Unicorn.Taf.Core.Testing
             ExecutionTimer.Stop();
             Outcome.ExecutionTime = ExecutionTimer.Elapsed;
 
-            Logger.Instance.Log(LogLevel.Info, $"Suite {Outcome.Result}");
+            ULog.Info("Suite {0}", Outcome.Result);
             TafEvents.ExecuteSuiteEvent(OnSuiteFinish, this, nameof(OnSuiteFinish));
         }
 
@@ -162,7 +162,7 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="reason">skip reason message</param>
         private void Skip(string reason)
         {
-            Logger.Instance.Log(LogLevel.Warning, reason);
+            ULog.Warn(reason);
 
             foreach (Test test in _tests)
             {

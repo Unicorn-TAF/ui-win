@@ -62,7 +62,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Send keys '{text}' to {ToString()}");
+            ULog.Debug("Send keys '{0}' to {1}", text, this);
 
             var pattern = ValuePattern;
 
@@ -86,7 +86,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ArgumentNullException(nameof(text));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Set text '{text}' to {ToString()}");
+            ULog.Debug("Set text '{0}' to {1}", text, this);
 
             var pattern = ValuePattern;
 
@@ -102,7 +102,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to set (input already has such text)");
+                ULog.Trace("No need to set (input already has such text)");
                 return false;
             }
         }

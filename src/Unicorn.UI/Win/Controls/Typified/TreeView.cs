@@ -51,7 +51,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ArgumentException("Nothing to select, please specify at least one item");
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Select hierarhy '{string.Join(" > ", hierarchy)}'");
+            ULog.Debug("Select hierarhy '{0}'", string.Join(" > ", hierarchy));
 
             WinControl parent = this;
 
@@ -91,7 +91,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             if (expand != null)
             {
-                Logger.Instance.Log(LogLevel.Trace, $"Expanding parent '{parentNode.ToString()}'");
+                ULog.Trace("Expanding parent '{0}'", parentNode);
                 expand.Expand();
             }
         }

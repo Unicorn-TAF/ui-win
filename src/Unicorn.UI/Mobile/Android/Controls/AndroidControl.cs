@@ -120,7 +120,7 @@ namespace Unicorn.UI.Mobile.Android.Controls
         /// </summary>
         public void Click()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Click " + this);
+            ULog.Debug("Click {0}", this);
             Instance.Click();
         }
 

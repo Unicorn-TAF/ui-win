@@ -154,7 +154,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <exception cref="TimeoutException">Thrown when window has not appeared</exception>
         public virtual void WaitForWindowIsDisplayed()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Waiting for window appearance.");
+            ULog.Trace("Waiting for window appearance.");
 
             new DefaultWait
             {
@@ -171,7 +171,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <exception cref="TimeoutException">Thrown when window has not disappeared</exception>
         protected virtual void WaitForWindowIsNotDisplayed()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Waiting for window disappearance.");
+            ULog.Trace("Waiting for window disappearance.");
 
             var wait = new DefaultWait
             {
