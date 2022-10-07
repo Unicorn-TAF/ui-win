@@ -56,10 +56,13 @@ namespace Unicorn.Taf.Core.Testing.Attributes
         public string Bug { get; }
 
         /// <summary>
-        /// Gets expection <see cref="Type"/>
+        /// Gets fail expection <see cref="Type"/>
         /// </summary>
         public Type OnException { get; }
 
+        /// <summary>
+        /// Gets fail message or stack trace part.
+        /// </summary>
         public string OnError { get; }
     }
 }
