@@ -158,8 +158,6 @@ namespace Unicorn.Taf.Core.Testing
         /// </summary>
         protected void LogStatus()
         {
-            LogLevel level;
-
             string template = "{0} {1}";
 
             switch (Outcome.Result)
