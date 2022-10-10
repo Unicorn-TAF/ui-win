@@ -23,14 +23,15 @@ namespace Unicorn.Taf.Core.Testing
             Type attributeType, 
             SuiteMethodType type)
         {
-            var suiteMethodInfos = suiteInstance.GetType().GetRuntimeMethods()
-                .Where(m => m.IsDefined(attributeType, true));
+            List<MethodInfo> suiteMethodInfos = suiteInstance.GetType().GetRuntimeMethods()
+                .Where(m => m.IsDefined(attributeType, true))
+                .ToList();
 
-            var suitableMethods = new SuiteMethod[suiteMethodInfos.Count()];
+            SuiteMethod[] suitableMethods = new SuiteMethod[suiteMethodInfos.Count];
 
-            for (var i = 0; i < suitableMethods.Length; i++)
+            for (int i = 0; i < suitableMethods.Length; i++)
             {
-                var suiteMethod = new SuiteMethod(suiteMethodInfos.ElementAt(i));
+                SuiteMethod suiteMethod = new SuiteMethod(suiteMethodInfos[i]);
                 suiteMethod.Outcome.ParentId = suiteInstance.Outcome.Id;
                 suiteMethod.MethodType = type;
                 suitableMethods[i] = suiteMethod;
@@ -49,20 +50,22 @@ namespace Unicorn.Taf.Core.Testing
         {
             List<Test> testMethods = new List<Test>();
 
-            var suiteMethods = suiteInstance.GetType().GetRuntimeMethods()
-                .Where(m => m.IsDefined(typeof(TestAttribute), true) && AdapterUtilities.IsTestRunnable(m));
+            List<MethodInfo> suiteMethods = suiteInstance.GetType().GetRuntimeMethods()
+                .Where(m => m.IsDefined(typeof(TestAttribute), true) && AdapterUtilities.IsTestRunnable(m))
+                .ToList();
 
             if (Config.TestsExecutionOrder == TestsOrder.Random)
             {
-                suiteMethods = ShuffleKeepingDependency(suiteMethods);
+                ShuffleKeepingDependency(suiteMethods);
             }
 
             if (Config.TestsExecutionOrder == TestsOrder.Alphabetical)
             {
-                suiteMethods = suiteMethods.OrderBy(sm => sm.Name);
+                int comparison(MethodInfo mi1, MethodInfo mi2) => mi1.Name.CompareTo(mi2.Name);
+                suiteMethods.Sort(comparison);
             }
 
-            suiteMethods = ConsiderOrderAttribute(suiteMethods);
+            ConsiderOrderAttribute(suiteMethods);
 
             foreach (MethodInfo method in suiteMethods)
             {
@@ -140,14 +143,16 @@ namespace Unicorn.Taf.Core.Testing
             "Critical Security Hotspot", 
             "S2245:Using pseudorandom number generators (PRNGs) is security-sensitive", 
             Justification = "Current usage is safe")]
-        private static IEnumerable<MethodInfo> ShuffleKeepingDependency(IEnumerable<MethodInfo> testMethods)
+        private static void ShuffleKeepingDependency(List<MethodInfo> testMethods)
         {
-            var random = new Random();
-            var shuffle = testMethods.OrderBy(sm => random.Next()).ToList();
+            Random random = new Random();
+
+            int comparison(MethodInfo mi1, MethodInfo mi2) => random.Next().CompareTo(random.Next());
+            testMethods.Sort(comparison);
 
             var graph = new Dictionary<MemberInfo, string>();
 
-            foreach (var test in shuffle)
+            foreach (MethodInfo test in testMethods)
             {
                 graph.Add(test, test.GetCustomAttribute<DependsOnAttribute>(true)?.TestMethod);
             }
@@ -162,34 +167,34 @@ namespace Unicorn.Taf.Core.Testing
 
                 foreach (var node in graph.Where(pair => !string.IsNullOrEmpty(pair.Value)))
                 {
-                    var index1 = shuffle.FindIndex(
+                    var index1 = testMethods.FindIndex(
                         t => t.Name.Equals(node.Key.Name, StringComparison.InvariantCultureIgnoreCase));
 
-                    var index2 = shuffle.FindIndex(
+                    var index2 = testMethods.FindIndex(
                         t => t.Name.Equals(node.Value, StringComparison.InvariantCultureIgnoreCase));
 
                     if (index1 < index2)
                     {
-                        var tmp = shuffle.ElementAt(index1);
-                        shuffle[index1] = shuffle.ElementAt(index2);
-                        shuffle[index2] = tmp;
+                        MethodInfo tmp = testMethods[index1];
+                        testMethods[index1] = testMethods[index2];
+                        testMethods[index2] = tmp;
                         swapWasMade = true;
                     }
                 }
             }
             while (swapWasMade);
-
-            return shuffle;
         }
 
-        private static IEnumerable<MethodInfo> ConsiderOrderAttribute(IEnumerable<MethodInfo> testMethods) =>
-            testMethods.OrderBy(sm =>
+        private static void ConsiderOrderAttribute(List<MethodInfo> testMethods) =>
+            testMethods.Sort(delegate (MethodInfo mi1, MethodInfo mi2)
             {
-                var orderAttribute = sm.GetCustomAttribute<OrderAttribute>(true);
+                OrderAttribute orderAttribute1 = mi1.GetCustomAttribute<OrderAttribute>(true);
+                OrderAttribute orderAttribute2 = mi2.GetCustomAttribute<OrderAttribute>(true);
 
-                return orderAttribute == null ?
-                    int.MaxValue :
-                    orderAttribute.Order;
+                int order1 = orderAttribute1 == null ? int.MaxValue : orderAttribute1.Order;
+                int order2 = orderAttribute2 == null ? int.MaxValue : orderAttribute2.Order;
+
+                return order1.CompareTo(order2);
             });
 
         private static void CheckTestsForCycleDependency(Dictionary<MemberInfo, string> graph)

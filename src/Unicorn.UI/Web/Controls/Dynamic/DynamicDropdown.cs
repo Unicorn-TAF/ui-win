@@ -111,11 +111,11 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <returns>true - if dropdown has expanded; false - if dropdown was already expanded</returns>
         public virtual bool Expand()
         {
-            Logger.Instance.Log(LogLevel.Trace, "\tExpanding dropdown");
+            ULog.Trace("\tExpanding dropdown");
 
             if (Expanded)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to expand (expanded by default)");
+                ULog.Trace("\t\tNo need to expand (expanded by default)");
                 return false;
             }
 
@@ -127,7 +127,7 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             }
 
             WaitForLoading(TimeSpan.FromSeconds(60));
-            Logger.Instance.Log(LogLevel.Trace, "\t\tExpanded");
+            ULog.Trace("\t\tExpanded");
             return true;
         }
 
@@ -137,16 +137,16 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <returns>true - if dropdown has collapsed; false - if dropdown was already collapsed</returns>
         public virtual bool Collapse()
         {
-            Logger.Instance.Log(LogLevel.Trace, "\tCollapsing dropdown");
+            ULog.Trace("\tCollapsing dropdown");
 
             if (!Expanded)
             {
-                Logger.Instance.Log(LogLevel.Trace, "\t\tNo need to collapse (collapsed by default)");
+                ULog.Trace("\t\tNo need to collapse (collapsed by default)");
                 return false;
             }
 
             GetExpandCollapse().Click();
-            Logger.Instance.Log(LogLevel.Trace, "\t\tCollapsed");
+            ULog.Trace("\t\tCollapsed");
             return true;
         }
 
@@ -177,11 +177,11 @@ namespace Unicorn.UI.Web.Controls.Dynamic
         /// <exception cref="ControlNotFoundException">thrown if specified option was not found</exception>
         public virtual bool Select(string itemName)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {this}");
+            ULog.Debug("Select '{0}' item from {1}", itemName, this);
 
             if (itemName.Equals(SelectedValue))
             {
-                Logger.Instance.Log(LogLevel.Trace, "\tNo need to select (the item is selected by default)");
+                ULog.Trace("\tNo need to select (the item is selected by default)");
                 return false;
             }
 
@@ -194,14 +194,14 @@ namespace Unicorn.UI.Web.Controls.Dynamic
             }
             catch (OpenQA.Selenium.StaleElementReferenceException)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Got StaleElementReferenceException. Retrying...");
+                ULog.Warn("Got StaleElementReferenceException. Retrying...");
                 option = GetOption(itemName);
                 (option as WebControl).JsClick();
             }
 
             Collapse();
 
-            Logger.Instance.Log(LogLevel.Trace, "\tItem has selected");
+            ULog.Trace("\tItem has selected");
 
             return true;
         }

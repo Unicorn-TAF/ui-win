@@ -101,11 +101,11 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ArgumentNullException(nameof(itemName));
             }
 
-            Logger.Instance.Log(LogLevel.Debug, $"Select '{itemName}' item from {ToString()}");
+            ULog.Debug("Select '{0}' item from {1}", itemName, this);
 
             if (itemName.Equals(SelectedValue))
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to select (the item is selected by default)");
+                ULog.Trace("No need to select (the item is selected by default)");
                 return false;
             }
 
@@ -121,14 +121,14 @@ namespace Unicorn.UI.Win.Controls.Typified
                 Thread.Sleep(500);
                 var itemEl = Find<ListItem>(ByLocator.Name(itemName));
 
-                Logger.Instance.Log(LogLevel.Trace, "Item was found. Selecting...");
+                ULog.Trace("Item was found. Selecting...");
                 itemEl.Select();
                     
                 Collapse();
                 Thread.Sleep(500);
             }
 
-            Logger.Instance.Log(LogLevel.Trace, "Item was selected");
+            ULog.Trace("Item was selected");
 
             return true;
         }
@@ -139,15 +139,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if expanding was performed; false - if already expanded</returns>
         public virtual bool Expand()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Expanding dropdown");
+            ULog.Trace("Expanding dropdown");
             if (Expanded)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to expand (expanded by default)");
+                ULog.Trace("No need to expand (expanded by default)");
                 return false;
             }
 
             ExpandCollapsePattern.Expand();
-            Logger.Instance.Log(LogLevel.Trace, "Expanded");
+            ULog.Trace("Expanded");
             return true;
         }
 
@@ -157,15 +157,15 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if collapsing was performed; false - if already collapsed</returns>
         public virtual bool Collapse()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Collapsing dropdown");
+            ULog.Trace("Collapsing dropdown");
             if (!Expanded)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to collapse (collapsed by default)");
+                ULog.Trace("No need to collapse (collapsed by default)");
                 return false;
             }
 
             ExpandCollapsePattern.Collapse();
-            Logger.Instance.Log(LogLevel.Trace, "Collapsed");
+            ULog.Trace("Collapsed");
             return true;
         }
     }

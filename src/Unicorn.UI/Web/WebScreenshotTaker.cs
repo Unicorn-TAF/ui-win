@@ -11,6 +11,7 @@ namespace Unicorn.UI.Web
     /// </summary>
     public class WebScreenshotTaker
     {
+        private const string LogPrefix = nameof(WebScreenshotTaker);
         private const int MaxLength = 250;
 
         private readonly string _screenshotsDir;
@@ -64,7 +65,7 @@ namespace Unicorn.UI.Web
 
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, "Saving browser print screen...");
+                ULog.Debug("{0}: Saving browser print screen...", LogPrefix);
 
                 string filePath = Path.Combine(folder, fileName);
 
@@ -79,7 +80,7 @@ namespace Unicorn.UI.Web
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Failed to save browser print screen:" + Environment.NewLine + e);
+                ULog.Warn("{0}: Failed to save browser print screen: {1}", LogPrefix, e);
                 return string.Empty;
             }
         }
@@ -113,13 +114,13 @@ namespace Unicorn.UI.Web
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, "Creating browser print screen...");
+                ULog.Debug("{0}: Creating browser print screen...", LogPrefix);
 
                 return (_driver.SeleniumDriver as OpenQA.Selenium.ITakesScreenshot).GetScreenshot();
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, "Failed to get browser print screen:" + Environment.NewLine + e);
+                ULog.Warn("{0}: Failed to get browser print screen: {1}", LogPrefix, e);
                 return null;
             }
         }

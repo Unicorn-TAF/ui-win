@@ -345,11 +345,11 @@ namespace Unicorn.Taf.Core.Utility
                 var errorInfo = _trx.CreateElement(string.Empty, "ErrorInfo", string.Empty);
                 
                 var message = _trx.CreateElement(string.Empty, "Message", string.Empty);
-                message.InnerText = outcome.Exception.Message;
+                message.InnerText = outcome.FailMessage;
                 errorInfo.AppendChild(message);
 
                 var stackTrace = _trx.CreateElement(string.Empty, "StackTrace", string.Empty);
-                stackTrace.InnerText = outcome.Exception.StackTrace;
+                stackTrace.InnerText = outcome.FailStackTrace;
                 errorInfo.AppendChild(stackTrace);
                 
                 output.AppendChild(errorInfo);

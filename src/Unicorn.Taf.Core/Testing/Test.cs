@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Unicorn.Taf.Core.Engine;
 using Unicorn.Taf.Core.Logging;
 using Unicorn.Taf.Core.Testing.Attributes;
 
@@ -105,33 +104,20 @@ namespace Unicorn.Taf.Core.Testing
         /// <param name="suiteInstance">test suite instance to run in</param>
         public override void Execute(TestSuite suiteInstance)
         {
-            Logger.Instance.Log(LogLevel.Info, $"-------- Test '{Outcome.Title}'");
+            ULog.Info("-------- Test '{0}'", Outcome.Title);
 
-            try
-            {
-                OnTestStart?.Invoke(this);
-                RunTestMethod(suiteInstance);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Log(LogLevel.Warning, 
-                    "Exception occured during " + nameof(OnTestStart) + " event invoke" + Environment.NewLine + ex);
-                Skip();
-            }
-            finally
-            {
-                try
-                {
-                    OnTestFinish?.Invoke(this);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, 
-                        "Exception occured during " + nameof(OnTestFinish) + " event invoke" + Environment.NewLine + ex);
-                }
-            }
+            TafEvents.ExecuteTestEvent(OnTestStart, this, nameof(OnTestStart));
+                
+            Outcome.StartTime = DateTime.Now;
+            TestTimer = Stopwatch.StartNew();
+            
+            RunTestMethod(suiteInstance);
 
+            TestTimer.Stop();
+            Outcome.ExecutionTime = TestTimer.Elapsed;
             LogStatus();
+
+            TafEvents.ExecuteTestEvent(OnTestFinish, this, nameof(OnTestFinish));
         }
 
         /// <summary>
@@ -142,23 +128,12 @@ namespace Unicorn.Taf.Core.Testing
             Outcome.Result = Status.Skipped;
             Outcome.StartTime = DateTime.Now;
             Outcome.ExecutionTime = TimeSpan.FromSeconds(0);
-
-            try
-            {
-                OnTestSkip?.Invoke(this);
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Log(LogLevel.Warning, 
-                    "Exception occured during " + nameof(OnTestSkip) + " event invoke" + Environment.NewLine + e);
-            }
+            ULog.Warn("Test '{0}' {1}", Outcome.Title, Outcome.Result);
+            TafEvents.ExecuteTestEvent(OnTestSkip, this, nameof(OnTestSkip));
         }
 
         private void RunTestMethod(TestSuite suiteInstance)
         {
-            Outcome.StartTime = DateTime.Now;
-            TestTimer = Stopwatch.StartNew();
-
             try
             {
                 var testTask = Task.Run(() => 
@@ -183,16 +158,7 @@ namespace Unicorn.Taf.Core.Testing
                 }
 
                 Outcome.Result = Status.Passed;
-
-                try
-                {
-                    OnTestPass?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, 
-                        "Exception occured during " + nameof(OnTestPass) + " event invoke" + Environment.NewLine + e);
-                }
+                TafEvents.ExecuteTestEvent(OnTestPass, this, nameof(OnTestPass));
             }
             catch (Exception ex)
             {
@@ -201,20 +167,8 @@ namespace Unicorn.Taf.Core.Testing
                     ex.InnerException.InnerException;
 
                 Fail(failExeption);
-
-                try
-                {
-                    OnTestFail?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Log(LogLevel.Warning, 
-                        "Exception occured during " + nameof(OnTestFail) + " event invoke" + Environment.NewLine + e);
-                }
+                TafEvents.ExecuteTestEvent(OnTestFail, this, nameof(OnTestFail));
             }
-
-            TestTimer.Stop();
-            Outcome.ExecutionTime = TestTimer.Elapsed;
         }
     }
 }

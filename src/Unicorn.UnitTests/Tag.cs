@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Unicorn.UnitTests
+﻿namespace Unicorn.UnitTests
 {
     internal class Tag
     {
@@ -14,6 +8,7 @@ namespace Unicorn.UnitTests
         internal const string Ordering = "ordering";
         internal const string SuiteTimeouts = "suite-timeouts";
         internal const string Timeouts = "timeouts";
+        internal const string TafEvents = "taf-events";
         internal const string TestsOrderAttribute = "tests-order-attribute";
         internal const string TestsOrder = "tests-order";
         internal const string Steps = "steps";

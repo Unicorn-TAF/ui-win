@@ -28,7 +28,7 @@ namespace Unicorn.UI.Win.Driver
             
             SearchContext = Driver.GetRootElement();
             ImplicitlyWait = TimeoutDefault;
-            Logger.Instance.Log(LogLevel.Debug, "UI Automation Driver initialized");
+            ULog.Debug("UI Automation Driver initialized");
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Unicorn.UI.Win.Driver
         /// </summary>
         public static void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Close Win driver");
+            ULog.Debug("Close Win driver");
             instance = null;
         }
     }

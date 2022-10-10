@@ -52,7 +52,7 @@ namespace Unicorn.UI.Win.PageObject
         /// </summary>
         public virtual void Start()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Start {ExeName} application");
+            ULog.Debug("Start {0} application", ExeName);
             Process = Process.Start(System.IO.Path.Combine(Path, ExeName));
         }
 
@@ -61,14 +61,14 @@ namespace Unicorn.UI.Win.PageObject
         /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {ExeName} application");
+            ULog.Debug("Close {0} application", ExeName);
             try
             {
                 new Window(WinDriver.Instance.Driver.ElementFromHandle(Process.MainWindowHandle)).Close();
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, $"Unable to close {ExeName} application: {ex.Message}");
+                ULog.Warn("Unable to close {0} application: {1}", ExeName, ex.Message);
             }
         }
     }

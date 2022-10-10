@@ -57,7 +57,7 @@ namespace Unicorn.UI.Mobile.Android.Driver
         /// </summary>
         public void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, "Close driver");
+            ULog.Debug("Close driver");
             Driver.Quit();
         }
     }

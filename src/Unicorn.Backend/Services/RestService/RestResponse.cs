@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -42,7 +43,7 @@ namespace Unicorn.Backend.Services.RestService
                 }
                 catch (JsonReaderException)
                 {
-                    Logger.Instance.Log(LogLevel.Error, "Unable to parse response as JSON. Content:\n" + Content);
+                    ULog.Error("Unable to parse response as JSON. Content:" + Environment.NewLine + Content);
                     throw;
                 }
             }

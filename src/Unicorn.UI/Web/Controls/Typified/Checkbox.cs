@@ -23,33 +23,33 @@ namespace Unicorn.UI.Web.Controls.Typified
 
         private bool Check()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Check {this}");
+            ULog.Debug("Check {0}", this);
 
             if (Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
+                ULog.Trace("No need to check (checked by default)");
                 return false;
             }
 
             Click();
 
-            Logger.Instance.Log(LogLevel.Trace, "Checked");
+            ULog.Trace("Checked");
 
             return true;
         }
 
         private bool Uncheck()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this}");
+            ULog.Debug("Uncheck {0}", this);
 
             if (!Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
+                ULog.Trace("No need to uncheck (unchecked by default)");
                 return false;
             }
 
             Click();
-            Logger.Instance.Log(LogLevel.Trace, "Unchecked");
+            ULog.Trace("Unchecked");
 
             return true;
         }

@@ -60,11 +60,11 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <returns>true - if selection was made; false - if it is already selected</returns>
         public virtual bool Select()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Select {ToString()}");
+            ULog.Debug("Select {0}", this);
 
             if (Selected)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to select (selected by default)");
+                ULog.Trace("No need to select (selected by default)");
                 return false;
             }
 
@@ -76,11 +76,11 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             else
             {
-                Logger.Instance.Log(LogLevel.Trace, "SelectionItemPattern was not found");
+                ULog.Trace("SelectionItemPattern was not found");
                 Click();
             }
 
-            Logger.Instance.Log(LogLevel.Trace, "Selected");
+            ULog.Trace("Selected");
             return true;
         }
     }
