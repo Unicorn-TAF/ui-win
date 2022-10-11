@@ -68,7 +68,7 @@ namespace Unicorn.Taf.Core.Testing
         public TimeSpan ExecutionTime { get; set; }
 
         /// <summary>
-        /// Gets or sets Fail Exception details. Has value only when test has failed.
+        /// Gets or sets fail exception details. Has value only when test has failed.
         /// </summary>
         public Exception Exception 
         {
