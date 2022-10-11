@@ -14,8 +14,8 @@
     <description>
       This package includes common API for core of unicorn automation framework. The package also offers AddDomain isolation and custom assembly load context.
     </description>
-    <releaseNotes>Api for extensions, test executors, data collectors and outcome. AppDomain isolation and custom assembly load context.</releaseNotes>
-    <tags>api</tags>
+    <releaseNotes>Collectible ALC, fixes of AppDmomain isolation.</releaseNotes>
+    <tags>api unicorntaf</tags>
     <dependencies>
       <group targetFramework="net452"/>
       <group targetFramework="net5.0"/>

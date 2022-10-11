@@ -5,7 +5,6 @@ using System.Reflection;
 
 namespace Unicorn.Taf.Api
 {
-
     /// <summary>
     /// Provides with ability to manipulate with Unicorn test assembly in dedicated <see cref="AppDomain"/>
     /// </summary>
@@ -21,7 +20,8 @@ namespace Unicorn.Taf.Api
         private readonly string _appDirectory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on specified tests assembly directory.
+        /// Initializes a new instance of the <see cref="UnicornAppDomainIsolation{T}"/> class based on 
+        /// specified tests assembly directory.
         /// </summary>
         /// <param name="assemblyDirectory">path to tests assembly directory</param>
         public UnicornAppDomainIsolation(string assemblyDirectory)
