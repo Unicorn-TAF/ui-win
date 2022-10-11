@@ -22,7 +22,7 @@ namespace Unicorn.Taf.Api
         /// based on specified tests assembly directory and types shared across load contexts.
         /// </summary>
         /// <param name="contextDirectory">tests assembly directory</param>
-        public UnicornAssemblyLoadContext(string contextDirectory)
+        public UnicornAssemblyLoadContext(string contextDirectory) : base(isCollectible: true)
         {
             _assemblyDirectory = contextDirectory;
             _loadedAssemblies = new List<Assembly>();
