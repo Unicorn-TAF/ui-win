@@ -12,9 +12,9 @@
     <icon>images\icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      This package includes common API for core of unicorn automation framework. The package also offers AddDomain isolation and custom assembly load context.
+      This package includes common API for core of unicorn automation framework. The package also offers AppDomain isolation and custom assembly load context.
     </description>
-    <releaseNotes>Collectible ALC, fixes of AppDmomain isolation.</releaseNotes>
+    <releaseNotes>Collectible ALC, fixes of AppDomain isolation.</releaseNotes>
     <tags>api unicorntaf</tags>
     <dependencies>
       <group targetFramework="net452"/>
