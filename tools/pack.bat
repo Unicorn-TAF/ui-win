@@ -1,11 +1,6 @@
 @echo off
-set SRC_ROOT=%cd%\..\src
-set PKG=%1
-set OUT_DIR=%2
+set PKG=Unicorn.UI.Win
+set PROJ_PATH=%cd%\..\src\%PKG%\%PKG%
+set OUT_DIR=%1
 
-if /I "%PKG:.UI.=%" neq "%PKG%" (
-set DIR=%PKG:Unicorn.UI.=%
-dotnet pack %SRC_ROOT%\Unicorn.UI\%DIR%\%PKG%.csproj -o %OUT_DIR% -c Release -p:NuspecFile=%SRC_ROOT%\Unicorn.UI\%DIR%\%PKG%.nuspec
-) else (
-dotnet pack %SRC_ROOT%\%PKG%\%PKG%.csproj -o %OUT_DIR% -c Release -p:NuspecFile=%SRC_ROOT%\%PKG%\%PKG%.nuspec
-)
+dotnet pack %PROJ_PATH%.csproj -o %OUT_DIR% -c Release -p:NuspecFile=%PROJ_PATH%.nuspec
