@@ -39,5 +39,13 @@ namespace Unicorn.UnitTests.UI.Tests.Win
         [Test(Description = "Check Enabled property")]
         public void TestGuiControlEnabledProperty() =>
             Assert.IsTrue(control.Enabled);
+
+        [Author("Vitaliy Dobriyan")]
+        [Test(Description = "Check work of GetAttribute method")]
+        [TestCase("class", "#32769")]
+        [TestCase("id", "")]
+        [TestCase("name", "Desktop 1")]
+        public void TestGuiControlGetAttribute(string attribute, string expectedValue) =>
+            Assert.AreEqual(control.GetAttribute(attribute), expectedValue);
     }
 }
