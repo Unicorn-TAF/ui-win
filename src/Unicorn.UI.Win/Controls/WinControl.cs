@@ -150,17 +150,28 @@ namespace Unicorn.UI.Win.Controls
         /// <summary>
         /// Gets control attribute value as <see cref="string"/>
         /// </summary>
-        /// <param name="attribute">attribute name</param>
+        /// <param name="attribute">attribute name (case insensitive)</param>
         /// <returns>control attribute value as string</returns>
         public string GetAttribute(string attribute)
         {
+            int propertyId;
+
             switch (attribute.ToLower())
             {
                 case "class":
-                    return (string)Instance.GetCurrentPropertyValue(UIA_PropertyIds.UIA_ClassNamePropertyId);
+                    propertyId = UIA_PropertyIds.UIA_ClassNamePropertyId;
+                    break;
+                case "id":
+                    propertyId = UIA_PropertyIds.UIA_AutomationIdPropertyId;
+                    break;
+                case "name":
+                    propertyId = UIA_PropertyIds.UIA_NamePropertyId;
+                    break;
                 default:
                     throw new ArgumentException($"No such property as {attribute}");
             }
+
+            return (string)Instance.GetCurrentPropertyValue(propertyId);
         }
 
         /// <summary>
