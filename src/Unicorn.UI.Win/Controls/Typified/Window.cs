@@ -51,7 +51,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// </summary>
         public virtual void Close()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Close {this}");
+            ULog.Debug("Close {0}", this);
             WindowPattern.Close();
         }
 
@@ -62,12 +62,12 @@ namespace Unicorn.UI.Win.Controls.Typified
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"Focusing {this}");
+                ULog.Debug("Focusing {0}", this);
                 Instance.SetFocus();
             }
             catch (Exception ex)
             {
-                Logger.Instance.Log(LogLevel.Warning, $"Unable to focus window: {ex.Message}");
+                ULog.Warn("Unable to focus window: {}", ex.Message);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Unicorn.UI.Win.Controls.Typified
         /// <param name="timeout">timeout to wait</param>
         public void WaitForClosed(TimeSpan timeout)
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Wait for {this} closing");
+            ULog.Debug("Wait for {0} closing", this);
             var timer = Stopwatch.StartNew();
 
             var originalTimeout = WinDriver.ImplicitlyWaitTimeout;
@@ -105,7 +105,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ControlInvalidStateException("Failed to wait for window is closed!");
             }
 
-            Logger.Instance.Log(LogLevel.Trace, $"Closed. [Wait time = {timer.Elapsed}]");
+            ULog.Trace("Closed. [Wait time = {0}]", timer.Elapsed);
         }
 
         /// <summary>

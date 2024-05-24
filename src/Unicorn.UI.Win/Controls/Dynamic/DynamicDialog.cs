@@ -5,6 +5,7 @@ using Unicorn.Taf.Core.Utility.Synchronization;
 using Unicorn.UI.Core.Controls;
 using Unicorn.UI.Core.Controls.Dynamic;
 using Unicorn.UI.Core.Driver;
+using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Core.Synchronization;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.PageObject;
@@ -154,7 +155,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <exception cref="TimeoutException">Thrown when window has not appeared</exception>
         public virtual void WaitForWindowIsDisplayed()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Waiting for window appearance.");
+            ULog.Trace("Waiting for window appearance.");
 
             new DefaultWait
             {
@@ -171,7 +172,7 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         /// <exception cref="TimeoutException">Thrown when window has not disappeared</exception>
         protected virtual void WaitForWindowIsNotDisplayed()
         {
-            Logger.Instance.Log(LogLevel.Trace, "Waiting for window disappearance.");
+            ULog.Trace("Waiting for window disappearance.");
 
             var wait = new DefaultWait
             {
@@ -184,9 +185,9 @@ namespace Unicorn.UI.Win.Controls.Dynamic
         }
 
         private bool IsWindowDisplayed() =>
-            (Cached || this.Exists()) && Visible;
+            (Cached || this.ExistsInPageObject()) && Visible;
 
         private bool IsWindowNotDisplayed() =>
-            !(Cached || this.Exists()) || !Visible;
+            !(Cached || this.ExistsInPageObject()) || !Visible;
     }
 }

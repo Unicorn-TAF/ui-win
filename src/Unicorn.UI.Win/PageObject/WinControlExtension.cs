@@ -15,6 +15,7 @@ namespace Unicorn.UI.Win.PageObject
         /// </summary>
         /// <param name="control">Control instance</param>
         /// <returns>true - if control exists; otherwise - false</returns>
+        [Obsolete("Please use Unicorn.UI.Core.PageObject.ControlExtension.ExistsInPageObject instead")]
         public static bool Exists(this WinControl control)
         {
             var originalTimeout = WinDriver.Instance.ImplicitlyWait;

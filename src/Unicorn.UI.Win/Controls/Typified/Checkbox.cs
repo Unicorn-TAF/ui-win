@@ -52,32 +52,40 @@ namespace Unicorn.UI.Win.Controls.Typified
         public virtual bool SetCheckedState(bool isChecked) =>
             isChecked ? Check() : Uncheck();
 
-        private bool Check()
+        /// <summary>
+        /// Checks the checkbox.
+        /// </summary>
+        /// <returns>true - if checkbox has been checked; false - if it was already in checked state</returns>
+        public bool Check()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Check {this}");
+            ULog.Debug("Check {0}", this);
             if (Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to check (checked by default)");
+                ULog.Trace("No need to check (checked by default)");
                 return false;
             }
 
             TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "Checked");
+            ULog.Trace("Checked");
 
             return true;
         }
 
-        private bool Uncheck()
+        /// <summary>
+        /// Unchecks the checkbox.
+        /// </summary>
+        /// <returns>true - if checkbox has been unchecked; false - if it was already in unchecked state</returns>
+        public bool Uncheck()
         {
-            Logger.Instance.Log(LogLevel.Debug, $"Uncheck {this}");
+            ULog.Debug("Uncheck {0}", this);
             if (!Checked)
             {
-                Logger.Instance.Log(LogLevel.Trace, "No need to uncheck (unchecked by default)");
+                ULog.Trace("No need to uncheck (unchecked by default)");
                 return false;
             }
 
             TogglePattern.Toggle();
-            Logger.Instance.Log(LogLevel.Trace, "Unchecked");
+            ULog.Trace("Unchecked");
 
             return true;
         }
