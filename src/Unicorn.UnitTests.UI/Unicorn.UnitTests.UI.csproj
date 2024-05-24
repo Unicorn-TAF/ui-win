@@ -20,17 +20,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
-    <PackageReference Include="Selenium.Support" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="106.0.5249.6100" />
-    <PackageReference Include="Unicorn.UI.Core" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\Unicorn.Backend\Unicorn.Backend.csproj" />-->
     <ProjectReference Include="..\Unicorn.UI.Win\Unicorn.UI.Win.csproj" />
   </ItemGroup>
 
