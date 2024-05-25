@@ -52,7 +52,7 @@ namespace Unicorn.UI.Win.Controls.Typified
                 throw new ArgumentException("Nothing to select, please specify at least one item");
             }
 
-            ULog.Debug("Select hierarhy '{0}'", string.Join(" > ", hierarchy));
+            ULog.Debug("Select hierarchy '{0}'", string.Join(" > ", hierarchy));
 
             WinControl parent = this;
 
