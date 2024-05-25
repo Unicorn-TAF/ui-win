@@ -65,7 +65,7 @@ namespace Unicorn.UI.Win
 
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"{LogPrefix}: Saving print screen...");
+                ULog.Debug(LogPrefix + ": Saving print screen...");
                 string filePath = Path.Combine(folder, fileName);
 
                 if (filePath.Length > MaxLength)
@@ -79,7 +79,7 @@ namespace Unicorn.UI.Win
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, $"{LogPrefix}: Failed to save print screen: {e}");
+                ULog.Warn(LogPrefix + ": Failed to save print screen: {0}", e);
                 return string.Empty;
             }
         }
@@ -113,7 +113,7 @@ namespace Unicorn.UI.Win
         {
             try
             {
-                Logger.Instance.Log(LogLevel.Debug, $"{LogPrefix}: Creating print screen...");
+                ULog.Debug(LogPrefix + ": Creating print screen...");
 
                 Bitmap captureBmp = new Bitmap(_screenSize.Width, _screenSize.Height, PixelFormat.Format32bppArgb);
                 using (Graphics captureGraphic = Graphics.FromImage(captureBmp))
@@ -124,7 +124,7 @@ namespace Unicorn.UI.Win
             }
             catch (Exception e)
             {
-                Logger.Instance.Log(LogLevel.Warning, $"{LogPrefix}: Failed to get print screen: {e}");
+                ULog.Warn(LogPrefix + ": Failed to get print screen: {0}", e);
                 return null;
             }
         }

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unicorn.UI.Win</id>
-    <version>3.0.0</version>
+    <version>$version$</version>
     <title>Unicorn.UI.Win</title>
     <authors>Vitaliy Dobriyan</authors>
     <license type="expression">Apache-2.0</license>
@@ -20,14 +20,14 @@
     <tags>automation ui controls page-object windows desktop uia3</tags>
     <dependencies>
       <group targetFramework="net452">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.3.0"/>
       </group>
       <group targetFramework="net5.0">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.3.0"/>
         <dependency id="System.Drawing.Common" version="6.0.0"/>
       </group>
       <group targetFramework="netstandard2.0">
-        <dependency id="Unicorn.UI.Core" version="3.0.0"/>
+        <dependency id="Unicorn.UI.Core" version="3.3.0"/>
         <dependency id="System.Drawing.Common" version="6.0.0"/>
       </group>
     </dependencies>

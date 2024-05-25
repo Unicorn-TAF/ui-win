@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Unicorn.Taf.Core.Logging;
 using Unicorn.UI.Win;
 
 #pragma warning disable S2187 // TestCases should contain tests
@@ -13,7 +12,6 @@ namespace Unicorn.UnitTests
         [OneTimeSetUp]
         public static void ClassInit()
         {
-            Logger.Instance = new TestContextLogger();
             Screenshot = new WinScreenshotTaker();
         }
 
