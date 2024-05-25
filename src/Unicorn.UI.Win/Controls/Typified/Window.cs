@@ -67,7 +67,7 @@ namespace Unicorn.UI.Win.Controls.Typified
             }
             catch (Exception ex)
             {
-                ULog.Warn("Unable to focus window: {}", ex.Message);
+                ULog.Warn("Unable to focus window: {0}", ex.Message);
             }
         }
 
