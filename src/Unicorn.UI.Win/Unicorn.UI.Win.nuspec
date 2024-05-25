@@ -16,7 +16,7 @@
       Unicorn Win features: Ready for use implementations of common controls, extended page object features.
       This package includes implementation of desktop GUI interaction which is based on UIA3 library.
     </description>
-    <releaseNotes>Support of netstandard, support of Taf.Core 3.0 and UI.Core 3.0, added screenshotter, ability to use IUIAutomation2 interface.</releaseNotes>
+    <releaseNotes>Support of UI.Core 3.3.0, legacy logger replaced with new one, GetAttribute now gets also 'id' and 'name' attributes.</releaseNotes>
     <tags>automation ui controls page-object windows desktop uia3</tags>
     <dependencies>
       <group targetFramework="net452">
