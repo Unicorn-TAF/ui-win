@@ -6,9 +6,9 @@
     <title>Unicorn.UI.Win</title>
     <authors>Vitaliy Dobriyan</authors>
     <license type="expression">Apache-2.0</license>
-    <copyright>Copyright (c) Vitaliy Dobriyan 2022</copyright>
-    <projectUrl>https://bitbucket.org/dobriyanchik/unicorntaf</projectUrl>
-    <repository type="git" url="https://bitbucket.org/dobriyanchik/unicorntaf"/>
+    <copyright>Copyright (c) Vitaliy Dobriyan 2024</copyright>
+    <projectUrl>https://unicorn-taf.github.io</projectUrl>
+    <repository type="git" url="https://github.com/Unicorn-TAF/ui-win"/>
     <icon>images\icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
