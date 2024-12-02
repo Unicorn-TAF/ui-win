@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net452;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <NuspecProperties>version=$(Version)</NuspecProperties>
   </PropertyGroup>
 
@@ -26,12 +26,6 @@
     <Reference Include="Interop.UIAutomationClient">
       <HintPath>ComLib\Interop.UIAutomationClient.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
-    <PackageReference Include="System.Drawing.Common">
-      <Version>6.0.0</Version>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
