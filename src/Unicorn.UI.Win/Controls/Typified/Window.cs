@@ -80,8 +80,8 @@ namespace Unicorn.UI.Win.Controls.Typified
             ULog.Debug("Wait for {0} closing", this);
             var timer = Stopwatch.StartNew();
 
-            var originalTimeout = WinDriver.ImplicitlyWaitTimeout;
-            WinDriver.ImplicitlyWaitTimeout = TimeSpan.FromSeconds(0);
+            var originalTimeout = ImplicitWaitTimeout;
+            ImplicitWaitTimeout = TimeSpan.FromSeconds(0);
 
             try
             {
@@ -98,7 +98,7 @@ namespace Unicorn.UI.Win.Controls.Typified
 
             timer.Stop();
 
-            WinDriver.ImplicitlyWaitTimeout = originalTimeout;
+            ImplicitWaitTimeout = originalTimeout;
 
             if (timer.Elapsed > timeout)
             {

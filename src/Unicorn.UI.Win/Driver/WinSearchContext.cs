@@ -17,14 +17,23 @@ namespace Unicorn.UI.Win.Driver
         private const int SearchDelay = 50;
 
         /// <summary>
+        /// Gets or sets implicitly wait timeout
+        /// </summary>
+        private static TimeSpan SystemWideImplicitWaitTimeout;
+
+        /// <summary>
         /// Gets or sets Current search context as <see cref="IUIAutomationElement"/>
         /// </summary>
         public virtual IUIAutomationElement SearchContext { get; set; }
 
         /// <summary>
-        /// Gets or sets implicitly wait timeout
+        /// Gets or sets current implicit wait timeout as a <see cref="TimeSpan"/> for the underlying selenium driver.
         /// </summary>
-        protected static TimeSpan ImplicitlyWaitTimeout { get; set; }
+        protected override TimeSpan ImplicitWaitTimeout
+        {
+            get => SystemWideImplicitWaitTimeout;
+            set => SystemWideImplicitWaitTimeout = value;
+        }
 
         /// <summary>
         /// Gets or sets base <see cref="Type"/> for all desktop controls (by default is <see cref="WinControl"/>)
@@ -106,13 +115,6 @@ namespace Unicorn.UI.Win.Driver
         protected IUIAutomationElement GetNativeControlFromParentContext(ByLocator locator, Type type) =>
             GetNativeControlFromContext(locator, type, ParentSearchContext.SearchContext);
 
-        /// <summary>
-        /// Set current implicitly wait timeout value.
-        /// </summary>
-        /// <param name="timeout">new implicit timeout value</param>
-        protected override void SetImplicitlyWait(TimeSpan timeout) =>
-            ImplicitlyWaitTimeout = timeout;
-
         private IUIAutomationElement GetNativeControlFromContext(ByLocator locator, Type type, IUIAutomationElement context)
         {
             IUIAutomationCondition condition = GetNativeLocator(locator, type);
@@ -123,7 +125,7 @@ namespace Unicorn.UI.Win.Driver
             IUIAutomationTreeWalker walker = WinDriver.Instance.Driver.CreateTreeWalker(condition);
             IUIAutomationElement control = walker.GetFirstChildElement(context);
 
-            while (control == null && timer.Elapsed < ImplicitlyWaitTimeout)
+            while (control == null && timer.Elapsed < ImplicitWaitTimeout)
             {
                 Thread.Sleep(SearchDelay);
                 control = walker.GetFirstChildElement(context);

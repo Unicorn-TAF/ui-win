@@ -67,15 +67,9 @@ namespace Unicorn.UI.Win.Driver
         /// </summary>
         public TimeSpan ImplicitlyWait
         {
-            get
-            {
-                return WinSearchContext.ImplicitlyWaitTimeout;
-            }
+            get => ImplicitWaitTimeout;
 
-            set
-            {
-                WinSearchContext.ImplicitlyWaitTimeout = value;
-            }
+            set => ImplicitWaitTimeout = value;
         }
 
         /// <summary>

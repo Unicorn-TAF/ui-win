@@ -4,7 +4,6 @@ using Unicorn.UI.Core.Driver;
 using Unicorn.UI.Core.PageObject;
 using Unicorn.UI.Win.Controls.Typified;
 using Unicorn.UI.Win.Driver;
-using Unicorn.UI.Win.PageObject;
 
 namespace Unicorn.UI.Win.Controls.WindowsBase
 {
@@ -48,7 +47,7 @@ namespace Unicorn.UI.Win.Controls.WindowsBase
         {
             FileNameInput.SetValue(fileName);
 
-            if (OpenButton.Exists())
+            if (OpenButton.ExistsInPageObject())
             {
                 OpenButton.Click();
             }
