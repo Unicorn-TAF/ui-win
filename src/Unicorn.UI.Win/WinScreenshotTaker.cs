@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using Unicorn.Taf.Core.Logging;
-using Unicorn.Taf.Core.Testing;
+using Unicorn.UI.Core;
 using Unicorn.UI.Win.WindowsApi;
 
 namespace Unicorn.UI.Win
@@ -11,13 +10,12 @@ namespace Unicorn.UI.Win
     /// <summary>
     /// Provides ability to take screenshots.
     /// </summary>
-    public class WinScreenshotTaker
+    public class WinScreenshotTaker : ScreenshotTakerBase, IDisposable
     {
         private const string LogPrefix = nameof(WinScreenshotTaker);
         private const int MaxLength = 255;
 
         private readonly ImageFormat _format;
-        private readonly string _screenshotsDir;
         private readonly Size _screenSize;
 
         /// <summary>
@@ -25,8 +23,8 @@ namespace Unicorn.UI.Win
         /// Default directory is ".\Screenshots" (created automatically if it does not exist).
         /// </summary>
         public WinScreenshotTaker() : this(
-            Path.Combine(Path.GetDirectoryName(new Uri(typeof(WinScreenshotTaker).Assembly.Location).LocalPath), "Screenshots"), 
-            ImageFormat.Png)
+            DefaultDirectory,
+            System.Drawing.Imaging.ImageFormat.Png)
         {
         }
 
@@ -36,17 +34,17 @@ namespace Unicorn.UI.Win
         /// </summary>
         /// <param name="screenshotsDir">directory to save screenshots to</param>
         /// <param name="format">screenshot image format</param>
-        public WinScreenshotTaker(string screenshotsDir, ImageFormat format) 
+        public WinScreenshotTaker(string screenshotsDir, ImageFormat format) : base(screenshotsDir)
         {
             _format = format;
+            ImageFormat = _format.ToString();
             _screenSize = Screen.GetSize();
-            _screenshotsDir = screenshotsDir;
-
-            if (!Directory.Exists(screenshotsDir))
-            {
-                Directory.CreateDirectory(screenshotsDir);
-            }
         }
+
+        /// <summary>
+        /// Gets image format string.
+        /// </summary>
+        protected override string ImageFormat { get; }
 
         /// <summary>
         /// Take screenshot with specified name and save to specified directory.
@@ -66,15 +64,8 @@ namespace Unicorn.UI.Win
             try
             {
                 ULog.Debug(LogPrefix + ": Saving print screen...");
-                string filePath = Path.Combine(folder, fileName);
-
-                if (filePath.Length > MaxLength)
-                {
-                    filePath = filePath.Substring(0, MaxLength - 1) + "~";
-                }
-
-                filePath += "." + _format;
-                printScreen.Save(filePath, _format);
+                string filePath = BuildFileName(folder, fileName);
+                printScreen.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
                 return filePath;
             }
             catch (Exception e)
@@ -89,25 +80,13 @@ namespace Unicorn.UI.Win
         /// </summary>
         /// <param name="fileName">screenshot file name without extension</param>
         /// <returns>path to the screenshot file</returns>
-        public string TakeScreenshot(string fileName) => TakeScreenshot(_screenshotsDir, fileName);
+        public override string TakeScreenshot(string fileName) => TakeScreenshot(ScreenshotsDir, fileName);
 
         /// <summary>
-        /// Subscribe to Unicorn events.
+        /// Unsubscribes screenshotter from taf events if was subscribed.
         /// </summary>
-        public void ScribeToTafEvents()
-        {
-            Test.OnTestFail += TakeScreenshot;
-            SuiteMethod.OnSuiteMethodFail += TakeScreenshot;
-        }
-
-        /// <summary>
-        /// Unsubscribe from Unicorn events.
-        /// </summary>
-        public void UnsubscribeFromTafEvents()
-        {
-            Test.OnTestFail -= TakeScreenshot;
-            SuiteMethod.OnSuiteMethodFail -= TakeScreenshot;
-        }
+        public void Dispose() =>
+            UnsubscribeFromTafEvents();
 
         private Bitmap GetScreenshot()
         {
@@ -127,14 +106,6 @@ namespace Unicorn.UI.Win
                 ULog.Warn(LogPrefix + ": Failed to get print screen: {0}", e);
                 return null;
             }
-        }
-
-        private void TakeScreenshot(SuiteMethod suiteMethod)
-        {
-            string mime = "image/" + _format.ToString().ToLowerInvariant();
-            string screenshotPath = TakeScreenshot(suiteMethod.Outcome.FullMethodName);
-
-            suiteMethod.Outcome.Attachments.Add(new Attachment("Screenshot", mime, screenshotPath));
         }
     }
 }
